@@ -8736,7 +8736,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>%1의 상태 메시지</translation>
     </message>
@@ -8889,7 +8889,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>%1의 상태 메시지</translation>
     </message>
@@ -10365,6 +10365,16 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>서식 있는(HTML) 타임라인 메시지의 코드 블록에 언어 인식 구문 강조를 적용합니다.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>날짜 구분선 표시</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>하루 경계와 대화의 긴 간격을 나타내기 위해 메시지 사이에 날짜 및 시간 레이블을 중앙에 표시합니다. 메시지별 타임스탬프는 이 설정에 관계없이 계속 표시됩니다.</translation>
     </message>
     <message>
         <location line="+3"/>

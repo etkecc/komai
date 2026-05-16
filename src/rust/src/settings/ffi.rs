@@ -279,6 +279,9 @@ pub(crate) fn ffi_config_timeline_section(
                 collapse_replies_by_room: by_room,
             }
         },
+        date_dividers: ffi::SettingsConfigTimelineDateDividersSection {
+            enabled: config.timeline.date_dividers.enabled.unwrap_or(defaults::DATE_DIVIDERS_ENABLED),
+        },
     }
 }
 
@@ -755,6 +758,9 @@ fn clone_config_timeline_section(
                     value: entry.value,
                 })
                 .collect(),
+        },
+        date_dividers: ffi::SettingsConfigTimelineDateDividersSection {
+            enabled: section.date_dividers.enabled,
         },
     }
 }

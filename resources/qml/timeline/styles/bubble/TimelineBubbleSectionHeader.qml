@@ -32,7 +32,8 @@ Column {
 
     property int oneHour: 60 * 60 * 1000
     property bool dayBoundaryChanged: previousMessageDay !== day
-    property bool showLabel: dayBoundaryChanged || timestamp - previousMessageTimestamp > oneHour
+    property bool showLabel: Settings.timelineDateDividersEnabled
+        && (dayBoundaryChanged || timestamp - previousMessageTimestamp > oneHour)
     property bool shouldShowSenderUsername: Settings.timelineMessagesLayoutAvatarSize === Settings.AvatarSize.Hidden
         ? true
         : Settings.timelineMessagesSenderUsername === 0

@@ -8747,7 +8747,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>Messaggio di stato di %1</translation>
     </message>
@@ -8901,7 +8901,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>Messaggio di stato di %1</translation>
     </message>
@@ -10381,6 +10381,16 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>Applica l'evidenziazione della sintassi contestuale ai blocchi di codice nei messaggi formattati (HTML) della timeline.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>Mostra separatori di data</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>Mostra etichette centrate di data e ora tra i messaggi per segnare i confini dei giorni e le lunghe pause nella conversazione. I timestamp dei singoli messaggi restano visibili in ogni caso.</translation>
     </message>
     <message>
         <location line="+3"/>

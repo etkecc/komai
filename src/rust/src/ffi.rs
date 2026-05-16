@@ -350,6 +350,10 @@ mod bridge {
         collapse_replies_by_room: Vec<SettingsBoolMapEntry>,
     }
 
+    struct SettingsConfigTimelineDateDividersSection {
+        enabled: bool,
+    }
+
     struct SettingsConfigTimelineSection {
         messages: SettingsConfigTimelineMessagesSection,
         formatted: SettingsConfigTimelineFormattedSection,
@@ -359,6 +363,7 @@ mod bridge {
         media: SettingsConfigTimelineMediaSection,
         hidden_events: SettingsConfigTimelineHiddenEventsSection,
         threads: SettingsConfigTimelineThreadsSection,
+        date_dividers: SettingsConfigTimelineDateDividersSection,
     }
 
     struct SettingsConfigSecretsSection {

@@ -87,6 +87,10 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Syntax highlight formatted code blocks"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages."),
       SM::TabTimeline, timelineFormattedCodeSyntaxHighlighting, setTimelineFormattedCodeSyntaxHighlighting, nullptr, TimelineFormattedCodeSyntaxHighlighting, SettingKey::TimelineFormattedCodeSyntaxHighlighting),
+    // TimelineDateDividersEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Show date dividers"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless."),
+      SM::TabTimeline, timelineDateDividersEnabled, setTimelineDateDividersEnabled, nullptr, TimelineDateDividersEnabled, SettingKey::TimelineDateDividersEnabled),
     // TimelineMediaEffectsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Show message effects"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Some messages, especially ones with emojis like 🎊, ☀️, or 🌦️, can show a fancier <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/message-effects.md\">timeline effect</a>."),

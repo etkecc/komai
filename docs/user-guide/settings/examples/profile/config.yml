@@ -80,6 +80,8 @@ timeline:
     image_display: always
     open_images_external: false
     open_videos_external: false
+  date_dividers:
+    enabled: true
   typing:
     show:
       enabled: true

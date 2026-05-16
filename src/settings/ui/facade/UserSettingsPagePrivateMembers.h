@@ -74,6 +74,7 @@ Density uiLayoutDensity_ = Density::Spacious;
 bool navigationRoomListShowLastMessageTime_;
 LastMessagePreview navigationRoomListLastMessagePreview_;
 bool timelineMediaEffectsEnabled_;
+bool timelineDateDividersEnabled_;
 bool uiMotionAnimationsEnabled_;
 bool desktopWindowFocusBlurEnabled_;
 int desktopWindowFocusBlurDelaySeconds_;

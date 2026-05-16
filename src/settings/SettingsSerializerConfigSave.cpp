@@ -144,6 +144,10 @@ stageConfig(const UserSettings &settings,
                     return entries;
                 }(),
             },
+          .date_dividers =
+            {
+              .enabled = settings.timelineDateDividersEnabled(),
+            },
         },
       .secrets =
         {

@@ -43,6 +43,7 @@ pub const CODE_SYNTAX_HIGHLIGHTING: bool = true;
 pub const TYPING_SHOW_ENABLED: bool = true;
 pub const READ_RECEIPTS_GLOBAL: bool = true;
 pub const MEDIA_EFFECTS_ENABLED: bool = true;
+pub const DATE_DIVIDERS_ENABLED: bool = true;
 pub const MEDIA_ANIMATE_ON_HOVER: bool = false;
 pub const MEDIA_OPEN_IMAGES_EXTERNAL: bool = false;
 pub const MEDIA_OPEN_VIDEOS_EXTERNAL: bool = false;

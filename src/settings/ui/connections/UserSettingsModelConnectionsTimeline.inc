@@ -32,6 +32,7 @@
       TimelineMessageActionsActivationPolicy, timelineMessageActionsActivationPolicyChanged, Value);
     CONNECT_SETTING_ID(TimelineMessageActionsPinnedReactions, timelineMessageActionsPinnedReactionsChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaEffectsEnabled, timelineMediaEffectsEnabledChanged, Value);
+    CONNECT_SETTING_ID(TimelineDateDividersEnabled, timelineDateDividersEnabledChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaAnimateOnHover, timelineMediaAnimateOnHoverChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaImageDisplay, timelineMediaImageDisplayChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaOpenImagesExternal, timelineMediaOpenImagesExternalChanged, Value);

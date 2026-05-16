@@ -62,3 +62,13 @@ UserSettings::setTimelineMediaEffectsEnabled(bool s)
     emit timelineMediaEffectsEnabledChanged(s);
     save();
 }
+void
+UserSettings::setTimelineDateDividersEnabled(bool s)
+{
+    if (timelineDateDividersEnabled_ == s)
+        return;
+    timelineDateDividersEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineDateDividersEnabled, s);
+    emit timelineDateDividersEnabledChanged(s);
+    save();
+}

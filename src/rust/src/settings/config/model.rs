@@ -142,6 +142,12 @@ pub struct ConfigTimeline {
     pub media: ConfigTimelineMedia,
     pub hidden_events: ConfigTimelineHiddenEvents,
     pub threads: ConfigTimelineThreads,
+    pub date_dividers: ConfigTimelineDateDividers,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineDateDividers {
+    pub enabled: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

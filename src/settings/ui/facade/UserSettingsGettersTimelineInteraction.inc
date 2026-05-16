@@ -8,6 +8,16 @@ UserSettings::timelineMediaEffectsEnabled() const
     return timelineMediaEffectsEnabled_;
 }
 
+bool
+UserSettings::timelineDateDividersEnabled() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineDateDividersEnabled);
+        value.has_value())
+        return *value;
+    return timelineDateDividersEnabled_;
+}
+
 QString
 UserSettings::timelineMessageActionsPinnedReactions() const
 {

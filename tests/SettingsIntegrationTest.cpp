@@ -1689,6 +1689,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaEffectsEnabled));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineDateDividersEnabled));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaAnimateOnHover));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaImageDisplay));

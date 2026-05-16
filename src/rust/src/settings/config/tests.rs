@@ -23,7 +23,8 @@ use crate::ffi::{
     SettingsConfigNetworkSection,
     SettingsConfigSecretsSection, SettingsConfigNavigationCommunitiesSection,
     SettingsConfigNavigationRoomListSection, SettingsConfigNavigationSection, SettingsConfigNavigationTabsSection,
-    SettingsConfigSnapshot, SettingsConfigTimelineFormattedSection,
+    SettingsConfigSnapshot, SettingsConfigTimelineDateDividersSection,
+    SettingsConfigTimelineFormattedSection,
     SettingsConfigTimelineHiddenEventsSection,
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
@@ -149,6 +150,8 @@ timeline:
     autoplay_gif_videos: false
     open_audio_external: true
     default_audio_playback_speed: 2.5
+  date_dividers:
+    enabled: false
 "#,
     );
 
@@ -197,6 +200,7 @@ timeline:
     assert_eq!(config.timeline.media.autoplay_gif_videos, Some(false));
     assert_eq!(config.timeline.media.open_audio_external, Some(true));
     assert_eq!(config.timeline.media.default_audio_playback_speed, Some(2.5));
+    assert_eq!(config.timeline.date_dividers.enabled, Some(false));
 }
 
 #[test]
@@ -552,6 +556,9 @@ fn encodes_generic_config_values() {
             threads: SettingsConfigTimelineThreadsSection {
                 collapse_replies_global: false,
                 collapse_replies_by_room: vec![],
+            },
+            date_dividers: SettingsConfigTimelineDateDividersSection {
+                enabled: true,
             },
         },
         secrets: SettingsConfigSecretsSection {
@@ -1365,6 +1372,9 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
                 collapse_replies_global: false,
                 collapse_replies_by_room: vec![],
             },
+            date_dividers: SettingsConfigTimelineDateDividersSection {
+                enabled: true,
+            },
         },
         secrets: SettingsConfigSecretsSection {
             provider: "secret_service".to_owned(),
@@ -1604,6 +1614,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             },
             hidden_events: SettingsConfigTimelineHiddenEventsSection { global: vec![], by_room: vec![] },
             threads: SettingsConfigTimelineThreadsSection { collapse_replies_global: false, collapse_replies_by_room: vec![] },
+            date_dividers: SettingsConfigTimelineDateDividersSection { enabled: true },
         },
         secrets: SettingsConfigSecretsSection { provider: "secret_service".to_owned() },
         desktop: SettingsConfigDesktopSection {

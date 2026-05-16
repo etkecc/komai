@@ -61,6 +61,7 @@ Note:
 | Timeline | PRESENTATION | Enlarge emoji-only messages | `settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
 | Timeline | PRESENTATION | Highlight message on hover | `settings::core::SettingId::TimelineMessagesHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
 | Timeline | PRESENTATION | Syntax highlight formatted code blocks | `settings::core::SettingId::TimelineFormattedCodeSyntaxHighlighting` | `-` | `timeline.messages.formatted.code_syntax_highlighting` | config.yml | yes |
+| Timeline | PRESENTATION | Show date dividers | `settings::core::SettingId::TimelineDateDividersEnabled` | *(new)* | `timeline.date_dividers.enabled` | config.yml | yes |
 | Timeline | PRESENTATION | Show message effects | `settings::core::SettingId::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects.enabled` | config.yml | yes |
 | Timeline | ACTIONS | Actions activation policy | `settings::core::SettingId::TimelineMessageActionsActivationPolicy` | `show_action_buttons` | `timeline.messages.actions.activation_policy` | config.yml | yes |
 | Timeline | ACTIONS | Pinned reactions | `settings::core::SettingId::TimelineMessageActionsPinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |

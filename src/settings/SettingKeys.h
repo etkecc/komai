@@ -67,6 +67,7 @@ constexpr auto TimelineMessageActionsActivationPolicy =
   "timeline.messages.actions.activation_policy";
 constexpr auto TimelineMessageActionsPinnedReactions = "timeline.messages.actions.pinned_reactions";
 constexpr auto TimelineMediaEffectsEnabled           = "timeline.media.effects.enabled";
+constexpr auto TimelineDateDividersEnabled           = "timeline.date_dividers.enabled";
 constexpr auto TimelineMediaAnimateOnHover           = "timeline.media.animate_on_hover";
 constexpr auto TimelineMediaImageDisplay             = "timeline.media.image_display";
 constexpr auto TimelineMediaOpenImagesExternal       = "timeline.media.open_images_external";

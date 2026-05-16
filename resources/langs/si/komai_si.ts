@@ -8747,7 +8747,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>%1 ගේ තත්ත්ව පණිවිඩය</translation>
     </message>
@@ -8901,7 +8901,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>%1 ගේ තත්ත්ව පණිවිඩය</translation>
     </message>
@@ -10381,6 +10381,16 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>හැඩතල ගන්වන ලද (HTML) ටයිම්ලයින් පණිවිඩවල ඇති කේත කොටස් සඳහා භාෂා-දැනුවත් syntax highlighting යොදන්න.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>දිනය බෙදුම්කර පෙන්වන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>දිවස් සීමා සහ සංවාදයේ දිගු කාල පරාස සලකුණු කිරීමට, පණිවිඩ අතර කේන්ද්‍රගත දිනය සහ වේලා ලේබල පෙන්වන්න. ඒ නොතකා, සෑම පණිවිඩයකම කාල මුද්‍රා දෘශ්‍යමාන ව පවතී.</translation>
     </message>
     <message>
         <location line="+3"/>

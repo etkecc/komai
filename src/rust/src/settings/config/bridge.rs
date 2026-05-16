@@ -293,6 +293,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["timeline", "date_dividers", "enabled"],
+        Value::Bool(snapshot.timeline.date_dividers.enabled),
+    );
+    yaml::set_value(
+        &mut root,
         &["timeline", "hidden_events", "global"],
         Value::Sequence(
             snapshot

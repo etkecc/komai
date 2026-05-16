@@ -183,6 +183,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
             static_cast<std::string>(snapshot.timeline.message_actions.pinned_reactions)));
 
     settings.setTimelineMediaEffectsEnabled(snapshot.timeline.media.effects_enabled);
+    settings.setTimelineDateDividersEnabled(snapshot.timeline.date_dividers.enabled);
     settings.setTimelineMediaAnimateOnHover(snapshot.timeline.media.animate_on_hover);
     settings.setTimelineMediaImageDisplay(cfg::showImageFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.timeline.media.image_display))

@@ -8758,7 +8758,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>Mesajul de stare al lui %1</translation>
     </message>
@@ -8913,7 +8913,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>Mesajul de stare al lui %1</translation>
     </message>
@@ -10397,6 +10397,16 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>Aplică evidențierea sintaxei conștientă de limbaj la blocurile de cod din mesajele formatate (HTML) din cronologie.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>Afișează separatoare de dată</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>Afișează etichete centrate cu dată și oră între mesaje pentru a marca limitele zilelor și pauzele lungi din conversație. Marcajele de timp per mesaj rămân vizibile indiferent.</translation>
     </message>
     <message>
         <location line="+3"/>

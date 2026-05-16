@@ -8736,7 +8736,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>%1 állapotüzenete</translation>
     </message>
@@ -8889,7 +8889,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>%1 állapotüzenete</translation>
     </message>
@@ -10365,6 +10365,16 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>Nyelvalapú szintaxiskiemelés alkalmazása a formázott (HTML) idővonal-üzenetek kódblokkjaira.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>Dátumelválasztók megjelenítése</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>Középre igazított dátum- és időcímkéket jelenít meg az üzenetek között a nap határainak és a hosszú szünetek jelölésére a beszélgetésben. Az üzenetenkénti időbélyegek ettől függetlenül láthatók maradnak.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -8750,7 +8750,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>Statusa mesaĝo de %1</translation>
     </message>
@@ -8904,7 +8904,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>Statusa mesaĝo de %1</translation>
     </message>
@@ -10384,6 +10384,16 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>Aplikas lingvokonscian sintaksan elstarigon al kodaj blokoj trovitaj en formatitaj (HTML) tempoliniaj mesaĝoj.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>Montri dato-apartigilojn</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>Montri centrigitajn dato- kaj horetikedojn inter mesaĝoj por marki tagolimojn kaj longajn paŭzojn en la konversacio. La tempostampoj por ĉiu mesaĝo restas videblaj sendepende.</translation>
     </message>
     <message>
         <location line="+3"/>

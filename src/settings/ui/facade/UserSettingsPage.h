@@ -206,6 +206,8 @@ class UserSettings final : public QObject
                    NOTIFY navigationRoomListLastMessagePreviewChanged)
     Q_PROPERTY(bool timelineMediaEffectsEnabled READ timelineMediaEffectsEnabled WRITE
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
+    Q_PROPERTY(bool timelineDateDividersEnabled READ timelineDateDividersEnabled WRITE
+                 setTimelineDateDividersEnabled NOTIFY timelineDateDividersEnabledChanged)
     Q_PROPERTY(bool uiMotionAnimationsEnabled READ uiMotionAnimationsEnabled WRITE
                  setUiMotionAnimationsEnabled NOTIFY uiMotionAnimationsEnabledChanged)
     Q_PROPERTY(bool desktopWindowFocusBlurEnabled READ desktopWindowFocusBlurEnabled WRITE
@@ -617,6 +619,7 @@ public:
     void setNavigationTabsMinimumWidthPx(int px);
     void setNavigationTabsMaxRecentlyClosedTimelines(int count);
     void setTimelineMediaEffectsEnabled(bool state);
+    void setTimelineDateDividersEnabled(bool state);
     void setUiMotionAnimationsEnabled(bool state);
     void setDesktopWindowFocusBlurEnabled(bool state);
     void setDesktopWindowFocusBlurDelaySeconds(int state);
@@ -851,6 +854,7 @@ signals:
     void navigationTabsMinimumWidthPxChanged(int px);
     void navigationTabsMaxRecentlyClosedTimelinesChanged(int count);
     void timelineMediaEffectsEnabledChanged(bool state);
+    void timelineDateDividersEnabledChanged(bool state);
     void uiMotionAnimationsEnabledChanged(bool state);
     void desktopWindowFocusBlurEnabledChanged(bool state);
     void desktopWindowFocusBlurDelaySecondsChanged(int state);

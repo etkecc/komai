@@ -22,7 +22,7 @@ pub use model::{
     ConfigIntegrations, ConfigIntegrationsTranscription, ConfigIntegrationsTranscriptionOverrides,
     ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
     ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigNavigationTabs, ConfigTimeline,
-    ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
+    ConfigTimelineDateDividers, ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
     ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineThreads, ConfigTimelineThreadsCollapseReplies,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
     ConfigUiAvatars, ConfigUiFont, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
@@ -144,6 +144,8 @@ const TIMELINE_MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED_PATH: [&str; 3] =
     ["timeline", "media", "default_audio_playback_speed"];
 const TIMELINE_THREADS_COLLAPSE_REPLIES_GLOBAL_PATH: [&str; 4] =
     ["timeline", "threads", "collapse_replies", "global"];
+const TIMELINE_DATE_DIVIDERS_ENABLED_PATH: [&str; 3] =
+    ["timeline", "date_dividers", "enabled"];
 const TIMELINE_THREADS_COLLAPSE_REPLIES_BY_ROOM_PATH: [&str; 4] =
     ["timeline", "threads", "collapse_replies", "by_room"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
@@ -499,6 +501,10 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                         &TIMELINE_THREADS_COLLAPSE_REPLIES_BY_ROOM_PATH,
                     )),
                 },
+            },
+            date_dividers: ConfigTimelineDateDividers {
+                enabled: yaml::value_at_path(root, &TIMELINE_DATE_DIVIDERS_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
             },
         },
         secrets: ConfigSecrets {

@@ -19,6 +19,7 @@
     bool navigationRoomListShowLastMessageTime() const;
     LastMessagePreview navigationRoomListLastMessagePreview() const;
     bool timelineMediaEffectsEnabled() const;
+    bool timelineDateDividersEnabled() const;
     bool uiMotionAnimationsEnabled() const;
     bool desktopWindowFocusBlurEnabled() const;
     int desktopWindowFocusBlurDelaySeconds() const;

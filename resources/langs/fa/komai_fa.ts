@@ -8736,7 +8736,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>پیام وضعیت %1</translation>
     </message>
@@ -8889,7 +8889,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>پیام وضعیت %1</translation>
     </message>
@@ -10365,6 +10365,16 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>برجسته‌سازی نحوی آگاه از زبان را برای بلوک‌های کد در پیام‌های قالب‌بندی‌شده (HTML) جدول زمانی اعمال کنید.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>نمایش جداکننده‌های تاریخ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>نمایش برچسب‌های تاریخ و زمان وسط‌چین بین پیام‌ها، برای مشخص کردن مرزهای روز و فاصله‌های طولانی در مکالمه. مُهرهای زمانی هر پیام صرف‌نظر از این تنظیم نمایش داده می‌شوند.</translation>
     </message>
     <message>
         <location line="+3"/>

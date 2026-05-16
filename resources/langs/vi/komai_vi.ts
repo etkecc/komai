@@ -8736,7 +8736,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>Tin nhắn trạng thái của %1</translation>
     </message>
@@ -8889,7 +8889,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>Tin nhắn trạng thái của %1</translation>
     </message>
@@ -10365,6 +10365,16 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>Áp dụng tô sáng cú pháp theo ngôn ngữ cho các khối mã trong tin nhắn dòng thời gian được định dạng (HTML).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>Hiển thị dải phân cách ngày</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>Hiển thị nhãn ngày và giờ căn giữa giữa các tin nhắn để đánh dấu ranh giới ngày và khoảng cách dài trong cuộc trò chuyện. Dấu thời gian từng tin nhắn vẫn hiển thị bất kể.</translation>
     </message>
     <message>
         <location line="+3"/>

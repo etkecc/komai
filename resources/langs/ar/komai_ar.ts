@@ -8791,7 +8791,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineBubbleSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+177"/>
+        <location filename="../../qml/timeline/styles/bubble/TimelineBubbleSectionHeader.qml" line="+178"/>
         <source>%1's status message</source>
         <translation>رسالة حالة %1</translation>
     </message>
@@ -8949,7 +8949,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelinePlainSectionHeader</name>
     <message>
-        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+164"/>
+        <location filename="../../qml/timeline/styles/plain/TimelinePlainSectionHeader.qml" line="+165"/>
         <source>%1's status message</source>
         <translation>رسالة حالة %1</translation>
     </message>
@@ -10445,6 +10445,16 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages.</source>
         <translation>تطبيق تمييز بناء الجملة مع مراعاة اللغة على كتل الكود الموجودة في رسائل الجدول الزمني المنسّقة (HTML).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Show date dividers</source>
+        <translation>إظهار فواصل التاريخ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show centered date and time labels between messages to mark day boundaries and long gaps in the conversation. Per-message timestamps remain visible regardless.</source>
+        <translation>إظهار تسميات التاريخ والوقت المتمركزة بين الرسائل لتحديد حدود الأيام والفجوات الطويلة في المحادثة. تظل الطوابع الزمنية لكل رسالة مرئية بغض النظر عن ذلك.</translation>
     </message>
     <message>
         <location line="+3"/>

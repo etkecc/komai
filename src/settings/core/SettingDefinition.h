@@ -107,6 +107,7 @@ enum class SettingId
     TimelineMessageActionsActivationPolicy,
     TimelineMessageActionsPinnedReactions,
     TimelineMediaEffectsEnabled,
+    TimelineDateDividersEnabled,
     TimelineMediaAnimateOnHover,
     TimelineMediaImageDisplay,
     TimelineMediaOpenImagesExternal,

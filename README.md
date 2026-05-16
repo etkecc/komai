@@ -64,7 +64,7 @@ More screenshots are inlined on individual feature pages — see the [👤 User 
 
 **🪟 Windows** (`x64`): a portable **ZIP** for Windows 10 (22H2+) and later is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build excludes VOIP (no voice or video calls) and isn't code-signed, so the first launch shows a SmartScreen warning that needs **More info** -> **Run anyway**.
 
-**🍏 macOS**: there are no official builds. macOS hasn't been tested by the maintainers; tentative pointers for building from source are in 📄 [Native build on macOS](docs/maintainers/packaging/native/macos.md).
+**🍏 macOS** (`arm64`): a portable **DMG** for macOS 13.3+ on Apple Silicon is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build excludes VOIP and isn't code-signed or notarised, so the first launch shows a Gatekeeper warning. On macOS 13/14, right-click `komai.app` -> **Open**; on macOS 15+, open the app once, then go to **System Settings -> Privacy & Security -> Open Anyway**.
 
 See 📄 [Installation](docs/user-guide/installation.md) for download links and install commands. To build Komai yourself, see 📄 [Native build](docs/maintainers/packaging/native.md).
 

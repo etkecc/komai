@@ -107,7 +107,8 @@ TimelineEvent {
     readonly property int timelineColorRevision: TimelineManager.colorRevision
 
     property int oneHour: 60 * 60 * 1000
-    property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour
+    property bool showSection: Settings.timelineDateDividersEnabled
+        && (wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour)
     readonly property bool startsNewMessageGroup: wrapper.previousMessageUserId !== wrapper.userId
         || wrapper.showSection
         || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent

@@ -423,6 +423,20 @@ ChatPage::tryHandleMatrixUri(QString uri)
         }
         return false;
     } else if (sigil1 == u"r") {
+        if (matrixBackendHandleId != 0) {
+            if (auto *roomsModel = view_manager_ ? view_manager_->rooms() : nullptr) {
+                const auto &rooms = roomsModel->matrixJoinedRooms();
+                for (auto it = rooms.cbegin(); it != rooms.cend(); ++it) {
+                    if (it.value().roomAlias == mxid1) {
+                        roomsModel->setCurrentRoom(it.key());
+                        if (!mxid2.isEmpty())
+                            view_manager_->showEvent(it.key(), mxid2);
+                        return true;
+                    }
+                }
+            }
+        }
+
         if (action == u"join" || action.isEmpty()) {
             joinRoomVia(mxid1.toStdString(), vias);
             return true;

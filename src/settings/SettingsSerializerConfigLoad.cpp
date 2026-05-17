@@ -149,6 +149,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       UserSettings::ShowSenderUsername::OnlyInLargeRooms));
     settings.setTimelineMessagesEmojiOnlyEnlarge(snapshot.timeline.messages.emoji_only_enlarge);
     settings.setTimelineMessagesHoverHighlight(snapshot.timeline.messages.hover_highlight);
+    settings.setTimelineMessagesDragSelect(snapshot.timeline.messages.drag_select);
     settings.setTimelineThreadsCollapseReplies(snapshot.timeline.threads.collapse_replies_global);
     {
         QMap<QString, bool> byRoom;

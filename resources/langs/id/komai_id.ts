@@ -3201,7 +3201,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
         <source>Settings...</source>
         <translation>Pengaturan…</translation>
     </message>
@@ -10450,6 +10450,16 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+8"/>
+        <source>Drag to select messages</source>
+        <translation>Seret untuk memilih pesan</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, dragging across messages selects them.</source>
+        <translation>Jika diaktifkan, menyeret melintasi pesan akan memilihnya.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Images handling</source>
         <translation>Penanganan gambar</translation>
     </message>

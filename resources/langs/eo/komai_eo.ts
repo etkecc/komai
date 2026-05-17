@@ -3206,7 +3206,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
         <source>Settings...</source>
         <translation>Agordoj…</translation>
     </message>
@@ -10469,6 +10469,16 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+8"/>
+        <source>Drag to select messages</source>
+        <translation>Trenu por elekti mesaĝojn</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, dragging across messages selects them.</source>
+        <translation>Kiam aktivigita, trenado tra mesaĝoj elektas ilin.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Images handling</source>
         <translation>Traktado de bildoj</translation>
     </message>

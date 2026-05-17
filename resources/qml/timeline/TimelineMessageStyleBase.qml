@@ -525,6 +525,24 @@ TimelineEvent {
         chatRoot.handleMouseSelectionRangeTo(eventId);
     }
 
+    function handleDragSelectBegan(modifiers) {
+        if (!chatRoot || typeof chatRoot.dragSelectGestureBegan !== "function")
+            return;
+        chatRoot.dragSelectGestureBegan(eventId, Number(modifiers || 0));
+    }
+
+    function handleDragSelectMoved(scenePos) {
+        if (!chatRoot || typeof chatRoot.dragSelectGestureMoved !== "function")
+            return;
+        chatRoot.dragSelectGestureMoved(eventId, scenePos, wrapper.main);
+    }
+
+    function handleDragSelectEnded() {
+        if (!chatRoot || typeof chatRoot.dragSelectGestureEnded !== "function")
+            return;
+        chatRoot.dragSelectGestureEnded();
+    }
+
     function avatarImageUrl(userId) {
         if (room)
             return room.avatarUrl(userId).replace("mxc://", "image://MxcImage/");

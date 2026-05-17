@@ -168,6 +168,7 @@ pub struct ConfigTimelineMessages {
     pub sender_username: ConfigTimelineMessagesSenderUsernameToken,
     pub emoji_only_enlarge: Option<bool>,
     pub hover_highlight: Option<bool>,
+    pub drag_select: Option<bool>,
 }
 
 #[derive(Clone, Debug, Default)]

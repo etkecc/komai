@@ -77,31 +77,9 @@ These shortcuts apply while you are viewing a room timeline.
 
 ### Selection Mode
 
-Selection mode lets you move through the timeline with the keyboard and optionally select more
-than one message. Focused and selected messages are shown differently.
+Selection mode lets you pick one message, a range, or any mix, and then act on the whole set. See [🎯 Selection Mode](selection-mode.md) for the full feature description, including drag selection and `Ctrl` / `Shift`-modified drag for additive selection.
 
-![Timeline selection mode in action](../screenshots/timeline-selection-mode.webp)
-
-`Ctrl+Click` on a message also enters Selection mode if needed and toggles that message in the
-explicit selection.
-
-`Shift+Click` on a message extends the selection from the last `Ctrl+Click`ed message to the
-clicked one, including everything in between. Repeated `Shift+Click`s keep extending from the same
-anchor, so you can grow the range without losing the starting point. With no prior selection,
-`Shift+Click` behaves like `Ctrl+Click`.
-
-Selection mode also supports several [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-like
-keys such as `j`/`k`, `Ctrl+U`, `Ctrl+D`, `gg`, and `Shift+G`.
-
-Unlike Vim, `Escape` does not enter Selection mode. In Komai, `Escape` always moves back toward
-typing: it closes local UI first and eventually leaves you in the composer.
-
-You can enter Selection mode from the composer with `Up` when the caret is already at the start of
-the top composer line. Komai also differs from older chat-style `Up` behavior: it enters
-Selection mode instead of jumping straight into last-message editing.
-
-On some platforms, Komai also keeps those Latin-letter bindings on the same physical keys when you
-use a non-Latin keyboard layout.
+The keys below apply once Selection mode is active. On some platforms, Komai also keeps the Latin-letter bindings on the same physical keys when you use a non-Latin keyboard layout.
 
 | Shortcut | Action |
 | --- | --- |

@@ -132,6 +132,10 @@
       nullptr,
       TimelineMessageActionsPinnedReactions,
       SettingKey::TimelineMessageActionsPinnedReactions),
+    // TimelineMessagesDragSelect
+    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Drag to select messages"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "When enabled, dragging across messages selects them."),
+      SM::TabTimeline, timelineMessagesDragSelect, setTimelineMessagesDragSelect, nullptr, TimelineMessagesDragSelect, SettingKey::TimelineMessagesDragSelect),
     // TimelineImagesSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Images handling"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

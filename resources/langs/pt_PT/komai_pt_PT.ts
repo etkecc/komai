@@ -3206,7 +3206,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
         <source>Settings...</source>
         <translation>Definições...</translation>
     </message>
@@ -10466,6 +10466,16 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+8"/>
+        <source>Drag to select messages</source>
+        <translation>Arrastar para selecionar mensagens</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, dragging across messages selects them.</source>
+        <translation>Quando ativado, arrastar entre as mensagens seleciona-as.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Images handling</source>
         <translation>Gestão de imagens</translation>
     </message>

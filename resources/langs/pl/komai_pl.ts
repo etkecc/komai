@@ -3211,7 +3211,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
         <source>Settings...</source>
         <translation>Ustawienia…</translation>
     </message>
@@ -10483,6 +10483,16 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     </message>
     <message>
         <location line="+8"/>
+        <source>Drag to select messages</source>
+        <translation>Przeciąganie do zaznaczania wiadomości</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, dragging across messages selects them.</source>
+        <translation>Po włączeniu, przeciąganie po wiadomościach zaznacza je.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Images handling</source>
         <translation>Obsługa obrazów</translation>
     </message>

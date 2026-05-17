@@ -20,6 +20,13 @@ Item {
     readonly property bool perfDisableTimelineHover: TimelineManager.perfUiFlagEnabled("disable_timeline_hover")
     readonly property bool perfDisableTimelineInteraction: TimelineManager.perfUiFlagEnabled("disable_timeline_interaction")
     readonly property bool perfDisableTimelineMetadata: TimelineManager.perfUiFlagEnabled("disable_timeline_metadata")
+    // Litehtml-backed delegates (text-like bubbles) own the press for text
+    // selection and emit their own modifier-click / drag-select signals. For
+    // those rows, the row-level TapHandlers / DragHandler on
+    // `selectionToggleSurface` are disabled so they don't claim presses out
+    // from under the litehtml's mouse handling.
+    readonly property bool mainHasLitehtml: !!(wrapper.main
+        && typeof wrapper.main.suppressTextSelection === "function")
     readonly property var metadataItem: metadataLoader.item ? metadataLoader.item : metadataFallback
     property int replyPreviewRevision: 0
 
@@ -390,6 +397,33 @@ Item {
             value: false
         }
 
+        // Drag-select gesture wiring (#124): listen for selection-drag signals
+        // on whichever delegate is the bubble's main content (LitehtmlItem
+        // for text-like messages; other types simply don't emit). The handler
+        // chain ends up in MatrixRoomWalkModeSupport's drag-select controller.
+        Connections {
+            target: root.wrapper.main
+            ignoreUnknownSignals: true
+
+            function onSelectionDragBegan(modifiers) {
+                root.wrapper.handleDragSelectBegan(modifiers);
+            }
+            function onSelectionDragMoved(scenePos) {
+                root.wrapper.handleDragSelectMoved(scenePos);
+            }
+            function onSelectionDragEnded() {
+                root.wrapper.handleDragSelectEnded();
+            }
+            // Modifier-click signals from `LitehtmlItem` — same handlers the
+            // row-level Ctrl/Meta/Shift TapHandlers use on non-litehtml rows.
+            function onClickedWithCtrlOrMeta() {
+                root.wrapper.handleMouseSelectionToggle();
+            }
+            function onClickedWithShift() {
+                root.wrapper.handleMouseSelectionRangeTo();
+            }
+        }
+
         Binding {
             target: root.wrapper.main
             property: "roomAdapter"
@@ -665,11 +699,17 @@ Item {
         z: 30
         visible: width > 0 && height > 0
 
+        // Row-level modifier-click handlers — fire on Ctrl/Meta/Shift-click for
+        // bubbles whose content doesn't drive its own modifier-click signal.
+        // Litehtml-backed bubbles (text/notice/emote) are gated off here and
+        // emit `clickedWithCtrlOrMeta` / `clickedWithShift` themselves from
+        // inside `LitehtmlItem`, so the press flows through to the litehtml
+        // and text-selection drag isn't pre-empted by the TapHandlers above.
         TapHandler {
             acceptedButtons: Qt.LeftButton
             acceptedModifiers: Qt.ControlModifier
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-            enabled: !root.perfDisableTimelineInteraction
+            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
             onSingleTapped: {
@@ -681,7 +721,7 @@ Item {
             acceptedButtons: Qt.LeftButton
             acceptedModifiers: Qt.MetaModifier
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-            enabled: !root.perfDisableTimelineInteraction
+            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
             onSingleTapped: {
@@ -693,11 +733,75 @@ Item {
             acceptedButtons: Qt.LeftButton
             acceptedModifiers: Qt.ShiftModifier
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-            enabled: !root.perfDisableTimelineInteraction
+            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
             onSingleTapped: {
                 root.wrapper.handleMouseSelectionRangeTo();
+            }
+        }
+
+        // Row-level drag-select initiator for non-litehtml bubbles (#124).
+        // Text bubbles drive the same gesture from inside `LitehtmlItem`
+        // (which already owns the press for text selection), so these
+        // handlers disable themselves there to avoid two handlers fighting
+        // over the grab. DragHandler is passive on press and only activates
+        // after movement past `dragThreshold`, so plain clicks on
+        // images/files/etc. still reach their own click handlers.
+        //
+        // Split into two handlers so the press-time modifier state can drive
+        // the additive-vs-replace decision in the walk-mode controller:
+        // PointerHandler/HandlerPoint doesn't expose `modifiers` to QML, but
+        // `acceptedModifiers` filters which presses each handler sees — so a
+        // gesture that activates `rowDragSelectAdditive` is, by construction,
+        // a Ctrl/Meta/Shift-modified drag.
+        DragHandler {
+            id: rowDragSelect
+
+            target: null
+            acceptedButtons: Qt.LeftButton
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+            acceptedModifiers: Qt.NoModifier
+            dragThreshold: 12
+            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
+
+            onActiveChanged: {
+                if (active) {
+                    root.wrapper.handleDragSelectBegan(0);
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                } else {
+                    root.wrapper.handleDragSelectEnded();
+                }
+            }
+            onCentroidChanged: {
+                if (active)
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+            }
+        }
+
+        DragHandler {
+            id: rowDragSelectAdditive
+
+            target: null
+            acceptedButtons: Qt.LeftButton
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+            acceptedModifiers: Qt.ControlModifier | Qt.MetaModifier | Qt.ShiftModifier
+            dragThreshold: 12
+            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
+
+            onActiveChanged: {
+                if (active) {
+                    // Any non-zero modifier flag signals "additive" to the
+                    // controller; the exact bit doesn't matter.
+                    root.wrapper.handleDragSelectBegan(Qt.ControlModifier);
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                } else {
+                    root.wrapper.handleDragSelectEnded();
+                }
+            }
+            onCentroidChanged: {
+                if (active)
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
             }
         }
     }

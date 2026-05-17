@@ -1,5 +1,6 @@
     QString uiThemeSlug() const;
     bool timelineMessagesHoverHighlight() const;
+    bool timelineMessagesDragSelect() const;
     bool timelineMessagesEmojiOnlyEnlarge() const;
     bool timelineFormattedCodeSyntaxHighlighting() const;
     bool desktopSystemTrayEnabled() const;

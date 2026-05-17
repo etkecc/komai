@@ -3206,7 +3206,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>
@@ -10466,6 +10466,16 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="+8"/>
+        <source>Drag to select messages</source>
+        <translation>Glisser pour sélectionner les messages</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, dragging across messages selects them.</source>
+        <translation>Lorsqu'activée, glisser sur les messages permet de les sélectionner.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Images handling</source>
         <translation>Gestion des images</translation>
     </message>

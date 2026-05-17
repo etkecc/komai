@@ -3206,7 +3206,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
         <source>Settings...</source>
         <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
@@ -10466,6 +10466,16 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+8"/>
+        <source>Drag to select messages</source>
+        <translation>സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ വലിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, dragging across messages selects them.</source>
+        <translation>പ്രവർത്തനക്ഷമമാക്കുമ്പോൾ, സന്ദേശങ്ങളിലൂടെ വലിക്കുന്നത് അവ തിരഞ്ഞെടുക്കും.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Images handling</source>
         <translation>ചിത്രങ്ങൾ കൈകാര്യം ചെയ്യൽ</translation>
     </message>

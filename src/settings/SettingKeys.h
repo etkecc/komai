@@ -58,6 +58,7 @@ constexpr auto TimelineMessagesLayoutMaxWidthPercent = "timeline.messages.layout
 constexpr auto TimelineMessagesSenderUsername        = "timeline.messages.sender_username";
 constexpr auto TimelineMessagesEmojiOnlyEnlarge      = "timeline.messages.emoji_only_enlarge";
 constexpr auto TimelineMessagesHoverHighlight        = "timeline.messages.hover_highlight";
+constexpr auto TimelineMessagesDragSelect            = "timeline.messages.drag_select";
 constexpr auto TimelineFormattedCodeSyntaxHighlighting =
   "timeline.messages.formatted.code_syntax_highlighting";
 constexpr auto TimelineTypingShowEnabled  = "timeline.typing.show.enabled";

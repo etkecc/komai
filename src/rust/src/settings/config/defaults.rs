@@ -39,6 +39,7 @@ pub const LAYOUT_SHOW_OWN_AVATAR: bool = true;
 pub const LAYOUT_MAX_WIDTH_PERCENT: i32 = 80;
 pub const EMOJI_ONLY_ENLARGE: bool = true;
 pub const HOVER_HIGHLIGHT: bool = true;
+pub const DRAG_SELECT: bool = true;
 pub const CODE_SYNTAX_HIGHLIGHTING: bool = true;
 pub const TYPING_SHOW_ENABLED: bool = true;
 pub const READ_RECEIPTS_GLOBAL: bool = true;

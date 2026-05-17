@@ -218,6 +218,7 @@ pub(crate) fn ffi_config_timeline_section(
             sender_username: config.timeline.messages.sender_username.to_storage_string(),
             emoji_only_enlarge: config.timeline.messages.emoji_only_enlarge.unwrap_or(defaults::EMOJI_ONLY_ENLARGE),
             hover_highlight: config.timeline.messages.hover_highlight.unwrap_or(defaults::HOVER_HIGHLIGHT),
+            drag_select: config.timeline.messages.drag_select.unwrap_or(defaults::DRAG_SELECT),
         },
         formatted: ffi::SettingsConfigTimelineFormattedSection {
             code_syntax_highlighting: config.timeline.formatted.code_syntax_highlighting.unwrap_or(defaults::CODE_SYNTAX_HIGHLIGHTING),
@@ -710,6 +711,7 @@ fn clone_config_timeline_section(
             sender_username: section.messages.sender_username.clone(),
             emoji_only_enlarge: section.messages.emoji_only_enlarge,
             hover_highlight: section.messages.hover_highlight,
+            drag_select: section.messages.drag_select,
         },
         formatted: ffi::SettingsConfigTimelineFormattedSection {
             code_syntax_highlighting: section.formatted.code_syntax_highlighting,

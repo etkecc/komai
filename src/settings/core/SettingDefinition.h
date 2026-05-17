@@ -101,6 +101,7 @@ enum class SettingId
     TimelineMessagesSenderUsername,
     TimelineMessagesEmojiOnlyEnlarge,
     TimelineMessagesHoverHighlight,
+    TimelineMessagesDragSelect,
     TimelineFormattedCodeSyntaxHighlighting,
     TimelineTypingShowEnabled,
     TimelineReadReceiptsGlobal,

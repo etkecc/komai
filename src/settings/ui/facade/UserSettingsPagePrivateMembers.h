@@ -6,6 +6,7 @@
 QString uiThemeSlugDefault_ = QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 QString uiThemeSlug_;
 bool timelineMessagesHoverHighlight_;
+bool timelineMessagesDragSelect_;
 bool timelineMessagesEmojiOnlyEnlarge_;
 bool timelineFormattedCodeSyntaxHighlighting_;
 bool desktopSystemTrayEnabled_;

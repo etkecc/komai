@@ -3206,7 +3206,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+460"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
         <source>Settings...</source>
         <translation>සැකසීම්…</translation>
     </message>
@@ -10466,6 +10466,16 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+8"/>
+        <source>Drag to select messages</source>
+        <translation>ඇදීමෙන් පණිවිඩ තෝරන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>When enabled, dragging across messages selects them.</source>
+        <translation>සක්‍රිය කළ විට, පණිවිඩ හරහා ඇදීමෙන් ඒවා තෝරා ගනී.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Images handling</source>
         <translation>රූප හැසිරවීම</translation>
     </message>

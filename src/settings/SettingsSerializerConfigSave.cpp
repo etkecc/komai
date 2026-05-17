@@ -87,6 +87,7 @@ stageConfig(const UserSettings &settings,
                 cfg::toStorageValue(settings.timelineMessagesSenderUsername()).toStdString(),
               .emoji_only_enlarge = settings.timelineMessagesEmojiOnlyEnlarge(),
               .hover_highlight    = settings.timelineMessagesHoverHighlight(),
+              .drag_select        = settings.timelineMessagesDragSelect(),
             },
           .formatted =
             {

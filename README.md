@@ -39,7 +39,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 📋 Good support for hundreds of rooms and spaces
 - 📑 Browser-style [room tabs](docs/user-guide/features/tabs.md) with pinning -- still rare among Matrix clients
 - ⌨️ [Keyboard-driven main chat workflow](docs/user-guide/features/keyboard-shortcuts.md), with human- and [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor))-style shortcuts
-- 🔀 [Selection mode](docs/user-guide/features/keyboard-shortcuts.md#selection-mode) for bulk actions (forwarding, moderation)
+- 🎯 [Selection mode](docs/user-guide/features/selection-mode.md) -- drag, `Ctrl`/`Shift`-click, or keyboard-pick a set of messages, then copy / reply / forward / delete them as a batch
 - ⚡ Quick, lightweight native app ([Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), [C++](https://en.wikipedia.org/wiki/C%2B%2B), [QML](https://en.wikipedia.org/wiki/QML)) -- no [Electron](https://www.electronjs.org/)
 - 🤖 Automation via [MCP](docs/user-guide/features/automations/mcp.md), [CLI commands](docs/user-guide/features/automations/cli.md), and the [D-Bus API](docs/user-guide/features/automations/dbus.md)
 - 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement), no gatekeeping

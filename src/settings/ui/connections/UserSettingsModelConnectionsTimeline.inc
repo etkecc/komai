@@ -23,6 +23,7 @@
     }
     CONNECT_SETTING_ID(TimelineMessagesEmojiOnlyEnlarge, timelineMessagesEmojiOnlyEnlargeChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesHoverHighlight, timelineMessagesHoverHighlightChanged, Value);
+    CONNECT_SETTING_ID(TimelineMessagesDragSelect, timelineMessagesDragSelectChanged, Value);
     CONNECT_SETTING_ID(TimelineFormattedCodeSyntaxHighlighting,
                        timelineFormattedCodeSyntaxHighlightingChanged,
                        Value);

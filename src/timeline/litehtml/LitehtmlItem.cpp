@@ -500,9 +500,12 @@ LitehtmlItem::mousePressEvent(QMouseEvent *event)
     clearSelection();
     // Use screen-space coordinates for selection — text runs recorded during
     // paint include the leftPadding offset, so selection must match.
-    m_selectStartPos = pos;
-    m_selectEndPos   = m_selectStartPos;
-    m_selecting      = true;
+    m_selectStartPos          = pos;
+    m_selectEndPos            = m_selectStartPos;
+    m_selecting               = true;
+    m_textSelectionSuppressed = false;
+
+    emit selectionDragBegan(static_cast<int>(event->modifiers()));
 
     forceActiveFocus();
 
@@ -531,6 +534,19 @@ LitehtmlItem::mouseMoveEvent(QMouseEvent *event)
     if (!keepMouseGrab())
         setKeepMouseGrab(true);
 
+    // Let the QML drag-select controller decide whether the drag has crossed
+    // into another message's row. Scene coords stay valid even after the
+    // cursor has left our bounds — Qt keeps delivering moves to the implicit
+    // grab holder.
+    emit selectionDragMoved(mapToScene(event->position()));
+
+    if (m_textSelectionSuppressed) {
+        // QML has taken over the gesture for message-selection. Keep the
+        // grab so we keep getting moves, but stop recomputing text-runs.
+        event->accept();
+        return;
+    }
+
     auto pos       = event->position().toPoint();
     m_selectEndPos = pos;
 
@@ -554,7 +570,11 @@ LitehtmlItem::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
-    m_selecting = false;
+    bool wasSelecting         = m_selecting;
+    bool wasSuppressed        = m_textSelectionSuppressed;
+    auto modifiers            = event->modifiers();
+    m_selecting               = false;
+    m_textSelectionSuppressed = false;
     setKeepMouseGrab(false);
 
     int padLeft = static_cast<int>(m_leftPadding);
@@ -562,13 +582,29 @@ LitehtmlItem::mouseReleaseEvent(QMouseEvent *event)
     int docX    = pos.x() - padLeft;
     int docY    = pos.y() - m_topInset;
 
-    // Only forward to litehtml (link activation) if this was a click, not a drag selection.
     bool hasSelection = m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd;
-    if (!hasSelection) {
-        litehtml::position::vector redraw;
-        m_document->on_lbutton_up(docX, docY, docX, docY, redraw);
-        if (!redraw.empty())
-            update();
+    // A "click" is a press+release with no significant text-selection drag
+    // and no escalation to message-level drag-select.
+    bool wasClick = !hasSelection && !wasSuppressed;
+
+    // Drain the drag-select state machine first so any modifier-click handler
+    // we trigger below runs against a clean baseline.
+    if (wasSelecting)
+        emit selectionDragEnded();
+
+    if (wasClick) {
+        if (modifiers.testFlag(Qt::ControlModifier) || modifiers.testFlag(Qt::MetaModifier)) {
+            emit clickedWithCtrlOrMeta();
+        } else if (modifiers.testFlag(Qt::ShiftModifier)) {
+            emit clickedWithShift();
+        } else {
+            // Forward to litehtml only for plain clicks — link activation
+            // under a modifier-click would be incidental, not intended.
+            litehtml::position::vector redraw;
+            m_document->on_lbutton_up(docX, docY, docX, docY, redraw);
+            if (!redraw.empty())
+                update();
+        }
     }
 
     event->accept();
@@ -679,6 +715,18 @@ LitehtmlItem::clearSelection()
         m_selectedText.clear();
         emit selectedTextChanged();
     }
+}
+
+void
+LitehtmlItem::suppressTextSelection()
+{
+    if (m_textSelectionSuppressed)
+        return;
+    m_textSelectionSuppressed = true;
+    clearSelection();
+    // Repaint to drop any selection-highlight that was already on screen
+    // from the moves leading up to the QML controller's escalation.
+    update();
 }
 
 SelectionPoint

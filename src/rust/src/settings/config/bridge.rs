@@ -212,6 +212,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["timeline", "messages", "drag_select"],
+        Value::Bool(snapshot.timeline.messages.drag_select),
+    );
+    yaml::set_value(
+        &mut root,
         &["timeline", "formatted", "code_syntax_highlighting"],
         Value::Bool(snapshot.timeline.formatted.code_syntax_highlighting),
     );

@@ -43,6 +43,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(QString uiThemeSlug READ uiThemeSlug WRITE setUiThemeSlug NOTIFY uiThemeSlugChanged)
     Q_PROPERTY(bool timelineMessagesHoverHighlight READ timelineMessagesHoverHighlight WRITE
                  setTimelineMessagesHoverHighlight NOTIFY timelineMessagesHoverHighlightChanged)
+    Q_PROPERTY(bool timelineMessagesDragSelect READ timelineMessagesDragSelect WRITE
+                 setTimelineMessagesDragSelect NOTIFY timelineMessagesDragSelectChanged)
     Q_PROPERTY(bool timelineMessagesEmojiOnlyEnlarge READ timelineMessagesEmojiOnlyEnlarge WRITE
                  setTimelineMessagesEmojiOnlyEnlarge NOTIFY timelineMessagesEmojiOnlyEnlargeChanged)
     Q_PROPERTY(
@@ -554,6 +556,7 @@ public:
     void applyTheme();
     void setUiThemeSlug(QString theme);
     void setTimelineMessagesHoverHighlight(bool state);
+    void setTimelineMessagesDragSelect(bool state);
     void setTimelineMessagesEmojiOnlyEnlarge(bool state);
     void setTimelineFormattedCodeSyntaxHighlighting(bool state);
     void setDesktopSystemTrayEnabled(bool state);
@@ -803,6 +806,7 @@ signals:
     void navigationRoomListSortChanged(RoomSortOrder order);
     void uiThemeSlugChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
+    void timelineMessagesDragSelectChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
     void timelineFormattedCodeSyntaxHighlightingChanged(bool state);
     void desktopSystemTrayEnabledChanged(bool state);

@@ -9,6 +9,16 @@ UserSettings::setTimelineMessagesHoverHighlight(bool s)
     save();
 }
 void
+UserSettings::setTimelineMessagesDragSelect(bool s)
+{
+    if (timelineMessagesDragSelect_ == s)
+        return;
+    timelineMessagesDragSelect_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesDragSelect, s);
+    emit timelineMessagesDragSelectChanged(s);
+    save();
+}
+void
 UserSettings::setTimelineMessagesEmojiOnlyEnlarge(bool s)
 {
     if (timelineMessagesEmojiOnlyEnlarge_ == s)

@@ -229,6 +229,279 @@ Item {
         return rootItem.selectRangeToEventId(normalizedEventId);
     }
 
+    // Drag-select gesture state — alive only for the duration of a single
+    // left-button drag inside a message bubble's litehtml. `_dragSelectStartEventId`
+    // holds the source row's eventId between `Began` and `Ended`; latching
+    // (`_dragSelectLatched`) flips on the first time the cursor crosses into
+    // a different row. `_dragSelectAdditive` is captured at `Began` from the
+    // press-time modifiers — Ctrl/Meta/Shift means "add to existing
+    // selection" (the snapshot in `_dragSelectBaseSelection` is then merged
+    // with each range update); no modifier means "replace".
+    property string _dragSelectStartEventId: ""
+    property bool _dragSelectLatched: false
+    property bool _dragSelectAdditive: false
+    property string _dragSelectLastEndpointEventId: ""
+    property var _dragSelectBaseSelection: []
+    // Auto-scroll bookkeeping: last cursor position and originating litehtml
+    // so the timer can keep re-resolving the row under the cursor while it
+    // nudges contentY past the viewport edge. `_dragSelectAutoScrollVelocity`
+    // is the signed pixel delta per tick (negative = scroll toward older
+    // messages); 0 means the timer should stop.
+    property point _dragSelectLastScenePos: Qt.point(0, 0)
+    property var _dragSelectLastSourceItem: null
+    property real _dragSelectAutoScrollVelocity: 0
+
+    Timer {
+        id: dragSelectAutoScrollTimer
+        interval: 16
+        repeat: true
+        onTriggered: support._tickDragSelectAutoScroll()
+    }
+
+    function dragSelectGestureBegan(eventId, modifiers) {
+        _dragSelectStartEventId        = String(eventId || "");
+        _dragSelectLatched             = false;
+        _dragSelectLastEndpointEventId = "";
+        const m = Number(modifiers || 0);
+        _dragSelectAdditive            = !!(m & (Qt.ControlModifier | Qt.MetaModifier | Qt.ShiftModifier));
+        _dragSelectBaseSelection       = [];
+    }
+
+    // Build `selectedEventIds` from range(drag-anchor → endpoint), prefixed
+    // with the pre-drag snapshot if the gesture is additive. Used by both the
+    // trip path and latched updates so shrink/grow stays consistent.
+    function _applyDragSelectRange(endpointEventId) {
+        const anchorEventId = _dragSelectStartEventId;
+        if (anchorEventId.length === 0)
+            return false;
+
+        const model = rootItem.activeTimelineModel;
+        if (!model)
+            return false;
+
+        const anchorRow = model.rowForEventId(anchorEventId);
+        const endRow    = model.rowForEventId(endpointEventId);
+        if (anchorRow < 0 || endRow < 0)
+            return false;
+
+        const minRow = Math.min(anchorRow, endRow);
+        const maxRow = Math.max(anchorRow, endRow);
+
+        const seen = {};
+        const next = [];
+
+        const base = _dragSelectBaseSelection;
+        for (let i = 0; i < base.length; i += 1) {
+            const eid = String(base[i] || "");
+            if (eid.length > 0 && !seen[eid]) {
+                seen[eid] = true;
+                next.push(eid);
+            }
+        }
+
+        for (let row = minRow; row <= maxRow; row += 1) {
+            if (!rootItem.isSelectableMatrixTimelineRow(row))
+                continue;
+            const item = model.itemAt(row);
+            if (!item)
+                continue;
+            const eid = String(item.eventId || "");
+            if (eid.length === 0 || seen[eid])
+                continue;
+            seen[eid] = true;
+            next.push(eid);
+        }
+
+        rootItem.selectedEventIds = next;
+        return true;
+    }
+
+    function dragSelectGestureMoved(eventId, scenePos, sourceItem) {
+        if (!Settings.timelineMessagesDragSelect)
+            return false;
+
+        if (_dragSelectStartEventId.length === 0 || !timelineList)
+            return false;
+
+        const contentItem = timelineList.contentItem;
+        if (!contentItem)
+            return false;
+
+        // Remember the last cursor position + the source litehtml (if any)
+        // so the auto-scroll timer can keep re-resolving the row under the
+        // cursor as it nudges contentY, even while no more pointer events
+        // arrive from the OS.
+        _dragSelectLastScenePos    = scenePos;
+        _dragSelectLastSourceItem  = sourceItem || null;
+
+        // When the cursor leaves the viewport vertically, stop trying to
+        // resolve a row from the current frame and hand the gesture over to
+        // the auto-scroll timer. The timer keeps shifting contentY in the
+        // appropriate direction and re-runs the row-resolve step against
+        // each frame's new content layout.
+        const local = timelineList.mapFromItem(null, scenePos.x, scenePos.y);
+        const velocity = _dragSelectAutoScrollVelocityForLocal(local.y, timelineList.height);
+        if (velocity !== 0) {
+            _dragSelectAutoScrollVelocity = velocity;
+            if (!dragSelectAutoScrollTimer.running)
+                dragSelectAutoScrollTimer.start();
+            return true;
+        }
+        // Cursor is back inside the viewport — stop any auto-scroll in
+        // flight and resolve the row from the live cursor position.
+        if (dragSelectAutoScrollTimer.running) {
+            dragSelectAutoScrollTimer.stop();
+            _dragSelectAutoScrollVelocity = 0;
+        }
+
+        return _resolveDragSelectEndpointAndApply(scenePos, sourceItem);
+    }
+
+    // Extracted so the auto-scroll timer can re-run the row-resolve step at
+    // the cursor's last known scene position, against the contentItem layout
+    // after each tick's contentY nudge.
+    function _resolveDragSelectEndpointAndApply(scenePos, sourceItem) {
+        const contentItem = timelineList ? timelineList.contentItem : null;
+        if (!contentItem)
+            return false;
+
+        // `indexAt` expects coordinates in the same space as delegate x/y,
+        // i.e. the contentItem's local coords. With `verticalLayoutDirection:
+        // BottomToTop` ListView.contentY can be negative, so `local + contentY`
+        // is unreliable — map through contentItem directly.
+        const contentPt = contentItem.mapFromItem(null, scenePos.x, scenePos.y);
+        const row = timelineList.indexAt(contentPt.x, contentPt.y);
+        if (row < 0)
+            return false;
+
+        const endpointEventId = String(rootItem.selectableEventIdNearMatrixRow(row) || "");
+        if (endpointEventId.length === 0)
+            return false;
+
+        if (!_dragSelectLatched) {
+            // Still inside the start row — keep the gesture as text selection.
+            if (endpointEventId === _dragSelectStartEventId)
+                return false;
+
+            const anchorEventId = _dragSelectStartEventId;
+            if (!rootItem.canExplicitlySelectEventId(anchorEventId))
+                return false;
+
+            // Escalate: tell the originating litehtml to drop its in-progress
+            // text selection and silence subsequent text-selection updates.
+            if (sourceItem && typeof sourceItem.suppressTextSelection === "function")
+                sourceItem.suppressTextSelection();
+
+            if (_dragSelectAdditive) {
+                // Snapshot the pre-drag selection so subsequent shrink/grow
+                // keeps it intact. Don't `clearWalkState` — that would wipe
+                // the prior selection we're explicitly preserving.
+                _dragSelectBaseSelection = rootItem.selectedEventIds.slice();
+            } else {
+                // File-manager convention: a plain drag is a fresh selection.
+                clearWalkState({
+                    "focusComposer": false
+                });
+                _dragSelectBaseSelection = [];
+            }
+            rootItem.walkModeActive         = true;
+            rootItem.selectionAnchorEventId = anchorEventId;
+            if (!focusWalkModeEventById(endpointEventId, {
+                    "skipScroll": true
+                })) {
+                return false;
+            }
+            _applyDragSelectRange(endpointEventId);
+            _dragSelectLatched             = true;
+            _dragSelectLastEndpointEventId = endpointEventId;
+            return true;
+        }
+
+        // Latched: just track the cursor.
+        if (endpointEventId === _dragSelectLastEndpointEventId)
+            return true;
+
+        if (!focusWalkModeEventById(endpointEventId, {
+                "skipScroll": true
+            })) {
+            return false;
+        }
+        _applyDragSelectRange(endpointEventId);
+        _dragSelectLastEndpointEventId = endpointEventId;
+        return true;
+    }
+
+    // Velocity (pixels per timer tick, signed for contentY direction) that
+    // matches a wheel-tick of similar visual speed. Negative scrolls toward
+    // older messages (the visual top in BottomToTop), positive toward newer.
+    readonly property int _dragSelectAutoScrollMaxPx: 16
+
+    function _dragSelectAutoScrollVelocityForLocal(localY, viewportHeight) {
+        if (localY < 0) {
+            // Above the viewport — scroll toward older messages. The further
+            // past the edge, the faster (linear ramp, capped).
+            const distance = Math.min(120, -localY);
+            return -Math.max(2, Math.min(_dragSelectAutoScrollMaxPx, distance / 4));
+        }
+        if (localY > viewportHeight) {
+            const distance = Math.min(120, localY - viewportHeight);
+            return Math.max(2, Math.min(_dragSelectAutoScrollMaxPx, distance / 4));
+        }
+        return 0;
+    }
+
+    function _tickDragSelectAutoScroll() {
+        if (!timelineList || _dragSelectAutoScrollVelocity === 0) {
+            dragSelectAutoScrollTimer.stop();
+            _dragSelectAutoScrollVelocity = 0;
+            return;
+        }
+
+        const range = Math.max(0, timelineList.contentHeight - timelineList.height);
+        if (range <= 0) {
+            // Nothing to scroll — nothing to do.
+            dragSelectAutoScrollTimer.stop();
+            _dragSelectAutoScrollVelocity = 0;
+            return;
+        }
+
+        // Match the wheel handler's clamping pattern (see
+        // MatrixRoomListShellSupport.handleWheelRotation) so over-scroll
+        // jitter near the edges doesn't show up here either.
+        const minY = timelineList.originY;
+        const maxY = timelineList.originY + range;
+        const proposed = timelineList.contentY + _dragSelectAutoScrollVelocity;
+        const clamped = Math.max(minY, Math.min(maxY, proposed));
+        if (clamped === timelineList.contentY) {
+            // Hit a bound — keep the timer running but don't keep emitting
+            // pointless contentY writes; the user will lift the button or
+            // drag back in and we'll cancel naturally.
+            return;
+        }
+        timelineList.contentY = clamped;
+
+        if (!timelineList.isNearLiveEdge()) {
+            timelineList.keepPinnedToBottom = false;
+            timelineList.userUnpinned = true;
+        }
+
+        // Re-resolve the row under the cursor — the cursor hasn't moved but
+        // the content under it just shifted, so the row is different.
+        _resolveDragSelectEndpointAndApply(_dragSelectLastScenePos,
+                                           _dragSelectLastSourceItem);
+    }
+
+    function dragSelectGestureEnded() {
+        _dragSelectStartEventId        = "";
+        _dragSelectLatched             = false;
+        _dragSelectAdditive            = false;
+        _dragSelectLastEndpointEventId = "";
+        _dragSelectBaseSelection       = [];
+        _dragSelectLastSourceItem      = null;
+        _dragSelectAutoScrollVelocity  = 0;
+        dragSelectAutoScrollTimer.stop();
+    }
+
     function enterWalkModeFromBottomMostVisible() {
         if (!rootItem.hasTimeline || rootItem.hasPendingAttachments || rootItem.editing)
             return false;

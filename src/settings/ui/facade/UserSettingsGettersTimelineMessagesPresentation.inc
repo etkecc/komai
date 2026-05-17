@@ -9,6 +9,16 @@ UserSettings::timelineMessagesHoverHighlight() const
 }
 
 bool
+UserSettings::timelineMessagesDragSelect() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesDragSelect);
+        value.has_value())
+        return *value;
+    return timelineMessagesDragSelect_;
+}
+
+bool
 UserSettings::timelineMessagesEmojiOnlyEnlarge() const
 {
     if (const auto value =

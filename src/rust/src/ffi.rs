@@ -308,6 +308,7 @@ mod bridge {
         sender_username: String,
         emoji_only_enlarge: bool,
         hover_highlight: bool,
+        drag_select: bool,
     }
 
     struct SettingsConfigTimelineFormattedSection {

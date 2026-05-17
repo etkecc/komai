@@ -126,6 +126,7 @@ timeline:
     sender_username: always
     emoji_only_enlarge: false
     hover_highlight: true
+    drag_select: true
     actions:
       activation_policy: on_message_hover
       pinned_reactions: "👍,👀"
@@ -173,6 +174,7 @@ timeline:
     );
     assert_eq!(config.timeline.messages.emoji_only_enlarge, Some(false));
     assert_eq!(config.timeline.messages.hover_highlight, Some(true));
+    assert_eq!(config.timeline.messages.drag_select, Some(true));
     assert_eq!(
         config.timeline.message_actions.activation_policy,
         ConfigTimelineMessageActionsActivationPolicyToken::OnHover
@@ -521,6 +523,7 @@ fn encodes_generic_config_values() {
                 sender_username: "always".to_owned(),
                 emoji_only_enlarge: false,
                 hover_highlight: true,
+                drag_select: true,
             },
             formatted: SettingsConfigTimelineFormattedSection {
                 code_syntax_highlighting: false,
@@ -1341,6 +1344,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
                 sender_username: "only_in_large_rooms".to_owned(),
                 emoji_only_enlarge: true,
                 hover_highlight: true,
+                drag_select: true,
             },
             formatted: SettingsConfigTimelineFormattedSection {
                 code_syntax_highlighting: true,
@@ -1591,6 +1595,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
                 sender_username: "only_in_large_rooms".to_owned(),
                 emoji_only_enlarge: true,
                 hover_highlight: true,
+                drag_select: true,
             },
             formatted: SettingsConfigTimelineFormattedSection { code_syntax_highlighting: true },
             typing: SettingsConfigTimelineTypingSection { show_enabled: true },

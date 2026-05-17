@@ -90,6 +90,12 @@ public:
 
     Q_INVOKABLE void handleHoverMove(qreal x, qreal y);
     Q_INVOKABLE void handleHoverLeave();
+    // Called by the timeline's drag-select controller once it has decided the
+    // in-progress text-selection drag has crossed into another row and should
+    // escalate into message-level selection. Clears the visual text selection
+    // and silences further text-selection updates for the remainder of the
+    // gesture, while keeping the mouse grab so move signals keep flowing.
+    Q_INVOKABLE void suppressTextSelection();
 
 signals:
     void htmlChanged();
@@ -109,6 +115,29 @@ signals:
     // delegate is expected to wire this to the right action (typically
     // `TimelineManager.requestEscape()`).
     void focusReleaseRequested();
+    // Emitted on left-button press inside the item. The QML drag-select
+    // controller uses this to reset any latching state from a prior gesture.
+    // `modifiers` is the `Qt::KeyboardModifiers` value at press time (passed
+    // as `int` for straightforward QML interop); the controller treats any
+    // Ctrl/Meta/Shift bit as "additive drag — preserve prior selection".
+    void selectionDragBegan(int modifiers);
+    // Emitted on every mouse move while a left-button drag is in progress
+    // (the implicit grab keeps us receiving these even after the cursor has
+    // left our bounds). `scenePos` is the cursor in scene coordinates; the
+    // QML controller maps it to the ListView to decide whether the drag has
+    // crossed into another message's row.
+    void selectionDragMoved(QPointF scenePos);
+    // Emitted when the left-button drag completes.
+    void selectionDragEnded();
+    // Click (no drag) with a Ctrl / Meta modifier — the QML side routes this
+    // to the same message-selection toggle as the row-level Ctrl-click. The
+    // existing TapHandler on `selectionToggleSurface` is disabled for
+    // litehtml-backed rows because it would otherwise grab the press and
+    // prevent the litehtml from starting a text-selection drag.
+    void clickedWithCtrlOrMeta();
+    // Click (no drag) with a Shift modifier — routed to the message range
+    // select handler (same as Shift-click on `selectionToggleSurface`).
+    void clickedWithShift();
 
 protected:
     void componentComplete() override;
@@ -163,6 +192,10 @@ private:
     litehtml::document::ptr m_document;
 
     bool m_selecting = false;
+    // While true, mouseMoveEvent emits `selectionDragMoved` but skips
+    // resolveSelection() / extractSelectedText() — the QML side has taken
+    // over the gesture for message selection. Cleared on press / release.
+    bool m_textSelectionSuppressed = false;
     QPoint m_selectStartPos;
     QPoint m_selectEndPos;
     SelectionPoint m_selStart;

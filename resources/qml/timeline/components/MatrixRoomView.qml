@@ -326,6 +326,9 @@ ColumnLayout {
     function clearSelectedEvents() { return walkModeSupport.clearSelectedEvents(); }
     function handleMouseSelectionToggle(eventId) { return walkModeSupport.handleMouseSelectionToggle(eventId); }
     function handleMouseSelectionRangeTo(eventId) { return walkModeSupport.handleMouseSelectionRangeTo(eventId); }
+    function dragSelectGestureBegan(eventId, modifiers) { return walkModeSupport.dragSelectGestureBegan(eventId, modifiers); }
+    function dragSelectGestureMoved(eventId, scenePos, sourceItem) { return walkModeSupport.dragSelectGestureMoved(eventId, scenePos, sourceItem); }
+    function dragSelectGestureEnded() { return walkModeSupport.dragSelectGestureEnded(); }
     function enterWalkModeFromBottomMostVisible() { return walkModeSupport.enterWalkModeFromBottomMostVisible(); }
     function enterWalkModeAndMoveTowardOlderEventsByChunk() { return walkModeSupport.enterWalkModeAndMoveTowardOlderEventsByChunk(); }
     function isSelectableMatrixTimelineRow(row) { return walkModeSupport.isSelectableMatrixTimelineRow(row); }
@@ -593,6 +596,12 @@ ColumnLayout {
                     anchors.margins: Komai.paddingMedium
                     anchors.bottomMargin: matrixTypingIndicator.visible ? 0 : Komai.paddingMedium
                     anchors.rightMargin: Komai.paddingMedium + (matrixTimelineScrollbar.interactive ? matrixTimelineScrollbar.width : 0)
+                    // Komai is desktop-first: scrollbar + wheel + keyboard cover
+                    // every scroll path. Disabling Flickable's own drag-scroll
+                    // stops empty-space and image-bubble drags from getting
+                    // hijacked into a scroll gesture (#124) and removes a
+                    // touch-era affordance we don't otherwise lean on.
+                    interactive: false
                     keyNavigationEnabled: false
                     KeyNavigation.priority: KeyNavigation.BeforeItem
                     Keys.priority: Keys.BeforeItem

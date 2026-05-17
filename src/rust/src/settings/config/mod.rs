@@ -108,6 +108,8 @@ const TIMELINE_MESSAGES_EMOJI_ONLY_ENLARGE_PATH: [&str; 3] =
     ["timeline", "messages", "emoji_only_enlarge"];
 const TIMELINE_MESSAGES_HOVER_HIGHLIGHT_PATH: [&str; 3] =
     ["timeline", "messages", "hover_highlight"];
+const TIMELINE_MESSAGES_DRAG_SELECT_PATH: [&str; 3] =
+    ["timeline", "messages", "drag_select"];
 const TIMELINE_FORMATTED_CODE_SYNTAX_HIGHLIGHTING_PATH: [&str; 3] =
     ["timeline", "formatted", "code_syntax_highlighting"];
 const TIMELINE_TYPING_SHOW_ENABLED_PATH: [&str; 4] =
@@ -408,6 +410,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 hover_highlight: yaml::value_at_path(
                     root,
                     &TIMELINE_MESSAGES_HOVER_HIGHLIGHT_PATH,
+                )
+                .and_then(parse_scalar_bool),
+                drag_select: yaml::value_at_path(
+                    root,
+                    &TIMELINE_MESSAGES_DRAG_SELECT_PATH,
                 )
                 .and_then(parse_scalar_bool),
             },

@@ -7,6 +7,7 @@ X(TimelineMessagesLayoutMaxWidthPercent, settings.timelineMessagesLayoutMaxWidth
 X(TimelineMessagesSenderUsername, static_cast<int>(settings.timelineMessagesSenderUsername()))
 X(TimelineMessagesEmojiOnlyEnlarge, settings.timelineMessagesEmojiOnlyEnlarge())
 X(TimelineMessagesHoverHighlight, settings.timelineMessagesHoverHighlight())
+X(TimelineMessagesDragSelect, settings.timelineMessagesDragSelect())
 X(TimelineFormattedCodeSyntaxHighlighting, settings.timelineFormattedCodeSyntaxHighlighting())
 X(TimelineTypingShowEnabled, settings.timelineTypingShowEnabled())
 X(TimelineReadReceiptsGlobal, settings.timelineReadReceiptsEnabled())

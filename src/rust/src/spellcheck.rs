@@ -342,6 +342,13 @@ fn looks_checkable(word: &str) -> bool {
     let mut has_lower = first.is_lowercase();
     let mut has_inner_upper = false;
     for (i, c) in word.char_indices() {
+        // Halfwidth/Fullwidth Forms — Japanese IMEs emit fullwidth Latin (Ａ-Ｚ,
+        // ａ-ｚ) in "wide Latin / Zenkaku" mode. Unicode tags those characters
+        // Script=Latin, so without this guard they'd be run against the en_US
+        // dictionary and flagged as misspellings with no useful suggestions.
+        if matches!(c, '\u{FF00}'..='\u{FFEF}') {
+            return false;
+        }
         if c.is_numeric() {
             return false; // tokens with digits aren't words
         }
@@ -828,6 +835,16 @@ mod tests {
         assert!(!looks_checkable("getElementById")); // camelCase
         assert!(!looks_checkable("iPhone")); // inner caps
         assert!(!looks_checkable("h2o")); // has a digit
+    }
+
+    #[test]
+    fn looks_checkable_rejects_fullwidth_forms() {
+        // Zenkaku (fullwidth Latin) is what a Japanese IME emits in "wide Latin"
+        // mode — Unicode marks it Script=Latin, but it isn't an English word.
+        assert!(!looks_checkable("ｈｅｌｌｏ")); // fullwidth lowercase
+        assert!(!looks_checkable("Ｈｅｌｌｏ")); // fullwidth title-case
+        assert!(!looks_checkable("ｈello")); // mixed — still CJK-context
+        assert!(looks_checkable("hello")); // regression: normal ASCII still checks
     }
 
     #[test]

@@ -1515,6 +1515,286 @@ testConstrainedIntSettersRejectInvalidUpdates()
     return ok;
 }
 
+// Regression test for a class of bug where a newly-added persisted bool
+// setting forgets to wire `settings.setXxx(snapshot.xxx)` into
+// SettingsSerializerConfigLoad.cpp. With the wire missing, the cached
+// member in UserSettings is never written from the YAML; later reads
+// fall through to the in-class default, and (worse, prior to that fix)
+// could read uninitialized memory and propagate UB through cxx-rs into
+// serde_yaml_ng, breaking the next config save.
+//
+// The fixture below flips every covered bool from its documented default
+// in defaults.rs. After load, each setting's coreStore value must match
+// the flipped value. If the loader's setter is missing for an entry, the
+// setter's early-return-on-equal won't fire (since the in-class init now
+// matches the documented default, which we flipped in the fixture), so
+// coreStore_.set never runs and hasValue returns false for that id --
+// the test then fails with a message pointing at the missing wire.
+//
+// Maintenance: add new persisted-config bool settings to kCases below
+// when introducing them. Failure to do so will not make this test fail,
+// but it leaves the new setting unprotected.
+bool
+testPersistedConfigBoolsAreLoadedFromConfigYaml()
+{
+    const QString profile = QStringLiteral("persisted-config-bools-load-coverage");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "persisted-config-bools fixture root can be created");
+
+    // Each entry: {SettingId, "label-for-error", expectedValueAfterLoad}.
+    // The fixture YAML below must place exactly this value at the
+    // setting's persisted YAML path -- pick the value that is NOT the
+    // documented default in src/rust/src/settings/config/defaults.rs.
+    struct Case
+    {
+        settings::core::SettingId id;
+        const char *label;
+        bool expectedAfterLoad;
+    };
+    using SettingId = settings::core::SettingId;
+    const Case kCases[] = {
+        {SettingId::UiMotionAnimationsEnabled, "ui.motion.enable_animations", false},
+        {SettingId::UiAvatarsCircular, "ui.avatars.circular", true},
+        {SettingId::NavigationRoomListShowLastMessageTime,
+         "navigation.room_list.show_last_message_timestamp",
+         false},
+        {SettingId::NavigationRoomListShowUnreadIndicators,
+         "navigation.room_list.show_unread_indicators",
+         false},
+        {SettingId::NavigationCommunitiesShowUnreadIndicators,
+         "navigation.communities.show_unread_indicators",
+         false},
+        {SettingId::NavigationCommunitiesFilterFavourites,
+         "navigation.communities.filters.favourites",
+         false},
+        {SettingId::NavigationCommunitiesFilterPeople,
+         "navigation.communities.filters.people",
+         false},
+        {SettingId::NavigationCommunitiesFilterBots,
+         "navigation.communities.filters.bots",
+         false},
+        {SettingId::NavigationCommunitiesFilterGroups,
+         "navigation.communities.filters.groups",
+         false},
+        {SettingId::NavigationCommunitiesFilterServerNotices,
+         "navigation.communities.filters.server_notices",
+         false},
+        {SettingId::NavigationCommunitiesFilterLowPriority,
+         "navigation.communities.filters.low_priority",
+         false},
+        {SettingId::TimelineMessagesLayoutShowOwnAvatar,
+         "timeline.messages.layout.show_own_avatar",
+         false},
+        {SettingId::TimelineMessagesEmojiOnlyEnlarge,
+         "timeline.messages.emoji_only_enlarge",
+         false},
+        {SettingId::TimelineMessagesHoverHighlight, "timeline.messages.hover_highlight", false},
+        {SettingId::TimelineMessagesDragSelect, "timeline.messages.drag_select", false},
+        {SettingId::TimelineFormattedCodeSyntaxHighlighting,
+         "timeline.formatted.code_syntax_highlighting",
+         false},
+        {SettingId::TimelineTypingShowEnabled, "timeline.typing.show.enabled", false},
+        {SettingId::TimelineReadReceiptsGlobal, "timeline.read_receipts.global", false},
+        {SettingId::TimelineMediaEffectsEnabled, "timeline.media.effects.enabled", false},
+        {SettingId::TimelineMediaAnimateOnHover, "timeline.media.animate_on_hover", true},
+        {SettingId::TimelineMediaOpenImagesExternal,
+         "timeline.media.open_images_external",
+         true},
+        {SettingId::TimelineMediaOpenVideosExternal,
+         "timeline.media.open_videos_external",
+         true},
+        {SettingId::TimelineMediaAutoplayGifVideos, "timeline.media.autoplay_gif_videos", false},
+        {SettingId::TimelineMediaOpenAudioExternal, "timeline.media.open_audio_external", true},
+        {SettingId::TimelineDateDividersEnabled, "timeline.date_dividers.enabled", false},
+        {SettingId::DesktopNotificationsEnabled, "desktop.notifications.enabled", false},
+        {SettingId::DesktopNotificationsAttentionOnIncoming,
+         "desktop.notifications.attention_on_incoming",
+         true},
+        {SettingId::DesktopAttentionWindowTitleEnabled,
+         "desktop.attention.window_title.enabled",
+         false},
+        {SettingId::DesktopAttentionAppBadgeEnabled,
+         "desktop.attention.app_badge.enabled",
+         false},
+        {SettingId::DesktopSystemTrayEnabled, "desktop.system_tray.enabled", true},
+        {SettingId::DesktopSystemTrayAutostart, "desktop.system_tray.autostart", true},
+        {SettingId::DesktopWindowFocusBlurEnabled, "desktop.window_focus_blur.enabled", true},
+        {SettingId::EncryptionKeySharingOnlyVerifiedUsers,
+         "network.encryption.only_verified_users",
+         true},
+        {SettingId::EncryptionKeySharingShareWithTrusted,
+         "network.encryption.share_with_trusted",
+         true},
+        {SettingId::EncryptionBackupOnlineEnabled, "network.encryption.key_backup", false},
+        {SettingId::NetworkTlsEnableCertificateValidation,
+         "network.tls.enable_certificate_validation",
+         false},
+        {SettingId::NetworkMrsEnabled, "network.mrs.enabled", false},
+        {SettingId::NetworkHttp3Enabled, "network.http3.enabled", true},
+        {SettingId::CallsLegacyEnabled, "calls.legacy.enabled", true},
+        {SettingId::CallsRelayUseFallbackServer, "calls.relay.use_fallback_server", true},
+        {SettingId::CallsScreensharePictureInPicture,
+         "calls.screenshare.picture_in_picture",
+         false},
+        {SettingId::CallsScreenshareIncludeRemoteVideo,
+         "calls.screenshare.include_remote_video",
+         true},
+        {SettingId::CallsScreenshareShowCursor, "calls.screenshare.show_cursor", false},
+        {SettingId::ComposerInputMarkdownToHtmlEnabled,
+         "composer.input.markdown_to_html.enabled",
+         false},
+        {SettingId::ComposerInputInlineEmojiPickerEnabled,
+         "composer.input.inline_emoji_picker.enabled",
+         false},
+        {SettingId::ComposerInputInlineRoomPickerEnabled,
+         "composer.input.inline_room_picker.enabled",
+         false},
+        {SettingId::ComposerInputInlineUserPickerEnabled,
+         "composer.input.inline_user_picker.enabled",
+         false},
+        {SettingId::ComposerInputTranscriptionEnabled,
+         "composer.input.transcription.enabled",
+         false},
+        {SettingId::ComposerInputSpellcheckEnabled,
+         "composer.input.spellcheck.enabled",
+         false},
+        {SettingId::ComposerAttachmentsStripImageMetadata,
+         "composer.attachments.strip_image_metadata",
+         false},
+        {SettingId::ComposerTypingSendGlobal, "composer.typing.send.global", false},
+    };
+
+    // Fixture YAML built by hand. Keep the values aligned with kCases above.
+    // (We do not generate this from kCases programmatically because nested
+    // YAML construction in C++ string literals is more error-prone to read
+    // than the literal tree below.)
+    if (!ctx.writeConfig(QStringLiteral(
+          R"yaml(ui:
+  motion:
+    enable_animations: false
+  avatars:
+    circular: true
+navigation:
+  room_list:
+    show_last_message_timestamp: false
+    show_unread_indicators: false
+  communities:
+    show_unread_indicators: false
+    filters:
+      favourites: false
+      people: false
+      bots: false
+      groups: false
+      server_notices: false
+      low_priority: false
+timeline:
+  messages:
+    layout:
+      show_own_avatar: false
+    emoji_only_enlarge: false
+    hover_highlight: false
+    drag_select: false
+  formatted:
+    code_syntax_highlighting: false
+  typing:
+    show:
+      enabled: false
+  read_receipts:
+    global: false
+  media:
+    effects:
+      enabled: false
+    animate_on_hover: true
+    open_images_external: true
+    open_videos_external: true
+    autoplay_gif_videos: false
+    open_audio_external: true
+  date_dividers:
+    enabled: false
+desktop:
+  notifications:
+    enabled: false
+    attention_on_incoming: true
+  attention:
+    window_title:
+      enabled: false
+    app_badge:
+      enabled: false
+  system_tray:
+    enabled: true
+    autostart: true
+  window_focus_blur:
+    enabled: true
+network:
+  encryption:
+    only_verified_users: true
+    share_with_trusted: true
+    key_backup: false
+  tls:
+    enable_certificate_validation: false
+  mrs:
+    enabled: false
+  http3:
+    enabled: true
+calls:
+  legacy:
+    enabled: true
+  relay:
+    use_fallback_server: true
+  screenshare:
+    picture_in_picture: false
+    include_remote_video: true
+    show_cursor: false
+composer:
+  input:
+    markdown_to_html:
+      enabled: false
+    inline_emoji_picker:
+      enabled: false
+    inline_room_picker:
+      enabled: false
+    inline_user_picker:
+      enabled: false
+    transcription:
+      enabled: false
+    spellcheck:
+      enabled: false
+  attachments:
+    strip_image_metadata: false
+  typing:
+    send:
+      global: false
+)yaml")))
+        return expect(false, "persisted-config-bools fixture can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance available for coverage test");
+
+    const auto &store = settings->coreStore();
+    bool ok           = true;
+    for (const auto &c : kCases) {
+        const auto loaded = store.valueAs<bool>(c.id);
+        if (!loaded.has_value()) {
+            std::cerr << "FAILED: '" << c.label
+                      << "' did not populate coreStore after load; if you just added this "
+                         "setting, also add a matching settings.set<Name>(snapshot...) call "
+                         "in SettingsSerializerConfigLoad.cpp.\n";
+            ok = false;
+            continue;
+        }
+        if (*loaded != c.expectedAfterLoad) {
+            std::cerr << "FAILED: '" << c.label << "' loaded as "
+                      << (*loaded ? "true" : "false") << " but fixture wrote "
+                      << (c.expectedAfterLoad ? "true" : "false") << '\n';
+            ok = false;
+        }
+    }
+    return ok;
+}
+
 bool
 testConfigSchemaCoverageAndKeyUniqueness()
 {
@@ -1880,6 +2160,8 @@ main()
                        testControllerResolvesProfilePathsPerProfile);
     ok &= runNamedTest("testConstrainedIntSettersRejectInvalidUpdates",
                        testConstrainedIntSettersRejectInvalidUpdates);
+    ok &= runNamedTest("testPersistedConfigBoolsAreLoadedFromConfigYaml",
+                       testPersistedConfigBoolsAreLoadedFromConfigYaml);
     ok &= runNamedTest("testConfigSchemaCoverageAndKeyUniqueness",
                        testConfigSchemaCoverageAndKeyUniqueness);
 

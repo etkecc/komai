@@ -2492,7 +2492,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Nama profil diperlukan.</translation>

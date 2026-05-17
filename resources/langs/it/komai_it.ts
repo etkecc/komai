@@ -2496,7 +2496,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Il nome del profilo è obbligatorio.</translation>

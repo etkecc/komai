@@ -9,6 +9,7 @@
 
 #include "emoji/EmojiNormalize.h"
 #include "emoji/EmoticonReplace.h"
+#include "komai-rust-cxxbridge/ffi.h"
 #include "utils/Utils.h"
 
 #include <QApplication>
@@ -451,6 +452,22 @@ Komai::nextGraphemeBoundary(const QString &text, int position)
     finder.setPosition(position);
     const int next = finder.toNextBoundary();
     return next < 0 ? text.length() : next;
+}
+
+bool
+Komai::composerTriggerAtWordBoundary(const QString &text, int triggerPos)
+{
+    if (triggerPos <= 0)
+        return true;
+    const int utf16Index = std::min(triggerPos, static_cast<int>(text.size()));
+    // Convert the UTF-16 prefix to UTF-8 so Rust sees the same code-point
+    // span. left() handles a position landing on a low surrogate by
+    // dropping the unpaired half — the Rust side then treats the resulting
+    // replacement char as a non-word boundary.
+    const QByteArray prefixUtf8 = text.left(utf16Index).toUtf8();
+    return komai::rust::composer_trigger_at_word_boundary(
+      ::rust::Str(prefixUtf8.constData(), static_cast<size_t>(prefixUtf8.size())),
+      static_cast<size_t>(prefixUtf8.size()));
 }
 
 QString

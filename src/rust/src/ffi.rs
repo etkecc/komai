@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+pub(crate) use crate::composer_trigger::trigger_at_word_boundary as composer_trigger_at_word_boundary;
 pub(crate) use crate::emoji::emoji_only_visual_count;
 pub(crate) use crate::logging::{init_logging, log_from_cpp};
 pub(crate) use crate::matrix_backend::ffi::*;
@@ -1600,6 +1601,8 @@ mod bridge {
         fn spellcheck_add_word(word: &str);
 
         fn emoji_only_visual_count(body: &str) -> i32;
+
+        fn composer_trigger_at_word_boundary(text: &str, trigger_byte_pos: usize) -> bool;
 
         fn html_sanitize(html: &str) -> String;
         fn html_linkify(html: &str) -> String;

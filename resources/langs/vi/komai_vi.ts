@@ -2492,7 +2492,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Tên hồ sơ là bắt buộc.</translation>

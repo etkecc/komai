@@ -139,6 +139,13 @@ public:
     //! sequence, or skin-tone modifier) rather than a single UTF-16 code unit.
     Q_INVOKABLE static int previousGraphemeBoundary(const QString &text, int position);
     Q_INVOKABLE static int nextGraphemeBoundary(const QString &text, int position);
+    //! Used by the composer to decide whether a freshly-typed `:`, `@`, `#`,
+    //! or `~` at `triggerPos` sits at a word boundary and should open the
+    //! inline picker. Returns false (mid-word) when the preceding code-point
+    //! is a Unicode letter, digit, or underscore — e.g. inside an email
+    //! address `user@example.com` or shortcut `test:value`. Anything else
+    //! (whitespace, punctuation, emoji, start of input) is a boundary.
+    Q_INVOKABLE static bool composerTriggerAtWordBoundary(const QString &text, int triggerPos);
     Q_INVOKABLE QColor readableAccentTextColor(QColor accentColor, QColor backgroundColor) const;
     Q_INVOKABLE QString humanReadableFileSize(qulonglong bytes) const;
     Q_INVOKABLE QString fileTypeIconSource(const QString &mimeType) const;

@@ -2500,7 +2500,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Numele profilului este obligatoriu.</translation>

@@ -1614,14 +1614,14 @@ Rectangle {
                     const triggerPos = selectionStart - 1;
                     const type = messageInput.completerTypeForTrigger(lastChar, triggerPos);
                     if (type !== "") {
-                        const charBefore = triggerPos > 0 ? text.charAt(triggerPos - 1) : '';
-                        const atWordBoundary = triggerPos === 0
-                            || charBefore === ' '
-                            || charBefore === '\t'
-                            || charBefore === '\n'
-                            || charBefore === '\r'
-                            || charBefore === '\u3000';
-                        if (type === "command" || atWordBoundary)
+                        // Don't open mid-word (e.g. inside `user@example.com`
+                        // or `test:value`). The boundary check lives in Rust
+                        // so it can handle whitespace, punctuation, and
+                        // emoji-cluster surrogates uniformly: typing `:`
+                        // immediately after an inserted emoji must still
+                        // open the picker.
+                        if (type === "command"
+                            || Komai.composerTriggerAtWordBoundary(text, triggerPos))
                             messageInput.openCompleter(triggerPos, type);
                     } else if (insertedLength > 1) {
                         messageInput.maybeOpenCompleterForTrailingTokenAfterBulkInsert();

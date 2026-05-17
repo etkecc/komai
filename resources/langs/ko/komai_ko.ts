@@ -2492,7 +2492,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+527"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>프로필 이름이 필요합니다.</translation>

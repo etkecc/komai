@@ -937,7 +937,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Ver Definições da Sala -&gt; Definições de Stickers e Emotes.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notificar toda a sala</translation>
     </message>

@@ -936,7 +936,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>방 설정 -&gt; 스티커 &amp; 이모트 설정을 참조하세요.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>방 전체에 알림</translation>
     </message>

@@ -938,7 +938,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Videti Podešavanja sobe -&gt; Podešavanja nalepnica i emotikona.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Obavesti celu sobu</translation>
     </message>

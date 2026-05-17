@@ -937,7 +937,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Виж Настройки на стаята -&gt; Настройки за стикери и емоти.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Извести цялата стая</translation>
     </message>

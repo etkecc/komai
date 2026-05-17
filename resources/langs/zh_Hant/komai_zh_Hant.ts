@@ -936,7 +936,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>請參閱聊天室設定 -&gt; 貼圖與表情設定。</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>通知整個聊天室</translation>
     </message>

@@ -941,7 +941,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>انظر إعدادات الغرفة -&gt; إعدادات الملصقات والرموز التعبيرية.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>إشعار الغرفة بأكملها</translation>
     </message>

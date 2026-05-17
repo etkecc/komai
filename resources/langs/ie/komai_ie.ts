@@ -937,7 +937,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Vider Parametres del Chambre -&gt; Parametres de Sticker &amp; Emote.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notificar tut li chambre</translation>
     </message>

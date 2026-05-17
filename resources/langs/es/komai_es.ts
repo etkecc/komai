@@ -938,7 +938,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Consulta Ajustes de sala -&gt; Ajustes de stickers y emotes.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notificar a toda la sala</translation>
     </message>

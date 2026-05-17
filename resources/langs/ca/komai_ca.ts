@@ -937,7 +937,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Consulta Configuració de la sala -&gt; Configuració d'adhesius i emotes.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notifica tota la sala</translation>
     </message>

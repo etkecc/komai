@@ -937,7 +937,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>മുറി ക്രമീകരണങ്ങൾ -&gt; സ്റ്റിക്കർ &amp; ഇമോട്ട് ക്രമീകരണങ്ങൾ കാണുക.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>മുഴുവൻ മുറിയെയും അറിയിക്കുക</translation>
     </message>

@@ -937,7 +937,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Se Ruminställningar -&gt; Klisterbild &amp; Emote-inställningar.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Meddela hela rummet</translation>
     </message>

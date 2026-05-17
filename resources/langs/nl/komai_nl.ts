@@ -937,7 +937,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Zie Kamerinstellingen -&gt; Sticker- en emote-instellingen.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>De hele kamer informeren</translation>
     </message>

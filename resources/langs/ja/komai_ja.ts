@@ -936,7 +936,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ルーム設定 -&gt; ステッカーとエモート設定 を参照してください。</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>ルーム全体に通知する</translation>
     </message>

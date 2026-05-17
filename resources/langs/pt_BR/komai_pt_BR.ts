@@ -937,7 +937,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Veja Configurações da sala -&gt; Configurações de figurinhas e emotes.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notificar toda a sala</translation>
     </message>

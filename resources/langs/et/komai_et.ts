@@ -937,7 +937,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Vaata Jututoa seaded -&gt; Kleebise ja emotikoni seaded.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Teavita kogu jututuba</translation>
     </message>

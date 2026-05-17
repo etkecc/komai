@@ -938,7 +938,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Patrz Ustawienia pokoju -&gt; Ustawienia naklejek &amp; emotek.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Powiadom cały pokój</translation>
     </message>

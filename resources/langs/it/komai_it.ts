@@ -937,7 +937,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Vedi Impostazioni stanza -&gt; Impostazioni sticker e emoji.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notifica tutta la stanza</translation>
     </message>

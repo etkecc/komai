@@ -936,7 +936,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Lihat Pengaturan Ruangan -&gt; Pengaturan Stiker &amp; Emote.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Beri tahu seluruh ruangan</translation>
     </message>

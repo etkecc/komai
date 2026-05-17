@@ -443,7 +443,6 @@ Control {
 
                     anchors.fill: parent
                     anchors.margins: popup.rowMargin
-                    enabled: false
                     roleValue: popup.completerType === "customEmoji"
                         ? "emoji"
                         : popup.completerType === "user-mxid"

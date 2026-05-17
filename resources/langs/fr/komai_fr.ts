@@ -937,7 +937,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Voir Paramètres du salon -&gt; Paramètres des autocollants et émoticônes.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notifier tout le salon</translation>
     </message>

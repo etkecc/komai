@@ -938,7 +938,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Accesează Setările camerei -&gt; Setări stickere și emote-uri.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Notifică întreaga cameră</translation>
     </message>

@@ -938,7 +938,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Viz Nastavení místnosti -&gt; Nastavení nálepek a emotikonů.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Upozornit celou místnost</translation>
     </message>

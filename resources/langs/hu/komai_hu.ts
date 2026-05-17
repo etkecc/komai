@@ -936,7 +936,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Lásd: Szoba beállítások -&gt; Matrica és emote beállítások.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Az egész szoba értesítése</translation>
     </message>

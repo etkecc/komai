@@ -936,7 +936,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>به تنظیمات اتاق -&gt; تنظیمات استیکر و ایموجی مراجعه کنید.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>اطلاع‌رسانی به کل اتاق</translation>
     </message>

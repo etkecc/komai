@@ -937,7 +937,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Siehe Raumeinstellungen → Sticker- &amp; Emote-Einstellungen.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Den ganzen Raum benachrichtigen</translation>
     </message>

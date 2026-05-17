@@ -936,7 +936,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Oda Ayarları -&gt; Çıkartma ve İfade Ayarları'na bakın.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Tüm odayı bildir</translation>
     </message>

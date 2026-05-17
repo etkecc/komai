@@ -937,7 +937,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>කාමරය සැකසුම් -&gt; ස්ටිකර් සහ ඉමෝටේ සැකසුම් බලන්න.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>සම්පූර්ණ කාමරයට දැනුම් දෙන්න</translation>
     </message>

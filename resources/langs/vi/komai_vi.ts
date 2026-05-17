@@ -936,7 +936,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Xem Cài đặt phòng -&gt; Cài đặt nhãn dán &amp; biểu cảm.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Thông báo toàn bộ phòng</translation>
     </message>

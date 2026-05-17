@@ -937,7 +937,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Vidu Ĉambrajn Agordojn -&gt; Glumarko- kaj Emoto-Agordoj.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Sciigi la tutan ĉambron</translation>
     </message>

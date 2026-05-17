@@ -938,7 +938,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Перейди в Настройки комнаты → Настройки стикеров и эмодзи.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Уведомить всю комнату</translation>
     </message>

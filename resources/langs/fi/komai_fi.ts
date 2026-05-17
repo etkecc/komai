@@ -937,7 +937,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Katso Huoneen asetukset -&gt; Tarra- &amp; emote-asetukset.</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+178"/>
         <source>Notify the whole room</source>
         <translation>Ilmoita koko huoneelle</translation>
     </message>

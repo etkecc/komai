@@ -424,6 +424,73 @@ Item {
             }
         }
 
+        // Drag-select initiator for non-litehtml bubbles (#124). Attaching
+        // these to the bubble itself (rather than the row-wide
+        // `selectionToggleSurface` overlay at z:30) keeps the press visible
+        // to delegate-internal MouseAreas like the one in `MediaImageSurface`
+        // that opens the media viewer on click. With this nesting:
+        //   - Press on the image: MouseArea (deepest) takes the exclusive
+        //     grab; the DragHandler here observes via a passive grab.
+        //   - Release without movement: MouseArea's onClicked fires →
+        //     viewer opens.
+        //   - Movement past `dragThreshold`: DragHandler steals the grab
+        //     and drives `MatrixRoomWalkModeSupport`'s drag-select.
+        //
+        // Text bubbles (litehtml) drive the same gesture from inside
+        // `LitehtmlItem`, so these handlers gate off via `mainHasLitehtml`.
+        //
+        // Split into two so the press-time modifier state can drive the
+        // additive-vs-replace decision: `acceptedModifiers` filters which
+        // presses each handler sees, so a gesture that activates
+        // `bubbleDragSelectAdditive` is by construction a modifier-held drag.
+        DragHandler {
+            id: bubbleDragSelect
+
+            target: null
+            acceptedButtons: Qt.LeftButton
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+            acceptedModifiers: Qt.NoModifier
+            dragThreshold: 12
+            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
+
+            onActiveChanged: {
+                if (active) {
+                    root.wrapper.handleDragSelectBegan(0);
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                } else {
+                    root.wrapper.handleDragSelectEnded();
+                }
+            }
+            onCentroidChanged: {
+                if (active)
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+            }
+        }
+
+        DragHandler {
+            id: bubbleDragSelectAdditive
+
+            target: null
+            acceptedButtons: Qt.LeftButton
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+            acceptedModifiers: Qt.ControlModifier | Qt.MetaModifier | Qt.ShiftModifier
+            dragThreshold: 12
+            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
+
+            onActiveChanged: {
+                if (active) {
+                    root.wrapper.handleDragSelectBegan(Qt.ControlModifier);
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                } else {
+                    root.wrapper.handleDragSelectEnded();
+                }
+            }
+            onCentroidChanged: {
+                if (active)
+                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+            }
+        }
+
         Binding {
             target: root.wrapper.main
             property: "roomAdapter"
@@ -819,69 +886,6 @@ Item {
             }
         }
 
-        // Row-level drag-select initiator for non-litehtml bubbles (#124).
-        // Text bubbles drive the same gesture from inside `LitehtmlItem`
-        // (which already owns the press for text selection), so these
-        // handlers disable themselves there to avoid two handlers fighting
-        // over the grab. DragHandler is passive on press and only activates
-        // after movement past `dragThreshold`, so plain clicks on
-        // images/files/etc. still reach their own click handlers.
-        //
-        // Split into two handlers so the press-time modifier state can drive
-        // the additive-vs-replace decision in the walk-mode controller:
-        // PointerHandler/HandlerPoint doesn't expose `modifiers` to QML, but
-        // `acceptedModifiers` filters which presses each handler sees — so a
-        // gesture that activates `rowDragSelectAdditive` is, by construction,
-        // a Ctrl/Meta/Shift-modified drag.
-        DragHandler {
-            id: rowDragSelect
-
-            target: null
-            acceptedButtons: Qt.LeftButton
-            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-            acceptedModifiers: Qt.NoModifier
-            dragThreshold: 12
-            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
-
-            onActiveChanged: {
-                if (active) {
-                    root.wrapper.handleDragSelectBegan(0);
-                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
-                } else {
-                    root.wrapper.handleDragSelectEnded();
-                }
-            }
-            onCentroidChanged: {
-                if (active)
-                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
-            }
-        }
-
-        DragHandler {
-            id: rowDragSelectAdditive
-
-            target: null
-            acceptedButtons: Qt.LeftButton
-            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-            acceptedModifiers: Qt.ControlModifier | Qt.MetaModifier | Qt.ShiftModifier
-            dragThreshold: 12
-            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
-
-            onActiveChanged: {
-                if (active) {
-                    // Any non-zero modifier flag signals "additive" to the
-                    // controller; the exact bit doesn't matter.
-                    root.wrapper.handleDragSelectBegan(Qt.ControlModifier);
-                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
-                } else {
-                    root.wrapper.handleDragSelectEnded();
-                }
-            }
-            onCentroidChanged: {
-                if (active)
-                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
-            }
-        }
     }
 
     Item {

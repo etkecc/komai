@@ -4628,13 +4628,13 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Недопустимое имя профиля: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Явные запуски профилей не поддерживаются в данной среде выполнения.</translation>
     </message>
@@ -4644,7 +4644,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Не удалось определить путь к текущему исполняемому файлу для создания запускателя.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Нельзя удалить активный профиль из данного экземпляра.</translation>
     </message>

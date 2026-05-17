@@ -4621,13 +4621,13 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Vigane profiili nimi: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Selged profiili käivitajad ei ole selles käituskeskkonnas toetatud.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
         <translation>Käivitaja loomiseks ei suudeta praegust käivitatava faili asukohta tuvastada.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Praegu aktiivset profiili ei saa sellest instantsist kustutada.</translation>
     </message>

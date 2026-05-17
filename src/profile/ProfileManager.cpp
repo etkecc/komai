@@ -227,6 +227,16 @@ ensureProfileDesktopLauncher(QStringView profileId, QString *errorOut)
     return true;
 }
 
+namespace {
+QString g_pendingForwardedMatrixUri;
+}
+
+void
+setPendingForwardedMatrixUri(QString uri)
+{
+    g_pendingForwardedMatrixUri = std::move(uri);
+}
+
 bool
 launchProfileDetached(QStringView profileId, QString *errorOut)
 {
@@ -237,7 +247,12 @@ launchProfileDetached(QStringView profileId, QString *errorOut)
         return false;
     }
 
-    return launchDetached({QStringLiteral("-p"), normalized}, errorOut);
+    QStringList arguments{QStringLiteral("-p"), normalized};
+    QString forwardedUri;
+    forwardedUri.swap(g_pendingForwardedMatrixUri);
+    if (!forwardedUri.isEmpty())
+        arguments.append(forwardedUri);
+    return launchDetached(arguments, errorOut);
 }
 
 bool

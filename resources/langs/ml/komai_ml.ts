@@ -4621,13 +4621,13 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>അസാധുവായ പ്രൊഫൈൽ നാമം: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>ഈ റൺടൈമിൽ വ്യക്തമായ പ്രൊഫൈൽ ലോഞ്ചറുകൾ പിന്തുണയ്ക്കുന്നില്ല.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>ലോഞ്ചർ സൃഷ്ടിക്കുന്നതിന് നിലവിലെ എക്‌സിക്യൂട്ടബിൾ പാത നിർണ്ണയിക്കാൻ കഴിയുന്നില്ല.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>നിലവിൽ സജീവമായ പ്രൊഫൈൽ ഈ ഇൻസ്റ്റൻസിൽ നിന്ന് ഇല്ലാതാക്കാൻ കഴിയില്ല.</translation>
     </message>

@@ -4621,13 +4621,13 @@ Esegui '%1 &lt;group&gt; --help' per dettagli sui sottocomandi.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nome profilo non valido: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>I launcher di profilo espliciti non sono supportati in questo runtime.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Esegui '%1 &lt;group&gt; --help' per dettagli sui sottocomandi.</translation>
         <translation>Impossibile determinare il percorso dell'eseguibile corrente per la creazione del launcher.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Impossibile eliminare il profilo attualmente attivo da questa istanza.</translation>
     </message>

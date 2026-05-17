@@ -500,7 +500,7 @@ app::runMainApplication(int argc, char *argv[])
       &singleapp,
       &KDSingleApplication::messageReceived,
       ChatPage::instance(),
-      [&](QByteArray message) {
+      [&, showStartupProfileSelector](QByteArray message) {
           if (message.isEmpty() || message.startsWith("activate")) {
               auto token = message.remove(0, sizeof("activate") - 1);
               if (!token.isEmpty()) {
@@ -513,20 +513,33 @@ app::runMainApplication(int argc, char *argv[])
               w.requestActivate();
           } else {
               QString m = QString::fromUtf8(message);
-              ChatPage::instance()->tryHandleMatrixUri(m);
+              if (showStartupProfileSelector) {
+                  // Selector has no backend, so dispatching the URI here is a no-op.
+                  // Stash it so the spawned profile process picks it up.
+                  profile_manager::setPendingForwardedMatrixUri(m);
+              } else {
+                  ChatPage::instance()->tryHandleMatrixUri(m);
+              }
           }
       },
       Qt::QueuedConnection);
 
     QMetaObject::Connection uriConnection;
     if (singleapp.isPrimaryInstance() && !matrixUri.isEmpty()) {
-        uriConnection = QObject::connect(ChatPage::instance(),
-                                         &ChatPage::contentLoaded,
-                                         ChatPage::instance(),
-                                         [&uriConnection, matrixUri]() {
-                                             ChatPage::instance()->tryHandleMatrixUri(matrixUri);
-                                             QObject::disconnect(uriConnection);
-                                         });
+        if (showStartupProfileSelector) {
+            // contentLoaded never fires in selector mode; forward the URI to
+            // the profile process that will be spawned when the user picks one.
+            profile_manager::setPendingForwardedMatrixUri(matrixUri);
+        } else {
+            uriConnection =
+              QObject::connect(ChatPage::instance(),
+                               &ChatPage::contentLoaded,
+                               ChatPage::instance(),
+                               [&uriConnection, matrixUri]() {
+                                   ChatPage::instance()->tryHandleMatrixUri(matrixUri);
+                                   QObject::disconnect(uriConnection);
+                               });
+        }
     }
     QDesktopServices::setUrlHandler(
       QStringLiteral("matrix"), ChatPage::instance(), "tryHandleMatrixUri");

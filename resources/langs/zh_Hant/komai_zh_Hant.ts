@@ -4614,13 +4614,13 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>無效的設定檔名稱：%1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>此執行環境不支援明確的設定檔啟動器。</translation>
     </message>
@@ -4630,7 +4630,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>無法確定目前的可執行檔路徑以建立啟動器。</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>無法從此實例刪除目前使用中的設定檔。</translation>
     </message>

@@ -4621,13 +4621,13 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Ongeldige profielnaam: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Expliciete profiellanceerders worden niet ondersteund in deze runtime.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
         <translation>Kan het huidige uitvoerbare pad niet bepalen voor het aanmaken van de lanceerder.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Het momenteel actieve profiel kan niet worden verwijderd vanuit deze instantie.</translation>
     </message>

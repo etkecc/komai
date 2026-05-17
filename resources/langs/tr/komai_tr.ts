@@ -4614,13 +4614,13 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Geçersiz profil adı: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Bu çalışma zamanında açık profil başlatıcılar desteklenmiyor.</translation>
     </message>
@@ -4630,7 +4630,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Başlatıcı oluşturmak için geçerli çalıştırılabilir yol belirlenemiyor.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Bu örnekten şu anda etkin profil silinemiyor.</translation>
     </message>

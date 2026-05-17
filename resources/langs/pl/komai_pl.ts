@@ -4629,13 +4629,13 @@ Uruchom '%1 &lt;group&gt; --help', aby uzyskać szczegóły podkomendy.</transla
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nieprawidłowa nazwa profilu: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Jawne programy uruchamiające profile nie są obsługiwane w tym środowisku uruchomieniowym.</translation>
     </message>
@@ -4645,7 +4645,7 @@ Uruchom '%1 &lt;group&gt; --help', aby uzyskać szczegóły podkomendy.</transla
         <translation>Nie można określić bieżącej ścieżki pliku wykonywalnego do tworzenia programu uruchamiającego.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Nie można usunąć aktualnie aktywnego profilu z tej instancji.</translation>
     </message>

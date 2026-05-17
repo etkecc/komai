@@ -4621,13 +4621,13 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nomine de profil invalid: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Launchers de profil explicit ne es supportat in ti runtime.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Impossibil determinar li via del executabil actual por creation de launcher.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Ne es possible deleter li currentmen active profil de ti instance.</translation>
     </message>

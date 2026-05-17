@@ -4614,13 +4614,13 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nama profil tidak valid: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Peluncur profil eksplisit tidak didukung di runtime ini.</translation>
     </message>
@@ -4630,7 +4630,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Tidak dapat menentukan jalur executable saat ini untuk pembuatan peluncur.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Tidak dapat menghapus profil yang sedang aktif dari instans ini.</translation>
     </message>

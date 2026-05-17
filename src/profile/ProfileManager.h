@@ -48,6 +48,14 @@ launchProfileDetached(QStringView profileId, QString *errorOut = nullptr);
 bool
 launchStartupSelectorDetached(QString *errorOut = nullptr);
 
+//! Stash a `matrix:` URI captured at startup (or via single-instance IPC) so
+//! the next `launchProfileDetached()` call forwards it to the spawned
+//! process. The slot is cleared on read. Used by the profile selector to keep
+//! a URI received via the OS URL handler from being dropped when the user
+//! picks a profile.
+void
+setPendingForwardedMatrixUri(QString uri);
+
 bool
 deleteProfile(QStringView profileId,
               QStringView currentProfileId,

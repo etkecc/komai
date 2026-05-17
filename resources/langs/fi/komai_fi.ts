@@ -4621,13 +4621,13 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Virheellinen profiilin nimi: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Tämä suoritusympäristö ei tue eksplisiittisiä profiilikäynnistimiä.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
         <translation>Nykyistä suoritettavan tiedoston polkua ei voida määrittää käynnistimen luomista varten.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Aktiivisena käytössä olevaa profiilia ei voi poistaa tästä instanssista.</translation>
     </message>

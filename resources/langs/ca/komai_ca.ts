@@ -4621,13 +4621,13 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nom de perfil no vàlid: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Els llançadors de perfil explícits no estan admesos en aquest entorn d'execució.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>No s'ha pogut determinar el camí de l'executable actual per a la creació del llançador.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>No es pot eliminar el perfil actiu actualment des d'aquesta instància.</translation>
     </message>

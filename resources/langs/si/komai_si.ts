@@ -4621,13 +4621,13 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>අවලංගු ප්‍රොෆයිල් නාමය: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>මෙම ධාවන කාලය තුළ ස්පෂ්ට ප්‍රොෆයිල් ගවේෂක සහාය නොදේ.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>ගවේෂකය නිර්මාණය සඳහා වත්මන් ක්‍රියාත්මක කළ හැකි මාර්ගය නිර්ණය කළ නොහැක.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>මෙම අවස්ථාවෙන් දැනට ක්‍රියාත්මක ප්‍රොෆයිල් මකා දැමිය නොහැක.</translation>
     </message>

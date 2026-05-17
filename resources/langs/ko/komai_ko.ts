@@ -4614,13 +4614,13 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>잘못된 프로필 이름: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>이 런타임에서는 명시적 프로필 런처가 지원되지 않습니다.</translation>
     </message>
@@ -4630,7 +4630,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>런처 생성을 위한 현재 실행 파일 경로를 확인할 수 없습니다.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>현재 인스턴스에서 활성 프로필을 삭제할 수 없습니다.</translation>
     </message>

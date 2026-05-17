@@ -4614,13 +4614,13 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>نام پروفایل نامعتبر: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>اجراکننده‌های صریح پروفایل در این محیط اجرا پشتیبانی نمی‌شوند.</translation>
     </message>
@@ -4630,7 +4630,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>تعیین مسیر فایل اجرایی جاری برای ایجاد اجراکننده ممکن نیست.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>پروفایل فعال در حال اجرا را نمی‌توان از این نمونه حذف کرد.</translation>
     </message>

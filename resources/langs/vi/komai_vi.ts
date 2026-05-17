@@ -4614,13 +4614,13 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Tên hồ sơ không hợp lệ: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Trình khởi chạy hồ sơ tường minh không được hỗ trợ trong môi trường chạy này.</translation>
     </message>
@@ -4630,7 +4630,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
         <translation>Không thể xác định đường dẫn tệp thực thi hiện tại để tạo trình khởi chạy.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Không thể xóa hồ sơ đang hoạt động từ phiên bản này.</translation>
     </message>

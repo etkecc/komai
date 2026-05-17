@@ -4621,13 +4621,13 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nevalida profil-nomo: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Eksplicitaj profil-lanĉiloj ne estas subtenataj en ĉi tiu ruliga medio.</translation>
     </message>
@@ -4637,7 +4637,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
         <translation>Ne eblas determini la nunan ruligeblan vojon por la kreado de lanĉilo.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Ne eblas forigi la nun aktivan profilon el ĉi tiu instanco.</translation>
     </message>

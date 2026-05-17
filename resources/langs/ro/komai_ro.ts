@@ -4628,13 +4628,13 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nume de profil invalid: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Lansatoarele explicite de profil nu sunt acceptate în acest runtime.</translation>
     </message>
@@ -4644,7 +4644,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
         <translation>Nu s-a putut determina calea executabilului curent pentru crearea lansatorului.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Nu se poate șterge profilul activ curent din această instanță.</translation>
     </message>

@@ -4614,13 +4614,13 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>无效的配置文件名称：%1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>此运行时不支持显式配置文件启动器。</translation>
     </message>
@@ -4630,7 +4630,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>无法确定当前可执行文件路径以创建启动器。</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>无法从此实例删除当前活动的配置文件。</translation>
     </message>

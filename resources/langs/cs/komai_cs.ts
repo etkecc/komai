@@ -4628,13 +4628,13 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+32"/>
-        <location line="+24"/>
+        <location line="+42"/>
+        <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Neplatný název profilu: %1</translation>
     </message>
     <message>
-        <location line="-47"/>
+        <location line="-62"/>
         <source>Explicit profile launchers are not supported in this runtime.</source>
         <translation>Explicitní profilové spouštěče nejsou v tomto prostředí podporovány.</translation>
     </message>
@@ -4644,7 +4644,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
         <translation>Nelze určit aktuální cestu ke spustitelnému souboru pro vytvoření spouštěče.</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+61"/>
         <source>Cannot delete the currently active profile from this instance.</source>
         <translation>Nelze smazat aktuálně aktivní profil z této instance.</translation>
     </message>

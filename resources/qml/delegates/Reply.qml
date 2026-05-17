@@ -108,9 +108,19 @@ AbstractButton {
             return previewOriginalHeight / previewOriginalWidth;
         return 0.75;
     }
-    readonly property real compactMediaMaxWidth: Math.min(
-        Math.max(64, maxWidth - leftPadding - rightPadding - Komai.paddingMedium * 4),
-        144)
+    readonly property real compactMediaBubbleRoom: Math.max(
+        64, maxWidth - leftPadding - rightPadding - Komai.paddingMedium * 4)
+    // 144 is the thumbnail-size cap for typical reply previews. For banner-shaped
+    // images (aspect wider than 6:1) this cap pins the natural-fit height to a
+    // hair-thin strip (e.g., 1199x56 → 144x7), so lift it and let the image use
+    // the full available bubble width — the height cap (72) still limits overall
+    // size, and the image gains usable vertical pixels.
+    readonly property bool compactMediaIsWideBanner: previewOriginalWidth > 0
+        && previewOriginalHeight > 0
+        && previewOriginalWidth > 6 * previewOriginalHeight
+    readonly property real compactMediaMaxWidth: compactMediaIsWideBanner
+        ? compactMediaBubbleRoom
+        : Math.min(compactMediaBubbleRoom, 144)
     readonly property real compactMediaMaxHeight: limitHeight ? 56 : 72
     readonly property int compactMediaWidth: {
         if (previewOriginalWidth > 0 && previewOriginalHeight > 0) {
@@ -122,12 +132,16 @@ AbstractButton {
 
         return Math.round(Math.max(56, compactMediaMaxHeight / previewSafeProportionalHeight));
     }
+    // Asymmetric floor: keep width >= 40 so tall/narrow images stay recognizable
+    // next to caption text in the row. Height floor stays modest (16) since wide
+    // banners now take full bubble width and naturally gain height; the floor
+    // only catches super-extreme aspects in narrow bubbles.
     readonly property int compactMediaHeight: {
         if (previewOriginalWidth > 0 && previewOriginalHeight > 0) {
             const scale = Math.min(compactMediaMaxWidth / previewOriginalWidth,
                                    compactMediaMaxHeight / previewOriginalHeight,
                                    1.0);
-            return Math.max(40, Math.round(previewOriginalHeight * scale));
+            return Math.max(16, Math.round(previewOriginalHeight * scale));
         }
 
         return Math.round(compactMediaMaxHeight);
@@ -484,7 +498,7 @@ AbstractButton {
                         anchors.fill: parent
                         asynchronous: true
                         cache: true
-                        fillMode: Image.PreserveAspectCrop
+                        fillMode: Image.PreserveAspectFit
                         horizontalAlignment: Image.AlignHCenter
                         verticalAlignment: Image.AlignVCenter
                         smooth: true

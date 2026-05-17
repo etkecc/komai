@@ -705,6 +705,8 @@ Item {
         // emit `clickedWithCtrlOrMeta` / `clickedWithShift` themselves from
         // inside `LitehtmlItem`, so the press flows through to the litehtml
         // and text-selection drag isn't pre-empted by the TapHandlers above.
+        // For litehtml rows, the empty space *beside* the bubble is covered
+        // by the two gutter Items below.
         TapHandler {
             acceptedButtons: Qt.LeftButton
             acceptedModifiers: Qt.ControlModifier
@@ -738,6 +740,82 @@ Item {
 
             onSingleTapped: {
                 root.wrapper.handleMouseSelectionRangeTo();
+            }
+        }
+
+        // Gutter-only modifier-click handlers for litehtml rows. The row-level
+        // TapHandlers above can't cover the bubble on these rows without
+        // grabbing the press out from under the litehtml's text-selection
+        // drag, so they're disabled there. These two Items pick up the slack
+        // by claiming the empty space beside the bubble (left + right of it,
+        // including the avatar column on whichever side). The bubble itself
+        // has no handler overlay — `LitehtmlItem` emits its own
+        // `clickedWithCtrlOrMeta` / `clickedWithShift` for in-bubble clicks.
+        //
+        // `messageBubble.x` is in `root` coords; `selectionToggleSurface.x`
+        // is `-root.x`, so a point at `root` coord X sits at
+        // `X - (-root.x)` = `X + root.x` inside the surface.
+        Item {
+            id: bubbleGutterLeft
+
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            width: Math.max(0, messageBubble.x + root.x)
+            enabled: !root.perfDisableTimelineInteraction && root.mainHasLitehtml
+
+            TapHandler {
+                acceptedButtons: Qt.LeftButton
+                acceptedModifiers: Qt.ControlModifier
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: root.wrapper.handleMouseSelectionToggle()
+            }
+            TapHandler {
+                acceptedButtons: Qt.LeftButton
+                acceptedModifiers: Qt.MetaModifier
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: root.wrapper.handleMouseSelectionToggle()
+            }
+            TapHandler {
+                acceptedButtons: Qt.LeftButton
+                acceptedModifiers: Qt.ShiftModifier
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: root.wrapper.handleMouseSelectionRangeTo()
+            }
+        }
+
+        Item {
+            id: bubbleGutterRight
+
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            width: Math.max(0, parent.width - (messageBubble.x + messageBubble.width + root.x))
+            enabled: !root.perfDisableTimelineInteraction && root.mainHasLitehtml
+
+            TapHandler {
+                acceptedButtons: Qt.LeftButton
+                acceptedModifiers: Qt.ControlModifier
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: root.wrapper.handleMouseSelectionToggle()
+            }
+            TapHandler {
+                acceptedButtons: Qt.LeftButton
+                acceptedModifiers: Qt.MetaModifier
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: root.wrapper.handleMouseSelectionToggle()
+            }
+            TapHandler {
+                acceptedButtons: Qt.LeftButton
+                acceptedModifiers: Qt.ShiftModifier
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onSingleTapped: root.wrapper.handleMouseSelectionRangeTo()
             }
         }
 

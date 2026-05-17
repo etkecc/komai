@@ -28,6 +28,8 @@ By default, a new drag replaces any prior selection, the same way a new drag in 
 
 The same drag also works on non-text bubbles (images, files, voice messages, and so on). For those, the drag begins after a short movement so a plain click still opens the image, plays the audio, or invokes whatever the bubble normally does.
 
+The drag gesture can be turned off in **[Settings](../settings/README.md) → Timeline → Drag to select messages**. It's on by default. With it off, the click-based paths below (Ctrl/Shift-click, keyboard entry) still work.
+
 ### Click on individual messages
 
 - `Ctrl+Click` (or `Cmd+Click` on macOS) on a message toggles it in the selection. This is the most direct way to assemble a custom list of messages that aren't next to each other.

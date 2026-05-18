@@ -3206,7 +3206,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
         <source>Settings...</source>
         <translation>Seaded…</translation>
     </message>

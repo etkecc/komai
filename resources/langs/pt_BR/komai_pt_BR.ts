@@ -3206,7 +3206,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
         <source>Settings...</source>
         <translation>Configurações…</translation>
     </message>

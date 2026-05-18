@@ -56,6 +56,16 @@ public:
     /// proxy mispositions the view (issue #139 walk-mode jumps).
     Q_INVOKABLE int rowForEventId(const QString &eventId) const;
 
+    /// Role-name-keyed dump of the proxy row, matching
+    /// `MatrixTimelineModel::itemAt`'s contract so callers can query the
+    /// ListView's bound model uniformly without caring whether it is the raw
+    /// source or this filter.  Without this the drag-select / walk-mode
+    /// helpers must keep two model identities in sync — `ListView.indexAt`
+    /// returns proxy rows while `itemAt` was only available on the source —
+    /// and mismatching the two skips/selects the wrong rows when collapse
+    /// hides thread replies.
+    Q_INVOKABLE QVariantMap itemAt(int row) const;
+
     bool event(QEvent *ev) override;
 
 signals:

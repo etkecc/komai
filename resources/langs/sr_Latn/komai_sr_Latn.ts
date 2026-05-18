@@ -3211,7 +3211,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
         <source>Settings...</source>
         <translation>Podešavanja…</translation>
     </message>

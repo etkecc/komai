@@ -313,6 +313,20 @@ TimelineFilter::rowForEventId(const QString &eventId) const
     return mapFromSource(src->index(sourceRow, 0)).row();
 }
 
+QVariantMap
+TimelineFilter::itemAt(int row) const
+{
+    QVariantMap itemData;
+    if (row < 0 || row >= rowCount())
+        return itemData;
+
+    const auto idx     = index(row, 0);
+    const auto roleMap = roleNames();
+    for (auto it = roleMap.cbegin(); it != roleMap.cend(); ++it)
+        itemData.insert(QString::fromUtf8(it.value()), data(idx, it.key()));
+    return itemData;
+}
+
 void
 TimelineFilter::setCurrentIndex(int /*idx*/)
 {

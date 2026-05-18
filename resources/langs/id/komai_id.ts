@@ -3201,7 +3201,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+463"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
         <source>Settings...</source>
         <translation>Pengaturan…</translation>
     </message>

@@ -117,19 +117,23 @@ ColumnLayout {
     readonly property bool threadTimelineLoading: TimelineManager.matrixThreadTimelineLoading
     // The MatrixTimelineModel the selection / walk-mode / visible-row helpers
     // must operate on: the thread timeline while a thread is open, the room
-    // timeline otherwise. Both are `komai::MatrixTimelineModel` instances, so
-    // they share the same API (rowForEventId / itemAt / count / rawCount).
+    // timeline otherwise. In the room case the ListView is sometimes bound to
+    // `filteredTimeline` instead of `perRoomModel` (search / collapse-thread-
+    // replies), and the two proxies have different row spaces — proxy row R is
+    // typically a different event than source row R. Selection code must run
+    // against whichever model is on screen, otherwise `ListView.indexAt(...)`
+    // (which returns proxy rows) feeds row numbers that resolve to the wrong
+    // events when looked up against the source (drag-select silently skipped
+    // every "row" it touched when the cursor crossed a collapsed thread root).
     //
-    // Note: in the room case the ListView is sometimes bound to `filteredTimeline`
-    // instead (search / collapse-thread-replies), but the selection code is
-    // designed to walk the *unfiltered* `perRoomModel` and skip filtered-out
-    // rows in JS (see isSelectableMatrixTimelineRow), so `perRoomModel` is the
-    // correct value here. Inside a thread view no such filtering applies.
-    //
-    // Routing every row lookup through this single property keeps selection in
-    // sync with what is actually on screen — querying `perRoomModel` directly
-    // while a thread is open silently desyncs row indices (issue #139).
-    readonly property var activeTimelineModel: threadViewActive ? threadTimelineModel : perRoomModel
+    // Both `MatrixTimelineModel` and `TimelineFilter` expose the same QML API
+    // (rowForEventId / itemAt / count / dataByIndex), so callers can treat
+    // this opaquely. Inside a thread view no filtering applies.
+    readonly property var activeTimelineModel: threadViewActive
+        ? threadTimelineModel
+        : ((filteringRequested || filteredTimeline.collapseThreadReplies)
+            ? filteredTimeline
+            : perRoomModel)
     property int _collapseByRoomRevision: 0
 
 

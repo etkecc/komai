@@ -6022,13 +6022,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Κληρονομούμενο: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Φιλοξενία &amp; URL API</translation>
     </message>
@@ -6078,17 +6078,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Κληρονομούμενο: προεπιλογή παρόχου</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Παράδειγμα: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Παράδειγμα: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Γλώσσα</translation>
     </message>
@@ -9415,7 +9410,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Αφήστε κενό για χρήση λογικής προεπιλογής για τον επιλεγμένο Πάροχο. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Μάθετε περισσότερα&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Αφήστε κενό για αυτόματη ανίχνευση από τον διακομιστή. Διαφορετικά, κωδικός ISO-639-1 (π.χ. en, bg, fr).</translation>
     </message>
@@ -9425,7 +9425,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Παράδειγμα: Ονόματα: Alice, Bob, Carol. Ορολογία: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>Βασικό URL API</translation>
     </message>
@@ -9440,17 +9440,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Εμφάνιση/Απόκρυψη κλειδιού API</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Παράδειγμα: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Παράδειγμα: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Παράδειγμα: en</translation>
     </message>

@@ -6022,13 +6022,13 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Ereditato: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Hosting &amp; URL API</translation>
     </message>
@@ -6078,17 +6078,12 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
         <translation>Ereditato: predefinito del provider</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Esempio: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Esempio: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Lingua</translation>
     </message>
@@ -9415,7 +9410,12 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Lasciare vuoto per usare un valore predefinito appropriato per il Provider selezionato. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Ulteriori informazioni&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Lasciare vuoto per il rilevamento automatico del server. Altrimenti, un codice ISO-639-1 (es. en, bg, fr).</translation>
     </message>
@@ -9425,7 +9425,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Esempio: Nomi: Alice, Bob, Carol. Gergo: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>URL base API</translation>
     </message>
@@ -9440,17 +9440,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Mostra/Nascondi chiave API</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Esempio: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Esempio: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Esempio: en</translation>
     </message>

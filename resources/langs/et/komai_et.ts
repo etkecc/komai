@@ -6022,13 +6022,13 @@ Eelmisi serveripoolseid võtmevarukoopiaid ei eemaldata automaatselt.</translati
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Päritud: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Majutus ja API URL</translation>
     </message>
@@ -6078,17 +6078,12 @@ Eelmisi serveripoolseid võtmevarukoopiaid ei eemaldata automaatselt.</translati
         <translation>Päritud: teenusepakkuja vaikimisi</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Näide: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Näide: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Keel</translation>
     </message>
@@ -9415,7 +9410,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Jäta tühjaks, et kasutada valitud pakkuja mõistlikku vaikeväärtust. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Lisateavet&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Jäta tühjaks, et server tuvastaks automaatselt. Muul juhul ISO-639-1 kood (nt en, bg, fr).</translation>
     </message>
@@ -9425,7 +9425,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Näide: Nimed: Alice, Bob, Carol. Eriterminid: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>API baas-URL</translation>
     </message>
@@ -9440,17 +9440,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Näita/peida API võti</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Näide: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Näide: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Näide: en</translation>
     </message>

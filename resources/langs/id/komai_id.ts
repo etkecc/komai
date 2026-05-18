@@ -6014,13 +6014,13 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Diwarisi: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Hosting &amp; URL API</translation>
     </message>
@@ -6070,17 +6070,12 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <translation>Diwarisi: default penyedia</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Contoh: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Contoh: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Bahasa</translation>
     </message>
@@ -9401,7 +9396,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Kosongkan untuk menggunakan default yang sesuai untuk Penyedia yang dipilih. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Pelajari lebih lanjut&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Kosongkan untuk deteksi otomatis server. Gunakan kode ISO-639-1 (mis. en, bg, fr).</translation>
     </message>
@@ -9411,7 +9411,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Contoh: Nama: Alice, Bob, Carol. Jargon: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>URL dasar API</translation>
     </message>
@@ -9426,17 +9426,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Tampilkan/Sembunyikan kunci API</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Contoh: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Contoh: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Contoh: en</translation>
     </message>

@@ -6022,13 +6022,13 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Ärvt: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Hosting &amp; API-URL</translation>
     </message>
@@ -6078,17 +6078,12 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
         <translation>Ärvt: leverantörens standard</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Exempel: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Exempel: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Språk</translation>
     </message>
@@ -9415,7 +9410,12 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Lämna tomt för att använda ett lämpligt standardvärde för vald leverantör. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Läs mer&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Lämna tomt för automatisk identifiering på servern. Annars en ISO-639-1-kod (t.ex. en, bg, fr).</translation>
     </message>
@@ -9425,7 +9425,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Exempel: Namn: Alice, Bob, Carol. Facktermer: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>API-bas-URL</translation>
     </message>
@@ -9440,17 +9440,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Visa/dölj API-nyckel</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Exempel: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Exempel: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Exempel: en</translation>
     </message>

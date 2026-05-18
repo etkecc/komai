@@ -786,9 +786,10 @@ Item {
                         Layout.topMargin: Komai.paddingSmall
                         Layout.bottomMargin: Komai.paddingMedium
                         text: preferencesTab._resolvedTranscriptionField("model")
-                        placeholderText: preferencesTab._resolvedTranscriptionField("provider") === "openai_realtime"
-                            ? qsTr("Example: gpt-4o-mini-transcribe")
-                            : qsTr("Example: whisper-1")
+                        placeholderText: qsTr("Example: %1").arg(
+                            preferencesTab._resolvedTranscriptionField("provider") === "openai_realtime"
+                                ? "gpt-4o-mini-transcribe"
+                                : "whisper-1")
                         onEditingFinished: {
                             if (!preferencesTab.currentRoomId) return;
                             Settings.setIntegrationsTranscriptionOverrideForRoom(

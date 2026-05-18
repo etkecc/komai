@@ -6022,13 +6022,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Наследено: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>URL за хостинг и API</translation>
     </message>
@@ -6078,17 +6078,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Наследено: стойност по подразбиране на доставчика</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Пример: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Пример: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Език</translation>
     </message>
@@ -9430,17 +9425,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Остави празно, за да се използва разумна стойност по подразбиране за избрания доставчик. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Научи повече&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Пример: gpt-4o-mini-transcribe</translation>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Пример: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location line="+13"/>
         <source>Language</source>
         <translation>Език</translation>
     </message>

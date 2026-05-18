@@ -5993,13 +5993,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation type="unfinished"/>
     </message>
@@ -6049,17 +6049,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
+        <location line="+21"/>
+        <source>Example: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation type="unfinished"/>
     </message>
@@ -9382,7 +9377,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation type="unfinished"/>
     </message>
@@ -9392,7 +9392,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation type="unfinished"/>
     </message>
@@ -9407,17 +9407,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation type="unfinished"/>
     </message>

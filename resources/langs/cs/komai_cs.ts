@@ -6030,13 +6030,13 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Zděděno: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Hosting &amp; API URL</translation>
     </message>
@@ -6086,17 +6086,12 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
         <translation>Zděděno: výchozí hodnota poskytovatele</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Příklad: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Příklad: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
@@ -9429,7 +9424,12 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Ponechte prázdné pro použití rozumného výchozího nastavení zvoleného poskytovatele. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Zjistit více&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Ponechte prázdné pro automatické rozpoznání serverem. Jinak zadejte kód ISO-639-1 (např. en, bg, fr).</translation>
     </message>
@@ -9439,7 +9439,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Příklad: Jména: Alice, Bob, Carol. Žargon: Matrix, Komai, federace.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>Základní URL rozhraní API</translation>
     </message>
@@ -9454,17 +9454,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Zobrazit/Skrýt API klíč</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Příklad: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Příklad: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Příklad: en</translation>
     </message>

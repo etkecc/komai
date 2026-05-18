@@ -6014,13 +6014,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>상속됨: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>호스팅 &amp; API URL</translation>
     </message>
@@ -6070,17 +6070,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>상속됨: 제공자 기본값</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>예시: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>예시: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>언어</translation>
     </message>
@@ -9401,7 +9396,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>비워두면 선택한 제공자의 적절한 기본값을 사용합니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>비워두면 서버가 자동으로 감지합니다. 그렇지 않으면 ISO-639-1 코드를 입력하세요 (예: en, bg, fr).</translation>
     </message>
@@ -9411,7 +9411,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>예시: 이름: Alice, Bob, Carol. 전문 용어: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>API 기본 URL</translation>
     </message>
@@ -9426,17 +9426,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API 키 표시/숨기기</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>예시: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>예시: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>예시: en</translation>
     </message>

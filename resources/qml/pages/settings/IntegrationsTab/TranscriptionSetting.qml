@@ -189,9 +189,10 @@ Item {
             KomaiTextField {
                 width: parent.width
                 text: Settings.integrationsTranscriptionModel
-                placeholderText: Settings.integrationsTranscriptionProvider === "openai_realtime"
-                    ? qsTr("Example: gpt-4o-mini-transcribe")
-                    : qsTr("Example: whisper-1")
+                placeholderText: qsTr("Example: %1").arg(
+                    Settings.integrationsTranscriptionProvider === "openai_realtime"
+                        ? "gpt-4o-mini-transcribe"
+                        : "whisper-1")
                 onEditingFinished: {
                     Settings.integrationsTranscriptionModel = text.trim();
                 }

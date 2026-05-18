@@ -6014,13 +6014,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>継承済：%1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>ホスティング &amp; API URL</translation>
     </message>
@@ -6070,17 +6070,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>継承済：プロバイダーのデフォルト</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>例: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>例: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
@@ -9401,7 +9396,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>空欄にすると選択したプロバイダーの適切なデフォルトを使用します。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;詳細を見る&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>空欄にするとサーバーが自動検出します。それ以外はISO-639-1コードを入力してください（例: en、bg、fr）。</translation>
     </message>
@@ -9411,7 +9411,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>例: 名前: Alice, Bob, Carol。専門用語: Matrix, Komai, federation。</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>APIベースURL</translation>
     </message>
@@ -9426,17 +9426,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>APIキーの表示/非表示</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>例: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>例: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>例: en</translation>
     </message>

@@ -6014,13 +6014,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>继承：%1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>托管和API地址</translation>
     </message>
@@ -6070,17 +6070,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>继承：服务商默认值</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>示例：gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>示例：whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
@@ -9401,7 +9396,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>留空则使用所选提供商的合理默认值。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>留空则由服务器自动检测。否则，请填入 ISO-639-1 代码（如 en、bg、fr）。</translation>
     </message>
@@ -9411,7 +9411,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>示例：姓名：Alice、Bob、Carol。术语：Matrix、Komai、federation。</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>API 基础 URL</translation>
     </message>
@@ -9426,17 +9426,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>显示/隐藏 API 密钥</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>示例：gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>示例：whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>示例：en</translation>
     </message>

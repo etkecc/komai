@@ -6014,13 +6014,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>به ارث رسیده: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>آدرس میزبانی و API</translation>
     </message>
@@ -6070,17 +6070,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>به ارث رسیده: پیش‌فرض ارائه‌دهنده</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>مثال: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>مثال: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>زبان</translation>
     </message>
@@ -9401,7 +9396,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>برای استفاده از پیش‌فرض مناسب برای ارائه‌دهنده انتخابی خالی بگذارید. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;بیشتر بدانید&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>برای تشخیص خودکار سرور خالی بگذارید. در غیر این صورت، یک کد ISO-639-1 (مثلاً en، bg، fr).</translation>
     </message>
@@ -9411,7 +9411,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>مثال: نام‌ها: Alice, Bob, Carol. اصطلاحات: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>آدرس پایه API</translation>
     </message>
@@ -9426,17 +9426,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>نمایش/مخفی کردن کلید API</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>مثال: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>مثال: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>مثال: en</translation>
     </message>

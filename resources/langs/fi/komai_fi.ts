@@ -6022,13 +6022,13 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Peritty: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Isännöinti &amp; API-osoite</translation>
     </message>
@@ -6078,17 +6078,12 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <translation>Peritty: palveluntarjoajan oletus</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Esimerkki: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Esimerkki: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Kieli</translation>
     </message>
@@ -9415,7 +9410,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Jätä tyhjäksi käyttääksesi valitun palveluntarjoajan järkevää oletusta. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Jätä tyhjäksi, jotta palvelin tunnistaa kielen automaattisesti. Muussa tapauksessa anna ISO-639-1-koodi (esim. en, bg, fr).</translation>
     </message>
@@ -9425,7 +9425,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Esimerkki: Nimet: Alice, Bob, Carol. Ammattitermit: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>API:n perusosoite</translation>
     </message>
@@ -9440,17 +9440,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Näytä/piilota API-avain</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Esimerkki: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Esimerkki: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Esimerkki: en</translation>
     </message>

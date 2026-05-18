@@ -6030,13 +6030,13 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+30"/>
         <location line="+89"/>
         <location line="+251"/>
-        <location line="+84"/>
+        <location line="+85"/>
         <location line="+82"/>
         <source>Inherited: %1</source>
         <translation>Унаследовано: %1</translation>
     </message>
     <message>
-        <location line="-450"/>
+        <location line="-451"/>
         <source>Hosting &amp; API URL</source>
         <translation>Хостинг и API URL</translation>
     </message>
@@ -6086,17 +6086,12 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Унаследовано: умолчание провайдера</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Пример: gpt-4o-mini-transcribe</translation>
+        <location line="+21"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Пример: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="+33"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
@@ -9429,7 +9424,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Оставь пустым, чтобы использовать разумное значение по умолчанию для выбранного провайдера. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-choosing-a-model"&gt;Подробнее&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+5"/>
+        <source>Example: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Leave empty to let the server autodetect. Otherwise, an ISO-639-1 code (e.g. en, bg, fr).</source>
         <translation>Оставь пустым для автоопределения сервером. Иначе — код ISO-639-1 (например, en, bg, fr).</translation>
     </message>
@@ -9439,7 +9439,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Пример: Имена: Alice, Bob, Carol. Жаргон: Matrix, Komai, federation.</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-123"/>
         <source>API base URL</source>
         <translation>Базовый URL API</translation>
     </message>
@@ -9454,17 +9454,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Показать/скрыть API-ключ</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Example: gpt-4o-mini-transcribe</source>
-        <translation>Пример: gpt-4o-mini-transcribe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Example: whisper-1</source>
-        <translation>Пример: whisper-1</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+38"/>
         <source>Example: en</source>
         <translation>Пример: en</translation>
     </message>

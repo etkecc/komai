@@ -5141,7 +5141,7 @@ Please go back and sign in manually.</source>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>正在討論串中回覆</translation>
     </message>
@@ -5170,7 +5170,7 @@ Please go back and sign in manually.</source>
         <translation>正在編輯訊息</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>回覆</translation>
     </message>

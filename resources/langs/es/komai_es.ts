@@ -5151,7 +5151,7 @@ Vuelve atrás e inicia sesión manualmente.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Respondiendo en un hilo</translation>
     </message>
@@ -5180,7 +5180,7 @@ Vuelve atrás e inicia sesión manualmente.</translation>
         <translation>Editando un mensaje</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Responder</translation>
     </message>

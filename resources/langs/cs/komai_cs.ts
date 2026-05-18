@@ -5155,7 +5155,7 @@ Vraťte se zpět a přihlaste se ručně.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Odpovídám ve vlákně</translation>
     </message>
@@ -5184,7 +5184,7 @@ Vraťte se zpět a přihlaste se ručně.</translation>
         <translation>Úprava zprávy</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Odpovědět</translation>
     </message>

@@ -5141,7 +5141,7 @@ Lütfen geri gidin ve manuel olarak oturum açın.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Konuda yanıtlanıyor</translation>
     </message>
@@ -5170,7 +5170,7 @@ Lütfen geri gidin ve manuel olarak oturum açın.</translation>
         <translation>Mesaj düzenleniyor</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Yanıtla</translation>
     </message>

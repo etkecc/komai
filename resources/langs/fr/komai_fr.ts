@@ -5148,7 +5148,7 @@ Veuillez revenir en arrière et vous connecter manuellement.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Réponse dans un fil</translation>
     </message>
@@ -5177,7 +5177,7 @@ Veuillez revenir en arrière et vous connecter manuellement.</translation>
         <translation>Modification d'un message</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Répondre</translation>
     </message>

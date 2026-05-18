@@ -7,6 +7,7 @@ import "../delegates/"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import "../components"
 import cc.etke.komai 1.0
 
@@ -43,6 +44,53 @@ Rectangle {
     property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(replyPopup.headerTextHeight * 0.45)
+
+    // ── Per-session resize state ───────────────────────────────────────
+    // The composer's ReplyPopup is a single instance reused across tabs;
+    // composerRoom rebinds when the user switches rooms. We want a user's
+    // drag-resize to:
+    //   - survive switching tabs and coming back (preserve for the active
+    //     reply session in each room);
+    //   - not bleed across rooms;
+    //   - not survive ending the current reply session (cancel or send).
+    // Modelled as a roomId → { replyEventId, extraHeight } map. Looking up
+    // the active room's entry only honours it if the stored replyEventId
+    // still matches the current one; otherwise it's stale (a previous
+    // session that has ended) and treated as 0. No persistence to disk —
+    // app exit drops the map.
+    property var _replyResizeByRoom: ({})
+    readonly property string _activeRoomKey: roomModel
+        ? String(roomModel.roomId || "")
+        : ""
+    readonly property string _activeReplyId: matrixReplyMode
+        ? String(matrixReplyEventId)
+        : (roomModel ? String(roomModel.reply || "") : "")
+    readonly property bool _hasActiveSession: _activeRoomKey.length > 0
+        && _activeReplyId.length > 0
+    readonly property real userExtraHeight: {
+        if (!_hasActiveSession)
+            return 0;
+        const entry = _replyResizeByRoom[_activeRoomKey];
+        return (entry && entry.replyEventId === _activeReplyId)
+            ? entry.extraHeight
+            : 0;
+    }
+    readonly property real maxUserExtraHeight: Math.max(0,
+        (replyPopup.Window.window
+            ? replyPopup.Window.window.height * 0.5
+            : 400))
+
+    function _setUserExtraHeight(value) {
+        if (!_hasActiveSession)
+            return;
+        const clamped = Math.max(0, Math.min(maxUserExtraHeight, value));
+        const newMap = Object.assign({}, _replyResizeByRoom);
+        newMap[_activeRoomKey] = {
+            replyEventId: _activeReplyId,
+            extraHeight: clamped
+        };
+        _replyResizeByRoom = newMap;
+    }
 
     Layout.fillWidth: true
     Layout.minimumHeight: 0
@@ -269,6 +317,7 @@ Rectangle {
                 : roomModel ? TimelineManager.roomUserColor(roomModel.roomId, replyUserId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, previewBaseColor)
             maxWidth: parent.width
             limitHeight: true
+            additionalHeight: replyPopup.userExtraHeight
         }
 
         Reply {
@@ -320,7 +369,53 @@ Rectangle {
                                             replyPopup.matrixReplyPreviewBaseColor)
             maxWidth: parent.width
             limitHeight: true
+            additionalHeight: replyPopup.userExtraHeight
         }
     }
 
+    // ── Top-edge resize handle ──
+    // A thin grab strip at the top edge of the popup. Dragging it up grows
+    // the preview (so long messages can be read in full); releasing or
+    // dragging back down shrinks toward the natural size. Modelled on the
+    // sidebar splitter in AdaptiveLayout.qml — no visible affordance
+    // beyond the cursor change to avoid clashing with the rounded top
+    // corners.
+    Item {
+        id: replyResizeStrip
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: 8
+        z: 10
+        visible: replyPopup.layoutVisible && replyPopup._hasActiveSession
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.SizeVerCursor
+        }
+
+        DragHandler {
+            id: replyResizeDrag
+
+            property real startExtra: 0
+
+            target: null
+            xAxis.enabled: false
+            yAxis.enabled: true
+            grabPermissions: PointerHandler.CanTakeOverFromAnything
+                | PointerHandler.ApprovesTakeOverByHandlersOfSameType
+
+            onActiveChanged: {
+                if (active)
+                    startExtra = replyPopup.userExtraHeight;
+            }
+            onTranslationChanged: {
+                if (!active)
+                    return;
+                // Dragging up (translation.y < 0) grows the popup.
+                replyPopup._setUserExtraHeight(startExtra - translation.y);
+            }
+        }
+    }
 }

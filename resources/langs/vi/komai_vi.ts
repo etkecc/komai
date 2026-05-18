@@ -5141,7 +5141,7 @@ Vui lòng quay lại và đăng nhập thủ công.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Đang trả lời trong chủ đề</translation>
     </message>
@@ -5170,7 +5170,7 @@ Vui lòng quay lại và đăng nhập thủ công.</translation>
         <translation>Đang chỉnh sửa tin nhắn</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Trả lời</translation>
     </message>

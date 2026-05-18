@@ -5155,7 +5155,7 @@ Vrati se i prijavi se ručno.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Odgovaranje u niti</translation>
     </message>
@@ -5184,7 +5184,7 @@ Vrati se i prijavi se ručno.</translation>
         <translation>Uređivanje poruke</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Odgovori</translation>
     </message>

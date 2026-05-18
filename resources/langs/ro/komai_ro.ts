@@ -5155,7 +5155,7 @@ Reveniți și autentificați-vă manual.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Răspuns în fir</translation>
     </message>
@@ -5184,7 +5184,7 @@ Reveniți și autentificați-vă manual.</translation>
         <translation>Editare mesaj</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Răspunde</translation>
     </message>

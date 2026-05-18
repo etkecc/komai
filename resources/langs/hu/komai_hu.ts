@@ -5141,7 +5141,7 @@ Kérjük, lépjen vissza, és jelentkezzen be manuálisan.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Válasz egy szálban</translation>
     </message>
@@ -5170,7 +5170,7 @@ Kérjük, lépjen vissza, és jelentkezzen be manuálisan.</translation>
         <translation>Üzenet szerkesztése</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Válasz</translation>
     </message>

@@ -5148,7 +5148,7 @@ Bonvolu reiri kaj ensaluti permane.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Respondi en fadeno</translation>
     </message>
@@ -5177,7 +5177,7 @@ Bonvolu reiri kaj ensaluti permane.</translation>
         <translation>Redaktado de mesaĝo</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Respondi</translation>
     </message>

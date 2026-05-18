@@ -228,7 +228,12 @@ Pane {
 
     required property int maxWidth
     property bool limitHeight: false
-    readonly property real resolvedContentWidth: Math.max(0, width - leftPadding - rightPadding)
+    // Additional content height (px) that callers can add to the legacy
+    // timelineView/10 ceiling used when limitHeight is true. Lets the
+    // composer's "Replying to ..." popup grow the preview when the user
+    // drags its top edge. Default 0 → behaviour unchanged for all other
+    // callers (timeline bubbles, forward dialog, message actions dialog).
+    property real additionalHeight: 0
 
     TextMetrics {
         id: compactPreviewTextMetrics
@@ -377,7 +382,9 @@ Pane {
         readonly property real previewDelegateHeight: usesCompactMediaPreview
             ? (mediaPreviewLoader.item ? mediaPreviewLoader.item.height : 0)
             : (timelineEvent.main ? timelineEvent.main.height : 0)
-        readonly property real maxScrolledContentHeight: (timelineView_ ? timelineView_.height : Screen.height) / 10
+        readonly property real maxScrolledContentHeight: Math.max(0,
+            (timelineView_ ? timelineView_.height : Screen.height) / 10
+            + r.additionalHeight)
         readonly property real clampedContentHeight: r.limitHeight
             ? Math.min(previewDelegateHeight, maxScrolledContentHeight)
             : previewDelegateHeight

@@ -5148,7 +5148,7 @@ Palun mine tagasi ja logi sisse käsitsi.</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../../qml/composer/ReplyPopup.qml" line="+98"/>
+        <location filename="../../qml/composer/ReplyPopup.qml" line="+146"/>
         <source>Replying in a thread</source>
         <translation>Vastamine lõimes</translation>
     </message>
@@ -5177,7 +5177,7 @@ Palun mine tagasi ja logi sisse käsitsi.</translation>
         <translation>Sõnumi muutmine</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+97"/>
         <source>Reply</source>
         <translation>Vasta</translation>
     </message>

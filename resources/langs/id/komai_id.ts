@@ -6072,7 +6072,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Contoh: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9398,7 +9398,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Contoh: %1</translation>
     </message>
     <message>
         <location line="+14"/>

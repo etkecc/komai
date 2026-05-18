@@ -6080,7 +6080,7 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Exemplo: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9412,7 +9412,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Exemplo: %1</translation>
     </message>
     <message>
         <location line="+14"/>

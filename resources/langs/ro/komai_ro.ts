@@ -6088,7 +6088,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Exemplu: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9426,7 +9426,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Exemplu: %1</translation>
     </message>
     <message>
         <location line="+14"/>

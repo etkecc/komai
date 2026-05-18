@@ -6089,7 +6089,7 @@ Poprzednie kopie zapasowe kluczy po stronie serwera nie są usuwane automatyczni
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Przykład: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9427,7 +9427,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Przykład: %1</translation>
     </message>
     <message>
         <location line="+14"/>

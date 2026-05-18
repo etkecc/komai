@@ -6080,7 +6080,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Esempio: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9412,7 +9412,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Esempio: %1</translation>
     </message>
     <message>
         <location line="+14"/>

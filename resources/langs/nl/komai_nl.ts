@@ -6080,7 +6080,7 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Voorbeeld: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9412,7 +9412,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Voorbeeld: %1</translation>
     </message>
     <message>
         <location line="+14"/>

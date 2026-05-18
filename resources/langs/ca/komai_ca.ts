@@ -6080,7 +6080,7 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Exemple: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9412,7 +9412,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Exemple: %1</translation>
     </message>
     <message>
         <location line="+14"/>

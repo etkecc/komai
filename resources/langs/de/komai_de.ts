@@ -6080,7 +6080,7 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch entfernt.
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Beispiel: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9412,7 +9412,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Beispiel: %1</translation>
     </message>
     <message>
         <location line="+14"/>

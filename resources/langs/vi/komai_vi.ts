@@ -6072,7 +6072,7 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Ví dụ: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9398,7 +9398,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Ví dụ: %1</translation>
     </message>
     <message>
         <location line="+14"/>

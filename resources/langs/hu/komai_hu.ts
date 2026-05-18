@@ -6072,7 +6072,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Példa: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9398,7 +9398,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Példa: %1</translation>
     </message>
     <message>
         <location line="+14"/>

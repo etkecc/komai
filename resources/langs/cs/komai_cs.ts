@@ -6088,7 +6088,7 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
     <message>
         <location line="+21"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Příklad: %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -9426,7 +9426,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <message>
         <location line="+5"/>
         <source>Example: %1</source>
-        <translation type="unfinished"/>
+        <translation>Příklad: %1</translation>
     </message>
     <message>
         <location line="+14"/>

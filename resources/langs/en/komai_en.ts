@@ -5082,7 +5082,7 @@ Please go back and sign in manually.</source>
 <context>
     <name>Reply</name>
     <message>
-        <location filename="../../qml/delegates/Reply.qml" line="+85"/>
+        <location filename="../../qml/delegates/Reply.qml" line="+91"/>
         <source>Image</source>
         <translation type="unfinished"/>
     </message>

@@ -5115,7 +5115,7 @@ Wróć i zaloguj się ręcznie.</translation>
 <context>
     <name>Reply</name>
     <message>
-        <location filename="../../qml/delegates/Reply.qml" line="+85"/>
+        <location filename="../../qml/delegates/Reply.qml" line="+91"/>
         <source>Image</source>
         <translation>Obraz</translation>
     </message>

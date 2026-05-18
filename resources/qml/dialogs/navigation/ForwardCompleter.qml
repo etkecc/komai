@@ -252,7 +252,7 @@ Popup {
             Reply {
                 id: replyPreview
 
-                enabled: false
+                clickable: false
                 eventId: mid
                 room_: activeRoom
                 property bool isReplyFromCurrentUser: {

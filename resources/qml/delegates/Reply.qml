@@ -9,7 +9,7 @@ import QtQuick.Window
 import QtQuick.Effects
 import cc.etke.komai
 
-AbstractButton {
+Pane {
     id: r
 
     property color userColor: "red"
@@ -20,6 +20,12 @@ AbstractButton {
     property var roomModelOverride: null
     property var timelineViewOverride: null
     property var replyContextMenuOverride: null
+    // Whether tapping/long-pressing the preview opens the original event or
+    // its context menu. Callers that show the preview purely as informational
+    // (forward dialog, the matrix-side replying-to header) set this to false
+    // rather than `enabled: false` — disabling the root would cascade to the
+    // inner Flickable + ScrollBar and break scrolling.
+    property bool clickable: true
 
     required property string eventId
 
@@ -242,7 +248,7 @@ AbstractButton {
 
     KomaiCursorShape {
         anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
+        cursorShape: r.clickable ? Qt.PointingHandCursor : Qt.ArrowCursor
     }
 
     function roleValue(role, fallbackValue) {
@@ -304,28 +310,46 @@ AbstractButton {
         };
     }
 
-    onClicked: {
-        const previewDelegate = usesCompactMediaPreview ? mediaPreviewLoader.item : timelineEvent.main;
-        let link = previewDelegate && previewDelegate.linkAt != undefined && previewDelegate.linkAt(pressX - Komai.paddingSmall, pressY - userName_.implicitHeight);
-        if (link) {
-            Komai.openLink(link)
-        } else {
-            if (effectiveRoomContext && typeof effectiveRoomContext.showEvent === "function")
-                effectiveRoomContext.showEvent(r.eventId)
-        }
-    }
-    onPressAndHold: {
-        const previewDelegate = usesCompactMediaPreview ? mediaPreviewLoader.item : timelineEvent.main;
-        if (!effectiveReplyContextMenu || !previewDelegate)
-            return;
+    // Left-click and long-press handlers live on a TapHandler rather than on
+    // AbstractButton.onClicked/onPressAndHold, because AbstractButton grabs the
+    // mouse press for its click detection and prevents the inner Flickable +
+    // ScrollBar from receiving drag/wheel events. TapHandler with
+    // gesturePolicy: ReleaseWithinBounds is non-grabbing on press, so the
+    // Flickable can claim drag gestures while taps still resolve correctly.
+    TapHandler {
+        id: leftTapHandler
 
-        effectiveReplyContextMenu.show(previewDelegate.copyText,
-                                       previewDelegate.linkAt(pressX - Komai.paddingSmall,
-                                                              pressY - userName_.implicitHeight),
-                                       r.eventId)
+        enabled: r.clickable
+        acceptedButtons: Qt.LeftButton
+        acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad | PointerDevice.TouchScreen
+        gesturePolicy: TapHandler.ReleaseWithinBounds
+
+        onTapped: eventPoint => {
+            const previewDelegate = usesCompactMediaPreview ? mediaPreviewLoader.item : timelineEvent.main;
+            let link = previewDelegate && previewDelegate.linkAt != undefined && previewDelegate.linkAt(eventPoint.position.x - Komai.paddingSmall, eventPoint.position.y - userName_.implicitHeight + replyFlickable.contentY);
+            if (link) {
+                Komai.openLink(link)
+            } else {
+                if (effectiveRoomContext && typeof effectiveRoomContext.showEvent === "function")
+                    effectiveRoomContext.showEvent(r.eventId)
+            }
+        }
+
+        onLongPressed: {
+            const previewDelegate = usesCompactMediaPreview ? mediaPreviewLoader.item : timelineEvent.main;
+            if (!effectiveReplyContextMenu || !previewDelegate)
+                return;
+
+            const pt = leftTapHandler.point.position;
+            effectiveReplyContextMenu.show(previewDelegate.copyText,
+                                           previewDelegate.linkAt(pt.x - Komai.paddingSmall,
+                                                                  pt.y - userName_.implicitHeight + replyFlickable.contentY),
+                                           r.eventId)
+        }
     }
 
     TapHandler {
+        enabled: r.clickable
         acceptedButtons: Qt.RightButton
         acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
         gesturePolicy: TapHandler.ReleaseWithinBounds
@@ -338,7 +362,7 @@ AbstractButton {
             effectiveReplyContextMenu.show(
                         previewDelegate.copyText,
                         previewDelegate.linkAt(eventPoint.position.x - Komai.paddingSmall,
-                                               eventPoint.position.y - userName_.implicitHeight),
+                                               eventPoint.position.y - userName_.implicitHeight + replyFlickable.contentY),
                         r.eventId)
         }
     }
@@ -353,54 +377,88 @@ AbstractButton {
         readonly property real previewDelegateHeight: usesCompactMediaPreview
             ? (mediaPreviewLoader.item ? mediaPreviewLoader.item.height : 0)
             : (timelineEvent.main ? timelineEvent.main.height : 0)
+        readonly property real maxScrolledContentHeight: (timelineView_ ? timelineView_.height : Screen.height) / 10
+        readonly property real clampedContentHeight: r.limitHeight
+            ? Math.min(previewDelegateHeight, maxScrolledContentHeight)
+            : previewDelegateHeight
         readonly property real unclampedHeight: usernameBtn.height + previewDelegateHeight
+        readonly property bool needsScrolling: r.limitHeight && previewDelegateHeight > clampedContentHeight + 0.5
 
-        implicitWidth: Math.max(usernameBtn.implicitWidth, previewDelegateWidth)
+        readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+        readonly property bool scrollbarVisible: {
+            if (!r.limitHeight || previewDelegateHeight <= 0)
+                return false;
+            switch (scrollbarPolicy) {
+            case Settings.ScrollbarPolicy.Always:
+                return true;
+            case Settings.ScrollbarPolicy.Never:
+                return false;
+            case Settings.ScrollbarPolicy.WhenNeeded:
+            default:
+                return needsScrolling;
+            }
+        }
+        readonly property real reservedScrollbarWidth: scrollbarVisible
+            ? Math.max(replyScrollBar.width, replyScrollBar.implicitWidth) + Komai.paddingSmall
+            : 0
+
+        implicitWidth: Math.max(usernameBtn.implicitWidth, previewDelegateWidth + reservedScrollbarWidth)
         implicitHeight: unclampedHeight
         height: r.limitHeight
-            ? Math.min(previewDelegateHeight, (timelineView_ ? timelineView_.height : Screen.height) / 10) + usernameBtn.height
+            ? clampedContentHeight + usernameBtn.height
             : implicitHeight
         clip: r.limitHeight
 
-        Column {
-            id: replyColumn
+        AbstractButton {
+            id: usernameBtn
 
-            spacing: 0
-            width: parent.width
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            topPadding: 0
+            bottomPadding: 0
+            topInset: 0
+            bottomInset: 0
+            height: (visible && r.userName.length > 0) ? implicitHeight : 0
 
-            AbstractButton {
-                id: usernameBtn
-
-                topPadding: 0
-                bottomPadding: 0
-                topInset: 0
-                bottomInset: 0
-                width: replyColumn.width
-                height: (visible && r.userName.length > 0) ? implicitHeight : 0
-
-                contentItem: Label {
-                    id: userName_
-                    // HACK: To ensure the username gets rendered in newer Qt,
-                    // we need to always have some text in here. The name should
-                    // never be empty, since it falls back to the mxid, but if
-                    // we have no text there, Qt culls the item before we fill it.
-                    text: r.userName || "."
-                    color: Komai.readableAccentTextColor(r.userColor, r.roomColor)
-                    font.pointSize: Settings.uiFontSizePt
-                    textFormat: Text.RichText
-                    width: usernameBtn.width
-                }
-                onClicked: {
-                    if (effectiveRoomContext && typeof effectiveRoomContext.openUserProfile === "function")
-                        effectiveRoomContext.openUserProfile(r.userId);
-                }
+            contentItem: Label {
+                id: userName_
+                // HACK: To ensure the username gets rendered in newer Qt,
+                // we need to always have some text in here. The name should
+                // never be empty, since it falls back to the mxid, but if
+                // we have no text there, Qt culls the item before we fill it.
+                text: r.userName || "."
+                color: Komai.readableAccentTextColor(r.userColor, r.roomColor)
+                font.pointSize: Settings.uiFontSizePt
+                textFormat: Text.RichText
+                width: usernameBtn.width
             }
+            onClicked: {
+                if (effectiveRoomContext && typeof effectiveRoomContext.openUserProfile === "function")
+                    effectiveRoomContext.openUserProfile(r.userId);
+            }
+        }
+
+        Flickable {
+            id: replyFlickable
+
+            anchors.top: usernameBtn.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.rightMargin: replyContainer.reservedScrollbarWidth
+            height: r.limitHeight ? replyContainer.clampedContentHeight : contentHeight
+            contentWidth: width
+            contentHeight: replyContainer.previewDelegateHeight
+            interactive: replyContainer.needsScrolling
+            clip: r.limitHeight
+            boundsBehavior: Flickable.StopAtBounds
+            flickableDirection: Flickable.VerticalFlick
 
             TimelineEvent {
                 id: timelineEvent
 
                 visible: !r.usesCompactMediaPreview
-                width: replyColumn.width
+                width: replyFlickable.width
                 implicitWidth: main ? main.implicitWidth : width
                 implicitHeight: main ? main.implicitHeight : height
                 height: main ? main.height : 0
@@ -409,7 +467,7 @@ AbstractButton {
                 eventId: r.eventId
                 replyTo: ""
                 mainInset: Komai.paddingSmall + Komai.paddingMedium
-                maxWidth: r.maxWidth
+                maxWidth: Math.max(0, r.maxWidth - replyContainer.reservedScrollbarWidth)
                 limitAsReply: true
                 previewData: r.effectivePreviewData
                 roomModelOverride: (r.roleDataSource instanceof EventDataSource) ? null : (r.roleDataSource ?? r.effectiveRoomContext)
@@ -430,8 +488,16 @@ AbstractButton {
                     && r.compactMediaWidth > 0
                     && r.compactMediaHeight > 0
                 visible: active
-                width: Math.max(1, replyColumn.width)
+                width: Math.max(1, replyFlickable.width)
                 sourceComponent: compactMediaPreviewComponent
+            }
+
+            ScrollBar.vertical: ScrollBar {
+                id: replyScrollBar
+
+                policy: replyContainer.scrollbarVisible
+                    ? ScrollBar.AlwaysOn
+                    : ScrollBar.AlwaysOff
             }
         }
     }
@@ -569,15 +635,6 @@ AbstractButton {
 
         z: -1
         color: r.roomColor
-        radius: Komai.paddingMedium
-    }
-
-    // Border overlay drawn on top of content so rounded
-    // corners are not hidden by the content item.
-    Rectangle {
-        anchors.fill: parent
-        z: 10
-        color: "transparent"
         radius: Komai.paddingMedium
         border.width: 1
         border.color: Qt.darker(r.roomColor, 1.3)

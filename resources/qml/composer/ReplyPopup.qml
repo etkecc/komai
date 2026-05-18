@@ -275,7 +275,7 @@ Rectangle {
             id: matrixReplyPreview
 
             visible: replyPopup.matrixReplyMode
-            enabled: false
+            clickable: false
             width: parent.width
             eventId: replyPopup.matrixReplyEventId
             previewData: {

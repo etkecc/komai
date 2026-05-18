@@ -248,7 +248,7 @@ Components.OverlayDialog {
                     Layout.fillWidth: true
                     Layout.maximumHeight: Math.min(root.parent ? root.parent.height * 0.4 : 300, 300)
                     clip: true
-                    enabled: false
+                    clickable: false
                     eventId: root.eventId
                     room_: root.hasRoleDataSource ? root.effectiveRoomModel : null
                     previewData: root.hasRoleDataSource ? ({}) : root.previewMessageData

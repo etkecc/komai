@@ -100,6 +100,16 @@ UserSettings::composerInputInlineUserPickerEnabled() const
 }
 
 bool
+UserSettings::composerInputSelectionFormattingToolbarEnabled() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::ComposerInputSelectionFormattingToolbarEnabled);
+        value.has_value())
+        return *value;
+    return composerInputSelectionFormattingToolbarEnabled_;
+}
+
+bool
 UserSettings::composerInputTranscriptionEnabled() const
 {
     if (const auto value = coreStore_.valueAs<bool>(

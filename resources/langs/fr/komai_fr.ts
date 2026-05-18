@@ -982,7 +982,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>Mise en forme</translation>
     </message>
@@ -10437,7 +10437,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>Commentaires</translation>
     </message>
@@ -11341,7 +11341,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>historique, récemment fermé, performance, ram, mémoire</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>Saisie</translation>
     </message>
@@ -11381,7 +11381,12 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <translation>Afficher un sélecteur de salon intégré lorsque vous tapez un dièse (#) dans la saisie du message.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>Barre d'outils de mise en forme de la sélection</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>Sélecteur d'utilisateur en ligne</translation>
     </message>
@@ -11389,6 +11394,11 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Afficher un sélecteur d'utilisateur intégré lorsque vous tapez un arobase (@) dans la saisie du message.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>Affiche une barre d'outils avec des boutons Gras, Italique, Code, Citation et Lien lorsque vous sélectionnez du texte. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Les raccourcis clavier&lt;/a&gt; fonctionnent dans les deux cas.</translation>
     </message>
     <message>
         <location line="+3"/>

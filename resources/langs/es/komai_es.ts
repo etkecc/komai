@@ -983,7 +983,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>Formato</translation>
     </message>
@@ -10440,7 +10440,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>Comentarios</translation>
     </message>
@@ -11344,7 +11344,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>historial, cerradas recientemente, rendimiento, ram, memoria</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>Entrada</translation>
     </message>
@@ -11384,7 +11384,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Mostrar un selector de salas integrado al escribir una almohadilla (#) en el campo de mensaje.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>Barra de herramientas de formato de selección</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>Selector de usuario en línea</translation>
     </message>
@@ -11392,6 +11397,11 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Mostrar un selector de usuarios integrado al escribir una arroba (@) en el campo de mensaje.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>Muestra una barra de herramientas con los botones Negrita, Cursiva, Código, Cita y Enlace al seleccionar texto. Los &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Atajos de teclado&lt;/a&gt; funcionan en ambos casos.</translation>
     </message>
     <message>
         <location line="+3"/>

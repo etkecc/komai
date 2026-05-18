@@ -26,6 +26,10 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Inline user picker"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Show an inline user picker when you type an at sign (@) in the message input."),
       SM::TabComposer, composerInputInlineUserPickerEnabled, setComposerInputInlineUserPickerEnabled, nullptr, ComposerInputInlineUserPickerEnabled, SettingKey::ComposerInputInlineUserPickerEnabled),
+    // SelectionFormattingToolbar
+    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Selection formatting toolbar"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer\">Keyboard shortcuts</a> work either way."),
+      SM::TabComposer, composerInputSelectionFormattingToolbarEnabled, setComposerInputSelectionFormattingToolbarEnabled, nullptr, ComposerInputSelectionFormattingToolbarEnabled, SettingKey::ComposerInputSelectionFormattingToolbarEnabled),
     // ComposerInputTranscriptionEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Voice transcription"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Enables speech-to-text. Configure the transcription provider in <a href=\"komai://settings/integrations/transcription\">Integrations → Voice transcription</a>."),

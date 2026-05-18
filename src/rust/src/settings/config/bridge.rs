@@ -546,6 +546,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["composer", "input", "selection_formatting_toolbar", "enabled"],
+        Value::Bool(snapshot.composer.input_selection_formatting_toolbar_enabled),
+    );
+    yaml::set_value(
+        &mut root,
         &["composer", "input", "transcription", "enabled"],
         Value::Bool(snapshot.composer.input_transcription_enabled),
     );

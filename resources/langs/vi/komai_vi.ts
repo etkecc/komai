@@ -981,7 +981,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>Định dạng</translation>
     </message>
@@ -10421,7 +10421,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>Phản hồi</translation>
     </message>
@@ -11325,7 +11325,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>lịch sử, mới đóng gần đây, hiệu suất, ram, bộ nhớ</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>Nhập liệu</translation>
     </message>
@@ -11365,7 +11365,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Hiển thị bộ chọn phòng nội tuyến khi bạn gõ dấu thăng (#) trong ô nhập tin nhắn.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>Thanh công cụ định dạng vùng chọn</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>Bộ chọn người dùng nội tuyến</translation>
     </message>
@@ -11373,6 +11378,11 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Hiển thị bộ chọn người dùng nội tuyến khi bạn gõ ký hiệu @ trong ô nhập tin nhắn.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>Hiển thị thanh công cụ với các nút Đậm, Nghiêng, Code, Trích dẫn và Liên kết khi bạn chọn văn bản. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Phím tắt&lt;/a&gt; vẫn hoạt động trong cả hai trường hợp.</translation>
     </message>
     <message>
         <location line="+3"/>

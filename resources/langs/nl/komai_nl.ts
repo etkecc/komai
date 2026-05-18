@@ -982,7 +982,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>Opmaak</translation>
     </message>
@@ -10437,7 +10437,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>Feedback</translation>
     </message>
@@ -11341,7 +11341,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>geschiedenis, recentelijk gesloten, prestaties, ram, geheugen</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>Invoer</translation>
     </message>
@@ -11381,7 +11381,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Toon een inline kamerkiezer wanneer je een hekje (#) typt in het berichtinvoerveld.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>Opmaakwerkbalk bij selectie</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>Inline gebruikerskiezer</translation>
     </message>
@@ -11389,6 +11394,11 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Toon een inline gebruikerskiezer wanneer je een apenstaartje (@) typt in het berichtinvoerveld.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>Toont een werkbalk met knoppen voor Vet, Cursief, Code, Citaat en Koppeling wanneer je tekst selecteert. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Sneltoetsen&lt;/a&gt; werken hoe dan ook.</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -982,7 +982,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>හැඩතල ගැන්වීම</translation>
     </message>
@@ -10437,7 +10437,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>ප්‍රතිපෝෂණය</translation>
     </message>
@@ -11341,7 +11341,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ඉතිහාසය, මෑතකදී වසා දැමූ, කාර්යසාධනය, ram, මතකය</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>ආදානය</translation>
     </message>
@@ -11381,7 +11381,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>පණිවිඩ ආදානයේ hash (#) ලකුණ ටයිප් කළ විට inline කාමර තේරුම්කාරකයක් පෙන්වන්න.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>තේරීම් හැඩතල තීරුව</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>පරිශීලක තෝරන්නා</translation>
     </message>
@@ -11389,6 +11394,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>පණිවිඩ ආදානයේ at ලකුණ (@) ටයිප් කළ විට inline පරිශීලක තේරුම්කාරකයක් පෙන්වන්න.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>ඔබ පෙළ තෝරා ගන්නා විට Bold, Italic, Code, Quote, සහ Link බොත්තම් සහිත මෙවලම් තීරුවක් පෙන්වයි. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;යතුරු-පුවරු කෙටිමං&lt;/a&gt; ඕනෑම ආකාරයකින් ක්‍රියා කරයි.</translation>
     </message>
     <message>
         <location line="+3"/>

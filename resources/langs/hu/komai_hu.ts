@@ -981,7 +981,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>Formázás</translation>
     </message>
@@ -10421,7 +10421,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>Visszajelzés</translation>
     </message>
@@ -11325,7 +11325,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>előzmények, nemrég bezárt, teljesítmény, ram, memória</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>Bevitel</translation>
     </message>
@@ -11365,7 +11365,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Beépített szoba-választó megjelenítése kettős kereszt (#) beírásakor az üzenetmezőben.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>Kijelölési formázó eszköztár</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>Inline felhasználó-választó</translation>
     </message>
@@ -11373,6 +11378,11 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Beépített felhasználó-választó megjelenítése kukac (@) beírásakor az üzenetmezőben.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>Szöveg kijelölésekor eszköztárat jelenít meg Félkövér, Dőlt, Kód, Idézet és Hivatkozás gombokkal. A &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Billentyűparancsok&lt;/a&gt; mindkét esetben működnek.</translation>
     </message>
     <message>
         <location line="+3"/>

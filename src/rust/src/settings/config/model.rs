@@ -362,6 +362,7 @@ pub struct ConfigComposer {
     pub input_inline_emoji_picker_enabled: Option<bool>,
     pub input_inline_room_picker_enabled: Option<bool>,
     pub input_inline_user_picker_enabled: Option<bool>,
+    pub input_selection_formatting_toolbar_enabled: Option<bool>,
     /// Master toggle for the composer voice-transcription gesture
     /// (long-press Space). The actual transcription provider config lives
     /// under `integrations.transcription.*`. See

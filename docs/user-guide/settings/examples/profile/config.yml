@@ -108,6 +108,8 @@ composer:
       enabled: true
     inline_user_picker:
       enabled: true
+    selection_formatting_toolbar:
+      enabled: true
     spellcheck:
       enabled: true
       # Active dictionary locale codes (e.g. en_US). An empty list means

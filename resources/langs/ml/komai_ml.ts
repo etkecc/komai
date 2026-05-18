@@ -982,7 +982,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>ഫോർമാറ്റിംഗ്</translation>
     </message>
@@ -10437,7 +10437,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>ഫീഡ്ബാക്ക്</translation>
     </message>
@@ -11341,7 +11341,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ചരിത്രം, അടുത്തിടെ അടച്ചത്, പ്രകടനം, റാം, മെമ്മറി</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>ഇൻപുട്ട്</translation>
     </message>
@@ -11381,7 +11381,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>സന്ദേശ ഇൻപുട്ടിൽ ഹാഷ് (#) ടൈപ്പ് ചെയ്യുമ്പോൾ ഇൻലൈൻ മുറി പിക്കർ കാണിക്കുക.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>തിരഞ്ഞെടുക്കൽ ഫോർമാറ്റിംഗ് ടൂൾബാർ</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>ഇൻലൈൻ ഉപയോക്തൃ പിക്കർ</translation>
     </message>
@@ -11389,6 +11394,11 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>സന്ദേശ ഇൻപുട്ടിൽ @ ചിഹ്നം ടൈപ്പ് ചെയ്യുമ്പോൾ ഇൻലൈൻ ഉപയോക്തൃ പിക്കർ കാണിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>ടെക്സ്റ്റ് തിരഞ്ഞെടുക്കുമ്പോൾ Bold, Italic, Code, Quote, Link ബട്ടണുകളുള്ള ഒരു ടൂൾബാർ കാണിക്കുന്നു. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;കീബോർഡ് ഷോർട്ട്കട്ടുകൾ&lt;/a&gt; ഏതു വിധത്തിലും പ്രവർത്തിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+3"/>

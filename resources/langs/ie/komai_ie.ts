@@ -982,7 +982,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>Formatation</translation>
     </message>
@@ -10437,7 +10437,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>Retroaction</translation>
     </message>
@@ -11341,7 +11341,7 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>historie, recentemente cludet, performance, ram, memorie</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>Ingresse</translation>
     </message>
@@ -11381,7 +11381,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Montrar un selector de chambre inline quando vu scriv un hash (#) in li campo de mesage.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>Barre de formatation del selection</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>Selector de usator inline</translation>
     </message>
@@ -11389,6 +11394,11 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Montrar un selector de usator inline quando vu scriv un signo at (@) in li campo de mesage.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>Mostra un barre de instrumentes con buttones Gras, Italic, Code, Citation e Ligament, quande vu selecta texte. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Abreviaturas de claviero&lt;/a&gt; functiona in ambi casos.</translation>
     </message>
     <message>
         <location line="+3"/>

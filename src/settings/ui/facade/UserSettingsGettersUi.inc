@@ -32,6 +32,7 @@
     bool composerInputInlineEmojiPickerEnabled() const;
     bool composerInputInlineRoomPickerEnabled() const;
     bool composerInputInlineUserPickerEnabled() const;
+    bool composerInputSelectionFormattingToolbarEnabled() const;
     bool composerInputTranscriptionEnabled() const;
     bool composerInputSpellcheckEnabled() const;
     bool composerAttachmentsStripImageMetadata() const;

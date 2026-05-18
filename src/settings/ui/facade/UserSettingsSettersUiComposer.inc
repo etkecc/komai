@@ -133,6 +133,17 @@ UserSettings::setComposerInputInlineUserPickerEnabled(bool s)
     save();
 }
 void
+UserSettings::setComposerInputSelectionFormattingToolbarEnabled(bool s)
+{
+    if (composerInputSelectionFormattingToolbarEnabled_ == s)
+        return;
+    composerInputSelectionFormattingToolbarEnabled_ = s;
+    (void)coreStore_.set(
+      settings::core::SettingId::ComposerInputSelectionFormattingToolbarEnabled, s);
+    emit composerInputSelectionFormattingToolbarEnabledChanged(s);
+    save();
+}
+void
 UserSettings::setComposerInputTranscriptionEnabled(bool s)
 {
     if (composerInputTranscriptionEnabled_ == s)

@@ -508,6 +508,7 @@ mod bridge {
         input_inline_emoji_picker_enabled: bool,
         input_inline_room_picker_enabled: bool,
         input_inline_user_picker_enabled: bool,
+        input_selection_formatting_toolbar_enabled: bool,
         input_transcription_enabled: bool,
         input_spellcheck_enabled: bool,
         input_spellcheck_languages: Vec<String>,

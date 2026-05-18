@@ -982,7 +982,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>Formatação</translation>
     </message>
@@ -10437,7 +10437,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>Feedback</translation>
     </message>
@@ -11341,7 +11341,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>histórico, fechados recentemente, desempenho, ram, memória</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>Entrada</translation>
     </message>
@@ -11381,7 +11381,12 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Mostrar um seletor de salas integrado ao escrever uma cardinal (#) na caixa de mensagem.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>Barra de ferramentas de formatação da seleção</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>Seletor de utilizador inline</translation>
     </message>
@@ -11389,6 +11394,11 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>Mostrar um seletor de utilizadores integrado ao escrever o símbolo arroba (@) na caixa de mensagem.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>Mostra uma barra de ferramentas com os botões Negrito, Itálico, Código, Citação e Link quando seleciona texto. Os &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;atalhos de teclado&lt;/a&gt; funcionam de qualquer forma.</translation>
     </message>
     <message>
         <location line="+3"/>

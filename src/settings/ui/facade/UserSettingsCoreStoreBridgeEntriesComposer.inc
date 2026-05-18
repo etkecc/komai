@@ -7,6 +7,8 @@ X(ComposerInputEmojiPreferredSkinTone,
 X(ComposerInputInlineEmojiPickerEnabled, settings.composerInputInlineEmojiPickerEnabled())
 X(ComposerInputInlineRoomPickerEnabled, settings.composerInputInlineRoomPickerEnabled())
 X(ComposerInputInlineUserPickerEnabled, settings.composerInputInlineUserPickerEnabled())
+X(ComposerInputSelectionFormattingToolbarEnabled,
+  settings.composerInputSelectionFormattingToolbarEnabled())
 X(ComposerInputTranscriptionEnabled, settings.composerInputTranscriptionEnabled())
 X(ComposerInputSpellcheckEnabled, settings.composerInputSpellcheckEnabled())
 X(ComposerAttachmentsStripImageMetadata, settings.composerAttachmentsStripImageMetadata())

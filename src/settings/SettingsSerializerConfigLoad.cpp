@@ -337,6 +337,8 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       snapshot.composer.input_inline_room_picker_enabled);
     settings.setComposerInputInlineUserPickerEnabled(
       snapshot.composer.input_inline_user_picker_enabled);
+    settings.setComposerInputSelectionFormattingToolbarEnabled(
+      snapshot.composer.input_selection_formatting_toolbar_enabled);
     settings.setComposerInputTranscriptionEnabled(snapshot.composer.input_transcription_enabled);
     settings.setComposerInputSpellcheckEnabled(snapshot.composer.input_spellcheck_enabled);
     {

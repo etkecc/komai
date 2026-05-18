@@ -257,11 +257,13 @@ stageConfig(const UserSettings &settings,
           .input_inline_emoji_picker_enabled = settings.composerInputInlineEmojiPickerEnabled(),
           .input_inline_room_picker_enabled  = settings.composerInputInlineRoomPickerEnabled(),
           .input_inline_user_picker_enabled  = settings.composerInputInlineUserPickerEnabled(),
-          .input_transcription_enabled       = settings.composerInputTranscriptionEnabled(),
-          .input_spellcheck_enabled          = settings.composerInputSpellcheckEnabled(),
-          .input_spellcheck_languages        = {},
-          .attachments_strip_image_metadata  = settings.composerAttachmentsStripImageMetadata(),
-          .typing_send_global                = settings.composerTypingSendEnabled(),
+          .input_selection_formatting_toolbar_enabled =
+            settings.composerInputSelectionFormattingToolbarEnabled(),
+          .input_transcription_enabled      = settings.composerInputTranscriptionEnabled(),
+          .input_spellcheck_enabled         = settings.composerInputSpellcheckEnabled(),
+          .input_spellcheck_languages       = {},
+          .attachments_strip_image_metadata = settings.composerAttachmentsStripImageMetadata(),
+          .typing_send_global               = settings.composerTypingSendEnabled(),
           .typing_send_by_room =
             [&settings]() {
                 rust::Vec<komai::rust::SettingsBoolMapEntry> entries;

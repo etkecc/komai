@@ -1653,6 +1653,9 @@ testPersistedConfigBoolsAreLoadedFromConfigYaml()
         {SettingId::ComposerInputInlineUserPickerEnabled,
          "composer.input.inline_user_picker.enabled",
          false},
+        {SettingId::ComposerInputSelectionFormattingToolbarEnabled,
+         "composer.input.selection_formatting_toolbar.enabled",
+         false},
         {SettingId::ComposerInputTranscriptionEnabled,
          "composer.input.transcription.enabled",
          false},
@@ -1755,6 +1758,8 @@ composer:
     inline_room_picker:
       enabled: false
     inline_user_picker:
+      enabled: false
+    selection_formatting_toolbar:
       enabled: false
     transcription:
       enabled: false
@@ -2065,6 +2070,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::ComposerInputInlineRoomPickerEnabled));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerInputInlineUserPickerEnabled));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::ComposerInputSelectionFormattingToolbarEnabled));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::ComposerInputTranscriptionEnabled));
     serializerHandledConfigKeys.insert(

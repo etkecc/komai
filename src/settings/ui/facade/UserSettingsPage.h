@@ -120,6 +120,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool composerInputInlineUserPickerEnabled READ composerInputInlineUserPickerEnabled WRITE
         setComposerInputInlineUserPickerEnabled NOTIFY composerInputInlineUserPickerEnabledChanged)
+    Q_PROPERTY(bool composerInputSelectionFormattingToolbarEnabled READ
+                 composerInputSelectionFormattingToolbarEnabled WRITE
+                   setComposerInputSelectionFormattingToolbarEnabled NOTIFY
+                     composerInputSelectionFormattingToolbarEnabledChanged)
     Q_PROPERTY(
       bool composerInputTranscriptionEnabled READ composerInputTranscriptionEnabled WRITE
         setComposerInputTranscriptionEnabled NOTIFY composerInputTranscriptionEnabledChanged)
@@ -582,6 +586,7 @@ public:
     void setComposerInputInlineEmojiPickerEnabled(bool state);
     void setComposerInputInlineRoomPickerEnabled(bool state);
     void setComposerInputInlineUserPickerEnabled(bool state);
+    void setComposerInputSelectionFormattingToolbarEnabled(bool state);
     void setComposerInputTranscriptionEnabled(bool state);
     void setComposerInputSpellcheckEnabled(bool state);
     void setComposerInputSpellcheckLanguages(QStringList languages);
@@ -821,6 +826,7 @@ signals:
     void composerInputInlineEmojiPickerEnabledChanged(bool state);
     void composerInputInlineRoomPickerEnabledChanged(bool state);
     void composerInputInlineUserPickerEnabledChanged(bool state);
+    void composerInputSelectionFormattingToolbarEnabledChanged(bool state);
     void composerInputTranscriptionEnabledChanged(bool state);
     void composerInputSpellcheckEnabledChanged(bool state);
     void composerInputSpellcheckLanguagesChanged(QStringList languages);

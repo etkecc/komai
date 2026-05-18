@@ -986,7 +986,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ComposerFormattingBar</name>
     <message>
-        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+155"/>
         <source>Formatting</source>
         <translation>التنسيق</translation>
     </message>
@@ -10501,7 +10501,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+86"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="+90"/>
         <source>Feedback</source>
         <translation>التغذية الراجعة</translation>
     </message>
@@ -11405,7 +11405,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>السجل، المغلقة مؤخرًا، الأداء، ذاكرة الوصول العشوائي، الذاكرة</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-82"/>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelComposer.inc" line="-86"/>
         <source>Input</source>
         <translation>الإدخال</translation>
     </message>
@@ -11445,7 +11445,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>إظهار منتقي غرف مضمّن عند كتابة رمز التجزئة (#) في حقل الرسالة.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+7"/>
+        <source>Selection formatting toolbar</source>
+        <translation>شريط أدوات تنسيق التحديد</translation>
+    </message>
+    <message>
+        <location line="-4"/>
         <source>Inline user picker</source>
         <translation>منتقي المستخدمين المضمّن</translation>
     </message>
@@ -11453,6 +11458,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+1"/>
         <source>Show an inline user picker when you type an at sign (@) in the message input.</source>
         <translation>إظهار منتقي مستخدمين مضمّن عند كتابة علامة (@) في حقل الرسالة.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Shows a toolbar with Bold, Italic, Code, Quote, and Link buttons when you select text. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;Keyboard shortcuts&lt;/a&gt; work either way.</source>
+        <translation>يعرض شريط أدوات يحتوي على أزرار غامق ومائل ورمز واقتباس ورابط عند تحديد النص. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/keyboard-shortcuts.md#%EF%B8%8F-composer"&gt;اختصارات لوحة المفاتيح&lt;/a&gt; تعمل في كلتا الحالتين.</translation>
     </message>
     <message>
         <location line="+3"/>

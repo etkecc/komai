@@ -77,6 +77,7 @@ Note:
 | Composer | INPUT | Inline emoji picker | `settings::core::SettingId::ComposerInputInlineEmojiPickerEnabled` | *(new)* | `composer.input.inline_emoji_picker.enabled` | config.yml | yes |
 | Composer | INPUT | Inline room picker | `settings::core::SettingId::ComposerInputInlineRoomPickerEnabled` | *(new)* | `composer.input.inline_room_picker.enabled` | config.yml | yes |
 | Composer | INPUT | Inline user picker | `settings::core::SettingId::ComposerInputInlineUserPickerEnabled` | *(new)* | `composer.input.inline_user_picker.enabled` | config.yml | yes |
+| Composer | INPUT | Selection formatting toolbar | `settings::core::SettingId::ComposerInputSelectionFormattingToolbarEnabled` | *(new)* | `composer.input.selection_formatting_toolbar.enabled` | config.yml | yes |
 | Composer | FEEDBACK | Show others when I'm typing (global default; per-room override at `composer.typing.send.by_room`) | `settings::core::SettingId::ComposerTypingSendGlobal` | `typing_notifications` | `composer.typing.send.global` | config.yml | yes |
 | Composer | -- | Enable stickers | *(removed -- not yet supported in Komai; see [Stickers](../../user-guide/features/stickers.md))* | `enable_stickers` | -- | -- | -- |
 | Timeline | FEEDBACK | Show when others are typing | `settings::core::SettingId::TimelineTypingShowEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |

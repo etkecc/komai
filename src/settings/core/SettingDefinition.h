@@ -73,6 +73,7 @@ enum class SettingId
     ComposerInputInlineEmojiPickerEnabled,
     ComposerInputInlineRoomPickerEnabled,
     ComposerInputInlineUserPickerEnabled,
+    ComposerInputSelectionFormattingToolbarEnabled,
     ComposerInputTranscriptionEnabled,
     ComposerAttachmentsStripImageMetadata,
     ComposerTypingSendGlobal,

@@ -214,6 +214,8 @@ const COMPOSER_INPUT_INLINE_ROOM_PICKER_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "inline_room_picker", "enabled"];
 const COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "inline_user_picker", "enabled"];
+const COMPOSER_INPUT_SELECTION_FORMATTING_TOOLBAR_ENABLED_PATH: [&str; 4] =
+    ["composer", "input", "selection_formatting_toolbar", "enabled"];
 const COMPOSER_INPUT_TRANSCRIPTION_ENABLED_PATH: [&str; 4] =
     ["composer", "input", "transcription", "enabled"];
 const COMPOSER_INPUT_SPELLCHECK_ENABLED_PATH: [&str; 4] =
@@ -697,6 +699,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             input_inline_user_picker_enabled: yaml::value_at_path(
                 root,
                 &COMPOSER_INPUT_INLINE_USER_PICKER_ENABLED_PATH,
+            )
+            .and_then(parse_scalar_bool),
+            input_selection_formatting_toolbar_enabled: yaml::value_at_path(
+                root,
+                &COMPOSER_INPUT_SELECTION_FORMATTING_TOOLBAR_ENABLED_PATH,
             )
             .and_then(parse_scalar_bool),
             input_transcription_enabled: yaml::value_at_path(

@@ -40,7 +40,8 @@ Item {
     readonly property bool composerReady: !!messageInput
         && messageInput.preeditText.length === 0
         && !messageInput.readOnly
-    readonly property bool shouldBeVisible: hasSelection
+    readonly property bool shouldBeVisible: Settings.composerInputSelectionFormattingToolbarEnabled
+        && hasSelection
         && composerReady
         && !popupOpen
         && (messageInput.activeFocus || bar.activeFocus || bar.containsHover)

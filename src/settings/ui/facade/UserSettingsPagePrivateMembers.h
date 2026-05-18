@@ -27,6 +27,7 @@ EmojiPreferredSkinTone composerInputEmojiPreferredSkinTone_ = EmojiPreferredSkin
 bool composerInputInlineEmojiPickerEnabled_                 = true;
 bool composerInputInlineRoomPickerEnabled_                  = true;
 bool composerInputInlineUserPickerEnabled_                  = true;
+bool composerInputSelectionFormattingToolbarEnabled_        = true;
 bool composerInputTranscriptionEnabled_                     = true;
 bool composerInputSpellcheckEnabled_                        = true;
 QStringList composerInputSpellcheckLanguages_;

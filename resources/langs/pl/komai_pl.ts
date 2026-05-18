@@ -981,6 +981,39 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
 </context>
 <context>
+    <name>ComposerFormattingBar</name>
+    <message>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <source>Formatting</source>
+        <translation>Formatowanie</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Bold (Ctrl+B)</source>
+        <translation>Pogrubienie (Ctrl+B)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Italic (Ctrl+I)</source>
+        <translation>Kursywa (Ctrl+I)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Code (Ctrl+E)</source>
+        <translation>Kod (Ctrl+E)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Quote (Ctrl+Shift+&gt;)</source>
+        <translation>Cytat (Ctrl+Shift+&gt;)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Link (Ctrl+Shift+L)</source>
+        <translation>Odnośnik (Ctrl+Shift+L)</translation>
+    </message>
+</context>
+<context>
     <name>ComposerTranscriptionBanner</name>
     <message>
         <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
@@ -2500,7 +2533,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Nazwa profilu jest wymagana.</translation>
@@ -2541,7 +2574,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Nie udało się odtworzyć folderu pamięci podręcznej.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Doskonała aplikacja czatu %1, którą możesz pokochać</translation>
     </message>
@@ -3584,12 +3617,12 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Napisz wiadomość lub naciśnij ↑, aby wybrać wiadomości.</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+238"/>
         <source>Message</source>
         <translation>Wiadomość</translation>
     </message>
     <message>
-        <location line="+621"/>
+        <location line="+678"/>
         <source>Stickers</source>
         <translation>Naklejki</translation>
     </message>

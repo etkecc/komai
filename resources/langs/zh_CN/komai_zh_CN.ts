@@ -979,6 +979,39 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>ComposerFormattingBar</name>
+    <message>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <source>Formatting</source>
+        <translation>格式</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Bold (Ctrl+B)</source>
+        <translation>粗体 (Ctrl+B)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Italic (Ctrl+I)</source>
+        <translation>斜体 (Ctrl+I)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Code (Ctrl+E)</source>
+        <translation>代码 (Ctrl+E)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Quote (Ctrl+Shift+&gt;)</source>
+        <translation>引用 (Ctrl+Shift+&gt;)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Link (Ctrl+Shift+L)</source>
+        <translation>链接 (Ctrl+Shift+L)</translation>
+    </message>
+</context>
+<context>
     <name>ComposerTranscriptionBanner</name>
     <message>
         <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
@@ -2492,7 +2525,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>配置文件名称为必填项。</translation>
@@ -2533,7 +2566,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>无法重新创建缓存文件夹。</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>一款你会爱上的优秀 %1 聊天应用</translation>
     </message>
@@ -3574,12 +3607,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>输入消息，或按 ↑ 选择消息。</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+238"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
     <message>
-        <location line="+621"/>
+        <location line="+678"/>
         <source>Stickers</source>
         <translation>贴纸</translation>
     </message>

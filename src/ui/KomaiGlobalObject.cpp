@@ -21,9 +21,12 @@
 #include <QFontMetricsF>
 #include <QGuiApplication>
 #include <QProcess>
+#include <QQuickTextDocument>
 #include <QScreen>
 #include <QStyle>
 #include <QTextBoundaryFinder>
+#include <QTextCursor>
+#include <QTextDocument>
 #include <QUrl>
 #include <QVariantMap>
 #include <QWindow>
@@ -468,6 +471,95 @@ Komai::composerTriggerAtWordBoundary(const QString &text, int triggerPos)
     return komai::rust::composer_trigger_at_word_boundary(
       ::rust::Str(prefixUtf8.constData(), static_cast<size_t>(prefixUtf8.size())),
       static_cast<size_t>(prefixUtf8.size()));
+}
+
+QVariantMap
+Komai::composerApplyFormat(const QString &text,
+                           int selectionStart,
+                           int selectionEnd,
+                           ComposerFormatKind kind)
+{
+    QVariantMap result;
+    result.insert(QStringLiteral("applied"), false);
+
+    const int maxIndex = static_cast<int>(text.size());
+    int selStart       = std::clamp(selectionStart, 0, maxIndex);
+    int selEnd         = std::clamp(selectionEnd, 0, maxIndex);
+    if (selStart > selEnd)
+        std::swap(selStart, selEnd);
+
+    const QByteArray utf8 = text.toUtf8();
+    const ::rust::Str rustText(utf8.constData(), static_cast<size_t>(utf8.size()));
+    const std::uint32_t selStartU = static_cast<std::uint32_t>(selStart);
+    const std::uint32_t selEndU   = static_cast<std::uint32_t>(selEnd);
+
+    komai::rust::ComposerTransformResult rustResult;
+    switch (kind) {
+    case ComposerFormatKind::Bold: {
+        const ::rust::Str marker("**", 2);
+        rustResult = komai::rust::composer_toggle_inline_wrap(rustText, selStartU, selEndU, marker);
+        break;
+    }
+    case ComposerFormatKind::Italic: {
+        const ::rust::Str marker("*", 1);
+        rustResult = komai::rust::composer_toggle_inline_wrap(rustText, selStartU, selEndU, marker);
+        break;
+    }
+    case ComposerFormatKind::InlineCode: {
+        rustResult = komai::rust::composer_toggle_code(rustText, selStartU, selEndU);
+        break;
+    }
+    case ComposerFormatKind::Quote: {
+        const ::rust::Str prefix("> ", 2);
+        rustResult =
+          komai::rust::composer_toggle_block_prefix(rustText, selStartU, selEndU, prefix);
+        break;
+    }
+    case ComposerFormatKind::Link: {
+        rustResult = komai::rust::composer_toggle_link(rustText, selStartU, selEndU);
+        break;
+    }
+    }
+
+    result.insert(QStringLiteral("applied"), rustResult.applied);
+    if (!rustResult.applied)
+        return result;
+
+    const QString replacement =
+      QString::fromUtf8(rustResult.replacement_text.data(),
+                        static_cast<qsizetype>(rustResult.replacement_text.size()));
+    result.insert(QStringLiteral("replaceStart"), static_cast<int>(rustResult.replace_start_utf16));
+    result.insert(QStringLiteral("replaceEnd"), static_cast<int>(rustResult.replace_end_utf16));
+    result.insert(QStringLiteral("replacement"), replacement);
+    result.insert(QStringLiteral("selectionStart"),
+                  static_cast<int>(rustResult.new_sel_start_utf16));
+    result.insert(QStringLiteral("selectionEnd"), static_cast<int>(rustResult.new_sel_end_utf16));
+    return result;
+}
+
+void
+Komai::composerReplaceRange(QQuickTextDocument *quickTextDocument,
+                            int rangeStart,
+                            int rangeEnd,
+                            const QString &replacement)
+{
+    if (!quickTextDocument)
+        return;
+    QTextDocument *doc = quickTextDocument->textDocument();
+    if (!doc)
+        return;
+
+    int start = std::max(0, rangeStart);
+    int end   = std::max(start, rangeEnd);
+
+    // QTextCursor::insertText on a non-collapsed selection wraps its
+    // remove+insert pair in QTextDocument::beginEditBlock/endEditBlock
+    // internally, so the entire replacement registers as one undo step and
+    // prior typing history is preserved.
+    QTextCursor cursor(doc);
+    cursor.setPosition(start);
+    cursor.setPosition(end, QTextCursor::KeepAnchor);
+    cursor.insertText(replacement);
 }
 
 QString

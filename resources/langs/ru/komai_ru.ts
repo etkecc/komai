@@ -981,6 +981,39 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
 </context>
 <context>
+    <name>ComposerFormattingBar</name>
+    <message>
+        <location filename="../../qml/composer/ComposerFormattingBar.qml" line="+154"/>
+        <source>Formatting</source>
+        <translation>Форматирование</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Bold (Ctrl+B)</source>
+        <translation>Жирный (Ctrl+B)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Italic (Ctrl+I)</source>
+        <translation>Курсив (Ctrl+I)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Code (Ctrl+E)</source>
+        <translation>Код (Ctrl+E)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Quote (Ctrl+Shift+&gt;)</source>
+        <translation>Цитата (Ctrl+Shift+&gt;)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Link (Ctrl+Shift+L)</source>
+        <translation>Ссылка (Ctrl+Shift+L)</translation>
+    </message>
+</context>
+<context>
     <name>ComposerTranscriptionBanner</name>
     <message>
         <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
@@ -2500,7 +2533,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+544"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Требуется имя профиля.</translation>
@@ -2541,7 +2574,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Не удалось воссоздать папку кэша.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+118"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Отличный чат-клиент для %1, который полюбишь</translation>
     </message>
@@ -3584,12 +3617,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Напиши сообщение или нажми ↑, чтобы выбрать сообщения.</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+238"/>
         <source>Message</source>
         <translation>Сообщение</translation>
     </message>
     <message>
-        <location line="+621"/>
+        <location line="+678"/>
         <source>Stickers</source>
         <translation>Стикеры</translation>
     </message>

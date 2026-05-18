@@ -138,6 +138,9 @@
         <file alias="icons/ui/paste.svg">icons/fluent/assets/Clipboard Paste/SVG/ic_fluent_clipboard_paste_24_regular.svg</file>
         <file alias="icons/ui/undo.svg">icons/fluent/assets/Arrow Undo/SVG/ic_fluent_arrow_undo_24_regular.svg</file>
         <file alias="icons/ui/redo.svg">icons/fluent/assets/Arrow Redo/SVG/ic_fluent_arrow_redo_24_regular.svg</file>
+        <file alias="icons/ui/text-bold.svg">icons/fluent/assets/Text Bold/SVG/ic_fluent_text_bold_24_regular.svg</file>
+        <file alias="icons/ui/text-italic.svg">icons/fluent/assets/Text Italic/SVG/ic_fluent_text_italic_24_regular.svg</file>
+        <file alias="icons/ui/text-quote.svg">icons/fluent/assets/Text Quote/SVG/ic_fluent_text_quote_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

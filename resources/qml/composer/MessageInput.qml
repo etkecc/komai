@@ -1271,6 +1271,24 @@ Rectangle {
                     if (type !== "")
                         messageInput.openCompleter(tokenStart, type);
                 }
+                function applyComposerFormat(kind) {
+                    const result = Komai.composerApplyFormat(messageInput.text,
+                                                              messageInput.selectionStart,
+                                                              messageInput.selectionEnd,
+                                                              kind);
+                    if (!result || !result.applied)
+                        return false;
+                    Komai.composerReplaceRange(messageInput.textDocument,
+                                                result.replaceStart,
+                                                result.replaceEnd,
+                                                result.replacement);
+                    if (result.selectionStart === result.selectionEnd)
+                        messageInput.cursorPosition = result.selectionStart;
+                    else
+                        messageInput.select(result.selectionStart, result.selectionEnd);
+                    messageInput.forceActiveFocus();
+                    return true;
+                }
 
                 KeyNavigation.backtab: transcriptionButton.visible
                     ? transcriptionButton
@@ -1304,6 +1322,10 @@ Rectangle {
                 Accessible.name: qsTr("Message")
                 Accessible.description: placeholderLabelText
                 selectByMouse: true
+                // Keep the selection alive across focus blinks so a click on
+                // the formatting toolbar can apply a transform to the
+                // selection that was just visible.
+                persistentSelection: true
                 topPadding: Komai.composerTextAreaPadding
                 verticalAlignment: TextEdit.AlignVCenter
                 implicitHeight: textInput.targetTextAreaHeight
@@ -1383,6 +1405,46 @@ Rectangle {
                         messageInput.text = inputBar.inputController
                             ? inputBar.inputController.nextText()
                             : messageInput.text;
+                    } else if (event.modifiers === Qt.ControlModifier && event.key === Qt.Key_B
+                               && !messageInput.readOnly
+                               && messageInput.preeditText.length === 0
+                               && !popup.opened
+                               && messageInput.selectionStart !== messageInput.selectionEnd) {
+                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Bold))
+                            event.accepted = true;
+                    } else if (event.modifiers === Qt.ControlModifier && event.key === Qt.Key_I
+                               && !messageInput.readOnly
+                               && messageInput.preeditText.length === 0
+                               && !popup.opened
+                               && messageInput.selectionStart !== messageInput.selectionEnd) {
+                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Italic))
+                            event.accepted = true;
+                    } else if (event.modifiers === Qt.ControlModifier && event.key === Qt.Key_E
+                               && !messageInput.readOnly
+                               && messageInput.preeditText.length === 0
+                               && !popup.opened
+                               && messageInput.selectionStart !== messageInput.selectionEnd) {
+                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.InlineCode))
+                            event.accepted = true;
+                    } else if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier)
+                               && (event.key === Qt.Key_Greater
+                                   || event.key === Qt.Key_Period)
+                               && !messageInput.readOnly
+                               && messageInput.preeditText.length === 0
+                               && !popup.opened
+                               && messageInput.selectionStart !== messageInput.selectionEnd) {
+                        // Ctrl+Shift+> (US layout produces Key_Greater; some
+                        // layouts deliver Key_Period with Shift instead).
+                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Quote))
+                            event.accepted = true;
+                    } else if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier) && event.key === Qt.Key_L
+                               && !messageInput.readOnly
+                               && messageInput.preeditText.length === 0
+                               && !popup.opened) {
+                        // Link tolerates an empty selection — it inserts
+                        // `[]()` and parks the cursor inside the brackets.
+                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Link))
+                            event.accepted = true;
                     } else if (event.key == Qt.Key_Escape && popup.opened) {
                         completer.completerType = "";
                         popup.close();
@@ -1710,6 +1772,12 @@ Rectangle {
 
                     target: completer
                 }
+                ComposerFormattingBar {
+                    id: formattingBar
+
+                    messageInput: messageInput
+                    popupOpen: popup.opened
+                }
                 Popup {
                     id: popup
 
@@ -1838,7 +1906,14 @@ Rectangle {
                             : String((inputBar.inputController && inputBar.inputController.text) || "");
                         if (messageInput.text === updatedText)
                             return;
-                        messageInput.text = updatedText;
+                        // Wholesale assignment to messageInput.text (or
+                        // setPlainText under the hood) wipes the QTextDocument
+                        // undo stack, so Ctrl+Z stops working from then on.
+                        // Apply through the atomic QTextCursor path instead so
+                        // external setText/updateState round-trips preserve
+                        // prior typing history.
+                        Komai.composerReplaceRange(messageInput.textDocument,
+                                                    0, messageInput.length, updatedText);
                         messageInput.cursorPosition = updatedText.length;
                     }
 

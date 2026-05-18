@@ -9,6 +9,7 @@
 // consumer has to repeat it.
 #![recursion_limit = "256"]
 
+pub mod composer_format;
 pub mod composer_trigger;
 pub mod emoji;
 pub mod html_processor;

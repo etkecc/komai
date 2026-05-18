@@ -2,6 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+pub(crate) use crate::composer_format::{
+    toggle_block_prefix as composer_toggle_block_prefix,
+    toggle_code as composer_toggle_code, toggle_inline_wrap as composer_toggle_inline_wrap,
+    toggle_link as composer_toggle_link,
+};
 pub(crate) use crate::composer_trigger::trigger_at_word_boundary as composer_trigger_at_word_boundary;
 pub(crate) use crate::emoji::emoji_only_visual_count;
 pub(crate) use crate::logging::{init_logging, log_from_cpp};
@@ -770,6 +775,18 @@ mod bridge {
         // groups.
         language_code: String,
         suggestions: Vec<String>,
+    }
+
+    // Result of a composer formatting toggle (bold / italic / code / quote /
+    // link). Indices are UTF-16 code units — the units QString/TextArea index
+    // by. `applied = false` is the no-op sentinel.
+    struct ComposerTransformResult {
+        applied: bool,
+        replace_start_utf16: u32,
+        replace_end_utf16: u32,
+        replacement_text: String,
+        new_sel_start_utf16: u32,
+        new_sel_end_utf16: u32,
     }
 
     struct RegistrationFlowStages {
@@ -1603,6 +1620,29 @@ mod bridge {
         fn emoji_only_visual_count(body: &str) -> i32;
 
         fn composer_trigger_at_word_boundary(text: &str, trigger_byte_pos: usize) -> bool;
+
+        fn composer_toggle_inline_wrap(
+            text: &str,
+            sel_start_utf16: u32,
+            sel_end_utf16: u32,
+            marker: &str,
+        ) -> ComposerTransformResult;
+        fn composer_toggle_block_prefix(
+            text: &str,
+            sel_start_utf16: u32,
+            sel_end_utf16: u32,
+            prefix: &str,
+        ) -> ComposerTransformResult;
+        fn composer_toggle_code(
+            text: &str,
+            sel_start_utf16: u32,
+            sel_end_utf16: u32,
+        ) -> ComposerTransformResult;
+        fn composer_toggle_link(
+            text: &str,
+            sel_start_utf16: u32,
+            sel_end_utf16: u32,
+        ) -> ComposerTransformResult;
 
         fn html_sanitize(html: &str) -> String;
         fn html_linkify(html: &str) -> String;

@@ -147,6 +147,11 @@ These shortcuts apply in the message composer.
 | `Ctrl+N` | Load the next composer draft/history entry |
 | `Ctrl+R` | Toggle voice recording (start, pause, or resume) |
 | `Ctrl+.` | Open or close the emoji picker |
+| `Ctrl+B` | Toggle **bold** on the selected text |
+| `Ctrl+I` | Toggle *italic* on the selected text |
+| `Ctrl+E` | Toggle `inline code` on the selected text, or a fenced code block when the selection spans multiple lines |
+| `Ctrl+Shift+>` | Toggle a `>` blockquote prefix on every line the selection touches |
+| `Ctrl+Shift+L` | Wrap the selection as a Markdown link. Empty selection inserts the `[](https://example.com)` skeleton and parks the cursor inside the brackets. URL-shaped selections (`https://...`, `matrix://...`) reverse-wrap instead, ready for you to type the label |
 | `Space` (long-press) | Hold to record speech for [**voice transcription**](voice-transcription.md); release to insert the transcribed text. Briefer presses still type a literal space. |
 | `Tab` | Open the inline completer, or move within completer results. During voice recording, cycle through composer controls |
 | `Shift+Tab` | Move the other direction within completer results. During voice recording, cycle through composer controls in reverse |
@@ -158,6 +163,18 @@ These shortcuts apply in the message composer.
 Typing note: when the timeline has focus, typing usually moves focus into the composer. On some
 platforms or keyboard layouts, some `Ctrl+letter` combinations may also do that even though they
 are not dedicated composer shortcuts.
+
+### Formatting toolbar
+
+Selecting text in the composer pops up a small toolbar with one button per
+formatting action (Bold, Italic, Inline code, Quote, Link). Click a button to
+toggle that formatting on the selection. Each button's tooltip shows its
+keyboard shortcut so you can learn them by hovering. Toggling the same action
+twice removes it: `**foo**` selected + Bold restores `foo`. Multi-level
+formatting works the same way: `***foo***` selected (bold + italic) + Bold
+strips the outer pair to `*foo*`; + Italic strips the inner pair to `**foo**`.
+
+![The formatting toolbar floating above a selected word in the composer](../screenshots/composer-formatting-toolbar.webp)
 
 
 ## 😀 Emoji / Sticker Picker

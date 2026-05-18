@@ -12,6 +12,8 @@
 #include <QVariantList>
 #include <QWindow>
 
+class QQuickTextDocument;
+
 #include "RoomSummary.h"
 #include "Theme.h"
 #include "UserProfile.h"
@@ -146,6 +148,39 @@ public:
     //! address `user@example.com` or shortcut `test:value`. Anything else
     //! (whitespace, punctuation, emoji, start of input) is a boundary.
     Q_INVOKABLE static bool composerTriggerAtWordBoundary(const QString &text, int triggerPos);
+
+    enum class ComposerFormatKind
+    {
+        Bold       = 0,
+        Italic     = 1,
+        InlineCode = 2,
+        Quote      = 3,
+        Link       = 4,
+    };
+    Q_ENUM(ComposerFormatKind)
+
+    //! Compute a composer formatting toggle (bold / italic / code / quote /
+    //! link). Returns a QVariantMap with keys `applied` (bool), `replaceStart`
+    //! / `replaceEnd` (UTF-16 indices, the range to replace in the current
+    //! text) and `replacement` (the replacement string), plus
+    //! `selectionStart` / `selectionEnd` (UTF-16 indices into the NEW text
+    //! after the replacement). Pure: does not mutate any shared state. The
+    //! caller applies the replacement via `composerReplaceRange` and then
+    //! `messageInput.select(...)`.
+    Q_INVOKABLE static QVariantMap composerApplyFormat(const QString &text,
+                                                       int selectionStart,
+                                                       int selectionEnd,
+                                                       ComposerFormatKind kind);
+
+    //! Replace `[rangeStart, rangeEnd)` (UTF-16 indices) in the
+    //! `QQuickTextDocument`'s underlying `QTextDocument` with `replacement`
+    //! atomically — one undo step, preserving the prior undo history. The
+    //! composer relies on this for all formatting toggles so Ctrl+Z restores
+    //! the pre-toggle text in a single press.
+    Q_INVOKABLE static void composerReplaceRange(QQuickTextDocument *quickTextDocument,
+                                                 int rangeStart,
+                                                 int rangeEnd,
+                                                 const QString &replacement);
     Q_INVOKABLE QColor readableAccentTextColor(QColor accentColor, QColor backgroundColor) const;
     Q_INVOKABLE QString humanReadableFileSize(qulonglong bytes) const;
     Q_INVOKABLE QString fileTypeIconSource(const QString &mimeType) const;

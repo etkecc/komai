@@ -5,11 +5,11 @@
 #include "SpellChecker.h"
 
 #include <QQuickTextDocument>
+#include <QSyntaxHighlighter>
 #include <QTextBlock>
 #include <QTextCharFormat>
 #include <QTextCursor>
 #include <QTextDocument>
-#include <QTimer>
 
 #include <utility>
 
@@ -17,30 +17,93 @@
 #include "komai-rust-cxxbridge/ffi.h"
 
 namespace {
-constexpr int kRecheckDebounceMs = 200;
 
 ::rust::Str
 toRustStr(const QByteArray &bytes)
 {
     return ::rust::Str(bytes.constData(), static_cast<size_t>(bytes.size()));
 }
+
+// Walks the document from its start up to (but not including) `block`,
+// threading the "inside a triple-backtick fenced code block" state through
+// each block via the Rust engine. Used for on-demand queries from the
+// right-click suggestions menu, which need to know the fence state at an
+// arbitrary block without consulting the live highlighter.
+bool
+inFenceBefore(QTextDocument *doc, const QTextBlock &target)
+{
+    bool inFence = false;
+    for (QTextBlock b = doc->begin(); b.isValid() && b != target; b = b.next()) {
+        const QByteArray utf8 = b.text().toUtf8();
+        const auto result     = komai::rust::spellcheck_check_block(toRustStr(utf8), inFence);
+        inFence               = result.in_code_fence_after;
+    }
+    return inFence;
+}
+
 } // namespace
+
+class SpellChecker::Highlighter : public QSyntaxHighlighter
+{
+public:
+    Highlighter(QTextDocument *doc, QColor color)
+      : QSyntaxHighlighter(doc)
+      , color_(color)
+    {
+    }
+
+    void setColor(QColor color)
+    {
+        if (!color.isValid() || color_ == color)
+            return;
+        color_ = color;
+        rehighlight();
+    }
+
+protected:
+    void highlightBlock(const QString &text) override
+    {
+        const bool inFence    = previousBlockState() == 1;
+        const QByteArray utf8 = text.toUtf8();
+        const auto result     = komai::rust::spellcheck_check_block(toRustStr(utf8), inFence);
+
+        // QSyntaxHighlighter's `setFormat` writes per-layout additional
+        // formats, and the Qt Quick text renderer ignores the
+        // `underlineColor` property on those: the underline always picks up
+        // the foreground colour. Tint the foreground itself in the error
+        // colour so the underline (and the word) read as misspelled — the
+        // same pattern Slack/Discord/GitHub use.
+        QTextCharFormat fmt;
+        fmt.setUnderlineStyle(QTextCharFormat::SingleUnderline);
+        fmt.setFontUnderline(true);
+        fmt.setForeground(color_);
+
+        for (const auto &range : result.ranges) {
+            const int start = static_cast<int>(range.start_utf16);
+            const int len   = static_cast<int>(range.length_utf16);
+            if (len > 0)
+                setFormat(start, len, fmt);
+        }
+
+        setCurrentBlockState(result.in_code_fence_after ? 1 : 0);
+    }
+
+private:
+    QColor color_;
+};
 
 SpellChecker::SpellChecker(QObject *parent)
   : QObject(parent)
-  , recheckTimer_(new QTimer(this))
 {
-    recheckTimer_->setSingleShot(true);
-    recheckTimer_->setInterval(kRecheckDebounceMs);
-    connect(recheckTimer_, &QTimer::timeout, this, &SpellChecker::recheckNow);
-
     // Re-check across the document whenever the global config changes (master
     // toggle, language set, an added/ignored word).
-    connect(SpellCheckEngine::instance(),
-            &SpellCheckEngine::configChanged,
-            this,
-            &SpellChecker::recheckNow);
+    connect(SpellCheckEngine::instance(), &SpellCheckEngine::configChanged, this, [this]() {
+        if (highlighter_)
+            highlighter_->rehighlight();
+    });
 }
+
+SpellChecker::~SpellChecker() = default;
 
 QTextDocument *
 SpellChecker::targetDocument() const
@@ -57,23 +120,12 @@ SpellChecker::setDocument(QQuickTextDocument *doc)
     if (document_ == doc && targetDocument())
         return;
 
-    if (QTextDocument *old = targetDocument())
-        disconnect(old, nullptr, this, nullptr);
-
+    highlighter_.reset();
     document_ = doc;
-    underlinedRanges_.clear();
 
-    if (QTextDocument *inner = targetDocument()) {
-        connect(inner,
-                &QTextDocument::contentsChange,
-                this,
-                [this](int position, int /*charsRemoved*/, int charsAdded) {
-                    if (charsAdded > 0)
-                        clearUnderlineOnRange(position, charsAdded);
-                    scheduleRecheck();
-                });
-        recheckNow();
-    }
+    if (QTextDocument *inner = targetDocument())
+        highlighter_ = std::make_unique<Highlighter>(inner, underlineColor_);
+
     emit documentChanged();
 }
 
@@ -83,69 +135,9 @@ SpellChecker::setUnderlineColor(const QColor &color)
     if (!color.isValid() || underlineColor_ == color)
         return;
     underlineColor_ = color;
-    recheckNow();
-}
-
-void
-SpellChecker::scheduleRecheck()
-{
-    if (applyingFormats_)
-        return;
-    recheckTimer_->start();
-}
-
-void
-SpellChecker::recheckNow()
-{
-    recheckTimer_->stop();
-    QTextDocument *doc = targetDocument();
-    if (!doc)
-        return;
-
-    applyingFormats_       = true;
-    const bool wasModified = doc->isModified();
-
-    // Clear underline format across the whole document, not just the cached
-    // ranges. When the user keeps typing right after a misspelled word, Qt
-    // copies the preceding character's format onto the newly inserted run, so
-    // the squiggle fans out past the range we originally marked. A range-
-    // limited clear would miss the leaked tail; this catches it.
-    QTextCharFormat clearFmt;
-    clearFmt.setUnderlineStyle(QTextCharFormat::NoUnderline);
-    clearFmt.setFontUnderline(false);
-    QTextCursor clearCursor(doc);
-    clearCursor.select(QTextCursor::Document);
-    clearCursor.mergeCharFormat(clearFmt);
-    underlinedRanges_.clear();
-
-    // The Qt Quick text renderer doesn't draw the wave underline style, so use
-    // a plain underline — the red colour still reads clearly as "misspelled".
-    QTextCharFormat waveFmt;
-    waveFmt.setUnderlineStyle(QTextCharFormat::SingleUnderline);
-    waveFmt.setUnderlineColor(underlineColor_);
-    waveFmt.setFontUnderline(true);
-
-    bool inFence = false;
-    for (QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
-        const QString text    = block.text();
-        const QByteArray utf8 = text.toUtf8();
-        const auto result     = komai::rust::spellcheck_check_block(toRustStr(utf8), inFence);
-        inFence               = result.in_code_fence_after;
-        for (const auto &range : result.ranges) {
-            const int absStart = block.position() + static_cast<int>(range.start_utf16);
-            const int len      = static_cast<int>(range.length_utf16);
-            if (len <= 0)
-                continue;
-            QTextCursor c(doc);
-            c.setPosition(absStart);
-            c.setPosition(absStart + len, QTextCursor::KeepAnchor);
-            c.mergeCharFormat(waveFmt);
-            underlinedRanges_.append({absStart, len});
-        }
-    }
-
-    doc->setModified(wasModified);
-    applyingFormats_ = false;
+    if (highlighter_)
+        highlighter_->setColor(color);
+    emit underlineColorChanged();
 }
 
 QVariantMap
@@ -153,19 +145,35 @@ SpellChecker::misspelledWordAround(int position) const
 {
     QVariantMap result;
     result.insert(QStringLiteral("found"), false);
+
     QTextDocument *doc = targetDocument();
     if (!doc)
         return result;
-    for (const auto &[start, length] : std::as_const(underlinedRanges_)) {
-        if (position < start || position > start + length)
+
+    QTextBlock block = doc->findBlock(position);
+    if (!block.isValid())
+        return result;
+
+    const bool inFence    = inFenceBefore(doc, block);
+    const QByteArray utf8 = block.text().toUtf8();
+    const auto checked    = komai::rust::spellcheck_check_block(toRustStr(utf8), inFence);
+
+    const int relPos = position - block.position();
+    for (const auto &range : checked.ranges) {
+        const int start = static_cast<int>(range.start_utf16);
+        const int len   = static_cast<int>(range.length_utf16);
+        if (len <= 0)
             continue;
+        if (relPos < start || relPos > start + len)
+            continue;
+        const int absStart = block.position() + start;
         QTextCursor c(doc);
-        c.setPosition(start);
-        c.setPosition(start + length, QTextCursor::KeepAnchor);
+        c.setPosition(absStart);
+        c.setPosition(absStart + len, QTextCursor::KeepAnchor);
         result.insert(QStringLiteral("found"), true);
         result.insert(QStringLiteral("word"), c.selectedText());
-        result.insert(QStringLiteral("start"), start);
-        result.insert(QStringLiteral("length"), length);
+        result.insert(QStringLiteral("start"), absStart);
+        result.insert(QStringLiteral("length"), len);
         return result;
     }
     return result;
@@ -181,25 +189,4 @@ SpellChecker::replaceRange(int start, int length, const QString &replacement)
     cursor.setPosition(start);
     cursor.setPosition(start + length, QTextCursor::KeepAnchor);
     cursor.insertText(replacement);
-}
-
-void
-SpellChecker::clearUnderlineOnRange(int position, int length)
-{
-    if (applyingFormats_)
-        return;
-    QTextDocument *doc = targetDocument();
-    if (!doc || length <= 0)
-        return;
-    applyingFormats_       = true;
-    const bool wasModified = doc->isModified();
-    QTextCharFormat clearFmt;
-    clearFmt.setUnderlineStyle(QTextCharFormat::NoUnderline);
-    clearFmt.setFontUnderline(false);
-    QTextCursor c(doc);
-    c.setPosition(position);
-    c.setPosition(position + length, QTextCursor::KeepAnchor);
-    c.mergeCharFormat(clearFmt);
-    doc->setModified(wasModified);
-    applyingFormats_ = false;
 }

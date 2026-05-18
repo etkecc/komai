@@ -5,16 +5,15 @@
 #pragma once
 
 #include <QColor>
-#include <QList>
 #include <QObject>
-#include <QPair>
 #include <QPointer>
 #include <QQmlEngine>
 #include <QQuickTextDocument>
 #include <QVariantMap>
 
+#include <memory>
+
 class QTextDocument;
-class QTimer;
 
 // Attaches spell-check squiggles to a TextArea's document. Used from QML as
 //
@@ -23,12 +22,13 @@ class QTimer;
 //       underlineColor: Komai.theme.error
 //   }
 //
-// It checks the document (via the Rust engine behind SpellCheckEngine) on a
-// short debounce after edits, and underlines the misspelled spans by writing a
-// wave-underline char format straight into the QTextDocument with a QTextCursor
-// — the same way the transcription overlay applies its italics, which renders
-// reliably in the Qt Quick text editor (a QSyntaxHighlighter's overlay formats
-// did not). Also exposes the two helpers the right-click suggestions menu uses.
+// It checks the document (via the Rust engine behind SpellCheckEngine) via a
+// QSyntaxHighlighter attached to the document's inner QTextDocument. The
+// highlighter's `setFormat` writes per-layout additional formats (not stored
+// in the document's character runs), so misspell underlines render correctly
+// in the Qt Quick text editor without polluting the QTextDocument undo stack
+// — Ctrl+Z stays focused on the user's typing edits. Also exposes the two
+// helpers the right-click suggestions menu uses.
 class SpellChecker : public QObject
 {
     Q_OBJECT
@@ -40,6 +40,7 @@ class SpellChecker : public QObject
 
 public:
     explicit SpellChecker(QObject *parent = nullptr);
+    ~SpellChecker() override;
 
     QQuickTextDocument *document() const { return document_; }
     void setDocument(QQuickTextDocument *doc);
@@ -60,22 +61,11 @@ Q_SIGNALS:
     void underlineColorChanged();
 
 private:
+    class Highlighter;
+
     QTextDocument *targetDocument() const;
-    void scheduleRecheck();
-    void recheckNow();
-    // Strip the underline format off [position, position + length) right
-    // now. Called from contentsChange so the underline Qt fans out onto
-    // freshly inserted text disappears on the same keystroke, instead of
-    // surviving until the debounced recheck repaints.
-    void clearUnderlineOnRange(int position, int length);
 
     QPointer<QQuickTextDocument> document_;
     QColor underlineColor_{Qt::red};
-    QTimer *recheckTimer_ = nullptr;
-    // Absolute (position, length) of each span we've currently underlined, so
-    // we can clear them before re-checking.
-    QList<QPair<int, int>> underlinedRanges_;
-    // True while we're rewriting char formats, so the document's own
-    // change signal doesn't trigger another recheck.
-    bool applyingFormats_ = false;
+    std::unique_ptr<Highlighter> highlighter_;
 };

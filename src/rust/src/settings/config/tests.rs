@@ -1202,7 +1202,7 @@ timeline:
 }
 
 #[test]
-fn fresh_profile_lands_on_openai_batch_cloud_defaults() {
+fn fresh_profile_lands_on_openai_realtime_cloud_defaults() {
     // Brand new profile: nothing under integrations.transcription.* in YAML.
     // The parser should fill in conventional defaults so a user with just an
     // API key in the keychain reaches an `is_ready` resolver state.
@@ -1216,7 +1216,7 @@ fn fresh_profile_lands_on_openai_batch_cloud_defaults() {
             .as_ref()
             .map(|t| t.to_storage_string())
             .as_deref(),
-        Some("openai_batch")
+        Some("openai_realtime")
     );
     assert_eq!(
         config.integrations.transcription.api_url.as_deref(),

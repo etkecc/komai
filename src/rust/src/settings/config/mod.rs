@@ -645,7 +645,7 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             transcription: ConfigIntegrationsTranscription {
                 provider: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_PROVIDER_PATH)
                     .and_then(parse_optional_storage_token)
-                    .or(Some(ConfigIntegrationsTranscriptionProviderToken::OpenaiBatch)),
+                    .or(Some(ConfigIntegrationsTranscriptionProviderToken::OpenaiRealtime)),
                 api_url: yaml::value_at_path(root, &INTEGRATIONS_TRANSCRIPTION_API_URL_PATH)
                     .and_then(parse_optional_string)
                     .or_else(|| Some("https://api.openai.com/v1".to_owned())),

@@ -134,7 +134,7 @@ pub fn resolve_for_room(
         if let Some(token) = global.provider.as_ref() {
             return TranscriptionProvider::from_token(token);
         }
-        TranscriptionProvider::OpenaiBatch
+        TranscriptionProvider::OpenaiRealtime
     };
 
     let api_url = pick_str(
@@ -209,21 +209,21 @@ mod tests {
     #[test]
     fn defaults_are_sane() {
         let resolved = resolve_for_room(&empty_globals(), "!room:server", None, None);
-        assert_eq!(resolved.provider, TranscriptionProvider::OpenaiBatch);
+        assert_eq!(resolved.provider, TranscriptionProvider::OpenaiRealtime);
         assert!(resolved.api_url.is_empty());
         assert!(resolved.api_key.is_none());
-        assert_eq!(resolved.model, "whisper-1");
+        assert_eq!(resolved.model, "gpt-realtime-whisper");
         assert!(resolved.language.is_empty());
         assert!(resolved.prompt.is_empty());
     }
 
     #[test]
-    fn realtime_default_model() {
+    fn batch_provider_resolves_default_model() {
         let mut globals = empty_globals();
-        globals.provider = Some(ConfigIntegrationsTranscriptionProviderToken::OpenaiRealtime);
+        globals.provider = Some(ConfigIntegrationsTranscriptionProviderToken::OpenaiBatch);
         let resolved = resolve_for_room(&globals, "!room:server", None, None);
-        assert_eq!(resolved.provider, TranscriptionProvider::OpenaiRealtime);
-        assert_eq!(resolved.model, "gpt-realtime-whisper");
+        assert_eq!(resolved.provider, TranscriptionProvider::OpenaiBatch);
+        assert_eq!(resolved.model, "whisper-1");
     }
 
     #[test]

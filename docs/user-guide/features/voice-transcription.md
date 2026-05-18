@@ -8,9 +8,9 @@ Hold-to-talk speech-to-text in the composer. Long-press `Space` (or click & hold
 ## 🚀 Quick start
 
 1. Open **Settings → Integrations → Voice transcription**.
-2. Pick a **Mode**:
-   - **Batch (one-shot)** — record, send the whole clip at the end, get the transcript back. Works with every OpenAI-compatible server.
+2. Pick a **Mode** (Realtime is the default for new installs):
    - **Realtime (streaming)** — text streams in as you speak. Requires a server that supports the OpenAI Realtime transcription protocol.
+   - **Batch (one-shot)** — record, send the whole clip at the end, get the transcript back. Works with every OpenAI-compatible server.
 3. Pick a **Preset**: **OpenAI cloud** locks the API URL to `https://api.openai.com/v1`; **Custom server** lets you point at a local transcription server.
 4. Fill in the API key (if required), the model, and optionally a language code or vocabulary prompt.
 5. In any room, **long-press `Space`** in the composer textarea. Speak. Release `Space`. The transcript replaces nothing — it lands at your cursor, so you can keep typing around it.
@@ -49,15 +49,15 @@ composer:
 
 integrations:
   transcription:
-    provider: openai_batch              # openai_batch | openai_realtime
+    provider: openai_realtime           # openai_realtime (default) | openai_batch
     api_url: "https://api.openai.com/v1"
-    model: "whisper-1"                  # batch default; for realtime: gpt-realtime-whisper
+    model: "gpt-realtime-whisper"       # realtime default; for batch: whisper-1
     language: ""                        # ISO-639-1, empty = autodetect
     prompt: ""                          # vocabulary/style hint, optional
     by_room:
       "!example:matrix.org":
-        provider: openai_realtime
-        model: gpt-realtime-whisper
+        provider: openai_batch
+        model: whisper-1
         language: bg
       "!other:matrix.org":
         api_url: "http://localhost:8080/v1"
@@ -87,9 +87,9 @@ Bumping the default in a future Komai release transparently upgrades anyone who 
 
 ## 🤔 Batch or streaming?
 
-Batch is the safer default: it works with every OpenAI-compatible server, costs less per minute, and shows the full transcript shortly after you release `Space`.
+Streaming is the default for new installs. `gpt-realtime-whisper` emits transcript deltas continuously as you speak, close to true word-by-word. If you override Model to the older `gpt-4o-mini-transcribe`, it waits for server-VAD-detected silences and emits phrase-by-phrase instead.
 
-Streaming's appeal is live feedback during longer dictations. `gpt-realtime-whisper` (the default) emits transcript deltas continuously as you speak — close to true word-by-word. The older `gpt-4o-mini-transcribe` instead waits for server-VAD-detected silences and emits phrase-by-phrase. Either way it's more expensive than batch `whisper-1`, and not every OpenAI-compatible server exposes the realtime WebSocket endpoint.
+Batch is the safer alternative: it works with every OpenAI-compatible server (not every server exposes the realtime WebSocket endpoint) and costs less per minute. Switch to it if you're pointing Komai at a local server that lacks realtime support, or if streaming's roughly 3× higher per-minute cost outweighs the live-feedback benefit for your typical use.
 
 
 ## 🌐 Compatible providers

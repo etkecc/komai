@@ -24,13 +24,14 @@
 //!   "transcription"` (required, distinguishes a transcription-only
 //!   session from S2S). Format / transcription / turn_detection sit
 //!   under `session.audio.input.*`; audio format is the structured
-//!   `{type: "audio/pcm", rate: <hz>}` object. Server VAD is required
-//!   for any pre-commit transcription: without it the server buffers
-//!   all audio until commit, so the user sees nothing until release.
-//!   With VAD a phrase-length pause triggers an utterance commit and
-//!   shortly after the phrase appears. This is the closest the API
-//!   gets to "live"; it does not stream word-by-word during continuous
-//!   speech.
+//!   `{type: "audio/pcm", rate: <hz>}` object. Some models (e.g.
+//!   `gpt-realtime-whisper`) stream deltas natively and reject
+//!   `turn_detection` — they pace output themselves. Other models
+//!   (`gpt-4o-mini-transcribe`, `gpt-4o-transcribe`) require server
+//!   VAD: without it they buffer all audio until commit. With VAD
+//!   enabled, a phrase-length pause triggers an utterance commit and
+//!   shortly after the phrase appears; deltas land per utterance
+//!   rather than per word.
 //! - Stream: `input_audio_buffer.append` with base64 PCM16 chunks. With
 //!   VAD enabled, the server transcribes incrementally and emits deltas
 //!   while the user is still speaking; VAD also auto-commits each
@@ -75,12 +76,11 @@ pub const REALTIME_SAMPLE_RATE_HZ: u32 = 24000;
 /// hesitations don't fragment the transcript. 500ms matches OpenAI's
 /// recommended default.
 ///
-/// Note: this is the closest OpenAI's API gets to "live" — true
-/// word-by-word streaming during continuous speech is not supported.
-/// Audio is buffered until VAD detects silence (or the client sends
-/// commit), THEN the model transcribes, emitting deltas during the
-/// post-commit transcription phase. So deltas flow per-utterance, not
-/// per-word.
+/// Only applies to VAD-based models. Audio is buffered until VAD
+/// detects silence (or the client sends commit), then the model
+/// transcribes and emits deltas, so deltas flow per-utterance, not
+/// per-word. Native-streaming models (`gpt-realtime-whisper`) bypass
+/// `turn_detection` entirely.
 const VAD_SILENCE_DURATION_MS: u32 = 500;
 
 /// Hard cap on a single realtime session's wall-clock duration. Mirrors
@@ -624,30 +624,46 @@ fn build_session_update(cfg: &ResolvedTranscriptionConfig) -> Value {
         transcription.insert("prompt".into(), Value::String(cfg.prompt.clone()));
     }
 
+    let mut input = serde_json::Map::new();
+    input.insert(
+        "format".into(),
+        json!({"type": "audio/pcm", "rate": REALTIME_SAMPLE_RATE_HZ}),
+    );
+    input.insert("transcription".into(), Value::Object(transcription));
+    if model_supports_turn_detection(&cfg.model) {
+        // Phrase-by-phrase streaming: server VAD splits utterances on
+        // detected silence so deltas land while the user is still
+        // speaking. Models that stream natively (see
+        // `model_supports_turn_detection`) reject this block.
+        input.insert(
+            "turn_detection".into(),
+            json!({
+                "type": "server_vad",
+                "threshold": 0.5,
+                "prefix_padding_ms": 300,
+                "silence_duration_ms": VAD_SILENCE_DURATION_MS,
+            }),
+        );
+    }
+
     // `session.type: "transcription"` is required to distinguish from S2S.
-    // Server VAD is required for live deltas: without it the server holds
-    // all audio until commit and the user sees nothing until release.
     json!({
         "type": "session.update",
         "session": {
             "type": "transcription",
             "audio": {
-                "input": {
-                    "format": {
-                        "type": "audio/pcm",
-                        "rate": REALTIME_SAMPLE_RATE_HZ,
-                    },
-                    "transcription": Value::Object(transcription),
-                    "turn_detection": {
-                        "type": "server_vad",
-                        "threshold": 0.5,
-                        "prefix_padding_ms": 300,
-                        "silence_duration_ms": VAD_SILENCE_DURATION_MS,
-                    },
-                },
+                "input": Value::Object(input),
             },
         }
     })
+}
+
+/// Some realtime transcription models stream natively and reject the
+/// `turn_detection` block (`invalid_value: Turn detection is not
+/// supported for this transcription model`). They pace deltas
+/// themselves rather than waiting on server-VAD-detected silence.
+fn model_supports_turn_detection(model: &str) -> bool {
+    !matches!(model, "gpt-realtime-whisper")
 }
 
 /// Derive the WebSocket URL for the OpenAI Realtime transcription
@@ -825,6 +841,14 @@ mod tests {
             input["turn_detection"]["silence_duration_ms"],
             VAD_SILENCE_DURATION_MS
         );
+    }
+
+    #[test]
+    fn session_update_omits_turn_detection_for_gpt_realtime_whisper() {
+        let payload = build_session_update(&cfg("gpt-realtime-whisper", "en", ""));
+        let input = &payload["session"]["audio"]["input"];
+        assert!(input.get("turn_detection").is_none());
+        assert_eq!(input["transcription"]["model"], "gpt-realtime-whisper");
     }
 
     #[test]

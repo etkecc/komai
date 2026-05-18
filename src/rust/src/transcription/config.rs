@@ -84,11 +84,13 @@ impl ResolvedTranscriptionConfig {
 const DEFAULT_BATCH_MODEL: &str = "whisper-1";
 
 /// Default model when none is configured for realtime mode. `whisper-1`
-/// doesn't actually stream — it returns the full transcript at the end —
-/// so streaming users would get nothing useful from it. `gpt-4o-mini-transcribe`
-/// is OpenAI's cheaper streaming model and is what compatible local
-/// servers (Lemonade etc.) tend to alias to their own streaming model.
-const DEFAULT_REALTIME_MODEL: &str = "gpt-4o-mini-transcribe";
+/// doesn't actually stream (it returns the full transcript at the end),
+/// so streaming users would get nothing useful from it.
+/// `gpt-realtime-whisper` is OpenAI's purpose-built streaming
+/// transcription model, designed for low-latency transcript deltas.
+/// Local OpenAI-compatible realtime servers (Lemonade etc.) that still
+/// target the older `gpt-4o-mini-transcribe` will need users to override.
+const DEFAULT_REALTIME_MODEL: &str = "gpt-realtime-whisper";
 
 /// Default api_url when none is configured. Empty so the UI clearly shows
 /// "needs configuration" rather than silently aiming at OpenAI cloud.
@@ -187,7 +189,9 @@ pub fn resolve_for_room(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::settings::config::ConfigIntegrationsTranscriptionOverrides;
+    use crate::settings::config::{
+        ConfigIntegrationsTranscriptionOverrides, ConfigIntegrationsTranscriptionProviderToken,
+    };
     use std::collections::BTreeMap;
 
     fn empty_globals() -> ConfigIntegrationsTranscription {
@@ -211,6 +215,15 @@ mod tests {
         assert_eq!(resolved.model, "whisper-1");
         assert!(resolved.language.is_empty());
         assert!(resolved.prompt.is_empty());
+    }
+
+    #[test]
+    fn realtime_default_model() {
+        let mut globals = empty_globals();
+        globals.provider = Some(ConfigIntegrationsTranscriptionProviderToken::OpenaiRealtime);
+        let resolved = resolve_for_room(&globals, "!room:server", None, None);
+        assert_eq!(resolved.provider, TranscriptionProvider::OpenaiRealtime);
+        assert_eq!(resolved.model, "gpt-realtime-whisper");
     }
 
     #[test]

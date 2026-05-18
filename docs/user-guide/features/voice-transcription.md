@@ -51,13 +51,13 @@ integrations:
   transcription:
     provider: openai_batch              # openai_batch | openai_realtime
     api_url: "https://api.openai.com/v1"
-    model: "whisper-1"                  # batch default; for realtime: gpt-4o-mini-transcribe
+    model: "whisper-1"                  # batch default; for realtime: gpt-realtime-whisper
     language: ""                        # ISO-639-1, empty = autodetect
     prompt: ""                          # vocabulary/style hint, optional
     by_room:
       "!example:matrix.org":
         provider: openai_realtime
-        model: gpt-4o-mini-transcribe
+        model: gpt-realtime-whisper
         language: bg
       "!other:matrix.org":
         api_url: "http://localhost:8080/v1"
@@ -74,11 +74,11 @@ Per-room overrides are partial: anything you don't override falls back to the gl
 Leave **Model** blank in the settings page and Komai picks a sensible default for the selected **Provider**:
 
 - **Batch** → `whisper-1`. Universally accepted: it's OpenAI's batch transcription model id, and every OpenAI-compatible local server we surveyed (`whisper.cpp`'s `whisper-server`, AMD Lemonade, LocalAI, vLLM) accepts it as a passthrough — the server uses whatever Whisper model it has loaded regardless of the name you send. `whisper-1` is the safe choice if you're not sure.
-- **Realtime** → `gpt-4o-mini-transcribe`. `whisper-1` doesn't actually stream — it returns the full transcript at the end, which defeats the point of realtime. `gpt-4o-mini-transcribe` is OpenAI's cheaper streaming-capable model and is the model id local servers that support realtime (Lemonade v9.4.1+) target.
+- **Realtime** → `gpt-realtime-whisper`. `whisper-1` doesn't actually stream (it returns the full transcript at the end), which defeats the point of realtime. `gpt-realtime-whisper` is OpenAI's purpose-built streaming transcription model, designed for low-latency transcript deltas. The older `gpt-4o-mini-transcribe` still works on OpenAI cloud and is the model id that local realtime servers (Lemonade v9.4.1+) currently target, so override Model to it when pointing at one of those.
 
 Override Model when you want something different:
 
-- **Better cloud accuracy.** OpenAI's `gpt-4o-transcribe` is more accurate than `whisper-1` and `gpt-4o-mini-transcribe`, at higher cost.
+- **Better cloud accuracy.** OpenAI's `gpt-4o-transcribe` (batch) is generally more accurate than `whisper-1` and the streaming-capable models, at higher cost.
 - **A specific local model.** Some servers (e.g. `whisper.cpp`'s `whisper-server` with `--inference-path`) ignore the Model name; others key off it. Check your server's docs.
 - **A non-OpenAI cloud provider's compatibility model id.** Groq, Deepgram, AssemblyAI all expose OpenAI-compatible endpoints with their own model ids.
 
@@ -89,14 +89,14 @@ Bumping the default in a future Komai release transparently upgrades anyone who 
 
 Batch is the safer default: it works with every OpenAI-compatible server, costs less per minute, and shows the full transcript shortly after you release `Space`.
 
-Streaming's appeal is live feedback during longer dictations. For a typical short chat message gesture you barely notice the difference, because the server only transcribes after detecting a silence gap, and a brief hold-to-talk rarely contains one. Streaming is *not* word-by-word: it's phrase-by-phrase, gated by server-side VAD silence detection. It's also more expensive (uses `gpt-4o-mini-transcribe` rather than `whisper-1`) and not every OpenAI-compatible server exposes the realtime WebSocket endpoint.
+Streaming's appeal is live feedback during longer dictations. `gpt-realtime-whisper` (the default) emits transcript deltas continuously as you speak — close to true word-by-word. The older `gpt-4o-mini-transcribe` instead waits for server-VAD-detected silences and emits phrase-by-phrase. Either way it's more expensive than batch `whisper-1`, and not every OpenAI-compatible server exposes the realtime WebSocket endpoint.
 
 
 ## 🌐 Compatible providers
 
 ### Cloud (batch + realtime)
 
-- **OpenAI** — both `whisper-1` (batch) and `gpt-4o-transcribe`/`gpt-4o-mini-transcribe` (batch + realtime).
+- **OpenAI** — `whisper-1` (batch), `gpt-4o-transcribe`/`gpt-4o-mini-transcribe` (batch + realtime), and `gpt-realtime-whisper` (realtime).
 - **AMD Lemonade Server v9.4.1+** — local-first OpenAI-compatible server with batch *and* realtime.
 
 ### Cloud (batch only via OpenAI-compatible layer)

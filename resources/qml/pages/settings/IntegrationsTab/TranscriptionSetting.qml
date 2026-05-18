@@ -191,7 +191,7 @@ Item {
                 text: Settings.integrationsTranscriptionModel
                 placeholderText: qsTr("Example: %1").arg(
                     Settings.integrationsTranscriptionProvider === "openai_realtime"
-                        ? "gpt-4o-mini-transcribe"
+                        ? "gpt-realtime-whisper"
                         : "whisper-1")
                 onEditingFinished: {
                     Settings.integrationsTranscriptionModel = text.trim();

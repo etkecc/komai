@@ -788,7 +788,7 @@ Item {
                         text: preferencesTab._resolvedTranscriptionField("model")
                         placeholderText: qsTr("Example: %1").arg(
                             preferencesTab._resolvedTranscriptionField("provider") === "openai_realtime"
-                                ? "gpt-4o-mini-transcribe"
+                                ? "gpt-realtime-whisper"
                                 : "whisper-1")
                         onEditingFinished: {
                             if (!preferencesTab.currentRoomId) return;

@@ -770,21 +770,49 @@ async fn run_room_timeline_loop(
     let mut current_values = items;
     let subscribe_count = current_values.len();
 
-    // Helper: snapshot the room's thread reply counts from the shared cache.
-    let get_thread_counts = |cache: &Arc<Mutex<HashMap<String, HashMap<String, u32>>>>, rid: &str| -> Option<HashMap<String, u32>> {
+    // Build the merged thread-reply-count map for a snapshot: start from the
+    // local-derived counts (scan of `current_values`, gives accurate counts for
+    // threads whose replies are all loaded), then overlay the server-side cache
+    // (populated by `list_threads()`) using max() so authoritative server
+    // counts win for threads with replies in scrollback we haven't paginated.
+    //
+    // Computing local counts fresh on every snapshot (instead of incrementing
+    // a long-lived cache) avoids double-counting when pagination loads replies
+    // already accounted for by `list_threads()`, which previously made the
+    // thread-root badge show e.g. 12 for a thread that actually has 6 replies.
+    let merged_thread_counts = |values: &Vector<Arc<TimelineItem>>, cache: &Arc<Mutex<HashMap<String, HashMap<String, u32>>>>, rid: &str| -> HashMap<String, u32> {
+        let mut counts: HashMap<String, u32> = HashMap::new();
+        let mut seen: HashSet<String> = HashSet::new();
+        for item in values.iter() {
+            if let Some(event) = item.as_event() {
+                if let Some(event_id) = event.event_id() {
+                    if let matrix_sdk_ui::timeline::TimelineItemContent::MsgLike(msg) = event.content() {
+                        if let Some(thread_root) = &msg.thread_root {
+                            if seen.insert(event_id.to_string()) {
+                                *counts.entry(thread_root.to_string()).or_insert(0) += 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         let guard = cache.lock().expect("poisoned thread reply counts mutex");
-        guard.get(rid).cloned()
+        if let Some(server_counts) = guard.get(rid) {
+            for (root_id, &server_count) in server_counts {
+                counts
+                    .entry(root_id.clone())
+                    .and_modify(|c| *c = (*c).max(server_count))
+                    .or_insert(server_count);
+            }
+        }
+        counts
     };
-
-    // Track which thread reply event_ids we've already counted so that
-    // incremental sync diffs don't double-count.
-    let mut seen_thread_reply_event_ids: HashSet<String> = HashSet::new();
 
     {
         let read_own_event_ids = compute_read_own_event_ids(&current_values, own_user_id);
         let snapshot_build_started_at = Instant::now();
-        let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
-        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, room_counts.as_ref());
+        let room_counts = merged_thread_counts(&current_values, &thread_reply_counts, &room_id);
+        let (snapshot, media_lookup) = build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, Some(&room_counts));
         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
         let snapshot_count = snapshot.len();
         {
@@ -856,7 +884,7 @@ async fn run_room_timeline_loop(
     // a clone captured at spawn time becomes stale once backward pagination
     // diffs arrive, so writing it back would clobber the live snapshot
     // (e.g. revert 38 paginated items back to the 20 we had at subscribe).
-    // The next diff in the main loop reads the cache via `get_thread_counts`
+    // The next diff in the main loop reads the cache via `merged_thread_counts`
     // and rebuilds with accurate counts naturally.
     {
         let client_clone = client.clone();
@@ -884,11 +912,13 @@ async fn run_room_timeline_loop(
                         if !counts.is_empty() {
                             let thread_count = counts.len();
                             {
+                                // Overwrite the room's authoritative server-side
+                                // count map.  Local-derived counts are computed
+                                // separately at snapshot-build time via
+                                // `merged_thread_counts`, so this cache only ever
+                                // stores what `list_threads()` last returned.
                                 let mut guard = cache_clone.lock().expect("poisoned thread reply counts mutex");
-                                let room_counts = guard.entry(room_id_clone.clone()).or_default();
-                                for (eid, count) in &counts {
-                                    room_counts.entry(eid.clone()).and_modify(|c| *c = (*c).max(*count)).or_insert(*count);
-                                }
+                                guard.insert(room_id_clone.clone(), counts);
                             }
                             tracing::info!(handle_id, room_id = %room_id_clone, thread_count, "Cached thread reply counts from list_threads()");
                         }
@@ -947,34 +977,11 @@ async fn run_room_timeline_loop(
                             diff.apply(&mut current_values);
                         }
 
-                        // Detect new thread replies and increment cached counts.
-                        {
-                            let mut cache_guard = thread_reply_counts
-                                .lock()
-                                .expect("poisoned thread reply counts mutex");
-                            let room_counts = cache_guard.entry(room_id.clone()).or_default();
-                            for item in current_values.iter() {
-                                if let Some(event) = item.as_event() {
-                                    if let Some(event_id) = event.event_id() {
-                                        if let matrix_sdk_ui::timeline::TimelineItemContent::MsgLike(msg) = event.content() {
-                                            if let Some(thread_root) = &msg.thread_root {
-                                                let eid = event_id.to_string();
-                                                if seen_thread_reply_event_ids.insert(eid) {
-                                                    let root_id = thread_root.to_string();
-                                                    room_counts.entry(root_id).and_modify(|c| *c += 1).or_insert(1);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
                         let read_own_event_ids = compute_read_own_event_ids(&current_values, own_user_id);
                         let snapshot_build_started_at = Instant::now();
-                        let room_counts = get_thread_counts(&thread_reply_counts, &room_id);
+                        let room_counts = merged_thread_counts(&current_values, &thread_reply_counts, &room_id);
                         let (snapshot, media_lookup) =
-                            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, room_counts.as_ref());
+                            build_room_timeline_snapshot(&current_values, own_user_id, &read_own_event_ids, Some(&room_counts));
                         let snapshot_build_elapsed = snapshot_build_started_at.elapsed();
                         let item_count = snapshot.len();
                         {

@@ -49,12 +49,30 @@ When a room's timeline loop starts (`run_room_timeline_loop` in
 This does not block the initial timeline paint -- the timeline appears
 immediately with 0 counts, then updates within ~200ms when the cache is ready.
 
-### Incremental updates
+### Local-derived counts
 
-When timeline diffs arrive via sync, the loop scans for new thread reply events
-(items with a non-empty `thread_root`).  Each new reply increments the cached
-count for its thread root.  A `HashSet<String>` of seen reply event IDs prevents
-double-counting across diff batches.
+The shared cache stores only the authoritative server-side counts from
+`list_threads()`.  Local-derived counts (how many replies for a given thread
+root are currently loaded in the timeline) are computed fresh on every snapshot
+build by scanning `current_values` once.  This avoids the double-counting bug
+that would otherwise occur when `list_threads()` had already accounted for a
+batch of replies and pagination (or the initial subscribe) then incremented the
+cache on top of it.
+
+For each thread root, the count passed to `build_room_timeline_snapshot()` is:
+
+```
+count = max(local_count_from_current_values, server_count_from_list_threads)
+```
+
+This handles all four cases correctly:
+
+- Thread fully covered by `list_threads()` first page → server count wins.
+- Thread root older than `list_threads()` first page → local count wins.
+- New reply arriving via live sync → local count grows; if it exceeds the
+  (now slightly stale) server count, it wins via `max()`.
+- Backward pagination loading older replies → local count grows but capped
+  by server count via `max()`, never doubles.
 
 ### Consumption
 

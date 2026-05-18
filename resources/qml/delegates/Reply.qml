@@ -491,7 +491,7 @@ Pane {
                 id: mediaPreviewLoader
 
                 active: r.usesCompactMediaPreview
-                    && r.resolvedContentWidth > 0
+                    && r.compactPreviewContentWidthLimit > 0
                     && r.compactMediaWidth > 0
                     && r.compactMediaHeight > 0
                 visible: active

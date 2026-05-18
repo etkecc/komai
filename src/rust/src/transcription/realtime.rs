@@ -12,29 +12,25 @@
 //! drains on a Qt timer (see `transcription/ffi.rs`).
 //!
 //! Wire protocol reference:
-//! - Connect: `wss://{host}/v1/realtime?intent=transcription`. We derive
-//!   the WebSocket URL from the configured HTTP `api_url` (rewriting the
-//!   scheme and appending `/realtime?intent=transcription` if it's not
-//!   already there).
-//! - Auth: `Authorization: Bearer <key>` + `OpenAI-Beta: realtime=v1`.
-//! - Configure: send a `transcription_session.update` event. Sessions
-//!   opened with `?intent=transcription` are governed by the dedicated
-//!   transcription-session event family — not the speech-to-speech
-//!   `session.update` (which is rejected here with
-//!   "Passing a realtime session update event to transcription session is
-//!   not allowed.") and not the GA-style nested `session.audio.input.format`
-//!   object (rejected with "Unknown parameter: 'session.audio'"). Payload:
-//!   `input_audio_format: "pcm16"`,
-//!   `input_audio_transcription.{model, language, prompt}`, and
-//!   `turn_detection: { type: "server_vad", silence_duration_ms: 500, …}`.
-//!   Server VAD is REQUIRED for any pre-commit transcription — without
-//!   it the server buffers all audio and only emits transcription after
-//!   we send commit, so the user sees nothing until they release Space.
-//!   With VAD enabled, a phrase-length pause triggers an utterance
-//!   commit and ~half a second later that phrase appears. This is the
-//!   closest OpenAI's API gets to "live" — it does not stream
-//!   word-by-word during continuous speech. Compatible with OpenAI
-//!   cloud and Lemonade Server v9.4.1+.
+//! - Connect: `wss://{host}/v1/realtime?intent=transcription`. We
+//!   derive the WebSocket URL from the configured HTTP `api_url`,
+//!   rewriting the scheme, appending `/realtime` if missing, and
+//!   adding `?intent=transcription`. `?intent=transcription` anchors
+//!   the session to the transcription category at connect time; an
+//!   S2S session would instead carry `?model=<realtime-model-id>` and
+//!   the two URL shapes are mutually exclusive.
+//! - Auth: `Authorization: Bearer <key>`.
+//! - Configure: send a `session.update` event with `session.type:
+//!   "transcription"` (required, distinguishes a transcription-only
+//!   session from S2S). Format / transcription / turn_detection sit
+//!   under `session.audio.input.*`; audio format is the structured
+//!   `{type: "audio/pcm", rate: <hz>}` object. Server VAD is required
+//!   for any pre-commit transcription: without it the server buffers
+//!   all audio until commit, so the user sees nothing until release.
+//!   With VAD a phrase-length pause triggers an utterance commit and
+//!   shortly after the phrase appears. This is the closest the API
+//!   gets to "live"; it does not stream word-by-word during continuous
+//!   speech.
 //! - Stream: `input_audio_buffer.append` with base64 PCM16 chunks. With
 //!   VAD enabled, the server transcribes incrementally and emits deltas
 //!   while the user is still speaking; VAD also auto-commits each
@@ -43,14 +39,16 @@
 //!   server to flush any in-progress audio and emit a final `completed`.
 //!   No-op if VAD already auto-committed the trailing audio.
 //! - Receive: `conversation.item.input_audio_transcription.delta` (live
-//!   incremental text — append-only for `gpt-4o-(mini-)transcribe`; for
-//!   `whisper-1` the delta carries the full final text in one shot — no
-//!   real streaming) and `conversation.item.input_audio_transcription.completed`
-//!   (polished final). With VAD, MULTIPLE delta+completed cycles may
-//!   land per session as utterances accumulate.
+//!   incremental text; append-only for `gpt-4o-(mini-)transcribe` and
+//!   `gpt-realtime-whisper`; for `whisper-1` the delta carries the full
+//!   final text in one shot, no real streaming) and
+//!   `conversation.item.input_audio_transcription.completed` (polished
+//!   final). With VAD, MULTIPLE delta+completed cycles may land per
+//!   session as utterances accumulate.
 //!
-//! Compatible with OpenAI cloud and Lemonade Server v9.4.1+ (same wire
-//! protocol). Other servers exposing the same event names work too.
+//! Targets OpenAI cloud. OpenAI-compatible local realtime servers
+//! (Lemonade etc.) need to implement the same wire shape to work with
+//! this client.
 
 use std::time::Duration;
 
@@ -215,9 +213,6 @@ pub async fn run_session(
             && let Ok(value) = format!("Bearer {api_key}").parse() {
                 headers.insert("Authorization", value);
             }
-        if let Ok(value) = "realtime=v1".parse() {
-            headers.insert("OpenAI-Beta", value);
-        }
     }
 
     let connect = tokio::time::timeout(
@@ -629,51 +624,53 @@ fn build_session_update(cfg: &ResolvedTranscriptionConfig) -> Value {
         transcription.insert("prompt".into(), Value::String(cfg.prompt.clone()));
     }
 
-    // Transcription-only session shape:
-    //   - event type is `transcription_session.update` (NOT `session.update`,
-    //     which is reserved for speech-to-speech and rejected here);
-    //   - payload sits flat at the session root, NOT under `audio.input.*`
-    //     (the GA structured format is also rejected on this endpoint);
-    //   - server VAD is enabled with a long silence window. Without VAD,
-    //     the server holds all audio until commit and the user sees no
-    //     live deltas. With a short window, natural pauses split the
-    //     held-Space utterance into multiple items. 1.5s is a reasonable
-    //     middle ground.
+    // `session.type: "transcription"` is required to distinguish from S2S.
+    // Server VAD is required for live deltas: without it the server holds
+    // all audio until commit and the user sees nothing until release.
     json!({
-        "type": "transcription_session.update",
+        "type": "session.update",
         "session": {
-            "input_audio_format": "pcm16",
-            "input_audio_transcription": Value::Object(transcription),
-            "turn_detection": {
-                "type": "server_vad",
-                "threshold": 0.5,
-                "prefix_padding_ms": 300,
-                "silence_duration_ms": VAD_SILENCE_DURATION_MS,
+            "type": "transcription",
+            "audio": {
+                "input": {
+                    "format": {
+                        "type": "audio/pcm",
+                        "rate": REALTIME_SAMPLE_RATE_HZ,
+                    },
+                    "transcription": Value::Object(transcription),
+                    "turn_detection": {
+                        "type": "server_vad",
+                        "threshold": 0.5,
+                        "prefix_padding_ms": 300,
+                        "silence_duration_ms": VAD_SILENCE_DURATION_MS,
+                    },
+                },
             },
         }
     })
 }
 
 /// Derive the WebSocket URL for the OpenAI Realtime transcription
-/// endpoint from the user-configured HTTP base.
+/// endpoint from the user-configured HTTP base. `?intent=transcription`
+/// anchors the connection to the transcription session category; the
+/// transcription model is configured separately in the
+/// `session.update` payload sent immediately after connect.
 ///
 /// Examples:
 /// - `https://api.openai.com/v1` → `wss://api.openai.com/v1/realtime?intent=transcription`
 /// - `http://localhost:8000/v1`  → `ws://localhost:8000/v1/realtime?intent=transcription`
-/// - `https://example.com/v1/realtime` (already realtime) → `wss://example.com/v1/realtime?intent=transcription`
-/// - `wss://example.com/v1/realtime?intent=transcription` (already a WS URL) → returned as-is.
+/// - `wss://example.com/v1/realtime` → with `?intent=transcription` appended.
 fn build_ws_url(api_url: &str) -> Result<String, TranscriptionError> {
     let trimmed = api_url.trim().trim_end_matches('/');
     if trimmed.is_empty() {
         return Err(TranscriptionError::not_configured("api_url is empty"));
     }
 
-    let (rest, scheme) = if let Some(rest) = trimmed.strip_prefix("https://") {
-        (rest, "wss://")
+    let (base, existing_query) = if let Some(rest) = trimmed.strip_prefix("https://") {
+        (with_realtime_suffix(rest, "wss://"), None)
     } else if let Some(rest) = trimmed.strip_prefix("http://") {
-        (rest, "ws://")
+        (with_realtime_suffix(rest, "ws://"), None)
     } else if trimmed.starts_with("wss://") || trimmed.starts_with("ws://") {
-        // Already a WS URL — preserve scheme; only add intent= if missing.
         let (head, query) = match trimmed.split_once('?') {
             Some((h, q)) => (h, Some(q)),
             None => (trimmed, None),
@@ -683,31 +680,25 @@ fn build_ws_url(api_url: &str) -> Result<String, TranscriptionError> {
         } else {
             format!("{head}/realtime")
         };
-        return Ok(match query {
-            Some(q) if q.contains("intent=") => format!("{head_with_realtime}?{q}"),
-            Some(q) => format!("{head_with_realtime}?{q}&intent=transcription"),
-            None => format!("{head_with_realtime}?intent=transcription"),
-        });
+        (head_with_realtime, query)
     } else {
         return Err(TranscriptionError::not_configured(format!(
             "api_url {api_url:?} must start with http://, https://, ws:// or wss://"
         )));
     };
 
-    let path_already_realtime = rest.ends_with("/realtime") || rest.contains("/realtime?");
-    if path_already_realtime {
-        let with_query = if rest.contains('?') {
-            if rest.contains("intent=") {
-                rest.to_owned()
-            } else {
-                format!("{rest}&intent=transcription")
-            }
-        } else {
-            format!("{rest}?intent=transcription")
-        };
-        Ok(format!("{scheme}{with_query}"))
+    Ok(match existing_query {
+        Some(q) if q.contains("intent=") => format!("{base}?{q}"),
+        Some(q) if !q.is_empty() => format!("{base}?{q}&intent=transcription"),
+        _ => format!("{base}?intent=transcription"),
+    })
+}
+
+fn with_realtime_suffix(rest: &str, scheme: &str) -> String {
+    if rest.ends_with("/realtime") {
+        format!("{scheme}{rest}")
     } else {
-        Ok(format!("{scheme}{rest}/realtime?intent=transcription"))
+        format!("{scheme}{rest}/realtime")
     }
 }
 
@@ -787,11 +778,27 @@ mod tests {
             "wss://example.com/v1/realtime?intent=transcription"
         );
         assert_eq!(
-            build_ws_url("wss://example.com/v1/realtime?intent=transcription").unwrap(),
+            build_ws_url("wss://example.com/v1/realtime").unwrap(),
             "wss://example.com/v1/realtime?intent=transcription"
         );
         assert_eq!(
             build_ws_url("wss://example.com/v1").unwrap(),
+            "wss://example.com/v1/realtime?intent=transcription"
+        );
+    }
+
+    #[test]
+    fn ws_url_preserves_existing_query_params() {
+        assert_eq!(
+            build_ws_url("wss://example.com/v1/realtime?foo=bar").unwrap(),
+            "wss://example.com/v1/realtime?foo=bar&intent=transcription"
+        );
+    }
+
+    #[test]
+    fn ws_url_does_not_duplicate_intent_param() {
+        assert_eq!(
+            build_ws_url("wss://example.com/v1/realtime?intent=transcription").unwrap(),
             "wss://example.com/v1/realtime?intent=transcription"
         );
     }
@@ -803,28 +810,19 @@ mod tests {
     }
 
     #[test]
-    fn session_update_includes_pcm16_format_and_transcription_fields() {
+    fn session_update_uses_ga_nested_shape() {
         let payload = build_session_update(&cfg("gpt-4o-mini-transcribe", "en", "vocab"));
-        assert_eq!(payload["type"], "transcription_session.update");
-        // Flat shape: input_audio_format is a string at session root.
-        assert_eq!(payload["session"]["input_audio_format"], "pcm16");
+        assert_eq!(payload["type"], "session.update");
+        assert_eq!(payload["session"]["type"], "transcription");
+        let input = &payload["session"]["audio"]["input"];
+        assert_eq!(input["format"]["type"], "audio/pcm");
+        assert_eq!(input["format"]["rate"], REALTIME_SAMPLE_RATE_HZ);
+        assert_eq!(input["transcription"]["model"], "gpt-4o-mini-transcribe");
+        assert_eq!(input["transcription"]["language"], "en");
+        assert_eq!(input["transcription"]["prompt"], "vocab");
+        assert_eq!(input["turn_detection"]["type"], "server_vad");
         assert_eq!(
-            payload["session"]["input_audio_transcription"]["model"],
-            "gpt-4o-mini-transcribe"
-        );
-        assert_eq!(
-            payload["session"]["input_audio_transcription"]["language"],
-            "en"
-        );
-        assert_eq!(
-            payload["session"]["input_audio_transcription"]["prompt"],
-            "vocab"
-        );
-        // Server VAD is required for live deltas; verify the long
-        // silence window survives so natural pauses don't split.
-        assert_eq!(payload["session"]["turn_detection"]["type"], "server_vad");
-        assert_eq!(
-            payload["session"]["turn_detection"]["silence_duration_ms"],
+            input["turn_detection"]["silence_duration_ms"],
             VAD_SILENCE_DURATION_MS
         );
     }
@@ -832,7 +830,7 @@ mod tests {
     #[test]
     fn session_update_omits_empty_language_and_prompt() {
         let payload = build_session_update(&cfg("gpt-4o-mini-transcribe", "", ""));
-        let transcription = &payload["session"]["input_audio_transcription"];
+        let transcription = &payload["session"]["audio"]["input"]["transcription"];
         assert!(transcription.get("language").is_none());
         assert!(transcription.get("prompt").is_none());
     }
@@ -840,7 +838,7 @@ mod tests {
     #[test]
     fn session_update_omits_auto_language() {
         let payload = build_session_update(&cfg("gpt-4o-mini-transcribe", "auto", ""));
-        let transcription = &payload["session"]["input_audio_transcription"];
+        let transcription = &payload["session"]["audio"]["input"]["transcription"];
         assert!(transcription.get("language").is_none());
     }
 

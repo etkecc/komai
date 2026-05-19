@@ -11,8 +11,6 @@
 #include <QQuickTextDocument>
 #include <QVariantMap>
 
-#include <memory>
-
 class QTextDocument;
 
 // Attaches spell-check squiggles to a TextArea's document. Used from QML as
@@ -67,5 +65,9 @@ private:
 
     QPointer<QQuickTextDocument> document_;
     QColor underlineColor_{Qt::red};
-    std::unique_ptr<Highlighter> highlighter_;
+    // Non-owning: QSyntaxHighlighter parents itself to its target
+    // QTextDocument, so the Highlighter dies with the document. Using a
+    // QPointer (rather than unique_ptr) avoids double-delete when the
+    // document is torn down before the SpellChecker.
+    QPointer<Highlighter> highlighter_;
 };

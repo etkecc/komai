@@ -120,11 +120,11 @@ SpellChecker::setDocument(QQuickTextDocument *doc)
     if (document_ == doc && targetDocument())
         return;
 
-    highlighter_.reset();
+    delete highlighter_.data();
     document_ = doc;
 
     if (QTextDocument *inner = targetDocument())
-        highlighter_ = std::make_unique<Highlighter>(inner, underlineColor_);
+        highlighter_ = new Highlighter(inner, underlineColor_);
 
     emit documentChanged();
 }

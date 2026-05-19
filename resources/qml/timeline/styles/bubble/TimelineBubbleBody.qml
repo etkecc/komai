@@ -425,7 +425,7 @@ Item {
         }
 
         // Drag-select initiator for non-litehtml bubbles (#124). Attaching
-        // these to the bubble itself (rather than the row-wide
+        // this to the bubble itself (rather than the row-wide
         // `selectionToggleSurface` overlay at z:30) keeps the press visible
         // to delegate-internal MouseAreas like the one in `MediaImageSurface`
         // that opens the media viewer on click. With this nesting:
@@ -437,49 +437,26 @@ Item {
         //     and drives `MatrixRoomWalkModeSupport`'s drag-select.
         //
         // Text bubbles (litehtml) drive the same gesture from inside
-        // `LitehtmlItem`, so these handlers gate off via `mainHasLitehtml`.
+        // `LitehtmlItem`, so this handler gates off via `mainHasLitehtml`.
         //
-        // Split into two so the press-time modifier state can drive the
-        // additive-vs-replace decision: `acceptedModifiers` filters which
-        // presses each handler sees, so a gesture that activates
-        // `bubbleDragSelectAdditive` is by construction a modifier-held drag.
+        // `acceptedModifiers` is left at its default (any modifier state):
+        // Qt matches it with strict equality, so listing e.g.
+        // `Ctrl | Meta | Shift` would only fire when all three are held at
+        // once. Reading modifiers via `centroid.modifiers` and letting the
+        // walk-mode controller AND-mask for additive handles every
+        // combination uniformly.
         DragHandler {
             id: bubbleDragSelect
 
             target: null
             acceptedButtons: Qt.LeftButton
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-            acceptedModifiers: Qt.NoModifier
             dragThreshold: 12
             enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
 
             onActiveChanged: {
                 if (active) {
-                    root.wrapper.handleDragSelectBegan(0);
-                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
-                } else {
-                    root.wrapper.handleDragSelectEnded();
-                }
-            }
-            onCentroidChanged: {
-                if (active)
-                    root.wrapper.handleDragSelectMoved(centroid.scenePosition);
-            }
-        }
-
-        DragHandler {
-            id: bubbleDragSelectAdditive
-
-            target: null
-            acceptedButtons: Qt.LeftButton
-            acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
-            acceptedModifiers: Qt.ControlModifier | Qt.MetaModifier | Qt.ShiftModifier
-            dragThreshold: 12
-            enabled: !root.perfDisableTimelineInteraction && !root.mainHasLitehtml && Settings.timelineMessagesDragSelect
-
-            onActiveChanged: {
-                if (active) {
-                    root.wrapper.handleDragSelectBegan(Qt.ControlModifier);
+                    root.wrapper.handleDragSelectBegan(centroid.modifiers);
                     root.wrapper.handleDragSelectMoved(centroid.scenePosition);
                 } else {
                     root.wrapper.handleDragSelectEnded();
@@ -810,14 +787,24 @@ Item {
             }
         }
 
-        // Gutter-only modifier-click handlers for litehtml rows. The row-level
-        // TapHandlers above can't cover the bubble on these rows without
-        // grabbing the press out from under the litehtml's text-selection
-        // drag, so they're disabled there. These two Items pick up the slack
-        // by claiming the empty space beside the bubble (left + right of it,
-        // including the avatar column on whichever side). The bubble itself
-        // has no handler overlay — `LitehtmlItem` emits its own
-        // `clickedWithCtrlOrMeta` / `clickedWithShift` for in-bubble clicks.
+        // Gutter Items covering the empty space on either side of the bubble.
+        // They serve two roles:
+        //
+        //   1. Modifier-click (Ctrl/Meta/Shift) for litehtml rows. The row-wide
+        //      TapHandlers above can't cover the bubble on these rows without
+        //      grabbing the press out from under litehtml's text-selection
+        //      drag, so those are gated off and the gutters pick up the slack.
+        //      For non-litehtml rows the row-wide TapHandlers already cover
+        //      everything, so the per-TapHandler `enabled: root.mainHasLitehtml`
+        //      below keeps the gutter from double-firing the toggle.
+        //
+        //   2. Drag-select initiator (#179) for both row types. The bubble's
+        //      own DragHandlers and `LitehtmlItem`'s selection drag both stop
+        //      at the bubble's edge, so starting a press in the visible empty
+        //      space beside the bubble (or in the avatar column) would
+        //      otherwise do nothing. The DragHandlers below relay through the
+        //      same `handleDragSelectBegan/Moved/Ended` plumbing the bubble
+        //      uses, with the row's `eventId` as the gesture's anchor.
         //
         // `messageBubble.x` is in `root` coords; `selectionToggleSurface.x`
         // is `-root.x`, so a point at `root` coord X sits at
@@ -829,13 +816,14 @@ Item {
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             width: Math.max(0, messageBubble.x + root.x)
-            enabled: !root.perfDisableTimelineInteraction && root.mainHasLitehtml
+            enabled: !root.perfDisableTimelineInteraction
 
             TapHandler {
                 acceptedButtons: Qt.LeftButton
                 acceptedModifiers: Qt.ControlModifier
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                 gesturePolicy: TapHandler.ReleaseWithinBounds
+                enabled: root.mainHasLitehtml
                 onSingleTapped: root.wrapper.handleMouseSelectionToggle()
             }
             TapHandler {
@@ -843,6 +831,7 @@ Item {
                 acceptedModifiers: Qt.MetaModifier
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                 gesturePolicy: TapHandler.ReleaseWithinBounds
+                enabled: root.mainHasLitehtml
                 onSingleTapped: root.wrapper.handleMouseSelectionToggle()
             }
             TapHandler {
@@ -850,7 +839,35 @@ Item {
                 acceptedModifiers: Qt.ShiftModifier
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                 gesturePolicy: TapHandler.ReleaseWithinBounds
+                enabled: root.mainHasLitehtml
                 onSingleTapped: root.wrapper.handleMouseSelectionRangeTo()
+            }
+            // Single DragHandler accepting any modifier state. Qt's
+            // `acceptedModifiers` is matched with strict equality, so
+            // `Ctrl | Meta | Shift` would only fire when all three are held
+            // at once; passing modifiers in via `centroid.modifiers` and
+            // letting the walk-mode controller AND-mask for additive keeps
+            // the additive-vs-replace decision honest for any single mod
+            // (or combination) the user happens to hold.
+            DragHandler {
+                target: null
+                acceptedButtons: Qt.LeftButton
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                dragThreshold: 12
+                enabled: Settings.timelineMessagesDragSelect
+
+                onActiveChanged: {
+                    if (active) {
+                        root.wrapper.handleDragSelectBegan(centroid.modifiers);
+                        root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                    } else {
+                        root.wrapper.handleDragSelectEnded();
+                    }
+                }
+                onCentroidChanged: {
+                    if (active)
+                        root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                }
             }
         }
 
@@ -861,13 +878,14 @@ Item {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             width: Math.max(0, parent.width - (messageBubble.x + messageBubble.width + root.x))
-            enabled: !root.perfDisableTimelineInteraction && root.mainHasLitehtml
+            enabled: !root.perfDisableTimelineInteraction
 
             TapHandler {
                 acceptedButtons: Qt.LeftButton
                 acceptedModifiers: Qt.ControlModifier
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                 gesturePolicy: TapHandler.ReleaseWithinBounds
+                enabled: root.mainHasLitehtml
                 onSingleTapped: root.wrapper.handleMouseSelectionToggle()
             }
             TapHandler {
@@ -875,6 +893,7 @@ Item {
                 acceptedModifiers: Qt.MetaModifier
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                 gesturePolicy: TapHandler.ReleaseWithinBounds
+                enabled: root.mainHasLitehtml
                 onSingleTapped: root.wrapper.handleMouseSelectionToggle()
             }
             TapHandler {
@@ -882,7 +901,35 @@ Item {
                 acceptedModifiers: Qt.ShiftModifier
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                 gesturePolicy: TapHandler.ReleaseWithinBounds
+                enabled: root.mainHasLitehtml
                 onSingleTapped: root.wrapper.handleMouseSelectionRangeTo()
+            }
+            // Single DragHandler accepting any modifier state. Qt's
+            // `acceptedModifiers` is matched with strict equality, so
+            // `Ctrl | Meta | Shift` would only fire when all three are held
+            // at once; passing modifiers in via `centroid.modifiers` and
+            // letting the walk-mode controller AND-mask for additive keeps
+            // the additive-vs-replace decision honest for any single mod
+            // (or combination) the user happens to hold.
+            DragHandler {
+                target: null
+                acceptedButtons: Qt.LeftButton
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                dragThreshold: 12
+                enabled: Settings.timelineMessagesDragSelect
+
+                onActiveChanged: {
+                    if (active) {
+                        root.wrapper.handleDragSelectBegan(centroid.modifiers);
+                        root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                    } else {
+                        root.wrapper.handleDragSelectEnded();
+                    }
+                }
+                onCentroidChanged: {
+                    if (active)
+                        root.wrapper.handleDragSelectMoved(centroid.scenePosition);
+                }
             }
         }
 

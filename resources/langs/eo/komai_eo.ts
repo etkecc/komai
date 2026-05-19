@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Forigi</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Refreŝigita</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Ankoraŭ neniu profilo trovita.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Nuna</translation>
     </message>
@@ -785,7 +785,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Agordoj…</translation>
     </message>
@@ -1198,7 +1198,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Komenci babiladon rekte</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Nekonata montrata nomo</translation>
@@ -2397,12 +2397,12 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Nekonata montrata nomo</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Forigi</translation>
     </message>
@@ -2427,7 +2427,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Inviti rekte</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Tajpu serĉdemandon. Rezultoj aperos ĉi tie.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
         <translation>Alfiksitaj mesaĝoj</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Neniuj alfiksitaj mesaĝoj</translation>
     </message>
@@ -5460,7 +5460,7 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
         <translation>Ĉambroj &amp; spacoj</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(sennoma ĉambro)</translation>
     </message>
@@ -6314,7 +6314,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Agordoj…</translation>
     </message>
@@ -7752,7 +7752,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>La opcioj sube ne havas efikon ĉar la konto-sciigoj estas malaktivigitaj supre.</translation>
     </message>
@@ -8523,12 +8523,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Agordoj</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Elekti emojion</translation>
     </message>
@@ -8548,7 +8548,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Serĉi</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Ŝalti pakojn, forigi ilin, aŭ krei novajn</translation>
     </message>
@@ -8752,7 +8752,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Partoprenita</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Neniuj fadenoj trovitaj</translation>
     </message>

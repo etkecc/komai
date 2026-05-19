@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Ta bort</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Uppdaterad</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Inga profiler hittades ännu.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Aktuell</translation>
     </message>
@@ -785,7 +785,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Inställningar...</translation>
     </message>
@@ -1198,7 +1198,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Starta chatt direkt</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Okänt visningsnamn</translation>
@@ -2397,12 +2397,12 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Okänt visningsnamn</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Ta bort</translation>
     </message>
@@ -2427,7 +2427,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Bjud in direkt</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Skriv en sökfråga. Resultat visas här.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
         <translation>Fästa meddelanden</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Inga fästa meddelanden</translation>
     </message>
@@ -5458,7 +5458,7 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
         <translation>Rum &amp; områden</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(namnlöst rum)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Inställningar...</translation>
     </message>
@@ -7750,7 +7750,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Alternativen nedan har ingen effekt eftersom kontoaviseringar är inaktiverade ovan.</translation>
     </message>
@@ -8520,12 +8520,12 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Inställningar</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Välj en emoji</translation>
     </message>
@@ -8545,7 +8545,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Sök</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Ändra vilka paket som är aktiverade, ta bort paket eller skapa nya</translation>
     </message>
@@ -8749,7 +8749,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Deltagit</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Inga trådar hittades</translation>
     </message>

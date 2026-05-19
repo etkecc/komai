@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Deleter</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Actualisat</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Ancos null profil trovit.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Actual</translation>
     </message>
@@ -785,7 +785,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Parametres…</translation>
     </message>
@@ -1198,7 +1198,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Iniciar chate directmen</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Nomine de exhibition incognit</translation>
@@ -2397,12 +2397,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Nomine de exhibition incognit</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Remover</translation>
     </message>
@@ -2427,7 +2427,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Invitar directmen</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Scriper un querie de cercare. Resultates va apparer ci.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Verificar por debloquar mesages criptat.</translation>
         <translation>Mesages fixat</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Null mesages fixat</translation>
     </message>
@@ -5458,7 +5458,7 @@ Previ backups de claves del servidor ne es removet automaticmen.</translation>
         <translation>Chambres &amp; spacies</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(chambre sin nom)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Parametres…</translation>
     </message>
@@ -7750,7 +7750,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Li optiones sub ne ha effect proque li notificationes de conto es disactivat al dessupra.</translation>
     </message>
@@ -8520,12 +8520,12 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Parametres</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Selectar un Emoji</translation>
     </message>
@@ -8545,7 +8545,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Cerchar</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Mutar queles packs es activat, remover packs, o crear noves</translation>
     </message>
@@ -8749,7 +8749,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Participat</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Necun filament trovate</translation>
     </message>

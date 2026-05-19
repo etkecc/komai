@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>削除</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>更新しました</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>プロファイルがまだ見つかりません。</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>現在</translation>
     </message>
@@ -785,7 +785,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>設定...</translation>
     </message>
@@ -1196,7 +1196,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ダイレクトチャットを開始</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>不明な表示名</translation>
@@ -2393,12 +2393,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>不明な表示名</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>削除</translation>
     </message>
@@ -2423,7 +2423,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>直接招待</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>検索クエリを入力してください。ここに結果が表示されます。</translation>
     </message>
@@ -4071,7 +4071,7 @@ Verify to unlock encrypted messages.</source>
         <translation>ピン留めされたメッセージ</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>ピン留めされたメッセージはありません</translation>
     </message>
@@ -5451,7 +5451,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>ルームとスペース</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>（名前のないルーム）</translation>
     </message>
@@ -6304,7 +6304,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>設定...</translation>
     </message>
@@ -7741,7 +7741,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>上でアカウント通知が無効になっているため、以下のオプションは効果がありません。</translation>
     </message>
@@ -8511,12 +8511,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>絵文字を選択</translation>
     </message>
@@ -8536,7 +8536,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>検索</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>有効なパックの変更、パックの削除、または新しいパックの作成</translation>
     </message>
@@ -8738,7 +8738,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>参加済み</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>スレッドが見つかりません</translation>
     </message>

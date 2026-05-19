@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Xóa</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Đã làm mới</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Chưa tìm thấy hồ sơ nào.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Hiện tại</translation>
     </message>
@@ -785,7 +785,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Cài đặt…</translation>
     </message>
@@ -1196,7 +1196,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Bắt đầu trò chuyện trực tiếp</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Tên hiển thị không xác định</translation>
@@ -2393,12 +2393,12 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Tên hiển thị không xác định</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Xóa</translation>
     </message>
@@ -2423,7 +2423,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Mời trực tiếp</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Nhập từ khóa tìm kiếm. Kết quả sẽ xuất hiện ở đây.</translation>
     </message>
@@ -4071,7 +4071,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
         <translation>Tin nhắn được ghim</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Không có tin nhắn được ghim</translation>
     </message>
@@ -5451,7 +5451,7 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
         <translation>Phòng &amp; không gian</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(phòng chưa đặt tên)</translation>
     </message>
@@ -6304,7 +6304,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Cài đặt…</translation>
     </message>
@@ -7741,7 +7741,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Các tùy chọn bên dưới không có hiệu lực vì thông báo tài khoản đã bị tắt ở trên.</translation>
     </message>
@@ -8511,12 +8511,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Cài đặt</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Chọn emoji</translation>
     </message>
@@ -8536,7 +8536,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Tìm kiếm</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Thay đổi gói được bật, xóa gói hoặc tạo gói mới</translation>
     </message>
@@ -8738,7 +8738,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Đã tham gia</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Không tìm thấy chủ đề nào</translation>
     </message>

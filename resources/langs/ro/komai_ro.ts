@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Șterge</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Actualizat</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Nu s-au găsit profiluri încă.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Curent</translation>
     </message>
@@ -785,7 +785,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Setări…</translation>
     </message>
@@ -1200,7 +1200,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Începe conversația direct</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Nume afișat necunoscut</translation>
@@ -2401,12 +2401,12 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Nume afișat necunoscut</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Elimină</translation>
     </message>
@@ -2431,7 +2431,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Invită direct</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Introdu o interogare de căutare. Rezultatele vor apărea aici.</translation>
     </message>
@@ -4081,7 +4081,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
         <translation>Mesaje fixate</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Niciun mesaj fixat</translation>
     </message>
@@ -5465,7 +5465,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
         <translation>Camere și spații</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(cameră fără nume)</translation>
     </message>
@@ -6320,7 +6320,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Setări…</translation>
     </message>
@@ -7759,7 +7759,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opțiunile de mai jos nu au efect deoarece notificările contului sunt dezactivate mai sus.</translation>
     </message>
@@ -8529,12 +8529,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Setări</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Alege un emoji</translation>
     </message>
@@ -8554,7 +8554,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Căutare</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Schimbă pachetele activate, elimină pachete sau creează altele noi</translation>
     </message>
@@ -8760,7 +8760,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Participat</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Nu s-au găsit fire</translation>
     </message>

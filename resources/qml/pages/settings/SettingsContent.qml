@@ -98,6 +98,8 @@ Item {
         clip: true
         boundsBehavior: Flickable.StopAtBounds
 
+        FlickableWheelBooster { flickable: scroll }
+
         ColumnLayout {
             id: grid
 

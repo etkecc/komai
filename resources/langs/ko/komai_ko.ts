@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>새로고침됨</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>아직 프로필이 없습니다.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>현재</translation>
     </message>
@@ -785,7 +785,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>설정…</translation>
     </message>
@@ -1196,7 +1196,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>바로 채팅 시작</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>알 수 없는 표시 이름</translation>
@@ -2393,12 +2393,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>알 수 없는 표시 이름</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>제거</translation>
     </message>
@@ -2423,7 +2423,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>직접 초대</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>검색어를 입력하세요. 결과가 여기에 표시됩니다.</translation>
     </message>
@@ -4071,7 +4071,7 @@ Verify to unlock encrypted messages.</source>
         <translation>고정된 메시지</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>고정된 메시지 없음</translation>
     </message>
@@ -5451,7 +5451,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>방 &amp; 스페이스</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(이름 없는 방)</translation>
     </message>
@@ -6304,7 +6304,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>설정…</translation>
     </message>
@@ -7741,7 +7741,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>위에서 계정 알림이 비활성화되어 있어 아래 옵션은 적용되지 않습니다.</translation>
     </message>
@@ -8511,12 +8511,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>설정</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>이모지 선택</translation>
     </message>
@@ -8536,7 +8536,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>검색</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>활성화된 팩 변경, 팩 삭제 또는 새 팩 만들기</translation>
     </message>
@@ -8738,7 +8738,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>참여함</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>스레드를 찾을 수 없습니다</translation>
     </message>

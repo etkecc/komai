@@ -273,6 +273,8 @@ Page {
                 onHoveredChanged: roomListPage.updateInteractionSuppression()
             }
 
+            FlickableWheelBooster { flickable: roomlist }
+
             Layout.fillWidth: true
             Layout.fillHeight: true
             activeFocusOnTab: false

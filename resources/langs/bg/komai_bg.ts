@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Изтрий</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Опреснено</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Все още няма намерени профили.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Текущ</translation>
     </message>
@@ -785,7 +785,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Настройки…</translation>
     </message>
@@ -1198,7 +1198,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Започни директен чат</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Неизвестно показвано име</translation>
@@ -2397,12 +2397,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Неизвестно показвано име</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Премахни</translation>
     </message>
@@ -2427,7 +2427,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Покани директно</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Въведи заявка за търсене. Резултатите ще се покажат тук.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Verify to unlock encrypted messages.</source>
         <translation>Закачени съобщения</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Няма закачени съобщения</translation>
     </message>
@@ -5458,7 +5458,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Стаи и пространства</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(стая без име)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Настройки…</translation>
     </message>
@@ -7750,7 +7750,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Опциите по-долу нямат ефект, тъй като известията за акаунта са изключени по-горе.</translation>
     </message>
@@ -8520,12 +8520,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Избери емоджи</translation>
     </message>
@@ -8545,7 +8545,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Търсене</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Промени кои пакети са активирани, премахни пакети или създай нови</translation>
     </message>
@@ -8749,7 +8749,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Участие</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Не са намерени тредове</translation>
     </message>

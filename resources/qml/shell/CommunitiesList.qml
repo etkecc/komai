@@ -279,6 +279,8 @@ Page {
         model: Communities.filtered()
         boundsBehavior: Flickable.StopAtBounds
 
+        FlickableWheelBooster { flickable: communitiesList }
+
         header: Rectangle {
             id: userSettingsItem
 

@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Actualisé</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Aucun profil trouvé pour l'instant.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Actuel</translation>
     </message>
@@ -785,7 +785,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>
@@ -1198,7 +1198,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Démarrer un chat directement</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Nom d'affichage inconnu</translation>
@@ -2397,12 +2397,12 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Nom d'affichage inconnu</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
@@ -2427,7 +2427,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Inviter directement</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Saisissez une requête de recherche. Les résultats apparaîtront ici.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
         <translation>Messages épinglés</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Aucun message épinglé</translation>
     </message>
@@ -5458,7 +5458,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <translation>Salons &amp; espaces</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(salon sans nom)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>
@@ -7750,7 +7750,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Les options ci-dessous n'ont aucun effet car les notifications du compte sont désactivées ci-dessus.</translation>
     </message>
@@ -8520,12 +8520,12 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Choisir un emoji</translation>
     </message>
@@ -8545,7 +8545,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Rechercher</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Changer les paquets actifs, supprimer des paquets ou créer de nouveaux</translation>
     </message>
@@ -8749,7 +8749,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Participé</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Aucun fil trouvé</translation>
     </message>

@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Actualizado</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Aún no se han encontrado perfiles.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Actual</translation>
     </message>
@@ -786,7 +786,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Configuración...</translation>
     </message>
@@ -1199,7 +1199,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Iniciar chat directamente</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Nombre de visualización desconocido</translation>
@@ -2400,12 +2400,12 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Nombre de visualización desconocido</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
@@ -2430,7 +2430,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Invitar directamente</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Escribe una búsqueda. Los resultados aparecerán aquí.</translation>
     </message>
@@ -4079,7 +4079,7 @@ Verifica para desbloquear los mensajes cifrados.</translation>
         <translation>Mensajes fijados</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>No hay mensajes fijados</translation>
     </message>
@@ -5461,7 +5461,7 @@ Las copias de seguridad de claves anteriores en el servidor no se eliminan autom
         <translation>Salas y espacios</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(sala sin nombre)</translation>
     </message>
@@ -6315,7 +6315,7 @@ Ten en cuenta que no se puede desactivar después.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Configuración...</translation>
     </message>
@@ -7753,7 +7753,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Las opciones de abajo no tienen efecto porque las notificaciones de la cuenta están desactivadas arriba.</translation>
     </message>
@@ -8523,12 +8523,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Seleccionar un emoji</translation>
     </message>
@@ -8548,7 +8548,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Buscar</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Cambie los packs activados, elimine packs o cree otros nuevos</translation>
     </message>
@@ -8752,7 +8752,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Participado</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>No se encontraron hilos</translation>
     </message>

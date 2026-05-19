@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Obnoveno</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Zatím nebyly nalezeny žádné profily.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Aktuální</translation>
     </message>
@@ -785,7 +785,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Nastavení…</translation>
     </message>
@@ -1200,7 +1200,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Zahájit přímý chat</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Neznámé zobrazované jméno</translation>
@@ -2401,12 +2401,12 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Neznámé zobrazované jméno</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Odebrat</translation>
     </message>
@@ -2431,7 +2431,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Pozvat přímo</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Zadej vyhledávací dotaz. Výsledky se zobrazí zde.</translation>
     </message>
@@ -4081,7 +4081,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
         <translation>Připnuté zprávy</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Žádné připnuté zprávy</translation>
     </message>
@@ -5465,7 +5465,7 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
         <translation>Místnosti &amp; prostory</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(nepojmenovaná místnost)</translation>
     </message>
@@ -6320,7 +6320,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Nastavení…</translation>
     </message>
@@ -7759,7 +7759,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Níže uvedené možnosti nemají žádný efekt, protože oznámení účtu jsou výše zakázána.</translation>
     </message>
@@ -8529,12 +8529,12 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Vybrat emoji</translation>
     </message>
@@ -8554,7 +8554,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Hledat</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Změnit aktivované balíčky, odstranit balíčky nebo vytvořit nové</translation>
     </message>
@@ -8760,7 +8760,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Zúčastněné</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Žádná vlákna nebyla nalezena</translation>
     </message>

@@ -747,6 +747,8 @@ OverlayDialog {
                 policy: roomDirView.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
 
+            FlickableWheelBooster { flickable: roomDirView }
+
             delegate: Item {
                 id: roomDelegate
 

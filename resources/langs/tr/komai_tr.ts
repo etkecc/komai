@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Yenilendi</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Henüz profil bulunamadı.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Mevcut</translation>
     </message>
@@ -785,7 +785,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Ayarlar…</translation>
     </message>
@@ -1196,7 +1196,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Doğrudan sohbet başlat</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Bilinmeyen görünen ad</translation>
@@ -2393,12 +2393,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Bilinmeyen görünen ad</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Kaldır</translation>
     </message>
@@ -2423,7 +2423,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Doğrudan davet et</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Bir arama sorgusu girin. Sonuçlar burada görünecek.</translation>
     </message>
@@ -4071,7 +4071,7 @@ Verify to unlock encrypted messages.</source>
         <translation>Sabitlenmiş mesajlar</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Sabitlenmiş mesaj yok</translation>
     </message>
@@ -5451,7 +5451,7 @@ Yeni bir kurtarma anahtarı alacaksınız. Tekrar sıfırlamaktan kaçınmak iç
         <translation>Odalar ve uzaylar</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(adsız oda)</translation>
     </message>
@@ -6304,7 +6304,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Ayarlar…</translation>
     </message>
@@ -7741,7 +7741,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Hesap bildirimleri yukarıda devre dışı bırakıldığından aşağıdaki seçeneklerin etkisi yoktur.</translation>
     </message>
@@ -8511,12 +8511,12 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Emoji Seç</translation>
     </message>
@@ -8536,7 +8536,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Ara</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Hangi paketlerin etkin olduğunu değiştirin, paketleri kaldırın veya yenilerini oluşturun</translation>
     </message>
@@ -8738,7 +8738,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Katılınanlar</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Konu bulunamadı</translation>
     </message>

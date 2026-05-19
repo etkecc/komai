@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>මකන්න</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>නැවුම් කරන ලදි</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>තවමත් පැතිකඩ හමු නොවිණි.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>වර්තමාන</translation>
     </message>
@@ -785,7 +785,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>සැකසීම්…</translation>
     </message>
@@ -1198,7 +1198,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>සෘජුව කතාබහ ආරම්භ කරන්න</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>නොදන්නා දර්ශන නාමය</translation>
@@ -2397,12 +2397,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>නොදන්නා දර්ශන නාමය</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>ඉවත් කරන්න</translation>
     </message>
@@ -2427,7 +2427,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>සෘජුවම ආරාධනා කරන්න</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>සෙවුම් ප්‍රශ්නයක් ටයිප් කරන්න. ප්‍රතිඵල මෙහි දිස් වේ.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Verify to unlock encrypted messages.</source>
         <translation>pin කළ පණිවිඩ</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>pin කළ පණිවිඩ නැත</translation>
     </message>
@@ -5458,7 +5458,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>කාමර සහ අවකාශ</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(නම් නොකළ කාමරය)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>සැකසීම්…</translation>
     </message>
@@ -7750,7 +7750,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>ඉහත ගිණුම් දැනුම්දීම් අක්‍රිය කර ඇති නිසා, පහත විකල්පවලට බලපෑමක් නොමැත.</translation>
     </message>
@@ -8520,12 +8520,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>සැකසීම්</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>ඉමෝජියක් තෝරන්න</translation>
     </message>
@@ -8545,7 +8545,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>සොයන්න</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>ක්‍රියාත්මක පැකේජ වෙනස් කරන්න, පැකේජ ඉවත් කරන්න, හෝ නව ඒවා සාදන්න</translation>
     </message>
@@ -8749,7 +8749,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>සහභාගී වූ</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>නූල් හමු නොවීය</translation>
     </message>

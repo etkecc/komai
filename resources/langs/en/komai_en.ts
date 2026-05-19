@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation type="unfinished"/>
     </message>
@@ -440,7 +440,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation type="unfinished"/>
     </message>
@@ -779,7 +779,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation type="unfinished"/>
     </message>
@@ -1192,7 +1192,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation type="unfinished"/>
@@ -2391,12 +2391,12 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
@@ -2421,7 +2421,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation type="unfinished"/>
     </message>
@@ -4065,7 +4065,7 @@ Verify to unlock encrypted messages.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation type="unfinished"/>
     </message>
@@ -5429,7 +5429,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation type="unfinished"/>
     </message>
@@ -6282,7 +6282,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation type="unfinished"/>
     </message>
@@ -7719,7 +7719,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation type="unfinished"/>
     </message>
@@ -8489,12 +8489,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation type="unfinished">Settings</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation type="unfinished"/>
     </message>
@@ -8514,7 +8514,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Search</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Change what packs are enabled, remove packs, or create new ones</translation>
     </message>
@@ -8718,7 +8718,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation type="unfinished"/>
     </message>

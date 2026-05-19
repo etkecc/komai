@@ -155,6 +155,8 @@ OverlayDialog {
             policy: Settings.uiScrollbarPolicy
         }
 
+        FlickableWheelBooster { flickable: chat }
+
         Component {
             id: plainMessageStyle
 

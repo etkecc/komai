@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Hapus</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Disegarkan</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Belum ada profil yang ditemukan.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Saat ini</translation>
     </message>
@@ -785,7 +785,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Pengaturan…</translation>
     </message>
@@ -1196,7 +1196,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Mulai obrolan langsung</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Nama tampilan tidak diketahui</translation>
@@ -2393,12 +2393,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Nama tampilan tidak diketahui</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Hapus</translation>
     </message>
@@ -2423,7 +2423,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Undang langsung</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Ketik kata kunci pencarian. Hasil akan muncul di sini.</translation>
     </message>
@@ -4071,7 +4071,7 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
         <translation>Pesan yang disematkan</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Tidak ada pesan yang disematkan</translation>
     </message>
@@ -5451,7 +5451,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <translation>Ruangan &amp; ruang</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(ruangan tanpa nama)</translation>
     </message>
@@ -6304,7 +6304,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Pengaturan…</translation>
     </message>
@@ -7741,7 +7741,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opsi di bawah tidak berpengaruh karena notifikasi akun dinonaktifkan di atas.</translation>
     </message>
@@ -8511,12 +8511,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Pengaturan</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Pilih emoji</translation>
     </message>
@@ -8536,7 +8536,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Cari</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Ubah paket apa yang diaktifkan, hapus paket, atau buat yang baru</translation>
     </message>
@@ -8738,7 +8738,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Diikuti</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Tidak ada utas ditemukan</translation>
     </message>

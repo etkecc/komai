@@ -208,6 +208,8 @@ OverlayDialog {
         model: userDirectory
         clip: true
 
+        FlickableWheelBooster { flickable: searchResults }
+
         delegate: AbstractButton {
             id: resultDelegate
 

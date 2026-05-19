@@ -827,6 +827,8 @@ Popup {
                     id: emojiScroll
                 }
 
+                FlickableWheelBooster { flickable: gridView }
+
             }
 
             ListView {

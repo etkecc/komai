@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Actualitzat</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Encara no s'ha trobat cap perfil.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Actual</translation>
     </message>
@@ -785,7 +785,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Configuració…</translation>
     </message>
@@ -1198,7 +1198,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Inicia el xat directament</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Nom visible desconegut</translation>
@@ -2397,12 +2397,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Nom visible desconegut</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Elimina</translation>
     </message>
@@ -2427,7 +2427,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Convida directament</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Escriu una consulta de cerca. Els resultats apareixeran aquí.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
         <translation>Missatges fixats</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Cap missatge fixat</translation>
     </message>
@@ -5458,7 +5458,7 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
         <translation>Sales i espais</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(sala sense nom)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Configuració…</translation>
     </message>
@@ -7750,7 +7750,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Les opcions de sota no tenen cap efecte perquè les notificacions del compte estan desactivades més amunt.</translation>
     </message>
@@ -8520,12 +8520,12 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Tria un emoji</translation>
     </message>
@@ -8545,7 +8545,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Cerca</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Canvia quins paquets estan activats, elimina paquets o crea'n de nous</translation>
     </message>
@@ -8749,7 +8749,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Participat</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>No s'han trobat fils</translation>
     </message>

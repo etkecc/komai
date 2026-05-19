@@ -149,6 +149,8 @@ OverlayDialog {
                 policy: threadList.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
 
+            FlickableWheelBooster { flickable: threadList }
+
             delegate: Item {
                 id: threadDelegate
 

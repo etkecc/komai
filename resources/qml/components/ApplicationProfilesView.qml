@@ -353,6 +353,8 @@ Item {
                 policy: profilesList.contentHeight > profilesList.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             }
 
+            FlickableWheelBooster { flickable: profilesList }
+
             delegate: Rectangle {
                 id: row
 

@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>ഇല്ലാതാക്കുക</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>പുതുക്കി</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>ഇതുവരെ പ്രൊഫൈലുകൾ ഒന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>നിലവിലുള്ളത്</translation>
     </message>
@@ -785,7 +785,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
@@ -1198,7 +1198,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>നേരിട്ട് ചാറ്റ് ആരംഭിക്കുക</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>അജ്ഞാത ഡിസ്പ്ലേ നാമം</translation>
@@ -2397,12 +2397,12 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>അജ്ഞാത ഡിസ്പ്ലേ നാമം</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>നീക്കം ചെയ്യുക</translation>
     </message>
@@ -2427,7 +2427,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>നേരിട്ട് ക്ഷണിക്കുക</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>ഒരു തിരയൽ ക്വറി ടൈപ്പ് ചെയ്യുക. ഫലങ്ങൾ ഇവിടെ ദൃശ്യമാകും.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Verify to unlock encrypted messages.</source>
         <translation>പിൻ ചെയ്ത സന്ദേശങ്ങൾ</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>പിൻ ചെയ്ത സന്ദേശങ്ങൾ ഇല്ല</translation>
     </message>
@@ -5458,7 +5458,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>മുറികളും സ്പേസുകളും</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(പേരില്ലാത്ത മുറി)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>ക്രമീകരണങ്ങൾ…</translation>
     </message>
@@ -7750,7 +7750,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ മുകളിൽ പ്രവർത്തനരഹിതമാക്കിയതിനാൽ, താഴെയുള്ള ഓപ്ഷനുകൾക്ക് ഒരു ഫലവുമില്ല.</translation>
     </message>
@@ -8520,12 +8520,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>ഒരു ഇമോജി തിരഞ്ഞെടുക്കുക</translation>
     </message>
@@ -8545,7 +8545,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>തിരയുക</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>ഏതൊക്കെ പായ്ക്കുകൾ പ്രവർത്തനക്ഷമമാക്കണമെന്ന് മാറ്റുക, പായ്ക്കുകൾ നീക്കം ചെയ്യുക, അല്ലെങ്കിൽ പുതിയവ സൃഷ്ടിക്കുക</translation>
     </message>
@@ -8749,7 +8749,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>പങ്കെടുത്തവ</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>ത്രെഡുകൾ കണ്ടെത്തിയില്ല</translation>
     </message>

@@ -414,13 +414,13 @@
     </message>
     <message>
         <location line="+17"/>
-        <location line="+262"/>
+        <location line="+264"/>
         <location line="+5"/>
         <source>Delete</source>
         <translation>Kustuta</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-218"/>
         <source>Refreshed</source>
         <translation>Värskendatud</translation>
     </message>
@@ -440,7 +440,7 @@
         <translation>Profiile ei leitud.</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+140"/>
         <source>Current</source>
         <translation>Praegune</translation>
     </message>
@@ -785,7 +785,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../../qml/shell/CommunitiesList.qml" line="+551"/>
+        <location filename="../../qml/shell/CommunitiesList.qml" line="+553"/>
         <source>Settings...</source>
         <translation>Seaded…</translation>
     </message>
@@ -1198,7 +1198,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Alusta vestlust otse</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
         <translation>Tundmatu kuvanimi</translation>
@@ -2397,12 +2397,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+54"/>
-        <location line="+264"/>
+        <location line="+266"/>
         <source>Unknown display name</source>
         <translation>Tundmatu kuvanimi</translation>
     </message>
     <message>
-        <location line="-246"/>
+        <location line="-248"/>
         <source>Remove</source>
         <translation>Eemalda</translation>
     </message>
@@ -2427,7 +2427,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Kutsu otse</translation>
     </message>
     <message>
-        <location line="+129"/>
+        <location line="+131"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Sisesta otsingupäring. Tulemused kuvatakse siin.</translation>
     </message>
@@ -4076,7 +4076,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
         <translation>Kinnitatud sõnumid</translation>
     </message>
     <message>
-        <location line="+191"/>
+        <location line="+193"/>
         <source>No pinned messages</source>
         <translation>Kinnitatud sõnumeid pole</translation>
     </message>
@@ -5458,7 +5458,7 @@ Eelmisi serveripoolseid võtmevarukoopiaid ei eemaldata automaatselt.</translati
         <translation>Jututoad ja ruumid</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <source>(unnamed room)</source>
         <translation>(nimeta jututuba)</translation>
     </message>
@@ -6312,7 +6312,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../../qml/shell/RoomList.qml" line="+511"/>
+        <location filename="../../qml/shell/RoomList.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Seaded…</translation>
     </message>
@@ -7750,7 +7750,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+191"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Allpool olevatel valikutel pole mõju, kuna konto teatised on ülal keelatud.</translation>
     </message>
@@ -8520,12 +8520,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <name>StickerPicker</name>
     <message>
         <location filename="../../qml/emoji/StickerPicker.qml" line="+34"/>
-        <location line="+1089"/>
+        <location line="+1091"/>
         <source>Settings</source>
         <translation>Seaded</translation>
     </message>
     <message>
-        <location line="-718"/>
+        <location line="-720"/>
         <source>Pick an Emoji</source>
         <translation>Vali emoji</translation>
     </message>
@@ -8545,7 +8545,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Otsi</translation>
     </message>
     <message>
-        <location line="+581"/>
+        <location line="+583"/>
         <source>Change what packs are enabled, remove packs, or create new ones</source>
         <translation>Muuda kasutatavaid lisapakke, eemalda neid või lisa uusi</translation>
     </message>
@@ -8749,7 +8749,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Osaletud</translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+243"/>
         <source>No threads found</source>
         <translation>Lõimesid ei leitud</translation>
     </message>

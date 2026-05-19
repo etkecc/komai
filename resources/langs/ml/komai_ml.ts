@@ -2529,7 +2529,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
@@ -8677,7 +8677,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
         <source>Show more</source>
         <translation>കൂടുതൽ കാണിക്കുക</translation>
     </message>
@@ -8801,7 +8801,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 ഒരു വോയ്സ് കോൾ ചെയ്തു.</translation>
     </message>
@@ -8816,7 +8816,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 ഒരു കോൾ ചെയ്തു.</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+45"/>
         <source>%1 answered the call.</source>
         <translation>%1 കോൾ സ്വീകരിച്ചു.</translation>
     </message>
@@ -8842,7 +8842,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 കോൾ ക്രമീകരിക്കുന്നു…</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+140"/>
         <source>Allow them in</source>
         <translation>അവരെ അനുവദിക്കുക</translation>
     </message>

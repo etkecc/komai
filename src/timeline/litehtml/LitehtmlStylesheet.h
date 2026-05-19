@@ -20,6 +20,8 @@ generateMasterStylesheet(const QPalette &palette,
                          bool compact,
                          const QString &errorColor,
                          const QString &attentionColor,
-                         const QString &successColor);
+                         const QString &successColor,
+                         const QString &searchHighlightBgColor,
+                         const QString &searchHighlightTextColor);
 
 } // namespace timeline::litehtml

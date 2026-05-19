@@ -2525,7 +2525,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>A profil neve kötelező.</translation>
@@ -8668,7 +8668,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
         <source>Show more</source>
         <translation>Több megjelenítése</translation>
     </message>
@@ -8790,7 +8790,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 hanghívást indított.</translation>
     </message>
@@ -8805,7 +8805,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>%1 hívást indított.</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+45"/>
         <source>%1 answered the call.</source>
         <translation>%1 fogadta a hívást.</translation>
     </message>
@@ -8831,7 +8831,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>%1 egyezteti a hívást...</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+140"/>
         <source>Allow them in</source>
         <translation>Beengedés</translation>
     </message>

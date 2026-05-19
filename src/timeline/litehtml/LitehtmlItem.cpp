@@ -69,12 +69,26 @@ LitehtmlItem::generateMasterCss()
         palette.setColor(QPalette::Link, m_linkColor);
     if (m_surfaceColor.isValid())
         palette.setColor(QPalette::AlternateBase, m_surfaceColor);
+    // Search-match highlight uses the theme's `warning` color (semantically
+    // "draw attention without alarm" — consistently yellow/orange across
+    // themes, unlike `attention` which leans error-red). Themes don't define
+    // a paired text color for warning, so derive it from the bg's luminance:
+    // pick black on light bg, white on dark bg, then mix 10% of the bg back
+    // in so the text picks up the bg's warmth instead of reading clinical.
+    const auto searchHighlightBg = theme.warning();
+    const QColor contrast =
+      utils::luminance(searchHighlightBg) > 0.5 ? QColor(Qt::black) : QColor(Qt::white);
+    const QColor searchHighlightFg((contrast.red() * 9 + searchHighlightBg.red()) / 10,
+                                   (contrast.green() * 9 + searchHighlightBg.green()) / 10,
+                                   (contrast.blue() * 9 + searchHighlightBg.blue()) / 10);
     return timeline::litehtml::generateMasterStylesheet(palette,
                                                         m_font,
                                                         m_compact,
                                                         theme.error().name(),
                                                         theme.attention().name(),
-                                                        theme.success().name());
+                                                        theme.success().name(),
+                                                        searchHighlightBg.name(),
+                                                        searchHighlightFg.name());
 }
 
 void

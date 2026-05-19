@@ -131,6 +131,12 @@ public:
     }
     Q_INVOKABLE static QString normalizeEmojiForComparison(const QString &emoji);
     Q_INVOKABLE static QString formatHtmlEmojis(const QString &html);
+    //! Wrap each occurrence of `query` inside the visible text of `html` with
+    //! `<mark>…</mark>`, leaving tag/attribute bytes untouched. When an
+    //! `<a href>` target contains the query but the visible link text doesn't,
+    //! the entire link text is wrapped so href-only matches stay visible.
+    //! Returns `html` unchanged when `query` is empty.
+    Q_INVOKABLE static QString markSearchMatchesInHtml(const QString &html, const QString &query);
     //! True when `text` is exactly a known text emoticon shortcut (`:)`, `:D`,
     //! `:'(`, etc.). The composer uses this to dismiss the inline emoji picker
     //! once the user has typed a complete emoticon that auto-conversion will

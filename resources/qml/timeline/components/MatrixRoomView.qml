@@ -775,6 +775,7 @@ ColumnLayout {
 
                             TimelinePlainMessageStyle {
                                 chatRoot: root
+                                searchQuery: root.searchString
 
                                 eventId: timelineItemDelegate.stableEventId
                                 transactionId: timelineItemDelegate.transactionId
@@ -828,6 +829,7 @@ ColumnLayout {
 
                             TimelineBubbleMessageStyle {
                                 chatRoot: root
+                                searchQuery: root.searchString
 
                                 eventId: timelineItemDelegate.stableEventId
                                 transactionId: timelineItemDelegate.transactionId

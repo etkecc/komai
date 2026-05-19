@@ -424,6 +424,17 @@ Komai::formatHtmlEmojis(const QString &html)
 {
     return utils::replaceEmoji(html);
 }
+QString
+Komai::markSearchMatchesInHtml(const QString &html, const QString &query)
+{
+    if (query.isEmpty() || html.isEmpty())
+        return html;
+
+    const auto htmlStd  = html.toStdString();
+    const auto queryStd = query.toStdString();
+    return QString::fromStdString(std::string(komai::rust::html_mark_search_matches(
+      ::rust::Str(htmlStd.data(), htmlStd.size()), ::rust::Str(queryStd.data(), queryStd.size()))));
+}
 
 bool
 Komai::isEmoticonShortcut(const QString &text)

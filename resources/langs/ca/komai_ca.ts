@@ -2529,7 +2529,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>El nom de perfil és obligatori.</translation>
@@ -8677,7 +8677,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
         <source>Show more</source>
         <translation>Mostra'n més</translation>
     </message>
@@ -8801,7 +8801,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 ha fet una trucada de veu.</translation>
     </message>
@@ -8816,7 +8816,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>%1 ha fet una trucada.</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+45"/>
         <source>%1 answered the call.</source>
         <translation>%1 ha contestat la trucada.</translation>
     </message>
@@ -8842,7 +8842,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>%1 està negociant la trucada…</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+140"/>
         <source>Allow them in</source>
         <translation>Deixa'ls entrar</translation>
     </message>

@@ -2529,7 +2529,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profiili nimi on kohustuslik.</translation>
@@ -8677,7 +8677,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
         <source>Show more</source>
         <translation>Näita rohkem</translation>
     </message>
@@ -8801,7 +8801,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 helistas.</translation>
     </message>
@@ -8816,7 +8816,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>%1 helistas.</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+45"/>
         <source>%1 answered the call.</source>
         <translation>%1 vastas kõnele.</translation>
     </message>
@@ -8842,7 +8842,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>%1 alustab kõnet...</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+140"/>
         <source>Allow them in</source>
         <translation>Luba neid</translation>
     </message>

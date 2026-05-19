@@ -2533,7 +2533,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Název profilu je povinný.</translation>
@@ -8686,7 +8686,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
         <source>Show more</source>
         <translation>Zobrazit více</translation>
     </message>
@@ -8812,7 +8812,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 zahájil/a hlasový hovor.</translation>
     </message>
@@ -8827,7 +8827,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>%1 zahájil/a hovor.</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+45"/>
         <source>%1 answered the call.</source>
         <translation>%1 přijal/a hovor.</translation>
     </message>
@@ -8853,7 +8853,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>%1 vyjednává hovor…</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+140"/>
         <source>Allow them in</source>
         <translation>Vpustit je</translation>
     </message>

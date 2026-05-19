@@ -15,6 +15,9 @@ EventDelegateChooser {
     required property bool isStateEvent
     property var previewData: ({})
     property var replyPreviewData: ({})
+    // Active in-room search query, propagated to message-body delegates so
+    // they can highlight matches inside their rendered HTML.
+    property string searchQuery: ""
     property var roomAdapter: null
     property alias roomModelOverride: wrapper.roomAdapter
     readonly property var effectiveRoomContext: roomAdapter ? roomAdapter : room
@@ -95,6 +98,15 @@ EventDelegateChooser {
             font.italic: type == MtxEvent.NoticeMessage
             formatted: formattedBody
             keepFullText: true
+            searchQuery: {
+                let p = parent;
+                while (p) {
+                    if (p.searchQuery !== undefined && typeof p.searchQuery === "string")
+                        return p.searchQuery;
+                    p = p.parent;
+                }
+                return "";
+            }
         }
     }
     EventDelegateChoice {
@@ -163,6 +175,15 @@ EventDelegateChooser {
             }
             isOnlyEmoji: 0
             keepFullText: true
+            searchQuery: {
+                let p = parent;
+                while (p) {
+                    if (p.searchQuery !== undefined && typeof p.searchQuery === "string")
+                        return p.searchQuery;
+                    p = p.parent;
+                }
+                return "";
+            }
         }
     }
     EventDelegateChoice {
@@ -194,6 +215,15 @@ EventDelegateChooser {
                           ? chooserReplySurfaceColor
                           : chooserMainSurfaceColor
             keepFullText: true
+            searchQuery: {
+                let p = parent;
+                while (p) {
+                    if (p.searchQuery !== undefined && typeof p.searchQuery === "string")
+                        return p.searchQuery;
+                    p = p.parent;
+                }
+                return "";
+            }
         }
     }
     EventDelegateChoice {
@@ -234,6 +264,15 @@ EventDelegateChooser {
             }
             isOnlyEmoji: 0
             keepFullText: true
+            searchQuery: {
+                let p = parent;
+                while (p) {
+                    if (p.searchQuery !== undefined && typeof p.searchQuery === "string")
+                        return p.searchQuery;
+                    p = p.parent;
+                }
+                return "";
+            }
         }
     }
     EventDelegateChoice {
@@ -280,6 +319,15 @@ EventDelegateChooser {
             }
             isOnlyEmoji: 0
             keepFullText: true
+            searchQuery: {
+                let p = parent;
+                while (p) {
+                    if (p.searchQuery !== undefined && typeof p.searchQuery === "string")
+                        return p.searchQuery;
+                    p = p.parent;
+                }
+                return "";
+            }
         }
     }
     EventDelegateChoice {

@@ -2533,7 +2533,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Требуется имя профиля.</translation>
@@ -8686,7 +8686,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
         <source>Show more</source>
         <translation>Развернуть</translation>
     </message>
@@ -8812,7 +8812,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 начал голосовой звонок.</translation>
     </message>
@@ -8827,7 +8827,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 позвонил.</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+45"/>
         <source>%1 answered the call.</source>
         <translation>%1 ответил на звонок.</translation>
     </message>
@@ -8853,7 +8853,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 согласовывает звонок…</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+140"/>
         <source>Allow them in</source>
         <translation>Впустить</translation>
     </message>

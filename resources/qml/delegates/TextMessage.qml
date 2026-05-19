@@ -18,6 +18,9 @@ LitehtmlItem {
     property bool isReply: EventDelegateChooser.isReply
     required property bool keepFullText
     required property string formatted
+    // In-room search query, propagated from MatrixRoomView. When non-empty,
+    // matches inside `formatted` are wrapped in <mark> before rendering.
+    property string searchQuery: ""
     property point hoverPoint: Qt.point(0, 0)
     readonly property bool emojiOnlyMessage: isOnlyEmoji > 0 && isOnlyEmoji < 4
     readonly property bool enlargedEmojiOnly: Settings.timelineMessagesEmojiOnlyEnlarge && emojiOnlyMessage
@@ -65,7 +68,7 @@ LitehtmlItem {
 
     property string copyText: selectedText.length > 0 ? selectedText : body
 
-    html: formatted
+    html: searchQuery.length > 0 ? Komai.markSearchMatchesInHtml(formatted, searchQuery) : formatted
     perfRoomId: EventDelegateChooser.room ? String(EventDelegateChooser.room.roomId || "") : ""
     perfEventId: String(EventDelegateChooser.eventId || "")
     color: palette.text

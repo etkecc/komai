@@ -12,7 +12,9 @@ generateMasterStylesheet(const QPalette &palette,
                          bool compact,
                          const QString &errorColor,
                          const QString &attentionColor,
-                         const QString &successColor)
+                         const QString &successColor,
+                         const QString &searchHighlightBgColor,
+                         const QString &searchHighlightTextColor)
 {
     const auto text           = palette.color(QPalette::Text).name();
     const auto link           = palette.color(QPalette::Link).name();
@@ -86,6 +88,13 @@ generateMasterStylesheet(const QPalette &palette,
                           "del, strike {"
                           "  text-decoration: line-through;"
                           "}"
+                          "span.komai-search-match {"
+                          "  display: inline-block;"
+                          "  background-color: %13;"
+                          "  color: %14;"
+                          "  border-radius: 2px;"
+                          "  padding: 0 1px;"
+                          "}"
                           "span[data-mx-spoiler] {"
                           "  color: transparent;"
                           "  background-color: %3;"
@@ -138,7 +147,8 @@ generateMasterStylesheet(const QPalette &palette,
       .arg(text, highlight, alternateBase, link, blockMargin)
       .arg(errorColor, attentionColor, successColor)
       .arg(emojiScaleFactor)
-      .arg(pillBackground);
+      .arg(pillBackground)
+      .arg(searchHighlightBgColor, searchHighlightTextColor);
 }
 
 } // namespace timeline::litehtml

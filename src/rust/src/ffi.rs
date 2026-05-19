@@ -36,6 +36,10 @@ pub(crate) fn html_linkify(html: &str) -> String {
     crate::html_processor::linkify_html(html)
 }
 
+pub(crate) fn html_mark_search_matches(html: &str, query: &str) -> String {
+    crate::html_processor::mark_search_matches(html, query)
+}
+
 pub(crate) fn format_body_html(
     body: &str,
     formatted_body: &str,
@@ -1647,6 +1651,7 @@ mod bridge {
 
         fn html_sanitize(html: &str) -> String;
         fn html_linkify(html: &str) -> String;
+        fn html_mark_search_matches(html: &str, query: &str) -> String;
 
         fn format_body_html(
             body: &str,

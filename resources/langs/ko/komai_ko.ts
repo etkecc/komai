@@ -2525,7 +2525,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+636"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>프로필 이름이 필요합니다.</translation>
@@ -8668,7 +8668,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+192"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
         <source>Show more</source>
         <translation>더 보기</translation>
     </message>
@@ -8790,7 +8790,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+228"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
         <source>%1 placed a voice call.</source>
         <translation>%1님이 음성 통화를 걸었습니다.</translation>
     </message>
@@ -8805,7 +8805,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1님이 통화를 걸었습니다.</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+45"/>
         <source>%1 answered the call.</source>
         <translation>%1님이 통화를 받았습니다.</translation>
     </message>
@@ -8831,7 +8831,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1님이 통화를 연결 중입니다…</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+140"/>
         <source>Allow them in</source>
         <translation>입장 허용</translation>
     </message>

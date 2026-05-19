@@ -3234,7 +3234,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+472"/>
         <source>Settings...</source>
         <translation>Cài đặt…</translation>
     </message>

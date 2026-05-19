@@ -3239,7 +3239,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+472"/>
         <source>Settings...</source>
         <translation>සැකසීම්…</translation>
     </message>

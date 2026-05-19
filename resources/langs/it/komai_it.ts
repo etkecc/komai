@@ -3239,7 +3239,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+472"/>
         <source>Settings...</source>
         <translation>Impostazioni…</translation>
     </message>

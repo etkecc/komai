@@ -22,8 +22,14 @@ QtObject {
     // within this many pixels of the visual bottom counts as pinned.
     readonly property real liveEdgeTolerancePx: 8
 
+    // Short dwell before we actually mark messages as read.  Acts as a
+    // coalescing window for bursts of `scheduleReadMarkerUpdate` calls
+    // (scroll settle + count change land back-to-back), and as a
+    // backstop against momentary window-active states that aren't real
+    // "the user is reading this" focus — e.g. a Plasma taskbar peek
+    // that briefly activates the window, or a quick alt-tab through.
     property var readMarkerUpdateTimer: Timer {
-        interval: 0
+        interval: 300
         onTriggered: support.updateReadMarkerForVisibleContent()
     }
     property int scheduledReadMarkerGeneration: -1
@@ -203,8 +209,19 @@ QtObject {
         return "";
     }
 
+    // Read receipts are gated on `rootItem.windowActive` (Qt window
+    // focus) as well as item visibility.  Visibility alone is not
+    // enough: a Komai window sitting next to its sender peer in a
+    // side-by-side layout, or one whose surface is being rendered for
+    // a Plasma taskbar live preview, is `visible` but the user is not
+    // looking at it.  Sending receipts in that state leaks "I'm at my
+    // desk" to senders for messages we may not have actually read.
+    // When focus returns, MatrixRoomLifecycleSupport's
+    // `onWindowActiveChanged` re-arms this scheduler so any unread
+    // accumulated while we were unfocused gets marked.
     function scheduleReadMarkerUpdate(preferLatestEvent) {
         if (!rootItem.visible
+                || !rootItem.windowActive
                 || rootItem.activeRoomId.length === 0
                 || !rootItem.hasTimeline
                 || rootItem.loading
@@ -221,6 +238,7 @@ QtObject {
 
     function updateReadMarkerForVisibleContent() {
         if (!rootItem.visible
+                || !rootItem.windowActive
                 || rootItem.activeRoomId.length === 0
                 || !rootItem.hasTimeline
                 || rootItem.loading

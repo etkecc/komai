@@ -110,6 +110,11 @@ ColumnLayout {
     property string lastMarkedReadEventId: ""
     property bool preferLatestReadMarkerEvent: false
     property int readMarkerGeneration: 0
+    // Exposed for MatrixRoomViewportSupport's read-marker gate; the
+    // support is a QtObject without its own Window attached property,
+    // so the focus check is mirrored here where `Window.active` is
+    // resolvable through the Item ancestry.
+    readonly property bool windowActive: Window.active
     property bool pendingComposerAutoFocus: false
     property int _composerAutoFocusRetries: 0
     readonly property bool threadViewActive: TimelineManager.matrixTimelineThreadEventId.length > 0

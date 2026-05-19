@@ -156,5 +156,22 @@ QtObject {
                 viewportSupport.scheduleReadMarkerUpdate(true);
             }
         }
+
+        // Window focus is part of the read-marker gate (see
+        // MatrixRoomViewportSupport.scheduleReadMarkerUpdate).  Messages
+        // that arrived while the window was unfocused fired their
+        // scheduling hooks (count change / scroll settle) and got
+        // dropped on the floor; re-arm the scheduler now that the user
+        // is actually looking so the accumulated unread gets caught up.
+        function onWindowActiveChanged() {
+            if (!rootItem.poolActive)
+                return;
+            if (rootItem.windowActive
+                    && rootItem.visible
+                    && rootItem.activeRoomId.length > 0
+                    && !rootItem.roomSwitchInProgress) {
+                viewportSupport.scheduleReadMarkerUpdate(true);
+            }
+        }
     }
 }

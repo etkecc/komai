@@ -8,10 +8,7 @@ import QtQuick
 Item {
     required property var chatList
     required property var chatRoot
-    required property var roomModel
     property bool allowEscape: true
-
-    Window.onActiveChanged: readTimer.running = Window.active
 
     Shortcut {
         sequences: [StandardKey.MoveToPreviousPage]
@@ -76,17 +73,6 @@ Item {
         onActivatedAmbiguously: {
             if (chatRoot && typeof chatRoot.copySelectionModeText === "function")
                 chatRoot.copySelectionModeText(true);
-        }
-    }
-    Timer {
-        id: readTimer
-
-        interval: 1000
-
-        // force current read index to update
-        onTriggered: {
-            if (roomModel)
-                roomModel.setCurrentIndex(roomModel.currentIndex);
         }
     }
 }

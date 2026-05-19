@@ -3239,7 +3239,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+467"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+472"/>
         <source>Settings...</source>
         <translation>Definições...</translation>
     </message>

@@ -462,7 +462,6 @@ Item {
             ? (matrixTimeline ? matrixTimeline.timelineListItem : null)
             : null
         chatRoot: timelineView.useMatrixRoomView ? matrixTimeline : null
-        roomModel: null
         allowEscape: timelineView.useMatrixRoomView
             && matrixTimeline
             && matrixTimeline.canHandleEscape()

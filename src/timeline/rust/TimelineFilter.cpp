@@ -327,18 +327,6 @@ TimelineFilter::itemAt(int row) const
     return itemData;
 }
 
-void
-TimelineFilter::setCurrentIndex(int /*idx*/)
-{
-    // currentIndex tracking is not used in the matrix-sdk path
-}
-
-int
-TimelineFilter::currentIndex() const
-{
-    return -1;
-}
-
 bool
 TimelineFilter::isFiltering() const
 {

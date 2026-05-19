@@ -24,7 +24,6 @@ class TimelineFilter : public QSortFilterProxyModel
     Q_PROPERTY(bool collapseThreadReplies READ collapseThreadReplies WRITE setCollapseThreadReplies
                  NOTIFY collapseThreadRepliesChanged)
     Q_PROPERTY(QAbstractItemModel *source READ source WRITE setSource NOTIFY sourceChanged)
-    Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(bool filteringInProgress READ isFiltering NOTIFY isFilteringChanged)
 
 public:
@@ -34,14 +33,12 @@ public:
     QString filterByContent() const { return contentFilter; }
     bool collapseThreadReplies() const { return collapseThreadReplies_; }
     QAbstractItemModel *source() const;
-    int currentIndex() const;
     bool isFiltering() const;
 
     void setThreadId(const QString &t);
     void setContentFilter(const QString &t);
     void setCollapseThreadReplies(bool collapse);
     void setSource(QAbstractItemModel *s);
-    void setCurrentIndex(int idx);
 
     Q_INVOKABLE QVariant dataByIndex(int i, int role = Qt::DisplayRole) const
     {
@@ -73,7 +70,6 @@ signals:
     void contentFilterChanged();
     void collapseThreadRepliesChanged();
     void sourceChanged();
-    void currentIndexChanged();
     void isFilteringChanged();
     void requestMoreData();
 

@@ -9,7 +9,7 @@
 
 mod format;
 mod linkify;
-mod parser;
+pub(crate) mod parser;
 mod pills;
 mod sanitize;
 mod search;

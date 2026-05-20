@@ -2,128 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-//! Hand-rolled HTML tag scanner: locates and classifies opening/closing
-//! tag spans without owning the input. (Functionally close to
-//! `html_processor::parser`; left untouched here so the orchestration
-//! layer above can call into it without changing call sites — a future
-//! pass could de-dupe.)
+//! Local HTML helpers used by the syntect pipeline: a thin accessor on
+//! top of the shared [`crate::html_processor::parser`] tag scanner, plus
+//! HTML entity decoding and HTML escaping geared toward inline source
+//! rendering (escapes the apostrophe in addition to the four base chars).
 
-
-// ---------------------------------------------------------------------------
-// Tag parsing
-// ---------------------------------------------------------------------------
-
-#[derive(Default, Clone, Copy)]
-pub(super) struct ParsedTag {
-    pub(super) valid: bool,
-    pub(super) special: bool,
-    pub(super) is_end: bool,
-    pub(super) self_closing: bool,
-    pub(super) start: usize,
-    pub(super) end: usize,
-    pub(super) name_start: usize,
-    pub(super) name_len: usize,
-    pub(super) attrs_start: usize,
-    pub(super) attrs_len: usize,
-}
-
-pub(super) fn is_tag_name_char(b: u8) -> bool {
-    b.is_ascii_alphanumeric() || b == b'-' || b == b'_' || b == b':'
-}
-
-pub(super) fn parse_tag(html: &str, tag_start: usize) -> ParsedTag {
-    let bytes = html.as_bytes();
-    let mut tag = ParsedTag {
-        start: tag_start,
-        end: bytes.len(),
-        ..Default::default()
-    };
-
-    if tag_start >= bytes.len() || bytes[tag_start] != b'<' {
-        return tag;
-    }
-
-    // Find closing '>'.
-    let mut i = tag_start + 1;
-    let mut quote: u8 = 0;
-    while i < bytes.len() {
-        let c = bytes[i];
-        if quote == 0 {
-            if c == b'"' || c == b'\'' {
-                quote = c;
-            } else if c == b'>' {
-                break;
-            }
-        } else if c == quote {
-            quote = 0;
-        }
-        i += 1;
-    }
-
-    if i >= bytes.len() {
-        return tag;
-    }
-
-    tag.end = i + 1;
-
-    let mut cs = tag_start + 1;
-    let mut ce = i;
-    while cs < ce && bytes[cs].is_ascii_whitespace() {
-        cs += 1;
-    }
-    while ce > cs && bytes[ce - 1].is_ascii_whitespace() {
-        ce -= 1;
-    }
-    if cs >= ce {
-        return tag;
-    }
-
-    if bytes[cs] == b'!' || bytes[cs] == b'?' {
-        tag.valid = true;
-        tag.special = true;
-        return tag;
-    }
-
-    let mut cursor = cs;
-    if bytes[cursor] == b'/' {
-        tag.is_end = true;
-        cursor += 1;
-        while cursor < ce && bytes[cursor].is_ascii_whitespace() {
-            cursor += 1;
-        }
-    }
-
-    let name_start = cursor;
-    while cursor < ce && is_tag_name_char(bytes[cursor]) {
-        cursor += 1;
-    }
-    if cursor == name_start {
-        return tag;
-    }
-
-    tag.name_start = name_start;
-    tag.name_len = cursor - name_start;
-
-    if !tag.is_end {
-        let attrs_start = cursor;
-        let mut attrs_end = ce;
-        while attrs_end > attrs_start && bytes[attrs_end - 1].is_ascii_whitespace() {
-            attrs_end -= 1;
-        }
-        if attrs_end > attrs_start && bytes[attrs_end - 1] == b'/' {
-            tag.self_closing = true;
-            attrs_end -= 1;
-            while attrs_end > attrs_start && bytes[attrs_end - 1].is_ascii_whitespace() {
-                attrs_end -= 1;
-            }
-        }
-        tag.attrs_start = attrs_start;
-        tag.attrs_len = attrs_end.saturating_sub(attrs_start);
-    }
-
-    tag.valid = true;
-    tag
-}
+pub(super) use crate::html_processor::parser::{ParsedTag, parse_tag};
 
 pub(super) fn tag_name_eq(html: &str, tag: &ParsedTag, wanted: &str) -> bool {
     if !tag.valid || tag.name_len == 0 {
@@ -133,10 +17,10 @@ pub(super) fn tag_name_eq(html: &str, tag: &ParsedTag, wanted: &str) -> bool {
 }
 
 pub(super) fn tag_attrs<'a>(html: &'a str, tag: &ParsedTag) -> &'a str {
-    if tag.attrs_len == 0 {
+    if tag.attrs_end <= tag.attrs_start {
         return "";
     }
-    &html[tag.attrs_start..tag.attrs_start + tag.attrs_len]
+    &html[tag.attrs_start..tag.attrs_end]
 }
 
 pub(super) fn is_whitespace_only(html: &str, start: usize, end: usize) -> bool {

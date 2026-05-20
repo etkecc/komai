@@ -15,24 +15,24 @@ pub(super) const MAX_CLASS_CHARS: usize = 512;
 pub(super) const MAX_URL_CHARS: usize = 2048;
 
 #[derive(Default, Clone, Copy)]
-pub(super) struct ParsedTag {
-    pub(super) valid: bool,
-    pub(super) special: bool,
-    pub(super) is_end: bool,
-    pub(super) self_closing: bool,
-    pub(super) start: usize,
-    pub(super) end: usize,
-    pub(super) name_start: usize,
-    pub(super) name_len: usize,
-    pub(super) attrs_start: usize,
-    pub(super) attrs_end: usize,
+pub(crate) struct ParsedTag {
+    pub(crate) valid: bool,
+    pub(crate) special: bool,
+    pub(crate) is_end: bool,
+    pub(crate) self_closing: bool,
+    pub(crate) start: usize,
+    pub(crate) end: usize,
+    pub(crate) name_start: usize,
+    pub(crate) name_len: usize,
+    pub(crate) attrs_start: usize,
+    pub(crate) attrs_end: usize,
 }
 
-pub(super) fn is_tag_name_char(b: u8) -> bool {
+pub(crate) fn is_tag_name_char(b: u8) -> bool {
     b.is_ascii_alphanumeric() || b == b'-' || b == b'_' || b == b':'
 }
 
-pub(super) fn parse_tag(html: &str, tag_start: usize) -> ParsedTag {
+pub(crate) fn parse_tag(html: &str, tag_start: usize) -> ParsedTag {
     let bytes = html.as_bytes();
     let mut tag = ParsedTag {
         start: tag_start,

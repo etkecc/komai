@@ -17,6 +17,7 @@
 #include <QDateTime>
 #include <QGuiApplication>
 #include <QHash>
+#include <QLocale>
 #include <QPalette>
 #include <QTextDocument>
 #include <QUrl>
@@ -283,6 +284,32 @@ plainCopyTextForItem(const MatrixTimelineItem &item)
     }
 
     return originalCopyTextForItem(item);
+}
+
+QString
+copyHeaderForItem(const MatrixTimelineItem &item)
+{
+    QString senderText;
+    if (!item.senderId.isEmpty()) {
+        senderText = item.senderId;
+        if (!item.senderDisplayName.isEmpty() && item.senderDisplayName != item.senderId)
+            senderText += QStringLiteral(" (") + item.senderDisplayName + QStringLiteral(")");
+    } else if (!item.senderDisplayName.isEmpty()) {
+        senderText = item.senderDisplayName;
+    }
+
+    QString timestampText;
+    if (item.timestamp != 0) {
+        const auto dt = QDateTime::fromMSecsSinceEpoch(static_cast<qint64>(item.timestamp));
+        timestampText = QLocale::system().toString(dt, QLocale::ShortFormat);
+    }
+
+    QString header;
+    if (!timestampText.isEmpty())
+        header += QStringLiteral("[") + timestampText + QStringLiteral("] ");
+    if (!senderText.isEmpty())
+        header += senderText + QStringLiteral(": ");
+    return header;
 }
 
 QString
@@ -1016,8 +1043,13 @@ MatrixTimelineModel::buildPillAvatars(const QVector<MatrixTimelineItem> &items) 
 QString
 MatrixTimelineModel::copyTextForEventIds(const QVariantList &eventIds, bool plainText) const
 {
-    QStringList copiedTexts;
-    copiedTexts.reserve(eventIds.size());
+    struct CopiedEntry
+    {
+        QString header;
+        QString text;
+    };
+    QList<CopiedEntry> entries;
+    entries.reserve(static_cast<qsizetype>(eventIds.size()));
 
     for (const auto &eventIdValue : eventIds) {
         const auto eventId = eventIdValue.toString().trimmed();
@@ -1030,11 +1062,21 @@ MatrixTimelineModel::copyTextForEventIds(const QVariantList &eventIds, bool plai
 
         const auto copiedText =
           plainText ? plainCopyTextForItem(*item) : originalCopyTextForItem(*item);
-        if (!copiedText.isEmpty())
-            copiedTexts.push_back(copiedText);
+        if (copiedText.isEmpty())
+            continue;
+
+        entries.push_back({copyHeaderForItem(*item), copiedText});
     }
 
-    return copiedTexts.join(QStringLiteral("\n\n"));
+    // Single-message copy stays bare so pasted bodies (snippets, URLs, commands) carry
+    // no attribution noise. Multi-message copy needs headers to be readable as a transcript.
+    const bool multi = entries.size() > 1;
+    QStringList joined;
+    joined.reserve(entries.size());
+    for (const auto &entry : entries)
+        joined.push_back(multi ? entry.header + entry.text : entry.text);
+
+    return joined.join(multi ? QStringLiteral("\n\n--------\n\n") : QStringLiteral("\n\n"));
 }
 
 QString

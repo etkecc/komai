@@ -60,9 +60,9 @@ use super::bootstrap;
 
 #[path = "runtime_profile_media.rs"]
 mod profile_media;
-#[path = "runtime_event_detail.rs"]
+#[path = "runtime_event_detail/mod.rs"]
 mod event_detail;
-#[path = "runtime_event_summary.rs"]
+#[path = "runtime_event_summary/mod.rs"]
 mod event_summary;
 #[path = "runtime_recovery.rs"]
 mod recovery;

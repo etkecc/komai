@@ -3509,7 +3509,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+148"/>
         <source>Repl&amp;y</source>
         <translation>Vast&amp;a</translation>
     </message>

@@ -3514,7 +3514,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+148"/>
         <source>Repl&amp;y</source>
         <translation>Răspun&amp;de</translation>
     </message>

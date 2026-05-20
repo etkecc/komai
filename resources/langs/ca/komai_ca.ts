@@ -3509,7 +3509,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+148"/>
         <source>Repl&amp;y</source>
         <translation>R&amp;espon</translation>
     </message>

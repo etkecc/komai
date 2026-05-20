@@ -3514,7 +3514,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+148"/>
         <source>Repl&amp;y</source>
         <translation>Odpow&amp;iedz</translation>
     </message>

@@ -479,11 +479,17 @@ TimelineEvent {
             openMessageActions(true, anchorItem, "button");
     }
 
-    function openMessageContextMenu(hoveredLink, copyText) {
+    function openMessageContextMenu(hoveredLink, copyText, anchorScenePos) {
         // Pass `realEventId` (empty for local echoes) to the context menu as
         // `eventId`, not the lookup-key `eventId` which may hold the row's
         // `itemId` fallback. The menu's action handlers feed this value
         // straight to Rust handlers that parse it as a Matrix event_id.
+        //
+        // `anchorScenePos` is the press point in scene coords captured by the
+        // calling TapHandler. Threading it through to `show()` lets the menu
+        // open at the right-click site even when `QCursor::pos()` is unusable
+        // (Wayland native popups have surfaced this with no-args `popup()`
+        // mapping to (0,0) of the menu's parent).
         messageContextMenu.show(
             realEventId,
             threadId,
@@ -497,7 +503,8 @@ TimelineEvent {
             null,
             wrapper,
             roomModelOverride,
-            transactionId);
+            transactionId,
+            anchorScenePos);
     }
 
     function resolveReplyLink(replyDelegate, x, y, quoteLineWidth, replyHeaderHeight) {

@@ -3512,7 +3512,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MessageContextMenu</name>
     <message>
-        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+132"/>
+        <location filename="../../qml/timeline/components/MessageContextMenu.qml" line="+148"/>
         <source>Repl&amp;y</source>
         <translation>Respon&amp;der</translation>
     </message>

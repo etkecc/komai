@@ -67,7 +67,7 @@ Menu {
         return lastClosedEventId === eventId_ && lastClosedAnchorItem === anchor_ && (Date.now() - lastClosedAtMs) <= closedReuseIgnoreMs;
     }
 
-    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, isStateEvent_, link_, text_, showAt_, actionMessageModel_, actionRoomModel_, transactionId_) {
+    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, isStateEvent_, link_, text_, showAt_, actionMessageModel_, actionRoomModel_, transactionId_, anchorScenePos_) {
         eventId = eventId_;
         transactionId = transactionId_ || "";
         threadId = threadId_;
@@ -92,6 +92,15 @@ Menu {
 
         if (showAt_) {
             popup(showAt_);
+        } else if (anchorScenePos_) {
+            // Open at the press point captured by the caller's TapHandler,
+            // converted into the menu parent's local coords.
+            // `mapFromItem(null, ...)` is the QML idiom for scene→local.
+            popupAnchorItem = null;
+            const local = parent.mapFromItem(null,
+                                             anchorScenePos_.x,
+                                             anchorScenePos_.y);
+            popup(local.x, local.y);
         } else {
             popupAnchorItem = null;
             popup();
@@ -106,8 +115,15 @@ Menu {
     }
 
     Component.onCompleted: {
+        // Use `Popup.Item` (in-window) so the (x, y) passed to `popup()` is
+        // honored. On Wayland both `Popup.Native` (xdg_positioner anchored
+        // to the parent surface's bounds) and `Popup.Window` (top-level
+        // popup window) drop our explicit coords on the floor and either
+        // land the menu at the parent's top-left or slide it to a screen
+        // edge. The in-window item popup positions in QML's scene directly,
+        // so the click point we hand it actually lands.
         if (messageContextMenuRoot.popupType != undefined)
-            messageContextMenuRoot.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
+            messageContextMenuRoot.popupType = 0;
         MenuSizing.applyAutoWidth(messageContextMenuRoot);
     }
     onClosed: {

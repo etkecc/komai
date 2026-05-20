@@ -188,7 +188,11 @@ Item {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
-            onSingleTapped: root.wrapper.openMessageContextMenu(root.wrapper.main.hoveredLink, root.wrapper.main.copyText)
+            onSingleTapped: eventPoint => {
+                root.wrapper.openMessageContextMenu(root.wrapper.main.hoveredLink,
+                                                    root.wrapper.main.copyText,
+                                                    eventPoint.scenePosition);
+            }
         }
     }
     Rectangle {
@@ -944,7 +948,23 @@ Item {
 
     Item {
         anchors.fill: parent
-        anchors.topMargin: replyRow.height
+        // Skip the reply preview area when one is actually rendered, so
+        // `Reply`'s own right-click handler keeps owning that region (it
+        // opens `ReplyContextMenu`, not this bubble's menu). When there is
+        // no reply, `replyRow` is still laid out with its full implicit
+        // height — anchoring topMargin to that unconditionally would shave
+        // a phantom band off the top of the bubble where right-clicks have
+        // no handler.
+        anchors.topMargin: replyRow.visible ? replyRow.height : 0
+        // Above `selectionToggleSurface` (z:30) and `metadataLoader` (z:31)
+        // so right-clicks anywhere on the bubble win the hit chain ahead of
+        // the bubble's internal pointer-handler chain (the AbstractButton +
+        // `bubbleDragSelect` + content delegate handlers). Without this,
+        // right-clicks on the bubble proper land in `threadBackground`'s
+        // z:0 TapHandler — but only intermittently, because they have to
+        // race through every handler on `messageBubble`'s subtree first.
+        // Mirrors the lift pattern from 58a8580e2.
+        z: 32
 
         TapHandler {
             enabled: !root.perfDisableTimelineInteraction
@@ -952,8 +972,10 @@ Item {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
-            onSingleTapped: event => {
-                root.wrapper.openMessageContextMenu(root.wrapper.main.hoveredLink, root.wrapper.main.copyText);
+            onSingleTapped: eventPoint => {
+                root.wrapper.openMessageContextMenu(root.wrapper.main.hoveredLink,
+                                                    root.wrapper.main.copyText,
+                                                    eventPoint.scenePosition);
             }
         }
     }

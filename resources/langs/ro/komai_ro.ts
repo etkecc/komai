@@ -9010,48 +9010,48 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1184"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Nu s-a putut trimite mesajul: %1</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+119"/>
         <source>Failed to edit message: %1</source>
         <translation>Nu s-a putut edita mesajul: %1</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+97"/>
         <source>Failed to react: %1</source>
         <translation>Nu s-a putut reacționa: %1</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
         <source>Failed to delete message: %1</source>
         <translation>Nu s-a putut șterge mesajul: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to cancel unsent message: %1</source>
         <translation>Nu s-a putut anula mesajul netrimis: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to retry unsent message: %1</source>
         <translation>Nu s-a putut reîncerca mesajul netrimis: %1</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+87"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Nu s-au putut șterge unele mesaje: %1</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Nu s-a putut marca mesajul ca citit: %1</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+58"/>
         <source>Report sent</source>
         <translation>Raport trimis</translation>
     </message>
@@ -9061,28 +9061,28 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut raporta mesajul: %1</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Nu s-a putut transmite mesajul: %1</translation>
     </message>
     <message>
-        <location line="+136"/>
+        <location line="+135"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Nu s-au putut transmite unele mesaje: %1</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+50"/>
         <source>Failed to pin message: %1</source>
         <translation>Nu s-a putut fixa mesajul: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+60"/>
         <source>Failed to unpin message: %1</source>
         <translation>Nu s-a putut dezfixa mesajul: %1</translation>
     </message>
     <message>
-        <location line="+232"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+71"/>
         <source>Select file(s)</source>
         <translation>Selectați fișier(e)</translation>
     </message>
@@ -9092,7 +9092,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Toate fișierele (*)</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+133"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Finalizați editarea mesajului curent înainte de a atașa fișiere.</translation>
     </message>
@@ -9102,7 +9102,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Prin glisare și plasare pot fi atașate doar fișiere locale existente.</translation>
     </message>
     <message>
-        <location line="+262"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9111,12 +9111,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 (%1)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
         <source>Save attachment</source>
         <translation>Salvează atașament</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+53"/>
         <source>Failed to copy attachment: %1</source>
         <translation>Nu s-a putut copia atașamentul: %1</translation>
     </message>
@@ -9126,12 +9126,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>descărcare eșuată</translation>
     </message>
     <message>
-        <location line="+503"/>
+        <location line="+110"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nu s-a putut trimite atașamentul '%1': %2</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+20"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
         <translation>Nu s-a putut obține atașamentul '%1': nicio sesiune Matrix activă</translation>
     </message>

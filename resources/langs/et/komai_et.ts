@@ -8997,48 +8997,48 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1184"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Sõnumi saatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+119"/>
         <source>Failed to edit message: %1</source>
         <translation>Sõnumi muutmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+97"/>
         <source>Failed to react: %1</source>
         <translation>Reaktsiooni lisamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
         <source>Failed to delete message: %1</source>
         <translation>Sõnumi kustutamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to cancel unsent message: %1</source>
         <translation>Saatmata sõnumi tühistamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to retry unsent message: %1</source>
         <translation>Saatmata sõnumi uuesti saatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+87"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Mõnede sõnumite kustutamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Sõnumi loetuks märkimine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+58"/>
         <source>Report sent</source>
         <translation>Kaebus saadetud</translation>
     </message>
@@ -9048,28 +9048,28 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Sõnumist teatamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Sõnumi edasisaatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+136"/>
+        <location line="+135"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Mõnede sõnumite edasisaatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+50"/>
         <source>Failed to pin message: %1</source>
         <translation>Sõnumi kinnitamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+60"/>
         <source>Failed to unpin message: %1</source>
         <translation>Sõnumi kinnituse eemaldamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+232"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+71"/>
         <source>Select file(s)</source>
         <translation>Vali fail(id)</translation>
     </message>
@@ -9079,7 +9079,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Kõik failid (*)</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+133"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Lõpeta praeguse sõnumi muutmine enne failide lisamist.</translation>
     </message>
@@ -9089,7 +9089,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Lohistades saab lisada ainult olemasolevaid kohalikke faile.</translation>
     </message>
     <message>
-        <location line="+262"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9098,12 +9098,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 (%1)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
         <source>Save attachment</source>
         <translation>Salvesta manus</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+53"/>
         <source>Failed to copy attachment: %1</source>
         <translation>Manuse kopeerimine ebaõnnestus: %1</translation>
     </message>
@@ -9113,12 +9113,12 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>allalaadimine ebaõnnestus</translation>
     </message>
     <message>
-        <location line="+503"/>
+        <location line="+110"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Manuse '%1' saatmine ebaõnnestus: %2</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+20"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
         <translation>Manuse '%1' toomine ebaõnnestus: aktiivne Matrix sessioon puudub</translation>
     </message>

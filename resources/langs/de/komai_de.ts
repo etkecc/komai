@@ -8997,48 +8997,48 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1184"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Fehler beim Senden der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+119"/>
         <source>Failed to edit message: %1</source>
         <translation>Fehler beim Bearbeiten der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+97"/>
         <source>Failed to react: %1</source>
         <translation>Fehler beim Reagieren: %1</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
         <source>Failed to delete message: %1</source>
         <translation>Fehler beim Löschen der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to cancel unsent message: %1</source>
         <translation>Fehler beim Abbrechen der nicht gesendeten Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to retry unsent message: %1</source>
         <translation>Fehler beim erneuten Versenden der nicht gesendeten Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+87"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Fehler beim Löschen einiger Nachrichten: %1</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>Fehler beim Markieren der Nachricht als gelesen: %1</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+58"/>
         <source>Report sent</source>
         <translation>Meldung gesendet</translation>
     </message>
@@ -9048,28 +9048,28 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Fehler beim Melden der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Fehler beim Weiterleiten der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+136"/>
+        <location line="+135"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Fehler beim Weiterleiten einiger Nachrichten: %1</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+50"/>
         <source>Failed to pin message: %1</source>
         <translation>Fehler beim Anheften der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+60"/>
         <source>Failed to unpin message: %1</source>
         <translation>Fehler beim Loslösen der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+232"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+71"/>
         <source>Select file(s)</source>
         <translation>Datei(en) auswählen</translation>
     </message>
@@ -9079,7 +9079,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Alle Dateien (*)</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+133"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Beende das Bearbeiten der aktuellen Nachricht, bevor du Dateien anhängst.</translation>
     </message>
@@ -9089,7 +9089,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Nur vorhandene lokale Dateien können per Drag-and-Drop angehängt werden.</translation>
     </message>
     <message>
-        <location line="+262"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9098,12 +9098,12 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 (%1)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
         <source>Save attachment</source>
         <translation>Anhang speichern</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+53"/>
         <source>Failed to copy attachment: %1</source>
         <translation>Fehler beim Kopieren des Anhangs: %1</translation>
     </message>
@@ -9113,12 +9113,12 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Download fehlgeschlagen</translation>
     </message>
     <message>
-        <location line="+503"/>
+        <location line="+110"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Fehler beim Senden des Anhangs '%1': %2</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+20"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
         <translation>Fehler beim Abrufen des Anhangs '%1': keine aktive Matrix-Sitzung</translation>
     </message>

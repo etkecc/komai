@@ -8997,48 +8997,48 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1184"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>സന്ദേശം അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+119"/>
         <source>Failed to edit message: %1</source>
         <translation>സന്ദേശം തിരുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+97"/>
         <source>Failed to react: %1</source>
         <translation>പ്രതികരിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
         <source>Failed to delete message: %1</source>
         <translation>സന്ദേശം നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to cancel unsent message: %1</source>
         <translation>അയക്കാത്ത സന്ദേശം റദ്ദാക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Failed to retry unsent message: %1</source>
         <translation>അയക്കാത്ത സന്ദേശം വീണ്ടും ശ്രമിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+87"/>
         <source>Failed to delete some messages: %1</source>
         <translation>ചില സന്ദേശങ്ങൾ നീക്കം ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="+128"/>
         <source>Failed to mark message as read: %1</source>
         <translation>സന്ദേശം വായിച്ചതായി അടയാളപ്പെടുത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+58"/>
         <source>Report sent</source>
         <translation>റിപ്പോർട്ട് അയച്ചു</translation>
     </message>
@@ -9048,28 +9048,28 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>സന്ദേശം റിപ്പോർട്ട് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+91"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>സന്ദേശം ഫോർവേഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+136"/>
+        <location line="+135"/>
         <source>Failed to forward some messages: %1</source>
         <translation>ചില സന്ദേശങ്ങൾ ഫോർവേഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+50"/>
         <source>Failed to pin message: %1</source>
         <translation>സന്ദേശം പിൻ ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+60"/>
         <source>Failed to unpin message: %1</source>
         <translation>സന്ദേശം അൺപിൻ ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+232"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+71"/>
         <source>Select file(s)</source>
         <translation>ഫയൽ(കൾ) തിരഞ്ഞെടുക്കുക</translation>
     </message>
@@ -9079,7 +9079,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>എല്ലാ ഫയലുകളും (*)</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+133"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>ഫയലുകൾ അറ്റാച്ч് ചെയ്യുന്നതിന് മുമ്പ് നിലവിലെ സന്ദേശം തിരുത്തൽ പൂർത്തിയാക്കുക.</translation>
     </message>
@@ -9089,7 +9089,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>നിലവിലുള്ള പ്രാദേശിക ഫയലുകൾ മാത്രം ഡ്രാഗ് ആൻഡ് ഡ്രോപ്പ് വഴി അറ്റാч്ч് ചെയ്യാൻ കഴിയും.</translation>
     </message>
     <message>
-        <location line="+262"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9098,12 +9098,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 (%1)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
         <source>Save attachment</source>
         <translation>അറ്റാч്ч്മെന്റ് സേവ് ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+53"/>
         <source>Failed to copy attachment: %1</source>
         <translation>അറ്റാച്ച്മെന്റ് പകർത്തുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -9113,12 +9113,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഡൗൺലോഡ് പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
-        <location line="+503"/>
+        <location line="+110"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>അറ്റാച്ч്മെന്റ് '%1' അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+20"/>
         <source>Failed to fetch attachment '%1': no active Matrix session</source>
         <translation>അറ്റാച്ч്മെന്റ് '%1' ലഭ്യമാക്കുന്നതിൽ പരാജയപ്പെട്ടു: സജീവ Matrix സെഷൻ ഇല്ല</translation>
     </message>

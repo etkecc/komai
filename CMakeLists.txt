@@ -450,11 +450,19 @@ set(SRC_FILES
     src/timeline/NavigationHistory.h
     src/timeline/TimelineViewManager.cpp
     src/timeline/TimelineViewManager.h
-    src/timeline/view/TimelineViewManagerMedia.cpp
-    src/timeline/view/TimelineViewManagerMatrixTimeline.cpp
-    src/timeline/view/TimelineViewManagerRoomActions.cpp
     src/timeline/view/TimelineViewManagerColors.cpp
     src/timeline/view/TimelineViewManagerCompletions.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineInternal.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineInternal.h
+    src/timeline/view/TimelineViewManagerMatrixTimelineLifecycle.cpp
+    src/timeline/view/TimelineViewManagerMatrixTimelineThreads.cpp
+    src/timeline/view/TimelineViewManagerMedia.cpp
+    src/timeline/view/TimelineViewManagerRoomActions.cpp
     src/timeline/view/TimelineViewManagerSlashCommands.cpp
 
     # UI components

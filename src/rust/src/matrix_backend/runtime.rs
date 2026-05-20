@@ -74,7 +74,7 @@ mod registry;
 mod verification;
 #[path = "runtime_room_actions.rs"]
 mod room_actions;
-#[path = "runtime_room_list.rs"]
+#[path = "runtime_room_list/mod.rs"]
 mod room_list;
 #[path = "runtime_room_settings.rs"]
 mod room_settings;

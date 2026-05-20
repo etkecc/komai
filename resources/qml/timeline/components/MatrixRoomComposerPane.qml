@@ -7,7 +7,7 @@ import QtQuick
 import QtQuick.Layouts
 import cc.etke.komai
 
-ColumnLayout {
+Item {
     id: root
 
     property var rootItem: null
@@ -19,15 +19,43 @@ ColumnLayout {
     readonly property alias composerInput: composerInput
     readonly property alias composerShell: composerContainer
 
-    Layout.fillWidth: true
-    Layout.minimumHeight: visible ? implicitHeight : 0
-    Layout.preferredHeight: visible ? implicitHeight : 0
-    Layout.maximumHeight: visible ? implicitHeight : 0
-    spacing: 0
+    // Thread-tint expression shared by the composer container and the
+    // backdrop below. Matches MatrixRoomView's timeline tint so the bars,
+    // composer, and timeline read as one continuous coloured surface.
+    readonly property string _threadEventId: TimelineManager.matrixTimelineThreadEventId
+    readonly property bool _threadActive: _threadEventId.length > 0
+    readonly property color _threadTintColor: _threadActive
+        ? TimelineManager.userColor(_threadEventId, palette.base)
+        : palette.buttonText
+    readonly property color _threadTintedSurface: _threadActive
+        ? Qt.tint(palette.window, Qt.hsla(_threadTintColor.hslHue, 0.7,
+                                          _threadTintColor.hslLightness, 0.1))
+        : palette.window
 
-    TimelineCallStatusBars {}
+    implicitHeight: paneLayout.implicitHeight
+    implicitWidth: paneLayout.implicitWidth
 
-    Composer.ReplyPopup {
+    // Backdrop behind the bars (ReplyPopup, UploadBox, transcription banner)
+    // whose rounded TOP corners would otherwise cut through to palette.window.
+    // In thread view we paint the same tint composerContainer uses, so the
+    // corner triangles read as a continuous coloured surface instead of a
+    // white notch (#185). Outside a thread we leave it transparent — the
+    // existing background remains in place.
+    Rectangle {
+        anchors.fill: parent
+        z: -1
+        color: root._threadActive ? root._threadTintedSurface : "transparent"
+    }
+
+    ColumnLayout {
+        id: paneLayout
+
+        anchors.fill: parent
+        spacing: 0
+
+        TimelineCallStatusBars {}
+
+        Composer.ReplyPopup {
         Layout.minimumHeight: 0
         Layout.preferredHeight: composerContainer.visible
             && layoutVisible
@@ -77,22 +105,14 @@ ColumnLayout {
         readonly property int contentHeight: _walkMode
             ? _baselineHeight
             : Math.max(_baselineHeight, composerInput.implicitHeight)
-        // In thread view, tint the composer surface to match the thread bar
-        // and the timeline tint, so the whole "you're inside a thread" surface
-        // reads as one continuous coloured area.
-        readonly property string _threadEventId: TimelineManager.matrixTimelineThreadEventId
-        readonly property bool _threadActive: _threadEventId.length > 0
-        readonly property color _threadTintColor: _threadActive
-            ? TimelineManager.userColor(_threadEventId, palette.base)
-            : palette.buttonText
         Layout.fillWidth: true
         Layout.minimumHeight: visible ? implicitHeight : 0
         Layout.preferredHeight: visible ? implicitHeight : 0
         Layout.maximumHeight: visible ? implicitHeight : 0
-        color: _threadActive
-            ? Qt.tint(palette.window, Qt.hsla(_threadTintColor.hslHue, 0.7,
-                                              _threadTintColor.hslLightness, 0.1))
-            : palette.window
+        // Thread-tinted in thread view, so the bars, composer, and timeline
+        // form one continuous coloured surface; expression shared with the
+        // backdrop above.
+        color: root._threadTintedSurface
         implicitHeight: inputShellSeparator.implicitHeight + contentHeight
         visible: !_hasRootItem || !root.rootItem.perfDisableComposer
 
@@ -145,5 +165,6 @@ ColumnLayout {
                 visible: composerContainer._walkMode
             }
         }
+    }
     }
 }

@@ -181,6 +181,8 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
     if (matrixTimelineThreadEventId_ != threadRootId)
         return;
 
+    markRoomSwitchPhaseCpp(roomId, "cpp.matrix_thread_snapshot_queue");
+
     // Fetch the snapshot from Rust on a worker thread.
     struct Result
     {
@@ -189,11 +191,14 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
         QString threadRootId;
         QVector<komai::MatrixTimelineItem> items;
         QString error;
+        qint64 fetchUs = 0;
     };
 
     komai::qt_worker_task::runQueued(
       this,
       [handleId, roomId, threadRootId]() {
+          QElapsedTimer fetchTimer;
+          fetchTimer.start();
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const auto result = komai::MatrixBackendRuntimeService::fetchThreadTimelineSnapshot(
@@ -207,6 +212,7 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
           } else {
               out.error = error;
           }
+          out.fetchUs = fetchTimer.nsecsElapsed() / 1000;
           return out;
       },
       [](TimelineViewManager *manager, Result result) {
@@ -235,8 +241,23 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
               return;
           }
 
+          const int itemCount = result.items.size();
+          QElapsedTimer replaceTimer;
+          replaceTimer.start();
           if (entry && entry->model)
               entry->model->replaceItems(std::move(result.items));
+          const auto replaceUs = replaceTimer.nsecsElapsed() / 1000;
+          manager->markRoomSwitchPhaseCpp(result.roomId, "cpp.matrix_thread_snapshot_applied");
+          if (manager->roomSwitchPerfEnabled()) {
+              komai::logging::ui()->info(
+                "[room-switch-perf] phase=cpp.matrix_thread_snapshot_applied "
+                "room='{}' thread='{}' items={} fetch_us={} replace_us={}",
+                result.roomId.toStdString(),
+                result.threadRootId.toStdString(),
+                itemCount,
+                result.fetchUs,
+                replaceUs);
+          }
           emit manager->matrixThreadTimelineChanged();
       });
 }

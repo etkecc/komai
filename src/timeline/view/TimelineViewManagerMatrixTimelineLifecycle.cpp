@@ -239,18 +239,31 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         // near-free: the call resolves to a warm-path notify and the
         // snapshot is delivered to QML on the next event loop tick.
         if (!saved.threadEventId.isEmpty()) {
+            markRoomSwitchPhaseCpp(roomId, "cpp.matrix_thread_restore_begin");
             // Ensure a cached model exists for the (room, thread) we're
             // restoring. If one already exists from a previous viewing in
             // this session, QML rebinds to it and shows its last snapshot
             // immediately; the upcoming re-subscribe refreshes it in the
             // background.
             auto *entry = ensureThreadTimelineEntry(roomId, saved.threadEventId);
+            markRoomSwitchPhaseCpp(roomId, "cpp.matrix_thread_restore_entry_ensured");
+            if (roomSwitchPerfEnabled()) {
+                komai::logging::ui()->info(
+                  "[room-switch-perf] phase=cpp.matrix_thread_restore_entry_ensured "
+                  "room='{}' thread='{}' cached={} item_count={}",
+                  roomId.toStdString(),
+                  saved.threadEventId.toStdString(),
+                  entry && entry->model && entry->model->count() > 0,
+                  entry && entry->model ? entry->model->count() : 0);
+            }
 
             auto *mainWindow    = MainWindow::instance();
             const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
             if (handleId != 0) {
                 if (entry)
                     entry->loading = true;
+                QElapsedTimer subscribeTimer;
+                subscribeTimer.start();
                 try {
                     ::komai::rust::matrix_subscribe_to_thread_timeline(
                       handleId, roomId.toStdString(), saved.threadEventId.toStdString());
@@ -260,6 +273,16 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
                     komai::logging::ui()->warn(
                       "Failed to reattach matrix-sdk thread subscription on room switch: {}",
                       e.what());
+                }
+                const auto subscribeElapsedUs = subscribeTimer.nsecsElapsed() / 1000;
+                markRoomSwitchPhaseCpp(roomId, "cpp.matrix_thread_subscribe_done");
+                if (roomSwitchPerfEnabled()) {
+                    komai::logging::ui()->info(
+                      "[room-switch-perf] phase=cpp.matrix_thread_subscribe_done "
+                      "room='{}' thread='{}' us={}",
+                      roomId.toStdString(),
+                      saved.threadEventId.toStdString(),
+                      subscribeElapsedUs);
                 }
             }
         }

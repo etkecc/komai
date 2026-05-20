@@ -17,6 +17,14 @@ When enabled, Komai logs structured room-switch phase markers like:
 - `[perf][room-switch] ... phase=request`
 - `[perf][room-switch] ... phase=qml.message_view.first_visible_item`
 
+Thread-restore path (covers the case where switching to a tab restores its saved thread view):
+
+- `cpp.matrix_thread_restore_begin` - thread-restore branch entered in `updateCurrentMatrixTimelineSelection`.
+- `cpp.matrix_thread_restore_entry_ensured` - per-(room, thread) cached model was obtained (or just created). Companion `[room-switch-perf] phase=cpp.matrix_thread_restore_entry_ensured ... cached=<bool> item_count=<n>` line reports warm-cache hit rate.
+- `cpp.matrix_thread_subscribe_done` - `matrix_subscribe_to_thread_timeline` FFI call returned. Companion `... us=<microseconds>` line distinguishes Rust warm-path (~0us) from cold rebuild.
+- `cpp.matrix_thread_snapshot_queue` - snapshot fetch queued on a worker thread.
+- `cpp.matrix_thread_snapshot_applied` - snapshot reached the model via `replaceItems`. Companion `... items=<n> fetch_us=<u> replace_us=<u>` line breaks down the Rust fetch and the QML-visible replace.
+
 Use helper recipes:
 
 ```sh

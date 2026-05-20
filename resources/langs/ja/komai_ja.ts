@@ -4529,7 +4529,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>指定されたプロファイルで実行します。プロファイルが存在しない場合は自動的に作成されます。複数のプロファイルにより、別々のアカウントや同時インスタンスを持つことができます。使用可能なプロファイルID（空でない）: 先頭文字はA-Z、a-z、または'_'；残りの文字はA-Z、a-z、0-9、'_'、'-'。</translation>
     </message>
@@ -4614,6 +4614,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>タイプ</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>この起動のみシステムトレイに非表示で起動し、「トレイで起動」設定はそのまま維持されます。自動起動エントリに便利で、セッション起動をサイレントにしながら、通常の起動ではウィンドウが開きます。「トレイに閉じる」が有効で、動作するシステムトレイが必要です。マルチプロファイル設定では、-p と組み合わせてプロファイルスイッチャーをバイパスできます。</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
@@ -11592,8 +11597,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>クライアントウィンドウを表示せずにバックグラウンドで起動します。</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>クライアントウィンドウを表示せずにアプリケーションをバックグラウンドで起動します。CLIフラグで条件付きにこれを行うこともできます。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;詳細はこちら&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+4"/>

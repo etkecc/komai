@@ -4536,7 +4536,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Uitvoeren met het opgegeven profiel. Een nieuw profiel wordt automatisch aangemaakt als het nog niet bestaat. Meerdere profielen maken aparte accounts en gelijktijdige instanties mogelijk. Toegestane niet-lege profiel-id's: eerste teken A-Z, a-z of '_'; overige tekens A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>type</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Start verborgen in het systeemvak alleen voor deze start, waarbij de instelling "In vak starten" ongewijzigd blijft. Nuttig in autostart-vermeldingen zodat sessiestarts stil blijven terwijl normale starts het venster nog steeds openen. Vereist dat "Sluiten naar vak" is ingeschakeld en een werkend systeemvak. Combineer in opstellingen met meerdere profielen met -p om de profielkiezer te omzeilen.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11608,8 +11613,8 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Start de applicatie op de achtergrond zonder het venster te tonen.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Start de applicatie op de achtergrond zonder het clientvenster te tonen. Je kunt dit ook voorwaardelijk doen via een CLI-vlag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Meer informatie&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

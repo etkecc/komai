@@ -4536,7 +4536,7 @@ Verifique para desbloquear mensagens encriptadas.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Executar com o perfil especificado. Um novo perfil é criado automaticamente se ainda não existir. Vários perfis permitem contas separadas e instâncias simultâneas. IDs de perfil válidos (não vazios): primeiro carácter A-Z, a-z, ou '_'; carateres restantes A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4621,6 +4621,11 @@ Executar '%1 &lt;group&gt; --help' para detalhes do subcomando.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>tipo</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Inicia oculto na área de notificação apenas para este arranque, sem alterar a definição "Iniciar na área de notificação". Útil em entradas de arranque automático para que os arranques de sessão permaneçam silenciosos enquanto os arranques normais continuam a abrir a janela. Requer "Fechar para a área de notificação" ativado e uma área de notificação funcional. Em configurações com múltiplos perfis, combine com -p para contornar o seletor de perfis.</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
@@ -11608,8 +11613,8 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Inicia a aplicação em segundo plano sem mostrar a janela do cliente.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Inicia a aplicação em segundo plano sem mostrar a janela do cliente. Também é possível fazê-lo condicionalmente através de um argumento da linha de comandos. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Saber mais&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

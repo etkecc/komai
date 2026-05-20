@@ -4536,7 +4536,7 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Ruli per la donita profilo. Nova profilo estas kreata aŭtomate se ĝi ankoraŭ ne ekzistas. Multaj profiloj permesas apartajn kontojn kaj samtempajn instancojn. Permesataj ne-malplenaj profil-identigaĵoj: unua signo A-Z, a-z, aŭ '_'; restaj signoj A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>speco</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Komenci kaŝite en la sistema pleto nur por ĉi tiu lanĉo, lasante la agordon "Komenci en pleto" senŝanĝan. Utila en aŭtostart-enskriboj por ke sesiaj lanĉoj restu silenaj dum normalaj lanĉoj ankoraŭ malfermas la fenestron. Necesas ebligita "Fermi al pleto" kaj funkcianta sistema pleto. En multprofilaj aranĝoj, kombinu kun -p por preteriri la profilŝanĝilon.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11611,8 +11616,8 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Komenci la aplikaĵon en la fono sen montri la klientan fenestron.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Komenci la aplikaĵon en la fono sen montri la klientan fenestron. Vi ankaŭ povas fari tion kondiĉe per CLI-flago. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Lernu pli&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

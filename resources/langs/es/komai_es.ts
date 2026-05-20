@@ -4539,7 +4539,7 @@ Verifica para desbloquear los mensajes cifrados.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Ejecutar con el perfil indicado. Se crea un nuevo perfil automáticamente si aún no existe. Varios perfiles permiten cuentas separadas e instancias simultáneas. IDs de perfil válidos (no vacíos): primer carácter A-Z, a-z o '_'; caracteres restantes A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4624,6 +4624,11 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
         <location line="+2"/>
         <source>type</source>
         <translation>tipo</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Iniciar oculto en la bandeja del sistema solo para este inicio, sin modificar el ajuste "Iniciar en bandeja". Útil en entradas de inicio automático para que los inicios de sesión sean silenciosos mientras los inicios normales siguen abriendo la ventana. Requiere "Cerrar en bandeja" activado y una bandeja del sistema funcional. En configuraciones de varios perfiles, combinar con -p para omitir el selector de perfiles.</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
@@ -11611,8 +11616,8 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Inicia la aplicación en segundo plano sin mostrar la ventana del cliente.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Iniciar la aplicación en segundo plano sin mostrar la ventana del cliente. También se puede hacer de forma condicional mediante una opción de CLI. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Más información&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

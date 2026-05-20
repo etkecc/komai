@@ -4543,7 +4543,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Запустити з вказаним профілем. Новий профіль створюється автоматично, якщо він ще не існує. Кілька профілів дозволяють мати окремі облікові записи та одночасно запущені екземпляри. Дозволені непорожні ідентифікатори профілів: перший символ A-Z, a-z або '_'; решта символів A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4613,6 +4613,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>тип</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Запустити приховано в системному треї лише для цього запуску, не змінюючи налаштування "Запуск у треї". Корисно для записів автозапуску, щоб запуски сеансу залишались непомітними, тоді як звичайні запуски відкривають вікно. Потребує увімкненого параметра "Закрити у трей" та працюючого системного трею. У конфігураціях з кількома профілями поєднайте з -p для обходу перемикача профілів.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11624,8 +11629,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Запускати програму у фоновому режимі без відображення вікна клієнта.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Запустити застосунок у фоновому режимі без відображення вікна клієнта. Це також можна зробити умовно через прапорець CLI. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Дізнатися більше&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

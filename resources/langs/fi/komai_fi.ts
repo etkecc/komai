@@ -4536,7 +4536,7 @@ Vahvista avataksesi salatut viestit.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Käynnistä annetulla profiililla. Uusi profiili luodaan automaattisesti, jos sitä ei vielä ole. Useat profiilit mahdollistavat erilliset tilit ja samanaikaiset instanssit. Sallitut ei-tyhjät profiilin tunnisteet: ensimmäinen merkki A-Z, a-z tai '_'; loput merkit A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>tyyppi</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Käynnistyy piilotettuna järjestelmäalustalle vain tällä kerralla jättäen "Käynnisty alustalle" -asetuksen ennalleen. Hyödyllinen automaattisen käynnistyksen merkinnöissä, jotta istunnon käynnistykset pysyvät huomaamattomina tavallisten käynnistysten edelleen avatessa ikkunan. Vaatii "Sulje alustalle" -asetuksen käyttöönottoa ja toimivaa järjestelmäalustaa. Useamman profiilin kokoonpanoissa yhdistä -p-lipun kanssa profiilivalitsimen ohittamiseksi.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11608,8 +11613,8 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Sovellus käynnistetään taustalla näyttämättä asiakasikkunaa.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Käynnistää sovelluksen taustalla näyttämättä asiakasikkunaa. Voit myös tehdä tämän ehdollisesti CLI-lipun avulla. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Lue lisää&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

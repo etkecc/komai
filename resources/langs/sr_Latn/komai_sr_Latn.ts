@@ -4543,7 +4543,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Pokrenuti sa zadatim profilom. Novi profil se automatski kreira ako još ne postoji. Više profila omogućava odvojena naloga i istovremene instance. Dozvoljeni ID-ovi profila (ne smeju biti prazni): prvi karakter A-Z, a-z ili '_'; preostali karakteri A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4613,6 +4613,11 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>tip</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Pokretanje skriveno u sistemskoj traci samo za ovo pokretanje, bez promene podešavanja "Pokretanje u traci". Korisno u unosima za automatsko pokretanje kako bi pokretanja sesije ostala tiha, dok normalna pokretanja i dalje otvaraju prozor. Zahteva omogućeno "Zatvori u traci" i funkcionalnu sistemsku traku. U konfiguracijama sa više profila, kombinovati sa -p za zaobilaženje prebacivača profila.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11624,8 +11629,8 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Pokrenuti aplikaciju u pozadini bez prikazivanja prozora klijenta.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Pokretanje aplikacije u pozadini bez prikazivanja prozora klijenta. Ovo se može uraditi i uslovno putem CLI zastavice. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Saznaj više&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -4536,7 +4536,7 @@ Verificar por debloquar mesages criptat.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Executar con li dat profil. Un nov profil es creat automaticmen si it ne existe ancos. Multiple profils permisset contos separat e instanties concurrent. Profil-ids valid non-vacant: prim character A-Z, a-z, o '_'; restant characters A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>tip</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Iniciar celat in li system tray solmen por ci lanciament, laissante li parametro "Iniciar in tray" intactat. Util in entrades de autoiniciar por que lanciamentes de session resta silentios dum lanciamentes normal ancora apere li fenestre. Require "Clauder al tray" activat e un system tray funcionante. In configurationes multi-profile, combinar con -p por circumvenir li selector de profile.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11608,8 +11613,8 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Iniciar li application in li fond sin mostrar li fenestre del client.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Iniciar li application in li fond sin monstrar li fenestre del client. Vu posse anc far to conditionalmen via un flag CLI. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Saver plu&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

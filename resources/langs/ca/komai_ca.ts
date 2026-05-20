@@ -4536,7 +4536,7 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Executa amb el perfil indicat. Es crea un perfil nou automàticament si encara no existeix. Diversos perfils permeten comptes separats i instàncies simultànies. Identificadors de perfil no buits permesos: primer caràcter A-Z, a-z, o '_'; caràcters restants A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>tipus</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Inicia ocult a la safata del sistema només per a aquest llançament, sense modificar la configuració "Inicia a la safata". És útil en entrades d'inici automàtic perquè els llançaments de sessió siguin silenciosos mentre els llançaments normals segueixen obrint la finestra. Requereix "Tanca a la safata" activat i una safata del sistema en funcionament. En configuracions de múltiples perfils, combina-ho amb -p per ometre el selector de perfils.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11608,8 +11613,8 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Inicia l'aplicació en segon pla sense mostrar la finestra del client.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Inicia l'aplicació en segon pla sense mostrar la finestra del client. També pots fer-ho condicionalment mitjançant una opció de línia d'ordres. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Més informació&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

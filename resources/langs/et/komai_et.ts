@@ -4536,7 +4536,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Käivita antud profiiliga. Uus profiil luuakse automaatselt, kui seda veel ei ole. Mitu profiili võimaldavad eraldi kontosid ja samaaegset käivitamist. Lubatud mittetühja profiili ID-d: esimene märk A-Z, a-z või '_'; ülejäänud märgid A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>tüüp</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Käivita ainult sel käivituskorral peidetult süsteemisalves, jättes seade "Käivita salves" muutmata. Kasulik automaatkäivituse kirjetes, et seansi käivitused jääksid vaikseks, samas kui tavalised käivitused avavad endiselt akna. Nõuab lubatud valikut "Sulge salve" ja toimivat süsteemisalve. Mitme profiiliga seadistustes kombineeri -p lipuga profiilivalija möödahiilimiseks.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11608,8 +11613,8 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Käivitab rakenduse taustal ilma klientakent näitamata.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Käivita rakendus taustal ilma kliendi akent näitamata. Seda saab ka tingimuslikult teha käsurea lipuga. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Lisateave&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

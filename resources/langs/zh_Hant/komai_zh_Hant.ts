@@ -4529,7 +4529,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>使用指定的設定檔執行。如果設定檔尚不存在，將自動建立。多個設定檔可使用不同帳號並同時執行多個實例。允許的非空設定檔 ID：第一個字元為 A-Z、a-z 或 '_'；其餘字元為 A-Z、a-z、0-9、'_'、'-'。</translation>
     </message>
@@ -4599,6 +4599,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>類型</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>僅此次啟動時隱藏至系統匣，不更改「啟動至系統匣」設定。適用於自動啟動項目，使工作階段啟動保持靜默，而一般啟動仍會開啟視窗。需要啟用「關閉至系統匣」且系統匣正常運作。在多設定檔環境中，可與 -p 搭配使用以略過設定檔切換器。</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11592,8 +11597,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>在背景啟動應用程式，不顯示視窗。</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>在背景啟動應用程式而不顯示用戶端視窗。也可透過 CLI 旗標有條件地執行此操作。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+4"/>

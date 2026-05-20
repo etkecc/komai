@@ -4529,7 +4529,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>使用指定的配置文件运行。如果配置文件不存在，将自动创建。多个配置文件允许使用独立账户和同时运行多个实例。允许的非空配置文件 ID：第一个字符为 A-Z、a-z 或 '_'；其余字符为 A-Z、a-z、0-9、'_' 或 '-'。</translation>
     </message>
@@ -4599,6 +4599,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>类型</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>仅本次启动时隐藏到系统托盘，不修改「在托盘中启动」设置。适用于自动启动条目，使会话启动保持静默，而正常启动仍会打开窗口。需要启用「关闭到托盘」且系统托盘可用。在多配置文件设置中，可与 -p 结合使用以绕过配置文件切换器。</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11592,8 +11597,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>在后台启动应用程序，不显示客户端窗口。</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>在后台启动应用程序，不显示客户端窗口。也可通过命令行参数有条件地执行此操作。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
         <location line="+4"/>

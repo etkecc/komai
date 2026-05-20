@@ -4536,7 +4536,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>දී ඇති ප්‍රොෆයිල් සමඟ ධාවනය කරන්න. ප්‍රොෆයිල් තවම නොතිබේ නම් ස්වයංක්‍රීයව නව ප්‍රොෆයිල් නිර්මාණය කෙරේ. බහු ප්‍රොෆයිල් මඟින් වෙනම ගිණුම් සහ සමගාමී අවස්ථා ඉඩ දෙයි. අවසර ලත් හිස් නොවන ප්‍රොෆයිල් හැඳුනුම්: පළමු අකුර A-Z, a-z, හෝ '_'; ඉතිරි අකුරු A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>වර්ගය</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>මෙම ආරම්භය සඳහා පමණක් පද්ධති ට්‍රේ තුළ සඟවා ආරම්භ කරන්න, "ට්‍රේ තුළ ආරම්භ" සැකසුම වෙනස් නොකර. ස්වයං-ආරම්භ ඇතුළත්කිරීම් සඳහා ප්‍රයෝජනවත් - සෙෂන් ආරම්භයන් නිශ්ශබ්දව රැඳෙන අතර සාමාන්‍ය ආරම්භයන් කවුළුව විවෘත කරයි. "ට්‍රේ වෙත වසන්න" සක්‍රීය කර ඇති අතර ක්‍රියාකාරී පද්ධති ට්‍රේ එකක් අවශ්‍ය. බහු-පැතිකඩ සැකසුම් වලදී, පැතිකඩ මාරුකාරය මඟ හැරීමට -p සමඟ ඒකාබද්ධ කරන්න.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11608,8 +11613,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>සේවාදායක කවුළුව නොපෙන්වා යෙදුම පසුබිමේ ආරම්භ කරන්න.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>යෙදුම් කවුළුව නොපෙන්වා යෙදුම පසුබිමේ ආරම්භ කරන්න. ඔබට CLI ධජයක් හරහා කොන්දේසිගතව ද මෙය කළ හැකිය. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;තව දැනගන්න&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

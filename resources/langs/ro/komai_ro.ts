@@ -4543,7 +4543,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Rulează cu profilul specificat. Un profil nou este creat automat dacă nu există încă. Profilurile multiple permit conturi separate și instanțe simultane. ID-uri de profil valide (non-vide): primul caracter A-Z, a-z sau '_'; caracterele rămase A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4613,6 +4613,11 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
         <location line="+2"/>
         <source>type</source>
         <translation>tip</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Pornire ascunsă în tavă de sistem doar pentru această lansare, lăsând setarea "Pornire în tavă" neschimbată. Util în intrările de pornire automată pentru ca lansările de sesiune să fie silențioase, în timp ce lansările normale deschid în continuare fereastra. Necesită activarea "Închidere în tavă" și o tavă de sistem funcțională. În configurații cu mai multe profiluri, se combină cu -p pentru a ocoli selectorul de profil.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11624,8 +11629,8 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Pornește aplicația în fundal fără a afișa fereastra clientului.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Pornire aplicație în fundal fără afișarea ferestrei clientului. Acest lucru se poate face și condiționat printr-o opțiune CLI. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Aflați mai multe&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

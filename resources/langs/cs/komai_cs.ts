@@ -4543,7 +4543,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Spustit se zadaným profilem. Nový profil je automaticky vytvořen, pokud ještě neexistuje. Více profilů umožňuje oddělené účty a souběžné instance. Povolená neprázdná ID profilů: první znak A–Z, a–z nebo '_'; zbývající znaky A–Z, a–z, 0–9, '_', '-'.</translation>
     </message>
@@ -4613,6 +4613,11 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>typ</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Spustit skrytě v systémové liště pouze pro toto spuštění, aniž by bylo změněno nastavení "Spustit v liště". Užitečné pro záznamy automatického spouštění: spuštění relace proběhne tiše, zatímco normální spuštění okno stále otevře. Vyžaduje povolené "Zavřít do lišty" a funkční systémovou lištu. V nastaveních s více profily kombinujte s -p pro obejití přepínače profilů.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11624,8 +11629,8 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Spustit aplikaci na pozadí bez zobrazení okna klienta.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Spustit aplikaci na pozadí bez zobrazení okna klienta. Toto lze také podmíněně provést pomocí příznaku CLI. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Zjistit více&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -4536,7 +4536,7 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Kör med den angivna profilen. En ny profil skapas automatiskt om den inte finns. Flera profiler tillåter separata konton och parallella instanser. Tillåtna icke-tomma profil-ID:n: första tecknet A-Z, a-z eller '_'; återstående tecken A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4621,6 +4621,11 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>typ</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Starta dolt i systemfältet för enbart den här starten, utan att ändra inställningen "Starta i systemfältet". Användbart i autostartposter så att sessionslanseringar förblir tysta medan normala lanseringar fortfarande öppnar fönstret. Kräver att "Stäng till systemfältet" är aktiverat och att ett fungerande systemfält finns. I konfigurationer med flera profiler, kombinera med -p för att hoppa över profilväljaren.</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
@@ -11608,8 +11613,8 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Starta programmet i bakgrunden utan att visa klientfönstret.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Starta programmet i bakgrunden utan att visa klientfönstret. Du kan även göra detta villkorligt via en CLI-flagga. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Läs mer&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

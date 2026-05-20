@@ -4536,7 +4536,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>നൽകിയ പ്രൊഫൈലിനൊപ്പം പ്രവർത്തിക്കുക. നിലവിലില്ലെങ്കിൽ ഒരു പുതിയ പ്രൊഫൈൽ സ്വയമേ സൃഷ്ടിക്കപ്പെടും. ഒന്നിലധികം പ്രൊഫൈലുകൾ പ്രത്യേക അക്കൗണ്ടുകളും സമാന്തര ഇൻസ്റ്റൻസുകളും അനുവദിക്കുന്നു. അനുവദനീയമായ ശൂന്യമല്ലാത്ത പ്രൊഫൈൽ ഐഡികൾ: ആദ്യ അക്ഷരം A-Z, a-z, അല്ലെങ്കിൽ '_'; ബാക്കി അക്ഷരങ്ങൾ A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4621,6 +4621,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>തരം</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>ഈ ലോഞ്ചിലേക്കു മാത്രം സിസ്റ്റം ട്രേയിൽ മറഞ്ഞ് ആരംഭിക്കുക, "ട്രേയിൽ ആരംഭിക്കുക" ക്രമീകരണം മാറ്റാതെ. ഓട്ടോസ്റ്റാർട്ട് എൻട്രികളിൽ ഉപയോഗപ്രദം, അതുവഴി സെഷൻ ലോഞ്ചുകൾ നിശബ്ദമായി തുടരുകയും സാധാരണ ലോഞ്ചുകൾ ഇപ്പോഴും വിൻഡോ തുറക്കുകയും ചെയ്യും. "ട്രേയിലേക്ക് അടയ്ക്കുക" പ്രവർത്തനക്ഷമമാക്കിയിരിക്കണം, ഒരു പ്രവർത്തനക്ഷമ സിസ്റ്റം ട്രേ ആവശ്യമാണ്. ഒന്നിലധികം-പ്രൊഫൈൽ സജ്ജീകരണങ്ങളിൽ, പ്രൊഫൈൽ സ്വിച്ചർ ഒഴിവാക്കാൻ -p-യുമായി ചേർക്കുക.</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
@@ -11608,8 +11613,8 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>ക്ലയന്റ് വിൻഡോ കാണിക്കാതെ ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ ആരംഭിക്കുക.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>ക്ലൈന്റ് വിൻഡോ കാണിക്കാതെ ആപ്ലിക്കേഷൻ പശ്ചാത്തലത്തിൽ ആരംഭിക്കുക. ഒരു CLI ഫ്ലാഗ് വഴി ഇത് സോപാധികമായും ചെയ്യാം. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

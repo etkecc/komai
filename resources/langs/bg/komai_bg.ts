@@ -4536,7 +4536,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Стартирай с посочения профил. Нов профил се създава автоматично, ако все още не съществува. Множество профили позволяват отделни акаунти и едновременни инстанции. Разрешени непразни идентификатори на профил: първи символ A-Z, a-z или '_'; останалите символи A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>тип</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Стартирай скрито в системния трей само за това стартиране, без да засягаш настройката "Стартирай в трей". Полезно при записи за автоматично стартиране, за да могат стартиранията при сесия да са тихи, докато нормалните стартирания все още отварят прозореца. Изисква включена настройка "Затвори в трей" и работещ системен трей. При конфигурации с множество профили, комбинирай с -p, за да заобиколиш превключвателя на профили.</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
@@ -11608,8 +11613,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Стартира приложението на заден план без да показва прозореца на клиента.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Стартирай приложението на заден план, без да показваш прозореца на клиента. Можеш да направиш това и условно чрез флаг на командния ред. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Научи повече&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

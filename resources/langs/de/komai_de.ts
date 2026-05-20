@@ -4536,7 +4536,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Mit dem angegebenen Profil ausführen. Ein neues Profil wird automatisch erstellt, falls es noch nicht vorhanden ist. Mehrere Profile ermöglichen separate Konten und gleichzeitige Instanzen. Erlaubte nicht-leere Profil-IDs: erstes Zeichen A-Z, a-z oder '_'; restliche Zeichen A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4606,6 +4606,11 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <location line="+2"/>
         <source>type</source>
         <translation>Typ</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Nur für diesen Start im Infobereich versteckt starten, ohne die Einstellung "Im Infobereich starten" zu ändern. Nützlich für Autostart-Einträge, damit Sitzungsstarts lautlos bleiben, während normale Starts das Fenster weiterhin öffnen. Erfordert aktiviertes "In Infobereich schließen" und einen funktionierenden Infobereich. Bei Multi-Profil-Setups mit -p kombinieren, um den Profilwechsler zu umgehen.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11608,8 +11613,8 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Die Anwendung im Hintergrund starten, ohne das Client-Fenster anzuzeigen.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Startet die Anwendung im Hintergrund, ohne das Client-Fenster anzuzeigen. Du kannst dies auch bedingt über ein CLI-Flag aktivieren. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Mehr erfahren&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

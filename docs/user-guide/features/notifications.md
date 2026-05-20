@@ -44,7 +44,7 @@ The [🏘️ communities sidebar](communities-sidebar.md) has a built-in **Low P
 
 - **Flash app window/taskbar on incoming messages**. A quieter cue than a popup.
 - **Attention indicators** (*Settings → Desktop → Attention indicators*). Unread count in the window title or on the app/taskbar badge. On Linux with multiple profiles, see the badge note in [👥 Application Profiles](application-profiles.md#reliable-app-badges-with-multiple-profiles).
-- **System tray** (*Settings → Desktop → System tray*). "Close to tray" keeps Komai running after you close the window so notifications still arrive.
+- **System tray** (*Settings → Desktop → System tray*). "Close to tray" keeps Komai running after you close the window so notifications still arrive. See [📌 System Tray](system-tray.md) for details and the `--start-in-tray` autostart flag.
 
 
 ## 🖥️ What it looks like on each OS

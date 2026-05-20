@@ -23,6 +23,7 @@
 #include <QLibraryInfo>
 #include <QMessageBox>
 #include <QQuickView>
+#include <QSystemTrayIcon>
 #include <QTimer>
 #include <QTranslator>
 
@@ -169,6 +170,14 @@ app::runMainApplication(int argc, char *argv[])
       QCoreApplication::tr("profile"),
       QCoreApplication::tr("profile name"));
     parser.addOption(configName);
+    QCommandLineOption startInTrayOption(
+      QStringLiteral("start-in-tray"),
+      QObject::tr("Start hidden in the system tray for this launch only, leaving the "
+                  "\"Start in tray\" setting untouched. Useful in autostart entries so "
+                  "session launches stay silent while normal launches still open the window. "
+                  "Requires \"Close to tray\" enabled and a working system tray. In "
+                  "multi-profile setups, combine with -p to bypass the profile switcher."));
+    parser.addOption(startInTrayOption);
 
     parser.process(app);
 
@@ -439,6 +448,30 @@ app::runMainApplication(int argc, char *argv[])
 
     applyUiLanguage(settings.lock()->uiLanguage());
 
+    const bool startInTrayFlag = parser.isSet(startInTrayOption);
+    if (startInTrayFlag) {
+        if (showStartupProfileSelector) {
+            std::cerr << "--start-in-tray cannot run alongside the profile switcher. "
+                         "Pass -p <profile> to select a profile non-interactively, "
+                         "or omit --start-in-tray."
+                      << std::endl;
+            return 1;
+        }
+        if (!settings.lock()->desktopSystemTrayEnabled()) {
+            std::cerr << "--start-in-tray requires the \"Close to tray\" setting to be "
+                         "enabled, otherwise Komai would have no visible window and no "
+                         "tray icon to reopen it from."
+                      << std::endl;
+            return 1;
+        }
+        if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+            std::cerr << "--start-in-tray requires a working system tray, but none was "
+                         "detected in this desktop session."
+                      << std::endl;
+            return 1;
+        }
+    }
+
     MainWindow w(nullptr, showStartupProfileSelector);
 
     // Live language switching: Qt's removeTranslator/installTranslator dispatch
@@ -480,8 +513,10 @@ app::runMainApplication(int argc, char *argv[])
     // Move the MainWindow to the center
     // w.move(screenCenter(w.width(), w.height()));
 
-    if (!(settings.lock()->desktopSystemTrayAutostart() &&
-          settings.lock()->desktopSystemTrayEnabled()))
+    const bool keepHiddenInTray =
+      startInTrayFlag || (settings.lock()->desktopSystemTrayAutostart() &&
+                          settings.lock()->desktopSystemTrayEnabled());
+    if (!keepHiddenInTray)
         w.show();
 
     QObject::connect(&app, &QApplication::aboutToQuit, &w, [&w]() {

@@ -4529,7 +4529,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Verilen profille çalıştır. Henüz mevcut değilse yeni bir profil otomatik olarak oluşturulur. Birden fazla profil, ayrı hesaplara ve eş zamanlı örneklere olanak tanır. İzin verilen boş olmayan profil kimlikleri: ilk karakter A-Z, a-z veya '_'; kalan karakterler A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4599,6 +4599,11 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <location line="+2"/>
         <source>type</source>
         <translation>tür</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Yalnızca bu başlatma için sistem tepsisinde gizli başlat; "Tepside başlat" ayarına dokunulmaz. Oturum başlatmalarının sessiz kalması, normal başlatmaların ise pencereyi açmaya devam etmesi için otomatik başlangıç girişlerinde kullanışlıdır. "Sistem tepsisine kapat" seçeneğinin etkin ve çalışan bir sistem tepsisinin mevcut olması gerekir. Çok profilli kurulumlarda, profil değiştiriciyi atlamak için -p ile birleştirin.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11592,8 +11597,8 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Uygulamayı istemci penceresini göstermeden arka planda başlat.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Uygulamayı istemci penceresini göstermeden arka planda başlatır. Bunu bir CLI bayrağı aracılığıyla koşullu olarak da yapabilirsiniz. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Daha fazla bilgi&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -4536,7 +4536,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Exécuter avec le profil donné. Un nouveau profil est créé automatiquement s'il n'existe pas encore. Plusieurs profils permettent des comptes séparés et des instances simultanées. Identifiants de profil non vides autorisés : premier caractère A-Z, a-z, ou '_' ; caractères restants A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4621,6 +4621,11 @@ Exécutez '%1 &lt;group&gt; --help' pour les détails des sous-commandes.</trans
         <location line="+2"/>
         <source>type</source>
         <translation>type</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Démarrer masqué dans la zone de notification pour ce lancement uniquement, sans modifier le paramètre "Démarrer dans la zone de notification". Utile dans les entrées de démarrage automatique afin que les lancements de session restent silencieux tandis que les lancements normaux ouvrent toujours la fenêtre. Nécessite que "Fermer dans la zone de notification" soit activé et une zone de notification fonctionnelle. Dans les configurations multi-profils, combinez avec -p pour contourner le sélecteur de profil.</translation>
     </message>
     <message>
         <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
@@ -11608,8 +11613,8 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Démarrer l'application en arrière-plan sans afficher la fenêtre du client.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Démarrer l'application en arrière-plan sans afficher la fenêtre du client. Vous pouvez également le faire de manière conditionnelle via un paramètre en ligne de commande. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;En savoir plus&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

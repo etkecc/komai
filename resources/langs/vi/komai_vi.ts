@@ -4529,7 +4529,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Chạy với hồ sơ đã cho. Hồ sơ mới được tạo tự động nếu chưa tồn tại. Nhiều hồ sơ cho phép các tài khoản riêng biệt và các phiên bản đồng thời. ID hồ sơ hợp lệ (không được trống): ký tự đầu là A-Z, a-z hoặc '_'; các ký tự còn lại là A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4599,6 +4599,11 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
         <location line="+2"/>
         <source>type</source>
         <translation>loại</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>Khởi động ẩn trong khay hệ thống chỉ cho lần khởi chạy này, giữ nguyên cài đặt "Khởi động trong khay". Hữu ích trong các mục khởi động tự động để phiên khởi chạy giữ im lặng trong khi các lần khởi chạy thông thường vẫn mở cửa sổ. Yêu cầu "Đóng vào khay" được bật và khay hệ thống hoạt động. Trong thiết lập nhiều hồ sơ, kết hợp với -p để bỏ qua bộ chuyển đổi hồ sơ.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11592,8 +11597,8 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>Khởi động ứng dụng ở chế độ nền mà không hiển thị cửa sổ.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>Khởi động ứng dụng ở nền mà không hiển thị cửa sổ client. Bạn cũng có thể thực hiện điều này có điều kiện qua cờ CLI. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

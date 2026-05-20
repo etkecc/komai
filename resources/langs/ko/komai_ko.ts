@@ -4529,7 +4529,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+164"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>지정된 프로필로 실행합니다. 프로필이 아직 없으면 자동으로 생성됩니다. 여러 프로필을 사용하면 별도의 계정과 동시 인스턴스를 사용할 수 있습니다. 허용되는 비어 있지 않은 프로필 ID: 첫 번째 문자는 A-Z, a-z 또는 '_'; 나머지 문자는 A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -4599,6 +4599,11 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <location line="+2"/>
         <source>type</source>
         <translation>유형</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Start hidden in the system tray for this launch only, leaving the "Start in tray" setting untouched. Useful in autostart entries so session launches stay silent while normal launches still open the window. Requires "Close to tray" enabled and a working system tray. In multi-profile setups, combine with -p to bypass the profile switcher.</source>
+        <translation>이번 실행에 한해 시스템 트레이에 숨겨진 상태로 시작하며, "트레이에서 시작" 설정은 그대로 유지합니다. 자동 시작 항목에 유용하며, 세션 시작 시 조용히 실행되고 일반 실행 시에는 창이 열립니다. "트레이로 닫기" 활성화 및 작동 중인 시스템 트레이가 필요합니다. 다중 프로필 설정에서는 -p와 함께 사용하여 프로필 선택기를 건너뛸 수 있습니다.</translation>
     </message>
     <message>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
@@ -11592,8 +11597,8 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <source>Start the application in the background without showing the client window.</source>
-        <translation>클라이언트 창을 표시하지 않고 백그라운드에서 애플리케이션을 시작합니다.</translation>
+        <source>Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;Learn more&lt;/a&gt;.</source>
+        <translation>클라이언트 창을 표시하지 않고 백그라운드에서 애플리케이션을 시작합니다. CLI 플래그를 통해 조건부로 이 작업을 수행할 수도 있습니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
         <location line="+4"/>

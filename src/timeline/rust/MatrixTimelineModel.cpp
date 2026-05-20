@@ -5,6 +5,7 @@
 #include "timeline/rust/MatrixTimelineModel.h"
 
 #include "encryption/CryptoTrust.h"
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/StateEventText.h"
 #include "timeline/TimelineEventTypes.h"
@@ -1411,6 +1412,48 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
                                    return item.itemKind == QStringLiteral("date_divider");
                                }),
                 items.end());
+
+    // Defensive dedup by stable identity. matrix-sdk-ui owns uniqueness of
+    // `unique_id` (→ `itemId`) and Matrix event_id (→ `eventId`) within a
+    // single timeline vector, but a slipped local-echo→remote-echo merge can
+    // leave two entries pointing at the same event: we'd render the same
+    // bubble twice AND inflate `allItems_.size()` past the visible-window
+    // cap, pushing genuine later rows out of the capped `items_` view (they
+    // appear "missing"). Drop the later occurrences so the snapshot is at
+    // least internally consistent until the next SDK update arrives.
+    {
+        QSet<QString> seenEventIds;
+        QSet<QString> seenItemIds;
+        int droppedCount = 0;
+        items.erase(std::remove_if(items.begin(),
+                                   items.end(),
+                                   [&](const MatrixTimelineItem &item) {
+                                       const auto eventId = item.eventId.trimmed();
+                                       const auto itemId  = item.itemId.trimmed();
+                                       bool isDuplicate   = false;
+                                       if (!eventId.isEmpty() && seenEventIds.contains(eventId))
+                                           isDuplicate = true;
+                                       if (!itemId.isEmpty() && seenItemIds.contains(itemId))
+                                           isDuplicate = true;
+                                       if (isDuplicate) {
+                                           ++droppedCount;
+                                           return true;
+                                       }
+                                       if (!eventId.isEmpty())
+                                           seenEventIds.insert(eventId);
+                                       if (!itemId.isEmpty())
+                                           seenItemIds.insert(itemId);
+                                       return false;
+                                   }),
+                    items.end());
+        if (droppedCount > 0) {
+            komai::logging::ui()->warn(
+              "MatrixTimelineModel: dropped {} duplicate timeline item(s) from snapshot for "
+              "room '{}'; matrix-sdk-ui delivered overlapping entries",
+              droppedCount,
+              roomId_.toStdString());
+        }
+    }
 
     const auto avatars = buildPillAvatars(items);
     for (auto &item : items)

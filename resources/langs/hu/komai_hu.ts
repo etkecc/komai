@@ -3234,7 +3234,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+478"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+513"/>
         <source>Settings...</source>
         <translation>Beállítások...</translation>
     </message>

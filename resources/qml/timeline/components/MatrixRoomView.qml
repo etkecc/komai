@@ -117,15 +117,50 @@ ColumnLayout {
     readonly property bool windowActive: Window.active
     property bool pendingComposerAutoFocus: false
     property int _composerAutoFocusRetries: 0
-    // Gated on poolActive so background pool entries don't react to the
-    // foreground tab's thread state. Without the gate, every cached
-    // MatrixRoomView in the pool re-evaluates these on every thread
-    // open/close, swaps its ListView model, and rebuilds every visible
-    // delegate, a storm large enough to crash the QV4 runtime during a
-    // tab switch while a thread is open.
-    readonly property bool threadViewActive: poolActive && TimelineManager.matrixTimelineThreadEventId.length > 0
-    readonly property var threadTimelineModel: poolActive ? TimelineManager.matrixThreadTimelineModel : null
-    readonly property bool threadTimelineLoading: poolActive && TimelineManager.matrixThreadTimelineLoading
+    // Sticky thread state: only re-synced from TimelineManager while this
+    // entry is the foreground pool slot. Background entries don't react to
+    // the foreground tab's thread open/close, which avoids two problems:
+    //   1. The QV4 crash from a global delegate-rebuild storm when every
+    //      cached MatrixRoomView in the pool rebuilds simultaneously.
+    //   2. Spurious ListView model swaps on tab switch driven by the
+    //      pool-flip race: the incoming entry's bindings would activate
+    //      against stale global state (the outgoing tab's thread) before
+    //      C++ catches up, causing 2-3 delegate-pool flushes per switch.
+    //
+    // On pool reactivation the sync runs via Qt.callLater so that C++'s
+    // matrixTimelineStateChanged / matrixThreadTimelineChanged emits land
+    // first; the incoming entry then sees only the correct, post-switch
+    // state and rebuilds at most once.
+    property bool threadViewActive: false
+    property var threadTimelineModel: null
+    property bool threadTimelineLoading: false
+
+    function _syncThreadFromManager() {
+        threadViewActive = TimelineManager.matrixTimelineThreadEventId.length > 0;
+        threadTimelineModel = TimelineManager.matrixThreadTimelineModel;
+        threadTimelineLoading = TimelineManager.matrixThreadTimelineLoading;
+    }
+
+    Connections {
+        target: TimelineManager
+        enabled: root.poolActive
+        function onMatrixThreadTimelineChanged() { root._syncThreadFromManager(); }
+    }
+
+    onPoolActiveChanged: {
+        if (poolActive) {
+            // Defer until the post-pool-flip turn of the event loop so
+            // C++ has a chance to emit its tab-switch signals first;
+            // otherwise we'd sync to the outgoing tab's stale thread
+            // state and then have to swap again.
+            Qt.callLater(_syncThreadFromManager);
+        }
+    }
+
+    Component.onCompleted: {
+        if (poolActive)
+            _syncThreadFromManager();
+    }
     // The MatrixTimelineModel the selection / walk-mode / visible-row helpers
     // must operate on: the thread timeline while a thread is open, the room
     // timeline otherwise. In the room case the ListView is sometimes bound to

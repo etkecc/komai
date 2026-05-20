@@ -138,8 +138,14 @@ class TimelineViewManager final : public QObject
                  matrixTimelineStateChanged)
     Q_PROPERTY(QString matrixTimelineReplyBody READ matrixTimelineReplyBody NOTIFY
                  matrixTimelineStateChanged)
+    // NOTIFY tied to matrixThreadTimelineChanged (the same signal that
+    // also drives matrixThreadTimelineModel / matrixThreadTimelineLoading)
+    // so that QML's `threadViewActive` and `threadTimelineModel` re-bind
+    // from a single notification instead of two back-to-back emits, which
+    // would otherwise rebuild the ListView delegate set twice per tab
+    // switch.
     Q_PROPERTY(QString matrixTimelineThreadEventId READ matrixTimelineThreadEventId NOTIFY
-                 matrixTimelineStateChanged)
+                 matrixThreadTimelineChanged)
     Q_PROPERTY(QString matrixTimelineEditEventId READ matrixTimelineEditEventId NOTIFY
                  matrixTimelineStateChanged)
     Q_PROPERTY(QStringList matrixTimelinePinnedEventIds READ matrixTimelinePinnedEventIds NOTIFY

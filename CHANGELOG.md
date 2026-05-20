@@ -1,5 +1,27 @@
 # Changelog
 
+## 2026.05.20.0
+
+- ✨ Feature: in-room search highlights matches inline in rendered messages ([079aeedaf](https://github.com/etkecc/komai/commit/079aeedaf)).
+- ✨ Feature: [copying](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/selection-mode.md#-acting-on-the-selection) of multiple messages prefixes each line with sender and timestamp; single-message copying stays bare ([7d1eb34ad](https://github.com/etkecc/komai/commit/7d1eb34ad)).
+- ✨ Feature: a [`--start-in-tray`](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/system-tray.md#---start-in-tray-cli-flag) CLI flag starts Komai hidden for one launch, for silent autostart entries without flipping the persistent "Start in tray" setting ([8185d258b](https://github.com/etkecc/komai/commit/8185d258b)).
+- ✨ Feature: timeline [drag-to-select](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/selection-mode.md#click-and-drag) can now start from the empty gutter beside the message bubble for easier selection ([7806b6c5d](https://github.com/etkecc/komai/commit/7806b6c5d)).
+- ✨ Feature: previously-opened [threads](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/threads.md#-viewing-a-single-thread) re-open instantly from an in-session cache ([5397e89c7](https://github.com/etkecc/komai/commit/5397e89c7)).
+- 🐛 Fix: switching threads no longer flashes the previous thread's content for a split-second ([3608e8b42](https://github.com/etkecc/komai/commit/3608e8b42)).
+- 🐛 Fix: video messages are no longer invisible (zero height) ([9dfa9259d](https://github.com/etkecc/komai/commit/9dfa9259d)).
+- 🐛 Fix: Room Info no longer crashes when switching away from its Settings tab ([1acf3a4c7](https://github.com/etkecc/komai/commit/1acf3a4c7)).
+- 🐛 Fix: read receipts gated on window focus, not just visibility, so side-by-side windows and taskbar previews no longer mark as read ([cd0a38339](https://github.com/etkecc/komai/commit/cd0a38339)).
+- 🐛 Fix: copied messages no longer paste a stray placeholder glyph in front of @mentions ([e4d2a35dd](https://github.com/etkecc/komai/commit/e4d2a35dd)).
+- 🐛 Fix: mouse-wheel scrolling is now 5x faster in Settings, Application Profiles, Room List, Communities, Room Directory, Threads, Pinned Messages, the Sticker Picker grid, Invite, and Create Direct ([355f837ef](https://github.com/etkecc/komai/commit/355f837ef)).
+- 🐛 Fix: in [thread view](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/threads.md#-viewing-a-single-thread), the composer's reply / attachments / transcription bars no longer expose a white notch at their rounded top corners on light themes ([688218a2e](https://github.com/etkecc/komai/commit/688218a2e)).
+- 🐛 Fix: the right-click message context menu opens at the click site on Wayland; right-clicks on the bubble fire reliably ([a03e74965](https://github.com/etkecc/komai/commit/a03e74965), [58a8580e2](https://github.com/etkecc/komai/commit/58a8580e2)).
+- 🐛 Fix: the active-call bar's top corners are rounded, matching the composer bars ([6a1c17eba](https://github.com/etkecc/komai/commit/6a1c17eba)).
+- 🐛 Fix: Linux desktop [notifications](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/notifications.md) strip non-spec HTML so daemons like mako and gnome-shell stop rendering tags as literal text ([56267f376](https://github.com/etkecc/komai/commit/56267f376)).
+- 🐛 Fix: the inline image in Linux desktop [notifications](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/notifications.md) no longer center-crops portrait and square sources ([7353039b7](https://github.com/etkecc/komai/commit/7353039b7)).
+- 🐛 Fix: rare duplicate or missing message bubbles in the timeline ([485153357](https://github.com/etkecc/komai/commit/485153357), [910f932800](https://github.com/etkecc/komai/commit/910f932800)).
+- 📝 Docs: new [Notifications](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/notifications.md) user-guide page ([b1e419ec2](https://github.com/etkecc/komai/commit/b1e419ec2)).
+- 📝 Docs: new [System Tray](https://github.com/etkecc/komai/blob/33648ab2542daba8c5689eb454cc70d55c2a7fad/docs/user-guide/features/system-tray.md) user-guide page ([8185d258b](https://github.com/etkecc/komai/commit/8185d258b)).
+
 ## 2026.05.18.0
 
 - ✨ Feature: a Markdown [formatting toolbar](https://github.com/etkecc/komai/blob/9a47c4f2a9a5eb851e25244d02cc763b718e2344/docs/user-guide/features/keyboard-shortcuts.md#formatting-toolbar) over the composer selection (Bold, Italic, Code, Quote, Link), with matching `Ctrl+B/I/E/Shift+>/L` shortcuts. Toggleable in Settings -> Composer -> Input ([1e7cf3353](https://github.com/etkecc/komai/commit/1e7cf3353), [9a47c4f2a](https://github.com/etkecc/komai/commit/9a47c4f2a)).

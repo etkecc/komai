@@ -78,7 +78,7 @@ mod room_actions;
 mod room_list;
 #[path = "runtime_room_settings.rs"]
 mod room_settings;
-#[path = "runtime_timeline.rs"]
+#[path = "runtime_timeline/mod.rs"]
 mod timeline;
 #[path = "runtime_timeline_messaging/mod.rs"]
 mod timeline_messaging;

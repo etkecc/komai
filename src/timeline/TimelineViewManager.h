@@ -546,7 +546,14 @@ private:
     QString matrixTimelineReplyBody_;
     QString matrixTimelineThreadEventId_;
     komai::MatrixTimelineModel *matrixThreadTimelineModel_ = nullptr;
-    bool matrixThreadTimelineLoading_                      = false;
+    // The (room, thread) pair whose snapshot the shared thread model
+    // currently holds. Used to detect when an incoming activation would
+    // expose stale items from a different thread (issue #184) and to
+    // decide whether the model needs clearing before the next snapshot
+    // lands. Empty when the model has been cleared / was never filled.
+    QString matrixThreadTimelineModelRoomId_;
+    QString matrixThreadTimelineModelThreadEventId_;
+    bool matrixThreadTimelineLoading_ = false;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
 
@@ -598,6 +605,8 @@ private:
     bool clearActiveMatrixReplyState();
     bool setActiveMatrixThreadState(const QString &threadEventId);
     bool clearActiveMatrixThreadState();
+    void resetMatrixThreadTimelineModelIfMismatched(const QString &expectedRoomId,
+                                                    const QString &expectedThreadEventId);
     bool setActiveMatrixEditState(const QString &eventId, const QString &messageKind);
     bool clearActiveMatrixEditState();
     void fetchActiveMatrixTimelineMediaToFile(const QString &itemId,

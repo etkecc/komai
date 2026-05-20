@@ -468,6 +468,12 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         // resolves to a warm-path notify and the snapshot for the correct
         // (room, thread) is delivered to QML on the next event loop tick.
         if (!saved.threadEventId.isEmpty()) {
+            // Drop singleton-model items if they belong to a different
+            // (room, thread) than the one we're restoring, so the warm-
+            // path snapshot fills the model from a known-empty state
+            // instead of overwriting a stale view (#184).
+            resetMatrixThreadTimelineModelIfMismatched(roomId, saved.threadEventId);
+
             auto *mainWindow    = MainWindow::instance();
             const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
             if (handleId != 0) {
@@ -1004,6 +1010,8 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
     if (matrixThreadTimelineModel_) {
         matrixThreadTimelineModel_->clear();
     }
+    matrixThreadTimelineModelRoomId_.clear();
+    matrixThreadTimelineModelThreadEventId_.clear();
     if (matrixThreadTimelineLoading_) {
         matrixThreadTimelineLoading_ = false;
         emit matrixThreadTimelineChanged();
@@ -3220,6 +3228,12 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
         return true;
     }
 
+    // The thread timeline model is a singleton shared across (room, thread)
+    // pairs and may still hold items from the previously-active thread. Drop
+    // them before flipping threadViewActive=true so QML can't briefly render
+    // content from another thread while waiting for the snapshot (#184).
+    resetMatrixThreadTimelineModelIfMismatched(activeMatrixTimelineRoomId_, trimmedThreadEventId);
+
     if (setActiveMatrixThreadState(trimmedThreadEventId))
         emit matrixTimelineStateChanged();
 
@@ -3273,6 +3287,8 @@ TimelineViewManager::clearActiveMatrixThread()
     if (matrixThreadTimelineModel_) {
         matrixThreadTimelineModel_->clear();
     }
+    matrixThreadTimelineModelRoomId_.clear();
+    matrixThreadTimelineModelThreadEventId_.clear();
     matrixThreadTimelineLoading_ = false;
     emit matrixThreadTimelineChanged();
 }
@@ -3305,13 +3321,15 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
 
     komai::qt_worker_task::runQueued(
       this,
-      [handleId]() {
+      [handleId, roomId, threadRootId]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const auto result = komai::MatrixBackendRuntimeService::fetchThreadTimelineSnapshot(
             context, handleId, &error);
           Result out;
-          out.handleId = handleId;
+          out.handleId     = handleId;
+          out.roomId       = roomId;
+          out.threadRootId = threadRootId;
           if (result) {
               out.items = *result;
           } else {
@@ -3338,6 +3356,11 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
           }
 
           manager->matrixThreadTimelineModel_->replaceItems(std::move(result.items));
+          // Track which (room, thread) the model now reflects so a later
+          // activation of a different thread knows to clear before binding
+          // QML to a stale view (#184).
+          manager->matrixThreadTimelineModelRoomId_        = result.roomId;
+          manager->matrixThreadTimelineModelThreadEventId_ = result.threadRootId;
           emit manager->matrixThreadTimelineChanged();
       });
 }
@@ -3427,6 +3450,22 @@ TimelineViewManager::clearActiveMatrixThreadState()
 
     matrixTimelineThreadEventId_.clear();
     return true;
+}
+
+void
+TimelineViewManager::resetMatrixThreadTimelineModelIfMismatched(
+  const QString &expectedRoomId,
+  const QString &expectedThreadEventId)
+{
+    if (!matrixThreadTimelineModel_)
+        return;
+    if (matrixThreadTimelineModelRoomId_ == expectedRoomId &&
+        matrixThreadTimelineModelThreadEventId_ == expectedThreadEventId) {
+        return;
+    }
+    matrixThreadTimelineModel_->clear();
+    matrixThreadTimelineModelRoomId_.clear();
+    matrixThreadTimelineModelThreadEventId_.clear();
 }
 
 bool

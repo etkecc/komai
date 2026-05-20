@@ -8984,7 +8984,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1172"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1180"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Mesaj gönderilemedi: %1</translation>
@@ -9100,7 +9100,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>indirme başarısız oldu</translation>
     </message>
     <message>
-        <location line="+410"/>
+        <location line="+441"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>'%1' eki gönderilemedi: %2</translation>
     </message>

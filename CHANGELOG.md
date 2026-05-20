@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026.05.20.1
+
+- 🐛 Fix: in rare cases when switching between rooms with active [threads](https://github.com/etkecc/komai/blob/c8a45c18c93fa48b5f6977505e6d1699256c9d6e/docs/user-guide/features/threads.md), thread messages from one room could briefly render in another room's timeline (regression from v2026.05.20.0) ([709b34bd5](https://github.com/etkecc/komai/commit/709b34bd5), [f9a31e0e4](https://github.com/etkecc/komai/commit/f9a31e0e4)).
+- 🐛 Fix: rare crash when switching between rooms that each have an active thread ([709b34bd5](https://github.com/etkecc/komai/commit/709b34bd5)).
+- 🐛 Fix: tab switches to/from a room with an active thread feel instant again ([f9a31e0e4](https://github.com/etkecc/komai/commit/f9a31e0e4)).
+- 📦 AUR: dropped the misleading `hunspell-en_us` optdepends entry; en_US is bundled, and any installed `hunspell-<lang>` is auto-discovered ([5d904064e](https://github.com/etkecc/komai/commit/5d904064e)).
+
 ## 2026.05.20.0
 
 - ✨ Feature: in-room search highlights matches inline in rendered messages ([079aeedaf](https://github.com/etkecc/komai/commit/079aeedaf)).

@@ -219,7 +219,7 @@
 <context>
     <name>ActiveCallBar</name>
     <message>
-        <location filename="../../qml/voip/ActiveCallBar.qml" line="+99"/>
+        <location filename="../../qml/voip/ActiveCallBar.qml" line="+110"/>
         <source>Calling...</source>
         <translation>Se apelează…</translation>
     </message>

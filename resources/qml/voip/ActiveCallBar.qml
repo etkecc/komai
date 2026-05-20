@@ -12,7 +12,18 @@ import cc.etke.komai 1.0
 Rectangle {
     visible: CallManager.isOnCall && CallManager.preMatrixRtcCallsEnabled
     color: "#2ECC71"
+    radius: 8
     implicitHeight: visible ? rowLayout.height + 8 : 0
+
+    // Mask the bottom rounded corners so the bar sits flush against whatever
+    // is below it — same trick ReplyPopup / UploadBox use.
+    Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: parent.radius
+        color: parent.color
+    }
 
     RowLayout {
         id: rowLayout

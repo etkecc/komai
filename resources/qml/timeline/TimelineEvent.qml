@@ -48,18 +48,6 @@ EventDelegateChooser {
             refreshDelegates();
     }
 
-    data: [
-        Connections {
-            target: wrapper
-            ignoreUnknownSignals: true
-
-            function onTypeChanged() {
-                if (!wrapper.room)
-                    wrapper.refreshDelegates();
-            }
-        }
-    ]
-
     // qmllint disable required
     EventDelegateChoice {
         roleValues: [MtxEvent.TextMessage, MtxEvent.NoticeMessage, MtxEvent.ElementEffectMessage, MtxEvent.UnknownMessage,]

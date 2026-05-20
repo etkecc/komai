@@ -8809,7 +8809,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+246"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 hizo una llamada de voz.</translation>
     </message>

@@ -8795,7 +8795,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>TimelineEvent</name>
     <message>
-        <location filename="../../qml/timeline/TimelineEvent.qml" line="+258"/>
+        <location filename="../../qml/timeline/TimelineEvent.qml" line="+246"/>
         <source>%1 placed a voice call.</source>
         <translation>%1 melakukan panggilan suara.</translation>
     </message>

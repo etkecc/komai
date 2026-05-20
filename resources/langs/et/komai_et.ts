@@ -8997,7 +8997,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1180"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1184"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Sõnumi saatmine ebaõnnestus: %1</translation>
@@ -9113,7 +9113,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>allalaadimine ebaõnnestus</translation>
     </message>
     <message>
-        <location line="+441"/>
+        <location line="+503"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Manuse '%1' saatmine ebaõnnestus: %2</translation>
     </message>

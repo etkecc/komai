@@ -201,7 +201,7 @@ public:
     QString matrixTimelinePendingJumpEventId() const { return matrixTimelinePendingJumpEventId_; }
     QStringList matrixTimelineTypingUsers() const { return matrixTimelineTypingUsers_; }
     QAbstractItemModel *matrixThreadTimelineModel() const;
-    bool matrixThreadTimelineLoading() const { return matrixThreadTimelineLoading_; }
+    bool matrixThreadTimelineLoading() const;
     Q_INVOKABLE void
     paginateActiveMatrixThreadTimelineBackwards(int limit                     = 50,
                                                 const QString &expectedRoomId = QString());
@@ -545,15 +545,17 @@ private:
     QString matrixTimelineReplySenderId_;
     QString matrixTimelineReplyBody_;
     QString matrixTimelineThreadEventId_;
-    komai::MatrixTimelineModel *matrixThreadTimelineModel_ = nullptr;
-    // The (room, thread) pair whose snapshot the shared thread model
-    // currently holds. Used to detect when an incoming activation would
-    // expose stale items from a different thread (issue #184) and to
-    // decide whether the model needs clearing before the next snapshot
-    // lands. Empty when the model has been cleared / was never filled.
-    QString matrixThreadTimelineModelRoomId_;
-    QString matrixThreadTimelineModelThreadEventId_;
-    bool matrixThreadTimelineLoading_ = false;
+    // One thread timeline model per (roomId, threadEventId) the user has
+    // opened in this session. Switching back to a previously-viewed
+    // thread rebinds QML to the cached model and shows its last snapshot
+    // instantly; the re-subscribe then refreshes it in the background.
+    // Eviction happens on backend disconnect via clearCurrentMatrixTimeline.
+    struct ThreadTimelineEntry
+    {
+        komai::MatrixTimelineModel *model = nullptr;
+        bool loading                      = false;
+    };
+    QHash<QPair<QString, QString>, ThreadTimelineEntry> matrixThreadTimelineEntries_;
     QString matrixTimelineEditEventId_;
     QString matrixTimelineEditMessageKind_;
 
@@ -605,8 +607,11 @@ private:
     bool clearActiveMatrixReplyState();
     bool setActiveMatrixThreadState(const QString &threadEventId);
     bool clearActiveMatrixThreadState();
-    void resetMatrixThreadTimelineModelIfMismatched(const QString &expectedRoomId,
-                                                    const QString &expectedThreadEventId);
+    ThreadTimelineEntry *
+    ensureThreadTimelineEntry(const QString &roomId, const QString &threadEventId);
+    ThreadTimelineEntry *activeThreadTimelineEntry();
+    const ThreadTimelineEntry *activeThreadTimelineEntry() const;
+    void destroyAllThreadTimelineEntries();
     bool setActiveMatrixEditState(const QString &eventId, const QString &messageKind);
     bool clearActiveMatrixEditState();
     void fetchActiveMatrixTimelineMediaToFile(const QString &itemId,

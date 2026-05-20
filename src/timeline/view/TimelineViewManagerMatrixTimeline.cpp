@@ -458,29 +458,31 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
         setActiveMatrixEditState(saved.editEventId, saved.editMessageKind);
 
         // Re-attach the matrix-sdk runtime to the restored thread.
-        // `matrixThreadTimelineModel_` is a singleton shared across rooms,
-        // and the runtime's "active thread" pointer still references
-        // whichever thread was opened last (possibly in another tab/room).
-        // Without this resubscribe, /relations refreshes route to the wrong
-        // thread and the singleton model continues to show the previously-
-        // active thread's items in this room's thread bar (issue #82). The
-        // thread-subscription cache makes a re-entry near-free — the call
-        // resolves to a warm-path notify and the snapshot for the correct
-        // (room, thread) is delivered to QML on the next event loop tick.
+        // The runtime's "active thread" pointer still references whichever
+        // thread was opened last (possibly in another tab/room). Without
+        // this resubscribe, /relations refreshes route to the wrong thread
+        // (issue #82). The thread-subscription cache makes a re-entry
+        // near-free: the call resolves to a warm-path notify and the
+        // snapshot is delivered to QML on the next event loop tick.
         if (!saved.threadEventId.isEmpty()) {
-            // Drop singleton-model items if they belong to a different
-            // (room, thread) than the one we're restoring, so the warm-
-            // path snapshot fills the model from a known-empty state
-            // instead of overwriting a stale view (#184).
-            resetMatrixThreadTimelineModelIfMismatched(roomId, saved.threadEventId);
+            // Ensure a cached model exists for the (room, thread) we're
+            // restoring. If one already exists from a previous viewing in
+            // this session, QML rebinds to it and shows its last snapshot
+            // immediately; the upcoming re-subscribe refreshes it in the
+            // background.
+            auto *entry = ensureThreadTimelineEntry(roomId, saved.threadEventId);
 
             auto *mainWindow    = MainWindow::instance();
             const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
             if (handleId != 0) {
+                if (entry)
+                    entry->loading = true;
                 try {
                     ::komai::rust::matrix_subscribe_to_thread_timeline(
                       handleId, roomId.toStdString(), saved.threadEventId.toStdString());
                 } catch (const std::exception &e) {
+                    if (entry)
+                        entry->loading = false;
                     komai::logging::ui()->warn(
                       "Failed to reattach matrix-sdk thread subscription on room switch: {}",
                       e.what());
@@ -505,6 +507,11 @@ TimelineViewManager::updateCurrentMatrixTimelineSelection()
 
     markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_loading_started");
     emit matrixTimelineStateChanged();
+    // The active (room, thread) pair may have changed: the outgoing room's
+    // thread was cleared at line ~357 and the incoming room may have a
+    // restored thread. Either flip changes the model the active-entry
+    // getter resolves to, so QML needs a re-binding signal here.
+    emit matrixThreadTimelineChanged();
 }
 
 void
@@ -1006,14 +1013,11 @@ TimelineViewManager::clearCurrentMatrixTimeline(bool stopBackendTask)
         stateChanged = true;
     }
 
-    // Clear thread timeline state and unsubscribe.
-    if (matrixThreadTimelineModel_) {
-        matrixThreadTimelineModel_->clear();
-    }
-    matrixThreadTimelineModelRoomId_.clear();
-    matrixThreadTimelineModelThreadEventId_.clear();
-    if (matrixThreadTimelineLoading_) {
-        matrixThreadTimelineLoading_ = false;
+    // Drop every cached thread timeline model and unsubscribe from
+    // whatever Rust still considers active. Re-entering any of these
+    // threads later creates a fresh entry and triggers a re-subscribe.
+    if (!matrixThreadTimelineEntries_.isEmpty()) {
+        destroyAllThreadTimelineEntries();
         emit matrixThreadTimelineChanged();
     }
     {
@@ -3228,23 +3232,24 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
         return true;
     }
 
-    // The thread timeline model is a singleton shared across (room, thread)
-    // pairs and may still hold items from the previously-active thread. Drop
-    // them before flipping threadViewActive=true so QML can't briefly render
-    // content from another thread while waiting for the snapshot (#184).
-    resetMatrixThreadTimelineModelIfMismatched(activeMatrixTimelineRoomId_, trimmedThreadEventId);
+    // Get-or-create the cached model for the (room, thread) we're
+    // activating. A cached entry from a previous viewing in this session
+    // shows its last snapshot immediately; a brand-new entry starts
+    // empty and is filled when the subscribe-triggered snapshot lands.
+    auto *entry = ensureThreadTimelineEntry(activeMatrixTimelineRoomId_, trimmedThreadEventId);
 
     if (setActiveMatrixThreadState(trimmedThreadEventId))
         emit matrixTimelineStateChanged();
 
     // Subscribe to the thread timeline.  This spawns a background Rust
     // task that builds a TimelineFocus::Thread timeline, subscribes to
-    // its diff stream, and notifies C++ via snapshot updates — same
-    // pipeline as the room timeline.  No explicit refresh needed.
+    // its diff stream, and notifies C++ via snapshot updates: same
+    // pipeline as the room timeline. No explicit refresh needed.
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId != 0) {
-        matrixThreadTimelineLoading_ = true;
+        if (entry)
+            entry->loading = true;
         emit matrixThreadTimelineChanged();
 
         try {
@@ -3254,11 +3259,16 @@ TimelineViewManager::queueActiveMatrixThread(const QString &threadEventId)
               trimmedThreadEventId.toStdString());
         } catch (const std::exception &e) {
             komai::logging::ui()->warn("Failed to init thread timeline: {}", e.what());
-            matrixThreadTimelineLoading_ = false;
+            if (entry)
+                entry->loading = false;
             emit matrixThreadTimelineChanged();
             focusMessageInput();
             return true;
         }
+    } else {
+        // No backend handle: still emit so QML rebinds to whatever the
+        // active-entry getter resolves to under the new threadEventId.
+        emit matrixThreadTimelineChanged();
     }
 
     focusMessageInput();
@@ -3271,7 +3281,9 @@ TimelineViewManager::clearActiveMatrixThread()
     if (!clearActiveMatrixThreadState())
         return;
 
-    // Unsubscribe from the thread timeline.
+    // Unsubscribe from the thread timeline. Rust keeps the subscription
+    // cached for warm re-entry, and we keep the C++ entry around too:
+    // re-opening this thread later rebinds QML to the cached model.
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
     if (handleId != 0) {
@@ -3281,22 +3293,26 @@ TimelineViewManager::clearActiveMatrixThread()
         }
     }
 
-    // Switch QML away from the thread model BEFORE clearing it.
+    // matrixTimelineThreadEventId_ is now empty, so the active-entry
+    // getter resolves to nullptr. Notify both signals so QML's
+    // threadViewActive flips false and the ListView unbinds from the
+    // previously-cached model.
     emit matrixTimelineStateChanged();
-
-    if (matrixThreadTimelineModel_) {
-        matrixThreadTimelineModel_->clear();
-    }
-    matrixThreadTimelineModelRoomId_.clear();
-    matrixThreadTimelineModelThreadEventId_.clear();
-    matrixThreadTimelineLoading_ = false;
     emit matrixThreadTimelineChanged();
 }
 
 QAbstractItemModel *
 TimelineViewManager::matrixThreadTimelineModel() const
 {
-    return matrixThreadTimelineModel_;
+    const auto *entry = activeThreadTimelineEntry();
+    return entry ? entry->model : nullptr;
+}
+
+bool
+TimelineViewManager::matrixThreadTimelineLoading() const
+{
+    const auto *entry = activeThreadTimelineEntry();
+    return entry ? entry->loading : false;
 }
 
 void
@@ -3342,7 +3358,19 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
           if (!mainWindow || mainWindow->matrixBackendHandleId() != result.handleId)
               return;
 
-          manager->matrixThreadTimelineLoading_ = false;
+          // Re-check active state at callback time. Between the snapshot
+          // request and the worker completing, the user may have switched
+          // to a different thread; `fetchThreadTimelineSnapshot` returns
+          // Rust's currently-active snapshot which would no longer match
+          // the (roomId, threadRootId) the signal was originally for.
+          if (manager->activeMatrixTimelineRoomId_ != result.roomId)
+              return;
+          if (manager->matrixTimelineThreadEventId_ != result.threadRootId)
+              return;
+
+          auto *entry = manager->ensureThreadTimelineEntry(result.roomId, result.threadRootId);
+          if (entry)
+              entry->loading = false;
 
           if (!result.error.isEmpty()) {
               komai::logging::ui()->warn("Failed to fetch thread timeline snapshot: {}",
@@ -3351,16 +3379,8 @@ TimelineViewManager::handleMatrixBackendThreadTimelineSnapshotUpdated(std::uint6
               return;
           }
 
-          if (!manager->matrixThreadTimelineModel_) {
-              manager->matrixThreadTimelineModel_ = new komai::MatrixTimelineModel(manager);
-          }
-
-          manager->matrixThreadTimelineModel_->replaceItems(std::move(result.items));
-          // Track which (room, thread) the model now reflects so a later
-          // activation of a different thread knows to clear before binding
-          // QML to a stale view (#184).
-          manager->matrixThreadTimelineModelRoomId_        = result.roomId;
-          manager->matrixThreadTimelineModelThreadEventId_ = result.threadRootId;
+          if (entry && entry->model)
+              entry->model->replaceItems(std::move(result.items));
           emit manager->matrixThreadTimelineChanged();
       });
 }
@@ -3386,7 +3406,8 @@ TimelineViewManager::paginateActiveMatrixThreadTimelineBackwards(int limit,
     if (matrixTimelineThreadEventId_.isEmpty())
         return;
 
-    if (matrixThreadTimelineLoading_)
+    auto *entry = activeThreadTimelineEntry();
+    if (entry && entry->loading)
         return;
 
     auto *mainWindow    = MainWindow::instance();
@@ -3394,23 +3415,34 @@ TimelineViewManager::paginateActiveMatrixThreadTimelineBackwards(int limit,
     if (handleId == 0)
         return;
 
-    matrixThreadTimelineLoading_ = true;
+    if (entry)
+        entry->loading = true;
     emit matrixThreadTimelineChanged();
+
+    // Capture the (room, thread) being paginated so the callback clears
+    // loading on the correct entry even if the user has since activated
+    // another thread.
+    const auto paginatingRoomId        = activeMatrixTimelineRoomId_;
+    const auto paginatingThreadEventId = matrixTimelineThreadEventId_;
 
     struct Result
     {
+        QString roomId;
+        QString threadEventId;
         QString error;
         bool hitStart = false;
     };
 
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, limit]() {
+      [handleId, limit, paginatingRoomId, paginatingThreadEventId]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const auto result = komai::MatrixBackendRuntimeService::paginateThreadTimelineBackwards(
             context, handleId, static_cast<uint16_t>(limit), &error);
           Result out;
+          out.roomId        = paginatingRoomId;
+          out.threadEventId = paginatingThreadEventId;
           if (result) {
               out.hitStart = *result;
           } else {
@@ -3421,8 +3453,13 @@ TimelineViewManager::paginateActiveMatrixThreadTimelineBackwards(int limit,
       [](TimelineViewManager *manager, Result result) {
           // The pagination results flow through the subscription receiver,
           // which triggers handleMatrixBackendThreadTimelineSnapshotUpdated.
-          // We just need to clear the loading state here.
-          manager->matrixThreadTimelineLoading_ = false;
+          // We just need to clear the loading state here on the entry the
+          // request was issued for, regardless of what the user activated
+          // in the meantime.
+          const auto key = QPair<QString, QString>(result.roomId, result.threadEventId);
+          auto it        = manager->matrixThreadTimelineEntries_.find(key);
+          if (it != manager->matrixThreadTimelineEntries_.end())
+              it->loading = false;
           if (!result.error.isEmpty()) {
               komai::logging::ui()->warn("Failed to paginate thread timeline: {}",
                                          result.error.toStdString());
@@ -3452,20 +3489,49 @@ TimelineViewManager::clearActiveMatrixThreadState()
     return true;
 }
 
-void
-TimelineViewManager::resetMatrixThreadTimelineModelIfMismatched(
-  const QString &expectedRoomId,
-  const QString &expectedThreadEventId)
+TimelineViewManager::ThreadTimelineEntry *
+TimelineViewManager::ensureThreadTimelineEntry(const QString &roomId, const QString &threadEventId)
 {
-    if (!matrixThreadTimelineModel_)
-        return;
-    if (matrixThreadTimelineModelRoomId_ == expectedRoomId &&
-        matrixThreadTimelineModelThreadEventId_ == expectedThreadEventId) {
-        return;
+    if (roomId.isEmpty() || threadEventId.isEmpty())
+        return nullptr;
+    const auto key = QPair<QString, QString>(roomId, threadEventId);
+    auto it        = matrixThreadTimelineEntries_.find(key);
+    if (it == matrixThreadTimelineEntries_.end()) {
+        ThreadTimelineEntry entry;
+        entry.model = new komai::MatrixTimelineModel(this);
+        it          = matrixThreadTimelineEntries_.insert(key, entry);
     }
-    matrixThreadTimelineModel_->clear();
-    matrixThreadTimelineModelRoomId_.clear();
-    matrixThreadTimelineModelThreadEventId_.clear();
+    return &it.value();
+}
+
+TimelineViewManager::ThreadTimelineEntry *
+TimelineViewManager::activeThreadTimelineEntry()
+{
+    if (activeMatrixTimelineRoomId_.isEmpty() || matrixTimelineThreadEventId_.isEmpty())
+        return nullptr;
+    auto it = matrixThreadTimelineEntries_.find(
+      {activeMatrixTimelineRoomId_, matrixTimelineThreadEventId_});
+    return it != matrixThreadTimelineEntries_.end() ? &it.value() : nullptr;
+}
+
+const TimelineViewManager::ThreadTimelineEntry *
+TimelineViewManager::activeThreadTimelineEntry() const
+{
+    if (activeMatrixTimelineRoomId_.isEmpty() || matrixTimelineThreadEventId_.isEmpty())
+        return nullptr;
+    auto it = matrixThreadTimelineEntries_.constFind(
+      {activeMatrixTimelineRoomId_, matrixTimelineThreadEventId_});
+    return it != matrixThreadTimelineEntries_.constEnd() ? &it.value() : nullptr;
+}
+
+void
+TimelineViewManager::destroyAllThreadTimelineEntries()
+{
+    for (auto &entry : matrixThreadTimelineEntries_) {
+        if (entry.model)
+            entry.model->deleteLater();
+    }
+    matrixThreadTimelineEntries_.clear();
 }
 
 bool

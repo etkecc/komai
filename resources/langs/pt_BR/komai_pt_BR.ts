@@ -8997,7 +8997,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1180"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1184"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Falha ao enviar mensagem: %1</translation>
@@ -9113,7 +9113,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>falha no download</translation>
     </message>
     <message>
-        <location line="+441"/>
+        <location line="+503"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Falha ao enviar anexo '%1': %2</translation>
     </message>

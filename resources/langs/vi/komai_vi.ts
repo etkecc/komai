@@ -8984,7 +8984,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1180"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimeline.cpp" line="+1184"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
         <source>Failed to send message: %1</source>
         <translation>Không thể gửi tin nhắn: %1</translation>
@@ -9100,7 +9100,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>tải xuống thất bại</translation>
     </message>
     <message>
-        <location line="+441"/>
+        <location line="+503"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Không thể gửi tệp đính kèm '%1': %2</translation>
     </message>

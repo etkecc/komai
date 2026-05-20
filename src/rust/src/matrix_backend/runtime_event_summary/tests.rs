@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::membership_change_kind_key;
+use super::state::membership_change_kind_key;
 use matrix_sdk_ui::timeline::MembershipChange;
 
 #[test]

@@ -721,6 +721,13 @@ Item {
 
     Loader {
         id: metadataLoader
+        // Above `selectionToggleSurface` (z:30) so the metadata bar's
+        // click targets (thread button, actions toggle, unpin) win over
+        // the gutter's DragHandler that otherwise grabs presses passively
+        // on the same pixels and swallows the click. Bare-Item areas of
+        // the metadata bar still let presses fall through to the gutter
+        // handlers, so drag-select from non-button parts is unaffected.
+        z: 31
         active: !root.perfDisableTimelineMetadata
         sourceComponent: metadataComponent
     }

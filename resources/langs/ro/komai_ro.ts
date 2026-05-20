@@ -4041,7 +4041,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
         <translation>%1 a trimis un mesaj</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Deschide</translation>
     </message>

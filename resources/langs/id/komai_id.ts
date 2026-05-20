@@ -4031,7 +4031,7 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
         <translation>%1 mengirim gambar</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Buka</translation>
     </message>

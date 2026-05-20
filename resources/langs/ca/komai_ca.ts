@@ -4036,7 +4036,7 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
         <translation>%1 ha enviat un missatge</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>

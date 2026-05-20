@@ -4036,7 +4036,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
         <translation>%1 ha inviato un messaggio</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Apri</translation>
     </message>

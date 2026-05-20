@@ -4041,7 +4041,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
         <translation>%1 poslal zprávu</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>

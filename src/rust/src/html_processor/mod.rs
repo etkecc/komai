@@ -9,6 +9,7 @@
 
 mod format;
 mod linkify;
+mod notification;
 pub(crate) mod parser;
 mod pills;
 mod sanitize;
@@ -17,5 +18,6 @@ mod util;
 
 pub(crate) use format::format_body_html;
 pub(crate) use linkify::linkify_html;
+pub(crate) use notification::to_notification_markup;
 pub(crate) use sanitize::sanitize_html;
 pub(crate) use search::mark_search_matches;

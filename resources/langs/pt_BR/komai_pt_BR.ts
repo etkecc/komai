@@ -4036,7 +4036,7 @@ Verifique para desbloquear mensagens criptografadas.</translation>
         <translation>%1 enviou uma mensagem</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>

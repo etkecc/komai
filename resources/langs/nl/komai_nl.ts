@@ -4036,7 +4036,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
         <translation>%1 stuurde een bericht</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Openen</translation>
     </message>

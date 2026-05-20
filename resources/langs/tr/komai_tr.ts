@@ -4031,7 +4031,7 @@ Verify to unlock encrypted messages.</source>
         <translation>%1 bir mesaj gönderdi</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>

@@ -26,6 +26,7 @@ use matrix_sdk_ui::notification_client::{
 
 use super::*;
 use super::event_summary::{MatrixEventSummary, summarize_sync_timeline_event};
+use crate::html_processor::to_notification_markup;
 
 fn notification_event_id(notification: &matrix_sdk::sync::Notification) -> Option<String> {
     match &notification.event {
@@ -291,7 +292,7 @@ fn notification_item_from_sdk(
                 sender_display_name,
                 notification_kind: summary.kind.clone(),
                 plain_body: summary.body.clone(),
-                formatted_body: summary.formatted_body.clone(),
+                formatted_body: to_notification_markup(&summary.formatted_body),
                 media_mxc_url,
                 is_reply: !summary.reply_event_id.is_empty(),
                 is_emote: summary.kind == "emote",

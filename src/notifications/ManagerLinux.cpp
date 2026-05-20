@@ -104,28 +104,25 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
     if (hasMarkup_) {
         if (hasImages_ && allowShowingImages() && notification.hasInlineImage &&
             !mediaMxcUrl.isEmpty()) {
+            // The `alt` attribute is HTML; the body is already Pango markup
+            // (containing `<b>`, `<a>`, ...), so use the plain variant here
+            // and escape it.
+            const QString altText = plainNotificationBody(notification).toHtmlEscaped();
             MxcImageProvider::download(
               mediaMxcUrl,
               QSize(200, 80),
-              [postNotif, formattedBody, template_](QString, QSize, QImage, QString imgPath) {
+              [postNotif, formattedBody, altText, template_](
+                QString, QSize, QImage, QString imgPath) {
                   if (imgPath.isEmpty())
-                      postNotif(template_.arg(formattedBody)
-                                  .replace(QLatin1String("<em>"), QLatin1String("<i>"))
-                                  .replace(QLatin1String("</em>"), QLatin1String("</i>"))
-                                  .replace(QLatin1String("<strong>"), QLatin1String("<b>"))
-                                  .replace(QLatin1String("</strong>"), QLatin1String("</b>")));
+                      postNotif(template_.arg(formattedBody));
                   else
                       postNotif(template_.arg(QStringLiteral("<br><img src=\"file:///") % imgPath %
-                                              "\" alt=\"" % formattedBody % "\">"));
+                                              "\" alt=\"" % altText % "\">"));
               });
             return;
         }
 
-        postNotif(template_.arg(formattedNotificationBody(notification))
-                    .replace(QLatin1String("<em>"), QLatin1String("<i>"))
-                    .replace(QLatin1String("</em>"), QLatin1String("</i>"))
-                    .replace(QLatin1String("<strong>"), QLatin1String("<b>"))
-                    .replace(QLatin1String("</strong>"), QLatin1String("</b>")));
+        postNotif(template_.arg(formattedBody));
         return;
     }
 

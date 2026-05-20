@@ -4036,7 +4036,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
         <translation>%1 a envoyé un message</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+178"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>

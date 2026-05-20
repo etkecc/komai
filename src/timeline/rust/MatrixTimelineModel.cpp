@@ -239,7 +239,12 @@ htmlToPlainText(const QString &html)
 
     QTextDocument document;
     document.setHtml(html);
-    return document.toPlainText();
+    auto text = document.toPlainText();
+    // `<img>` elements (pill avatars for matrix.to mentions) become U+FFFC in
+    // toPlainText() output. Drop them so copy reads cleanly. Emoji uses span
+    // elements, not img, so it survives unaffected.
+    text.remove(QChar::ObjectReplacementCharacter);
+    return text;
 }
 
 QString

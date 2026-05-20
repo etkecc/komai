@@ -86,7 +86,7 @@ mod timeline_messaging;
 mod timeline_events;
 #[path = "runtime_timeline_snapshot.rs"]
 mod timeline_snapshot;
-#[path = "runtime_thread_timeline.rs"]
+#[path = "runtime_thread_timeline/mod.rs"]
 mod thread_timeline;
 #[path = "runtime_user_directory.rs"]
 mod user_directory;

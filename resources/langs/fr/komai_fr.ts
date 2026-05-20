@@ -3239,7 +3239,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+472"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+478"/>
         <source>Settings...</source>
         <translation>Paramètres…</translation>
     </message>

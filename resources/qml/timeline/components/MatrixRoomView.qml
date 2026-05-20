@@ -117,9 +117,15 @@ ColumnLayout {
     readonly property bool windowActive: Window.active
     property bool pendingComposerAutoFocus: false
     property int _composerAutoFocusRetries: 0
-    readonly property bool threadViewActive: TimelineManager.matrixTimelineThreadEventId.length > 0
-    readonly property var threadTimelineModel: TimelineManager.matrixThreadTimelineModel
-    readonly property bool threadTimelineLoading: TimelineManager.matrixThreadTimelineLoading
+    // Gated on poolActive so background pool entries don't react to the
+    // foreground tab's thread state. Without the gate, every cached
+    // MatrixRoomView in the pool re-evaluates these on every thread
+    // open/close, swaps its ListView model, and rebuilds every visible
+    // delegate, a storm large enough to crash the QV4 runtime during a
+    // tab switch while a thread is open.
+    readonly property bool threadViewActive: poolActive && TimelineManager.matrixTimelineThreadEventId.length > 0
+    readonly property var threadTimelineModel: poolActive ? TimelineManager.matrixThreadTimelineModel : null
+    readonly property bool threadTimelineLoading: poolActive && TimelineManager.matrixThreadTimelineLoading
     // The MatrixTimelineModel the selection / walk-mode / visible-row helpers
     // must operate on: the thread timeline while a thread is open, the room
     // timeline otherwise. In the room case the ListView is sometimes bound to

@@ -3239,7 +3239,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+472"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+478"/>
         <source>Settings...</source>
         <translation>Einstellungen …</translation>
     </message>

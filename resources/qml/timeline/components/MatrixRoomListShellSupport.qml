@@ -345,17 +345,25 @@ QtObject {
         timelineList.previousCount = timelineList.count;
     }
 
-    function handleModelChanged() {
+    // Forcibly evict pooled and cached ListView delegates so the next round
+    // of delegate creation has nothing to draw from and must rebind from
+    // current model state.
+    //
+    // Qt's delegate reuse pool can retain delegates across model-instance
+    // swaps (e.g. thread enter/leave) and across model resets within the
+    // same model (the mixed-diff branch of
+    // MatrixTimelineModel::replaceVisibleItems emits begin/endResetModel).
+    // On reuse, Qt 6 sometimes leaves required properties pointing at the
+    // previous row, surfacing as an "Unsupported message" fallback or as a
+    // delegate that keeps its old eventId binding while the row beneath it
+    // has moved on (duplicate bubble for one event, missing bubble for the
+    // other). Toggling reuseItems off destroys the pool; zeroing
+    // cacheBuffer also releases the offscreen stragglers that reuseItems
+    // alone doesn't reach. Both restore on the next tick.
+    function flushDelegateReusePool() {
         if (!timelineList)
             return;
 
-        // Qt's delegate reuse pool retains delegates across model-instance
-        // swaps (e.g. entering/leaving thread view). On reuse for the new
-        // model it can leave required properties pointing at the previous
-        // model's row, which surfaces as "Unsupported message" for events
-        // that live in the old model but not the new one. Briefly toggling
-        // reuseItems destroys the pooled items so new reuses re-read roles
-        // from the current model.
         if (timelineList.reuseItems) {
             timelineList.reuseItems = false;
             Qt.callLater(function () {
@@ -364,12 +372,6 @@ QtObject {
             });
         }
 
-        // Cached-item flush: offscreen delegates sitting in the cacheBuffer
-        // region aren't always released on model swap, so stragglers from
-        // the old model can keep rendering alongside new-model items (and
-        // their EventDelegateChooser.room binding flips under them on a
-        // thread↔per-room swap). Zeroing cacheBuffer forces release of
-        // those cached items; restore on the next tick.
         const savedCacheBuffer = timelineList.cacheBuffer;
         if (savedCacheBuffer > 0) {
             timelineList.cacheBuffer = 0;
@@ -378,6 +380,13 @@ QtObject {
                     timelineList.cacheBuffer = savedCacheBuffer;
             });
         }
+    }
+
+    function handleModelChanged() {
+        if (!timelineList)
+            return;
+
+        flushDelegateReusePool();
 
         timelineList.previousCount = timelineList.count;
         if (!timelineList.userUnpinned && timelineList.keepPinnedToBottom && timelineList.count > 0)
@@ -450,6 +459,14 @@ QtObject {
     function handleModelResetAboutToReplace() {
         savedResetEventId = "";
         savedResetWasPinnedToBottom = true;
+
+        // Fires before MatrixTimelineModel::beginResetModel(), so toggling
+        // reuseItems off here clears the pool before Qt populates it with
+        // the soon-to-be-reset visible delegates. Without this, a row that
+        // changes identity across the reset (a local echo gaining its real
+        // event_id, or a mixed insert+remove diff that lands on the reset
+        // path) can come out of reuse still bound to its previous row.
+        flushDelegateReusePool();
 
         if (!timelineList || timelineList.count <= 0)
             return;

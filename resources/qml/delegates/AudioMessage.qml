@@ -5,9 +5,9 @@
 import "../components"
 import "../ui/media"
 import QtQuick
-import QtQuick.Layouts
+import cc.etke.komai
 
-ColumnLayout {
+Item {
     id: content
 
     property var roomAdapter: null
@@ -31,31 +31,40 @@ ColumnLayout {
     // file name twice (once inside the player, once as a "caption").
     readonly property bool hasCaption: body.length > 0 && body !== filename
 
-    spacing: Komai.paddingSmall
+    implicitWidth: audioPlayer.implicitWidth
+    implicitHeight: contentColumn.implicitHeight
+    width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
+    height: implicitHeight
 
     property int metadataWidth
     property bool fitsMetadata: parent != null ? ((parent.width - width) > metadataWidth + 4) : false
 
-    InlineAudioPlayer {
-        id: audioPlayer
+    Column {
+        id: contentColumn
 
-        Layout.preferredWidth: 500
-        Layout.maximumWidth: 500
-        Layout.fillWidth: false
-        room: content.roomContext
-        eventId: content.eventId
-        duration: content.duration
-        body: content.body
-        filename: content.filename
-        filesize: content.filesize
-        mimetype: content.mimetype
-        isVoiceMessage: content.isVoiceMessage
-        waveform: content.waveform
-    }
+        width: parent.width
+        spacing: content.hasCaption ? Komai.paddingSmall : 0
 
-    MediaCaption {
-        Layout.fillWidth: true
-        body: content.hasCaption ? content.body : ""
-        formattedBody: content.hasCaption ? content.formattedBody : ""
+        InlineAudioPlayer {
+            id: audioPlayer
+
+            width: parent.width
+            room: content.roomContext
+            eventId: content.eventId
+            duration: content.duration
+            body: content.body
+            filename: content.filename
+            filesize: content.filesize
+            mimetype: content.mimetype
+            isVoiceMessage: content.isVoiceMessage
+            waveform: content.waveform
+        }
+
+        MediaCaption {
+            width: parent.width
+            visible: content.hasCaption
+            body: content.hasCaption ? content.body : ""
+            formattedBody: content.hasCaption ? content.formattedBody : ""
+        }
     }
 }

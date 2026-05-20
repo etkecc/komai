@@ -5,10 +5,9 @@
 
 import "../components"
 import QtQuick
-import QtQuick.Layouts
 import cc.etke.komai
 
-ColumnLayout {
+Item {
     id: content
 
     property var roomAdapter: null
@@ -39,16 +38,21 @@ ColumnLayout {
     property int metadataWidth
     property bool fitsMetadata: parent != null ? ((parent.width - width) > metadataWidth + 4) : false
 
-    spacing: Komai.paddingSmall
-
     readonly property Loader activeLoader: isGifVideo ? gifLoader : regularLoader
+    readonly property int captionSpacing: hasCaption ? Komai.paddingSmall : 0
+
+    implicitWidth: activeLoader.item ? activeLoader.item.implicitWidth : 0
+    width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
+    implicitHeight: (activeLoader.item ? activeLoader.item.height : 0)
+        + (mediaCaption.visible ? captionSpacing + mediaCaption.implicitHeight : 0)
+    height: implicitHeight
 
     Loader {
         id: regularLoader
 
-        Layout.alignment: Qt.AlignLeft
         active: !content.isGifVideo
         visible: active
+        width: content.width
         sourceComponent: Component {
             RegularVideoMessage {
                 roomAdapter: content.roomAdapter
@@ -69,9 +73,9 @@ ColumnLayout {
     Loader {
         id: gifLoader
 
-        Layout.alignment: Qt.AlignLeft
         active: content.isGifVideo
         visible: active
+        width: content.width
         sourceComponent: Component {
             GifVideoMessage {
                 roomAdapter: content.roomAdapter
@@ -87,7 +91,13 @@ ColumnLayout {
     }
 
     MediaCaption {
-        Layout.fillWidth: true
+        id: mediaCaption
+
+        anchors.top: parent.top
+        anchors.topMargin: (content.activeLoader.item ? content.activeLoader.item.height : 0)
+            + content.captionSpacing
+        width: parent.width
+        visible: content.hasCaption
         body: content.hasCaption ? content.body : ""
         formattedBody: content.hasCaption ? content.formattedBody : ""
     }

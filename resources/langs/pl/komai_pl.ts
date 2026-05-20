@@ -4042,7 +4042,7 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
         <translation>%1 wysłał(a) wiadomość</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>

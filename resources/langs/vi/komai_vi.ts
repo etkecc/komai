@@ -4031,7 +4031,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
         <translation>%1 đã gửi một tin nhắn</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Mở</translation>
     </message>

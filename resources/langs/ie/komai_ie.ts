@@ -4036,7 +4036,7 @@ Verificar por debloquar mesages criptat.</translation>
         <translation>%1 ha inviat un mesage</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Aperter</translation>
     </message>

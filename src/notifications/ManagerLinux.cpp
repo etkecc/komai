@@ -108,6 +108,9 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
             // (containing `<b>`, `<a>`, ...), so use the plain variant here
             // and escape it.
             const QString altText = plainNotificationBody(notification).toHtmlEscaped();
+            // Fit-into-200x80 with aspect ratio preserved. Keeps the popup
+            // compact; `crop=false` avoids slicing portrait sources through
+            // the vertical middle.
             MxcImageProvider::download(
               mediaMxcUrl,
               QSize(200, 80),
@@ -118,7 +121,8 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
                   else
                       postNotif(template_.arg(QStringLiteral("<br><img src=\"file:///") % imgPath %
                                               "\" alt=\"" % altText % "\">"));
-              });
+              },
+              /*crop=*/false);
             return;
         }
 

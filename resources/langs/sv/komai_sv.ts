@@ -4036,7 +4036,7 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
         <translation>%1 skickade ett meddelande</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Öppna</translation>
     </message>

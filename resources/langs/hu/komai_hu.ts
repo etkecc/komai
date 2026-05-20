@@ -4031,7 +4031,7 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
         <translation>%1 küldött egy üzenetet</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Megnyitás</translation>
     </message>

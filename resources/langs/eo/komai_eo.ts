@@ -4036,7 +4036,7 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
         <translation>%1 sendis mesaĝon</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Malfermi</translation>
     </message>

@@ -4036,7 +4036,7 @@ Vahvista avataksesi salatut viestit.</translation>
         <translation>%1 lähetti viestin</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>

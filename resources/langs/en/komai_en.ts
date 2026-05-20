@@ -4025,7 +4025,7 @@ Verify to unlock encrypted messages.</source>
         <translation>%1 sent a message</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation type="unfinished">Open</translation>
     </message>

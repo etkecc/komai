@@ -4039,7 +4039,7 @@ Verifica para desbloquear los mensajes cifrados.</translation>
         <translation>%1 envió un mensaje</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>

@@ -4041,7 +4041,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
         <translation>%1 je poslao/la poruku</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+175"/>
+        <location filename="../../../src/notifications/ManagerLinux.cpp" line="+179"/>
         <source>Open</source>
         <translation>Otvori</translation>
     </message>

@@ -62,13 +62,9 @@ When updates are being held back, a small pause indicator appears near the botto
 
 ## Per-Room Notification Mode
 
-Each room has a notification mode you can change from **Room Info > Notifications**: **All messages** (default), **Mentions only**, or **Muted**. The mode controls both push notifications *and* how the room appears in this list:
+Each room has a notification mode (**All messages**, **Mentions only**, or **Muted**) set from **Room Info > Notifications**. It controls both system notifications and how the room appears in this list (bold name, count badge, row highlight). The setting takes effect live and is synced to your Matrix account.
 
-- **All messages** -- the room shows as unread (bold name, count badge, row highlight) on any new message-like event.
-- **Mentions only** -- the room only shows as unread when you are mentioned or one of your keywords matches; other messages are received silently.
-- **Muted** -- the room never shows as unread in this list, regardless of activity. Receipts and the timeline still update if you open the room.
-
-The setting takes effect live; you don't need to restart Komai or reopen the room.
+For the full description, including how this interacts with the account- and profile-wide toggles and with [low-priority rooms](notifications.md#-low-priority-rooms), see [🔔 Notifications → Per-room overrides](notifications.md#-per-room-overrides).
 
 ## Settings
 
@@ -88,6 +84,7 @@ The communities sidebar has its own per-filter switches; see [Communities Sideba
 
 ## Related
 
-- [Communities Sidebar](communities-sidebar.md) -- filter the room list by tags, spaces, people, bots, and more
-- [Room Tabs](tabs.md) -- multi-room workflow and recently-closed tab recovery
-- [Keyboard Shortcuts > Sidebar Lists](keyboard-shortcuts.md#-sidebar-lists) -- full keyboard reference
+- [🔔 Notifications](notifications.md) -- account, profile, per-room, and low-priority controls
+- [🏘️ Communities Sidebar](communities-sidebar.md) -- filter the room list by tags, spaces, people, bots, and more
+- [📑 Room Tabs](tabs.md) -- multi-room workflow and recently-closed tab recovery
+- [⌨️ Keyboard Shortcuts > Sidebar Lists](keyboard-shortcuts.md#-sidebar-lists) -- full keyboard reference

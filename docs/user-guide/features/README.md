@@ -11,6 +11,7 @@ User-facing capabilities of Komai. Each page covers one feature in depth.
 - ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts
 - 🎬 [Media Playback](media-playback.md) -- inline GIF video auto-play and media handling
 - ✨ [Message Effects](message-effects.md) -- confetti, sunshine, rain, storms, and other timeline flourishes
+- 🔔 [Notifications](notifications.md) -- account / profile / per-room controls, low-priority rooms, privacy options, and per-OS rendering
 - 🧭 [Room Directory](room-directory.md) -- browse public rooms on your homeserver, custom servers, or globally via Matrix Rooms Search
 - 📋 [Room List](room-list.md) -- switching rooms, the context menu, and other room-list interactions
 - 📑 [Room Tabs](tabs.md) -- browser-style tabs for juggling multiple conversations, with pinning and closed-tab recovery

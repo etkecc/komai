@@ -14,6 +14,7 @@ Technical documentation for Komai internals.
 - ⌨️ [Keyboard Shortcuts Architecture](keyboard-shortcuts.md) -- shortcut layers, Selection mode key flow, and layout-agnostic Latin-key handling
 - ✨ [Message Effects](message-effects.md) -- effect triggers, routing, rendering split, and how to add new effects
 - 🧵 [Timeline HTML Rendering](timeline-html-rendering.md) -- formatted message pipeline, sanitization, and code highlighting
+- 🔔 [Notifications](notifications.md) -- Rust→C++ pipeline, body-markup normalizer, image-data vs body-`<img>` slots, dated design-decisions log
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
 - 🎯 [Theme Design Guide](theme-design-guide.md) -- palette role semantics, contrast targets, and authoring guardrails
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling

@@ -2,10 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::send::{
-    caption_text_content, formatted_html_from_markdown, html_uses_only_plain_text_wrappers,
-    html_visible_text_is_empty,
-};
+use super::send::{caption_text_content, formatted_html_from_markdown, html_visible_text_is_empty};
 
 #[test]
 fn html_visible_text_is_empty_detects_empty_list() {

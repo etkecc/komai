@@ -241,13 +241,30 @@ async fn update_room_pinned_event_ids(
     // cold-start window between subscribe and the first sync response, and
     // for the rare case where a pin/unpin is triggered for a room Komai has
     // never opened.
+    // The fallback path can fail with a serde error when the room's current
+    // `m.room.pinned_events` state event has been redacted: redaction strips
+    // `content` to `{}`, and matrix-sdk's `load_pinned_events()` deserializes
+    // into the strict (non-`PossiblyRedacted`) ruma type which requires
+    // `pinned`. We treat that case as "no current pins" so the caller can
+    // proceed; a subsequent pin will then write a well-formed state event.
     let mut pinned_event_ids: Vec<OwnedEventId> = match room.pinned_event_ids() {
         Some(ids) => ids,
-        None => room
-            .load_pinned_events()
-            .await
-            .map_err(|e| format!("failed to fetch pinned events from server: {e}"))?
-            .unwrap_or_default(),
+        None => match room.load_pinned_events().await {
+            Ok(maybe) => maybe.unwrap_or_default(),
+            Err(matrix_sdk::Error::SerdeJson(e)) => {
+                tracing::warn!(
+                    handle_id,
+                    room_id = room_id.trim(),
+                    error = %e,
+                    "m.room.pinned_events state event has unparseable content \
+                     (likely redacted); treating the current pin list as empty"
+                );
+                Vec::new()
+            }
+            Err(e) => {
+                return Err(format!("failed to fetch pinned events from server: {e}"));
+            }
+        },
     };
 
     let mut changed = false;

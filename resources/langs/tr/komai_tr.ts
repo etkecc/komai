@@ -2566,7 +2566,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Önbellek klasörü yeniden oluşturulamadı.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Sevmeye değer harika bir %1 sohbet uygulaması</translation>
     </message>
@@ -10186,6 +10186,11 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <translation>Koyu</translation>
     </message>
     <message>
+        <location line="+70"/>
+        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
+        <translation>Mesajların hangi tarafta görüneceğini seçin. Uyarlanabilir, zaman çizelgesi genişliğine bağlıdır: dar (&lt; %1px) olduğunda gönderene göre karşılıklı taraf, aksi takdirde tek taraf.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Şifreleme</translation>
@@ -10232,7 +10237,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ağındaki &lt;a href="%1"&gt;Varlık&lt;/a&gt; durumunuzu kontrol eder.
@@ -10304,12 +10309,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yatay konumlandırma</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Mesajların tek tarafta mı kalacağını yoksa gönderene göre karşılıklı mı konumlandırılacağını seçin.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>sola hizalı, sağa hizalı, hizalama</translation>
     </message>
@@ -10345,7 +10345,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Gönderen kullanıcı adlarının mesajların üzerinde ne zaman görüntüleneceğini kontrol edin. Balon modunda kendi kullanıcı adınız her zaman gizlidir. Daha küçük odalarda avatarlar ve balon renkleri genellikle yeterli bağlam sağlar.</translation>
     </message>
@@ -10578,7 +10578,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10626,9 +10626,9 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10788,7 +10788,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yalnızca avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normal</translation>
@@ -10824,25 +10824,31 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Balonlar</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+10"/>
+        <location line="+6"/>
+        <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Gönderene göre karşılıklı</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All left-aligned</source>
         <translation>Tümü sola hizalı</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All right-aligned</source>
         <translation>Tümü sağa hizalı</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-14"/>
+        <location line="+11"/>
+        <source>Adaptive</source>
+        <translation>Uyarlanabilir</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Uyarlamalı (küçük odalarda üye başına)</translation>

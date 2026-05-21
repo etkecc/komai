@@ -2574,7 +2574,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Nu s-a putut recrea folderul cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>O aplicație de chat %1 pe care ajungi să o iubești</translation>
     </message>
@@ -10218,6 +10218,11 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
         <translation>Întunecat</translation>
     </message>
     <message>
+        <location line="+70"/>
+        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
+        <translation>Alege de ce parte apar mesajele. Adaptiv depinde de lățimea cronologiei: pe laturi opuse în funcție de expeditor când este îngust (&lt; %1px), pe o singură parte altfel.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Criptare</translation>
@@ -10264,7 +10269,7 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controlează starea de &lt;a href="%1"&gt;Prezență&lt;/a&gt; pe rețeaua Matrix.
@@ -10336,12 +10341,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Poziționare orizontală</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Alege dacă mesajele rămân pe o singură parte sau sunt poziționate față în față după expeditor.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>aliniat la stânga, aliniat la dreapta, aliniere</translation>
     </message>
@@ -10377,7 +10377,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Controlează când numele expeditorilor sunt afișate deasupra mesajelor. În modul bule, propriul tău nume de utilizator este întotdeauna ascuns. În camerele mai mici, avatarele și culorile bulelor sunt adesea suficient context.</translation>
     </message>
@@ -10610,7 +10610,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10658,9 +10658,9 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10820,7 +10820,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Doar avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normal</translation>
@@ -10856,25 +10856,31 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Bule</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+10"/>
+        <location line="+6"/>
+        <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Opus după expeditor</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All left-aligned</source>
         <translation>Toate aliniate la stânga</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All right-aligned</source>
         <translation>Toate aliniate la dreapta</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-14"/>
+        <location line="+11"/>
+        <source>Adaptive</source>
+        <translation>Adaptiv</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Adaptiv (per-membru în camere mici)</translation>

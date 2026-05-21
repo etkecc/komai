@@ -97,6 +97,19 @@ autoplayGifVideosDescriptionRoleData(int role)
 }
 
 QVariant
+positioningDescriptionRoleData(int role)
+{
+    if (role != UserSettingsModel::Description)
+        return {};
+
+    return QCoreApplication::translate(
+             "UserSettingsModel",
+             "Choose which side messages appear on. Adaptive depends on timeline width: "
+             "opposing by sender when narrow (< %1px), single side otherwise.")
+      .arg(Komai::kMessagesAdaptivePositioningBreakpoint);
+}
+
+QVariant
 senderUsernameDescriptionRoleData(int role)
 {
     if (role != UserSettingsModel::Description)
@@ -143,6 +156,8 @@ roleDataForSetting(settings::core::SettingId id, int role)
         return presenceStatusDescriptionRoleData(role);
     case settings::core::SettingId::TimelineMediaAutoplayGifVideos:
         return autoplayGifVideosDescriptionRoleData(role);
+    case settings::core::SettingId::TimelineMessagesLayoutPositioning:
+        return positioningDescriptionRoleData(role);
     case settings::core::SettingId::TimelineMessagesSenderUsername:
         return senderUsernameDescriptionRoleData(role);
     default:

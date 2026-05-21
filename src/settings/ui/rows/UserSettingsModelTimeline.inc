@@ -20,8 +20,8 @@
       QT_TRANSLATE_NOOP("UserSettingsModel", "bubble, plain, chat style")),
     // TimelineMessagesLayoutPositioning
     withKeywords(
-      SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Horizontal positioning"),
-        QT_TRANSLATE_NOOP("UserSettingsModel", "Choose whether messages stay on one side or are positioned opposite each other by sender."),
+      SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Horizontal positioning"),
+        nullptr,
         SM::TabTimeline, timelineMessagesLayoutPositioning, setTimelineMessagesLayoutPositioning, UserSettings::TimelineMessagesLayoutPositioning,
         timelineMessagesLayoutPositioningValues,
         nullptr,

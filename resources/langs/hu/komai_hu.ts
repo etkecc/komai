@@ -2566,7 +2566,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Nem sikerült újra létrehozni a gyorsítótár mappát.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Egy remek %1 csevegőalkalmazás, amelyet megszerethet</translation>
     </message>
@@ -10186,6 +10186,11 @@ Az ignorálást később visszavonhatja ezen felhasználó profilján vagy a Be�
         <translation>Sötét</translation>
     </message>
     <message>
+        <location line="+70"/>
+        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
+        <translation>Válassza ki, melyik oldalon jelenjenek meg az üzenetek. Az adaptív beállítás az idővonal szélességétől függ: szűk (&lt; %1px) idővonalnál a küldő szerinti ellentétes oldalon, egyébként egy oldalon.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Titkosítás</translation>
@@ -10232,7 +10237,7 @@ Az ignorálást később visszavonhatja ezen felhasználó profilján vagy a Be�
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Beállítja a &lt;a href="%1"&gt;Jelenlét&lt;/a&gt; állapotát a Matrix hálózaton.
@@ -10304,12 +10309,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Vízszintes elhelyezés</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Válassza ki, hogy az üzenetek egy oldalon maradjanak-e, vagy a küldőtől függően egymással szemben jelenjenek meg.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>balra igazított, jobbra igazított, igazítás</translation>
     </message>
@@ -10345,7 +10345,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Szabályozza, mikor jelenjenek meg a küldők felhasználónevei az üzenetek felett. Buborék módban a saját felhasználónév mindig rejtett. Kisebb szobákban az avatárok és a buborékszínek általában elegendő kontextust nyújtanak.</translation>
     </message>
@@ -10578,7 +10578,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10626,9 +10626,9 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10788,7 +10788,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Csak avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normál</translation>
@@ -10824,25 +10824,31 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Buborékok</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+10"/>
+        <location line="+6"/>
+        <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Küldő szerint szemközti</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All left-aligned</source>
         <translation>Mind balra igazítva</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All right-aligned</source>
         <translation>Mind jobbra igazítva</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-14"/>
+        <location line="+11"/>
+        <source>Adaptive</source>
+        <translation>Adaptív</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Adaptív (tagonként kis szobákban)</translation>

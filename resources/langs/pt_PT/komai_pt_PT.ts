@@ -2570,7 +2570,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Não foi possível recriar a pasta de cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Uma boa aplicação de chat %1 que vai adorar</translation>
     </message>
@@ -10202,6 +10202,11 @@ Pode deixar de ignorar mais tarde através do perfil deste utilizador ou em Defi
         <translation>Escuro</translation>
     </message>
     <message>
+        <location line="+70"/>
+        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
+        <translation>Escolhe de que lado aparecem as mensagens. O modo Adaptativo depende da largura da cronologia: lados opostos por remetente quando estreita (&lt; %1px), lado único caso contrário.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Encriptação</translation>
@@ -10248,7 +10253,7 @@ Pode deixar de ignorar mais tarde através do perfil deste utilizador ou em Defi
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controla o seu estado de &lt;a href="%1"&gt;Presença&lt;/a&gt; na rede Matrix.
@@ -10320,12 +10325,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Posicionamento horizontal</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Escolha se as mensagens ficam de um lado só ou são posicionadas em lados opostos por remetente.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>alinhado à esquerda, alinhado à direita, alinhamento</translation>
     </message>
@@ -10361,7 +10361,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Controla quando os nomes de utilizador do remetente são mostrados acima das mensagens. No modo de balão, o seu próprio nome de utilizador está sempre oculto. Em salas mais pequenas, os avatares e as cores dos balões são muitas vezes contexto suficiente.</translation>
     </message>
@@ -10594,7 +10594,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10642,9 +10642,9 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10804,7 +10804,7 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Apenas avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normal</translation>
@@ -10840,25 +10840,31 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Bolhas</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+10"/>
+        <location line="+6"/>
+        <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Opostos por remetente</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All left-aligned</source>
         <translation>Tudo alinhado à esquerda</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All right-aligned</source>
         <translation>Tudo alinhado à direita</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-14"/>
+        <location line="+11"/>
+        <source>Adaptive</source>
+        <translation>Adaptativo</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Adaptativo (por membro em salas pequenas)</translation>

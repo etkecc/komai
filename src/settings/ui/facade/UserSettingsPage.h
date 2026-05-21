@@ -462,6 +462,7 @@ public:
 
     enum class TimelineMessagesLayoutPositioning
     {
+        Adaptive,
         OpposingBySender,
         AllLeft,
         AllRight,

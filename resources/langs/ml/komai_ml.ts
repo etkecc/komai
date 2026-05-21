@@ -2570,7 +2570,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ക്യാഷ് ഫോൾഡർ പുനർനിർമ്മിക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>നിങ്ങൾ ഇഷ്ടപ്പെട്ടു പോകുന്ന ഒരു മികച്ച %1 ചാറ്റ് ആപ്പ്</translation>
     </message>
@@ -10202,6 +10202,11 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>ഇരുണ്ട</translation>
     </message>
     <message>
+        <location line="+70"/>
+        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
+        <translation>സന്ദേശങ്ങൾ ഏത് ഭാഗത്ത് ദൃശ്യമാകണം എന്ന് തിരഞ്ഞെടുക്കുക. ടൈംലൈൻ വീതിയനുസരിച്ച് അഡാപ്റ്റീവ് മാറുന്നു: ഇടുങ്ങിയ (&lt; %1px) ആകുമ്പോൾ അയച്ചവർ അനുസരിച്ച് എതിർ ഭാഗങ്ങളിൽ, അല്ലാത്തപക്ഷം ഒരു ഭാഗത്ത്.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>എൻക്രിപ്ഷൻ</translation>
@@ -10248,7 +10253,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;Presence&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
@@ -10320,12 +10325,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>തിരശ്ചീന സ്ഥാനനിർണ്ണയം</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>സന്ദേശങ്ങൾ ഒരു വശത്ത് നിൽക്കണോ അല്ലെങ്കിൽ അയക്കുന്നവർ അനുസരിച്ച് വിപരീത വശങ്ങളിൽ ക്രമീകരിക്കണോ എന്ന് തിരഞ്ഞെടുക്കുക.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>ഇടത്ത് വിന്യസിച്ചത്, വലത്ത് വിന്യസിച്ചത്, വിന്യാസം</translation>
     </message>
@@ -10361,7 +10361,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>അയക്കുന്നയാളുടെ ഉപയോക്തൃനാമങ്ങൾ സന്ദേശങ്ങൾക്ക് മുകളിൽ എപ്പോൾ പ്രദർശിപ്പിക്കണമെന്ന് നിയന്ത്രിക്കുക. ബബ്ബിൾ മോഡിൽ, നിങ്ങളുടെ സ്വന്തം ഉപയോക്തൃനാമം എല്ലായ്‌പ്പോഴും മറഞ്ഞിരിക്കും. ചെറിയ മുറികളിൽ, അവതാറുകളും ബബ്ബിൾ നിറങ്ങളും പലപ്പോഴും മതിയായ സന്ദർഭം നൽകുന്നു.</translation>
     </message>
@@ -10594,7 +10594,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10642,9 +10642,9 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10804,7 +10804,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>അവതാർ മാത്രം</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>സാധാരണ</translation>
@@ -10840,25 +10840,31 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ബബ്ബിളുകൾ</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+10"/>
+        <location line="+6"/>
+        <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>അയക്കുന്നവർ അനുസരിച്ച് എതിർ വശത്ത്</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All left-aligned</source>
         <translation>എല്ലാം ഇടത്ത് ക്രമീകൃതം</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All right-aligned</source>
         <translation>എല്ലാം വലത്ത് ക്രമീകൃതം</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-14"/>
+        <location line="+11"/>
+        <source>Adaptive</source>
+        <translation>അഡാപ്റ്റീവ്</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>അഡാപ്റ്റീവ് (ചെറിയ മുറികളിൽ അംഗം-തോറും)</translation>

@@ -17,8 +17,9 @@ constexpr std::array<std::pair<UserSettings::TimelineMessagesStyle, const char *
     {UserSettings::TimelineMessagesStyle::Bubbles, "bubbles"},
   }};
 
-constexpr std::array<std::pair<UserSettings::TimelineMessagesLayoutPositioning, const char *>, 3>
+constexpr std::array<std::pair<UserSettings::TimelineMessagesLayoutPositioning, const char *>, 4>
   kTimelinePositioningTokens{{
+    {UserSettings::TimelineMessagesLayoutPositioning::Adaptive, "adaptive"},
     {UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender, "opposing_by_sender"},
     {UserSettings::TimelineMessagesLayoutPositioning::AllLeft, "all_left"},
     {UserSettings::TimelineMessagesLayoutPositioning::AllRight, "all_right"},

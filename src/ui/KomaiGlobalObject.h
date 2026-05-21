@@ -41,6 +41,12 @@ class Komai : public QObject
     // settings surfaces (the generic Settings rows, the Account device cards,
     // etc.) react at the same point.
     Q_PROPERTY(int settingRowStackBreakpoint READ settingRowStackBreakpoint CONSTANT)
+    // Timeline content width (in px) at or above which the "Adaptive" horizontal
+    // positioning mode collapses to one-sided alignment instead of opposing
+    // messages by sender. Tuned for ultrawide / tiled-fullscreen ergonomics
+    // where the cross-timeline gap in opposing layout becomes uncomfortable.
+    Q_PROPERTY(
+      int messagesAdaptivePositioningBreakpoint READ messagesAdaptivePositioningBreakpoint CONSTANT)
     // Vertical padding inside the composer's multi-line text area. Shared so
     // that composer action buttons can match the textarea's single-line height.
     Q_PROPERTY(int composerTextAreaPadding READ composerTextAreaPadding CONSTANT)
@@ -92,6 +98,10 @@ public:
     int paddingMedium() const { return 8; }
     int paddingLarge() const { return 20; }
     int settingRowStackBreakpoint() const { return 900; }
+    int messagesAdaptivePositioningBreakpoint() const
+    {
+        return kMessagesAdaptivePositioningBreakpoint;
+    }
     int composerTextAreaPadding() const { return 6; }
 
     int tooltipDelay() const;
@@ -101,6 +111,8 @@ public:
 
     static constexpr int kGifVideoMaxSizeBytes  = 1048576; // 1 MB
     static constexpr int kGifVideoMaxDurationMs = 3000;    // 3 seconds
+
+    static constexpr int kMessagesAdaptivePositioningBreakpoint = 1600;
 
     UserSettings::Density uiLayoutDensity() const;
     double sidebarAvatarMultiplier() const;

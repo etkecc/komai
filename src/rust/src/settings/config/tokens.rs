@@ -104,6 +104,7 @@ storage_token_enum!(ConfigTimelineMessagesStyleToken, Bubbles {
 });
 
 storage_token_enum!(ConfigTimelineMessagesPositioningToken, OpposingBySender {
+    Adaptive => "adaptive",
     OpposingBySender => "opposing_by_sender",
     AllLeft => "all_left",
     AllRight => "all_right",

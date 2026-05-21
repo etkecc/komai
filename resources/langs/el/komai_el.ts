@@ -2570,7 +2570,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Δεν ήταν δυνατή η αναδημιουργία του φακέλου προσωρινής μνήμης.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Μια εξαιρετική εφαρμογή συνομιλίας %1 που θα αγαπήσετε</translation>
     </message>
@@ -10202,6 +10202,11 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>Σκοτεινό</translation>
     </message>
     <message>
+        <location line="+70"/>
+        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
+        <translation>Επιλέξτε σε ποια πλευρά εμφανίζονται τα μηνύματα. Το προσαρμοστικό εξαρτάται από το πλάτος του χρονολογίου: αντίθετες πλευρές ανά αποστολέα σε στενό πλάτος (&lt; %1px), αλλιώς μία πλευρά.</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Κρυπτογράφηση</translation>
@@ -10248,7 +10253,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ελέγχει την κατάσταση &lt;a href="%1"&gt;Παρουσίας&lt;/a&gt; σας στο δίκτυο Matrix.
@@ -10320,12 +10325,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Οριζόντια τοποθέτηση</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Choose whether messages stay on one side or are positioned opposite each other by sender.</source>
-        <translation>Επιλέξτε αν τα μηνύματα παραμένουν σε μία πλευρά ή τοποθετούνται αντίθετα ανά αποστολέα.</translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>αριστερή στοίχιση, δεξιά στοίχιση, στοίχιση</translation>
     </message>
@@ -10361,7 +10361,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Έλεγχος πότε εμφανίζονται τα ονόματα χρηστών αποστολέων πάνω από τα μηνύματα. Στη λειτουργία φυσαλίδας, το δικό σας όνομα χρήστη είναι πάντα κρυφό. Σε μικρότερα δωμάτια, τα avatar και τα χρώματα φυσαλίδων συχνά παρέχουν αρκετό πλαίσιο.</translation>
     </message>
@@ -10594,7 +10594,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10642,9 +10642,9 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
         <location line="+10"/>
-        <location line="+55"/>
+        <location line="+57"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10804,7 +10804,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Μόνο άβαταρ</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-92"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Κανονικό</translation>
@@ -10840,25 +10840,31 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Φυσαλίδες</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+10"/>
+        <location line="+6"/>
+        <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Αντίθετα ανά αποστολέα</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All left-aligned</source>
         <translation>Όλα αριστερά ευθυγραμμισμένα</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+10"/>
+        <location line="-10"/>
+        <location line="+11"/>
         <source>All right-aligned</source>
         <translation>Όλα δεξιά ευθυγραμμισμένα</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-14"/>
+        <location line="+11"/>
+        <source>Adaptive</source>
+        <translation>Προσαρμοστικό</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <location line="+9"/>
         <source>Adaptive (per-member in small rooms)</source>
         <translation>Προσαρμοστικό (ανά μέλος σε μικρά δωμάτια)</translation>

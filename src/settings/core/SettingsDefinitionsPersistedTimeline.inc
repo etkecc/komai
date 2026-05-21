@@ -11,7 +11,7 @@
    false,
    true,
    0,
-   2},
+   3},
   {SettingId::TimelineUserColorCodingPolicy,
    SettingScope::Config,
    SettingKey::TimelineUserColorCodingPolicy,

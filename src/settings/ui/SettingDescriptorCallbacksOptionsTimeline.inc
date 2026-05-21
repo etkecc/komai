@@ -55,6 +55,7 @@ timelineMessagesStyleValues()
 }
 
 static const char *const timelineMessagesLayoutPositioningValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Adaptive"),
   QT_TRANSLATE_NOOP("UserSettingsModel", "Opposing by sender"),
   QT_TRANSLATE_NOOP("UserSettingsModel", "All left-aligned"),
   QT_TRANSLATE_NOOP("UserSettingsModel", "All right-aligned"),
@@ -65,7 +66,8 @@ static QVariant
 timelineMessagesLayoutPositioningValues()
 {
     QStringList values;
-    values << QCoreApplication::translate("UserSettingsModel", "Opposing by sender")
+    values << QCoreApplication::translate("UserSettingsModel", "Adaptive")
+           << QCoreApplication::translate("UserSettingsModel", "Opposing by sender")
            << QCoreApplication::translate("UserSettingsModel", "All left-aligned")
            << QCoreApplication::translate("UserSettingsModel", "All right-aligned");
     return values;

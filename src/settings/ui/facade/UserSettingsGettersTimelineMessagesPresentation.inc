@@ -56,7 +56,7 @@ UserSettings::timelineMessagesLayoutPositioning() const
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutPositioning);
         value.has_value() &&
-        *value >= static_cast<int>(UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender) &&
+        *value >= static_cast<int>(UserSettings::TimelineMessagesLayoutPositioning::Adaptive) &&
         *value <= static_cast<int>(UserSettings::TimelineMessagesLayoutPositioning::AllRight))
         return static_cast<UserSettings::TimelineMessagesLayoutPositioning>(*value);
     return timelineMessagesLayoutPositioning_;

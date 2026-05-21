@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.05.21.0
+
+- ✨ Feature: a new "Adaptive" timeline horizontal positioning, which opposes by sender on narrow timelines and collapses to the reading-direction leading edge on ultrawide windows (above 1600px). New installs use Adaptive by default; existing users keep their choice ([1ef044281](https://github.com/etkecc/komai/commit/1ef044281), [61bb37195](https://github.com/etkecc/komai/commit/61bb37195)).
+- 🐛 Fix: pin/unpin works again in rooms whose `m.room.pinned_events` state event has been redacted ([5982b4912](https://github.com/etkecc/komai/commit/5982b4912)).
+- 🐛 Fix: the Read receipts dialog honors the global scrollbar policy and keeps a small gap between the scrollbar and the user cards ([6435dc31b](https://github.com/etkecc/komai/commit/6435dc31b)).
+- 🐛 Fix: the "Read" double-check on the timeline delivery indicator is tinted with the brand highlight, so Sent and Read are easier to distinguish ([0433f956a](https://github.com/etkecc/komai/commit/0433f956a)).
+- 📝 Copy: the timeline delivery indicator previously labeled "Received" is now "Sent", which is more honest about what the indicator actually confirms ([16f387fb4](https://github.com/etkecc/komai/commit/16f387fb4)).
+
 ## 2026.05.20.1
 
 - 🐛 Fix: in rare cases when switching between rooms with active [threads](https://github.com/etkecc/komai/blob/c8a45c18c93fa48b5f6977505e6d1699256c9d6e/docs/user-guide/features/threads.md), thread messages from one room could briefly render in another room's timeline (regression from v2026.05.20.0) ([709b34bd5](https://github.com/etkecc/komai/commit/709b34bd5), [f9a31e0e4](https://github.com/etkecc/komai/commit/f9a31e0e4)).

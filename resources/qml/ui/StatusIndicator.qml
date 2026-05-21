@@ -35,11 +35,18 @@ ImageButton {
         }
     }
     toolTipVisible: hovered && status != MtxEvent.Empty
-    changeColorOnHover: (status == MtxEvent.Read)
+    changeColorOnHover: false
     cursor: (status == MtxEvent.Read) ? Qt.PointingHandCursor : Qt.ArrowCursor
     // Tint the Failed X with the theme's error color so it reads as a problem
-    // at a glance instead of looking like a regular secondary-text glyph.
-    buttonTextColor: status == MtxEvent.Failed ? Komai.theme.error : palette.buttonText
+    // at a glance, and the Read double-check with the brand highlight so it's
+    // unmistakably distinct from the single Received check at a glance.
+    buttonTextColor: {
+        if (status == MtxEvent.Failed)
+            return Komai.theme.error;
+        if (status == MtxEvent.Read)
+            return palette.highlight;
+        return palette.buttonText;
+    }
     height: 16
     hoverEnabled: true
     image: {

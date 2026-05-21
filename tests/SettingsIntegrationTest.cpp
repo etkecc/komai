@@ -10,6 +10,7 @@
 #include <string_view>
 
 #include <QApplication>
+#include <QMetaEnum>
 
 #include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
@@ -2104,6 +2105,148 @@ testConfigSchemaCoverageAndKeyUniqueness()
     return ok;
 }
 
+bool
+testEnumConstraintsMatchEnumKeyCount()
+{
+    // For every enum-typed config setting, the SettingsStore int-range
+    // constraint declared in SettingsDefinitionsPersisted*.inc must match the
+    // C++ enum's QMetaEnum::keyCount(). Drift between the literal and the enum
+    // produces the silent "Ignoring invalid settings update" rejection we hit
+    // when adding a fourth value to TimelineMessagesLayoutPositioning without
+    // bumping [0, 2] to [0, 3]; catching it here turns a runtime symptom into
+    // a test failure.
+    struct EnumCheck
+    {
+        settings::core::SettingId id;
+        QMetaEnum (*metaEnum)();
+        const char *enumName;
+    };
+
+    static const EnumCheck checks[] = {
+        {settings::core::SettingId::UiScrollbarPolicy,
+         +[] { return QMetaEnum::fromType<UserSettings::ScrollbarPolicy>(); },
+         "ScrollbarPolicy"},
+        {settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
+         +[] { return QMetaEnum::fromType<UserSettings::DefaultAvatarStyle>(); },
+         "DefaultAvatarStyle"},
+        {settings::core::SettingId::UiLayoutDensity,
+         +[] { return QMetaEnum::fromType<UserSettings::Density>(); },
+         "Density"},
+        {settings::core::SettingId::NetworkPresenceStatusPolicy,
+         +[] { return QMetaEnum::fromType<UserSettings::Presence>(); },
+         "Presence"},
+        {settings::core::SettingId::DesktopNotificationsMessageContentPolicy,
+         +[] { return QMetaEnum::fromType<UserSettings::NotificationMessageContentPolicy>(); },
+         "NotificationMessageContentPolicy"},
+        {settings::core::SettingId::ComposerInputSendKey,
+         +[] { return QMetaEnum::fromType<UserSettings::SendMessageKey>(); },
+         "SendMessageKey"},
+        {settings::core::SettingId::ComposerInputAutoReplaceEmoji,
+         +[] { return QMetaEnum::fromType<UserSettings::AutoReplaceEmoji>(); },
+         "AutoReplaceEmoji"},
+        {settings::core::SettingId::ComposerInputEmojiPreferredGender,
+         +[] { return QMetaEnum::fromType<UserSettings::EmojiPreferredGender>(); },
+         "EmojiPreferredGender"},
+        {settings::core::SettingId::ComposerInputEmojiPreferredSkinTone,
+         +[] { return QMetaEnum::fromType<UserSettings::EmojiPreferredSkinTone>(); },
+         "EmojiPreferredSkinTone"},
+        {settings::core::SettingId::NavigationRoomListSort,
+         +[] { return QMetaEnum::fromType<UserSettings::RoomSortOrder>(); },
+         "RoomSortOrder"},
+        {settings::core::SettingId::NavigationRoomListLastMessagePreview,
+         +[] { return QMetaEnum::fromType<UserSettings::LastMessagePreview>(); },
+         "LastMessagePreview"},
+        {settings::core::SettingId::NavigationRoomListOpeningPolicy,
+         +[] { return QMetaEnum::fromType<UserSettings::RoomListOpeningPolicy>(); },
+         "RoomListOpeningPolicy"},
+        {settings::core::SettingId::NavigationTabsShowPinButton,
+         +[] { return QMetaEnum::fromType<UserSettings::TabPinButtonVisibility>(); },
+         "TabPinButtonVisibility"},
+        {settings::core::SettingId::NavigationTabsPinnedTabLabel,
+         +[] { return QMetaEnum::fromType<UserSettings::TabLabelDisplay>(); },
+         "TabLabelDisplay (pinned)"},
+        {settings::core::SettingId::NavigationTabsTabLabel,
+         +[] { return QMetaEnum::fromType<UserSettings::TabLabelDisplay>(); },
+         "TabLabelDisplay (regular)"},
+        {settings::core::SettingId::TimelineMessagesStyle,
+         +[] { return QMetaEnum::fromType<UserSettings::TimelineMessagesStyle>(); },
+         "TimelineMessagesStyle"},
+        {settings::core::SettingId::TimelineMessagesLayoutPositioning,
+         +[] { return QMetaEnum::fromType<UserSettings::TimelineMessagesLayoutPositioning>(); },
+         "TimelineMessagesLayoutPositioning"},
+        {settings::core::SettingId::TimelineUserColorCodingPolicy,
+         +[] { return QMetaEnum::fromType<UserSettings::TimelineUserColorCodingPolicy>(); },
+         "TimelineUserColorCodingPolicy"},
+        {settings::core::SettingId::TimelineMessagesLayoutAvatarSize,
+         +[] { return QMetaEnum::fromType<UserSettings::AvatarSize>(); },
+         "AvatarSize"},
+        {settings::core::SettingId::TimelineMessagesSenderUsername,
+         +[] { return QMetaEnum::fromType<UserSettings::ShowSenderUsername>(); },
+         "ShowSenderUsername"},
+        {settings::core::SettingId::TimelineMediaImageDisplay,
+         +[] { return QMetaEnum::fromType<UserSettings::ShowImage>(); },
+         "ShowImage"},
+        {settings::core::SettingId::TimelineMessageActionsActivationPolicy,
+         +[] {
+             return QMetaEnum::fromType<UserSettings::TimelineMessageActionsActivationPolicy>();
+         },
+         "TimelineMessageActionsActivationPolicy"},
+    };
+
+    bool ok = true;
+    for (const auto &check : checks) {
+        const auto def = settings::core::definitions::persistedDefinitionFor(check.id);
+        if (!def || !def->hasIntRangeConstraint) {
+            std::cerr << "FAILED: enum setting " << check.enumName
+                      << " has no int-range constraint registered\n";
+            ok = false;
+            continue;
+        }
+
+        const int keyCount = check.metaEnum().keyCount();
+        if (def->intRangeConstraintMin != 0) {
+            std::cerr << "FAILED: enum setting " << check.enumName << " min is "
+                      << def->intRangeConstraintMin << ", expected 0\n";
+            ok = false;
+        }
+        if (def->intRangeConstraintMax + 1 != keyCount) {
+            std::cerr << "FAILED: enum setting " << check.enumName << " declared max+1 is "
+                      << (def->intRangeConstraintMax + 1) << " but QMetaEnum::keyCount() is "
+                      << keyCount
+                      << " (someone added/removed an enum value without bumping the .inc range)\n";
+            ok = false;
+        }
+    }
+
+    // Self-extension guard: every SettingId in the canonical enum-token registry
+    // (settings/core/SettingsDefinitionsEnumTokenConfigSettingIds.inc) must be
+    // covered by the `checks` table above. Without this cross-check, adding a
+    // new enum-typed setting and forgetting to extend `checks` would silently
+    // skip the keyCount verification for that setting.
+    //
+    // IntegrationsDbusApiAccess is the lone enum-token SettingId backed by raw
+    // constexpr ints in SettingKeys.h rather than a Q_ENUM, so it has no
+    // QMetaEnum to compare against and is intentionally omitted.
+    std::set<settings::core::SettingId> coveredIds;
+    for (const auto &check : checks)
+        coveredIds.insert(check.id);
+
+    for (const auto id : settings::core::definitions::enumTokenConfigSettingIds()) {
+        if (id == settings::core::SettingId::IntegrationsDbusApiAccess)
+            continue;
+        if (coveredIds.count(id) == 0) {
+            std::cerr << "FAILED: SettingId " << static_cast<int>(id)
+                      << " is registered as enum-token (see "
+                         "SettingsDefinitionsEnumTokenConfigSettingIds.inc) but is not in the "
+                         "testEnumConstraintsMatchEnumKeyCount `checks` table. Add an entry "
+                         "mapping it to its UserSettings::* enum type.\n";
+            ok = false;
+        }
+    }
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -2171,6 +2314,8 @@ main()
                        testPersistedConfigBoolsAreLoadedFromConfigYaml);
     ok &= runNamedTest("testConfigSchemaCoverageAndKeyUniqueness",
                        testConfigSchemaCoverageAndKeyUniqueness);
+    ok &= runNamedTest("testEnumConstraintsMatchEnumKeyCount",
+                       testEnumConstraintsMatchEnumKeyCount);
 
     return ok ? 0 : 1;
 }

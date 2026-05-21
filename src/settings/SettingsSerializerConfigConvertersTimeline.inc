@@ -62,7 +62,7 @@ timelineMessagesStyleFromStorage(const QString &value,
 QString
 toStorageValue(UserSettings::TimelineMessagesLayoutPositioning value)
 {
-    return valueToStorageToken(value, kTimelinePositioningTokens, "opposing_by_sender");
+    return valueToStorageToken(value, kTimelinePositioningTokens, "adaptive");
 }
 
 UserSettings::TimelineMessagesLayoutPositioning

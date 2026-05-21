@@ -34,7 +34,7 @@ QStringList composerInputSpellcheckLanguages_;
 bool composerAttachmentsStripImageMetadata_  = true;
 TimelineMessagesStyle timelineMessagesStyle_ = TimelineMessagesStyle::Bubbles;
 TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning_ =
-  TimelineMessagesLayoutPositioning::OpposingBySender;
+  TimelineMessagesLayoutPositioning::Adaptive;
 TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
   TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
 AvatarSize timelineMessagesLayoutAvatarSize_{};

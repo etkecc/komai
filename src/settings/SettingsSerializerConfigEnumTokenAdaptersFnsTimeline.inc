@@ -74,7 +74,7 @@ void
 applyTimelinePositioningFromStorage(UserSettings &settings, const QString &rawToken)
 {
     settings.setTimelineMessagesLayoutPositioning(timelineMessagesLayoutPositioningFromStorage(
-      rawToken, UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender));
+      rawToken, UserSettings::TimelineMessagesLayoutPositioning::Adaptive));
 }
 
 QString

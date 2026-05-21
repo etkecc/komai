@@ -128,7 +128,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       QString::fromStdString(
         static_cast<std::string>(snapshot.timeline.messages.layout_positioning))
         .trimmed(),
-      UserSettings::TimelineMessagesLayoutPositioning::OpposingBySender));
+      UserSettings::TimelineMessagesLayoutPositioning::Adaptive));
     settings.setTimelineUserColorCodingPolicy(cfg::timelineUserColorCodingPolicyFromStorage(
       QString::fromStdString(
         static_cast<std::string>(snapshot.timeline.messages.user_color_coding_policy))

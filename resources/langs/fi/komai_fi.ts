@@ -8512,11 +8512,6 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Vastaanotettu</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Luettu</translation>
     </message>

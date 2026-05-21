@@ -8521,11 +8521,6 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Primit</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Citit</translation>
     </message>

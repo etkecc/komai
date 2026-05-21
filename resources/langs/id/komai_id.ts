@@ -8503,11 +8503,6 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Diterima</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Dibaca</translation>
     </message>

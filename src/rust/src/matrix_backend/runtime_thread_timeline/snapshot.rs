@@ -39,16 +39,13 @@ pub(super) fn publish_merged_snapshot(
     //
     // When /relations data is available, replace these stale local echoes
     // with the server-authoritative /relations version (the delivery-state
-    // pass below restores a "received"/"read" indicator on it).
+    // pass below restores a "sent"/"read" indicator on it).
     if !relations_items.is_empty() {
         for sdk_item in &mut sdk_items {
             if !sdk_item.is_own {
                 continue;
             }
-            let is_local_echo = matches!(
-                sdk_item.delivery_state.as_str(),
-                "pending" | "sent"
-            );
+            let is_local_echo = sdk_item.delivery_state.as_str() == "pending";
             if !is_local_echo {
                 continue;
             }
@@ -140,7 +137,7 @@ pub(super) fn publish_merged_snapshot(
         }
         let read = read_state.receipt_event_ids.contains(&item.event_id)
             || (read_state.max_receipt_ts > 0 && item.timestamp <= read_state.max_receipt_ts);
-        item.delivery_state = if read { "read".to_owned() } else { "received".to_owned() };
+        item.delivery_state = if read { "read".to_owned() } else { "sent".to_owned() };
         item.transaction_id.clear();
     }
 

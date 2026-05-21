@@ -445,11 +445,16 @@ fn matrix_timeline_delivery_state(
 
     let _ = own_user_id; // reserved for future use
 
+    // The SDK distinguishes `NotSentYet` (queued, no HTTP attempt yet) from
+    // `Sent` (HTTP succeeded, awaiting sync echo), but the gap is fleeting
+    // and visually identical (clock + "Sending") so we collapse both into
+    // "pending". "sent" then means the event is in the canonical timeline
+    // post-sync — the honest user-facing notion of "it left your client",
+    // not a claim that any remote homeserver or device has seen it.
     match event.send_state() {
-        Some(EventSendState::NotSentYet { .. }) => {
+        Some(EventSendState::NotSentYet { .. } | EventSendState::Sent { .. }) => {
             ("pending".to_owned(), String::new(), false)
         }
-        Some(EventSendState::Sent { .. }) => ("sent".to_owned(), String::new(), false),
         Some(EventSendState::SendingFailed { error, is_recoverable }) => (
             "failed".to_owned(),
             error.to_string(),
@@ -463,7 +468,7 @@ fn matrix_timeline_delivery_state(
             let label = if is_read {
                 "read".to_owned()
             } else {
-                "received".to_owned()
+                "sent".to_owned()
             };
             (label, String::new(), false)
         }

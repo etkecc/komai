@@ -8512,11 +8512,6 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Mottaget</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Läst</translation>
     </message>

@@ -8521,11 +8521,6 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Doručeno</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Přečteno</translation>
     </message>

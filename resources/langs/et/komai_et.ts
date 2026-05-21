@@ -8512,11 +8512,6 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Vastuvõetud</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Loetud</translation>
     </message>

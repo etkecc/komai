@@ -8521,11 +8521,6 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Primljeno</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Pročitano</translation>
     </message>

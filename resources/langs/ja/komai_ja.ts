@@ -8503,11 +8503,6 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>受信済み</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>既読</translation>
     </message>

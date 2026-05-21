@@ -8512,11 +8512,6 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Reçu</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Lu</translation>
     </message>

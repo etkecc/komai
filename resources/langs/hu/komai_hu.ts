@@ -8503,11 +8503,6 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Megérkezett</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Elolvasva</translation>
     </message>

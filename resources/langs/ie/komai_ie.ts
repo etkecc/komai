@@ -8512,11 +8512,6 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Receptat</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Lectat</translation>
     </message>

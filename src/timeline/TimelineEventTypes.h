@@ -120,14 +120,18 @@ Q_ENUM_NS(EventType)
 
 enum EventState
 {
-    //! The plaintext message was received by the server.
-    Received,
+    //! The message has been committed to the user's homeserver and is part of
+    //! the canonical timeline. "Sent" here is the user-facing notion ("it left
+    //! your client"), not a claim that any remote homeserver or device has
+    //! seen it. Maps to matrix-rust-sdk's post-sync state for own events.
+    Sent,
     //! At least one of the participants has read the message.
     Read,
-    //! The client is still sending the message (local echo, not yet confirmed).
+    //! The client is still sending the message: either queued locally, or the
+    //! HTTP send succeeded but the server hasn't echoed the event back via
+    //! sync yet. Both states are visually identical (clock + "Sending"), so
+    //! they collapse into a single user-facing state.
     Pending,
-    //! The client sent the message. Not yet received.
-    Sent,
     //! The client sent the message, but it failed.
     Failed,
     //! When the message is loaded from cache or backfill.

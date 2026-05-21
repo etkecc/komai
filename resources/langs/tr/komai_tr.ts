@@ -8503,11 +8503,6 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Alındı</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Okundu</translation>
     </message>

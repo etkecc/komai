@@ -8512,11 +8512,6 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Получено</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Прочетено</translation>
     </message>

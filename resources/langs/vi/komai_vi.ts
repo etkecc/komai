@@ -8503,11 +8503,6 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Received</source>
-        <translation>Đã nhận</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Read</source>
         <translation>Đã đọc</translation>
     </message>

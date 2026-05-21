@@ -68,12 +68,10 @@ deliveryStateToEventState(const QString &state)
         return qml_mtx_events::Pending;
     if (state == QStringLiteral("sent"))
         return qml_mtx_events::Sent;
-    if (state == QStringLiteral("failed"))
-        return qml_mtx_events::Failed;
     if (state == QStringLiteral("read"))
         return qml_mtx_events::Read;
-    if (state == QStringLiteral("received"))
-        return qml_mtx_events::Received;
+    if (state == QStringLiteral("failed"))
+        return qml_mtx_events::Failed;
     return qml_mtx_events::Empty;
 }
 

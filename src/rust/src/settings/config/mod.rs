@@ -80,6 +80,8 @@ const NAVIGATION_COMMUNITIES_FILTER_SERVER_NOTICES_PATH: [&str; 4] =
     ["navigation", "communities", "filters", "server_notices"];
 const NAVIGATION_COMMUNITIES_FILTER_LOW_PRIORITY_PATH: [&str; 4] =
     ["navigation", "communities", "filters", "low_priority"];
+const NAVIGATION_TABS_AUTO_HIDE_WITH_SINGLE_TAB_PATH: [&str; 3] =
+    ["navigation", "tabs", "auto_hide_with_single_tab"];
 const NAVIGATION_TABS_SHOW_PIN_BUTTON_PATH: [&str; 3] =
     ["navigation", "tabs", "show_pin_button"];
 const NAVIGATION_TABS_PINNED_TAB_LABEL_PATH: [&str; 3] =
@@ -348,6 +350,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                 .and_then(parse_scalar_bool),
             },
             tabs: ConfigNavigationTabs {
+                auto_hide_with_single_tab: yaml::value_at_path(
+                    root,
+                    &NAVIGATION_TABS_AUTO_HIDE_WITH_SINGLE_TAB_PATH,
+                )
+                .and_then(parse_scalar_bool),
                 show_pin_button: parse_storage_token(yaml::value_at_path(
                     root,
                     &NAVIGATION_TABS_SHOW_PIN_BUTTON_PATH,

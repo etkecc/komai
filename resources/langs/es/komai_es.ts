@@ -11290,6 +11290,21 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Ocultar automáticamente con una sola pestaña</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Ocultar la barra de pestañas mientras solo hay una pestaña abierta. Reaparece en cuanto se abre una segunda pestaña. Cuando esté oculta, se puede usar Ctrl+T o Ctrl+Click en una sala de la lista de salas para abrir una nueva pestaña.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>ocultar, única, una pestaña, ocultar automáticamente, contraer</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Mostrar botón de anclar</translation>
     </message>

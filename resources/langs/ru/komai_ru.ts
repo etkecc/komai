@@ -11303,6 +11303,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Автоскрытие при одной вкладке</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Скрывать панель вкладок, пока открыта только одна вкладка. Она снова появляется, как только открывается вторая вкладка. Когда скрыта, используй Ctrl+T или Ctrl+Click на комнате в списке комнат, чтобы открыть новую вкладку.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>скрыть, одна, одна вкладка, автоскрытие, свернуть</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Показывать кнопку закрепления</translation>
     </message>

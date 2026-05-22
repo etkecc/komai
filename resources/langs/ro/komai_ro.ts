@@ -11303,6 +11303,21 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Ascundere automată la un singur tab</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Ascunde bara de tab-uri cât timp este deschis un singur tab. Reapare imediat ce se deschide un al doilea tab. Când este ascunsă, folosește Ctrl+T sau Ctrl+Click pe o cameră din lista de camere pentru a deschide un tab nou.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>ascundere, singur, un tab, ascundere automată, restrângere</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Afișează butonul de fixare</translation>
     </message>

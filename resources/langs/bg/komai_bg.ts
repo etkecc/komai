@@ -11287,6 +11287,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Автоскриване при един таб</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Скрива лентата с табове, докато е отворен само един таб. Появява се отново веднага щом се отвори втори таб. Когато е скрита, използвай Ctrl+T или Ctrl+Click върху стая в списъка на стаите, за да отвориш нов таб.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>скриване, единичен, един таб, автоскриване, сгъване</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Показва бутона за закачване</translation>
     </message>

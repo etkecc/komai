@@ -47,6 +47,7 @@ bool composerTypingSendEnabled_                        = true;
 bool timelineTypingShowEnabled_                        = true;
 RoomSortOrder navigationRoomListSort_                  = RoomSortOrder::UnreadFirst_Recent;
 RoomListOpeningPolicy navigationRoomListOpeningPolicy_ = RoomListOpeningPolicy::ReuseActiveTab;
+bool navigationTabsAutoHideSingle_                     = false;
 TabPinButtonVisibility navigationTabsShowPinButton_    = TabPinButtonVisibility::Never;
 TabLabelDisplay navigationTabsPinnedTabLabel_          = TabLabelDisplay::AvatarOnly;
 TabLabelDisplay navigationTabsTabLabel_                = TabLabelDisplay::AvatarAndLabel;

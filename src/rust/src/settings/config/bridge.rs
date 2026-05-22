@@ -136,6 +136,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["navigation", "tabs", "auto_hide_with_single_tab"],
+        Value::Bool(snapshot.navigation.tabs.auto_hide_with_single_tab),
+    );
+    yaml::set_value(
+        &mut root,
         &["navigation", "tabs", "show_pin_button"],
         Value::String(snapshot.navigation.tabs.show_pin_button.clone()),
     );

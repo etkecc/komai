@@ -289,6 +289,7 @@ mod bridge {
     }
 
     struct SettingsConfigNavigationTabsSection {
+        auto_hide_with_single_tab: bool,
         show_pin_button: String,
         pinned_tab_label: String,
         tab_label: String,

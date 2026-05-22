@@ -11303,6 +11303,21 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Automaticky skrýt při jediné záložce</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Skrýt lištu záložek, pokud je otevřena pouze jedna záložka. Znovu se zobrazí, jakmile se otevře druhá záložka. Při skrytí lze novou záložku otevřít pomocí Ctrl+T nebo Ctrl+Click na místnost v seznamu místností.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>skrýt, jediná, jedna záložka, automatické skrytí, sbalit</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Zobrazit tlačítko připnutí</translation>
     </message>

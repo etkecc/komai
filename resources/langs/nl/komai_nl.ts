@@ -11287,6 +11287,21 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Automatisch verbergen met één tabblad</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Verberg de tabbladbalk zolang er slechts één tabblad open is. De balk verschijnt opnieuw zodra een tweede tabblad wordt geopend. Gebruik Ctrl+T of Ctrl+Click op een kamer in de kamerlijst om een nieuw tabblad te openen wanneer de balk verborgen is.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>verbergen, enkel, één tabblad, automatisch verbergen, inklappen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Vastzetknop weergeven</translation>
     </message>

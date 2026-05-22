@@ -11287,6 +11287,21 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Nascondi automaticamente con una sola scheda</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Nasconde la barra delle schede quando è aperta una sola scheda. Riappare non appena si apre una seconda scheda. Quando nascosta, usa Ctrl+T o Ctrl+Click su una stanza nell'elenco delle stanze per aprire una nuova scheda.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>nascondi, singola, una scheda, nascondi automaticamente, comprimi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Mostra pulsante blocca</translation>
     </message>

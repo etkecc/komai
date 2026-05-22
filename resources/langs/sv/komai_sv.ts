@@ -11287,6 +11287,21 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Dölj automatiskt med en enda flik</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Dölj flikraden när bara en flik är öppen. Den visas igen så snart en andra flik öppnas. När den är dold, använd Ctrl+T eller Ctrl+Click på ett rum i rumlistan för att öppna en ny flik.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>dölj, enskild, en flik, dölj automatiskt, komprimera</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Visa fästknapp</translation>
     </message>

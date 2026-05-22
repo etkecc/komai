@@ -171,7 +171,7 @@ Rectangle {
                     RoomTabBar {
                         Layout.fillWidth: true
                         tabController: chatPage.tabController
-                        visible: tabController.tabs.count > 0
+                        visible: tabController.tabs.count > (Settings.navigationTabsAutoHideSingle ? 1 : 0)
                     }
                     NetworkConnectivityBanner {
                         Layout.fillWidth: true

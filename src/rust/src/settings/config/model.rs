@@ -110,6 +110,7 @@ pub struct ConfigNavigationCommunities {
 
 #[derive(Clone, Debug)]
 pub struct ConfigNavigationTabs {
+    pub auto_hide_with_single_tab: Option<bool>,
     pub show_pin_button: ConfigNavigationTabsPinButtonVisibilityToken,
     pub pinned_tab_label: ConfigNavigationTabsLabelDisplayToken,
     pub tab_label: ConfigNavigationTabsLabelDisplayToken,
@@ -121,6 +122,7 @@ pub struct ConfigNavigationTabs {
 impl Default for ConfigNavigationTabs {
     fn default() -> Self {
         Self {
+            auto_hide_with_single_tab: None,
             show_pin_button: Default::default(),
             pinned_tab_label: ConfigNavigationTabsLabelDisplayToken::AvatarOnly,
             tab_label: ConfigNavigationTabsLabelDisplayToken::AvatarAndLabel,

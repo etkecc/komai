@@ -100,7 +100,7 @@ Rectangle {
         : tabListView.contentX < tabListView.maxContentX - 1
 
     implicitHeight: Komai.navigationRowHeight
-    visible: tabController.tabs.count > 0
+    visible: tabController.tabs.count > (Settings.navigationTabsAutoHideSingle ? 1 : 0)
     color: palette.alternateBase
 
     HoverHandler {

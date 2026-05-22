@@ -11351,6 +11351,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>الإخفاء التلقائي مع علامة تبويب واحدة</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>إخفاء شريط علامات التبويب عندما تكون علامة تبويب واحدة فقط مفتوحة. يعود للظهور فور فتح علامة تبويب ثانية. عند الإخفاء، استخدم Ctrl+T أو Ctrl+Click على غرفة في قائمة الغرف لفتح علامة تبويب جديدة.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>إخفاء، واحدة، علامة تبويب واحدة، إخفاء تلقائي، طي</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>إظهار زر التثبيت</translation>
     </message>

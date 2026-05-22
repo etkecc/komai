@@ -42,6 +42,7 @@ constexpr auto NavigationCommunitiesFilterServerNotices =
   "navigation.communities.filters.server_notices";
 constexpr auto NavigationCommunitiesFilterLowPriority =
   "navigation.communities.filters.low_priority";
+constexpr auto NavigationTabsAutoHideSingle   = "navigation.tabs.auto_hide_with_single_tab";
 constexpr auto NavigationTabsShowPinButton    = "navigation.tabs.show_pin_button";
 constexpr auto NavigationTabsPinnedTabLabel   = "navigation.tabs.pinned_tab_label";
 constexpr auto NavigationTabsTabLabel         = "navigation.tabs.tab_label";

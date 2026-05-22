@@ -11271,6 +11271,21 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Sembunyikan otomatis dengan satu tab</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Sembunyikan bilah tab saat hanya satu tab yang terbuka. Bilah akan muncul kembali segera setelah tab kedua dibuka. Saat tersembunyi, gunakan Ctrl+T atau Ctrl+Click pada ruangan di daftar ruangan untuk membuka tab baru.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>sembunyikan, tunggal, satu tab, sembunyi otomatis, ciutkan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Tampilkan tombol sematkan</translation>
     </message>

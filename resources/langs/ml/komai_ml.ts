@@ -11287,6 +11287,21 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>ഒറ്റ ടാബോടെ സ്വയം മറയ്ക്കുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>ഒരൊറ്റ ടാബ് തുറന്നിരിക്കുമ്പോൾ ടാബ് ബാർ മറയ്ക്കുക. രണ്ടാമത്തെ ടാബ് തുറക്കുന്നതോടെ അത് വീണ്ടും പ്രത്യക്ഷപ്പെടും. മറഞ്ഞിരിക്കുമ്പോൾ, പുതിയ ടാബ് തുറക്കാൻ Ctrl+T ഉപയോഗിക്കുക അല്ലെങ്കിൽ മുറി പട്ടികയിൽ ഒരു മുറിയിൽ Ctrl+Click ചെയ്യുക.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>മറയ്ക്കുക, ഒറ്റ, ഒരു ടാബ്, സ്വയം മറയ്ക്കൽ, ചുരുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>പിൻ ബട്ടൺ കാണിക്കുക</translation>
     </message>

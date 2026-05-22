@@ -1935,6 +1935,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationCommunitiesFilterLowPriority));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::NavigationTabsAutoHideSingle));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationTabsShowPinButton));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::NavigationTabsPinnedTabLabel));

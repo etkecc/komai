@@ -11303,6 +11303,21 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Automatsko skrivanje sa jednom karticom</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Sakriva traku kartica dok je otvorena samo jedna kartica. Ponovo se pojavljuje čim se otvori druga kartica. Kada je skrivena, koristiti Ctrl+T ili Ctrl+Click na sobu u listi soba za otvaranje nove kartice.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>sakrij, jedna, jedna kartica, autosakrij, skupi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Prikaži dugme za zakačivanje</translation>
     </message>

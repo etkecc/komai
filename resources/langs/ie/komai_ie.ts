@@ -11287,6 +11287,21 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Auto-celar con un sol tab</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Celar la barra de tabules durant que solmen un tabule es apert. It reparera tosto que un duesim tabule aperte. Quando celat, usar Ctrl+T o Ctrl+Click un chambre in la lista de chambres por aperter un nov tabule.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>celar, singul, un tab, auto-celar, collaber</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Montrar li buton de fixar</translation>
     </message>

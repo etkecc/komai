@@ -90,6 +90,7 @@ Drag tabs left or right to rearrange them. Drag a tab across the pinned/unpinned
 
 Tab behavior is configurable under **Settings → Navigation**:
 
+- **Auto-hide with a single tab** — hide the tab bar while only one tab is open (off by default)
 - **Pin button visibility** — Always / On hover / Never
 - **Tab labels** — full labels or avatar-only, configurable separately for pinned and unpinned tabs
 - **Tab widths** — preferred and minimum width in pixels
@@ -102,4 +103,5 @@ Tab behavior is configurable under **Settings → Navigation**:
 - **`Ctrl+Click` a room** in the [room list](room-list.md) sidebar to open it in a new tab without leaving the current one
 - **Tabs persist across restarts** — open and pinned tabs are restored on the next launch
 - **Shrink tabs to icons** by setting tab labels to avatar-only in Settings, fitting many more tabs in the bar
+- **Hide the bar when you don't need it** — turn on *Auto-hide with a single tab* in **Settings → Navigation → Tab bar** if you usually work with one room at a time. The bar comes back the moment you open a second tab (`Ctrl+T`)
 - **Cascading close** — `Ctrl+W` + `Ctrl+Shift+T` make a quick "peek, close, undo" workflow when you just want to glance at another room

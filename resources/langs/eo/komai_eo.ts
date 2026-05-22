@@ -11290,6 +11290,21 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Aŭtomate kaŝi kun unu langeto</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Kaŝi la langetan baron kiam nur unu langeto estas malfermita. Ĝi reaperas tuj kiam dua langeto malfermiĝas. Kiam kaŝita, uzu Ctrl+T aŭ Ctrl+Click sur ĉambron en la ĉambrolisto por malfermi novan langeton.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>kaŝi, sola, unu langeto, aŭtokaŝi, kolapsi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Montri alpinglan butonon</translation>
     </message>

@@ -90,6 +90,17 @@ UserSettings::setNavigationRoomListOpeningPolicy(RoomListOpeningPolicy s)
 }
 
 void
+UserSettings::setNavigationTabsAutoHideSingle(bool s)
+{
+    if (navigationTabsAutoHideSingle_ == s)
+        return;
+    navigationTabsAutoHideSingle_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NavigationTabsAutoHideSingle, s);
+    emit navigationTabsAutoHideSingleChanged(s);
+    save();
+}
+
+void
 UserSettings::setNavigationTabsShowPinButton(TabPinButtonVisibility s)
 {
     if (navigationTabsShowPinButton_ == s)

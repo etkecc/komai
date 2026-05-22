@@ -87,6 +87,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       QString::fromStdString(static_cast<std::string>(snapshot.navigation.room_list.opening_policy))
         .trimmed(),
       UserSettings::RoomListOpeningPolicy::ReuseActiveTab));
+    settings.setNavigationTabsAutoHideSingle(snapshot.navigation.tabs.auto_hide_with_single_tab);
     settings.setNavigationTabsShowPinButton(cfg::tabPinButtonVisibilityFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.navigation.tabs.show_pin_button))
         .trimmed(),

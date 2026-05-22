@@ -504,6 +504,7 @@ fn encodes_generic_config_values() {
                 filter_low_priority: true,
             },
             tabs: SettingsConfigNavigationTabsSection {
+                auto_hide_with_single_tab: false,
                 show_pin_button: "never".to_owned(),
                 pinned_tab_label: "avatar_and_label".to_owned(),
                 tab_label: "avatar_and_label".to_owned(),
@@ -1326,6 +1327,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
                 filter_low_priority: true,
             },
             tabs: SettingsConfigNavigationTabsSection {
+                auto_hide_with_single_tab: false,
                 show_pin_button: "auto".to_owned(),
                 pinned_tab_label: "avatar_only".to_owned(),
                 tab_label: "avatar_and_label".to_owned(),
@@ -1578,6 +1580,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
                 filter_low_priority: true,
             },
             tabs: SettingsConfigNavigationTabsSection {
+                auto_hide_with_single_tab: false,
                 show_pin_button: "auto".to_owned(),
                 pinned_tab_label: "avatar_only".to_owned(),
                 tab_label: "avatar_and_label".to_owned(),

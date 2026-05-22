@@ -11287,6 +11287,21 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Automatisch ausblenden bei einem Tab</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Blendet die Tab-Leiste aus, solange nur ein Tab geöffnet ist. Sie erscheint wieder, sobald ein zweiter Tab geöffnet wird. Wenn ausgeblendet, verwende Ctrl+T oder Ctrl+Click auf einen Raum in der Raumliste, um einen neuen Tab zu öffnen.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>ausblenden, einzeln, ein Tab, automatisch ausblenden, einklappen</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Pin-Schaltfläche anzeigen</translation>
     </message>

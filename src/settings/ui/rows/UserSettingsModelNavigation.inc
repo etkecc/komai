@@ -153,6 +153,12 @@
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Tab bar"), nullptr, SM::SectionTitle, SM::TabNavigation,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
       settings::core::SettingId::Unknown, nullptr, "navigation-tab-bar-section" },
+    // TabBarAutoHideSingle
+    withKeywords(
+      SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Auto-hide with a single tab"),
+                          QT_TRANSLATE_NOOP("UserSettingsModel", "Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab."),
+                          SM::TabNavigation, navigationTabsAutoHideSingle, setNavigationTabsAutoHideSingle, nullptr, NavigationTabsAutoHideSingle, SettingKey::NavigationTabsAutoHideSingle),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "hide, single, one tab, autohide, collapse")),
     // TabBarShowPinButton
     withKeywords(
       SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Show pin button"),

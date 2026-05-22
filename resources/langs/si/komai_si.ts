@@ -11287,6 +11287,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>තනි ටැබ් සමගින් ස්වයංක්‍රීයව සඟවන්න</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>තනි ටැබ් එකක් පමණක් විවෘතව ඇති විට ටැබ් තීරය සඟවන්න. දෙවන ටැබ් එකක් විවෘත වූ වහාම එය නැවත දිස්වේ. සැඟවී ඇති විට, නව ටැබ් එකක් විවෘත කිරීමට Ctrl+T භාවිතා කරන්න, නැතහොත් කාමර ලැයිස්තුවේ කාමරයක් Ctrl+Click කරන්න.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>සඟවන්න, තනි, ටැබ් එකක්, ස්වයංක්‍රීය සැඟවීම, හකුළවන්න</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>pin බොත්තම පෙන්වන්න</translation>
     </message>

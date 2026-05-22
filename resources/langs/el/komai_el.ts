@@ -11287,6 +11287,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Αυτόματη απόκρυψη με μία καρτέλα</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Αποκρύπτει τη γραμμή καρτελών ενόσω είναι ανοιχτή μόνο μία καρτέλα. Επανεμφανίζεται μόλις ανοιχτεί δεύτερη καρτέλα. Όταν είναι κρυφή, χρησιμοποιήστε Ctrl+T ή Ctrl+Click σε ένα δωμάτιο στη λίστα δωματίων για να ανοίξετε νέα καρτέλα.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>απόκρυψη, μονό, μία καρτέλα, αυτόματη απόκρυψη, σύμπτυξη</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Εμφάνιση κουμπιού καρφιτσώματος</translation>
     </message>

@@ -11271,6 +11271,21 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Tự động ẩn khi chỉ có một tab</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Ẩn thanh tab khi chỉ có một tab đang mở. Thanh tab sẽ hiện lại ngay khi tab thứ hai được mở. Khi bị ẩn, dùng Ctrl+T hoặc Ctrl+Click vào một phòng trong danh sách phòng để mở tab mới.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>ẩn, đơn, một tab, tự động ẩn, thu gọn</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Hiển thị nút ghim</translation>
     </message>

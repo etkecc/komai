@@ -11271,6 +11271,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>タブが1つのときに自動非表示</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>タブが1つだけ開いているときはタブバーを非表示にします。2つ目のタブが開くと再び表示されます。非表示のときは、Ctrl+T またはルームリストのルームを Ctrl+Click して新しいタブを開けます。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>非表示、シングル、タブ1つ、自動非表示、折りたたむ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>ピンボタンを表示</translation>
     </message>

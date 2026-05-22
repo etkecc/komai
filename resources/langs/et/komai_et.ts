@@ -11287,6 +11287,21 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Automaatne peitmine ühe vahekaardiga</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Peida vahekaardiriba, kui avatud on ainult üks vahekaart. See ilmub uuesti kohe, kui avaneb teine vahekaart. Peidetud olekus kasuta Ctrl+T või Ctrl+Click jututoal jututoade loendis uue vahekaardi avamiseks.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>peida, üksik, üks vahekaart, autopeida, ahenda</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Näita kinnitamisnuppu</translation>
     </message>

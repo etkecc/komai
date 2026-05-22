@@ -183,6 +183,7 @@ pub(crate) fn ffi_config_navigation_section(
             filter_low_priority: config.navigation.communities.filter_low_priority.unwrap_or(defaults::COMMUNITIES_FILTER_LOW_PRIORITY),
         },
         tabs: ffi::SettingsConfigNavigationTabsSection {
+            auto_hide_with_single_tab: config.navigation.tabs.auto_hide_with_single_tab.unwrap_or(defaults::TABS_AUTO_HIDE_WITH_SINGLE_TAB),
             show_pin_button: config.navigation.tabs.show_pin_button.to_storage_string(),
             pinned_tab_label: config.navigation.tabs.pinned_tab_label.to_storage_string(),
             tab_label: config.navigation.tabs.tab_label.to_storage_string(),
@@ -688,6 +689,7 @@ fn clone_config_navigation_section(
             filter_low_priority: section.communities.filter_low_priority,
         },
         tabs: ffi::SettingsConfigNavigationTabsSection {
+            auto_hide_with_single_tab: section.tabs.auto_hide_with_single_tab,
             show_pin_button: section.tabs.show_pin_button.clone(),
             pinned_tab_label: section.tabs.pinned_tab_label.clone(),
             tab_label: section.tabs.tab_label.clone(),

@@ -24,6 +24,7 @@ pub const COMMUNITIES_FILTER_BOTS: bool = true;
 pub const COMMUNITIES_FILTER_GROUPS: bool = true;
 pub const COMMUNITIES_FILTER_SERVER_NOTICES: bool = true;
 pub const COMMUNITIES_FILTER_LOW_PRIORITY: bool = true;
+pub const TABS_AUTO_HIDE_WITH_SINGLE_TAB: bool = false;
 pub const TABS_PREFERRED_WIDTH_PX: i32 = 200;
 pub const TABS_MINIMUM_WIDTH_PX: i32 = 120;
 pub const TABS_MAX_RECENTLY_CLOSED_TIMELINES: i32 = 3;

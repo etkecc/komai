@@ -10,6 +10,7 @@ X(NavigationCommunitiesFilterGroups, settings.navigationCommunitiesFilterGroups(
 X(NavigationCommunitiesFilterServerNotices, settings.navigationCommunitiesFilterServerNotices())
 X(NavigationCommunitiesFilterLowPriority, settings.navigationCommunitiesFilterLowPriority())
 X(NavigationRoomListOpeningPolicy, static_cast<int>(settings.navigationRoomListOpeningPolicy()))
+X(NavigationTabsAutoHideSingle, settings.navigationTabsAutoHideSingle())
 X(NavigationTabsShowPinButton, static_cast<int>(settings.navigationTabsShowPinButton()))
 X(NavigationTabsPinnedTabLabel, static_cast<int>(settings.navigationTabsPinnedTabLabel()))
 X(NavigationTabsTabLabel, static_cast<int>(settings.navigationTabsTabLabel()))

@@ -11304,6 +11304,21 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Automatyczne ukrywanie przy jednej karcie</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Ukrywa pasek kart, gdy otwarta jest tylko jedna karta. Pojawia się ponownie, gdy zostanie otwarta druga karta. Gdy jest ukryty, użyj Ctrl+T lub Ctrl+Click na pokój na liście pokoi, aby otworzyć nową kartę.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>ukryj, pojedyncza, jedna karta, automatyczne ukrywanie, zwijanie</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Pokaż przycisk przypinania</translation>
     </message>

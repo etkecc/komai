@@ -11271,6 +11271,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>پنهان‌شدن خودکار با یک زبانه</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>نوار زبانه را هنگامی که فقط یک زبانه باز است پنهان می‌کند. به محض باز شدن زبانه دوم دوباره نمایان می‌شود. هنگامی که پنهان است، از Ctrl+T یا Ctrl+Click روی اتاقی در فهرست اتاق‌ها برای باز کردن زبانه جدید استفاده کنید.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>پنهان، تک، یک زبانه، پنهان‌خودکار، جمع‌شدن</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>نمایش دکمه سنجاق</translation>
     </message>

@@ -11287,6 +11287,21 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Ocultació automàtica amb una sola pestanya</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Amaga la barra de pestanyes mentre només hi ha una pestanya oberta. Reapareix tan aviat com s'obre una segona pestanya. Quan estigui amagada, fes servir Ctrl+T o Ctrl+Click en una sala de la llista de sales per obrir una nova pestanya.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>amagar, única, una pestanya, ocultació automàtica, col·lapsar</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Mostra el botó de fixació</translation>
     </message>

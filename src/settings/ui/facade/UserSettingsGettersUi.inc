@@ -49,6 +49,7 @@
     bool timelineTypingShowEnabled() const;
     RoomSortOrder navigationRoomListSort() const;
     RoomListOpeningPolicy navigationRoomListOpeningPolicy() const;
+    bool navigationTabsAutoHideSingle() const;
     TabPinButtonVisibility navigationTabsShowPinButton() const;
     TabLabelDisplay navigationTabsPinnedTabLabel() const;
     TabLabelDisplay navigationTabsTabLabel() const;

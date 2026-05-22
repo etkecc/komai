@@ -11287,6 +11287,21 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Ocultar automaticamente com um único separador</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Ocultar a barra de separadores enquanto apenas um separador está aberto. Volta a aparecer assim que um segundo separador for aberto. Quando oculta, utilize Ctrl+T ou Ctrl+Click numa sala da lista de salas para abrir um novo separador.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>ocultar, único, um separador, ocultação automática, recolher</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Mostrar botão de fixar</translation>
     </message>

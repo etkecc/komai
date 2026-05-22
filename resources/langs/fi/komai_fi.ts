@@ -11287,6 +11287,21 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Automaattinen piilotus yhdellä välilehdellä</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Piilottaa välilehtirivin, kun vain yksi välilehti on auki. Se ilmestyy uudelleen heti, kun toinen välilehti avataan. Kun se on piilotettu, käytä Ctrl+T tai Ctrl+Click huonelistassa avataksesi uuden välilehden.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>piilota, yksittäinen, yksi välilehti, automaattinen piilotus, tiivistä</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Näytä kiinnitysnappi</translation>
     </message>

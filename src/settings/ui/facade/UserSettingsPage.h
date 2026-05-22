@@ -82,6 +82,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       RoomListOpeningPolicy navigationRoomListOpeningPolicy READ navigationRoomListOpeningPolicy
         WRITE setNavigationRoomListOpeningPolicy NOTIFY navigationRoomListOpeningPolicyChanged)
+    Q_PROPERTY(bool navigationTabsAutoHideSingle READ navigationTabsAutoHideSingle WRITE
+                 setNavigationTabsAutoHideSingle NOTIFY navigationTabsAutoHideSingleChanged)
     Q_PROPERTY(TabPinButtonVisibility navigationTabsShowPinButton READ navigationTabsShowPinButton
                  WRITE setNavigationTabsShowPinButton NOTIFY navigationTabsShowPinButtonChanged)
     Q_PROPERTY(TabLabelDisplay navigationTabsPinnedTabLabel READ navigationTabsPinnedTabLabel WRITE
@@ -621,6 +623,7 @@ public:
     void setNavigationRoomListShowLastMessageTime(bool state);
     void setNavigationRoomListLastMessagePreview(LastMessagePreview style);
     void setNavigationRoomListOpeningPolicy(RoomListOpeningPolicy policy);
+    void setNavigationTabsAutoHideSingle(bool state);
     void setNavigationTabsShowPinButton(TabPinButtonVisibility policy);
     void setNavigationTabsPinnedTabLabel(TabLabelDisplay display);
     void setNavigationTabsTabLabel(TabLabelDisplay display);
@@ -858,6 +861,7 @@ signals:
     void navigationRoomListShowLastMessageTimeChanged(bool state);
     void navigationRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void navigationRoomListOpeningPolicyChanged(RoomListOpeningPolicy policy);
+    void navigationTabsAutoHideSingleChanged(bool state);
     void navigationTabsShowPinButtonChanged(TabPinButtonVisibility policy);
     void navigationTabsPinnedTabLabelChanged(TabLabelDisplay display);
     void navigationTabsTabLabelChanged(TabLabelDisplay display);

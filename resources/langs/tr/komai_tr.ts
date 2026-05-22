@@ -11271,6 +11271,21 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>Tek sekmede otomatik gizle</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>Yalnızca bir sekme açıkken sekme çubuğunu gizler. İkinci bir sekme açılır açılmaz yeniden görünür. Gizliyken, yeni bir sekme açmak için Ctrl+T kullanın veya oda listesindeki bir odaya Ctrl+Click yapın.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>gizle, tek, bir sekme, otomatik gizle, daralt</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>Sabitleme düğmesini göster</translation>
     </message>

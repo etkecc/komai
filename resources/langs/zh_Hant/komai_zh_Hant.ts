@@ -11271,6 +11271,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>僅一個標籤頁時自動隱藏</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>只開啟一個分頁時隱藏分頁列。一旦開啟第二個分頁即自動重新顯示。隱藏時，可使用 Ctrl+T 或在聊天室列表中 Ctrl+Click 聊天室來開啟新分頁。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>隱藏, 單個, 單標籤頁, 自動隱藏, 摺疊</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>顯示釘選按鈕</translation>
     </message>

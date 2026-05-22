@@ -11271,6 +11271,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+5"/>
+        <source>Auto-hide with a single tab</source>
+        <translation>탭이 하나일 때 자동 숨기기</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
+        <translation>탭이 하나만 열려 있을 때 탭 표시줄을 숨깁니다. 두 번째 탭이 열리면 다시 나타납니다. 숨겨진 상태에서는 Ctrl+T를 사용하거나 방 목록에서 방을 Ctrl+Click하여 새 탭을 열 수 있습니다.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>hide, single, one tab, autohide, collapse</source>
+        <translation>숨기기, 단일, 탭 하나, 자동 숨기기, 접기</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Show pin button</source>
         <translation>고정 버튼 표시</translation>
     </message>

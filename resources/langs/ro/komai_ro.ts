@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>Utilizatori ignorați</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+69"/>
         <source>Account</source>
         <translation>Cont</translation>
     </message>
@@ -12264,7 +12264,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Evenimente zgomotoase</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
@@ -12274,12 +12274,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+344"/>
         <source>Settings</source>
         <translation>Setări</translation>
     </message>
     <message>
-        <location line="-302"/>
+        <location line="-304"/>
         <source>Look &amp; Feel</source>
         <translation>Aspect &amp; Stil</translation>
     </message>
@@ -12324,7 +12324,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Despre Komai</translation>
     </message>
     <message>
-        <location line="+239"/>
+        <location line="+241"/>
         <source>Available after login</source>
         <translation>Disponibil după autentificare</translation>
     </message>
@@ -12334,7 +12334,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Căutare setări…</translation>
     </message>
     <message>
-        <location line="-309"/>
+        <location line="-311"/>
         <source>Calls</source>
         <translation>Apeluri</translation>
     </message>

@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
         <source>Profile</source>
         <translation>نمایه</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>کاربران نادیده‌گرفته‌شده</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+69"/>
         <source>Account</source>
         <translation>حساب کاربری</translation>
     </message>
@@ -12232,7 +12232,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>رویدادهای پر سروصدا</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
@@ -12242,12 +12242,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+344"/>
         <source>Settings</source>
         <translation>تنظیمات</translation>
     </message>
     <message>
-        <location line="-302"/>
+        <location line="-304"/>
         <source>Look &amp; Feel</source>
         <translation>ظاهر &amp; احساس</translation>
     </message>
@@ -12292,7 +12292,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>درباره Komai</translation>
     </message>
     <message>
-        <location line="+239"/>
+        <location line="+241"/>
         <source>Available after login</source>
         <translation>پس از ورود در دسترس است</translation>
     </message>
@@ -12302,7 +12302,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>جستجوی تنظیمات…</translation>
     </message>
     <message>
-        <location line="-309"/>
+        <location line="-311"/>
         <source>Calls</source>
         <translation>تماس‌ها</translation>
     </message>

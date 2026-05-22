@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
         <source>Profile</source>
         <translation>പ്രൊഫൈൽ</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>അവഗണിച്ച ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+69"/>
         <source>Account</source>
         <translation>അക്കൗണ്ട്</translation>
     </message>
@@ -12248,7 +12248,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ശബ്ദകോലാഹലമുള്ള ഇവന്റുകൾ</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
@@ -12258,12 +12258,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+344"/>
         <source>Settings</source>
         <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
     <message>
-        <location line="-302"/>
+        <location line="-304"/>
         <source>Look &amp; Feel</source>
         <translation>ദൃശ്യരൂപം &amp; അനുഭൂതി</translation>
     </message>
@@ -12308,7 +12308,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>Komai-യെ കുറിച്ച്</translation>
     </message>
     <message>
-        <location line="+239"/>
+        <location line="+241"/>
         <source>Available after login</source>
         <translation>ലോഗിൻ ചെയ്ത ശേഷം ലഭ്യമാകും</translation>
     </message>
@@ -12318,7 +12318,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ക്രമീകരണങ്ങൾ തിരയുക…</translation>
     </message>
     <message>
-        <location line="-309"/>
+        <location line="-311"/>
         <source>Calls</source>
         <translation>കോളുകൾ</translation>
     </message>

@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
         <source>Profile</source>
         <translation>Perfil</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>Usuarios ignorados</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+69"/>
         <source>Account</source>
         <translation>Cuenta</translation>
     </message>
@@ -12251,7 +12251,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Eventos ruidosos</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
@@ -12261,12 +12261,12 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+344"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location line="-302"/>
+        <location line="-304"/>
         <source>Look &amp; Feel</source>
         <translation>Apariencia</translation>
     </message>
@@ -12311,7 +12311,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Acerca de Komai</translation>
     </message>
     <message>
-        <location line="+239"/>
+        <location line="+241"/>
         <source>Available after login</source>
         <translation>Disponible tras iniciar sesión</translation>
     </message>
@@ -12321,7 +12321,7 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Buscar ajustes…</translation>
     </message>
     <message>
-        <location line="-309"/>
+        <location line="-311"/>
         <source>Calls</source>
         <translation>Llamadas</translation>
     </message>

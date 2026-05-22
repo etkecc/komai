@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+182"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
@@ -206,7 +206,7 @@
         <translation>Pengguna yang diabaikan</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+69"/>
         <source>Account</source>
         <translation>Akun</translation>
     </message>
@@ -12232,7 +12232,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Peristiwa berisik</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1345"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>
@@ -12242,12 +12242,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../../qml/pages/UserSettingsPage.qml" line="+342"/>
+        <location filename="../../qml/pages/UserSettingsPage.qml" line="+344"/>
         <source>Settings</source>
         <translation>Pengaturan</translation>
     </message>
     <message>
-        <location line="-302"/>
+        <location line="-304"/>
         <source>Look &amp; Feel</source>
         <translation>Tampilan &amp; Nuansa</translation>
     </message>
@@ -12292,7 +12292,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Tentang Komai</translation>
     </message>
     <message>
-        <location line="+239"/>
+        <location line="+241"/>
         <source>Available after login</source>
         <translation>Tersedia setelah masuk</translation>
     </message>
@@ -12302,7 +12302,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Cari pengaturan…</translation>
     </message>
     <message>
-        <location line="-309"/>
+        <location line="-311"/>
         <source>Calls</source>
         <translation>Panggilan</translation>
     </message>

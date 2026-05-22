@@ -160,6 +160,8 @@ Rectangle {
                         clip: true
                         boundsBehavior: Flickable.StopAtBounds
 
+                        FlickableWheelBooster { flickable: navList }
+
                         model: userSettingsDialog.navModel
 
                         delegate: ItemDelegate {

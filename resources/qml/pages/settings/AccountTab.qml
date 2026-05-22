@@ -167,6 +167,8 @@ Item {
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
 
+                Components.FlickableWheelBooster { flickable: scrollView }
+
                 ColumnLayout {
                     id: scrollContent
                 width: scrollView.width
@@ -1403,10 +1405,13 @@ Item {
     Component {
         id: signedOutView
         Flickable {
+            id: signedOutFlickable
             anchors.fill: parent
             contentWidth: width
             contentHeight: container.implicitHeight + Komai.paddingLarge * 2
             clip: true
+
+            Components.FlickableWheelBooster { flickable: signedOutFlickable }
 
             ColumnLayout {
                 id: container

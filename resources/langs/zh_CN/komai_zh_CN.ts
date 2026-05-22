@@ -11277,7 +11277,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     <message>
         <location line="+1"/>
         <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
-        <translation type="unfinished"/>
+        <translation>仅有一个标签页打开时隐藏标签栏。打开第二个标签页后会立即重新出现。隐藏时，使用 Ctrl+T 或对聊天室列表中的聊天室使用 Ctrl+Click 来打开新标签页。</translation>
     </message>
     <message>
         <location line="+2"/>

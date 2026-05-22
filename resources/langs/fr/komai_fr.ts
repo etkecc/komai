@@ -11293,7 +11293,7 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+1"/>
         <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
-        <translation type="unfinished"/>
+        <translation>Masque la barre d'onglets lorsqu'un seul onglet est ouvert. Elle réapparaît dès qu'un deuxième onglet est ouvert. Lorsqu'elle est masquée, utilisez Ctrl+T ou Ctrl+Click sur un salon dans la liste des salons pour ouvrir un nouvel onglet.</translation>
     </message>
     <message>
         <location line="+2"/>

@@ -11277,7 +11277,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     <message>
         <location line="+1"/>
         <source>Hide the tab bar while only one tab is open. It reappears as soon as a second tab opens. When hidden, use Ctrl+T or Ctrl+Click a room in the room list to open a new tab.</source>
-        <translation type="unfinished"/>
+        <translation>Elrejti a lapsávot, amíg csak egy lap van nyitva. Újra megjelenik, amint egy második lap megnyílik. Amikor el van rejtve, használja a Ctrl+T billentyűkombinációt vagy a Ctrl+Click kombinációt a szobalista egyik szobáján új lap megnyitásához.</translation>
     </message>
     <message>
         <location line="+2"/>

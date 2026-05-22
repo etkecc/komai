@@ -60,6 +60,7 @@ stageConfig(const UserSettings &settings,
             },
           .tabs =
             {
+              .auto_hide_with_single_tab = settings.navigationTabsAutoHideSingle(),
               .show_pin_button =
                 cfg::toStorageValue(settings.navigationTabsShowPinButton()).toStdString(),
               .pinned_tab_label =

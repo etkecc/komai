@@ -5793,14 +5793,19 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>클립보드에 복사</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>방 버전</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>방이 지원하는 기능을 결정합니다.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>업그레이드…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>방이 지원하는 기능을 결정합니다. 업그레이드하면 이 방이 새 방으로 교체되고, 기존 방은 보관함으로 남습니다.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5811,7 +5816,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>설정</translation>
     </message>
@@ -6661,12 +6666,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Matrix 백엔드 런타임을 사용할 수 없습니다.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>암호화를 활성화하지 못했습니다.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>알림을 업데이트하지 못했습니다.</translation>
     </message>
@@ -8837,8 +8842,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>이 방은 다음 이유로 대체되었습니다: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>이 방은 다른 방으로 대체되었습니다.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9132,7 +9137,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>첨부 파일 '%1' 저장됨</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>방을 업그레이드할 수 없습니다: 백엔드가 준비되지 않았습니다.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>사용자 %1 무시 실패: %2</translation>
     </message>
@@ -9532,6 +9542,120 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>잠금 해제</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (현재)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>%1 스페이스를 업그레이드하시겠습니까?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>%1 방을 업그레이드하시겠습니까?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>이 스페이스를 업그레이드하시겠습니까?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>이 방을 업그레이드하시겠습니까?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>업그레이드하면 이 방이 새 방으로 교체됩니다. 기존 방은 새 방으로의 링크가 있는 읽기 전용 보관함으로 남습니다.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>현재 버전</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>알 수 없음</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>새 버전</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>이전 방 버전으로 전환하고 있습니다. v%1에서 지원되는 기능이 제거됩니다.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>추가 생성자</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>선택 사항</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>방 버전 12 이상에서는 목록에 있는 사용자가 새 방에서 무한하고 변경 불가능한 생성자 권한을 부여받습니다.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>알 수 없는 표시 이름</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>제거</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>이름 또는 @user:example.com으로 검색</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>직접 추가</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>이름 또는 Matrix ID를 입력하여 검색하세요.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>일치하는 사용자를 찾을 수 없습니다.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>위의 제안을 사용하여 Matrix ID로 추가하세요.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>취소</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>업그레이드</translation>
     </message>
 </context>
 <context>

@@ -165,6 +165,18 @@ class TimelineViewManager final : public QObject
     Q_PROPERTY(bool matrixThreadTimelineLoading READ matrixThreadTimelineLoading NOTIFY
                  matrixThreadTimelineChanged)
 
+    // Homeserver `m.room_versions` capability — exposed for the upgrade-room
+    // dialog (version dropdown + default) and the `/upgraderoom` slash
+    // command's default. Populated asynchronously after initial sync;
+    // matrix-sdk caches the underlying /capabilities response in the state
+    // store, so subsequent refreshes are local.
+    Q_PROPERTY(bool roomVersionsCapabilityLoaded READ roomVersionsCapabilityLoaded NOTIFY
+                 roomVersionsCapabilityChanged)
+    Q_PROPERTY(
+      QString defaultRoomVersion READ defaultRoomVersion NOTIFY roomVersionsCapabilityChanged)
+    Q_PROPERTY(
+      QStringList stableRoomVersions READ stableRoomVersions NOTIFY roomVersionsCapabilityChanged)
+
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
 
@@ -360,6 +372,20 @@ public:
     Q_INVOKABLE void navigateBack();
     Q_INVOKABLE void navigateForward();
 
+    bool roomVersionsCapabilityLoaded() const { return roomVersionsCapabilityLoaded_; }
+    QString defaultRoomVersion() const { return defaultRoomVersion_; }
+    QStringList stableRoomVersions() const { return stableRoomVersions_; }
+    Q_INVOKABLE void refreshRoomVersionsCapability();
+
+    /// Sends `POST /_matrix/client/v3/rooms/{room_id}/upgrade` (via the
+    /// matrix-sdk runtime worker).  On success, switches the active room to
+    /// the returned replacement room id; on failure, surfaces the error via
+    /// the snackbar.  `additionalCreators` is only honored by the server
+    /// from room version 12 onwards.
+    Q_INVOKABLE void performRoomUpgrade(const QString &roomId,
+                                        const QString &newVersion,
+                                        const QStringList &additionalCreators);
+
 signals:
     void activeTimelineChanged(QObject *timeline);
     void waitingForFirstSyncChanged(bool waitingForFirstSync);
@@ -383,6 +409,12 @@ signals:
     void openProfile(UserProfile *profile);
     void showImagePackSettings(ImagePackListModel *packlist, bool canCreateRoomPack);
     void openLeaveRoomDialog(QString roomid, QString reason = "");
+    void openUpgradeRoomDialog(QString roomid, QString currentVersion);
+    /// Fires when the user commits a room upgrade (submit on the Upgrade
+    /// dialog or `/upgraderoom`), before the matrix-sdk request runs.
+    /// Listened to by the Room Info dialog so it can close itself once the
+    /// underlying room is on its way to being tombstoned.
+    void roomUpgradeStarted(QString roomId);
     void openInviteResponseDialog(QString roomid);
     void showMediaOverlay(QObject *room,
                           QString eventId,
@@ -400,6 +432,7 @@ signals:
     void matrixTimelineTypingUsersChanged();
     void matrixRoomThreadRootsReady(QVariantList items, QString nextBatchToken);
     void matrixThreadTimelineChanged();
+    void roomVersionsCapabilityChanged();
 
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
@@ -461,6 +494,11 @@ private:
     bool waitingForFirstSync_ = true;
     bool isConnected_         = true;
     QVector<QString> ignoredUsers_;
+
+    bool roomVersionsCapabilityLoaded_   = false;
+    bool roomVersionsCapabilityInFlight_ = false;
+    QString defaultRoomVersion_;
+    QStringList stableRoomVersions_;
 
     RoomlistModel *rooms_          = nullptr;
     FilteredRoomlistModel *frooms_ = nullptr;

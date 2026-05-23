@@ -118,6 +118,7 @@ Item {
                         Layout.topMargin: Komai.paddingMedium
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         Label {
                             text: qsTr("Room Version")
@@ -131,10 +132,19 @@ Item {
                             color: versionRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: Settings.uiFontSizePt
                         }
+
+                        Components.KomaiButton {
+                            text: qsTr("Upgrade…")
+                            icon.source: "qrc:/icons/icons/ui/arrow-clockwise.svg"
+                            visible: aboutTab.roomSettings && aboutTab.roomSettings.canUpgradeRoom
+                            onClicked: TimelineManager.openUpgradeRoomDialog(
+                                aboutTab.roomSettings.roomId,
+                                aboutTab.roomSettings.roomVersion)
+                        }
                     }
 
                     Label {
-                        text: qsTr("Determines which features the room supports.")
+                        text: qsTr("Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.")
                             + ' <a href="https://spec.matrix.org/v1.17/rooms/">'
                             + qsTr("Learn more")
                             + "</a>."
@@ -146,7 +156,7 @@ Item {
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.bottomMargin: Komai.paddingMedium
                         textFormat: Text.RichText
-                        linkColor: palette.highlight
+                        linkColor: palette.link
                         onLinkActivated: function(link) { Qt.openUrlExternally(link); }
 
                         MouseArea {

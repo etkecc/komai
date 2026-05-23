@@ -5800,14 +5800,19 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>മുറി പതിപ്പ്</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>മുറി പിന്തുണയ്ക്കുന്ന സവിശേഷതകൾ നിർണ്ണയിക്കുന്നു.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>അപ്ഗ്രേഡ് ചെയ്യുക…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>മുറി പിന്തുണയ്ക്കുന്ന സവിശേഷതകൾ നിർണ്ണയിക്കുന്നു. അപ്ഗ്രേഡ് ചെയ്യുന്നത് ഈ മുറി പുതിയ ഒന്നുകൊണ്ട് മാറ്റുന്നു, പഴയത് ആർക്കൈവ് ആയി നിലനിൽക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5818,7 +5823,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>ക്രമീകരണങ്ങൾ</translation>
     </message>
@@ -6670,12 +6675,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Matrix ബാക്കെൻഡ് റൺടൈം ലഭ്യമല്ല.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>എൻക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>അറിയിപ്പുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
@@ -8848,8 +8853,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>ഈ മുറി ഇനിപ്പറയുന്ന കാരണത്താൽ മാറ്റിസ്ഥാപിക്കപ്പെട്ടു: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>ഈ മുറി മറ്റൊന്നിനാൽ മാറ്റിസ്ഥാപിക്കപ്പെട്ടിരിക്കുന്നു.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9145,7 +9150,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>അറ്റാч്ч്മെന്റ് '%1' സേവ് ചെയ്തു</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>മുറി അപ്ഗ്രേഡ് ചെയ്യാൻ കഴിയില്ല: ബാക്കെൻഡ് തയ്യാറായിട്ടില്ല.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>ഉപയോക്താവ് %1 അവഗണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
@@ -9548,6 +9558,120 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>അൺലോക്ക്</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (നിലവിലെ)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>%1 സ്പേസ് അപ്ഗ്രേഡ് ചെയ്യണോ?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>%1 മുറി അപ്ഗ്രേഡ് ചെയ്യണോ?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>ഈ സ്പേസ് അപ്ഗ്രേഡ് ചെയ്യണോ?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>ഈ മുറി അപ്ഗ്രേഡ് ചെയ്യണോ?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>അപ്ഗ്രേഡ് ചെയ്യുന്നത് ഈ മുറി പുതിയ ഒന്നുകൊണ്ട് മാറ്റുന്നു. പഴയ മുറി പുതിയ മുറിയിലേക്കുള്ള ഒരു സൂചകത്തോടൊപ്പം വായന-മാത്ര ആർക്കൈവ് ആയി നിലനിൽക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>നിലവിലെ പതിപ്പ്</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>അജ്ഞാതം</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>പുതിയ പതിപ്പ്</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>നിങ്ങൾ പഴയ മുറി പതിപ്പിലേക്ക് മാറുകയാണ്. ഇത് v%1-ൽ പിന്തുണയ്ക്കുന്ന സവിശേഷതകൾ നീക്കം ചെയ്യുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>അധിക സ്രഷ്ടാക്കൾ</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>ഐച്ഛികം</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>മുറി പതിപ്പ് 12-ലും അതിനു മേലും, പട്ടികപ്പെടുത്തിയ ഉപയോക്താക്കൾക്ക് പുതിയ മുറിയിൽ അനന്തവും മാറ്റമില്ലാത്തതുമായ Creator-തല അധികാരം ലഭിക്കും.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>അജ്ഞാത പ്രദർശന നാമം</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>നീക്കം ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>പേര് അല്ലെങ്കിൽ @user:example.com ഉപയോഗിച്ച് തിരയുക</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>നേരിട്ട് ചേർക്കുക</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>തിരയുന്നതിന് ഒരു പേര് അല്ലെങ്കിൽ Matrix ID ടൈപ്പ് ചെയ്യുക.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>പൊരുത്തമുള്ള ഉപയോക്താക്കളെ കണ്ടെത്തിയില്ല.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Matrix ID ഉപയോഗിച്ച് ചേർക്കാൻ മുകളിലെ നിർദ്ദേശം ഉപയോഗിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>റദ്ദാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>അപ്ഗ്രേഡ് ചെയ്യുക</translation>
     </message>
 </context>
 <context>

@@ -188,6 +188,25 @@ pub(crate) fn matrix_unban_user(
     )
 }
 
+pub(crate) fn matrix_upgrade_room(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    new_version: &str,
+    additional_creators: Vec<String>,
+) -> Result<String, String> {
+    ffi_block_on(
+        context,
+        "matrix_upgrade_room",
+        matrix_backend::runtime::upgrade_room(
+            handle_id,
+            room_id,
+            new_version,
+            &additional_creators,
+        ),
+    )
+}
+
 pub(crate) fn matrix_set_user_power_level(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

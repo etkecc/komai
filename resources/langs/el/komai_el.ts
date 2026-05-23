@@ -5800,14 +5800,19 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Αντιγραφή στο πρόχειρο</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Έκδοση δωματίου</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Καθορίζει ποιες λειτουργίες υποστηρίζει το δωμάτιο.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Αναβάθμιση…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Καθορίζει ποιες λειτουργίες υποστηρίζει το δωμάτιο. Η αναβάθμιση αντικαθιστά αυτό το δωμάτιο με ένα νέο, αφήνοντας το παλιό ως αρχείο.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5818,7 +5823,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Ρυθμίσεις</translation>
     </message>
@@ -6670,12 +6675,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Το περιβάλλον εκτέλεσης Matrix δεν είναι διαθέσιμο.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Αποτυχία ενεργοποίησης κρυπτογράφησης.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Αποτυχία ενημέρωσης ειδοποιήσεων.</translation>
     </message>
@@ -8848,8 +8853,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Αυτό το δωμάτιο αντικαταστάθηκε για τον εξής λόγο: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Αυτό το δωμάτιο έχει αντικατασταθεί από ένα άλλο.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9145,7 +9150,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Το συνημμένο '%1' αποθηκεύτηκε</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Αδυναμία αναβάθμισης δωματίου: η υπηρεσία δεν είναι έτοιμη.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Αποτυχία αγνόησης χρήστη %1: %2</translation>
     </message>
@@ -9548,6 +9558,120 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Ξεκλείδωμα</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (τρέχουσα)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Αναβάθμιση του χώρου %1;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Αναβάθμιση του δωματίου %1;</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Αναβάθμιση αυτού του χώρου;</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Αναβάθμιση αυτού του δωματίου;</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Η αναβάθμιση αντικαθιστά αυτό το δωμάτιο με ένα νέο. Το παλιό δωμάτιο παραμένει ως αρχείο μόνο ανάγνωσης με δείκτη προς το νέο δωμάτιο.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Τρέχουσα έκδοση</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>άγνωστο</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Νέα έκδοση</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Μεταβαίνετε σε παλαιότερη έκδοση δωματίου. Αυτό αφαιρεί λειτουργίες που υποστηρίζονται στην έκδοση v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Επιπλέον δημιουργοί</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Προαιρετικό</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>Στην έκδοση δωματίου 12 και νεότερη, οι καταχωρισμένοι χρήστες λαμβάνουν απεριόριστες, αμετάβλητες εξουσίες επιπέδου Δημιουργού στο νέο δωμάτιο.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Άγνωστο εμφανιζόμενο όνομα</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Αφαίρεση</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Αναζήτηση με όνομα ή @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Άμεση προσθήκη</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Πληκτρολογήστε όνομα ή Matrix ID για αναζήτηση.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Δεν βρέθηκαν αντίστοιχοι χρήστες.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Χρησιμοποιήστε την παραπάνω πρόταση για προσθήκη με Matrix ID.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Ακύρωση</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Αναβάθμιση</translation>
     </message>
 </context>
 <context>

@@ -37,6 +37,23 @@ pub(crate) fn matrix_fetch_room_settings(
         can_change_join_rules: result.can_change_join_rules,
         can_change_history_visibility: result.can_change_history_visibility,
         can_change_encryption: result.can_change_encryption,
+        can_upgrade_room: result.can_upgrade_room,
+    })
+}
+
+pub(crate) fn matrix_fetch_room_versions_capability(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+) -> Result<ffi::MatrixRoomVersionsCapability, String> {
+    let result = ffi_block_on(
+        context,
+        "matrix_fetch_room_versions_capability",
+        matrix_backend::runtime::fetch_room_versions_capability(handle_id),
+    )?;
+
+    Ok(ffi::MatrixRoomVersionsCapability {
+        default_version: result.default_version,
+        stable: result.stable,
     })
 }
 

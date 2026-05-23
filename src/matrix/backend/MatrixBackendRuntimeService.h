@@ -114,6 +114,15 @@ public:
                           const QString &reason = {},
                           QString *errorOut     = nullptr);
 
+    /// Returns the new room's id on success.  `additionalCreators` is only
+    /// honored by the server from room version 12 onwards.
+    static std::optional<QString> upgradeRoom(matrix_backend::BlockingCallContext context,
+                                              uint64_t handleId,
+                                              const QString &roomId,
+                                              const QString &newVersion,
+                                              const QStringList &additionalCreators,
+                                              QString *errorOut = nullptr);
+
     static bool setUserPowerLevel(matrix_backend::BlockingCallContext context,
                                   uint64_t handleId,
                                   const QString &roomId,
@@ -387,6 +396,11 @@ public:
                       uint64_t handleId,
                       const QString &roomId,
                       QString *errorOut = nullptr);
+
+    static std::optional<MatrixRoomVersionsCapability>
+    fetchRoomVersionsCapability(matrix_backend::BlockingCallContext context,
+                                uint64_t handleId,
+                                QString *errorOut = nullptr);
 
     static std::optional<MatrixRoomAliases>
     fetchRoomAliases(matrix_backend::BlockingCallContext context,

@@ -5800,14 +5800,19 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
         <translation>Copia negli appunti</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Versione stanza</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Determina le funzionalità supportate dalla stanza.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Aggiorna…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Determina le funzionalità supportate dalla stanza. L'aggiornamento sostituisce questa stanza con una nuova, lasciando la vecchia come archivio.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5818,7 +5823,7 @@ I backup delle chiavi lato server precedenti non vengono rimossi automaticamente
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
@@ -6670,12 +6675,12 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Il runtime del backend Matrix non è disponibile.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Impossibile abilitare la crittografia.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Impossibile aggiornare le notifiche.</translation>
     </message>
@@ -8848,8 +8853,8 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Questa stanza è stata sostituita per il seguente motivo: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Questa stanza è stata sostituita da un'altra.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9145,7 +9150,12 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Allegato '%1' salvato</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Impossibile aggiornare la stanza: backend non pronto.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Impossibile ignorare l'utente %1: %2</translation>
     </message>
@@ -9548,6 +9558,120 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Sblocca</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (corrente)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Aggiornare lo spazio %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Aggiornare la stanza %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Aggiornare questo spazio?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Aggiornare questa stanza?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>L'aggiornamento sostituisce questa stanza con una nuova. La vecchia stanza rimane come archivio in sola lettura con un collegamento alla nuova stanza.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Versione corrente</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>sconosciuto</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Nuova versione</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Si sta passando a una versione precedente della stanza. Questo rimuove le funzionalità supportate in v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Creatori aggiuntivi</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Facoltativo</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>Nella versione 12 e successive della stanza, gli utenti elencati ricevono poteri di livello Creatore infiniti e immutabili nella nuova stanza.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Nome visualizzato sconosciuto</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Cerca per nome o @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Aggiungi direttamente</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Digita un nome o un Matrix ID per cercare.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Nessun utente trovato.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Usa il suggerimento sopra per aggiungere tramite Matrix ID.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Aggiorna</translation>
     </message>
 </context>
 <context>

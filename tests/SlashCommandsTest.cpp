@@ -89,7 +89,7 @@ testRegistryInventory()
     const auto *gotoCmd = timeline::slash_commands::find(QStringLiteral("goto"));
     const auto *ignore  = timeline::slash_commands::find(CommandId::Ignore);
 
-    if (cmds.size() != 21) {
+    if (cmds.size() != 22) {
         std::cerr << "FAILED: registry contains all currently listed slash commands\n"
                   << "  actual count: " << cmds.size() << '\n';
         ok = false;

@@ -5828,14 +5828,19 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>نسخ إلى الحافظة</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>إصدار الغرفة</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>يحدد الميزات التي تدعمها الغرفة.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>ترقية…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>يحدد الميزات التي تدعمها الغرفة. تستبدل عملية الترقية هذه الغرفةَ بغرفة جديدة، وتبقى القديمة كأرشيف.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5846,7 +5851,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>الإعدادات</translation>
     </message>
@@ -6706,12 +6711,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>وقت تشغيل Matrix في الخلفية غير متاح.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>فشل تفعيل التشفير.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>فشل تحديث الإشعارات.</translation>
     </message>
@@ -8892,8 +8897,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>تم استبدال هذه الغرفة للسبب التالي: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>تم استبدال هذه الغرفة بغرفة أخرى.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9197,7 +9202,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>تم حفظ المرفق '%1'</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>تعذّر ترقية الغرفة: الخادم الخلفي غير جاهز.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>فشل تجاهل المستخدم %1: %2</translation>
     </message>
@@ -9612,6 +9622,120 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>فتح</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (الحالي)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>هل تريد ترقية فضاء %1؟</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>هل تريد ترقية غرفة %1؟</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>هل تريد ترقية هذا الفضاء؟</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>هل تريد ترقية هذه الغرفة؟</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>تستبدل عملية الترقية هذه الغرفةَ بغرفة جديدة. تبقى الغرفة القديمة كأرشيف للقراءة فقط مع مؤشر إلى الغرفة الجديدة.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>الإصدار الحالي</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>غير معروف</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>الإصدار الجديد</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>أنت تنتقل إلى إصدار غرفة أقدم. سيؤدي هذا إلى إزالة الميزات المدعومة في v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>مُنشئون إضافيون</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>اختياري</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>في إصدار الغرفة 12 وما بعده، يحصل المستخدمون المُدرجون على صلاحيات مستوى المُنشئ اللانهائية وغير القابلة للتغيير في الغرفة الجديدة.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>اسم العرض غير معروف</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>إزالة</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>ابحث بالاسم أو @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>إضافة مباشرة</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>اكتب اسمًا أو معرّف Matrix للبحث.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>لم يُعثر على مستخدمين مطابقين.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>استخدم الاقتراح أعلاه للإضافة عبر معرّف Matrix.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>إلغاء</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>ترقية</translation>
     </message>
 </context>
 <context>

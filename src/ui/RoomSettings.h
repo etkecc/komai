@@ -109,6 +109,7 @@ class RoomSettings final : public QObject
     Q_PROPERTY(RoomSettingsAllowedRoomsModel *allowedRoomsModel MEMBER allowedRoomsModel CONSTANT)
     Q_PROPERTY(
       bool allowedRoomsModified READ allowedRoomsModified NOTIFY allowedRoomsModifiedChanged)
+    Q_PROPERTY(bool canUpgradeRoom READ canUpgradeRoom NOTIFY permissionsChanged)
 
 public:
     enum Visibility
@@ -148,6 +149,7 @@ public:
     bool canChangeHistoryVisibility() const;
     //! Whether the user has enough power level to send m.room.encryption events.
     bool canChangeEncryption() const;
+    bool canUpgradeRoom() const;
     bool isEncryptionEnabled() const;
     bool supportsKnocking() const;
     bool supportsRestricted() const;

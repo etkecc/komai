@@ -236,6 +236,7 @@ struct MatrixRoomSettings
     bool canChangeJoinRules         = false;
     bool canChangeHistoryVisibility = false;
     bool canChangeEncryption        = false;
+    bool canUpgradeRoom             = false;
 };
 
 struct MatrixRoomAliases
@@ -243,6 +244,12 @@ struct MatrixRoomAliases
     QString canonicalAlias;
     QVector<QString> altAliases;
     QVector<QString> publishedAliases;
+};
+
+struct MatrixRoomVersionsCapability
+{
+    QString defaultVersion;
+    QVector<QString> stableVersions;
 };
 
 struct MatrixRoomMember

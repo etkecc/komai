@@ -20,6 +20,7 @@ QtObject {
     readonly property string roomInviteResponseDialog: "qrc:/resources/qml/dialogs/room/InviteResponseDialog.qml"
     readonly property string roomJoinDialog: "qrc:/resources/qml/dialogs/room/JoinRoomDialog.qml"
     readonly property string roomLeaveDialog: "qrc:/resources/qml/dialogs/room/LeaveRoomDialog.qml"
+    readonly property string roomUpgradeDialog: "qrc:/resources/qml/dialogs/room/UpgradeRoomDialog.qml"
     readonly property string accountLogoutDialog: "qrc:/resources/qml/dialogs/account/LogoutDialog.qml"
     readonly property string closeToTrayPromptDialog: "qrc:/resources/qml/dialogs/CloseToTrayPromptDialog.qml"
     readonly property string roomPowerLevelEditorDialog: "qrc:/resources/qml/dialogs/room/PowerLevelEditor.qml"

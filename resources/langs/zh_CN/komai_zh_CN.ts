@@ -5793,14 +5793,19 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>复制到剪贴板</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>聊天室版本</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>决定聊天室支持的功能。</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>升级……</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>决定聊天室支持的功能。升级将用新聊天室替换此聊天室，旧聊天室将作为存档保留。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5811,7 +5816,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
@@ -6661,12 +6666,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Matrix 后端运行时不可用。</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>启用加密失败。</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>更新通知设置失败。</translation>
     </message>
@@ -8837,8 +8842,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>此聊天室由于以下原因被替换：%1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>此聊天室已被另一个聊天室替换。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9132,7 +9137,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>已保存附件 '%1'</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>无法升级聊天室：后端未就绪。</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>忽略用户 %1 失败：%2</translation>
     </message>
@@ -9532,6 +9542,120 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>解锁</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1（当前）</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>升级 %1 空间？</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>升级 %1 聊天室？</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>升级此空间？</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>升级此聊天室？</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>升级将用新聊天室替换此聊天室。旧聊天室将作为只读存档保留，并包含指向新聊天室的链接。</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>当前版本</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>未知</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>新版本</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>你正在切换到较旧的聊天室版本。这将移除 v%1 中支持的功能。</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>附加创建者</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>可选</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>在聊天室版本 12 及更新版本中，列出的用户将在新聊天室中获得无限且不可更改的创建者级别权限。</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>未知显示名称</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>移除</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>按名称或 @user:example.com 搜索</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>直接添加</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>输入名称或 Matrix ID 进行搜索。</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>未找到匹配的用户。</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>使用上方的建议通过 Matrix ID 添加。</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>升级</translation>
     </message>
 </context>
 <context>

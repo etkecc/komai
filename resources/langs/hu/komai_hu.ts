@@ -5793,14 +5793,19 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <translation>Másolás vágólapra</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Szoba verziója</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Meghatározza, hogy a szoba milyen funkciókat támogat.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Frissítés…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Meghatározza, hogy a szoba milyen funkciókat támogat. A frissítés lecseréli ezt a szobát egy újra, a régit archívumként hagyja meg.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5811,7 +5816,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Beállítások</translation>
     </message>
@@ -6661,12 +6666,12 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>A Matrix háttérrendszer futtatókörnyezete nem érhető el.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Nem sikerült engedélyezni a titkosítást.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Nem sikerült frissíteni az értesítéseket.</translation>
     </message>
@@ -8837,8 +8842,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Ez a szoba a következő okból lett felváltva: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Ezt a szobát egy másik szoba váltotta fel.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9132,7 +9137,12 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>A(z) '%1' melléklet mentve</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>A szoba nem frissíthető: a háttérrendszer nem áll készen.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Nem sikerült figyelmen kívül hagyni a(z) %1 felhasználót: %2</translation>
     </message>
@@ -9532,6 +9542,120 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Feloldás</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (jelenlegi)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Frissíti a(z) %1 teret?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Frissíti a(z) %1 szobát?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Frissíti ezt a teret?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Frissíti ezt a szobát?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>A frissítés lecseréli ezt a szobát egy újra. A régi szoba csak olvasható archívumként megmarad, mutatóval az új szobára.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Jelenlegi verzió</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>ismeretlen</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Új verzió</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Egy régebbi szobaverzióra vált. Ez eltávolítja a v%1-ben támogatott funkciókat.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>További létrehozók</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Opcionális</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>A 12-es és újabb szobaverzióban a felsorolt felhasználók végtelen, megváltoztathatatlan Létrehozó szintű jogosultságot kapnak az új szobában.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Ismeretlen megjelenítési név</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Eltávolítás</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Keresés név vagy @user:example.com alapján</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Közvetlen hozzáadás</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Írjon be egy nevet vagy Matrix azonosítót a kereséshez.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Nem található egyező felhasználó.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Hozzáadáshoz Matrix azonosító alapján használja a fenti javaslatot.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Mégsem</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Frissítés</translation>
     </message>
 </context>
 <context>

@@ -5800,14 +5800,19 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
         <translation>Kopioi leikepöydälle</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Huoneen versio</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Määrittää, mitä ominaisuuksia huone tukee.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Päivitä…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Määrittää, mitä ominaisuuksia huone tukee. Päivittäminen korvaa tämän huoneen uudella, ja vanha jää arkistoksi.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5818,7 +5823,7 @@ Aiempia palvelinpuolen avainvarmuuskopioita ei poisteta automaattisesti.</transl
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Asetukset</translation>
     </message>
@@ -6670,12 +6675,12 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Matrix-tausta ei ole käytettävissä.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Salauksen käyttöönotto epäonnistui.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Ilmoitusten päivittäminen epäonnistui.</translation>
     </message>
@@ -8848,8 +8853,8 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Tämä huone korvattiin seuraavasta syystä: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Tämä huone on korvattu toisella.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9145,7 +9150,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Liite '%1' tallennettu</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Huonetta ei voi päivittää: taustajärjestelmä ei ole valmis.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Käyttäjän %1 ohittaminen epäonnistui: %2</translation>
     </message>
@@ -9548,6 +9558,120 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Avaa</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (nykyinen)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Päivitetäänkö tila %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Päivitetäänkö huone %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Päivitetäänkö tämä tila?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Päivitetäänkö tämä huone?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Päivittäminen korvaa tämän huoneen uudella. Vanha huone jää vain luku -arkistoksi, jossa on linkki uuteen huoneeseen.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Nykyinen versio</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>tuntematon</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Uusi versio</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Olet vaihtamassa vanhempaan huoneversioon. Tämä poistaa versiossa v%1 tuetut ominaisuudet.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Lisäluojat</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Valinnainen</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>Huoneversiosta 12 alkaen luetellut käyttäjät saavat rajoittamattoman, muuttumattoman Luoja-tason vallan uudessa huoneessa.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Tuntematon näyttönimi</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Poista</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Hae nimellä tai @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Lisää suoraan</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Kirjoita nimi tai Matrix-tunnus hakua varten.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Vastaavia käyttäjiä ei löydy.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Käytä yllä olevaa ehdotusta lisätäksesi Matrix-tunnuksella.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Peruuta</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Päivitä</translation>
     </message>
 </context>
 <context>

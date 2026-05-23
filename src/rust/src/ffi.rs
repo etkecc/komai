@@ -1046,6 +1046,12 @@ mod bridge {
         can_change_join_rules: bool,
         can_change_history_visibility: bool,
         can_change_encryption: bool,
+        can_upgrade_room: bool,
+    }
+
+    struct MatrixRoomVersionsCapability {
+        default_version: String,
+        stable: Vec<String>,
     }
 
     struct MatrixRoomAliases {
@@ -1761,6 +1767,13 @@ mod bridge {
             user_id: &str,
             reason: &str,
         ) -> Result<()>;
+        fn matrix_upgrade_room(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            new_version: &str,
+            additional_creators: Vec<String>,
+        ) -> Result<String>;
         fn matrix_set_user_power_level(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -2017,6 +2030,10 @@ mod bridge {
             handle_id: u64,
             room_id: &str,
         ) -> Result<MatrixRoomSettings>;
+        fn matrix_fetch_room_versions_capability(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+        ) -> Result<MatrixRoomVersionsCapability>;
         fn matrix_fetch_room_aliases(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

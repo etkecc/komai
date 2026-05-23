@@ -5800,14 +5800,19 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
         <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Kamerversie</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Bepaalt welke functies de kamer ondersteunt.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Upgraden…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Bepaalt welke functies de kamer ondersteunt. Upgraden vervangt deze kamer door een nieuwe, waarbij de oude als archief behouden blijft.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5818,7 +5823,7 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Instellingen</translation>
     </message>
@@ -6670,12 +6675,12 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Matrix backend runtime is niet beschikbaar.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Versleuteling inschakelen mislukt.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Meldingen bijwerken mislukt.</translation>
     </message>
@@ -8848,8 +8853,8 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Deze kamer is vervangen wegens de volgende reden: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Deze kamer is vervangen door een andere.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9145,7 +9150,12 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Bijlage '%1' opgeslagen</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Kan kamer niet upgraden: backend niet gereed.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Gebruiker %1 negeren mislukt: %2</translation>
     </message>
@@ -9548,6 +9558,120 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Ontgrendelen</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (huidig)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>De ruimte %1 upgraden?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>De kamer %1 upgraden?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Deze ruimte upgraden?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Deze kamer upgraden?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Upgraden vervangt deze kamer door een nieuwe. De oude kamer blijft als alleen-lezen archief met een verwijzing naar de nieuwe kamer.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Huidige versie</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>onbekend</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Nieuwe versie</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Je schakelt over naar een oudere kamerversie. Dit verwijdert functies die ondersteund worden in v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Aanvullende makers</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Optioneel</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>In kamerversie 12 en nieuwer ontvangen de vermelde gebruikers onbeperkte, onveranderlijke bevoegdheid op Creator-niveau in de nieuwe kamer.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Onbekende weergavenaam</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Zoeken op naam of @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Direct toevoegen</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Typ een naam of Matrix-ID om te zoeken.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Geen overeenkomende gebruikers gevonden.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Gebruik de suggestie hierboven om toe te voegen via Matrix-ID.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Annuleren</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Upgraden</translation>
     </message>
 </context>
 <context>

@@ -176,6 +176,7 @@ RoomSettings::applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings)
     const auto previousCanChangeTopic             = canChangeTopic();
     const auto previousCanChangeHistoryVisibility = canChangeHistoryVisibility();
     const auto previousCanChangeEncryption        = canChangeEncryption();
+    const auto previousCanUpgradeRoom             = canUpgradeRoom();
     const auto previousSupportsKnocking           = supportsKnocking();
     const auto previousSupportsRestricted         = supportsRestricted();
     const auto previousSupportsKnockRestricted    = supportsKnockRestricted();
@@ -221,6 +222,7 @@ RoomSettings::applyMatrixRoomSettings(const komai::MatrixRoomSettings &settings)
         previousCanChangeName != canChangeName() || previousCanChangeTopic != canChangeTopic() ||
         previousCanChangeHistoryVisibility != canChangeHistoryVisibility() ||
         previousCanChangeEncryption != canChangeEncryption() ||
+        previousCanUpgradeRoom != canUpgradeRoom() ||
         previousSupportsKnocking != supportsKnocking() ||
         previousSupportsRestricted != supportsRestricted() ||
         previousSupportsKnockRestricted != supportsKnockRestricted()) {
@@ -303,6 +305,12 @@ bool
 RoomSettings::canChangeEncryption() const
 {
     return matrixRoomSettings_ && matrixRoomSettings_->canChangeEncryption;
+}
+
+bool
+RoomSettings::canUpgradeRoom() const
+{
+    return matrixRoomSettings_ && matrixRoomSettings_->canUpgradeRoom;
 }
 
 bool

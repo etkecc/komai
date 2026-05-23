@@ -5793,14 +5793,19 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <translation>Salin ke papan klip</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Versi ruangan</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Menentukan fitur yang didukung ruangan ini.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Tingkatkan…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Menentukan fitur yang didukung ruangan. Peningkatan mengganti ruangan ini dengan yang baru, meninggalkan yang lama sebagai arsip.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5811,7 +5816,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Pengaturan</translation>
     </message>
@@ -6661,12 +6666,12 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Runtime backend Matrix tidak tersedia.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Gagal mengaktifkan enkripsi.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Gagal memperbarui notifikasi.</translation>
     </message>
@@ -8837,8 +8842,8 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Ruangan ini digantikan karena alasan berikut: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Ruangan ini telah digantikan oleh ruangan lain.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9132,7 +9137,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Lampiran '%1' tersimpan</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Tidak dapat meningkatkan ruangan: backend belum siap.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Gagal mengabaikan pengguna %1: %2</translation>
     </message>
@@ -9532,6 +9542,120 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Buka kunci</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (saat ini)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Tingkatkan ruang %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Tingkatkan ruangan %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Tingkatkan ruang ini?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Tingkatkan ruangan ini?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Peningkatan mengganti ruangan ini dengan yang baru. Ruangan lama tetap ada sebagai arsip hanya-baca dengan tautan ke ruangan baru.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Versi saat ini</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>tidak diketahui</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Versi baru</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Anda beralih ke versi ruangan yang lebih lama. Ini menghapus fitur yang didukung di v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Pembuat tambahan</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Opsional</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>Pada versi ruangan 12 dan yang lebih baru, pengguna yang terdaftar menerima kekuasaan tingkat Pembuat yang tak terbatas dan tak dapat diubah di ruangan baru.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Nama tampilan tidak diketahui</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Hapus</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Cari berdasarkan nama atau @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Tambah langsung</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Ketik nama atau ID Matrix untuk mencari.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Tidak ada pengguna yang cocok ditemukan.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Gunakan saran di atas untuk menambahkan berdasarkan ID Matrix.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Batal</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Tingkatkan</translation>
     </message>
 </context>
 <context>

@@ -468,7 +468,7 @@ EventDelegateChooser {
             StateEventMessage {
                 Layout.fillWidth: true
                 body: formatted
-                formatted: qsTr("This room was replaced for the following reason: %1").arg(tombstone.body)
+                formatted: qsTr("This room has been replaced by another one.")
                 isOnlyEmoji: 0
                 isReply: EventDelegateChooser.isReply
                 isStateEvent: true

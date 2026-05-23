@@ -21,6 +21,21 @@ Components.OverlayDialog {
     property bool deferInitialTabSwitch: normalizedInitialTab !== "settings"
     readonly property bool membersTabAvailable: !!members
     overlayViewport: appRoot
+
+    // Close this dialog when the user commits a room upgrade for the same
+    // room — once the upgrade is dispatched, "Room Info" of the (about to
+    // be tombstoned) old room is stale.  Fires on submit, not on the mere
+    // opening of the Upgrade overlay, so a cancelled upgrade keeps Room
+    // Info around for the user to come back to.
+    Connections {
+        target: TimelineManager
+        function onRoomUpgradeStarted(roomid) {
+            if (roomInfoDialog.roomSettings
+                && roomid === roomInfoDialog.roomSettings.roomId) {
+                roomInfoDialog.close();
+            }
+        }
+    }
     readonly property int dialogViewportWidth: overlayDialogViewport ? overlayDialogViewport.width : 760
     readonly property int dialogViewportHeight: overlayDialogViewport ? overlayDialogViewport.height : 600
     readonly property int roomInfoDialogWidth: Math.min(

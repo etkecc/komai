@@ -281,6 +281,51 @@ validateGoto(const ParsedCommand &parsed, const CommandContext &)
 }
 
 ValidationResult
+validateUpgradeRoom(const ParsedCommand &parsed, const CommandContext &)
+{
+    const auto trimmed = trimmedArguments(parsed);
+    if (trimmed.isEmpty())
+        return valid(); // all-defaults form: /upgraderoom alone
+
+    const auto tokens    = trimmed.split(QChar(u' '), Qt::SkipEmptyParts);
+    int firstUserIdIndex = 0;
+    int explicitVersion  = -1;
+    if (!tokens.first().startsWith(u'@')) {
+        // First token is the version. Must be one or more digits.
+        for (const QChar ch : tokens.first()) {
+            if (!ch.isDigit())
+                return makeValidationResult(
+                  ValidationState::Invalid,
+                  "Use a numeric room version like 12, optionally followed by additional creator "
+                  "user IDs (@alice:example.org).");
+        }
+        explicitVersion  = tokens.first().toInt();
+        firstUserIdIndex = 1;
+    }
+
+    for (int i = firstUserIdIndex; i < tokens.size(); ++i) {
+        const auto &userId = tokens.at(i);
+        if (!userId.startsWith(u'@'))
+            return makeValidationResult(
+              ValidationState::Invalid,
+              "Additional creators must be Matrix user IDs (@alice:example.org).");
+        if (!looksLikeCompleteUserId(userId))
+            return incompleteUserIdResult();
+    }
+
+    // Per spec, `additional_creators` is only honored from room version 12
+    // onwards (older servers silently drop it).  Reject upfront so the user
+    // doesn't end up with a no-op pretending to have worked.
+    const bool hasAdditionalCreators = tokens.size() > firstUserIdIndex;
+    if (hasAdditionalCreators && explicitVersion >= 0 && explicitVersion < 12)
+        return makeValidationResult(
+          ValidationState::Invalid,
+          "Additional creators are only supported in room version 12 and newer.");
+
+    return valid();
+}
+
+ValidationResult
 validateIgnoreUser(const ParsedCommand &parsed, const CommandContext &)
 {
     const auto userId = trimmedArguments(parsed);
@@ -301,7 +346,7 @@ validateIgnoreUser(const ParsedCommand &parsed, const CommandContext &)
 
 #define CMD_TR(text) QT_TRANSLATE_NOOP("CommandCompleter", text)
 
-const std::array<CommandDefinition, 21> kCommands{{
+const std::array<CommandDefinition, 22> kCommands{{
   {CommandId::Me,
    "me",
    "/me ",
@@ -460,6 +505,15 @@ const std::array<CommandDefinition, 21> kCommands{{
    CMD_TR("Stop ignoring a Matrix user."),
    "unignore user",
    validateIgnoreUser,
+   true},
+  {CommandId::UpgradeRoom,
+   "upgraderoom",
+   "/upgraderoom ",
+   CMD_TR("/upgraderoom [<version>] [<@userid> ...]"),
+   CMD_TR("Upgrade this room to a new version. Version is optional; additional creator user IDs "
+          "are only supported in room version 12 and newer."),
+   "upgrade room version creator",
+   validateUpgradeRoom,
    true},
 }};
 
@@ -689,12 +743,21 @@ argumentExpectsUserId(const QString &text, int cursorPosition)
     if (clampedCursor < firstArgStart)
         return false;
 
-    for (int i = firstArgStart; i < clampedCursor; ++i) {
-        if (text.at(i).isSpace())
-            return false;
-    }
+    // Walk back to the start of the current whitespace-delimited token.
+    int tokenStart = clampedCursor;
+    while (tokenStart > firstArgStart && !text.at(tokenStart - 1).isSpace())
+        --tokenStart;
 
-    return true;
+    // First-arg slot: legacy semantic — the slot expects a user id even if
+    // empty (the caller wants to know whether `@` typed here would start a
+    // user-id completion).  All commands carrying this flag have a user id
+    // as their first argument.
+    if (tokenStart == firstArgStart)
+        return true;
+
+    // Subsequent arg slots: only @-prefixed tokens qualify (e.g. the user
+    // ids after the version number in `/upgraderoom 11 @bob`).
+    return clampedCursor < static_cast<int>(text.size()) && text.at(tokenStart) == u'@';
 }
 
 } // namespace timeline::slash_commands

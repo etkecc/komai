@@ -5802,14 +5802,19 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
         <translation>Kopii al tondujo</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Versio de ĉambro</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Determinas kiujn funkciojn la ĉambro subtenas.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Ĝisdatigi…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Determinas kiujn funkciojn la ĉambro subtenas. Ĝisdatigo anstataŭas ĉi tiun ĉambron per nova, lasante la malnovan kiel arkivon.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5820,7 +5825,7 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Agordoj</translation>
     </message>
@@ -6672,12 +6677,12 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>La Matrix dorsa rulaĵo ne estas disponebla.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Malsukcesis aktivigi ĉifradon.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Malsukcesis ĝisdatigi sciigojn.</translation>
     </message>
@@ -8851,8 +8856,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Ĉi tiu ĉambro anstataŭiĝis pro la jena kialo: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Ĉi tiu ĉambro estis anstataŭigita de alia.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9148,7 +9153,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Aldonaĵo '%1' konservita</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Ne eblas ĝisdatigi ĉambron: dorsa servo ne preta.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Malsukcesis ignori uzanton %1: %2</translation>
     </message>
@@ -9551,6 +9561,120 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Malŝlosi</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (aktuala)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Ĝisdatigi la spacon %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Ĝisdatigi la ĉambron %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Ĝisdatigi ĉi tiun spacon?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Ĝisdatigi ĉi tiun ĉambron?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Ĝisdatigo anstataŭas ĉi tiun ĉambron per nova. La malnova ĉambro restas kiel nurlegebla arkivo kun ligilo al la nova ĉambro.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Aktuala versio</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>nekonata</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Nova versio</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Vi ŝanĝas al pli malnova ĉambra versio. Ĉi tio forigas funkciojn subtenatajn en v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Kromaj kreintoj</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Laŭvola</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>En ĉambra versio 12 kaj pli nova, listigitaj uzantoj ricevas senliman, neŝanĝeblan Kreinto-nivelan povon en la nova ĉambro.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Nekonata montronomo</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Forigi</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Serĉi laŭ nomo aŭ @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Aldoni rekte</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Tajpu nomon aŭ Matrix-ID por serĉi.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Neniu kongrua uzanto trovita.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Uzu la supran sugeston por aldoni laŭ Matrix-ID.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Nuligi</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Ĝisdatigi</translation>
     </message>
 </context>
 <context>

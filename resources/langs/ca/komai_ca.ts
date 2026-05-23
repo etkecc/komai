@@ -5800,14 +5800,19 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
         <translation>Copia al porta-retalls</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Versió de la sala</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Determina quines funcionalitats admet la sala.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Actualitza…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Determina les funcions que admet la sala. L'actualització substitueix aquesta sala per una de nova, deixant l'antiga com a arxiu.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5818,7 +5823,7 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
@@ -6670,12 +6675,12 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>El temps d'execució del backend de Matrix no està disponible.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>No s'ha pogut activar el xifratge.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>No s'han pogut actualitzar les notificacions.</translation>
     </message>
@@ -8848,8 +8853,8 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Aquesta sala ha estat substituïda pel motiu següent: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Aquesta sala ha estat substituïda per una altra.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9145,7 +9150,12 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>S'ha desat l'adjunt '%1'</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>No es pot actualitzar la sala: el backend no està a punt.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>No s'ha pogut ignorar l'usuari %1: %2</translation>
     </message>
@@ -9548,6 +9558,120 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Desbloqueja</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (actual)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Actualitzar l'espai %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Actualitzar la sala %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Actualitzar aquest espai?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Actualitzar aquesta sala?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>L'actualització substitueix aquesta sala per una de nova. La sala antiga roman com a arxiu de només lectura amb un punter a la nova sala.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Versió actual</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>desconegut</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Versió nova</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Estàs canviant a una versió de sala anterior. Això elimina les funcions admeses a la v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Creadors addicionals</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Opcional</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>A la versió 12 de sala i posteriors, els usuaris llistats reben poder infinit i immutable de nivell Creador a la nova sala.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Nom visible desconegut</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Cerca per nom o @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Afegeix directament</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Escriu un nom o un ID de Matrix per cercar.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>No s'han trobat usuaris coincidents.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Usa el suggeriment anterior per afegir per ID de Matrix.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Cancel·la</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Actualitza</translation>
     </message>
 </context>
 <context>

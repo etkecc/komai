@@ -5800,14 +5800,19 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <translation>Copier dans le presse-papiers</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Version du salon</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Détermine les fonctionnalités que le salon prend en charge.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Mettre à niveau…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Détermine les fonctionnalités supportées par le salon. La mise à niveau remplace ce salon par un nouveau, en laissant l'ancien comme archive.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5818,7 +5823,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
@@ -6670,12 +6675,12 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Le moteur Matrix n'est pas disponible.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Échec de l'activation du chiffrement.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Échec de la mise à jour des notifications.</translation>
     </message>
@@ -8848,8 +8853,8 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Ce salon a été remplacé pour la raison suivante : %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Ce salon a été remplacé par un autre.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9145,7 +9150,12 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Pièce jointe '%1' enregistrée</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Impossible de mettre à niveau le salon : le backend n'est pas prêt.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Impossible d'ignorer l'utilisateur %1 : %2</translation>
     </message>
@@ -9548,6 +9558,120 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Déverrouiller</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (actuelle)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Mettre à niveau l'espace %1 ?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Mettre à niveau le salon %1 ?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Mettre à niveau cet espace ?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Mettre à niveau ce salon ?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>La mise à niveau remplace ce salon par un nouveau. L'ancien salon reste comme archive en lecture seule avec un lien vers le nouveau salon.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Version actuelle</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>inconnu</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Nouvelle version</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Vous passez à une version plus ancienne du salon. Cela supprime les fonctionnalités supportées dans la v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Créateurs supplémentaires</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Optionnel</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>Dans la version 12 du salon et les versions ultérieures, les utilisateurs listés reçoivent un pouvoir de niveau Créateur infini et immuable dans le nouveau salon.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Nom d'affichage inconnu</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Rechercher par nom ou @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Ajouter directement</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Saisissez un nom ou un identifiant Matrix pour rechercher.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Aucun utilisateur correspondant trouvé.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Utilisez la suggestion ci-dessus pour ajouter par identifiant Matrix.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Mettre à niveau</translation>
     </message>
 </context>
 <context>

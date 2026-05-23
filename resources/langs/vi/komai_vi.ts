@@ -5793,14 +5793,19 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
         <translation>Sao chép vào bảng nhớ tạm</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Phiên bản phòng</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Xác định các tính năng mà phòng hỗ trợ.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Nâng cấp…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Xác định các tính năng mà phòng hỗ trợ. Nâng cấp sẽ thay thế phòng này bằng một phòng mới, giữ phòng cũ làm kho lưu trữ.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5811,7 +5816,7 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Cài đặt</translation>
     </message>
@@ -6661,12 +6666,12 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Môi trường chạy backend Matrix không khả dụng.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Không thể bật mã hóa.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Không thể cập nhật thông báo.</translation>
     </message>
@@ -8837,8 +8842,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Phòng này đã được thay thế vì lý do sau: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Phòng này đã được thay thế bằng một phòng khác.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9132,7 +9137,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Đã lưu tệp đính kèm '%1'</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Không thể nâng cấp phòng: backend chưa sẵn sàng.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Không thể bỏ qua người dùng %1: %2</translation>
     </message>
@@ -9532,6 +9542,120 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Mở khóa</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (hiện tại)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Nâng cấp không gian %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Nâng cấp phòng %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Nâng cấp không gian này?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Nâng cấp phòng này?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Nâng cấp sẽ thay thế phòng này bằng một phòng mới. Phòng cũ vẫn tồn tại dưới dạng kho lưu trữ chỉ đọc với liên kết tới phòng mới.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Phiên bản hiện tại</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>không xác định</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Phiên bản mới</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Bạn đang chuyển sang phiên bản phòng cũ hơn. Điều này loại bỏ các tính năng được hỗ trợ trong v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Người tạo bổ sung</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Tùy chọn</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>Trong phiên bản phòng 12 trở lên, người dùng được liệt kê nhận quyền cấp Người tạo vô hạn, bất biến trong phòng mới.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Tên hiển thị không xác định</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Xóa</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Tìm kiếm theo tên hoặc @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Thêm trực tiếp</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Nhập tên hoặc Matrix ID để tìm kiếm.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Không tìm thấy người dùng phù hợp.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Sử dụng gợi ý ở trên để thêm theo Matrix ID.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Hủy</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Nâng cấp</translation>
     </message>
 </context>
 <context>

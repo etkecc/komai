@@ -57,6 +57,21 @@ fromRustRoomSettings(const ::komai::rust::MatrixRoomSettings &room)
       .canChangeJoinRules         = room.can_change_join_rules,
       .canChangeHistoryVisibility = room.can_change_history_visibility,
       .canChangeEncryption        = room.can_change_encryption,
+      .canUpgradeRoom             = room.can_upgrade_room,
+    };
+}
+
+MatrixRoomVersionsCapability
+fromRustRoomVersionsCapability(const ::komai::rust::MatrixRoomVersionsCapability &cap)
+{
+    QVector<QString> stable;
+    stable.reserve(static_cast<int>(cap.stable.size()));
+    for (const auto &value : cap.stable)
+        stable.push_back(QString::fromStdString(std::string(value)));
+
+    return MatrixRoomVersionsCapability{
+      .defaultVersion = QString::fromStdString(std::string(cap.default_version)),
+      .stableVersions = stable,
     };
 }
 
@@ -473,6 +488,42 @@ MatrixBackendRuntimeService::unbanUser(matrix_backend::BlockingCallContext conte
     }
 }
 
+std::optional<QString>
+MatrixBackendRuntimeService::upgradeRoom(matrix_backend::BlockingCallContext context,
+                                         uint64_t handleId,
+                                         const QString &roomId,
+                                         const QString &newVersion,
+                                         const QStringList &additionalCreators,
+                                         QString *errorOut)
+{
+    try {
+        std::vector<std::string> rustCreators;
+        rustCreators.reserve(static_cast<size_t>(additionalCreators.size()));
+        for (const auto &creator : additionalCreators)
+            rustCreators.push_back(creator.toStdString());
+
+        auto result = invokeRuntimeWorkerCall(
+          "matrix_upgrade_room", [context, handleId, &roomId, &newVersion, &rustCreators]() {
+              ::rust::Vec<::rust::String> creatorsForRust;
+              creatorsForRust.reserve(rustCreators.size());
+              for (const auto &c : rustCreators)
+                  creatorsForRust.push_back(c);
+
+              return ::komai::rust::matrix_upgrade_room(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                newVersion.toStdString(),
+                creatorsForRust);
+          });
+        return QString::fromStdString(std::string(result));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 bool
 MatrixBackendRuntimeService::setUserPowerLevel(matrix_backend::BlockingCallContext context,
                                                uint64_t handleId,
@@ -512,6 +563,26 @@ MatrixBackendRuntimeService::fetchRoomSettings(matrix_backend::BlockingCallConte
                 matrix_backend::toRustBlockingContext(context), handleId, roomId.toStdString());
           });
         return fromRustRoomSettings(result);
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixRoomVersionsCapability>
+MatrixBackendRuntimeService::fetchRoomVersionsCapability(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  QString *errorOut)
+{
+    try {
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_fetch_room_versions_capability", [context, handleId]() {
+              return ::komai::rust::matrix_fetch_room_versions_capability(
+                matrix_backend::toRustBlockingContext(context), handleId);
+          });
+        return fromRustRoomVersionsCapability(result);
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());

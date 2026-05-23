@@ -13,7 +13,10 @@ use matrix_sdk::{
     ruma::{
         OwnedRoomAliasId, RoomAliasId,
         UInt,
-        api::client::room::aliases as room_aliases,
+        api::client::{
+            discovery::get_capabilities::v3::RoomVersionStability,
+            room::aliases as room_aliases,
+        },
         events::{
             SyncStateEvent,
             StateEventType,
@@ -483,6 +486,58 @@ pub async fn fetch_room_settings(
         can_change_encryption: power_levels.as_ref().is_some_and(|levels| {
             levels.user_can_send_state(&own_user_id, StateEventType::RoomEncryption)
         }),
+        // Sending m.room.tombstone is the auth-rule gate the server enforces
+        // on POST /rooms/{room_id}/upgrade, so the same power-level check
+        // tells us whether the user can upgrade this room.
+        can_upgrade_room: power_levels.as_ref().is_some_and(|levels| {
+            levels.user_can_send_state(&own_user_id, StateEventType::RoomTombstone)
+        }),
+    })
+}
+
+/// Returns the homeserver's `m.room_versions` capability — its default room
+/// version for new rooms plus the list of stable versions it supports.
+/// matrix-sdk caches the `/capabilities` response in the state store, so
+/// subsequent calls within a session are local.
+pub async fn fetch_room_versions_capability(
+    handle_id: u64,
+) -> Result<MatrixRoomVersionsCapability, String> {
+    let client = client_for_handle(handle_id)?;
+    let caps = client
+        .homeserver_capabilities()
+        .room_versions()
+        .await
+        .map_err(|e| format!("failed to fetch room versions capability: {e}"))?;
+
+    let default_version = caps.default.to_string();
+    let mut stable: Vec<String> = caps
+        .available
+        .iter()
+        .filter(|(_, stability)| matches!(stability, RoomVersionStability::Stable))
+        .map(|(version, _)| version.to_string())
+        .collect();
+
+    // Some homeservers omit the default from `available`; make sure it shows
+    // up in the dropdown so a user can re-select it.
+    if !stable.iter().any(|v| v == &default_version) {
+        stable.push(default_version.clone());
+    }
+
+    // Spec room versions are numeric strings ("1".."12" today); sort them
+    // numerically so "10" doesn't sort before "2".  Custom non-numeric IDs
+    // (e.g. unstable MSCs that some servers may still mark Stable) fall
+    // back to lexicographic ordering after the numerics.
+    stable.sort_by(|a, b| match (a.parse::<u32>().ok(), b.parse::<u32>().ok()) {
+        (Some(an), Some(bn)) => an.cmp(&bn),
+        (Some(_), None) => std::cmp::Ordering::Less,
+        (None, Some(_)) => std::cmp::Ordering::Greater,
+        (None, None) => a.cmp(b),
+    });
+    stable.dedup();
+
+    Ok(MatrixRoomVersionsCapability {
+        default_version,
+        stable,
     })
 }
 

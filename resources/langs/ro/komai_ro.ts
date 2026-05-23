@@ -5807,14 +5807,19 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
         <translation>Copiază în clipboard</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Versiunea camerei</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Determină funcțiile pe care le suportă camera.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Actualizează…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Determină ce funcții suportă camera. Actualizarea înlocuiește această cameră cu una nouă, lăsând-o pe cea veche ca arhivă.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5825,7 +5830,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Setări</translation>
     </message>
@@ -6679,12 +6684,12 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Runtime-ul backend Matrix nu este disponibil.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Nu s-a putut activa criptarea.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Nu s-au putut actualiza notificările.</translation>
     </message>
@@ -8859,8 +8864,8 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Această cameră a fost înlocuită din următorul motiv: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Această cameră a fost înlocuită de alta.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9158,7 +9163,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Atașament salvat '%1'</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Nu se poate actualiza camera: backend-ul nu este pregătit.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Nu s-a putut ignora utilizatorul %1: %2</translation>
     </message>
@@ -9564,6 +9574,120 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Deblochează</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (curentă)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Actualizezi spațiul %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Actualizezi camera %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Actualizezi acest spațiu?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Actualizezi această cameră?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Actualizarea înlocuiește această cameră cu una nouă. Camera veche rămâne ca arhivă numai pentru citire cu o trimitere către noua cameră.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Versiunea curentă</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>necunoscut</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Versiunea nouă</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Treci la o versiune mai veche a camerei. Aceasta elimină funcțiile suportate în v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Creatori suplimentari</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Opțional</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>În versiunea 12 și mai nouă a camerei, utilizatorii listați primesc putere de nivel Creator, infinită și imuabilă, în noua cameră.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Nume de afișare necunoscut</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Elimină</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Caută după nume sau @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Adaugă direct</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Tastează un nume sau ID Matrix pentru a căuta.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Nu s-au găsit utilizatori corespunzători.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Folosește sugestia de mai sus pentru a adăuga după ID Matrix.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Anulează</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Actualizează</translation>
     </message>
 </context>
 <context>

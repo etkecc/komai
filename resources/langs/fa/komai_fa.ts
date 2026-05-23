@@ -5793,14 +5793,19 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>کپی در کلیپ‌بورد</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>نسخه اتاق</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>مشخص می‌کند که اتاق از چه ویژگی‌هایی پشتیبانی می‌کند.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>ارتقاء…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>تعیین می‌کند که اتاق از چه قابلیت‌هایی پشتیبانی می‌کند. ارتقاء این اتاق را با یک اتاق جدید جایگزین می‌کند و اتاق قدیمی به عنوان بایگانی باقی می‌ماند.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5811,7 +5816,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>تنظیمات</translation>
     </message>
@@ -6661,12 +6666,12 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>زمان اجرای پشتیبان Matrix در دسترس نیست.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>فعال‌سازی رمزگذاری ناموفق بود.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>به‌روزرسانی اعلان‌ها ناموفق بود.</translation>
     </message>
@@ -8837,8 +8842,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>این اتاق به دلیل زیر جایگزین شد: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>این اتاق توسط اتاق دیگری جایگزین شده است.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9132,7 +9137,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>پیوست '%1' ذخیره شد</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>ارتقاء اتاق امکان‌پذیر نیست: بک‌اند آماده نیست.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>نادیده گرفتن کاربر %1 ناموفق بود: %2</translation>
     </message>
@@ -9532,6 +9542,120 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>بازگشایی</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (فعلی)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>فضای %1 ارتقاء داده شود؟</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>اتاق %1 ارتقاء داده شود؟</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>این فضا ارتقاء داده شود؟</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>این اتاق ارتقاء داده شود؟</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>ارتقاء این اتاق را با یک اتاق جدید جایگزین می‌کند. اتاق قدیمی به عنوان بایگانی فقط‌خواندنی با پیوندی به اتاق جدید باقی می‌ماند.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>نسخه فعلی</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>ناشناس</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>نسخه جدید</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>در حال تغییر به نسخه قدیمی‌تر اتاق هستید. این کار قابلیت‌های پشتیبانی‌شده در v%1 را حذف می‌کند.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>سازندگان اضافی</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>اختیاری</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>در نسخه 12 اتاق و جدیدتر، کاربران فهرست‌شده دسترسی نامحدود و غیرقابل تغییر سطح سازنده را در اتاق جدید دریافت می‌کنند.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>نام نمایشی ناشناس</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>حذف</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>جستجو بر اساس نام یا @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>افزودن مستقیم</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>نام یا شناسه Matrix را برای جستجو وارد کنید.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>کاربر مطابقی یافت نشد.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>از پیشنهاد بالا برای افزودن با شناسه Matrix استفاده کنید.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>لغو</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>ارتقاء</translation>
     </message>
 </context>
 <context>

@@ -60,6 +60,71 @@ TimelineViewManager::openRoomInfo(const QString &roomId, const QString &initialT
 }
 
 void
+TimelineViewManager::performRoomUpgrade(const QString &roomId,
+                                        const QString &newVersion,
+                                        const QStringList &additionalCreators)
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || roomId.isEmpty() || newVersion.isEmpty()) {
+        if (mainWindow)
+            mainWindow->showNotification(tr("Cannot upgrade room: backend not ready."));
+        return;
+    }
+
+    const auto creatorsForLog = additionalCreators.isEmpty()
+                                  ? QStringLiteral("none")
+                                  : additionalCreators.join(QStringLiteral(", "));
+    komai::logging::ui()->info(
+      "Requesting room upgrade for '{}' to version '{}' (additional creators: {})",
+      roomId.toStdString(),
+      newVersion.toStdString(),
+      creatorsForLog.toStdString());
+
+    emit roomUpgradeStarted(roomId);
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId, roomId, newVersion, additionalCreators]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          auto replacement = komai::MatrixBackendRuntimeService::upgradeRoom(
+            context, handleId, roomId, newVersion, additionalCreators, &error);
+          return std::make_pair(std::move(replacement), error);
+      },
+      [roomId](TimelineViewManager *self,
+               const std::pair<std::optional<QString>, QString> &outcome) {
+          const auto &[replacement, error] = outcome;
+          auto *mw                         = MainWindow::instance();
+          if (!replacement.has_value()) {
+              komai::logging::ui()->warn(
+                "Failed to upgrade room '{}': {}", roomId.toStdString(), error.toStdString());
+              if (mw)
+                  mw->showNotification(self->tr("Failed to upgrade room: %1").arg(error));
+              return;
+          }
+
+          const auto &newRoomId = *replacement;
+          komai::logging::ui()->info("Room '{}' upgraded; replacement room is '{}'",
+                                     roomId.toStdString(),
+                                     newRoomId.toStdString());
+
+          // Switch to the successor.  setCurrentRoom() handles the case
+          // where sync hasn't yet delivered the new room — the switch is
+          // queued via pendingCurrentRoomId_ and applied when it appears.
+          if (auto *rooms = FilteredRoomlistModel::instance())
+              rooms->setCurrentRoom(newRoomId);
+
+          if (mw) {
+              // The deferred-switch path picks the new room up once sync
+              // surfaces it in the room list (same flow as createRoom).
+              mw->showNotification(
+                self->tr("Room upgraded. Switching to the new room when it appears…"));
+          }
+      });
+}
+
+void
 TimelineViewManager::openInviteUsers(QString roomId)
 {
     if (!roomId.startsWith('!'))

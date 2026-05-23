@@ -24,10 +24,10 @@ use matrix_sdk::{
     media::{MediaFormat, MediaRequestParameters, MediaThumbnailSettings},
     ruma::{
         MxcUri, OwnedDeviceId, OwnedEventId, OwnedRoomId, OwnedRoomOrAliasId, OwnedServerName, OwnedUserId, RoomId,
-        RoomOrAliasId, ServerName, UInt, UserId,
+        RoomOrAliasId, RoomVersionId, ServerName, UInt, UserId,
         api::client::{
             membership::{invite_user, leave_room},
-            room::{Visibility, create_room},
+            room::{Visibility, create_room, upgrade_room},
         },
         api::client::media::get_content_thumbnail::v3::Method,
         api::client::profile::{AvatarUrl, DisplayName},
@@ -132,7 +132,7 @@ pub use verification::{
 pub use room_actions::{
     ban_user, create_room, invite_user, join_room, kick_user, knock_room, leave_room,
     send_typing_notice, set_own_room_display_name, set_room_is_direct, toggle_room_tag,
-    unban_user,
+    unban_user, upgrade_room,
 };
 pub use preloader::start_preload;
 pub use room_list::{fetch_room_list, start_sync};
@@ -141,6 +141,7 @@ pub use room_settings::{
     MatrixChildSpaceEntry,
     apply_room_aliases, apply_room_power_levels, enable_room_encryption, fetch_room_aliases,
     fetch_room_child_spaces, fetch_room_members, fetch_room_power_levels, fetch_room_settings,
+    fetch_room_versions_capability,
     remove_room_avatar, set_room_access_rules,
     set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
     set_user_power_level, upload_room_avatar,
@@ -400,6 +401,18 @@ pub struct MatrixRoomSettings {
     pub can_change_join_rules: bool,
     pub can_change_history_visibility: bool,
     pub can_change_encryption: bool,
+    pub can_upgrade_room: bool,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct MatrixRoomVersionsCapability {
+    /// Server's default room version for new rooms (e.g. "11").
+    /// Named `default_version` (not `default`) because `default` is a C++
+    /// keyword and cxx does not mangle it.
+    pub default_version: String,
+    /// Stable room versions the server supports, sorted in ascending numeric
+    /// order where possible.
+    pub stable: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

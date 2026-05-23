@@ -598,6 +598,41 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
         ok = true;
         break;
     }
+    case CommandId::UpgradeRoom: {
+        if (!requireActiveRoom())
+            return false;
+
+        // /upgraderoom              → default version, no extra creators
+        // /upgraderoom 11           → version 11, no extra creators
+        // /upgraderoom 11 @a:s @b:s → version 11 + creators
+        // /upgraderoom @a:s @b:s    → default version + creators (no leading version)
+        QString version;
+        QStringList additionalCreators;
+        const auto tokens    = arguments.split(QChar(u' '), Qt::SkipEmptyParts);
+        int firstUserIdIndex = 0;
+        if (!tokens.isEmpty() && !tokens.first().startsWith(u'@')) {
+            version          = tokens.first();
+            firstUserIdIndex = 1;
+        }
+        for (int i = firstUserIdIndex; i < tokens.size(); ++i)
+            additionalCreators << tokens.at(i);
+
+        // Defer to the homeserver-advertised default when the user omits a
+        // version.  Falls back to a local default the first time around (the
+        // capability is fetched lazily); refresh in the background so the
+        // *next* invocation gets the server's preference.
+        if (version.isEmpty()) {
+            version = defaultRoomVersion();
+            if (version.isEmpty()) {
+                refreshRoomVersionsCapability();
+                version = QStringLiteral("12");
+            }
+        }
+
+        performRoomUpgrade(activeMatrixTimelineRoomId_, version, additionalCreators);
+        ok = true;
+        break;
+    }
     }
 
     if (!ok)

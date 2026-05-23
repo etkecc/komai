@@ -34,6 +34,7 @@ enum class CommandId
     ConvertToRoom,
     Ignore,
     Unignore,
+    UpgradeRoom,
 };
 
 enum class ValidationState

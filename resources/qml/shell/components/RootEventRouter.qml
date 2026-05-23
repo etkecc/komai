@@ -54,6 +54,12 @@ Item {
                     "reason": reason
                 });
         }
+        function onOpenUpgradeRoomDialog(roomid, currentVersion) {
+            timelineRoot.openCatalogDialog(componentCatalog.roomUpgradeDialog, {
+                    "roomId": roomid,
+                    "currentVersion": currentVersion
+                });
+        }
         function onOpenProfile(profile) {
             timelineRoot.openCatalogDialog(componentCatalog.userProfileDialog, {
                     "profile": profile,

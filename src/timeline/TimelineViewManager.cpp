@@ -31,6 +31,7 @@
 #include "ui/MainWindow.h"
 #include "ui/RoomSettings.h"
 #include "ui/UserProfile.h"
+#include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -168,6 +169,55 @@ TimelineViewManager::handleMatrixBackendInitialSyncReady(std::uint64_t handleId)
 
     waitingForFirstSync_ = false;
     emit waitingForFirstSyncChanged(false);
+}
+
+void
+TimelineViewManager::refreshRoomVersionsCapability()
+{
+    auto *mainWindow    = MainWindow::instance();
+    const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
+    if (handleId == 0 || roomVersionsCapabilityInFlight_)
+        return;
+
+    roomVersionsCapabilityInFlight_ = true;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [handleId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          auto result = komai::MatrixBackendRuntimeService::fetchRoomVersionsCapability(
+            context, handleId, &error);
+          return std::make_pair(std::move(result), error);
+      },
+      [](TimelineViewManager *self,
+         const std::pair<std::optional<komai::MatrixRoomVersionsCapability>, QString> &outcome) {
+          self->roomVersionsCapabilityInFlight_ = false;
+          const auto &[result, error]           = outcome;
+          if (!result.has_value()) {
+              if (!error.isEmpty()) {
+                  komai::logging::ui()->warn("Failed to fetch room versions capability: {}",
+                                             error.toStdString());
+              }
+              return;
+          }
+
+          const auto &cap = *result;
+          QStringList stable;
+          stable.reserve(cap.stableVersions.size());
+          for (const auto &v : cap.stableVersions)
+              stable.push_back(v);
+
+          if (self->defaultRoomVersion_ == cap.defaultVersion &&
+              self->stableRoomVersions_ == stable && self->roomVersionsCapabilityLoaded_) {
+              return;
+          }
+
+          self->defaultRoomVersion_           = cap.defaultVersion;
+          self->stableRoomVersions_           = std::move(stable);
+          self->roomVersionsCapabilityLoaded_ = true;
+          emit self->roomVersionsCapabilityChanged();
+      });
 }
 
 void

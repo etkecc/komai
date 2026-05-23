@@ -434,3 +434,42 @@ pub async fn unban_user(
         .await
         .map_err(|e| format!("failed to unban user via matrix-sdk: {e}"))
 }
+
+/// POST /_matrix/client/v3/rooms/{room_id}/upgrade.  Returns the new room's
+/// id (the server tombstones the old room and creates the successor).
+/// `additional_creators` is honored from room version 12 onwards; older
+/// servers silently drop it.
+pub async fn upgrade_room(
+    handle_id: u64,
+    room_id: &str,
+    new_version: &str,
+    additional_creators: &[String],
+) -> Result<String, String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+    let parsed_new_version = RoomVersionId::try_from(new_version.trim())
+        .map_err(|e| format!("invalid room version '{}': {e}", new_version.trim()))?;
+
+    let mut parsed_creators: Vec<OwnedUserId> = Vec::with_capacity(additional_creators.len());
+    for raw in additional_creators {
+        parsed_creators.push(parse_user_id(raw)?);
+    }
+
+    let mut request = upgrade_room::v3::Request::new(parsed_room_id, parsed_new_version);
+    request.additional_creators = parsed_creators;
+
+    tracing::info!(
+        handle_id,
+        room_id = room_id.trim(),
+        new_version = new_version.trim(),
+        additional_creator_count = additional_creators.len(),
+        "Upgrading room via matrix-sdk backend runtime"
+    );
+
+    let response = client
+        .send(request)
+        .await
+        .map_err(|e| format!("failed to upgrade room via matrix-sdk: {e}"))?;
+
+    Ok(response.replacement_room.to_string())
+}

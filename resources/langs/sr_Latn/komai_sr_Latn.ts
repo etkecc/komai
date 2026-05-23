@@ -5807,14 +5807,19 @@ Prethodni rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tran
         <translation>Kopiraj u ostavu</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+46"/>
         <source>Room Version</source>
         <translation>Verzija sobe</translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Determines which features the room supports.</source>
-        <translation>Određuje koje funkcije soba podržava.</translation>
+        <location line="+13"/>
+        <source>Upgrade…</source>
+        <translation>Nadogradi…</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Determines which features the room supports. Upgrading replaces this room with a new one, leaving the old as an archive.</source>
+        <translation>Određuje koje funkcije soba podržava. Nadogradnja zamenjuje ovu sobu novom, ostavljajući staru kao arhivu.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5825,7 +5830,7 @@ Prethodni rezervne kopije ključeva na serveru se ne uklanjaju automatski.</tran
 <context>
     <name>RoomInfoDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+45"/>
+        <location filename="../../qml/dialogs/room/RoomInfoDialog.qml" line="+60"/>
         <source>Settings</source>
         <translation>Podešavanja</translation>
     </message>
@@ -6679,12 +6684,12 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Matrix backend runtime nije dostupan.</translation>
     </message>
     <message>
-        <location line="+152"/>
+        <location line="+154"/>
         <source>Failed to enable encryption.</source>
         <translation>Nije uspelo uključivanje šifrovanja.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Failed to update notifications.</source>
         <translation>Ažuriranje obaveštenja nije uspelo.</translation>
     </message>
@@ -8859,8 +8864,8 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>This room was replaced for the following reason: %1</source>
-        <translation>Ova soba je zamenjena iz sledećeg razloga: %1</translation>
+        <source>This room has been replaced by another one.</source>
+        <translation>Ova soba je zamenjena drugom.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -9158,7 +9163,12 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Prilog '%1' je sačuvan</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+324"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerRoomActions.cpp" line="+71"/>
+        <source>Cannot upgrade room: backend not ready.</source>
+        <translation>Nije moguće nadograditi sobu: backend nije spreman.</translation>
+    </message>
+    <message>
+        <location line="+318"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Nije uspelo ignorisanje korisnika %1: %2</translation>
     </message>
@@ -9564,6 +9574,120 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <location line="+10"/>
         <source>Unlock</source>
         <translation>Otključaj</translation>
+    </message>
+</context>
+<context>
+    <name>UpgradeRoomDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/room/UpgradeRoomDialog.qml" line="+36"/>
+        <source>%1 (current)</source>
+        <translation>%1 (trenutna)</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Upgrade the %1 space?</source>
+        <translation>Nadograditi prostor %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade the %1 room?</source>
+        <translation>Nadograditi sobu %1?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Upgrade this space?</source>
+        <translation>Nadograditi ovaj prostor?</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Upgrade this room?</source>
+        <translation>Nadograditi ovu sobu?</translation>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Upgrading replaces this room with a new one. The old room stays as a read-only archive with a pointer to the new room.</source>
+        <translation>Nadogradnja zamenjuje ovu sobu novom. Stara soba ostaje kao arhiva samo za čitanje sa pokazivačem na novu sobu.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Current version</source>
+        <translation>Trenutna verzija</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>unknown</source>
+        <translation>nepoznato</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>New version</source>
+        <translation>Nova verzija</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>You're switching to an older room version. This removes features supported in v%1.</source>
+        <translation>Prelaziš na stariju verziju sobe. Ovo uklanja funkcije podržane u v%1.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Additional creators</source>
+        <translation>Dodatni kreatori</translation>
+    </message>
+    <message>
+        <location line="+21"/>
+        <source>Optional</source>
+        <translation>Opciono</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>In room version 12 and newer, listed users receive infinite, immutable Creator-level power in the new room.</source>
+        <translation>U verziji sobe 12 i novijim, navedeni korisnici dobijaju neograničenu, nepromenljivu moć na nivou Kreatora u novoj sobi.</translation>
+    </message>
+    <message>
+        <location line="+52"/>
+        <location line="+225"/>
+        <source>Unknown display name</source>
+        <translation>Nepoznato prikazano ime</translation>
+    </message>
+    <message>
+        <location line="-207"/>
+        <source>Remove</source>
+        <translation>Ukloni</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Search by name or @user:example.com</source>
+        <translation>Pretraži po imenu ili @user:example.com</translation>
+    </message>
+    <message>
+        <location line="+84"/>
+        <source>Add directly</source>
+        <translation>Dodaj direktno</translation>
+    </message>
+    <message>
+        <location line="+130"/>
+        <source>Type a name or Matrix ID to search.</source>
+        <translation>Unesi ime ili Matrix ID za pretragu.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>No matching users found.</source>
+        <translation>Nisu pronađeni korisnici koji odgovaraju.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Use the suggestion above to add by Matrix ID.</source>
+        <translation>Koristi predlog iznad za dodavanje putem Matrix ID-a.</translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Cancel</source>
+        <translation>Otkaži</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Upgrade</source>
+        <translation>Nadogradi</translation>
     </message>
 </context>
 <context>

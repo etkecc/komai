@@ -693,7 +693,15 @@ FilteredRoomlistModel::markAsUnread(const QString &roomid)
 void
 FilteredRoomlistModel::copyLink(QString roomid)
 {
-    const auto link = QStringLiteral("https://matrix.to/#/%1").arg(roomid);
+    // Prefer canonical alias over raw room ID, if available.
+    QString identifier;
+    const auto &joined = roomlistmodel->matrixJoinedRooms();
+    if (auto it = joined.constFind(roomid); it != joined.cend() && !it->roomAlias.isEmpty())
+        identifier = it->roomAlias;
+    else
+        identifier = std::move(roomid);
+
+    const auto link = QStringLiteral("https://matrix.to/#/%1").arg(identifier);
     QGuiApplication::clipboard()->setText(link);
 }
 

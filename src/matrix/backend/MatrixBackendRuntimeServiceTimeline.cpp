@@ -172,6 +172,8 @@ fromRustTimelineItem(const ::komai::rust::MatrixTimelineItem &item)
               .ipLiteralsChange = item.server_acl_ip_literals_change,
             };
         }(),
+      .tombstoneReplacementRoomId =
+        QString::fromStdString(std::string(item.tombstone_replacement_room_id)),
       .cachedType                        = 0,
       .cachedEmojiOnlyCount              = 0,
       .cachedDay                         = 0,

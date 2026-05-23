@@ -1276,6 +1276,9 @@ mod bridge {
         server_acl_denied_removed: Vec<String>,
         /// 0 = unchanged, 1 = now allowed, 2 = now denied
         server_acl_ip_literals_change: u8,
+        /// For `m.room.tombstone` state events: the room id the tombstone
+        /// points at.  Empty for every other event type.
+        tombstone_replacement_room_id: String,
     }
 
     struct MatrixPowerLevelChange {

@@ -126,6 +126,7 @@ pub(super) async fn raw_event_to_timeline_item(
         shield_code: String::new(),
         power_level_changes: Vec::new(),
         server_acl_changes: None,
+        tombstone_replacement_room_id: summary.tombstone_replacement_room_id,
     })
 }
 

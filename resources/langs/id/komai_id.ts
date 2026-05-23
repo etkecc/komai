@@ -8841,7 +8841,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Izinkan mereka untuk masuk</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Ruangan ini telah digantikan oleh ruangan lain.</translation>
     </message>
@@ -8851,7 +8851,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Pergi ke ruangan baru</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Peristiwa status tidak didukung (%1)</translation>
     </message>

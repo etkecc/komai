@@ -8841,7 +8841,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>允許進入</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>此聊天室已被另一個聊天室取代。</translation>
     </message>
@@ -8851,7 +8851,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>前往替代聊天室</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>不支援的狀態事件（%1）</translation>
     </message>

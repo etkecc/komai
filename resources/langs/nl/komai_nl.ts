@@ -8852,7 +8852,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Binnenlaten</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Deze kamer is vervangen door een andere.</translation>
     </message>
@@ -8862,7 +8862,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Ga naar de vervangende kamer</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Niet-ondersteunde statusgebeurtenis (%1)</translation>
     </message>

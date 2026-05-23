@@ -8863,7 +8863,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Dozvoli im ulaz</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Ova soba je zamenjena drugom.</translation>
     </message>
@@ -8873,7 +8873,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Idi u zamenu sobe</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Nepodržan statusni događaj (%1)</translation>
     </message>

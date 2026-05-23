@@ -104,6 +104,7 @@ public:
         Waveform,
         MessageShield,
         MatrixEventType,
+        TombstoneReplacementRoomId,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);

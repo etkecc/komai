@@ -8841,7 +8841,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Cho phép họ vào</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Phòng này đã được thay thế bằng một phòng khác.</translation>
     </message>
@@ -8851,7 +8851,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Đến phòng thay thế</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Sự kiện trạng thái không được hỗ trợ (%1)</translation>
     </message>

@@ -8852,7 +8852,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ඔවුන්ට ඇතුළු වීමට ඉඩ දෙන්න</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>මෙම කාමරය තවත් කාමරයක් මගින් ප්‍රතිස්ථාපනය කර ඇත.</translation>
     </message>
@@ -8862,7 +8862,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ආදේශ කාමරයට යන්න</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>සහාය නොදක්වන තත්ව සිදුවීම (%1)</translation>
     </message>

@@ -594,6 +594,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     }
     case MessageShield:      return messageShieldFromCode(item.shieldColor, item.shieldCode);
     case MatrixEventType:    return item.matrixEventType;
+    case TombstoneReplacementRoomId: return item.tombstoneReplacementRoomId;
 
     default:                 return {};
     }
@@ -749,6 +750,7 @@ MatrixTimelineModel::roleNames() const
       {Waveform, "waveform"},
       {MessageShield, "messageShield"},
       {MatrixEventType, "matrixEventType"},
+      {TombstoneReplacementRoomId, "tombstoneReplacementRoomId"},
     };
 }
 

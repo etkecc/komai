@@ -8852,7 +8852,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Päästä hänet sisään</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Tämä huone on korvattu toisella.</translation>
     </message>
@@ -8862,7 +8862,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Siirry korvaavaan huoneeseen</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Tukematon tilatapahtuma (%1)</translation>
     </message>

@@ -357,6 +357,7 @@ pub(super) fn summary_with_media(
         utd_cause: String::new(),
         power_level_changes: Vec::new(),
         server_acl_changes: None,
+        tombstone_replacement_room_id: String::new(),
     }
 }
 

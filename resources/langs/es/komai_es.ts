@@ -8855,7 +8855,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Permitir que entren</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Esta sala ha sido reemplazada por otra.</translation>
     </message>
@@ -8865,7 +8865,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Ir a la sala de sustitución</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Evento de estado no compatible (%1)</translation>
     </message>

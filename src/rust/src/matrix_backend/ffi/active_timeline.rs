@@ -123,6 +123,7 @@ fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimeline
             Some(true) => 1,
             Some(false) => 2,
         },
+        tombstone_replacement_room_id: item.tombstone_replacement_room_id,
     }
 }
 

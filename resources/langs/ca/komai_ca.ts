@@ -8852,7 +8852,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Deixa'ls entrar</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Aquesta sala ha estat substituïda per una altra.</translation>
     </message>
@@ -8862,7 +8862,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Ves a la sala de substitució</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Esdeveniment d'estat no compatible (%1)</translation>
     </message>

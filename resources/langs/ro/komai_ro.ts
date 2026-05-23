@@ -8863,7 +8863,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Permite-le accesul</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Această cameră a fost înlocuită de alta.</translation>
     </message>
@@ -8873,7 +8873,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Mergi la camera de înlocuire</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Eveniment de stare nesuportat (%1)</translation>
     </message>

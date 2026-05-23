@@ -558,6 +558,9 @@ pub struct MatrixTimelineItem {
     pub shield_code: String,
     pub power_level_changes: Vec<event_detail::PowerLevelChange>,
     pub server_acl_changes: Option<event_detail::ServerAclChange>,
+    /// For `m.room.tombstone` events: the room id the tombstone points at.
+    /// Empty for every other event type.
+    pub tombstone_replacement_room_id: String,
 }
 
 static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);

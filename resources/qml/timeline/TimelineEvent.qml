@@ -463,6 +463,7 @@ EventDelegateChooser {
             required property var room
             required property string userId
             required property string userName
+            required property string tombstoneReplacementRoomId
             property bool stateEventIconOnRight: false
 
             StateEventMessage {
@@ -479,8 +480,13 @@ EventDelegateChooser {
             Components.KomaiButton {
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("Go to replacement room")
+                // Hide when the tombstone is malformed / missing the
+                // successor — Rooms.setCurrentRoom("") would be a no-op
+                // anyway, but a click that does nothing is worse UX than
+                // not showing the button.
+                visible: tombstone.tombstoneReplacementRoomId.length > 0
 
-                onClicked: tombstone.room.joinReplacementRoom(tombstone.eventId)
+                onClicked: Rooms.openOrJoinRoom(tombstone.tombstoneReplacementRoomId)
             }
         }
     }

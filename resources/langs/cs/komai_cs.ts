@@ -8863,7 +8863,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Vpustit je</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Tato místnost byla nahrazena jinou.</translation>
     </message>
@@ -8873,7 +8873,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Přejít do náhradní místnosti</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Nepodporovaná stavová událost (%1)</translation>
     </message>

@@ -8841,7 +8841,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>İçeri al</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Bu oda başka bir odayla değiştirildi.</translation>
     </message>
@@ -8851,7 +8851,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Yeni odaya git</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Desteklenmeyen durum etkinliği (%1)</translation>
     </message>

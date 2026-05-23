@@ -8841,7 +8841,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>入室を許可する</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>このルームは別のルームに置き換えられました。</translation>
     </message>
@@ -8851,7 +8851,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>移行先のルームへ移動</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>未対応のステートイベント (%1)</translation>
     </message>

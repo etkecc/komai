@@ -145,10 +145,22 @@ pub(super) fn summarize_other_state(state: &OtherState, _sender: &str) -> Matrix
         _ => None,
     };
 
+    // Tombstone events carry the successor room id in `content.replacement_room`,
+    // surfaced here so the "Go to replacement room" button in the timeline
+    // delegate can target it directly.
+    let tombstone_replacement_room_id = match state.content() {
+        AnyOtherStateEventContentChange::RoomTombstone(StateEventContentChange::Original {
+            content,
+            ..
+        }) => content.replacement_room.to_string(),
+        _ => String::new(),
+    };
+
     let mut s = summary("other_state", &event_type, "");
     s.state_event_detail = detail;
     s.power_level_changes = power_level_changes;
     s.server_acl_changes = server_acl_changes;
+    s.tombstone_replacement_room_id = tombstone_replacement_room_id;
     s
 }
 

@@ -390,6 +390,9 @@ struct MatrixTimelineItem
     QString shieldCode;
     QList<PowerLevelChange> powerLevelChanges;
     ServerAclChange serverAclChange;
+    // For `m.room.tombstone` state events: the successor room id the tombstone
+    // points at.  Empty for every other event kind.
+    QString tombstoneReplacementRoomId;
     // Pre-computed derived fields (populated by MatrixTimelineModel, not the Rust bridge).
     int cachedType             = 0;
     int cachedEmojiOnlyCount   = 0;

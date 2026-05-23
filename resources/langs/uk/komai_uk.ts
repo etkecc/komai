@@ -8863,7 +8863,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Дозволити увійти</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Цю кімнату замінено іншою.</translation>
     </message>
@@ -8873,7 +8873,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Перейти до нової кімнати</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Непідтримувана подія стану (%1)</translation>
     </message>

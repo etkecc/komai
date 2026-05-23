@@ -8841,7 +8841,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Beengedés</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Ezt a szobát egy másik szoba váltotta fel.</translation>
     </message>
@@ -8851,7 +8851,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Ugrás a helyettesítő szobához</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Nem támogatott állapotesemény (%1)</translation>
     </message>

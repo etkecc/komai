@@ -8864,7 +8864,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Wpuść</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Ten pokój został zastąpiony innym.</translation>
     </message>
@@ -8874,7 +8874,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Przejdź do zastępczego pokoju</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Nieobsługiwane zdarzenie stanu (%1)</translation>
     </message>

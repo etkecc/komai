@@ -8841,7 +8841,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>입장 허용</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>이 방은 다른 방으로 대체되었습니다.</translation>
     </message>
@@ -8851,7 +8851,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>대체 방으로 이동</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>지원되지 않는 상태 이벤트 (%1)</translation>
     </message>

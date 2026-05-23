@@ -8852,7 +8852,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>അവരെ അനുവദിക്കുക</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>ഈ മുറി മറ്റൊന്നിനാൽ മാറ്റിസ്ഥാപിക്കപ്പെട്ടിരിക്കുന്നു.</translation>
     </message>
@@ -8862,7 +8862,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>പകരം മുറിയിലേക്ക് പോകുക</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>പിന്തുണയ്ക്കാത്ത സ്റ്റേറ്റ് ഇവന്റ് (%1)</translation>
     </message>

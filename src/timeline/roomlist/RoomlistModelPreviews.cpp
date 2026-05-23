@@ -106,6 +106,27 @@ RoomlistModel::joinPreview(const QString &roomid)
 }
 
 void
+RoomlistModel::openOrJoinRoom(const QString &roomid)
+{
+    if (roomid.isEmpty())
+        return;
+
+    if (matrixJoinedRooms_.contains(roomid)) {
+        const auto &summary = matrixJoinedRooms_.value(roomid);
+        if (summary.isInvite) {
+            // For pending invites, joinRoom accepts and switches.
+            ChatPage::instance()->joinRoom(roomid);
+        } else {
+            setCurrentRoom(roomid);
+        }
+        return;
+    }
+
+    if (auto *cp = ChatPage::instance())
+        cp->joinRoom(roomid);
+}
+
+void
 RoomlistModel::acceptInvite(QString roomid)
 {
     if (invites.contains(roomid)) {

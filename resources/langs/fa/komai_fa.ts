@@ -8841,7 +8841,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>اجازه ورود</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>این اتاق توسط اتاق دیگری جایگزین شده است.</translation>
     </message>
@@ -8851,7 +8851,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>رفتن به اتاق جایگزین</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>رویداد وضعیت پشتیبانی‌نشده (%1)</translation>
     </message>

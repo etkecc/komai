@@ -72,6 +72,10 @@ pub struct MatrixEventSummary {
     pub power_level_changes: Vec<super::event_detail::PowerLevelChange>,
     /// Server ACL changes for enriched m.room.server_acl messages.
     pub server_acl_changes: Option<super::event_detail::ServerAclChange>,
+    /// For `m.room.tombstone` state events, the room id the tombstone
+    /// points at (`content.replacement_room`).  Empty for every other
+    /// event kind.
+    pub tombstone_replacement_room_id: String,
 }
 
 #[derive(Clone, Debug)]
@@ -209,6 +213,7 @@ pub(super) fn summary(kind: &str, matrix_event_type: &str, body: &str) -> Matrix
         utd_cause: String::new(),
         power_level_changes: Vec::new(),
         server_acl_changes: None,
+        tombstone_replacement_room_id: String::new(),
     }
 }
 

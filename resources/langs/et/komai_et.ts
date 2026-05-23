@@ -8852,7 +8852,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Luba neid</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>See jututuba on asendatud teisega.</translation>
     </message>
@@ -8862,7 +8862,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Mine uude jututuppa</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Toetamata olekusündmus (%1)</translation>
     </message>

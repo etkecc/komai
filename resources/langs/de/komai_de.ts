@@ -8852,7 +8852,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Reinlassen</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Dieser Raum wurde durch einen anderen ersetzt.</translation>
     </message>
@@ -8862,7 +8862,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Gehe zum neuen Raum</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Nicht unterstütztes Zustandsereignis (%1)</translation>
     </message>

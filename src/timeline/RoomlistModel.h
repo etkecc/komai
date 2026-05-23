@@ -163,6 +163,11 @@ public slots:
     void setDbusInterfaceEnabled(bool enabled);
 #endif
     void setCurrentRoom(const QString &roomid);
+    /// Navigate to a room, joining it first if not already joined.  The
+    /// join path already handles M_FORBIDDEN by offering to knock and calls
+    /// setCurrentRoom on success, so a single entry point covers both
+    /// "already a member, just switch" and "need to ask the server first".
+    void openOrJoinRoom(const QString &roomid);
     void resumeDeferredStartupCurrentRoomRestore();
     void resetCurrentRoom()
     {
@@ -370,6 +375,7 @@ public slots:
     void markAsUnread(const QString &roomid);
     void copyLink(QString roomid);
     void setCurrentRoom(QString roomid) { roomlistmodel->setCurrentRoom(std::move(roomid)); }
+    void openOrJoinRoom(QString roomid) { roomlistmodel->openOrJoinRoom(std::move(roomid)); }
     void resetCurrentRoom() { roomlistmodel->resetCurrentRoom(); }
     RoomPreview getRoomPreviewById(QString roomid) const
     {

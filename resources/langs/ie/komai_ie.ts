@@ -8852,7 +8852,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Admisser los</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Iste chambre ha esset remplassat par un altri.</translation>
     </message>
@@ -8862,7 +8862,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Ir al chambre de substitution</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Eveniment de estat non supportat (%1)</translation>
     </message>

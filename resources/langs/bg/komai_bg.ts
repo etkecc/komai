@@ -8852,7 +8852,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Позволи им да влязат</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Тази стая е заменена от друга.</translation>
     </message>
@@ -8862,7 +8862,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Отиди в заместващата стая</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Неподдържано статусно събитие (%1)</translation>
     </message>

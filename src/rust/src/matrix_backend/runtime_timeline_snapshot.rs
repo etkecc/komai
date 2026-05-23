@@ -188,6 +188,7 @@ fn timeline_item_to_summary(
         let state_event_has_sender = summary.state_event_has_sender;
         let power_level_changes = summary.power_level_changes;
         let server_acl_changes = summary.server_acl_changes;
+        let tombstone_replacement_room_id = summary.tombstone_replacement_room_id;
         let utd_cause = summary.utd_cause;
         let media_request = media.as_ref().and_then(|media| {
             media.source.clone().map(|source| MatrixTimelineMediaRequest {
@@ -333,6 +334,7 @@ fn timeline_item_to_summary(
                 shield_code,
                 power_level_changes,
                 server_acl_changes,
+                tombstone_replacement_room_id,
             },
             media_request,
             reply_media_request,
@@ -405,6 +407,7 @@ fn timeline_item_to_summary(
                 shield_code: String::new(),
                 power_level_changes: Vec::new(),
                 server_acl_changes: None,
+                tombstone_replacement_room_id: String::new(),
             },
             None,
             None,

@@ -8852,7 +8852,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Tillåt dem in</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>This room has been replaced by another one.</source>
         <translation>Det här rummet har ersatts av ett annat.</translation>
     </message>
@@ -8862,7 +8862,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Gå till ersättningsrummet</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+27"/>
         <source>Unsupported state event (%1)</source>
         <translation>Tillståndshändelse stöds inte (%1)</translation>
     </message>

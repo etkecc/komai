@@ -264,6 +264,7 @@ fn notification_item_from_sdk(
                     utd_cause: String::new(),
                     power_level_changes: Vec::new(),
                     server_acl_changes: None,
+                    tombstone_replacement_room_id: String::new(),
                 }
             });
 

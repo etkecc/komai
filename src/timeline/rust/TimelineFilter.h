@@ -25,6 +25,12 @@ class TimelineFilter : public QSortFilterProxyModel
                  NOTIFY collapseThreadRepliesChanged)
     Q_PROPERTY(QAbstractItemModel *source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(bool filteringInProgress READ isFiltering NOTIFY isFilteringChanged)
+    // Mirrors `MatrixTimelineModel::count` so QML callers (walk-mode helpers,
+    // viewport probes) can read the visible row count uniformly whether the
+    // active model is the raw timeline or this proxy. QAbstractItemModel only
+    // exposes `rowCount()` as a method; QML property reads (`model.count`)
+    // return undefined without this declaration, silently skipping every loop.
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
     explicit TimelineFilter(QObject *parent = nullptr);
@@ -34,6 +40,7 @@ public:
     bool collapseThreadReplies() const { return collapseThreadReplies_; }
     QAbstractItemModel *source() const;
     bool isFiltering() const;
+    int count() const { return rowCount(); }
 
     void setThreadId(const QString &t);
     void setContentFilter(const QString &t);
@@ -71,6 +78,7 @@ signals:
     void collapseThreadRepliesChanged();
     void sourceChanged();
     void isFilteringChanged();
+    void countChanged();
     void requestMoreData();
 
 private slots:

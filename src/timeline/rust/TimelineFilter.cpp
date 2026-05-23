@@ -35,6 +35,15 @@ TimelineFilter::TimelineFilter(QObject *parent)
 {
     setDynamicSortFilter(true);
     setFilterRole(FilterRole);
+
+    // Mirror QML's `count` property change notification.  QSortFilterProxyModel
+    // emits the granular rowsInserted/rowsRemoved/modelReset/layoutChanged
+    // signals when the filtered view's row count changes; QML bindings on
+    // `count` only re-evaluate when `countChanged` fires.
+    connect(this, &QAbstractItemModel::rowsInserted, this, &TimelineFilter::countChanged);
+    connect(this, &QAbstractItemModel::rowsRemoved, this, &TimelineFilter::countChanged);
+    connect(this, &QAbstractItemModel::modelReset, this, &TimelineFilter::countChanged);
+    connect(this, &QAbstractItemModel::layoutChanged, this, &TimelineFilter::countChanged);
 }
 
 bool

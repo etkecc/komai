@@ -65,13 +65,6 @@ AbstractButton {
     topPadding: buttonPaddingV
     bottomPadding: buttonPaddingV
 
-    TextMetrics {
-        id: toolTipMetrics
-
-        font: root.font
-        text: root.toolTipText
-    }
-
     FontMetrics {
         id: buttonFontMetrics
 
@@ -87,8 +80,7 @@ AbstractButton {
         text: root.toolTipText
         delay: 0
         requestedVisible: root.hovered && root.toolTipText.length > 0
-        width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                        (root.Window.window ? root.Window.window.width : 500) * 0.5)
+        maxWidth: (root.Window.window ? root.Window.window.width : 500) * 0.5
     }
 
     HoverHandler {

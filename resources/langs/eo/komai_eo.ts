@@ -5526,7 +5526,7 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
 <context>
     <name>RoomEncryptionStatusButton</name>
     <message>
-        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
+        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+110"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
         <translation>Mesaĝoj en ĉi tiu ĉambro ne estas ĉifritaj de fino al fino.</translation>
     </message>
@@ -7847,13 +7847,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>Snackbar</name>
     <message>
         <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
-        <location line="+77"/>
+        <location line="+70"/>
         <source>Notification</source>
         <translation>Sciigo</translation>
     </message>
     <message>
-        <location line="-65"/>
-        <location line="+245"/>
+        <location line="+180"/>
         <source>Dismiss this message</source>
         <translation>Forigi ĉi tiun mesaĝon</translation>
     </message>

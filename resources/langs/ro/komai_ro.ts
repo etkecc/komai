@@ -5531,7 +5531,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
 <context>
     <name>RoomEncryptionStatusButton</name>
     <message>
-        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
+        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+110"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
         <translation>Mesajele din această cameră nu sunt criptate end-to-end.</translation>
     </message>
@@ -7854,13 +7854,12 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
     <name>Snackbar</name>
     <message>
         <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
-        <location line="+77"/>
+        <location line="+70"/>
         <source>Notification</source>
         <translation>Notificare</translation>
     </message>
     <message>
-        <location line="-65"/>
-        <location line="+245"/>
+        <location line="+180"/>
         <source>Dismiss this message</source>
         <translation>Închide acest mesaj</translation>
     </message>

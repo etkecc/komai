@@ -5524,7 +5524,7 @@ Previous server-side key backups are not removed automatically.</source>
 <context>
     <name>RoomEncryptionStatusButton</name>
     <message>
-        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
+        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+110"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
         <translation>ഈ മുറിയിലെ സന്ദേശങ്ങൾ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റഡ് അല്ല.</translation>
     </message>
@@ -7845,13 +7845,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <name>Snackbar</name>
     <message>
         <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
-        <location line="+77"/>
+        <location line="+70"/>
         <source>Notification</source>
         <translation>അറിയിപ്പ്</translation>
     </message>
     <message>
-        <location line="-65"/>
-        <location line="+245"/>
+        <location line="+180"/>
         <source>Dismiss this message</source>
         <translation>ഈ സന്ദേശം നിരസിക്കുക</translation>
     </message>

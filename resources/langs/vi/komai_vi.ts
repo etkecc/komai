@@ -5517,7 +5517,7 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
 <context>
     <name>RoomEncryptionStatusButton</name>
     <message>
-        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+118"/>
+        <location filename="../../qml/room/components/RoomEncryptionStatusButton.qml" line="+110"/>
         <source>Messages in this room are not end-to-end encrypted.</source>
         <translation>Tin nhắn trong phòng này không được mã hóa đầu cuối.</translation>
     </message>
@@ -7836,13 +7836,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     <name>Snackbar</name>
     <message>
         <location filename="../../qml/ui/Snackbar.qml" line="+177"/>
-        <location line="+77"/>
+        <location line="+70"/>
         <source>Notification</source>
         <translation>Thông báo</translation>
     </message>
     <message>
-        <location line="-65"/>
-        <location line="+245"/>
+        <location line="+180"/>
         <source>Dismiss this message</source>
         <translation>Đóng thông báo này</translation>
     </message>

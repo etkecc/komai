@@ -32,23 +32,15 @@ TextArea {
     topPadding: 0
     wrapMode: Text.Wrap
 
-    TextMetrics {
-        id: linkToolTipMetrics
-
-        font: r.font
-        text: Komai.punyLink(r.hoveredLink)
-    }
-
     KomaiToolTip {
         anchorItem: r
         anchorX: r.hoverPoint.x
         anchorY: r.hoverPoint.y
         gapX: Komai.paddingMedium
         gapY: Komai.paddingMedium
-        text: linkToolTipMetrics.text
+        text: Komai.punyLink(r.hoveredLink)
         requestedVisible: r.hoveredLink.length > 0
-        width: Math.min(linkToolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                        (r.Window.window ? r.Window.window.width : 500) * 0.5)
+        maxWidth: (r.Window.window ? r.Window.window.width : 500) * 0.5
     }
 
     // Setting a tooltip delay makes the hover text empty .-.

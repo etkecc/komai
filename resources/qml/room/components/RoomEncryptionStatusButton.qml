@@ -93,13 +93,6 @@ AbstractButton {
     }
     visible: roomAvailable
 
-    TextMetrics {
-        id: toolTipMetrics
-
-        font: encryptionButton.font
-        text: encryptionButton.encryptionDialogTitle()
-    }
-
     Components.KomaiToolTip {
         anchorItem: encryptionButton
         anchorX: encryptionButton.width / 2
@@ -109,8 +102,7 @@ AbstractButton {
         text: encryptionButton.encryptionDialogTitle()
         delay: Komai.tooltipDelay
         requestedVisible: encryptionButton.hovered
-        width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                        (encryptionButton.Window.window ? encryptionButton.Window.window.width : 500) * 0.5)
+        maxWidth: (encryptionButton.Window.window ? encryptionButton.Window.window.width : 500) * 0.5
     }
 
     function encryptionDialogTitle() {

@@ -182,13 +182,6 @@ Popup {
         font: snackbarMessage.font
         text: snackbar.currentMessage
     }
-    TextMetrics {
-        id: dismissToolTipMetrics
-
-        font: dismissButton.font
-        text: qsTr("Dismiss this message")
-    }
-
     contentItem: Item {
         implicitWidth: snackbar.width
         implicitHeight: snackbarCard.implicitHeight + shadowRect.anchors.topMargin
@@ -434,8 +427,7 @@ Popup {
                 text: qsTr("Dismiss this message")
                 delay: 0
                 requestedVisible: dismissButtonHover.hovered
-                width: Math.min(dismissToolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                                (snackbar.parent ? snackbar.parent.width : 500) * 0.5)
+                maxWidth: (snackbar.parent ? snackbar.parent.width : 500) * 0.5
                 z: 10000
             }
         }

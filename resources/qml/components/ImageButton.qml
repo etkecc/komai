@@ -35,13 +35,6 @@ AbstractButton {
     height: 16
     width: 16
 
-    TextMetrics {
-        id: toolTipMetrics
-
-        font: button.font
-        text: button.toolTipText
-    }
-
     KomaiToolTip {
         anchorItem: button
         anchorX: button.toolTipAnchorX
@@ -51,8 +44,7 @@ AbstractButton {
         text: button.toolTipText
         delay: button.toolTipDelay
         requestedVisible: button.toolTipVisible
-        width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                        (button.Window.window ? button.Window.window.width : 500) * 0.5)
+        maxWidth: (button.Window.window ? button.Window.window.width : 500) * 0.5
     }
 
     Image {

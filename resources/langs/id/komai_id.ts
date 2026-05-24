@@ -3001,7 +3001,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <name>MainWindow</name>
     <message>
         <location filename="../../../src/ui/MainWindow.cpp" line="+171"/>
-        <location line="+77"/>
+        <location line="+78"/>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
@@ -3010,12 +3010,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Memulai Komai</translation>
     </message>
     <message>
-        <location line="-462"/>
+        <location line="-463"/>
         <source>Checking your profile...</source>
         <translation>Memeriksa profil Anda…</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Opening the profile chooser...</source>
         <translation>Membuka pemilih profil…</translation>
     </message>
@@ -9491,7 +9491,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>TrayIcon</name>
     <message>
-        <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
+        <location filename="../../../src/ui/TrayIcon.cpp" line="+159"/>
         <source>Show</source>
         <translation>Tampilkan</translation>
     </message>
@@ -9501,7 +9501,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Keluar</translation>
     </message>
     <message numerus="yes">
-        <location line="+31"/>
+        <location line="+60"/>
         <source>
 %n room(s) need attention</source>
         <translation>
@@ -10737,6 +10737,24 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Jika tersedia</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+10"/>
+        <source>Colorized</source>
+        <translation>Berwarna</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (light)</source>
+        <translation>Monokrom (terang)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (dark)</source>
+        <translation>Monokrom (gelap)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
         <location line="+21"/>
         <source>System font</source>
@@ -11760,6 +11778,21 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Icon style</source>
+        <translation>Gaya ikon</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use &lt;i&gt;Monochrome (light)&lt;/i&gt; for dark panels and &lt;i&gt;Monochrome (dark)&lt;/i&gt; for light panels.</source>
+        <translation>Gunakan &lt;i&gt;Monokrom (terang)&lt;/i&gt; untuk panel gelap dan &lt;i&gt;Monokrom (gelap)&lt;/i&gt; untuk panel terang.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>monochrome, symbolic, color</source>
+        <translation>monokrom, simbolis, warna</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Window blur</source>
         <translation>Blur jendela</translation>
     </message>

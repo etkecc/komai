@@ -1,0 +1,5 @@
+  {settings::core::SettingId::DesktopSystemTrayIconStyle,
+   SettingKey::DesktopSystemTrayIconStyle,
+   "colorized",
+   &desktopSystemTrayIconStyleToStorage,
+   &applyDesktopSystemTrayIconStyleFromStorage},

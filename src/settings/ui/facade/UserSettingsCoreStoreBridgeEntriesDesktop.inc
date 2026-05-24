@@ -1,5 +1,6 @@
 X(DesktopSystemTrayEnabled, settings.desktopSystemTrayEnabled())
 X(DesktopSystemTrayAutostart, settings.desktopSystemTrayAutostart())
+X(DesktopSystemTrayIconStyle, static_cast<int>(settings.desktopSystemTrayIconStyle()))
 X(DesktopNotificationsEnabled, settings.desktopNotificationsEnabled())
 X(DesktopNotificationsAttentionOnIncoming, settings.desktopNotificationsAttentionOnIncoming())
 X(DesktopNotificationsMessageContentPolicy,

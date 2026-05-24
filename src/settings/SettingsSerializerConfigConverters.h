@@ -108,6 +108,12 @@ roomHeaderButtonLabelsFromStorage(const QString &value,
                                   UserSettings::RoomHeaderButtonLabels fallback);
 
 QString
+toStorageValue(UserSettings::DesktopSystemTrayIconStyle value);
+UserSettings::DesktopSystemTrayIconStyle
+desktopSystemTrayIconStyleFromStorage(const QString &value,
+                                      UserSettings::DesktopSystemTrayIconStyle fallback);
+
+QString
 toStorageValue(UserSettings::NotificationMessageContentPolicy value);
 UserSettings::NotificationMessageContentPolicy
 notificationsMessageContentPolicyFromStorage(

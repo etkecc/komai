@@ -208,6 +208,10 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
         return expect(QString::fromStdString(static_cast<std::string>(
                         snapshot.timeline.room_header.button_labels)) == expected,
                       message);
+    if (keyString == QLatin1String(SettingKey::DesktopSystemTrayIconStyle))
+        return expect(QString::fromStdString(static_cast<std::string>(
+                        snapshot.desktop.system_tray.icon_style)) == expected,
+                      message);
     if (keyString == QLatin1String(SettingKey::SecretsProvider))
         return expect(QString::fromStdString(static_cast<std::string>(snapshot.secrets.provider)) ==
                         expected,
@@ -1987,6 +1991,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineRoomHeaderButtonLabels));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::DesktopSystemTrayIconStyle));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaAnimateOnHover));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaImageDisplay));
@@ -2182,6 +2188,9 @@ testEnumConstraintsMatchEnumKeyCount()
         {settings::core::SettingId::TimelineRoomHeaderButtonLabels,
          +[] { return QMetaEnum::fromType<UserSettings::RoomHeaderButtonLabels>(); },
          "RoomHeaderButtonLabels"},
+        {settings::core::SettingId::DesktopSystemTrayIconStyle,
+         +[] { return QMetaEnum::fromType<UserSettings::DesktopSystemTrayIconStyle>(); },
+         "DesktopSystemTrayIconStyle"},
         {settings::core::SettingId::TimelineMessagesLayoutPositioning,
          +[] { return QMetaEnum::fromType<UserSettings::TimelineMessagesLayoutPositioning>(); },
          "TimelineMessagesLayoutPositioning"},

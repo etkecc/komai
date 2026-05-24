@@ -18,6 +18,18 @@ UserSettings::desktopSystemTrayAutostart() const
     return desktopSystemTrayAutostart_;
 }
 
+UserSettings::DesktopSystemTrayIconStyle
+UserSettings::desktopSystemTrayIconStyle() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::DesktopSystemTrayIconStyle);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::DesktopSystemTrayIconStyle::Colorized) &&
+        *value <= static_cast<int>(UserSettings::DesktopSystemTrayIconStyle::MonochromeDark))
+        return static_cast<UserSettings::DesktopSystemTrayIconStyle>(*value);
+    return desktopSystemTrayIconStyle_;
+}
+
 UserSettings::NotificationMessageContentPolicy
 UserSettings::desktopNotificationsMessageContentPolicy() const
 {

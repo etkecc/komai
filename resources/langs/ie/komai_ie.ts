@@ -3005,7 +3005,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <name>MainWindow</name>
     <message>
         <location filename="../../../src/ui/MainWindow.cpp" line="+171"/>
-        <location line="+77"/>
+        <location line="+78"/>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
@@ -3014,12 +3014,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Startant Komai</translation>
     </message>
     <message>
-        <location line="-462"/>
+        <location line="-463"/>
         <source>Checking your profile...</source>
         <translation>Verificant vu profil...</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Opening the profile chooser...</source>
         <translation>Aperient li selector de profil...</translation>
     </message>
@@ -9505,7 +9505,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
 <context>
     <name>TrayIcon</name>
     <message>
-        <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
+        <location filename="../../../src/ui/TrayIcon.cpp" line="+159"/>
         <source>Show</source>
         <translation>Monstrar</translation>
     </message>
@@ -9515,7 +9515,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Quitar</translation>
     </message>
     <message numerus="yes">
-        <location line="+31"/>
+        <location line="+60"/>
         <source>
 %n room(s) need attention</source>
         <translation>
@@ -10753,6 +10753,24 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <translation>Quande disponibil</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+10"/>
+        <source>Colorized</source>
+        <translation>Colorat</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (light)</source>
+        <translation>Monocrom (clar)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (dark)</source>
+        <translation>Monocrom (obscur)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
         <location line="+21"/>
         <source>System font</source>
@@ -11776,6 +11794,21 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="+4"/>
+        <source>Icon style</source>
+        <translation>Stil de icone</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use &lt;i&gt;Monochrome (light)&lt;/i&gt; for dark panels and &lt;i&gt;Monochrome (dark)&lt;/i&gt; for light panels.</source>
+        <translation>Usar &lt;i&gt;Monocrom (clar)&lt;/i&gt; por paneles obscur e &lt;i&gt;Monocrom (obscur)&lt;/i&gt; por paneles clar.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>monochrome, symbolic, color</source>
+        <translation>monocrom, simbolic, color</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Window blur</source>
         <translation>Flou del fenestre</translation>
     </message>

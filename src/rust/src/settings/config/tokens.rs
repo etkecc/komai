@@ -144,6 +144,12 @@ storage_token_enum!(ConfigTimelineRoomHeaderButtonLabelsToken, Adaptive {
     Never => "never",
 });
 
+storage_token_enum!(ConfigDesktopSystemTrayIconStyleToken, Colorized {
+    Colorized => "colorized",
+    MonochromeLight => "monochrome_light",
+    MonochromeDark => "monochrome_dark",
+});
+
 storage_token_enum!(ConfigSecretsProviderToken, SecretService {
     File => "file",
     SecretService => "secret_service",

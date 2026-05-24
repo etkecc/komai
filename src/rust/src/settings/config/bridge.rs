@@ -371,6 +371,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["desktop", "system_tray", "icon_style"],
+        Value::String(snapshot.desktop.system_tray.icon_style.clone()),
+    );
+    yaml::set_value(
+        &mut root,
         &["desktop", "window_focus_blur", "enabled"],
         Value::Bool(snapshot.desktop.window_focus_blur.enabled),
     );

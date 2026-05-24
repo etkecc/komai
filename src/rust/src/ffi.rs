@@ -409,6 +409,7 @@ mod bridge {
     struct SettingsConfigDesktopSystemTraySection {
         enabled: bool,
         autostart: bool,
+        icon_style: String,
     }
 
     struct SettingsConfigDesktopWindowFocusBlurSection {

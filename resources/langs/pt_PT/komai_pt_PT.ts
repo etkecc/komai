@@ -3005,7 +3005,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <name>MainWindow</name>
     <message>
         <location filename="../../../src/ui/MainWindow.cpp" line="+171"/>
-        <location line="+77"/>
+        <location line="+78"/>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
@@ -3014,12 +3014,12 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>A iniciar o Komai</translation>
     </message>
     <message>
-        <location line="-462"/>
+        <location line="-463"/>
         <source>Checking your profile...</source>
         <translation>A verificar o seu perfil...</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Opening the profile chooser...</source>
         <translation>A abrir o seletor de perfis...</translation>
     </message>
@@ -9505,7 +9505,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
 <context>
     <name>TrayIcon</name>
     <message>
-        <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
+        <location filename="../../../src/ui/TrayIcon.cpp" line="+159"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
@@ -9515,7 +9515,7 @@ Parece agradável à vista e incrivelmente rápida! 🚀</translation>
         <translation>Sair</translation>
     </message>
     <message numerus="yes">
-        <location line="+31"/>
+        <location line="+60"/>
         <source>
 %n room(s) need attention</source>
         <translation>
@@ -10753,6 +10753,24 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
         <translation>Sempre que disponível</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+10"/>
+        <source>Colorized</source>
+        <translation>Colorido</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (light)</source>
+        <translation>Monocromático (claro)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (dark)</source>
+        <translation>Monocromático (escuro)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
         <location line="+21"/>
         <source>System font</source>
@@ -11776,6 +11794,21 @@ Automático é 'online' ou 'indisponível' (após 5 minutos de inatividade).</tr
     </message>
     <message>
         <location line="+4"/>
+        <source>Icon style</source>
+        <translation>Estilo de ícone</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use &lt;i&gt;Monochrome (light)&lt;/i&gt; for dark panels and &lt;i&gt;Monochrome (dark)&lt;/i&gt; for light panels.</source>
+        <translation>Usar &lt;i&gt;Monocromático (claro)&lt;/i&gt; para painéis escuros e &lt;i&gt;Monocromático (escuro)&lt;/i&gt; para painéis claros.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>monochrome, symbolic, color</source>
+        <translation>monocromático, simbólico, cor</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Window blur</source>
         <translation>Desfoque da janela</translation>
     </message>

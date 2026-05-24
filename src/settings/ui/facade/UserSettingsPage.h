@@ -55,6 +55,8 @@ class UserSettings final : public QObject
                  setDesktopSystemTrayEnabled NOTIFY desktopSystemTrayEnabledChanged)
     Q_PROPERTY(bool desktopSystemTrayAutostart READ desktopSystemTrayAutostart WRITE
                  setDesktopSystemTrayAutostart NOTIFY desktopSystemTrayAutostartChanged)
+    Q_PROPERTY(DesktopSystemTrayIconStyle desktopSystemTrayIconStyle READ desktopSystemTrayIconStyle
+                 WRITE setDesktopSystemTrayIconStyle NOTIFY desktopSystemTrayIconStyleChanged)
     Q_PROPERTY(
       bool desktopSystemTrayFirstClosePrompted READ desktopSystemTrayFirstClosePrompted WRITE
         setDesktopSystemTrayFirstClosePrompted NOTIFY desktopSystemTrayFirstClosePromptedChanged)
@@ -472,6 +474,14 @@ public:
     };
     Q_ENUM(RoomHeaderButtonLabels)
 
+    enum class DesktopSystemTrayIconStyle
+    {
+        Colorized,
+        MonochromeLight,
+        MonochromeDark,
+    };
+    Q_ENUM(DesktopSystemTrayIconStyle)
+
     enum class TimelineMessagesLayoutPositioning
     {
         Adaptive,
@@ -578,6 +588,7 @@ public:
     void setTimelineFormattedCodeSyntaxHighlighting(bool state);
     void setDesktopSystemTrayEnabled(bool state);
     void setDesktopSystemTrayAutostart(bool state);
+    void setDesktopSystemTrayIconStyle(DesktopSystemTrayIconStyle style);
     void setDesktopSystemTrayFirstClosePrompted(bool state);
     void setUiScaleFactor(double factor);
     void setUiFontSizePt(double size);
@@ -831,6 +842,7 @@ signals:
     void timelineFormattedCodeSyntaxHighlightingChanged(bool state);
     void desktopSystemTrayEnabledChanged(bool state);
     void desktopSystemTrayAutostartChanged(bool state);
+    void desktopSystemTrayIconStyleChanged(DesktopSystemTrayIconStyle style);
     void desktopSystemTrayFirstClosePromptedChanged(bool state);
     void composerInputMarkdownToHtmlEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);

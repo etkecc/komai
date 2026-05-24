@@ -318,6 +318,7 @@ pub(crate) fn ffi_config_desktop_section(
         system_tray: ffi::SettingsConfigDesktopSystemTraySection {
             enabled: config.desktop.system_tray.enabled.unwrap_or(defaults::SYSTEM_TRAY_ENABLED),
             autostart: config.desktop.system_tray.autostart.unwrap_or(defaults::SYSTEM_TRAY_AUTOSTART),
+            icon_style: config.desktop.system_tray.icon_style.to_storage_string(),
         },
         window_focus_blur: ffi::SettingsConfigDesktopWindowFocusBlurSection {
             enabled: config.desktop.window_focus_blur.enabled.unwrap_or(defaults::WINDOW_FOCUS_BLUR_ENABLED),
@@ -804,6 +805,7 @@ fn clone_config_desktop_section(
         system_tray: ffi::SettingsConfigDesktopSystemTraySection {
             enabled: section.system_tray.enabled,
             autostart: section.system_tray.autostart,
+            icon_style: section.system_tray.icon_style.clone(),
         },
         window_focus_blur: ffi::SettingsConfigDesktopWindowFocusBlurSection {
             enabled: section.window_focus_blur.enabled,

@@ -3001,7 +3001,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../../src/ui/MainWindow.cpp" line="+171"/>
-        <location line="+77"/>
+        <location line="+78"/>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
@@ -3010,12 +3010,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>正在啟動 Komai</translation>
     </message>
     <message>
-        <location line="-462"/>
+        <location line="-463"/>
         <source>Checking your profile...</source>
         <translation>正在檢查您的個人資料……</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Opening the profile chooser...</source>
         <translation>正在開啟個人資料選擇器……</translation>
     </message>
@@ -9491,7 +9491,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TrayIcon</name>
     <message>
-        <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
+        <location filename="../../../src/ui/TrayIcon.cpp" line="+159"/>
         <source>Show</source>
         <translation>顯示</translation>
     </message>
@@ -9501,7 +9501,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>退出</translation>
     </message>
     <message numerus="yes">
-        <location line="+31"/>
+        <location line="+60"/>
         <source>
 %n room(s) need attention</source>
         <translation>
@@ -10737,6 +10737,24 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>隨時可用時</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+10"/>
+        <source>Colorized</source>
+        <translation>彩色</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (light)</source>
+        <translation>單色（淺色）</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (dark)</source>
+        <translation>單色（深色）</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
         <location line="+21"/>
         <source>System font</source>
@@ -11760,6 +11778,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Icon style</source>
+        <translation>圖示樣式</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use &lt;i&gt;Monochrome (light)&lt;/i&gt; for dark panels and &lt;i&gt;Monochrome (dark)&lt;/i&gt; for light panels.</source>
+        <translation>深色面板請使用&lt;i&gt;單色（淺色）&lt;/i&gt;，淺色面板請使用&lt;i&gt;單色（深色）&lt;/i&gt;。</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>monochrome, symbolic, color</source>
+        <translation>單色, 符號, 彩色</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Window blur</source>
         <translation>視窗模糊</translation>
     </message>

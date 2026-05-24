@@ -589,6 +589,7 @@ fn encodes_generic_config_values() {
             system_tray: SettingsConfigDesktopSystemTraySection {
                 enabled: true,
                 autostart: false,
+                icon_style: "colorized".to_owned(),
             },
             window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection {
                 enabled: false,
@@ -1408,6 +1409,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
             system_tray: SettingsConfigDesktopSystemTraySection {
                 enabled: false,
                 autostart: false,
+                icon_style: "colorized".to_owned(),
             },
             window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection {
                 enabled: false,
@@ -1644,7 +1646,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
                 window_title: SettingsConfigDesktopAttentionWindowTitleSection { enabled: true },
                 app_badge: SettingsConfigDesktopAttentionAppBadgeSection { enabled: true },
             },
-            system_tray: SettingsConfigDesktopSystemTraySection { enabled: false, autostart: false },
+            system_tray: SettingsConfigDesktopSystemTraySection { enabled: false, autostart: false, icon_style: "colorized".to_owned() },
             window_focus_blur: SettingsConfigDesktopWindowFocusBlurSection { enabled: false, delay_seconds: 0 },
         },
         calls: crate::ffi::SettingsConfigCallsSection {

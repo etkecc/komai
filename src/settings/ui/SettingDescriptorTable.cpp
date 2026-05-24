@@ -253,6 +253,8 @@ valuesEnglishFor(QVariant (*helper)())
         return composerEmojiPreferredSkinToneValuesEnglish;
     if (helper == &desktopNotificationsMessageContentPolicyValues)
         return desktopNotificationsMessageContentPolicyValuesEnglish;
+    if (helper == &desktopSystemTrayIconStyleValues)
+        return desktopSystemTrayIconStyleValuesEnglish;
     if (helper == &integrationsDbusApiAccessValues)
         return integrationsDbusApiAccessValuesEnglish;
     if (helper == &lookFeelDefaultAvatarStyleValues)

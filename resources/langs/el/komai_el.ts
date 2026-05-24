@@ -3005,7 +3005,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>MainWindow</name>
     <message>
         <location filename="../../../src/ui/MainWindow.cpp" line="+171"/>
-        <location line="+77"/>
+        <location line="+78"/>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
@@ -3014,12 +3014,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Εκκίνηση Komai</translation>
     </message>
     <message>
-        <location line="-462"/>
+        <location line="-463"/>
         <source>Checking your profile...</source>
         <translation>Έλεγχος προφίλ…</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Opening the profile chooser...</source>
         <translation>Άνοιγμα επιλογέα προφίλ…</translation>
     </message>
@@ -9505,7 +9505,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TrayIcon</name>
     <message>
-        <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
+        <location filename="../../../src/ui/TrayIcon.cpp" line="+159"/>
         <source>Show</source>
         <translation>Εμφάνιση</translation>
     </message>
@@ -9515,7 +9515,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Έξοδος</translation>
     </message>
     <message numerus="yes">
-        <location line="+31"/>
+        <location line="+60"/>
         <source>
 %n room(s) need attention</source>
         <translation>
@@ -10753,6 +10753,24 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Όποτε είναι διαθέσιμο</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+10"/>
+        <source>Colorized</source>
+        <translation>Έγχρωμο</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (light)</source>
+        <translation>Μονόχρωμο (ανοιχτό)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (dark)</source>
+        <translation>Μονόχρωμο (σκούρο)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
         <location line="+21"/>
         <source>System font</source>
@@ -11776,6 +11794,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Icon style</source>
+        <translation>Στυλ εικονιδίων</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use &lt;i&gt;Monochrome (light)&lt;/i&gt; for dark panels and &lt;i&gt;Monochrome (dark)&lt;/i&gt; for light panels.</source>
+        <translation>Χρησιμοποιήστε &lt;i&gt;Μονόχρωμο (ανοιχτό)&lt;/i&gt; για σκούρα πάνελ και &lt;i&gt;Μονόχρωμο (σκούρο)&lt;/i&gt; για ανοιχτά πάνελ.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>monochrome, symbolic, color</source>
+        <translation>μονόχρωμο, συμβολικό, χρώμα</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Window blur</source>
         <translation>Θόλωση παραθύρου</translation>
     </message>

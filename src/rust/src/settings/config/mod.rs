@@ -34,6 +34,7 @@ pub use tokens::{
     ConfigComposerEmojiPreferredGenderToken, ConfigComposerEmojiPreferredSkinToneToken,
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
     ConfigIntegrationsDbusApiAccessToken, ConfigIntegrationsTranscriptionProviderToken,
+    ConfigDesktopSystemTrayIconStyleToken,
     ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
@@ -170,6 +171,8 @@ const DESKTOP_ATTENTION_APP_BADGE_ENABLED_PATH: [&str; 4] =
     ["desktop", "attention", "app_badge", "enabled"];
 const DESKTOP_SYSTEM_TRAY_ENABLED_PATH: [&str; 3] = ["desktop", "system_tray", "enabled"];
 const DESKTOP_SYSTEM_TRAY_AUTOSTART_PATH: [&str; 3] = ["desktop", "system_tray", "autostart"];
+const DESKTOP_SYSTEM_TRAY_ICON_STYLE_PATH: [&str; 3] =
+    ["desktop", "system_tray", "icon_style"];
 const DESKTOP_WINDOW_FOCUS_BLUR_ENABLED_PATH: [&str; 3] =
     ["desktop", "window_focus_blur", "enabled"];
 const DESKTOP_WINDOW_FOCUS_BLUR_DELAY_SECONDS_PATH: [&str; 3] =
@@ -565,6 +568,10 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     .and_then(parse_scalar_bool),
                 autostart: yaml::value_at_path(root, &DESKTOP_SYSTEM_TRAY_AUTOSTART_PATH)
                     .and_then(parse_scalar_bool),
+                icon_style: parse_storage_token(yaml::value_at_path(
+                    root,
+                    &DESKTOP_SYSTEM_TRAY_ICON_STYLE_PATH,
+                )),
             },
             window_focus_blur: ConfigDesktopWindowFocusBlur {
                 enabled: yaml::value_at_path(root, &DESKTOP_WINDOW_FOCUS_BLUR_ENABLED_PATH)

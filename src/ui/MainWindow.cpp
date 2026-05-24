@@ -184,7 +184,8 @@ MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
     setColor(Theme::paletteFromTheme(userSettings_->uiThemeSlug()).window().color());
     setSource(QUrl(QStringLiteral("qrc:///resources/qml/shell/Root.qml")));
 
-    trayIcon_ = new TrayIcon(QStringLiteral(":/logos/komai.svg"), this);
+    trayIcon_ = new TrayIcon(
+      QStringLiteral(":/logos/komai.svg"), QStringLiteral(":/logos/komai-monochrome.svg"), this);
     userSettings_->setNotificationsAccountRuntimeHooks(
       []() -> std::uint64_t {
           const auto *window = MainWindow::instance();

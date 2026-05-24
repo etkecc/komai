@@ -3005,7 +3005,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <name>MainWindow</name>
     <message>
         <location filename="../../../src/ui/MainWindow.cpp" line="+171"/>
-        <location line="+77"/>
+        <location line="+78"/>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
@@ -3014,12 +3014,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Komai ആരംഭിക്കുന്നു</translation>
     </message>
     <message>
-        <location line="-462"/>
+        <location line="-463"/>
         <source>Checking your profile...</source>
         <translation>നിങ്ങളുടെ പ്രൊഫൈൽ പരിശോധിക്കുന്നു...</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+77"/>
         <source>Opening the profile chooser...</source>
         <translation>പ്രൊഫൈൽ ചൂസർ തുറക്കുന്നു...</translation>
     </message>
@@ -9505,7 +9505,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TrayIcon</name>
     <message>
-        <location filename="../../../src/ui/TrayIcon.cpp" line="+111"/>
+        <location filename="../../../src/ui/TrayIcon.cpp" line="+159"/>
         <source>Show</source>
         <translation>കാണിക്കുക</translation>
     </message>
@@ -9515,7 +9515,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>അവസാനിപ്പിക്കുക</translation>
     </message>
     <message numerus="yes">
-        <location line="+31"/>
+        <location line="+60"/>
         <source>
 %n room(s) need attention</source>
         <translation>
@@ -10753,6 +10753,24 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ലഭ്യമാകുമ്പോഴെല്ലാം</translation>
     </message>
     <message>
+        <location line="+60"/>
+        <location line="+10"/>
+        <source>Colorized</source>
+        <translation>വർണ്ണഭരിതം</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (light)</source>
+        <translation>മോണോക്രോം (ഇളം)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <location line="+10"/>
+        <source>Monochrome (dark)</source>
+        <translation>മോണോക്രോം (ഇരുണ്ട)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksLookFeelFonts.inc" line="+17"/>
         <location line="+21"/>
         <source>System font</source>
@@ -11776,6 +11794,21 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+4"/>
+        <source>Icon style</source>
+        <translation>ഐക്കൺ ശൈലി</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use &lt;i&gt;Monochrome (light)&lt;/i&gt; for dark panels and &lt;i&gt;Monochrome (dark)&lt;/i&gt; for light panels.</source>
+        <translation>ഇരുണ്ട പാനലുകൾക്ക് &lt;i&gt;മോണോക്രോം (ഇളം)&lt;/i&gt; ഉപയോഗിക്കുക, ഇളം പാനലുകൾക്ക് &lt;i&gt;മോണോക്രോം (ഇരുണ്ട)&lt;/i&gt; ഉപയോഗിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>monochrome, symbolic, color</source>
+        <translation>മോണോക്രോം, സിംബോളിക്, കളർ</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Window blur</source>
         <translation>വിൻഡോ ബ്ലർ</translation>
     </message>

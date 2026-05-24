@@ -26,6 +26,7 @@
                        Value);
     CONNECT_SETTING_ID(DesktopSystemTrayEnabled, desktopSystemTrayEnabledChanged, Value);
     CONNECT_SETTING_ID(DesktopSystemTrayAutostart, desktopSystemTrayAutostartChanged, Value);
+    CONNECT_SETTING_ID(DesktopSystemTrayIconStyle, desktopSystemTrayIconStyleChanged, Value);
 
     // System tray has a side-effect on Start in tray's Enabled state.
     connect(settings, &UserSettings::desktopSystemTrayEnabledChanged, this, [this]() {

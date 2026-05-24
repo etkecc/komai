@@ -14,6 +14,7 @@ namespace settings::serializer::config {
 namespace {
 
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsComposer.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersFnsDesktop.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsIntegrations.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsLookFeel.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsNavigation.inc"
@@ -23,6 +24,7 @@ namespace {
 
 constexpr EnumTokenAdapter kEnumTokenAdapters[] = {
 #include "SettingsSerializerConfigEnumTokenAdaptersComposer.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersDesktop.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersIntegrations.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersLookFeel.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersNavigation.inc"

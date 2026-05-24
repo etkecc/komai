@@ -11,6 +11,7 @@ bool timelineMessagesEmojiOnlyEnlarge_                      = true;
 bool timelineFormattedCodeSyntaxHighlighting_               = true;
 bool desktopSystemTrayEnabled_                              = false;
 bool desktopSystemTrayAutostart_                            = false;
+DesktopSystemTrayIconStyle desktopSystemTrayIconStyle_      = DesktopSystemTrayIconStyle::Colorized;
 bool desktopSystemTrayFirstClosePrompted_                   = false;
 bool navigationCommunitiesFilterFavourites_                 = true;
 bool navigationCommunitiesFilterPeople_                     = true;

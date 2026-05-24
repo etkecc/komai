@@ -35,12 +35,16 @@ class TrayIcon final : public QSystemTrayIcon
 {
     Q_OBJECT
 public:
-    TrayIcon(const QString &filename, QWindow *parent);
+    TrayIcon(const QString &colorizedPath, const QString &monochromePath, QWindow *parent);
 
 public slots:
     void setAttentionCount(int count);
 
 private:
+    void reloadIcon();
+
+    QString colorizedPath_;
+    QString monochromePath_;
     QAction *toggleAction_;
     QAction *quitAction_;
 

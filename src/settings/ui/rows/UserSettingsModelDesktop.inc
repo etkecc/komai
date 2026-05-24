@@ -77,6 +77,17 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Start in tray"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Start the application in the background without showing the client window. You can also do this conditionally via a CLI flag. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/features/system-tray.md#start-hidden-from-an-autostart-entry\">Learn more</a>."),
       SM::TabDesktop, desktopSystemTrayAutostart, setDesktopSystemTrayAutostart, nullptr, DesktopSystemTrayAutostart, SettingKey::DesktopSystemTrayAutostart),
+    // DesktopSystemTrayIconStyle
+    withKeywords(
+      SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Icon style"),
+        QT_TRANSLATE_NOOP("UserSettingsModel", "Use <i>Monochrome (light)</i> for dark panels and <i>Monochrome (dark)</i> for light panels."),
+        SM::TabDesktop, desktopSystemTrayIconStyle, setDesktopSystemTrayIconStyle,
+        UserSettings::DesktopSystemTrayIconStyle,
+        desktopSystemTrayIconStyleValues,
+        nullptr,
+        DesktopSystemTrayIconStyle,
+        SettingKey::DesktopSystemTrayIconStyle),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "monochrome, symbolic, color")),
 
     // DesktopWindowBlurSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Window blur"), nullptr, SM::SectionTitle, SM::TabDesktop,

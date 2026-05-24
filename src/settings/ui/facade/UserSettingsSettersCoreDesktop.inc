@@ -28,6 +28,20 @@ UserSettings::setDesktopSystemTrayAutostart(bool s)
 }
 
 void
+UserSettings::setDesktopSystemTrayIconStyle(DesktopSystemTrayIconStyle s)
+{
+    if (desktopSystemTrayIconStyle_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::DesktopSystemTrayIconStyle,
+                      static_cast<int>(s),
+                      SettingKey::DesktopSystemTrayIconStyle))
+        return;
+    desktopSystemTrayIconStyle_ = s;
+    emit desktopSystemTrayIconStyleChanged(s);
+    save();
+}
+
+void
 UserSettings::setDesktopAttentionWindowTitleEnabled(bool s)
 {
     if (desktopAttentionWindowTitleEnabled_ == s)

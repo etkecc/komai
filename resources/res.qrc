@@ -144,6 +144,7 @@
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>
+        <file>komai-monochrome.svg</file>
     </qresource>
     <qresource prefix="/preview-avatars">
         <file alias="alice.png">preview-avatars/alice.png</file>

@@ -14,6 +14,7 @@ constexpr auto SchemaVersion               = "meta.settings_schema_version";
 constexpr auto ConfigSchemaVersion         = SchemaVersion;
 constexpr auto DesktopSystemTrayEnabled    = "desktop.system_tray.enabled";
 constexpr auto DesktopSystemTrayAutostart  = "desktop.system_tray.autostart";
+constexpr auto DesktopSystemTrayIconStyle  = "desktop.system_tray.icon_style";
 constexpr auto UiThemeSlug                 = "ui.theme.slug";
 constexpr auto UiFontFamily                = "ui.font.family";
 constexpr auto UiFontEmojiFamily           = "ui.font.emoji_family";

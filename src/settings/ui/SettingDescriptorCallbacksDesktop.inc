@@ -76,3 +76,20 @@ desktopWindowFocusBlurDelaySecondsEnabled()
     auto i = I;
     return i && i->desktopWindowFocusBlurEnabled();
 }
+
+static const char *const desktopSystemTrayIconStyleValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Colorized"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Monochrome (light)"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Monochrome (dark)"),
+  nullptr,
+};
+
+static QVariant
+desktopSystemTrayIconStyleValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Colorized")
+           << QCoreApplication::translate("UserSettingsModel", "Monochrome (light)")
+           << QCoreApplication::translate("UserSettingsModel", "Monochrome (dark)");
+    return values;
+}

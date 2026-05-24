@@ -8,11 +8,70 @@
 #include <QList>
 #include <QMenu>
 #include <QPainter>
+#include <QSvgRenderer>
 #include <QTimer>
 #include <QWindow>
 
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/TrayIcon.h"
+
+namespace {
+
+// Tray sizes shipped by the icon engine. Mirrors MsgCountComposedIcon::availableSizes().
+const QList<QSize> &
+trayIconSizes()
+{
+    static const QList<QSize> sizes = {
+      QSize(24, 24),
+      QSize(32, 32),
+      QSize(48, 48),
+      QSize(64, 64),
+      QSize(128, 128),
+      QSize(256, 256),
+    };
+    return sizes;
+}
+
+// Rasterises an SVG to a QPixmap of the requested size, tinted to the
+// requested colour by source-in compositing (alpha of the source SVG is
+// preserved, RGB is replaced with the tint).
+QPixmap
+renderTintedSvg(const QString &resourcePath, const QSize &size, const QColor &tint)
+{
+    QSvgRenderer renderer(resourcePath);
+    QPixmap pixmap(size);
+    pixmap.fill(Qt::transparent);
+    {
+        QPainter painter(&pixmap);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+        painter.setRenderHint(QPainter::Antialiasing);
+        renderer.render(&painter, QRectF(QPointF(0, 0), QSizeF(size)));
+        painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        painter.fillRect(pixmap.rect(), tint);
+    }
+    return pixmap;
+}
+
+QIcon
+loadColorizedIcon(const QString &colorizedPath)
+{
+    return QIcon(colorizedPath);
+}
+
+QIcon
+loadMonochromeIcon(const QString &monochromePath, const QColor &tint)
+{
+    QIcon icon;
+    for (const QSize &size : trayIconSizes())
+        icon.addPixmap(renderTintedSvg(monochromePath, size, tint));
+#if defined(Q_OS_MACOS)
+    // Lets macOS auto-invert against the menu bar background.
+    icon.setIsMask(true);
+#endif
+    return icon;
+}
+
+} // namespace
 
 MsgCountComposedIcon::MsgCountComposedIcon(const QIcon &icon)
   : QIconEngine()
@@ -71,14 +130,7 @@ MsgCountComposedIcon::availableSizes(QIcon::Mode mode, QIcon::State state)
 {
     Q_UNUSED(mode);
     Q_UNUSED(state);
-    QList<QSize> sizes;
-    sizes.append(QSize(24, 24));
-    sizes.append(QSize(32, 32));
-    sizes.append(QSize(48, 48));
-    sizes.append(QSize(64, 64));
-    sizes.append(QSize(128, 128));
-    sizes.append(QSize(256, 256));
-    return sizes;
+    return trayIconSizes();
 }
 
 QPixmap
@@ -94,16 +146,12 @@ MsgCountComposedIcon::pixmap(const QSize &size, QIcon::Mode mode, QIcon::State s
     return result;
 }
 
-TrayIcon::TrayIcon(const QString &filename, QWindow *parent)
+TrayIcon::TrayIcon(const QString &colorizedPath, const QString &monochromePath, QWindow *parent)
   : QSystemTrayIcon(parent)
-  , icon(filename)
+  , colorizedPath_{colorizedPath}
+  , monochromePath_{monochromePath}
 {
-#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
-    setIcon(icon);
-#else
-    auto icon_ = new MsgCountComposedIcon(icon);
-    setIcon(QIcon(icon_));
-#endif
+    reloadIcon();
 
     QMenu *menu = new QMenu();
     setContextMenu(menu);
@@ -128,6 +176,35 @@ TrayIcon::TrayIcon(const QString &filename, QWindow *parent)
         toolTip.append(QStringLiteral(" | %1").arg(profile));
 
     setToolTip(toolTip);
+
+    connect(UserSettings::instance().get(),
+            &UserSettings::desktopSystemTrayIconStyleChanged,
+            this,
+            [this](UserSettings::DesktopSystemTrayIconStyle) { reloadIcon(); });
+}
+
+void
+TrayIcon::reloadIcon()
+{
+    switch (UserSettings::instance()->desktopSystemTrayIconStyle()) {
+    case UserSettings::DesktopSystemTrayIconStyle::MonochromeLight:
+        icon = loadMonochromeIcon(monochromePath_, QColor(QStringLiteral("#FFFFFF")));
+        break;
+    case UserSettings::DesktopSystemTrayIconStyle::MonochromeDark:
+        icon = loadMonochromeIcon(monochromePath_, QColor(QStringLiteral("#1E1E1E")));
+        break;
+    case UserSettings::DesktopSystemTrayIconStyle::Colorized:
+        icon = loadColorizedIcon(colorizedPath_);
+        break;
+    }
+
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
+    setIcon(icon);
+#else
+    auto *engine     = new MsgCountComposedIcon(icon);
+    engine->msgCount = previousCount;
+    setIcon(QIcon(engine));
+#endif
 }
 
 void

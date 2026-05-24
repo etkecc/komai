@@ -13,6 +13,7 @@
 
   // desktop
   SettingId::DesktopNotificationsMessageContentPolicy,
+  SettingId::DesktopSystemTrayIconStyle,
 
   // network
   SettingId::NetworkPresenceStatusPolicy,

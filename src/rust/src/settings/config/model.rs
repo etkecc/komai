@@ -7,6 +7,7 @@ use std::collections::BTreeMap;
 use super::tokens::{
     ConfigComposerEmojiPreferredGenderToken, ConfigComposerEmojiPreferredSkinToneToken,
     ConfigComposerInputAutoReplaceEmojiToken, ConfigComposerInputSendKeyToken,
+    ConfigDesktopSystemTrayIconStyleToken,
     ConfigIntegrationsDbusApiAccessToken, ConfigIntegrationsTranscriptionProviderToken,
     ConfigNetworkPresenceStatusPolicyToken,
     ConfigNotificationsMessageContentPolicyToken, ConfigSecretsProviderToken,
@@ -263,6 +264,7 @@ pub struct ConfigDesktopAttentionToggle {
 pub struct ConfigDesktopSystemTray {
     pub enabled: Option<bool>,
     pub autostart: Option<bool>,
+    pub icon_style: ConfigDesktopSystemTrayIconStyleToken,
 }
 
 #[derive(Clone, Debug, Default)]

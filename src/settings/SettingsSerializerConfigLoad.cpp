@@ -266,6 +266,10 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
 
     settings.setDesktopSystemTrayEnabled(snapshot.desktop.system_tray.enabled);
     settings.setDesktopSystemTrayAutostart(snapshot.desktop.system_tray.autostart);
+    settings.setDesktopSystemTrayIconStyle(cfg::desktopSystemTrayIconStyleFromStorage(
+      QString::fromStdString(static_cast<std::string>(snapshot.desktop.system_tray.icon_style))
+        .trimmed(),
+      UserSettings::DesktopSystemTrayIconStyle::Colorized));
     settings.setIntegrationsBrowserCommand(
       QString::fromStdString(static_cast<std::string>(snapshot.integrations.browser_command)));
 

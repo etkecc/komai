@@ -51,6 +51,7 @@ enum class SettingId
     NavigationTabsMaxRecentlyClosedTimelines,
     DesktopSystemTrayEnabled,
     DesktopSystemTrayAutostart,
+    DesktopSystemTrayIconStyle,
     DesktopNotificationsEnabled,
     DesktopNotificationsAttentionOnIncoming,
     DesktopNotificationsMessageContentPolicy,

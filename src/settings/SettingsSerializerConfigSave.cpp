@@ -187,6 +187,8 @@ stageConfig(const UserSettings &settings,
             {
               .enabled   = settings.desktopSystemTrayEnabled(),
               .autostart = settings.desktopSystemTrayAutostart(),
+              .icon_style =
+                cfg::toStorageValue(settings.desktopSystemTrayIconStyle()).toStdString(),
             },
           .window_focus_blur =
             {

@@ -204,6 +204,10 @@ expectConfigString(const ::komai::rust::SettingsLoadedConfig &snapshot,
           QString::fromStdString(static_cast<std::string>(snapshot.timeline.media.image_display)) ==
             expected,
           message);
+    if (keyString == QLatin1String(SettingKey::TimelineRoomHeaderButtonLabels))
+        return expect(QString::fromStdString(static_cast<std::string>(
+                        snapshot.timeline.room_header.button_labels)) == expected,
+                      message);
     if (keyString == QLatin1String(SettingKey::SecretsProvider))
         return expect(QString::fromStdString(static_cast<std::string>(snapshot.secrets.provider)) ==
                         expected,
@@ -1981,6 +1985,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineDateDividersEnabled));
     serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineRoomHeaderButtonLabels));
+    serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaAnimateOnHover));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMediaImageDisplay));
@@ -2173,6 +2179,9 @@ testEnumConstraintsMatchEnumKeyCount()
         {settings::core::SettingId::TimelineMessagesStyle,
          +[] { return QMetaEnum::fromType<UserSettings::TimelineMessagesStyle>(); },
          "TimelineMessagesStyle"},
+        {settings::core::SettingId::TimelineRoomHeaderButtonLabels,
+         +[] { return QMetaEnum::fromType<UserSettings::RoomHeaderButtonLabels>(); },
+         "RoomHeaderButtonLabels"},
         {settings::core::SettingId::TimelineMessagesLayoutPositioning,
          +[] { return QMetaEnum::fromType<UserSettings::TimelineMessagesLayoutPositioning>(); },
          "TimelineMessagesLayoutPositioning"},

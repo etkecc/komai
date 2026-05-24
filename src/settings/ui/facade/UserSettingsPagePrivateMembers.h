@@ -31,8 +31,9 @@ bool composerInputSelectionFormattingToolbarEnabled_        = true;
 bool composerInputTranscriptionEnabled_                     = true;
 bool composerInputSpellcheckEnabled_                        = true;
 QStringList composerInputSpellcheckLanguages_;
-bool composerAttachmentsStripImageMetadata_  = true;
-TimelineMessagesStyle timelineMessagesStyle_ = TimelineMessagesStyle::Bubbles;
+bool composerAttachmentsStripImageMetadata_            = true;
+TimelineMessagesStyle timelineMessagesStyle_           = TimelineMessagesStyle::Bubbles;
+RoomHeaderButtonLabels timelineRoomHeaderButtonLabels_ = RoomHeaderButtonLabels::Adaptive;
 TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning_ =
   TimelineMessagesLayoutPositioning::Adaptive;
 TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =

@@ -16,7 +16,8 @@ use super::tokens::{
     ConfigTimelineMediaImageDisplayToken, ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken,
-    ConfigTimelineMessagesStyleToken, ConfigTimelineUserColorCodingPolicyToken,
+    ConfigTimelineMessagesStyleToken, ConfigTimelineRoomHeaderButtonLabelsToken,
+    ConfigTimelineUserColorCodingPolicyToken,
     ConfigUiDefaultAvatarStyleToken, ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
 };
 
@@ -145,6 +146,12 @@ pub struct ConfigTimeline {
     pub hidden_events: ConfigTimelineHiddenEvents,
     pub threads: ConfigTimelineThreads,
     pub date_dividers: ConfigTimelineDateDividers,
+    pub room_header: ConfigTimelineRoomHeader,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigTimelineRoomHeader {
+    pub button_labels: ConfigTimelineRoomHeaderButtonLabelsToken,
 }
 
 #[derive(Clone, Debug, Default)]

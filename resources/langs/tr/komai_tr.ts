@@ -5640,7 +5640,7 @@ Yeni bir kurtarma anahtarı alacaksınız. Tekrar sıfırlamaktan kaçınmak iç
         <translation>Uyarı</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+76"/>
         <source>Search</source>
         <translation>Ara</translation>
     </message>
@@ -10403,6 +10403,21 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Room header bar</source>
+        <translation>Oda başlık çubuğu</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show button labels</source>
+        <translation>Düğme etiketlerini göster</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>search, members, pinned, threads, icons, top bar</source>
+        <translation>arama, üyeler, sabitlenmiş, konular, simgeler, üst çubuk</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Presentation</source>
         <translation>Sunum</translation>
     </message>
@@ -10696,7 +10711,9 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+21"/>
+        <location line="+9"/>
+        <location line="+42"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10744,9 +10761,9 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-111"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+72"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10906,7 +10923,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yalnızca avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-109"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normal</translation>
@@ -10942,7 +10959,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Balonlar</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+21"/>
         <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Gönderene göre karşılıklı</translation>
@@ -10960,7 +10977,9 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Tümü sağa hizalı</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-29"/>
+        <location line="+9"/>
+        <location line="+6"/>
         <location line="+11"/>
         <source>Adaptive</source>
         <translation>Uyarlanabilir</translation>

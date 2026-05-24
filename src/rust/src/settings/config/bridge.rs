@@ -308,6 +308,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["timeline", "room_header", "button_labels"],
+        Value::String(snapshot.timeline.room_header.button_labels.clone()),
+    );
+    yaml::set_value(
+        &mut root,
         &["timeline", "hidden_events", "global"],
         Value::Sequence(
             snapshot

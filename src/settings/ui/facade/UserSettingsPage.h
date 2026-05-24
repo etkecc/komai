@@ -139,6 +139,9 @@ class UserSettings final : public QObject
                    composerAttachmentsStripImageMetadataChanged)
     Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
                  setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
+    Q_PROPERTY(
+      RoomHeaderButtonLabels timelineRoomHeaderButtonLabels READ timelineRoomHeaderButtonLabels
+        WRITE setTimelineRoomHeaderButtonLabels NOTIFY timelineRoomHeaderButtonLabelsChanged)
     Q_PROPERTY(TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning READ
                  timelineMessagesLayoutPositioning WRITE setTimelineMessagesLayoutPositioning NOTIFY
                    timelineMessagesLayoutPositioningChanged)
@@ -462,6 +465,13 @@ public:
     };
     Q_ENUM(TimelineMessagesStyle)
 
+    enum class RoomHeaderButtonLabels
+    {
+        Adaptive,
+        Never,
+    };
+    Q_ENUM(RoomHeaderButtonLabels)
+
     enum class TimelineMessagesLayoutPositioning
     {
         Adaptive,
@@ -595,6 +605,7 @@ public:
     void setComposerInputSpellcheckLanguages(QStringList languages);
     void setComposerAttachmentsStripImageMetadata(bool state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
+    void setTimelineRoomHeaderButtonLabels(RoomHeaderButtonLabels value);
     void setTimelineMessagesLayoutPositioning(TimelineMessagesLayoutPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
     void setTimelineMessagesLayoutAvatarSize(AvatarSize size);
@@ -836,6 +847,7 @@ signals:
     void composerInputSpellcheckLanguagesChanged(QStringList languages);
     void composerAttachmentsStripImageMetadataChanged(bool state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
+    void timelineRoomHeaderButtonLabelsChanged(RoomHeaderButtonLabels value);
     void timelineMessagesLayoutPositioningChanged(TimelineMessagesLayoutPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);
     void timelineMessagesLayoutAvatarSizeChanged(AvatarSize size);

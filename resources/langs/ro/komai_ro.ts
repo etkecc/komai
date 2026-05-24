@@ -5654,7 +5654,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
         <translation>Avertisment</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+76"/>
         <source>Search</source>
         <translation>Căutare</translation>
     </message>
@@ -10435,6 +10435,21 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Room header bar</source>
+        <translation>Bara de antet a camerei</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show button labels</source>
+        <translation>Afișare etichete butoane</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>search, members, pinned, threads, icons, top bar</source>
+        <translation>căutare, membri, fixate, fire, pictograme, bara de sus</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Presentation</source>
         <translation>Prezentare</translation>
     </message>
@@ -10728,7 +10743,9 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+21"/>
+        <location line="+9"/>
+        <location line="+42"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10776,9 +10793,9 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-111"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+72"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10938,7 +10955,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Doar avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-109"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normal</translation>
@@ -10974,7 +10991,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Bule</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+21"/>
         <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Opus după expeditor</translation>
@@ -10992,7 +11009,9 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Toate aliniate la dreapta</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-29"/>
+        <location line="+9"/>
+        <location line="+6"/>
         <location line="+11"/>
         <source>Adaptive</source>
         <translation>Adaptiv</translation>

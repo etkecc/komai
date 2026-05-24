@@ -1,4 +1,5 @@
 X(TimelineMessagesStyle, static_cast<int>(settings.timelineMessagesStyle()))
+X(TimelineRoomHeaderButtonLabels, static_cast<int>(settings.timelineRoomHeaderButtonLabels()))
 X(TimelineMessagesLayoutPositioning, static_cast<int>(settings.timelineMessagesLayoutPositioning()))
 X(TimelineUserColorCodingPolicy, static_cast<int>(settings.timelineUserColorCodingPolicy()))
 X(TimelineMessagesLayoutAvatarSize, static_cast<int>(settings.timelineMessagesLayoutAvatarSize()))

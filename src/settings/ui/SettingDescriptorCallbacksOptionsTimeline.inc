@@ -54,6 +54,21 @@ timelineMessagesStyleValues()
     return values;
 }
 
+static const char *const timelineRoomHeaderButtonLabelsValuesEnglish[] = {
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Adaptive"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Never"),
+  nullptr,
+};
+
+static QVariant
+timelineRoomHeaderButtonLabelsValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Adaptive")
+           << QCoreApplication::translate("UserSettingsModel", "Never");
+    return values;
+}
+
 static const char *const timelineMessagesLayoutPositioningValuesEnglish[] = {
   QT_TRANSLATE_NOOP("UserSettingsModel", "Adaptive"),
   QT_TRANSLATE_NOOP("UserSettingsModel", "Opposing by sender"),

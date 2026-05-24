@@ -5640,7 +5640,7 @@ Cadangan kunci sisi server sebelumnya tidak dihapus secara otomatis.</translatio
         <translation>Peringatan</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+76"/>
         <source>Search</source>
         <translation>Cari</translation>
     </message>
@@ -10403,6 +10403,21 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Room header bar</source>
+        <translation>Bilah header ruangan</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show button labels</source>
+        <translation>Tampilkan label tombol</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>search, members, pinned, threads, icons, top bar</source>
+        <translation>pencarian, anggota, disematkan, utas, ikon, bilah atas</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Presentation</source>
         <translation>Presentasi</translation>
     </message>
@@ -10696,7 +10711,9 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+21"/>
+        <location line="+9"/>
+        <location line="+42"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10744,9 +10761,9 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-111"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+72"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10906,7 +10923,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Hanya avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-109"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Reguler</translation>
@@ -10942,7 +10959,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Gelembung</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+21"/>
         <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Berlawanan berdasarkan pengirim</translation>
@@ -10960,7 +10977,9 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Semua rata kanan</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-29"/>
+        <location line="+9"/>
+        <location line="+6"/>
         <location line="+11"/>
         <source>Adaptive</source>
         <translation>Adaptif</translation>

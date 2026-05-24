@@ -5654,7 +5654,7 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
         <translation>Varování</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+76"/>
         <source>Search</source>
         <translation>Hledat</translation>
     </message>
@@ -10435,6 +10435,21 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Room header bar</source>
+        <translation>Záhlaví místnosti</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show button labels</source>
+        <translation>Zobrazit popisky tlačítek</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>search, members, pinned, threads, icons, top bar</source>
+        <translation>vyhledávání, členové, připnuté, vlákna, ikony, horní panel</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Presentation</source>
         <translation>Prezentace</translation>
     </message>
@@ -10728,7 +10743,9 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+21"/>
+        <location line="+9"/>
+        <location line="+42"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10776,9 +10793,9 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-111"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+72"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10938,7 +10955,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Pouze avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-109"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normální</translation>
@@ -10974,7 +10991,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Bubliny</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+21"/>
         <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Naproti dle odesílatele</translation>
@@ -10992,7 +11009,9 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Vše zarovnáno doprava</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-29"/>
+        <location line="+9"/>
+        <location line="+6"/>
         <location line="+11"/>
         <source>Adaptive</source>
         <translation>Adaptivní</translation>

@@ -5647,7 +5647,7 @@ Tidigare serverbaserade nyckelbackuper tas inte bort automatiskt.</translation>
         <translation>Varning</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+76"/>
         <source>Search</source>
         <translation>Sök</translation>
     </message>
@@ -10419,6 +10419,21 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Room header bar</source>
+        <translation>Rummets rubrikrad</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show button labels</source>
+        <translation>Visa knappetiketter</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>search, members, pinned, threads, icons, top bar</source>
+        <translation>sök, medlemmar, fästa, trådar, ikoner, övre rad</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Presentation</source>
         <translation>Presentation</translation>
     </message>
@@ -10712,7 +10727,9 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+21"/>
+        <location line="+9"/>
+        <location line="+42"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10760,9 +10777,9 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-111"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+72"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10922,7 +10939,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Endast avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-109"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Vanlig</translation>
@@ -10958,7 +10975,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Bubblor</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+21"/>
         <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Motstående per avsändare</translation>
@@ -10976,7 +10993,9 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Alla högerjusterade</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-29"/>
+        <location line="+9"/>
+        <location line="+6"/>
         <location line="+11"/>
         <source>Adaptive</source>
         <translation>Adaptiv</translation>

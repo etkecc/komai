@@ -33,3 +33,8 @@
    "always",
    &showImageToStorage,
    &applyShowImageFromStorage},
+  {settings::core::SettingId::TimelineRoomHeaderButtonLabels,
+   SettingKey::TimelineRoomHeaderButtonLabels,
+   "adaptive",
+   &roomHeaderButtonLabelsToStorage,
+   &applyRoomHeaderButtonLabelsFromStorage},

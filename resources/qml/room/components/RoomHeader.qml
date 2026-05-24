@@ -80,6 +80,10 @@ Pane {
     }
 
     function updateActionLabelVisibility() {
+        if (Settings.timelineRoomHeaderButtonLabels === Settings.RoomHeaderButtonLabels.Never) {
+            showActionLabels = false;
+            return;
+        }
         if (showActionLabels) {
             if (topBar.width < minWidthForLabels - actionLabelsHysteresisPx)
                 showActionLabels = false;
@@ -385,6 +389,13 @@ Pane {
     onWidthChanged: updateActionLabelVisibility()
     onMinWidthForLabelsChanged: updateActionLabelVisibility()
     Component.onCompleted: updateActionLabelVisibility()
+
+    Connections {
+        target: Settings
+        function onTimelineRoomHeaderButtonLabelsChanged() {
+            topBar.updateActionLabelVisibility();
+        }
+    }
 
     Shortcut {
         sequences: [StandardKey.Find]

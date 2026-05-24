@@ -28,6 +28,7 @@ use crate::ffi::{
     SettingsConfigTimelineHiddenEventsSection,
     SettingsConfigTimelineMediaSection, SettingsConfigTimelineMessageActionsSection,
     SettingsConfigTimelineMessagesSection, SettingsConfigTimelineReadReceiptsSection,
+    SettingsConfigTimelineRoomHeaderSection,
     SettingsConfigTimelineSection, SettingsConfigTimelineThreadsSection,
     SettingsConfigTimelineTypingSection, SettingsConfigTranscriptionByRoomEntry,
     SettingsConfigUiSection,
@@ -563,6 +564,9 @@ fn encodes_generic_config_values() {
             },
             date_dividers: SettingsConfigTimelineDateDividersSection {
                 enabled: true,
+            },
+            room_header: SettingsConfigTimelineRoomHeaderSection {
+                button_labels: "adaptive".to_owned(),
             },
         },
         secrets: SettingsConfigSecretsSection {
@@ -1382,6 +1386,9 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
             date_dividers: SettingsConfigTimelineDateDividersSection {
                 enabled: true,
             },
+            room_header: SettingsConfigTimelineRoomHeaderSection {
+                button_labels: "adaptive".to_owned(),
+            },
         },
         secrets: SettingsConfigSecretsSection {
             provider: "secret_service".to_owned(),
@@ -1625,6 +1632,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             hidden_events: SettingsConfigTimelineHiddenEventsSection { global: vec![], by_room: vec![] },
             threads: SettingsConfigTimelineThreadsSection { collapse_replies_global: false, collapse_replies_by_room: vec![] },
             date_dividers: SettingsConfigTimelineDateDividersSection { enabled: true },
+            room_header: SettingsConfigTimelineRoomHeaderSection { button_labels: "adaptive".to_owned() },
         },
         secrets: SettingsConfigSecretsSection { provider: "secret_service".to_owned() },
         desktop: SettingsConfigDesktopSection {

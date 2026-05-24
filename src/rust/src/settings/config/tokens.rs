@@ -139,6 +139,11 @@ storage_token_enum!(ConfigTimelineMediaImageDisplayToken, Always {
     Never => "never",
 });
 
+storage_token_enum!(ConfigTimelineRoomHeaderButtonLabelsToken, Adaptive {
+    Adaptive => "adaptive",
+    Never => "never",
+});
+
 storage_token_enum!(ConfigSecretsProviderToken, SecretService {
     File => "file",
     SecretService => "secret_service",

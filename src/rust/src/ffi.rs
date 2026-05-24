@@ -366,6 +366,10 @@ mod bridge {
         enabled: bool,
     }
 
+    struct SettingsConfigTimelineRoomHeaderSection {
+        button_labels: String,
+    }
+
     struct SettingsConfigTimelineSection {
         messages: SettingsConfigTimelineMessagesSection,
         formatted: SettingsConfigTimelineFormattedSection,
@@ -376,6 +380,7 @@ mod bridge {
         hidden_events: SettingsConfigTimelineHiddenEventsSection,
         threads: SettingsConfigTimelineThreadsSection,
         date_dividers: SettingsConfigTimelineDateDividersSection,
+        room_header: SettingsConfigTimelineRoomHeaderSection,
     }
 
     struct SettingsConfigSecretsSection {

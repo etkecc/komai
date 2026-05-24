@@ -283,6 +283,8 @@ valuesEnglishFor(QVariant (*helper)())
         return timelineMessagesLayoutPositioningValuesEnglish;
     if (helper == &timelineMessagesStyleValues)
         return timelineMessagesStyleValuesEnglish;
+    if (helper == &timelineRoomHeaderButtonLabelsValues)
+        return timelineRoomHeaderButtonLabelsValuesEnglish;
     if (helper == &timelineSenderUsernameValues)
         return timelineSenderUsernameValuesEnglish;
     if (helper == &timelineShowImageValues)

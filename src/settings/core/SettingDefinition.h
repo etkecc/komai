@@ -119,6 +119,7 @@ enum class SettingId
     TimelineMediaOpenAudioExternal,
     TimelineMediaDefaultAudioPlaybackSpeed,
     TimelineThreadsCollapseRepliesGlobal,
+    TimelineRoomHeaderButtonLabels,
     EncryptionKeySharingOnlyVerifiedUsers,
     EncryptionKeySharingShareWithTrusted,
     EncryptionBackupOnlineEnabled,

@@ -37,6 +37,7 @@
     bool composerInputSpellcheckEnabled() const;
     bool composerAttachmentsStripImageMetadata() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
+    RoomHeaderButtonLabels timelineRoomHeaderButtonLabels() const;
     TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;
     AvatarSize timelineMessagesLayoutAvatarSize() const;

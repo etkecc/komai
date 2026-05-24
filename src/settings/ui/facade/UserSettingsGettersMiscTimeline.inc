@@ -47,3 +47,15 @@ UserSettings::timelineMediaOpenAudioExternal() const
         return *value;
     return timelineMediaOpenAudioExternal_;
 }
+
+UserSettings::RoomHeaderButtonLabels
+UserSettings::timelineRoomHeaderButtonLabels() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineRoomHeaderButtonLabels);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::RoomHeaderButtonLabels::Adaptive) &&
+        *value <= static_cast<int>(UserSettings::RoomHeaderButtonLabels::Never))
+        return static_cast<UserSettings::RoomHeaderButtonLabels>(*value);
+    return timelineRoomHeaderButtonLabels_;
+}

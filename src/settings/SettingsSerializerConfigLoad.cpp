@@ -186,6 +186,10 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
 
     settings.setTimelineMediaEffectsEnabled(snapshot.timeline.media.effects_enabled);
     settings.setTimelineDateDividersEnabled(snapshot.timeline.date_dividers.enabled);
+    settings.setTimelineRoomHeaderButtonLabels(cfg::roomHeaderButtonLabelsFromStorage(
+      QString::fromStdString(static_cast<std::string>(snapshot.timeline.room_header.button_labels))
+        .trimmed(),
+      UserSettings::RoomHeaderButtonLabels::Adaptive));
     settings.setTimelineMediaAnimateOnHover(snapshot.timeline.media.animate_on_hover);
     settings.setTimelineMediaImageDisplay(cfg::showImageFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.timeline.media.image_display))

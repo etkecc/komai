@@ -1,5 +1,7 @@
     // Timeline
     CONNECT_SETTING_ID(TimelineMessagesStyle, timelineMessagesStyleChanged, Value);
+    CONNECT_SETTING_ID(
+      TimelineRoomHeaderButtonLabels, timelineRoomHeaderButtonLabelsChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesLayoutPositioning, timelineMessagesLayoutPositioningChanged, Value);
     CONNECT_SETTING_ID(
       TimelineUserColorCodingPolicy, timelineUserColorCodingPolicyChanged, Value);

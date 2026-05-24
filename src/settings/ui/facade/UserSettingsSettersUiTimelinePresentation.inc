@@ -89,3 +89,17 @@ UserSettings::setTimelineMessagesSenderUsername(ShowSenderUsername s)
     emit timelineMessagesSenderUsernameChanged(s);
     save();
 }
+
+void
+UserSettings::setTimelineRoomHeaderButtonLabels(RoomHeaderButtonLabels s)
+{
+    if (timelineRoomHeaderButtonLabels_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::TimelineRoomHeaderButtonLabels,
+                      static_cast<int>(s),
+                      SettingKey::TimelineRoomHeaderButtonLabels))
+        return;
+    timelineRoomHeaderButtonLabels_ = s;
+    emit timelineRoomHeaderButtonLabelsChanged(s);
+    save();
+}

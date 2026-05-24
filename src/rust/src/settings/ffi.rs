@@ -284,6 +284,9 @@ pub(crate) fn ffi_config_timeline_section(
         date_dividers: ffi::SettingsConfigTimelineDateDividersSection {
             enabled: config.timeline.date_dividers.enabled.unwrap_or(defaults::DATE_DIVIDERS_ENABLED),
         },
+        room_header: ffi::SettingsConfigTimelineRoomHeaderSection {
+            button_labels: config.timeline.room_header.button_labels.to_storage_string(),
+        },
     }
 }
 
@@ -766,6 +769,9 @@ fn clone_config_timeline_section(
         },
         date_dividers: ffi::SettingsConfigTimelineDateDividersSection {
             enabled: section.date_dividers.enabled,
+        },
+        room_header: ffi::SettingsConfigTimelineRoomHeaderSection {
+            button_labels: section.room_header.button_labels.clone(),
         },
     }
 }

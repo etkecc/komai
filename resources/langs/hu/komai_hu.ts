@@ -5640,7 +5640,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
         <translation>Figyelmeztetés</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+76"/>
         <source>Search</source>
         <translation>Keresés</translation>
     </message>
@@ -10403,6 +10403,21 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelTimeline.inc" line="+4"/>
+        <source>Room header bar</source>
+        <translation>Szoba fejlécsáv</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show button labels</source>
+        <translation>Gombfeliratok megjelenítése</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>search, members, pinned, threads, icons, top bar</source>
+        <translation>keresés, tagok, rögzített, szálak, ikonok, felső sáv</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Presentation</source>
         <translation>Megjelenítés</translation>
     </message>
@@ -10696,7 +10711,9 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <location line="+9"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="+28"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+21"/>
+        <location line="+9"/>
+        <location line="+42"/>
         <location line="+10"/>
         <location line="+7"/>
         <location line="+10"/>
@@ -10744,9 +10761,9 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <location line="+10"/>
         <location line="+41"/>
         <location line="+9"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-96"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-111"/>
         <location line="+10"/>
-        <location line="+57"/>
+        <location line="+72"/>
         <location line="+10"/>
         <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsComposer.inc" line="-12"/>
         <location line="+10"/>
@@ -10906,7 +10923,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Csak avatar</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-94"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc" line="-109"/>
         <location line="+10"/>
         <source>Regular</source>
         <translation>Normál</translation>
@@ -10942,7 +10959,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Buborékok</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+21"/>
         <location line="+11"/>
         <source>Opposing by sender</source>
         <translation>Küldő szerint szemközti</translation>
@@ -10960,7 +10977,9 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Mind jobbra igazítva</translation>
     </message>
     <message>
-        <location line="-14"/>
+        <location line="-29"/>
+        <location line="+9"/>
+        <location line="+6"/>
         <location line="+11"/>
         <source>Adaptive</source>
         <translation>Adaptív</translation>

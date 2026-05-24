@@ -150,6 +150,11 @@ stageConfig(const UserSettings &settings,
             {
               .enabled = settings.timelineDateDividersEnabled(),
             },
+          .room_header =
+            {
+              .button_labels =
+                cfg::toStorageValue(settings.timelineRoomHeaderButtonLabels()).toStdString(),
+            },
         },
       .secrets =
         {

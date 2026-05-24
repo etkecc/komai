@@ -32,6 +32,12 @@ constexpr std::array<std::pair<UserSettings::TimelineUserColorCodingPolicy, cons
     {UserSettings::TimelineUserColorCodingPolicy::MeVsOthers, "me_vs_others"},
   }};
 
+constexpr std::array<std::pair<UserSettings::RoomHeaderButtonLabels, const char *>, 2>
+  kRoomHeaderButtonLabelsTokens{{
+    {UserSettings::RoomHeaderButtonLabels::Adaptive, "adaptive"},
+    {UserSettings::RoomHeaderButtonLabels::Never, "never"},
+  }};
+
 QString
 toStorageValue(UserSettings::TimelineMessageActionsActivationPolicy value)
 {
@@ -86,4 +92,18 @@ timelineUserColorCodingPolicyFromStorage(
   UserSettings::TimelineUserColorCodingPolicy fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelineUserColorCodingPolicyTokens);
+}
+
+QString
+toStorageValue(UserSettings::RoomHeaderButtonLabels value)
+{
+    return valueToStorageToken(value, kRoomHeaderButtonLabelsTokens, "adaptive");
+}
+
+UserSettings::RoomHeaderButtonLabels
+roomHeaderButtonLabelsFromStorage(
+  const QString &value,
+  UserSettings::RoomHeaderButtonLabels fallback)
+{
+    return valueFromStorageToken(value, fallback, kRoomHeaderButtonLabelsTokens);
 }

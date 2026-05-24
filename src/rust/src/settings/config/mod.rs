@@ -23,7 +23,8 @@ pub use model::{
     ConfigNetwork, ConfigNetworkEncryption, ConfigSecrets, ConfigNavigation,
     ConfigNavigationCommunities, ConfigNavigationRoomList, ConfigNavigationTabs, ConfigTimeline,
     ConfigTimelineDateDividers, ConfigTimelineFormatted, ConfigTimelineHiddenEvents, ConfigTimelineMedia,
-    ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineThreads, ConfigTimelineThreadsCollapseReplies,
+    ConfigTimelineMessageActions, ConfigTimelineMessages, ConfigTimelineRoomHeader,
+    ConfigTimelineThreads, ConfigTimelineThreadsCollapseReplies,
     ConfigTimelineMessagesLayout, ConfigTimelineReadReceipts, ConfigTimelineTyping, ConfigUi,
     ConfigUiAvatars, ConfigUiFont, ConfigUiLayout, ConfigUiMotion, ConfigUiScale,
     ConfigUiTheme, LoadedConfig,
@@ -42,6 +43,7 @@ pub use tokens::{
     ConfigTimelineMessageActionsActivationPolicyToken,
     ConfigTimelineMessagesLayoutAvatarSizeToken, ConfigTimelineMessagesPositioningToken,
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
+    ConfigTimelineRoomHeaderButtonLabelsToken,
     ConfigTimelineUserColorCodingPolicyToken, ConfigUiDefaultAvatarStyleToken,
     ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
 };
@@ -150,6 +152,8 @@ const TIMELINE_THREADS_COLLAPSE_REPLIES_GLOBAL_PATH: [&str; 4] =
     ["timeline", "threads", "collapse_replies", "global"];
 const TIMELINE_DATE_DIVIDERS_ENABLED_PATH: [&str; 3] =
     ["timeline", "date_dividers", "enabled"];
+const TIMELINE_ROOM_HEADER_BUTTON_LABELS_PATH: [&str; 3] =
+    ["timeline", "room_header", "button_labels"];
 const TIMELINE_THREADS_COLLAPSE_REPLIES_BY_ROOM_PATH: [&str; 4] =
     ["timeline", "threads", "collapse_replies", "by_room"];
 const HIDDEN_EVENTS_GLOBAL_PATH: [&str; 3] = ["timeline", "hidden_events", "global"];
@@ -521,6 +525,12 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             date_dividers: ConfigTimelineDateDividers {
                 enabled: yaml::value_at_path(root, &TIMELINE_DATE_DIVIDERS_ENABLED_PATH)
                     .and_then(parse_scalar_bool),
+            },
+            room_header: ConfigTimelineRoomHeader {
+                button_labels: parse_storage_token(yaml::value_at_path(
+                    root,
+                    &TIMELINE_ROOM_HEADER_BUTTON_LABELS_PATH,
+                )),
             },
         },
         secrets: ConfigSecrets {

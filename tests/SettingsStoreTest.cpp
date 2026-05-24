@@ -54,6 +54,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::TimelineMessagesSenderUsername,
   settings::core::SettingId::TimelineMediaImageDisplay,
   settings::core::SettingId::TimelineMessageActionsActivationPolicy,
+  settings::core::SettingId::TimelineRoomHeaderButtonLabels,
   settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds,
 };
 
@@ -262,7 +263,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 103;
+    constexpr std::size_t expectedPersistedDefinitionCount = 104;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

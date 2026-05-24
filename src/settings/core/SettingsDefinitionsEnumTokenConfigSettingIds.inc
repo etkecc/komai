@@ -34,3 +34,4 @@
   SettingId::TimelineMessagesSenderUsername,
   SettingId::TimelineMessageActionsActivationPolicy,
   SettingId::TimelineMediaImageDisplay,
+  SettingId::TimelineRoomHeaderButtonLabels,

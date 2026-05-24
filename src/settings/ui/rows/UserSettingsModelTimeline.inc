@@ -1,5 +1,20 @@
     // ── Timeline Tab ────────────────────────────────────────────────────────
 
+    // TimelineRoomHeaderBarSection
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "Room header bar"), nullptr, SM::SectionTitle, SM::TabTimeline,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // TimelineRoomHeaderButtonLabels
+    withKeywords(
+      SIMPLE_SEGMENTED_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Show button labels"),
+        nullptr,
+        SM::TabTimeline, timelineRoomHeaderButtonLabels, setTimelineRoomHeaderButtonLabels,
+        UserSettings::RoomHeaderButtonLabels,
+        timelineRoomHeaderButtonLabelsValues,
+        nullptr,
+        TimelineRoomHeaderButtonLabels,
+        SettingKey::TimelineRoomHeaderButtonLabels),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "search, members, pinned, threads, icons, top bar")),
+
     // TimelinePresentationSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Presentation"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

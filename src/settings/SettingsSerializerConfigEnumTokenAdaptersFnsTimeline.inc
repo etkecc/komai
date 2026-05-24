@@ -89,3 +89,16 @@ applyTimelineUserColorCodingPolicyFromStorage(UserSettings &settings, const QStr
     settings.setTimelineUserColorCodingPolicy(timelineUserColorCodingPolicyFromStorage(
       rawToken, UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize));
 }
+
+QString
+roomHeaderButtonLabelsToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.timelineRoomHeaderButtonLabels());
+}
+
+void
+applyRoomHeaderButtonLabelsFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setTimelineRoomHeaderButtonLabels(roomHeaderButtonLabelsFromStorage(
+      rawToken, UserSettings::RoomHeaderButtonLabels::Adaptive));
+}

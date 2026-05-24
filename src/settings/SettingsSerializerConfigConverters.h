@@ -102,6 +102,12 @@ timelineUserColorCodingPolicyFromStorage(const QString &value,
                                          UserSettings::TimelineUserColorCodingPolicy fallback);
 
 QString
+toStorageValue(UserSettings::RoomHeaderButtonLabels value);
+UserSettings::RoomHeaderButtonLabels
+roomHeaderButtonLabelsFromStorage(const QString &value,
+                                  UserSettings::RoomHeaderButtonLabels fallback);
+
+QString
 toStorageValue(UserSettings::NotificationMessageContentPolicy value);
 UserSettings::NotificationMessageContentPolicy
 notificationsMessageContentPolicyFromStorage(

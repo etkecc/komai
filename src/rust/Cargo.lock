@@ -3367,9 +3367,9 @@ checksum = "ba39f3699c378cd8970968dcbff9c43159ea4cfbd88d43c00b22f2ef10a435d2"
 
 [[package]]
 name = "reqwest"
-version = "0.13.3"
+version = "0.13.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "62e0021ea2c22aed41653bc7e1419abb2c97e038ff2c33d0e1309e49a97deec0"
+checksum = "219c5811de6525e5416c7d5d53bb656d3afdbc6c5af816e0802bcfa42dbdc1c3"
 dependencies = [
  "base64",
  "bytes",
@@ -4050,9 +4050,9 @@ dependencies = [
 
 [[package]]
 name = "spellbook"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28332bb44a9e7e7f1aa43ce4d97b6d1b27323a1fc160d4cfe0089245e1750845"
+checksum = "009112b36a0967e851cc65805ac5905684c3e3ff2cd9af82ada329f0add55263"
 dependencies = [
  "foldhash 0.2.0",
  "hashbrown 0.17.0",

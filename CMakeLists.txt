@@ -1085,6 +1085,10 @@ set_source_files_properties(
     resources/qml/components/MenuSizing.qml
     PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
+set_source_files_properties(
+    resources/qml/components/MutedText.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
 qt_add_qml_module(komai
     URI cc.etke.komai
     NO_RESOURCE_TARGET_PATH

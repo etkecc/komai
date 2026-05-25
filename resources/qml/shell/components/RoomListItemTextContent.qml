@@ -28,7 +28,8 @@ ColumnLayout {
     required property string draftPreview
     required property string time
     required property color importantText
-    required property color unimportantText
+    required property color previewText
+    required property color timestampText
     required property color bubbleBackground
     required property color bubbleText
     required property color draftIndicatorColor
@@ -101,7 +102,7 @@ ColumnLayout {
             height: implicitHeight
             senderName: root.lastMessagePreviewSenderName
             body: root.lastMessagePreviewBody
-            textColor: root.unimportantText
+            textColor: root.previewText
             visible: root.isDense && titleRow.previewsEnabled && !root.hasDraft
         }
         Item {
@@ -155,7 +156,7 @@ ColumnLayout {
 
             anchors.baseline: titleText.baseline
             anchors.right: parent.right
-            color: root.unimportantText
+            color: root.timestampText
             font.pointSize: root.compactPreview ? root.compactPreviewFontPt : (Settings.uiFontSizePt * 0.95)
             text: root.time
             visible: !root.isInvite && !root.isSpace && Komai.navigationRoomListShowLastMessageTime
@@ -193,7 +194,7 @@ ColumnLayout {
             height: implicitHeight
             senderName: root.lastMessagePreviewSenderName
             body: root.lastMessagePreviewBody
-            textColor: root.unimportantText
+            textColor: root.previewText
             visible: !root.hasDraft
         }
         Item {

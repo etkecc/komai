@@ -6433,7 +6433,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+103"/>
         <source>Invite: %1</source>
         <translation>Meghívás: %1</translation>
     </message>
@@ -6468,7 +6468,7 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+127"/>
         <location line="+88"/>
         <source>You:</source>
         <translation>Te:</translation>
@@ -8886,7 +8886,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+192"/>
         <source>Retry sending</source>
         <translation>Küldés újrapróbálása</translation>
     </message>

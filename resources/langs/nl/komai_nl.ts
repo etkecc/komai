@@ -6441,7 +6441,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+103"/>
         <source>Invite: %1</source>
         <translation>Uitnodiging: %1</translation>
     </message>
@@ -6477,7 +6477,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+127"/>
         <location line="+88"/>
         <source>You:</source>
         <translation>Jij:</translation>
@@ -8897,7 +8897,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+192"/>
         <source>Retry sending</source>
         <translation>Opnieuw verzenden</translation>
     </message>

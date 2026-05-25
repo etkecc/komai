@@ -6441,7 +6441,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+103"/>
         <source>Invite: %1</source>
         <translation>Kutse: %1</translation>
     </message>
@@ -6477,7 +6477,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+127"/>
         <location line="+88"/>
         <source>You:</source>
         <translation>Sina:</translation>
@@ -8897,7 +8897,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+192"/>
         <source>Retry sending</source>
         <translation>Proovi saatmist uuesti</translation>
     </message>

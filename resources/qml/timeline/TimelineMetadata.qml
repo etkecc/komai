@@ -46,6 +46,14 @@ RowLayout {
             return Komai.inactiveColors.text;
         return palette.inactive.text;
     }
+    // Timestamp dim color: shared with the room-list timestamp via the
+    // MutedText singleton, which owns the WCAG-tuned blend factor. The
+    // background here is palette.base (the chat-area surface around the
+    // metadata bar), whereas the room list blends against palette.window.
+    readonly property color effectiveTimestampColor: {
+        const _revision = colorRevision;
+        return MutedText.muted(effectiveTextColor, effectiveBaseColor, MutedText.timestampBlend);
+    }
     readonly property color effectiveHighlightColor: {
         const _revision = colorRevision;
         if (hasContentPalette && contentPalette.highlight !== undefined && contentPalette.highlight !== null)
@@ -137,7 +145,7 @@ RowLayout {
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredWidth: implicitWidth
-        color: effectiveInactiveTextColor
+        color: effectiveTimestampColor
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
 

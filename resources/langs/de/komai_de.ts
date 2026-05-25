@@ -6441,7 +6441,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+103"/>
         <source>Invite: %1</source>
         <translation>Einladung: %1</translation>
     </message>
@@ -6477,7 +6477,7 @@ Bitte beachte, dass sie danach nicht mehr deaktiviert werden kann.</translation>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+127"/>
         <location line="+88"/>
         <source>You:</source>
         <translation>Du:</translation>
@@ -8897,7 +8897,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+192"/>
         <source>Retry sending</source>
         <translation>Senden wiederholen</translation>
     </message>

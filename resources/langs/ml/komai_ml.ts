@@ -6441,7 +6441,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListItemDelegate</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+98"/>
+        <location filename="../../qml/shell/components/RoomListItemDelegate.qml" line="+103"/>
         <source>Invite: %1</source>
         <translation>ക്ഷണം: %1</translation>
     </message>
@@ -6477,7 +6477,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomListItemTextContent</name>
     <message>
-        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+126"/>
+        <location filename="../../qml/shell/components/RoomListItemTextContent.qml" line="+127"/>
         <location line="+88"/>
         <source>You:</source>
         <translation>നിങ്ങൾ:</translation>
@@ -8897,7 +8897,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+184"/>
+        <location filename="../../qml/timeline/TimelineMetadata.qml" line="+192"/>
         <source>Retry sending</source>
         <translation>വീണ്ടും അയയ്ക്കുക</translation>
     </message>

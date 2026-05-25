@@ -68,7 +68,12 @@ ItemDelegate {
     readonly property color draftActivityBase: Qt.rgba((Komai.theme.attention.r + palette.highlight.r) / 2, (Komai.theme.attention.g + palette.highlight.g) / 2, (Komai.theme.attention.b + palette.highlight.b) / 2, 1)
     readonly property color hoverBackground: Qt.rgba(palette.dark.r * 0.30 + palette.window.r * 0.70, palette.dark.g * 0.30 + palette.window.g * 0.70, palette.dark.b * 0.30 + palette.window.b * 0.70, 1)
     readonly property color selectedBackground: Qt.rgba(palette.dark.r * 0.85 + palette.window.r * 0.15, palette.dark.g * 0.85 + palette.window.g * 0.15, palette.dark.b * 0.85 + palette.window.b * 0.15, 1)
-    property color unimportantText: palette.buttonText
+    // Second-line text is derived from palette.text via MutedText, which
+    // also owns the WCAG-tuned blend factors shared with the bubble metadata
+    // timestamp in TimelineMetadata. See components/MutedText.qml for the
+    // rationale (and update the factors there, not here).
+    property color previewText: MutedText.muted(palette.text, palette.window, MutedText.previewBlend)
+    property color timestampText: MutedText.muted(palette.text, palette.window, MutedText.timestampBlend)
 
     KomaiToolTip {
         anchorItem: roomItem
@@ -151,7 +156,8 @@ ItemDelegate {
                     bubbleBackground: palette.highlight
                     bubbleText: palette.highlightedText
                     importantText: palette.text
-                    unimportantText: palette.text
+                    previewText: palette.text
+                    timestampText: palette.text
                 }
             }
         },
@@ -166,7 +172,8 @@ ItemDelegate {
                     bubbleText: palette.highlightedText
                     draftIndicatorColor: palette.brightText
                     importantText: palette.brightText
-                    unimportantText: palette.brightText
+                    previewText: palette.brightText
+                    timestampText: palette.brightText
                     unreadIndicatorColor: palette.brightText
                 }
             }
@@ -394,7 +401,8 @@ ItemDelegate {
             time: roomItem.time
             draftIndicatorColor: roomItem.draftIndicatorColor
             importantText: roomItem.importantText
-            unimportantText: roomItem.unimportantText
+            previewText: roomItem.previewText
+            timestampText: roomItem.timestampText
             bubbleBackground: roomItem.bubbleBackground
             bubbleText: roomItem.bubbleText
             Accessible.ignored: true

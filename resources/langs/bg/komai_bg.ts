@@ -3514,17 +3514,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Отговор&amp;и</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Отговори в &amp;тред</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Редактирай</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Ре&amp;агирай</translation>
     </message>

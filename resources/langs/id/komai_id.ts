@@ -3509,17 +3509,17 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>&amp;Balas</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Balas dalam &amp;Utas</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edit</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;aksi</translation>
     </message>

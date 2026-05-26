@@ -3519,17 +3519,17 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Răspun&amp;de</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Răspunde în &amp;Fir</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editare</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Rea&amp;cționează</translation>
     </message>

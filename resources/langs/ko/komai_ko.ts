@@ -3509,17 +3509,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>답&amp;장</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>&amp;스레드에서 답장</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;편집</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>반&amp;응</translation>
     </message>

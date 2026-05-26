@@ -3509,17 +3509,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>返信</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>スレッドで返信</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>編集</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>リアクション</translation>
     </message>

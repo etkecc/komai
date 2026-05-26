@@ -3514,17 +3514,17 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Svar&amp;a</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Svara i &amp;tråd</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Redigera</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;agera</translation>
     </message>

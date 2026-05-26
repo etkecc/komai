@@ -3514,17 +3514,17 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Re&amp;spondi</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Respondi en &amp;fadeno</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Redakti</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;agi</translation>
     </message>

@@ -3514,17 +3514,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Απάντ&amp;ηση</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Απάντηση σε &amp;Νήμα</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Επεξεργασία</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Αντίδρ&amp;αση</translation>
     </message>

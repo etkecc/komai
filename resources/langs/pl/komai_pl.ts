@@ -3519,17 +3519,17 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Odpow&amp;iedz</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Odpowiedz w &amp;wątku</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edytuj</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;aguj</translation>
     </message>

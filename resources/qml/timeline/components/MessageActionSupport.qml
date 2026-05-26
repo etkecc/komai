@@ -227,28 +227,43 @@ QtObject {
         return true;
     }
 
-    function applyEdit(roomModel, messageModel) {
+    // Walk mode hides the composer (MessageInput + ReplyPopup + edit banner),
+    // so any action that hands off to the composer must first leave walk mode
+    // — otherwise the reply/edit preview collapses and MessageInput stays
+    // behind the walk mode bar. Pass `chatRoot` (a MatrixRoomView) from any
+    // caller that may be reachable while walk mode is active.
+    function _exitWalkModeForComposerHandoff(chatRoot) {
+        if (chatRoot
+                && chatRoot.walkModeActive
+                && typeof chatRoot.exitWalkMode === "function")
+            chatRoot.exitWalkMode({ "focusComposer": false });
+    }
+
+    function applyEdit(roomModel, messageModel, chatRoot) {
         if (!canEdit(messageModel, roomModel))
             return false;
 
+        _exitWalkModeForComposerHandoff(chatRoot);
         roomModel.edit = messageModel.eventId;
         TimelineManager.focusMessageInput();
         return true;
     }
 
-    function applyThread(roomModel, messageModel) {
+    function applyThread(roomModel, messageModel, chatRoot) {
         if (!canThread(messageModel, roomModel))
             return false;
 
+        _exitWalkModeForComposerHandoff(chatRoot);
         roomModel.thread = messageModel.threadId || messageModel.eventId;
         TimelineManager.focusMessageInput();
         return true;
     }
 
-    function applyReply(roomModel, messageModel) {
+    function applyReply(roomModel, messageModel, chatRoot) {
         if (!canReply(messageModel, roomModel))
             return false;
 
+        _exitWalkModeForComposerHandoff(chatRoot);
         roomModel.reply = messageModel.eventId;
         TimelineManager.focusMessageInput();
         return true;

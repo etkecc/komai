@@ -3514,17 +3514,17 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Risp&amp;ondi</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Rispondi nel &amp;Thread</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Modifica</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;agisci</translation>
     </message>

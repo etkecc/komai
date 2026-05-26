@@ -3509,17 +3509,17 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Trả &amp;lời</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Trả lời trong &amp;Chủ đề</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Chỉnh sửa</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>&amp;Phản ứng</translation>
     </message>

@@ -3514,17 +3514,17 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>മറു&amp;പടി</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>&amp;ത്രെഡിൽ മറുപടി</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;എഡിറ്റ്</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>പ്ര&amp;തികരിക്കുക</translation>
     </message>

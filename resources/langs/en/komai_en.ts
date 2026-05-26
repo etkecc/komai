@@ -3508,17 +3508,17 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished">Repl&amp;y</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation type="unfinished">&amp;Edit</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation type="unfinished">Re&amp;act</translation>
     </message>

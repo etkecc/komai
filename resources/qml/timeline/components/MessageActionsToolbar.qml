@@ -375,7 +375,7 @@ Item {
             visible: toolbar.canEdit
 
             onClicked: {
-                if (messageActionSupport.applyEdit(roomModel, toolbar.messageModel))
+                if (messageActionSupport.applyEdit(roomModel, toolbar.messageModel, toolbar.chatRoot))
                     toolbar.dismissActionBar();
             }
         }
@@ -390,7 +390,7 @@ Item {
             visible: toolbar.canThread
 
             onClicked: {
-                if (messageActionSupport.applyThread(roomModel, toolbar.messageModel))
+                if (messageActionSupport.applyThread(roomModel, toolbar.messageModel, toolbar.chatRoot))
                     toolbar.dismissActionBar();
             }
         }
@@ -405,7 +405,7 @@ Item {
             visible: toolbar.canReply
 
             onClicked: {
-                if (messageActionSupport.applyReply(roomModel, toolbar.messageModel))
+                if (messageActionSupport.applyReply(roomModel, toolbar.messageModel, toolbar.chatRoot))
                     toolbar.dismissActionBar();
             }
         }

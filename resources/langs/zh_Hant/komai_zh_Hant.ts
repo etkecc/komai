@@ -3509,17 +3509,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>回覆(&amp;Y)</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>在討論串中回覆(&amp;T)</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>編輯(&amp;E)</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>回應(&amp;A)</translation>
     </message>

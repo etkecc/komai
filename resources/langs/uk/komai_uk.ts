@@ -3519,17 +3519,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Відпо&amp;вісти</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Відповісти в &amp;ланцюжку</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Змінити</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Ре&amp;агувати</translation>
     </message>

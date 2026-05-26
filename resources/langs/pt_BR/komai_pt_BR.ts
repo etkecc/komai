@@ -3514,17 +3514,17 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Respo&amp;nder</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Responder no &amp;Tópico</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;agir</translation>
     </message>

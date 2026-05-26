@@ -3509,17 +3509,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>پاسخ &amp;دادن</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>پاسخ در &amp;رشته</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;ویرایش</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>&amp;واکنش</translation>
     </message>

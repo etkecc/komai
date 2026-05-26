@@ -150,7 +150,9 @@ Menu {
                 visible: messageActionSupport.canReply(messageContextMenuRoot.effectiveMessageModel,
                                                        messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.reply = (messageContextMenuRoot.eventId)
+                onTriggered: messageActionSupport.applyReply(messageContextMenuRoot.effectiveRoomModel,
+                                                             messageContextMenuRoot.effectiveMessageModel,
+                                                             messageContextMenuRoot.chatRoot)
             }
         }
         Component {
@@ -160,7 +162,9 @@ Menu {
                 visible: messageActionSupport.canThread(messageContextMenuRoot.effectiveMessageModel,
                                                         messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.thread = (messageContextMenuRoot.threadId || messageContextMenuRoot.eventId)
+                onTriggered: messageActionSupport.applyThread(messageContextMenuRoot.effectiveRoomModel,
+                                                              messageContextMenuRoot.effectiveMessageModel,
+                                                              messageContextMenuRoot.chatRoot)
             }
         }
         Component {
@@ -170,7 +174,9 @@ Menu {
                 visible: messageActionSupport.canEdit(messageContextMenuRoot.effectiveMessageModel,
                                                       messageContextMenuRoot.effectiveRoomModel)
 
-                onTriggered: messageContextMenuRoot.effectiveRoomModel.edit = (messageContextMenuRoot.eventId)
+                onTriggered: messageActionSupport.applyEdit(messageContextMenuRoot.effectiveRoomModel,
+                                                            messageContextMenuRoot.effectiveMessageModel,
+                                                            messageContextMenuRoot.chatRoot)
             }
         }
         Component {

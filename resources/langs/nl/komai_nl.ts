@@ -3514,17 +3514,17 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Bea&amp;ntwoorden</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Beantwoorden in &amp;Thread</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bewerken</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;ageren</translation>
     </message>

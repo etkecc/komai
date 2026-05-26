@@ -3534,17 +3534,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>&amp;رد</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>الرد في ال&amp;سلسلة</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;تعديل</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>ت&amp;فاعل</translation>
     </message>

@@ -3519,17 +3519,17 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Отве&amp;тить</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Ответить в &amp;треде</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Редактировать</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Ре&amp;акция</translation>
     </message>

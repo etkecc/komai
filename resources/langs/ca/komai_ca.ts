@@ -3514,17 +3514,17 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>R&amp;espon</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Reply in &amp;Thread</source>
         <translation>Respon en un &amp;fil</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edita</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+12"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;acciona</translation>
     </message>

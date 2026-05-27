@@ -1,17 +1,19 @@
 # Changelog
 
-## 2026.05.26.0
+## 2026.05.27.0
 
 - ✨ Feature: support for upgrading rooms to a newer room version, via Room Info → "Upgrade..." or the new `/upgraderoom` slash command. ([42e5c8f71](https://github.com/etkecc/komai/commit/42e5c8f71), [c770f5b5f](https://github.com/etkecc/komai/commit/c770f5b5f)).
-- ✨ Feature: a new "Auto-hide with a single tab" setting can allow you to hide the [tab bar](https://github.com/etkecc/komai/blob/d8570a75b/docs/user-guide/features/tabs.md) while only one tab is open ([ca92d074b](https://github.com/etkecc/komai/commit/ca92d074b), [1d9be75a0](https://github.com/etkecc/komai/commit/1d9be75a0)).
+- ✨ Feature: a new "Auto-hide with a single tab" setting can allow you to hide the [tab bar](https://github.com/etkecc/komai/blob/a66fa422a/docs/user-guide/features/tabs.md) while only one tab is open ([ca92d074b](https://github.com/etkecc/komai/commit/ca92d074b), [1d9be75a0](https://github.com/etkecc/komai/commit/1d9be75a0)).
 - ✨ Feature: a new "Show button labels" setting can suppress the room header's action button labels (Search, Pin, Threads, Members, encryption, Leave) at all times, as opposed to only when the bar is tight on space ([9217671d2](https://github.com/etkecc/komai/commit/9217671d2)).
-- ✨ Feature: a new "Monochrome" style for the [tray icon](https://github.com/etkecc/komai/blob/d8570a75b/docs/user-guide/features/system-tray.md), with light and dark variants ([b588a9c04](https://github.com/etkecc/komai/commit/b588a9c04)).
-- 🐛 Fix: Reply, Reply in thread, and Edit no longer leave the composer hidden behind the [selection-mode](https://github.com/etkecc/komai/blob/d8570a75b/docs/user-guide/features/selection-mode.md) bar when invoked while multiple messages are selected ([d3619665a](https://github.com/etkecc/komai/commit/d3619665a)).
+- ✨ Feature: a new "Monochrome" style for the [tray icon](https://github.com/etkecc/komai/blob/a66fa422a/docs/user-guide/features/system-tray.md), with light and dark variants ([b588a9c04](https://github.com/etkecc/komai/commit/b588a9c04)).
+- 🐛 Fix: Reply, Reply in thread, and Edit no longer leave the composer hidden behind the [selection-mode](https://github.com/etkecc/komai/blob/a66fa422a/docs/user-guide/features/selection-mode.md) bar when invoked while multiple messages are selected ([d3619665a](https://github.com/etkecc/komai/commit/d3619665a)).
 - 🐛 Fix: room list timestamps and last-message previews keep their visual hierarchy on themes whose button-label color equals the body text color ([999f422b4](https://github.com/etkecc/komai/commit/999f422b4)).
 - 🐛 Fix: short room-header tooltips no longer wrap onto two lines in rare cases (e.g. "Read" rendering as "Rea" + "d") ([d011ede87](https://github.com/etkecc/komai/commit/d011ede87), [5858b4683](https://github.com/etkecc/komai/commit/5858b4683)).
 - 🐛 Fix: "Copy room link" from the room context menu now prefers the canonical room alias when one is set ([178f7b20c](https://github.com/etkecc/komai/commit/178f7b20c)).
 - 🐛 Fix: mouse-wheel scrolling is now 5x faster on the Account tab and the settings sidebar ([7ce871523](https://github.com/etkecc/komai/commit/7ce871523)).
 - 🐛 Fix: pressing Up in an empty composer to edit your last message works again when thread replies are collapsed or in-room search is active ([a5594f836](https://github.com/etkecc/komai/commit/a5594f836)).
+
+_(Silly thing we do: this is a re-cut of an abandoned v2026.05.26.0, whose publish workflow got wedged during a GitHub Actions outage and could not be revived. No code changes from that tag.)_
 
 ## 2026.05.21.0
 

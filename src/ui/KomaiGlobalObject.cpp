@@ -484,6 +484,25 @@ Komai::composerTriggerAtWordBoundary(const QString &text, int triggerPos)
       static_cast<size_t>(prefixUtf8.size()));
 }
 
+QVariantList
+Komai::composerExtractMentions(const QString &text)
+{
+    QVariantList out;
+    const QByteArray utf8 = text.toUtf8();
+    const ::rust::Str rustText(utf8.constData(), static_cast<size_t>(utf8.size()));
+    for (const auto &match : komai::rust::composer_extract_mentions(rustText)) {
+        QVariantMap entry;
+        entry.insert(
+          QStringLiteral("userId"),
+          QString::fromUtf8(match.user_id.data(), static_cast<qsizetype>(match.user_id.size())));
+        entry.insert(
+          QStringLiteral("source"),
+          QString::fromUtf8(match.source.data(), static_cast<qsizetype>(match.source.size())));
+        out.push_back(entry);
+    }
+    return out;
+}
+
 QVariantMap
 Komai::composerApplyFormat(const QString &text,
                            int selectionStart,

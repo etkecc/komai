@@ -2529,7 +2529,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profilname ist erforderlich.</translation>
@@ -3061,7 +3061,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+344"/>
         <source>%1 is typing…</source>
         <translation>%1 schreibt …</translation>
     </message>

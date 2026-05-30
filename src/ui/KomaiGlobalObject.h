@@ -167,6 +167,13 @@ public:
     //! (whitespace, punctuation, emoji, start of input) is a boundary.
     Q_INVOKABLE static bool composerTriggerAtWordBoundary(const QString &text, int triggerPos);
 
+    //! Extract intentional user mentions (MSC3952) from composer draft text.
+    //! Returns a list of `{ userId, source }` maps, where `source` is the link
+    //! substring as it appears in the text (used by the composer to prune a
+    //! mention when its text is edited away). Parsing is delegated to ruma; see
+    //! the composer_mentions module in the Rust crate.
+    Q_INVOKABLE static QVariantList composerExtractMentions(const QString &text);
+
     enum class ComposerFormatKind
     {
         Bold       = 0,

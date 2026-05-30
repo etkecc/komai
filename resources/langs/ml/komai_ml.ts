@@ -2529,7 +2529,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
@@ -3061,7 +3061,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+344"/>
         <source>%1 is typing…</source>
         <translation>%1 ടൈപ്പ് ചെയ്യുന്നു…</translation>
     </message>

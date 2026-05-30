@@ -2525,7 +2525,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>A profil neve kötelező.</translation>
@@ -3057,7 +3057,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+344"/>
         <source>%1 is typing…</source>
         <translation>%1 gépel…</translation>
     </message>

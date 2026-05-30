@@ -2529,7 +2529,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>O nome do perfil é obrigatório.</translation>
@@ -3061,7 +3061,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+344"/>
         <source>%1 is typing…</source>
         <translation>%1 está digitando…</translation>
     </message>

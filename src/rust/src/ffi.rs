@@ -7,6 +7,7 @@ pub(crate) use crate::composer_format::{
     toggle_code as composer_toggle_code, toggle_inline_wrap as composer_toggle_inline_wrap,
     toggle_link as composer_toggle_link,
 };
+pub(crate) use crate::composer_mentions::composer_extract_mentions;
 pub(crate) use crate::composer_trigger::trigger_at_word_boundary as composer_trigger_at_word_boundary;
 pub(crate) use crate::emoji::emoji_only_visual_count;
 pub(crate) use crate::logging::{init_logging, log_from_cpp};
@@ -787,6 +788,14 @@ mod bridge {
         // groups.
         language_code: String,
         suggestions: Vec<String>,
+    }
+
+    // A user mention recovered from composer draft text. `source` is the link
+    // substring as it appears in the text, so the composer can prune the
+    // mention when that text is edited away.
+    struct ComposerMentionMatch {
+        user_id: String,
+        source: String,
     }
 
     // Result of a composer formatting toggle (bold / italic / code / quote /
@@ -1641,6 +1650,8 @@ mod bridge {
         fn emoji_only_visual_count(body: &str) -> i32;
 
         fn composer_trigger_at_word_boundary(text: &str, trigger_byte_pos: usize) -> bool;
+
+        fn composer_extract_mentions(text: &str) -> Vec<ComposerMentionMatch>;
 
         fn composer_toggle_inline_wrap(
             text: &str,

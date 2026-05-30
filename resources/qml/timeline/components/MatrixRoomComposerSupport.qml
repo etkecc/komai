@@ -214,53 +214,18 @@ Item {
             return /@room\b/.test(String(value || ""));
         }
 
-        function _addDerivedMention(id, matchedText) {
-            // The matched link text (a bare URL or matrix: URI) is enough both to
-            // attribute the user and to track the mention for pruning.
-            if (id.charAt(0) === "@" && id.indexOf(":") > 0
-                    && dismissedMentions.indexOf(id) === -1)
-                _setMentionPresent(id, matchedText, true);
-        }
-
         // Re-add user mentions for matrix-link pills present in the text,
         // skipping any the user dismissed. Used on bulk text replacements (edit
         // and draft restore, and paste) where the originating completer pick is
-        // gone. Recognizes the link forms a client can attribute to a *user*
-        // today; non-sigil matrix.to (MSC4481) is intentionally skipped because
-        // "user:server" without the sigil is ambiguous with a room alias.
+        // gone. The link parsing/validation lives in Rust (Komai.composer
+        // ExtractMentions, ruma-backed); here we only apply the dismissal rule
+        // and track each match's `source` substring for later pruning.
         function deriveMentionsFromText(value) {
-            const text = String(value || "");
-            let match;
-
-            // matrix.to/#/<id> — markdown-wrapped or bare, sigiled
-            // (@user:server), percent-encoded or not.
-            const matrixToRe = /(?:https?:\/\/)?matrix\.to\/#\/([^\s)\]]+)/g;
-            while ((match = matrixToRe.exec(text)) !== null) {
-                let id = match[1];
-                const query = id.indexOf("?");
-                if (query !== -1)
-                    id = id.substring(0, query);
-                try {
-                    id = decodeURIComponent(id);
-                } catch (error) {
-                    // Keep raw; the Rust side validates and drops non-user ids.
-                }
-                _addDerivedMention(id, match[0]);
-            }
-
-            // matrix:u/<id> — the "u/" path marks a user, so the id carries no
-            // sigil and we restore the leading "@".
-            const matrixUriRe = /matrix:u\/([^\s)\]?]+)/g;
-            while ((match = matrixUriRe.exec(text)) !== null) {
-                let id = match[1];
-                try {
-                    id = decodeURIComponent(id);
-                } catch (error) {
-                    // Keep raw.
-                }
-                if (id.charAt(0) !== "@")
-                    id = "@" + id;
-                _addDerivedMention(id, match[0]);
+            const matches = Komai.composerExtractMentions(String(value || ""));
+            for (let i = 0; i < matches.length; ++i) {
+                const id = matches[i].userId;
+                if (dismissedMentions.indexOf(id) === -1)
+                    _setMentionPresent(id, matches[i].source, true);
             }
         }
 

@@ -2525,7 +2525,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+647"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>配置文件名称为必填项。</translation>
@@ -3057,7 +3057,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+344"/>
         <source>%1 is typing…</source>
         <translation>%1 正在输入……</translation>
     </message>

@@ -8983,8 +8983,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>메시지 전송 실패: %1</translation>
     </message>
@@ -9146,7 +9146,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>사용자 %1 무시 실패: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>이 명령을 실행하려면 활성 방이 필요합니다.</translation>
     </message>
@@ -9161,7 +9161,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix 세션이 아직 준비되지 않았습니다.</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>표시된 타임라인에서 %1의 메시지를 찾을 수 없습니다.</translation>
     </message>

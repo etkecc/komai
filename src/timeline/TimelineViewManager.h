@@ -293,7 +293,8 @@ public:
                                                                 const QString &completion) const;
     Q_INVOKABLE bool
     activeMatrixCommandExpectsUserIdAt(const QString &text, int cursorPosition) const;
-    Q_INVOKABLE bool executeActiveMatrixSlashCommand(const QString &text);
+    Q_INVOKABLE bool
+    executeActiveMatrixSlashCommand(const QString &text, const QStringList &mentions = {});
 
     Q_INVOKABLE void openRoomSettings(QString room_id);
     Q_INVOKABLE void

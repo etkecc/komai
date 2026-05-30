@@ -20,6 +20,7 @@
 #include "timeline/RoomlistModel.h"
 #include "timeline/SlashCommands.h"
 #include "timeline/rust/MatrixTimelineModel.h"
+#include "timeline/view/TimelineViewManagerMatrixTimelineInternal.h"
 #include "ui/MainWindow.h"
 #include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
@@ -171,7 +172,8 @@ TimelineViewManager::activeMatrixCommandExpectsUserIdAt(const QString &text,
 }
 
 bool
-TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
+TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text,
+                                                     const QStringList &mentions)
 {
     const auto inspection = timeline::slash_commands::inspect(
       text,
@@ -179,6 +181,14 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
 
     if (inspection.submitAction != SubmitAction::ExecuteCommand || !inspection.parsed.definition)
         return false;
+
+    // Commands that send the composed body (/me, /notice, /plain, /html, …)
+    // should carry the same intentional mentions the composer tracked, so the
+    // "You are about to mention …" bar is not misleading for these.
+    QString mentionUserIds;
+    bool mentionsRoom = false;
+    komai::timeline::view::internal::splitComposerMentions(
+      mentions, &mentionUserIds, &mentionsRoom);
 
     auto *mainWindow = MainWindow::instance();
     auto *chatPage   = ChatPage::instance();
@@ -217,9 +227,10 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                                                      "The Matrix session is not ready yet."));
         return false;
     };
-    const auto sendMessage = [this, mainWindow](const QString &body,
-                                                const QString &messageKind,
-                                                SlashFormatMode formatMode) {
+    const auto sendMessage = [this, mainWindow, mentionUserIds, mentionsRoom](
+                               const QString &body,
+                               const QString &messageKind,
+                               SlashFormatMode formatMode) {
         const auto plainBody = emoji::replaceEmoticons(
           body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
         if (plainBody.isEmpty())
@@ -247,7 +258,9 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
            threadId,
            plainBody,
            useMarkdownFormatting,
-           messageKind]() {
+           messageKind,
+           mentionUserIds,
+           mentionsRoom]() {
               const auto context = komai::matrix_backend::blockingCallContext();
               QString error;
               const bool ok =
@@ -258,8 +271,8 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                                                                         plainBody,
                                                                         useMarkdownFormatting,
                                                                         messageKind,
-                                                                        QString(),
-                                                                        false,
+                                                                        mentionUserIds,
+                                                                        mentionsRoom,
                                                                         &error)
                   : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                              handleId,
@@ -269,8 +282,8 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                                                                              useMarkdownFormatting,
                                                                              messageKind,
                                                                              threadId,
-                                                                             QString(),
-                                                                             false,
+                                                                             mentionUserIds,
+                                                                             mentionsRoom,
                                                                              &error);
 
               return SlashCommandSendResult{

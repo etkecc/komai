@@ -8983,8 +8983,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>傳送訊息失敗：%1</translation>
     </message>
@@ -9146,7 +9146,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>忽略使用者%1失敗：%2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>此指令需要一個活躍的聊天室。</translation>
     </message>
@@ -9161,7 +9161,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix 工作階段尚未就緒。</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>在可見的時間軸中未找到來自 %1 的訊息。</translation>
     </message>

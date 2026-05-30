@@ -8996,8 +8996,8 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>Échec de l'envoi du message : %1</translation>
     </message>
@@ -9159,7 +9159,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Impossible d'ignorer l'utilisateur %1 : %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>Cette commande nécessite un salon actif.</translation>
     </message>
@@ -9174,7 +9174,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>La session Matrix n'est pas encore prête.</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Aucun message de %1 trouvé dans la chronologie visible.</translation>
     </message>

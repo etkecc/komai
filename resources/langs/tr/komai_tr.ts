@@ -8983,8 +8983,8 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>Mesaj gönderilemedi: %1</translation>
     </message>
@@ -9146,7 +9146,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>%1 kullanıcısı yoksayılamadı: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>Bu komut için etkin bir oda gereklidir.</translation>
     </message>
@@ -9161,7 +9161,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Matrix oturumu henüz hazır değil.</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Görünen zaman çizelgesinde %1'den mesaj bulunamadı.</translation>
     </message>

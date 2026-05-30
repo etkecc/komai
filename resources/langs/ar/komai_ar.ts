@@ -9048,8 +9048,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>فشل إرسال الرسالة: %1</translation>
     </message>
@@ -9211,7 +9211,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>فشل تجاهل المستخدم %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>يتطلب هذا الأمر غرفة نشطة.</translation>
     </message>
@@ -9226,7 +9226,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>جلسة Matrix غير جاهزة بعد.</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>لم يتم العثور على رسائل من %1 في الجدول الزمني المرئي.</translation>
     </message>

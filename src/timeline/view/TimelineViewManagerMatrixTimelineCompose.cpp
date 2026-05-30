@@ -21,11 +21,9 @@
 
 using namespace komai::timeline::view::internal;
 
-namespace {
-// The composer tracks intentional mentions (MSC3952) as a flat list of
-// identifiers: the "@room" pseudo-user for a room-wide ping plus individual
-// user MXIDs. Split that into the newline-separated MXID payload the runtime
-// bridge expects and a separate room flag.
+// Declared in TimelineViewManagerMatrixTimelineInternal.h. Shared with the
+// slash-command send path so /me-style emotes carry the same mentions.
+namespace komai::timeline::view::internal {
 void
 splitComposerMentions(const QStringList &mentions, QString *userIdsOut, bool *roomOut)
 {
@@ -47,7 +45,7 @@ splitComposerMentions(const QStringList &mentions, QString *userIdsOut, bool *ro
     if (roomOut)
         *roomOut = room;
 }
-} // namespace
+} // namespace komai::timeline::view::internal
 
 QString
 TimelineViewManager::formatMatrixMessageHtml(const QString &body) const

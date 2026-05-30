@@ -279,6 +279,9 @@ QtObject {
         }
 
         const body = composerPane.composerInput.text;
+        const mentions = composerInputController && composerInputController.mentions
+            ? composerInputController.mentions
+            : [];
         if (!rootItem.editing) {
             const inspection = TimelineManager.inspectActiveMatrixSlashCommand(body);
             const submitAction = String((inspection && inspection.submitAction) || "none");
@@ -287,7 +290,7 @@ QtObject {
                 return false;
 
             if (submitAction === "executeCommand") {
-                const commandOk = TimelineManager.executeActiveMatrixSlashCommand(body);
+                const commandOk = TimelineManager.executeActiveMatrixSlashCommand(body, mentions);
                 if (!commandOk)
                     return false;
 
@@ -297,9 +300,6 @@ QtObject {
             }
         }
 
-        const mentions = composerInputController && composerInputController.mentions
-            ? composerInputController.mentions
-            : [];
         const ok = rootItem.editing
             ? TimelineManager.sendActiveMatrixEditMessage(body, mentions)
             : TimelineManager.sendActiveMatrixTextMessage(body, mentions);

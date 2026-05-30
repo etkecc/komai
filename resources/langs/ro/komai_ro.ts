@@ -9009,8 +9009,8 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>Nu s-a putut trimite mesajul: %1</translation>
     </message>
@@ -9172,7 +9172,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut ignora utilizatorul %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>Această comandă necesită o cameră activă.</translation>
     </message>
@@ -9187,7 +9187,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Sesiunea Matrix nu este încă pregătită.</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Niciun mesaj de la %1 în cronologia vizibilă.</translation>
     </message>

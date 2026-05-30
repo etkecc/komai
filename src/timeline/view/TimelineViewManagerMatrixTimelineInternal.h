@@ -36,6 +36,12 @@ matrixTimelineMediaCachePath(const QString &fileName);
 bool
 isForwardableActiveMatrixTimelineTextKind(const QString &itemKind);
 
+// Split the composer's flat mention list (the "@room" pseudo-user plus user
+// MXIDs) into the newline-separated MXID payload the runtime bridge expects and
+// a separate room flag.
+void
+splitComposerMentions(const QStringList &mentions, QString *userIdsOut, bool *roomOut);
+
 int
 estimatedInitialMatrixTimelinePageSize(double viewportHeight);
 

@@ -8996,8 +8996,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>സന്ദേശം അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -9159,7 +9159,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഉപയോക്താവ് %1 അവഗണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>ഈ കമാൻഡിന് ഒരു സജീവ മുറി ആവശ്യമാണ്.</translation>
     </message>
@@ -9174,7 +9174,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix സെഷൻ ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>ദൃശ്യമായ ടൈംലൈനിൽ %1 ൽ നിന്ന് സന്ദേശങ്ങൾ കണ്ടെത്തിയില്ല.</translation>
     </message>

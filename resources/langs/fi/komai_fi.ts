@@ -8996,8 +8996,8 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
         <source>Failed to send message: %1</source>
         <translation>Viestin lähettäminen epäonnistui: %1</translation>
     </message>
@@ -9159,7 +9159,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Käyttäjän %1 ohittaminen epäonnistui: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
         <source>This command needs an active room.</source>
         <translation>Tämä komento vaatii aktiivisen huoneen.</translation>
     </message>
@@ -9174,7 +9174,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Matrix-istunto ei ole vielä valmis.</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+192"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Käyttäjältä %1 ei löytynyt viestejä näkyvässä aikajanassa.</translation>
     </message>

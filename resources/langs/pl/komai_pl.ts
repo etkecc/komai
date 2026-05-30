@@ -3065,7 +3065,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
         <source>%1 is typing…</source>
         <translation>%1 pisze…</translation>
     </message>
@@ -3622,7 +3622,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Wiadomość</translation>
     </message>
     <message>
-        <location line="+678"/>
+        <location line="+694"/>
         <source>Stickers</source>
         <translation>Naklejki</translation>
     </message>
@@ -7752,7 +7752,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+69"/>
         <source>%1 is typing…</source>
         <translation>%1 pisze…</translation>
     </message>
@@ -9010,13 +9010,13 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
         <source>Failed to send message: %1</source>
         <translation>Nie udało się wysłać wiadomości: %1</translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+132"/>
         <source>Failed to edit message: %1</source>
         <translation>Nie udało się edytować wiadomości: %1</translation>
     </message>
@@ -9061,13 +9061,13 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Nie udało się zgłosić wiadomości: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Nie udało się przekazać wiadomości: %1</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+137"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Nie udało się przekazać niektórych wiadomości: %1</translation>
     </message>
@@ -9173,7 +9173,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Nie udało się zignorować użytkownika %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
         <source>This command needs an active room.</source>
         <translation>To polecenie wymaga aktywnego pokoju.</translation>
     </message>
@@ -9188,7 +9188,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Sesja Matrix nie jest jeszcze gotowa.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+189"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nie znaleziono wiadomości od %1 na widocznej osi czasu.</translation>
     </message>

@@ -3065,7 +3065,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
         <source>%1 is typing…</source>
         <translation>%1 kuca…</translation>
     </message>
@@ -3622,7 +3622,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Poruka</translation>
     </message>
     <message>
-        <location line="+678"/>
+        <location line="+694"/>
         <source>Stickers</source>
         <translation>Nalepnice</translation>
     </message>
@@ -7751,7 +7751,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+69"/>
         <source>%1 is typing…</source>
         <translation>%1 kuca…</translation>
     </message>
@@ -9009,13 +9009,13 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
         <source>Failed to send message: %1</source>
         <translation>Nije uspelo slanje poruke: %1</translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+132"/>
         <source>Failed to edit message: %1</source>
         <translation>Nije uspelo uređivanje poruke: %1</translation>
     </message>
@@ -9060,13 +9060,13 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspelo prijavljivanje poruke: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Nije uspelo prosleđivanje poruke: %1</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+137"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Nije uspelo prosleđivanje nekih poruka: %1</translation>
     </message>
@@ -9172,7 +9172,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspelo ignorisanje korisnika %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
         <source>This command needs an active room.</source>
         <translation>Ova komanda zahteva aktivnu sobu.</translation>
     </message>
@@ -9187,7 +9187,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Matrix sesija još nije spremna.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+189"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nema poruka od %1 u vidljivoj vremenskoj liniji.</translation>
     </message>

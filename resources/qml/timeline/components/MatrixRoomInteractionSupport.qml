@@ -297,9 +297,12 @@ QtObject {
             }
         }
 
+        const mentions = composerInputController && composerInputController.mentions
+            ? composerInputController.mentions
+            : [];
         const ok = rootItem.editing
-            ? TimelineManager.sendActiveMatrixEditMessage(body)
-            : TimelineManager.sendActiveMatrixTextMessage(body);
+            ? TimelineManager.sendActiveMatrixEditMessage(body, mentions)
+            : TimelineManager.sendActiveMatrixTextMessage(body, mentions);
         if (!ok)
             return false;
 

@@ -258,6 +258,8 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                                                                         plainBody,
                                                                         useMarkdownFormatting,
                                                                         messageKind,
+                                                                        QString(),
+                                                                        false,
                                                                         &error)
                   : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                              handleId,
@@ -267,6 +269,8 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text)
                                                                              useMarkdownFormatting,
                                                                              messageKind,
                                                                              threadId,
+                                                                             QString(),
+                                                                             false,
                                                                              &error);
 
               return SlashCommandSendResult{

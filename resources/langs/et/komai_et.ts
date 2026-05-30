@@ -3061,7 +3061,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
         <source>%1 is typing…</source>
         <translation>%1 kirjutab…</translation>
     </message>
@@ -3617,7 +3617,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Sõnum</translation>
     </message>
     <message>
-        <location line="+678"/>
+        <location line="+694"/>
         <source>Stickers</source>
         <translation>Kleepsud</translation>
     </message>
@@ -7742,7 +7742,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+69"/>
         <source>%1 is typing…</source>
         <translation>%1 kirjutab…</translation>
     </message>
@@ -8996,13 +8996,13 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
         <source>Failed to send message: %1</source>
         <translation>Sõnumi saatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+132"/>
         <source>Failed to edit message: %1</source>
         <translation>Sõnumi muutmine ebaõnnestus: %1</translation>
     </message>
@@ -9047,13 +9047,13 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Sõnumist teatamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Sõnumi edasisaatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+137"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Mõnede sõnumite edasisaatmine ebaõnnestus: %1</translation>
     </message>
@@ -9159,7 +9159,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Kasutaja %1 ignoreerimine ebaõnnestus: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
         <source>This command needs an active room.</source>
         <translation>See käsk vajab aktiivset jututuba.</translation>
     </message>
@@ -9174,7 +9174,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Matrixi seanss ei ole veel valmis.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+189"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nähtavas ajaskalas ei leitud sõnumeid kasutajalt %1.</translation>
     </message>

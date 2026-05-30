@@ -758,6 +758,8 @@ sendMessage(const QString &roomIdOrAlias,
                                                                   trimmedBody,
                                                                   useMarkdownFormatting,
                                                                   messageKind,
+                                                                  QString(),
+                                                                  false,
                                                                   &error)) {
               result.eventId = QStringLiteral("queued");
           } else {

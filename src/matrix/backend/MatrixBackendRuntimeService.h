@@ -544,7 +544,9 @@ public:
                                 const QString &body,
                                 bool useMarkdownFormatting,
                                 const QString &messageKind,
-                                QString *errorOut = nullptr);
+                                const QString &mentionUserIds = QString(),
+                                bool mentionsRoom             = false,
+                                QString *errorOut             = nullptr);
     static bool sendRoomMessageLikeEventJson(matrix_backend::BlockingCallContext context,
                                              uint64_t handleId,
                                              const QString &roomId,
@@ -619,8 +621,10 @@ public:
                                      const QString &body,
                                      bool useMarkdownFormatting,
                                      const QString &messageKind,
-                                     const QString &threadId = QString(),
-                                     QString *errorOut       = nullptr);
+                                     const QString &threadId       = QString(),
+                                     const QString &mentionUserIds = QString(),
+                                     bool mentionsRoom             = false,
+                                     QString *errorOut             = nullptr);
 
     static bool sendRoomEditMessage(matrix_backend::BlockingCallContext context,
                                     uint64_t handleId,
@@ -629,7 +633,9 @@ public:
                                     const QString &body,
                                     bool useMarkdownFormatting,
                                     const QString &messageKind,
-                                    QString *errorOut = nullptr);
+                                    const QString &mentionUserIds = QString(),
+                                    bool mentionsRoom             = false,
+                                    QString *errorOut             = nullptr);
 
     static bool toggleRoomReaction(matrix_backend::BlockingCallContext context,
                                    uint64_t handleId,

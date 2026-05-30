@@ -77,6 +77,8 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
                                                                     body,
                                                                     useMarkdownFormatting,
                                                                     normalizedKind,
+                                                                    QString(),
+                                                                    false,
                                                                     &error);
               return MatrixTimelineEventActionResult{
                 .handleId = handleId,
@@ -257,6 +259,8 @@ TimelineViewManager::forwardActiveMatrixTimelineEvents(const QStringList &eventI
                                                                            entry.body,
                                                                            useMarkdownFormatting,
                                                                            normalizedKind,
+                                                                           QString(),
+                                                                           false,
                                                                            &error);
               } else {
                   auto content =

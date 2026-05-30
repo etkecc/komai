@@ -310,7 +310,8 @@ public:
     Q_INVOKABLE void markRoomSwitchPhase(const QString &roomId, const QString &phase);
     Q_INVOKABLE bool roomSwitchPerfEnabled() const { return roomSwitchPerfEnabled_; }
     Q_INVOKABLE bool perfUiFlagEnabled(const QString &flag) const;
-    Q_INVOKABLE bool sendActiveMatrixTextMessage(const QString &body);
+    Q_INVOKABLE bool
+    sendActiveMatrixTextMessage(const QString &body, const QStringList &mentions = {});
     Q_INVOKABLE bool queueActiveMatrixReply(const QString &eventId,
                                             const QString &senderId,
                                             const QString &senderDisplayName,
@@ -355,7 +356,8 @@ public:
     Q_INVOKABLE bool
     queueActiveMatrixEdit(const QString &eventId, const QString &body, const QString &messageKind);
     Q_INVOKABLE void clearActiveMatrixEdit();
-    Q_INVOKABLE bool sendActiveMatrixEditMessage(const QString &body);
+    Q_INVOKABLE bool
+    sendActiveMatrixEditMessage(const QString &body, const QStringList &mentions = {});
     Q_INVOKABLE void sendActiveMatrixTypingNotice(bool typing);
     Q_INVOKABLE bool paginateActiveMatrixTimelineBackwards(int pageSize = 0);
     Q_INVOKABLE void setPreferredInitialMatrixTimelinePageSize(int pageSize);

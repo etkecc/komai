@@ -56,6 +56,8 @@ Item {
         TimelineCallStatusBars {}
 
         Composer.ReplyPopup {
+        id: replyPopup
+
         Layout.minimumHeight: 0
         Layout.preferredHeight: composerContainer.visible
             && layoutVisible
@@ -71,6 +73,29 @@ Item {
         matrixThreadEventId: ""
         roomModel: root.composerRoom
         roundTopCorners: true
+    }
+
+    // Intentional-mention warning bars ("You are about to notify the whole
+    // room" / "You are about to mention X"). One per tracked mention, stacked
+    // below the reply bar and above the composer.
+    Repeater {
+        model: root.composerInputController ? root.composerInputController.mentions : null
+
+        delegate: TimelineMentionWarningBar {
+            required property string modelData
+            required property int index
+
+            Layout.fillWidth: true
+            Layout.minimumHeight: 0
+            Layout.preferredHeight: composerContainer.visible
+                && !composerContainer._walkMode ? implicitHeight : 0
+            Layout.maximumHeight: composerContainer.visible
+                && !composerContainer._walkMode ? implicitHeight : 0
+            mention: modelData
+            mentionIndex: index
+            replyPopupVisible: replyPopup.layoutVisible
+            room: root.composerRoom
+        }
     }
 
     Composer.UploadBox {

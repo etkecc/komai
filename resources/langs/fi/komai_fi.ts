@@ -3061,7 +3061,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+150"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
         <source>%1 is typing…</source>
         <translation>%1 kirjoittaa…</translation>
     </message>
@@ -3617,7 +3617,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Viesti</translation>
     </message>
     <message>
-        <location line="+678"/>
+        <location line="+694"/>
         <source>Stickers</source>
         <translation>Tarrat</translation>
     </message>
@@ -7742,7 +7742,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>SettingRowTimelinePreviewRuntime</name>
     <message>
-        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+67"/>
+        <location filename="../../qml/components/SettingsRows/SettingRowTimelinePreviewRuntime.qml" line="+69"/>
         <source>%1 is typing…</source>
         <translation>%1 kirjoittaa…</translation>
     </message>
@@ -8996,13 +8996,13 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+111"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+296"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+300"/>
         <source>Failed to send message: %1</source>
         <translation>Viestin lähettäminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+132"/>
         <source>Failed to edit message: %1</source>
         <translation>Viestin muokkaaminen epäonnistui: %1</translation>
     </message>
@@ -9047,13 +9047,13 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Viestin ilmoittaminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+107"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Viestin välittäminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+137"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Joidenkin viestien välittäminen epäonnistui: %1</translation>
     </message>
@@ -9159,7 +9159,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Käyttäjän %1 ohittaminen epäonnistui: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-95"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-99"/>
         <source>This command needs an active room.</source>
         <translation>Tämä komento vaatii aktiivisen huoneen.</translation>
     </message>
@@ -9174,7 +9174,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Matrix-istunto ei ole vielä valmis.</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="+189"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Käyttäjältä %1 ei löytynyt viestejä näkyvässä aikajanassa.</translation>
     </message>

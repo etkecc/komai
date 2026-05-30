@@ -21,6 +21,34 @@
 
 using namespace komai::timeline::view::internal;
 
+namespace {
+// The composer tracks intentional mentions (MSC3952) as a flat list of
+// identifiers: the "@room" pseudo-user for a room-wide ping plus individual
+// user MXIDs. Split that into the newline-separated MXID payload the runtime
+// bridge expects and a separate room flag.
+void
+splitComposerMentions(const QStringList &mentions, QString *userIdsOut, bool *roomOut)
+{
+    QStringList userIds;
+    bool room = false;
+    for (const auto &mention : mentions) {
+        const auto trimmed = mention.trimmed();
+        if (trimmed.isEmpty())
+            continue;
+        if (trimmed == QStringLiteral("@room")) {
+            room = true;
+            continue;
+        }
+        if (!userIds.contains(trimmed))
+            userIds.push_back(trimmed);
+    }
+    if (userIdsOut)
+        *userIdsOut = userIds.join(QChar(u'\n'));
+    if (roomOut)
+        *roomOut = room;
+}
+} // namespace
+
 QString
 TimelineViewManager::formatMatrixMessageHtml(const QString &body) const
 {
@@ -30,12 +58,16 @@ TimelineViewManager::formatMatrixMessageHtml(const QString &body) const
     return renderPlainMatrixMessageHtml(body);
 }
 bool
-TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
+TimelineViewManager::sendActiveMatrixTextMessage(const QString &body, const QStringList &mentions)
 {
     const auto plainBody = emoji::replaceEmoticons(
       body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
     if (plainBody.isEmpty())
         return false;
+
+    QString mentionUserIds;
+    bool mentionsRoom = false;
+    splitComposerMentions(mentions, &mentionUserIds, &mentionsRoom);
 
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
@@ -63,6 +95,8 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
        useMarkdownFormatting,
        effectiveReplyEventId,
        threadId,
+       mentionUserIds,
+       mentionsRoom,
        action]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
@@ -74,6 +108,8 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
                                                                     plainBody,
                                                                     useMarkdownFormatting,
                                                                     QStringLiteral("text"),
+                                                                    mentionUserIds,
+                                                                    mentionsRoom,
                                                                     &error)
               : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                          handleId,
@@ -83,6 +119,8 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body)
                                                                          useMarkdownFormatting,
                                                                          QStringLiteral("text"),
                                                                          threadId,
+                                                                         mentionUserIds,
+                                                                         mentionsRoom,
                                                                          &error);
 
           return MatrixTimelineMessageSendResult{
@@ -166,12 +204,16 @@ TimelineViewManager::clearActiveMatrixEdit()
         emit matrixTimelineStateChanged();
 }
 bool
-TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
+TimelineViewManager::sendActiveMatrixEditMessage(const QString &body, const QStringList &mentions)
 {
     const auto plainBody = emoji::replaceEmoticons(
       body.trimmed(), UserSettings::instance()->composerInputAutoReplaceEmoji());
     if (plainBody.isEmpty())
         return false;
+
+    QString mentionUserIds;
+    bool mentionsRoom = false;
+    splitComposerMentions(mentions, &mentionUserIds, &mentionsRoom);
 
     auto *mainWindow    = MainWindow::instance();
     const auto handleId = mainWindow ? mainWindow->matrixBackendHandleId() : 0;
@@ -190,7 +232,14 @@ TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
 
     komai::qt_worker_task::runQueued(
       this,
-      [handleId, roomId, targetEventId, plainBody, useMarkdownFormatting, messageKind]() {
+      [handleId,
+       roomId,
+       targetEventId,
+       plainBody,
+       useMarkdownFormatting,
+       messageKind,
+       mentionUserIds,
+       mentionsRoom]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok =
@@ -201,6 +250,8 @@ TimelineViewManager::sendActiveMatrixEditMessage(const QString &body)
                                                                     plainBody,
                                                                     useMarkdownFormatting,
                                                                     messageKind,
+                                                                    mentionUserIds,
+                                                                    mentionsRoom,
                                                                     &error);
 
           return MatrixTimelineMessageSendResult{

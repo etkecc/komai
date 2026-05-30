@@ -6,6 +6,7 @@ use crate::{ffi, matrix_backend};
 
 use super::blocking::ffi_block_on;
 
+#[allow(clippy::too_many_arguments)]
 pub(crate) fn matrix_send_room_message(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
@@ -13,6 +14,8 @@ pub(crate) fn matrix_send_room_message(
     body: &str,
     use_markdown_formatting: bool,
     message_kind: &str,
+    mention_user_ids: &str,
+    mentions_room: bool,
 ) -> Result<(), String> {
     ffi_block_on(
         context,
@@ -23,6 +26,8 @@ pub(crate) fn matrix_send_room_message(
             body,
             use_markdown_formatting,
             message_kind,
+            mention_user_ids,
+            mentions_room,
         ),
     )
 }
@@ -215,6 +220,7 @@ pub(crate) fn matrix_send_call_negotiate(
     )
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(crate) fn matrix_send_room_reply_message(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
@@ -224,6 +230,8 @@ pub(crate) fn matrix_send_room_reply_message(
     use_markdown_formatting: bool,
     message_kind: &str,
     thread_id: &str,
+    mention_user_ids: &str,
+    mentions_room: bool,
 ) -> Result<(), String> {
     ffi_block_on(
         context,
@@ -236,10 +244,13 @@ pub(crate) fn matrix_send_room_reply_message(
             use_markdown_formatting,
             message_kind,
             thread_id,
+            mention_user_ids,
+            mentions_room,
         ),
     )
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(crate) fn matrix_send_room_edit_message(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,
@@ -248,6 +259,8 @@ pub(crate) fn matrix_send_room_edit_message(
     body: &str,
     use_markdown_formatting: bool,
     message_kind: &str,
+    mention_user_ids: &str,
+    mentions_room: bool,
 ) -> Result<(), String> {
     ffi_block_on(
         context,
@@ -259,6 +272,8 @@ pub(crate) fn matrix_send_room_edit_message(
             body,
             use_markdown_formatting,
             message_kind,
+            mention_user_ids,
+            mentions_room,
         ),
     )
 }

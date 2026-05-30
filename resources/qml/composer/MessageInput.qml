@@ -1713,11 +1713,18 @@ Rectangle {
                         if (TimelineManager.perfUiFlagEnabled("disable_composer"))
                             return;
 
-                        // Save draft for the room we are leaving
+                        // Save draft for the room we are leaving. Mentions are
+                        // per-room draft state too, so snapshot them now — before
+                        // clear() below prunes the live mention list — keyed to
+                        // the same leaving-room id as the text draft.
                         if (_draftSaveTimer.running)
                             _draftSaveTimer.stop();
-                        if (inputBar._draftRoomId)
+                        if (inputBar._draftRoomId) {
                             Rooms.persistDraftForRoom(inputBar._draftRoomId, inputBar._draftText);
+                            if (inputBar.inputController
+                                    && typeof inputBar.inputController.saveMentionsForRoom === "function")
+                                inputBar.inputController.saveMentionsForRoom(inputBar._draftRoomId);
+                        }
                         // Blank _draftRoomId before clear() so onTextChanged doesn't clobber the saved draft
                         inputBar._draftRoomId = "";
 
@@ -1732,6 +1739,15 @@ Rectangle {
                             if (draft)
                                 messageInput.append(draft);
                         }
+
+                        // Restore the entering room's mentions: its saved
+                        // snapshot (preserving dismissals) if we have one this
+                        // session, otherwise derived from the restored text. This
+                        // is the mention half of the per-room draft handoff.
+                        if (inputBar.inputController
+                                && typeof inputBar.inputController.loadMentionsForRoom === "function")
+                            inputBar.inputController.loadMentionsForRoom(inputBar._draftRoomId,
+                                                                         messageInput.text);
 
                         completer.completerType = "";
                         inputBar.focusTextInputIfAllowed();

@@ -24,6 +24,8 @@ Item {
     QtObject {
         id: previewInput
 
+        property var mentions: []
+
         function reaction(_eventId, _key) {
         }
 

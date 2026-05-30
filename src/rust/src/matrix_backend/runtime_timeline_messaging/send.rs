@@ -7,6 +7,41 @@
 
 use super::*;
 
+use matrix_sdk::ruma::{OwnedUserId, UserId, events::Mentions};
+use std::collections::BTreeSet;
+
+/// Build the `m.mentions` content (MSC3952 intentional mentions) from the
+/// composer's tracked mentions. `mention_user_ids` is a newline-separated list
+/// of user MXIDs (the format the C++ bridge sends); invalid entries are
+/// skipped. Returns `None` when there is nothing to mention so callers can
+/// avoid attaching an empty `m.mentions`.
+pub(super) fn build_mentions(mention_user_ids: &str, mentions_room: bool) -> Option<Mentions> {
+    let mut user_ids: BTreeSet<OwnedUserId> = BTreeSet::new();
+    for raw in mention_user_ids.split('\n') {
+        let candidate = raw.trim();
+        if candidate.is_empty() {
+            continue;
+        }
+        match UserId::parse(candidate) {
+            Ok(user_id) => {
+                user_ids.insert(user_id);
+            }
+            Err(error) => {
+                tracing::warn!(candidate, %error, "Ignoring invalid mention user id");
+            }
+        }
+    }
+
+    if user_ids.is_empty() && !mentions_room {
+        return None;
+    }
+
+    let mut mentions = Mentions::new();
+    mentions.user_ids = user_ids;
+    mentions.room = mentions_room;
+    Some(mentions)
+}
+
 pub(super) fn encryption_state_tag(room: &matrix_sdk::Room) -> &'static str {
     use matrix_sdk_base::EncryptionState;
     match room.encryption_state() {
@@ -127,6 +162,8 @@ pub async fn send_room_message(
     body: &str,
     use_markdown_formatting: bool,
     message_kind: &str,
+    mention_user_ids: &str,
+    mentions_room: bool,
 ) -> Result<(), String> {
     let client = client_for_handle(handle_id)?;
     let room_id = room_id.trim();
@@ -150,13 +187,21 @@ pub async fn send_room_message(
 
     let (message_type, has_formatted_html) =
         message_type_from_kind(message_kind, body, use_markdown_formatting)?;
-    let content: AnyMessageLikeEventContent = RoomMessageEventContent::new(message_type).into();
+    let message_content = RoomMessageEventContent::new(message_type);
+    let mentions = build_mentions(mention_user_ids, mentions_room);
+    let has_mentions = mentions.is_some();
+    let message_content = match mentions {
+        Some(mentions) => message_content.add_mentions(mentions),
+        None => message_content,
+    };
+    let content: AnyMessageLikeEventContent = message_content.into();
 
     tracing::info!(
         handle_id,
         room_id,
         message_kind,
         has_formatted_html,
+        has_mentions,
         encryption_state = encryption_state_tag(&room),
         "Queueing matrix-sdk room message"
     );
@@ -184,6 +229,8 @@ pub async fn send_room_reply_message(
     use_markdown_formatting: bool,
     message_kind: &str,
     thread_id: &str,
+    mention_user_ids: &str,
+    mentions_room: bool,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let replied_to_event_id = replied_to_event_id.trim();
@@ -200,6 +247,12 @@ pub async fn send_room_reply_message(
     let (message_type, has_formatted_html) =
         message_type_from_kind(message_kind, body, use_markdown_formatting)?;
     let content = RoomMessageEventContentWithoutRelation::new(message_type);
+    // The replied-to sender is added by `AddMentions::Yes` below; here we add
+    // the mentions the composer tracked from the body (user pills and @room).
+    let content = match build_mentions(mention_user_ids, mentions_room) {
+        Some(mentions) => content.add_mentions(mentions),
+        None => content,
+    };
 
     let is_threaded = !thread_id.is_empty();
 
@@ -300,6 +353,8 @@ pub async fn send_room_edit_message(
     body: &str,
     use_markdown_formatting: bool,
     message_kind: &str,
+    mention_user_ids: &str,
+    mentions_room: bool,
 ) -> Result<(), String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let target_event_id = target_event_id.trim();
@@ -317,6 +372,10 @@ pub async fn send_room_edit_message(
     let (message_type, has_formatted_html) =
         message_type_from_kind(message_kind, body, use_markdown_formatting)?;
     let content = RoomMessageEventContentWithoutRelation::new(message_type);
+    let content = match build_mentions(mention_user_ids, mentions_room) {
+        Some(mentions) => content.add_mentions(mentions),
+        None => content,
+    };
 
     tracing::info!(
         handle_id,

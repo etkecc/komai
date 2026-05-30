@@ -45,20 +45,31 @@ MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext
                                              const QString &body,
                                              bool useMarkdownFormatting,
                                              const QString &messageKind,
+                                             const QString &mentionUserIds,
+                                             bool mentionsRoom,
                                              QString *errorOut)
 {
     try {
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_message",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, body, useMarkdownFormatting, messageKind, context]() {
+          [handleId,
+           roomId,
+           body,
+           useMarkdownFormatting,
+           messageKind,
+           mentionUserIds,
+           mentionsRoom,
+           context]() {
               ::komai::rust::matrix_send_room_message(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
                 body.toStdString(),
                 useMarkdownFormatting,
-                messageKind.toStdString());
+                messageKind.toStdString(),
+                mentionUserIds.toStdString(),
+                mentionsRoom);
           });
         return true;
     } catch (const std::exception &e) {
@@ -287,6 +298,8 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
                                                   bool useMarkdownFormatting,
                                                   const QString &messageKind,
                                                   const QString &threadId,
+                                                  const QString &mentionUserIds,
+                                                  bool mentionsRoom,
                                                   QString *errorOut)
 {
     try {
@@ -300,6 +313,8 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
            useMarkdownFormatting,
            messageKind,
            threadId,
+           mentionUserIds,
+           mentionsRoom,
            context]() {
               ::komai::rust::matrix_send_room_reply_message(
                 matrix_backend::toRustBlockingContext(context),
@@ -309,7 +324,9 @@ MatrixBackendRuntimeService::sendRoomReplyMessage(matrix_backend::BlockingCallCo
                 body.toStdString(),
                 useMarkdownFormatting,
                 messageKind.toStdString(),
-                threadId.toStdString());
+                threadId.toStdString(),
+                mentionUserIds.toStdString(),
+                mentionsRoom);
           });
         return true;
     } catch (const std::exception &e) {
@@ -327,13 +344,23 @@ MatrixBackendRuntimeService::sendRoomEditMessage(matrix_backend::BlockingCallCon
                                                  const QString &body,
                                                  bool useMarkdownFormatting,
                                                  const QString &messageKind,
+                                                 const QString &mentionUserIds,
+                                                 bool mentionsRoom,
                                                  QString *errorOut)
 {
     try {
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_edit_message",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, targetEventId, body, useMarkdownFormatting, messageKind, context]() {
+          [handleId,
+           roomId,
+           targetEventId,
+           body,
+           useMarkdownFormatting,
+           messageKind,
+           mentionUserIds,
+           mentionsRoom,
+           context]() {
               ::komai::rust::matrix_send_room_edit_message(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
@@ -341,7 +368,9 @@ MatrixBackendRuntimeService::sendRoomEditMessage(matrix_backend::BlockingCallCon
                 targetEventId.toStdString(),
                 body.toStdString(),
                 useMarkdownFormatting,
-                messageKind.toStdString());
+                messageKind.toStdString(),
+                mentionUserIds.toStdString(),
+                mentionsRoom);
           });
         return true;
     } catch (const std::exception &e) {

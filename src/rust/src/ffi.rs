@@ -2182,6 +2182,8 @@ mod bridge {
             body: &str,
             use_markdown_formatting: bool,
             message_kind: &str,
+            mention_user_ids: &str,
+            mentions_room: bool,
         ) -> Result<()>;
         fn matrix_send_room_message_like_event_json(
             context: MatrixFfiBlockingContext,
@@ -2266,6 +2268,8 @@ mod bridge {
             use_markdown_formatting: bool,
             message_kind: &str,
             thread_id: &str,
+            mention_user_ids: &str,
+            mentions_room: bool,
         ) -> Result<()>;
         fn matrix_send_room_edit_message(
             context: MatrixFfiBlockingContext,
@@ -2275,6 +2279,8 @@ mod bridge {
             body: &str,
             use_markdown_formatting: bool,
             message_kind: &str,
+            mention_user_ids: &str,
+            mentions_room: bool,
         ) -> Result<()>;
         fn matrix_toggle_room_reaction(
             context: MatrixFfiBlockingContext,

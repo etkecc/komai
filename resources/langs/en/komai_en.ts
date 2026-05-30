@@ -3055,7 +3055,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
         <source>%1 is typing…</source>
         <translation type="unfinished"/>
     </message>
@@ -3611,7 +3611,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+694"/>
+        <location line="+701"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>

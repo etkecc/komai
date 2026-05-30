@@ -3065,7 +3065,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
         <source>%1 is typing…</source>
         <translation>%1 pisze…</translation>
     </message>
@@ -3622,7 +3622,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Wiadomość</translation>
     </message>
     <message>
-        <location line="+694"/>
+        <location line="+701"/>
         <source>Stickers</source>
         <translation>Naklejki</translation>
     </message>

@@ -3065,7 +3065,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
         <source>%1 is typing…</source>
         <translation>%1 píše…</translation>
     </message>
@@ -3622,7 +3622,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Zpráva</translation>
     </message>
     <message>
-        <location line="+694"/>
+        <location line="+701"/>
         <source>Stickers</source>
         <translation>Samolepky</translation>
     </message>

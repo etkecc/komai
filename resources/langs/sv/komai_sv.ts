@@ -3061,7 +3061,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
         <source>%1 is typing…</source>
         <translation>%1 skriver…</translation>
     </message>
@@ -3617,7 +3617,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Meddelande</translation>
     </message>
     <message>
-        <location line="+694"/>
+        <location line="+701"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>

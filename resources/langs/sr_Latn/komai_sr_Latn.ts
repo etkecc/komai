@@ -3065,7 +3065,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
         <source>%1 is typing…</source>
         <translation>%1 kuca…</translation>
     </message>
@@ -3622,7 +3622,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Poruka</translation>
     </message>
     <message>
-        <location line="+694"/>
+        <location line="+701"/>
         <source>Stickers</source>
         <translation>Nalepnice</translation>
     </message>

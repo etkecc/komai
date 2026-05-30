@@ -3061,7 +3061,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
         <source>%1 is typing…</source>
         <translation>%1 está digitando…</translation>
     </message>
@@ -3617,7 +3617,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Mensagem</translation>
     </message>
     <message>
-        <location line="+694"/>
+        <location line="+701"/>
         <source>Stickers</source>
         <translation>Figurinhas</translation>
     </message>

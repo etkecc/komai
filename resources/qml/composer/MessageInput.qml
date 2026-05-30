@@ -1668,6 +1668,13 @@ Rectangle {
                     const insertedLength = text.length - previousTextLength;
                     if (inputBar.inputController)
                         inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
+                    // A bulk insertion (paste, drag-drop) can carry matrix links
+                    // the composer never saw picked, so derive mentions from them.
+                    // Single-character typing is skipped, and derivation respects
+                    // dismissals, so a mention dismissed mid-typing is not undone.
+                    if (insertedLength > 1 && inputBar.inputController
+                            && typeof inputBar.inputController.deriveMentionsFromText === "function")
+                        inputBar.inputController.deriveMentionsFromText(text);
                     inputBar.focusTextInputIfAllowed();
                     if (cursorPosition > 0)
                         lastChar = text.charAt(cursorPosition - 1);

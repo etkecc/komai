@@ -3061,7 +3061,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomComposerSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+355"/>
+        <location filename="../../qml/timeline/components/MatrixRoomComposerSupport.qml" line="+379"/>
         <source>%1 is typing…</source>
         <translation>%1 est en train d'écrire…</translation>
     </message>
@@ -3617,7 +3617,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+694"/>
+        <location line="+701"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>

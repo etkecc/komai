@@ -1,87 +1,87 @@
 # Sample profile config.yml (durable settings)
 
 meta:
-  settings_schema_version: 1
+  settings_schema_version: 3
 
 ui:
+  scale:
+    factor: 1.0
   theme:
     slug: light-komai
   font:
+    size_pt: 13.0
     family: ""
     emoji_family: ""
-    size_pt: 13.0
   motion:
-    reduced: false
-  avatars:
-    circular: false
-    default_avatar_style: boring_avatars_bauhaus
+    enable_animations: true
   layout:
-    content:
-      max_width_px: 0
     # Supported values: spacious | compact | dense
     density: spacious
+  avatars:
+    circular: false
+    # Supported values: boring_avatars_bauhaus | boring_avatars_beam | boring_avatars_marble | letter_initial | user_icon
+    default_avatar_style: boring_avatars_bauhaus
   # Supported values: when_needed | never | always
   scrollbar_policy: when_needed
-  scale:
-    factor: 1.0
   # Empty means "Use system" (host locale via LANG/QLocale).
   # Set to a shipped code (e.g. de, fr, pt_BR, zh_CN) to override.
   language: ""
 
 navigation:
   room_list:
-    compact: false
     show_last_message_timestamp: true
+    # Supported values: always | only_unencrypted | never
     last_message_preview: always
     show_unread_indicators: true
+    # Supported values: unread_first_recent | unread_first_alpha | recent | alphabetical
     sort: unread_first_recent
+    # Supported values: reuse_active_tab | open_new_tab
+    opening_policy: reuse_active_tab
   communities:
-    visible: true
+    show_unread_indicators: true
     filters:
-      direct_chats: true
       favourites: true
+      people: true
+      bots: true
+      groups: true
+      server_notices: true
       low_priority: true
+  tabs:
+    auto_hide_with_single_tab: false
+    # Supported values: always | never
+    show_pin_button: never
+    # Supported values: avatar_and_label | avatar_only
+    pinned_tab_label: avatar_only
+    # Supported values: avatar_and_label | avatar_only
+    tab_label: avatar_and_label
+    preferred_width_px: 200
+    minimum_width_px: 120
+    max_recently_closed_timelines: 3
 
 timeline:
   messages:
+    # Supported values: plain | bubbles
+    style: bubbles
     layout:
-      style: bubbles
+      # Supported values: adaptive | opposing_by_sender | all_left | all_right
+      positioning: adaptive
+      # Supported values: regular | small | hidden
       avatar_size: regular
       show_own_avatar: true
+      max_width_percent: 80
+    # Supported values: always | only_in_large_rooms | never
     sender_username: only_in_large_rooms
-    max_width_px: 0
     emoji_only_enlarge: true
     hover_highlight: true
-    formatted:
-      code_syntax_highlighting: true
+    drag_select: true
     actions:
       # Supported values: on_message_hover | on_button_click | never
       activation_policy: on_button_click
-      pinned_reactions: "👍️,👎️,😀,❤️"
-  threads:
-    collapse_replies:
-      # Hide thread replies in the main timeline, showing only root messages.
-      global: false
-      # Per-room overrides (true/false). Omit a room to use the global default.
-      by_room: {}
-  hidden_events:
-    # Local-only timeline visibility preferences.
-    global:
-      - m.reaction
-      - m.call.candidates
-      - m.call.negotiate
-      - m.call.select_answer
-    # Room-specific lists fully override the global list for that room.
-    by_room: {}
-  media:
-    effects:
-      enabled: true
-    animate_on_hover: false
-    image_display: always
-    open_images_external: false
-    open_videos_external: false
-  date_dividers:
-    enabled: true
+      pinned_reactions: "👍,👎,😀,❤️"
+  # Supported values: adaptive_by_room_size | me_vs_others
+  user_color_coding_policy: adaptive_by_room_size
+  formatted:
+    code_syntax_highlighting: true
   typing:
     show:
       enabled: true
@@ -92,18 +92,50 @@ timeline:
     global: true
     # Per-room overrides (true/false). Omit a room to use the global default.
     by_room: {}
+  media:
+    effects:
+      enabled: true
+    animate_on_hover: false
+    # Supported values: always | only_private | never
+    image_display: always
+    open_images_external: false
+    open_videos_external: false
+    autoplay_gif_videos: true
+    open_audio_external: false
+    default_audio_playback_speed: 1.0
+  threads:
+    collapse_replies:
+      # Hide thread replies in the main timeline, showing only root messages.
+      global: false
+      # Per-room overrides (true/false). Omit a room to use the global default.
+      by_room: {}
+  date_dividers:
+    enabled: true
   room_header:
     # Supported values: adaptive | never
     button_labels: adaptive
+  hidden_events:
+    # Local-only timeline visibility preferences.
+    global:
+      - m.reaction
+      - m.call.candidates
+      - m.call.select_answer
+      - m.call.negotiate
+    # Room-specific lists fully override the global list for that room.
+    by_room: {}
 
 composer:
   input:
     markdown_to_html:
       enabled: true
+    # Supported values: enter | ctrl_enter | shift_enter
     send_key: enter
+    # Supported values: always | only_at_end | never
     auto_replace_emoji: always
     emoji:
+      # Supported values: no_preference | woman | man
       preferred_gender: no_preference
+      # Supported values: no_preference | light | medium_light | medium | medium_dark | dark
       preferred_skin_tone: no_preference
     inline_emoji_picker:
       enabled: true
@@ -113,11 +145,15 @@ composer:
       enabled: true
     selection_formatting_toolbar:
       enabled: true
+    transcription:
+      enabled: true
     spellcheck:
       enabled: true
       # Active dictionary locale codes (e.g. en_US). An empty list means
       # "derive from the system locale on next launch and persist here".
       languages: []
+  attachments:
+    strip_image_metadata: true
   typing:
     send:
       # Whether to send typing notifications by default.
@@ -129,6 +165,7 @@ desktop:
   notifications:
     enabled: true
     attention_on_incoming: false
+    # Supported values: never | unencrypted_only | whenever_available
     message_content_policy: whenever_available
   attention:
     window_title:
@@ -138,6 +175,8 @@ desktop:
   system_tray:
     enabled: false
     autostart: false
+    # Supported values: colorized | monochrome_light | monochrome_dark
+    icon_style: colorized
   window_focus_blur:
     enabled: false
     delay_seconds: 0
@@ -156,38 +195,43 @@ calls:
   audio:
     ringtone: Default
   screenshare:
-    frame_rate: 5
+    frame_rate: 30
     picture_in_picture: true
     include_remote_video: false
     show_cursor: true
 
-encryption:
-  key_sharing:
+network:
+  encryption:
     only_verified_users: false
     share_with_trusted: false
-  backup:
-    online:
-      enabled: true
-
-network:
+    key_backup: true
   presence:
+    # Supported values: automatic_presence | online | unavailable | offline
     status_policy: automatic_presence
-  http3:
-    enabled: false
   tls:
     enable_certificate_validation: true
-
-db:
-  max_size_bytes: 0
-  max_stores: 0
+  mrs:
+    enabled: true
+    server_name: matrixrooms.info
+  http3:
+    enabled: false
 
 integrations:
   dbus:
+    # Supported values: read_write | read_only | none
     access: none
   # Optional command used when opening links from Komai.
   # Use %u for the URL placeholder. If omitted, the URL is appended automatically.
   browser:
     command: ""
+  transcription:
+    # Supported values: openai_batch | openai_realtime
+    provider: ""
+    api_url: ""
+    model: ""
+    language: ""
+    prompt: ""
+    by_room: {}
 
 secrets:
   # secret_service (default) uses QtKeychain/OS secret backend.

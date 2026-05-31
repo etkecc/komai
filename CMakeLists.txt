@@ -1500,7 +1500,9 @@ if(WIN32)
     # iphlpapi for GetAdaptersAddresses, called by the Rust `ipconfig` crate
     # (transitive dep of matrix-sdk for network adapter enumeration). The crate's
     # link declaration doesn't propagate through Corrosion to the C++ linker.
-    target_link_libraries(komai PRIVATE shlwapi iphlpapi)
+    # bcrypt for BCryptGenRandom, called by the Rust `getrandom` 0.2 crate; its
+    # `#[link(name = "bcrypt")]` directive likewise doesn't reach the C++ linker.
+    target_link_libraries(komai PRIVATE shlwapi iphlpapi bcrypt)
 endif()
 
 if(MSVC)

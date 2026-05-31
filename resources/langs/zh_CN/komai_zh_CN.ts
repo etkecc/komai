@@ -2566,7 +2566,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>无法重新创建缓存文件夹。</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>一款你会爱上的优秀 %1 聊天应用</translation>
     </message>
@@ -10304,11 +10304,6 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>深色</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>选择消息显示在哪一侧。自适应模式取决于时间线宽度：宽度较小时（&lt; %1px），按发送者两侧排列，否则显示在单侧。</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>加密</translation>
@@ -10355,7 +10350,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>控制你在 Matrix 网络上的&lt;a href="%1"&gt;在线状态&lt;/a&gt;。
@@ -10442,12 +10437,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>水平对齐方式</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>选择消息显示在哪一侧。自适应模式在窄时间轴中按发送者分列两侧，在宽时间轴中对齐到一侧（参见 &lt;i&gt;自适应定位断点&lt;/i&gt;）。</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>左对齐, 右对齐, 对齐</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>时间轴宽度超过此值时，水平定位 = 自适应 将消息对齐到一侧，而非按发送者分列两侧。</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>消息最大宽度（%）</translation>
     </message>
@@ -10457,7 +10462,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>单条消息可占用的时间线可用宽度百分比。</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>自适应定位断点（px）</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>发送者/消息颜色编码</translation>
     </message>
@@ -10478,7 +10488,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>控制发送者用户名在消息上方的显示时机。在气泡模式下，自己的用户名始终隐藏。在较小的聊天室中，头像和气泡颜色通常已提供足够的上下文。</translation>
     </message>

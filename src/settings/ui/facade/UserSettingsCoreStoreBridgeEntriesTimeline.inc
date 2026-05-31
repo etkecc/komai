@@ -5,6 +5,7 @@ X(TimelineUserColorCodingPolicy, static_cast<int>(settings.timelineUserColorCodi
 X(TimelineMessagesLayoutAvatarSize, static_cast<int>(settings.timelineMessagesLayoutAvatarSize()))
 X(TimelineMessagesLayoutShowOwnAvatar, settings.timelineMessagesLayoutShowOwnAvatar())
 X(TimelineMessagesLayoutMaxWidthPercent, settings.timelineMessagesLayoutMaxWidthPercent())
+X(TimelineMessagesLayoutAdaptivePositioningBreakpointPx, settings.timelineMessagesLayoutAdaptivePositioningBreakpointPx())
 X(TimelineMessagesSenderUsername, static_cast<int>(settings.timelineMessagesSenderUsername()))
 X(TimelineMessagesEmojiOnlyEnlarge, settings.timelineMessagesEmojiOnlyEnlarge())
 X(TimelineMessagesHoverHighlight, settings.timelineMessagesHoverHighlight())

@@ -57,10 +57,12 @@ constexpr auto TimelineUserColorCodingPolicy         = "timeline.user_color_codi
 constexpr auto TimelineMessagesLayoutAvatarSize      = "timeline.messages.layout.avatar_size";
 constexpr auto TimelineMessagesLayoutShowOwnAvatar   = "timeline.messages.layout.show_own_avatar";
 constexpr auto TimelineMessagesLayoutMaxWidthPercent = "timeline.messages.layout.max_width_percent";
-constexpr auto TimelineMessagesSenderUsername        = "timeline.messages.sender_username";
-constexpr auto TimelineMessagesEmojiOnlyEnlarge      = "timeline.messages.emoji_only_enlarge";
-constexpr auto TimelineMessagesHoverHighlight        = "timeline.messages.hover_highlight";
-constexpr auto TimelineMessagesDragSelect            = "timeline.messages.drag_select";
+constexpr auto TimelineMessagesLayoutAdaptivePositioningBreakpointPx =
+  "timeline.messages.layout.adaptive_positioning_breakpoint_px";
+constexpr auto TimelineMessagesSenderUsername   = "timeline.messages.sender_username";
+constexpr auto TimelineMessagesEmojiOnlyEnlarge = "timeline.messages.emoji_only_enlarge";
+constexpr auto TimelineMessagesHoverHighlight   = "timeline.messages.hover_highlight";
+constexpr auto TimelineMessagesDragSelect       = "timeline.messages.drag_select";
 constexpr auto TimelineFormattedCodeSyntaxHighlighting =
   "timeline.messages.formatted.code_syntax_highlighting";
 constexpr auto TimelineTypingShowEnabled  = "timeline.typing.show.enabled";

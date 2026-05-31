@@ -187,6 +187,7 @@ pub struct ConfigTimelineMessagesLayout {
     pub avatar_size: ConfigTimelineMessagesLayoutAvatarSizeToken,
     pub show_own_avatar: Option<bool>,
     pub max_width_percent: Option<i32>,
+    pub adaptive_positioning_breakpoint_px: Option<i32>,
 }
 
 #[derive(Clone, Debug, Default)]

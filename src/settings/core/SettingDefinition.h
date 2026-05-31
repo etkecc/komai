@@ -101,6 +101,7 @@ enum class SettingId
     TimelineMessagesLayoutAvatarSize,
     TimelineMessagesLayoutShowOwnAvatar,
     TimelineMessagesLayoutMaxWidthPercent,
+    TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
     TimelineMessagesSenderUsername,
     TimelineMessagesEmojiOnlyEnlarge,
     TimelineMessagesHoverHighlight,

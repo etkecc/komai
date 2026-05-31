@@ -84,6 +84,8 @@ stageConfig(const UserSettings &settings,
                 cfg::toStorageValue(settings.timelineMessagesLayoutAvatarSize()).toStdString(),
               .layout_show_own_avatar   = settings.timelineMessagesLayoutShowOwnAvatar(),
               .layout_max_width_percent = settings.timelineMessagesLayoutMaxWidthPercent(),
+              .layout_adaptive_positioning_breakpoint_px =
+                settings.timelineMessagesLayoutAdaptivePositioningBreakpointPx(),
               .sender_username =
                 cfg::toStorageValue(settings.timelineMessagesSenderUsername()).toStdString(),
               .emoji_only_enlarge = settings.timelineMessagesEmojiOnlyEnlarge(),

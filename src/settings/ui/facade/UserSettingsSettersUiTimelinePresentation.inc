@@ -77,6 +77,20 @@ UserSettings::setTimelineMessagesLayoutMaxWidthPercent(int s)
     save();
 }
 void
+UserSettings::setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(int s)
+{
+    if (timelineMessagesLayoutAdaptivePositioningBreakpointPx_ == s)
+        return;
+    if (!setCoreValue(
+          settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
+          s,
+          SettingKey::TimelineMessagesLayoutAdaptivePositioningBreakpointPx))
+        return;
+    timelineMessagesLayoutAdaptivePositioningBreakpointPx_ = s;
+    emit timelineMessagesLayoutAdaptivePositioningBreakpointPxChanged(s);
+    save();
+}
+void
 UserSettings::setTimelineMessagesSenderUsername(ShowSenderUsername s)
 {
     if (timelineMessagesSenderUsername_ == s)

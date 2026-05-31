@@ -2566,7 +2566,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>캐시 폴더를 다시 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>사랑하게 될 훌륭한 %1 채팅 앱</translation>
     </message>
@@ -10304,11 +10304,6 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>다크</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>메시지가 나타날 위치를 선택합니다. 적응형은 타임라인 너비에 따라 달라집니다: 좁은 경우(&lt; %1px) 발신자별로 반대쪽에, 그 외에는 한쪽에 표시됩니다.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>암호화</translation>
@@ -10355,7 +10350,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix 네트워크에서 내 &lt;a href="%1"&gt;현재 상태&lt;/a&gt;를 제어합니다.
@@ -10442,12 +10437,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>가로 배치</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>메시지가 표시될 위치를 선택합니다. 적응형은 좁은 타임라인에서는 발신자별로 반대쪽에 표시하고, 넓은 타임라인에서는 한쪽으로 정렬합니다(&lt;i&gt;적응형 위치 브레이크포인트&lt;/i&gt; 참조).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>왼쪽 정렬, 오른쪽 정렬, 정렬</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>수평 위치 = 적응형 설정 시 발신자별 반대쪽 배치 대신 메시지를 한쪽으로 정렬하는 타임라인 너비 기준값입니다.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>최대 메시지 너비 (%)</translation>
     </message>
@@ -10457,7 +10462,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>단일 메시지가 차지할 수 있는 타임라인 너비의 비율입니다.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>적응형 위치 브레이크포인트 (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>발신자/메시지 색상 코딩</translation>
     </message>
@@ -10478,7 +10488,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>메시지 위에 발신자 사용자 이름을 표시할 때를 제어합니다. 말풍선 모드에서는 내 사용자 이름이 항상 숨겨집니다. 소규모 방에서는 아바타와 말풍선 색상만으로도 충분한 경우가 많습니다.</translation>
     </message>

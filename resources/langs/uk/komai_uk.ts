@@ -2574,7 +2574,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не вдалося відтворити теку кешу.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Чудовий чат-застосунок %1, який можна полюбити</translation>
     </message>
@@ -10336,11 +10336,6 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>Темна</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Оберіть, з якого боку відображаються повідомлення. Адаптивний залежить від ширини стрічки: з різних боків залежно від відправника при вузькій (&lt; %1px), з одного боку — в іншому випадку.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Шифрування</translation>
@@ -10387,7 +10382,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Керує вашим статусом &lt;a href="%1"&gt;Присутності&lt;/a&gt; в мережі Matrix.
@@ -10474,12 +10469,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Горизонтальне розташування</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Виберіть, на якій стороні відображатимуться повідомлення. Адаптивний режим розташовує повідомлення на протилежних сторонах залежно від відправника у вузьких стрічках і вирівнює до одного боку у широких (дивіться &lt;i&gt;Межу адаптивного позиціонування&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>вирівнювання по лівому краю, вирівнювання по правому краю, вирівнювання</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Ширина стрічки, вище якої горизонтальне позиціонування = Адаптивне вирівнює повідомлення до одного боку, а не розташовує їх на протилежних сторонах залежно від відправника.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Максимальна ширина повідомлення (%)</translation>
     </message>
@@ -10489,7 +10494,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Відсоток доступної ширини стрічки, який може займати одне повідомлення.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Межа адаптивного позиціонування (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Кодування кольором відправника/повідомлення</translation>
     </message>
@@ -10510,7 +10520,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Контролює відображення імен відправників над повідомленнями. У режимі бульбашок власне ім'я завжди приховано. У невеликих кімнатах аватари та кольори бульбашок зазвичай дають достатній контекст.</translation>
     </message>

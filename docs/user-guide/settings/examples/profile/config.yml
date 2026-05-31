@@ -69,6 +69,8 @@ timeline:
       avatar_size: regular
       show_own_avatar: true
       max_width_percent: 80
+      # Only used when positioning is adaptive.
+      adaptive_positioning_breakpoint_px: 1600
     # Supported values: always | only_in_large_rooms | never
     sender_username: only_in_large_rooms
     emoji_only_enlarge: true

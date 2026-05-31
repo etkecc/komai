@@ -2574,7 +2574,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Nije moguće ponovo kreirati fasciklu keša.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Odlična %1 aplikacija za čat koju je lako zavoleti</translation>
     </message>
@@ -10336,11 +10336,6 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
         <translation>Tamna</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Izaberi na kojoj strani se prikazuju poruke. Adaptivno zavisi od širine linije vremena: nasuprotno po pošiljaocu kada je usko (&lt; %1px), inače na jednoj strani.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Šifrovanje</translation>
@@ -10387,7 +10382,7 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Kontroliše tvoj status &lt;a href="%1"&gt;prisustva&lt;/a&gt; na Matrix mreži.
@@ -10474,12 +10469,22 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Horizontalno pozicioniranje</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Izaberi s koje strane se poruke prikazuju. Adaptivni režim raspoređuje poruke na suprotnim stranama prema pošiljaocu na uskim vremenskim linijama i poravnava ih na jednoj strani na širim (vidi &lt;i&gt;Prelomna tačka adaptivnog pozicioniranja&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>poravnanje levo, poravnanje desno, poravnanje</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Širina vremenske linije iznad koje Horizontalno pozicioniranje = Adaptivno poravnava poruke na jednoj strani umesto raspoređivanja na suprotnim stranama prema pošiljaocu.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Maksimalna širina poruke (%)</translation>
     </message>
@@ -10489,7 +10494,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Procenat dostupne širine vremenske linije koji može da zauzme jedna poruka.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Prelomna tačka adaptivnog pozicioniranja (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Kodiranje bojama pošiljaoca/poruke</translation>
     </message>
@@ -10510,7 +10520,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Kontroliše kada se korisnička imena pošiljaoca prikazuju iznad poruka. U režimu mehurića, tvoje korisničko ime je uvek skriveno. U manjim sobama, avatari i boje mehurića su često dovoljan kontekst.</translation>
     </message>

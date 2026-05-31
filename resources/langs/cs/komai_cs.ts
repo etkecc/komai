@@ -2574,7 +2574,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Nepodařilo se znovu vytvořit složku mezipaměti.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Skvělá %1 chatovací aplikace, do které se lze zamilovat</translation>
     </message>
@@ -10336,11 +10336,6 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
         <translation>Tmavý</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Zvol, na které straně se zobrazují zprávy. Adaptivní závisí na šířce časové osy: při úzkém zobrazení (&lt; %1px) střídavě podle odesílatele, jinak na jedné straně.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Šifrování</translation>
@@ -10387,7 +10382,7 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ovládá tvůj stav &lt;a href="%1"&gt;Přítomnosti&lt;/a&gt; v síti Matrix.
@@ -10474,12 +10469,22 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Vodorovné zarovnání</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Zvolte, na které straně se zobrazují zprávy. Adaptivní v úzkých osách rozmísťuje zprávy na protilehlé strany podle odesílatele a v širokých je zarovnává na jednu stranu (viz &lt;i&gt;Práh adaptivního umístění&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>zarovnat vlevo, zarovnat vpravo, zarovnání</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Šířka osy, nad níž Horizontální umístění = Adaptivní zarovnává zprávy na jednu stranu místo protilehlého rozmístění podle odesílatele.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Maximální šířka zprávy (%)</translation>
     </message>
@@ -10489,7 +10494,12 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
         <translation>Procento dostupné šířky časové osy, které může zabrat jedna zpráva.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Práh adaptivního umístění (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Barevné kódování odesílatele/zprávy</translation>
     </message>
@@ -10510,7 +10520,7 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Určuje, kdy se nad zprávami zobrazují jména odesílatelů. V bublinovém režimu je vlastní jméno vždy skryto. V menších místnostech avatary a barvy bublin často poskytují dostatečný kontext.</translation>
     </message>

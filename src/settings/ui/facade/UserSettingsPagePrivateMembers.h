@@ -40,8 +40,9 @@ TimelineMessagesLayoutPositioning timelineMessagesLayoutPositioning_ =
 TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
   TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
 AvatarSize timelineMessagesLayoutAvatarSize_{};
-bool timelineMessagesLayoutShowOwnAvatar_  = true;
-int timelineMessagesLayoutMaxWidthPercent_ = 80;
+bool timelineMessagesLayoutShowOwnAvatar_                  = true;
+int timelineMessagesLayoutMaxWidthPercent_                 = 80;
+int timelineMessagesLayoutAdaptivePositioningBreakpointPx_ = 1600;
 QString timelineMessageActionsPinnedReactions_;
 ShowSenderUsername timelineMessagesSenderUsername_     = ShowSenderUsername::OnlyInLargeRooms;
 bool timelineMediaAnimateOnHover_                      = false;

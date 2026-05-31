@@ -30,6 +30,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
   settings::core::SettingId::UiLayoutDensity,
   settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent,
+  settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
   settings::core::SettingId::IntegrationsDbusApiAccess,
   settings::core::SettingId::NetworkPresenceStatusPolicy,
   settings::core::SettingId::CallsScreenshareFrameRate,
@@ -264,7 +265,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 105;
+    constexpr std::size_t expectedPersistedDefinitionCount = 106;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

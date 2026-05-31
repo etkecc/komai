@@ -2570,7 +2570,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>හැඹිලි ෆෝල්ඩරය නැවත සෑදිය නොහැකි විය.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>ඔබට ප්‍රිය කළ හැකි හොඳ %1 කතාබස් යෙදුම</translation>
     </message>
@@ -10320,11 +10320,6 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>අඳුරු</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>පණිවිඩ දිස්වන පැත්ත තෝරන්න. අනුවර්තනීය කාල රේඛා පළල මත රඳා පවතී: පටු (&lt; %1px) විට යවන්නාට ප්‍රතිවිරුද්ධ පැත්තේ, නැතිනම් එක් පැත්තකින්.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>සංකේතනය</translation>
@@ -10371,7 +10366,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ජාලයේ ඔබේ &lt;a href="%1"&gt;Presence&lt;/a&gt; තත්ත්වය පාලනය කරයි.
@@ -10458,12 +10453,22 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>තිරස් පිහිටීම</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>පණිවිඩ කුමන පැත්තකින් දිස්වේදැයි තෝරන්න. අනුවර්තී ක්‍රමය පටු කාල රේඛාවල යවන්නාට අනුව විරුද්ධ පැත්ත භාවිතා කරයි, පුළුල් ඒවායේ එක් පැත්තකට පෙළගස්වයි (බලන්න &lt;i&gt;අනුවර්තී පිහිටුවීම් හැරෙන ලක්ෂ්‍යය&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>වමට පෙළගැස්වීම, දකුණට පෙළගැස්වීම, පෙළගැස්ම</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>කාල රේඛා පළල ඉක්මවූ විට, Horizontal positioning = Adaptive, යවන්නාට අනුව විරුද්ධ කිරීම වෙනුවට, පණිවිඩ එක් පැත්තකට පෙළගස්වයි.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>පණිවිඩ උපරිම පළල (%)</translation>
     </message>
@@ -10473,7 +10478,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>තනි පණිවිඩයකට භාවිත කළ හැකි timeline පළලේ ප්‍රතිශතය.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>අනුවර්තී පිහිටුවීම් හැරෙන ලක්ෂ්‍යය (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>යවන්නා/පණිවිඩ වර්ණ කේතනය</translation>
     </message>
@@ -10494,7 +10504,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>පණිවිඩ ඉහළින් යවන්නාගේ පරිශීලක නම් පෙන්වන විට පාලනය කරන්න. බුබුලු ප්‍රකාරයේදී, ඔබේ පරිශීලක නම සෑමවිටම සඟවා ඇත. කුඩා කාමරවලදී, අවතාර සහ බුබුලු වර්ණ බොහෝ විට ප්‍රමාණවත් සන්දර්භයකි.</translation>
     </message>

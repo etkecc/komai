@@ -317,6 +317,7 @@ mod bridge {
         layout_avatar_size: String,
         layout_show_own_avatar: bool,
         layout_max_width_percent: i32,
+        layout_adaptive_positioning_breakpoint_px: i32,
         sender_username: String,
         emoji_only_enlarge: bool,
         hover_highlight: bool,

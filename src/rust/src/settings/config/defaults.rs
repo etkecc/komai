@@ -38,6 +38,7 @@ pub const HIDDEN_TIMELINE_EVENT_TYPES: &[&str] = &[
 ];
 pub const LAYOUT_SHOW_OWN_AVATAR: bool = true;
 pub const LAYOUT_MAX_WIDTH_PERCENT: i32 = 80;
+pub const LAYOUT_ADAPTIVE_POSITIONING_BREAKPOINT_PX: i32 = 1600;
 pub const EMOJI_ONLY_ENLARGE: bool = true;
 pub const HOVER_HIGHLIGHT: bool = true;
 pub const DRAG_SELECT: bool = true;

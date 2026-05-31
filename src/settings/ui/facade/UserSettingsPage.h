@@ -159,6 +159,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(int timelineMessagesLayoutMaxWidthPercent READ timelineMessagesLayoutMaxWidthPercent
                  WRITE setTimelineMessagesLayoutMaxWidthPercent NOTIFY
                    timelineMessagesLayoutMaxWidthPercentChanged)
+    Q_PROPERTY(int timelineMessagesLayoutAdaptivePositioningBreakpointPx READ
+                 timelineMessagesLayoutAdaptivePositioningBreakpointPx WRITE
+                   setTimelineMessagesLayoutAdaptivePositioningBreakpointPx NOTIFY
+                     timelineMessagesLayoutAdaptivePositioningBreakpointPxChanged)
     Q_PROPERTY(
       QString timelineMessageActionsPinnedReactions READ timelineMessageActionsPinnedReactions WRITE
         setTimelineMessageActionsPinnedReactions NOTIFY
@@ -622,6 +626,7 @@ public:
     void setTimelineMessagesLayoutAvatarSize(AvatarSize size);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
     void setTimelineMessagesLayoutMaxWidthPercent(int value);
+    void setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(int value);
     void setTimelineMessageActionsPinnedReactions(QString value);
     void setTimelineMessagesSenderUsername(ShowSenderUsername state);
     void setTimelineMediaAnimateOnHover(bool state);
@@ -865,6 +870,7 @@ signals:
     void timelineMessagesLayoutAvatarSizeChanged(AvatarSize size);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);
     void timelineMessagesLayoutMaxWidthPercentChanged(int value);
+    void timelineMessagesLayoutAdaptivePositioningBreakpointPxChanged(int value);
     void timelineMessageActionsPinnedReactionsChanged(const QString &value);
     void timelineMessagesSenderUsernameChanged(ShowSenderUsername state);
     void timelineMediaAnimateOnHoverChanged(bool state);

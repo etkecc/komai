@@ -123,7 +123,7 @@ TimelineEvent {
             // Above the breakpoint, fold to the reading-direction leading edge
             // (left in LTR, right in RTL) so participants are not separated by
             // a wide horizontal gap. Below it, behave like OpposingBySender.
-            if (wrapper.width >= Komai.messagesAdaptivePositioningBreakpoint)
+            if (wrapper.width >= Settings.timelineMessagesLayoutAdaptivePositioningBreakpointPx)
                 return wrapper.mirrored;
             return wrapper.mirrored ? !wrapper.isSender : wrapper.isSender;
         case Settings.TimelineMessagesLayoutPositioning.OpposingBySender:

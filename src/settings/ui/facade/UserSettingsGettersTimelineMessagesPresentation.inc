@@ -107,6 +107,16 @@ UserSettings::timelineMessagesLayoutMaxWidthPercent() const
     return timelineMessagesLayoutMaxWidthPercent_;
 }
 
+int
+UserSettings::timelineMessagesLayoutAdaptivePositioningBreakpointPx() const
+{
+    if (const auto value = coreStore_.valueAs<int>(
+          settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx);
+        value.has_value())
+        return *value;
+    return timelineMessagesLayoutAdaptivePositioningBreakpointPx_;
+}
+
 UserSettings::ShowSenderUsername
 UserSettings::timelineMessagesSenderUsername() const
 {

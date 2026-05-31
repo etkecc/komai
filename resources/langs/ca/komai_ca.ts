@@ -2570,7 +2570,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>No s'ha pogut recrear la carpeta de memòria cau.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Una excel·lent aplicació de xat %1 que aprendràs a estimar</translation>
     </message>
@@ -10320,11 +10320,6 @@ Podràs deixar d'ignorar-lo/la més endavant des del perfil d'aquest usuari o a 
         <translation>Fosc</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Tria de quin costat apareixen els missatges. L'adaptatiu depèn de l'amplada de la cronologia: en costats oposats per remitent quan és estreta (&lt; %1px), en un sol costat altrament.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Xifratge</translation>
@@ -10371,7 +10366,7 @@ Podràs deixar d'ignorar-lo/la més endavant des del perfil d'aquest usuari o a 
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controla el teu estat de &lt;a href="%1"&gt;Presència&lt;/a&gt; a la xarxa Matrix.
@@ -10458,12 +10453,22 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Posicionament horitzontal</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Trieu en quin costat apareixen els missatges. L'adaptatiu s'oposa per remitent en línies de temps estretes i s'alinea a un costat en les amples (vegeu &lt;i&gt;Punt de ruptura del posicionament adaptatiu&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>alineat a l'esquerra, alineat a la dreta, alineació</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Amplada de la línia de temps a partir de la qual Posicionament horitzontal = Adaptatiu alinea els missatges a un costat en lloc d'oposar per remitent.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Amplada màxima del missatge (%)</translation>
     </message>
@@ -10473,7 +10478,12 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
         <translation>Percentatge de l'amplada disponible de la línia de temps que pot ocupar un sol missatge.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Punt de ruptura del posicionament adaptatiu (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Codificació de colors de remitent/missatge</translation>
     </message>
@@ -10494,7 +10504,7 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Controla quan es mostren els noms d'usuari del remitent per sobre dels missatges. En el mode de bombolla, el teu nom d'usuari sempre s'amaga. En sales més petites, els avatars i els colors de les bombolles sovint aporten prou context.</translation>
     </message>

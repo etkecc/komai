@@ -36,13 +36,27 @@
     // TimelineMessagesLayoutPositioning
     withKeywords(
       SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Horizontal positioning"),
-        nullptr,
+        QT_TRANSLATE_NOOP("UserSettingsModel", "Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see <i>Adaptive positioning breakpoint</i>)."),
         SM::TabTimeline, timelineMessagesLayoutPositioning, setTimelineMessagesLayoutPositioning, UserSettings::TimelineMessagesLayoutPositioning,
         timelineMessagesLayoutPositioningValues,
         nullptr,
         TimelineMessagesLayoutPositioning,
         SettingKey::TimelineMessagesLayoutPositioning),
       QT_TRANSLATE_NOOP("UserSettingsModel", "left aligned, right aligned, alignment")),
+    // TimelineMessagesLayoutAdaptivePositioningBreakpointPx
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "Adaptive positioning breakpoint (px)"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender."),
+      SM::IntegerWithDescription, SM::TabTimeline,
+      getCoreIntValue<settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
+                      &UserSettings::timelineMessagesLayoutAdaptivePositioningBreakpointPx>,
+      setSettingValue<&UserSettings::setTimelineMessagesLayoutAdaptivePositioningBreakpointPx, int>,
+      300, 4000, 100,
+      nullptr,
+      []() -> bool {
+          return I && I->timelineMessagesLayoutPositioning() ==
+                        UserSettings::TimelineMessagesLayoutPositioning::Adaptive;
+      },
+      CORE_CONFIG_ID(TimelineMessagesLayoutAdaptivePositioningBreakpointPx, SettingKey::TimelineMessagesLayoutAdaptivePositioningBreakpointPx) },
     // TimelineMessagesLayoutMaxWidthPercent
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Maximum message width (%)"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Percentage of available timeline width that a single message can occupy."),

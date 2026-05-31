@@ -144,6 +144,8 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
       snapshot.timeline.messages.layout_show_own_avatar);
     settings.setTimelineMessagesLayoutMaxWidthPercent(
       snapshot.timeline.messages.layout_max_width_percent);
+    settings.setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(
+      snapshot.timeline.messages.layout_adaptive_positioning_breakpoint_px);
     settings.setTimelineMessagesSenderUsername(cfg::showSenderUsernameFromStorage(
       QString::fromStdString(static_cast<std::string>(snapshot.timeline.messages.sender_username))
         .trimmed(),

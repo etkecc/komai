@@ -2570,7 +2570,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Cache-map kon niet opnieuw worden aangemaakt.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Een geweldige %1 chat-app om van te houden</translation>
     </message>
@@ -10320,11 +10320,6 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
         <translation>Donker</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Kies aan welke kant berichten verschijnen. Adaptief hangt af van de tijdlijnbreedte: tegenovergesteld per afzender bij smal (&lt; %1px), anders één kant.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Versleuteling</translation>
@@ -10371,7 +10366,7 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Beheert je &lt;a href="%1"&gt;Aanwezigheid&lt;/a&gt;-status op het Matrix-netwerk.
@@ -10458,12 +10453,22 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Horizontale plaatsing</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Kies aan welke kant berichten verschijnen. Adaptief plaatst berichten tegenover elkaar per afzender op smalle tijdlijnen en lijnt ze uit naar één kant op brede tijdlijnen (zie &lt;i&gt;Adaptief positioneringsbreekpunt&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>links uitgelijnd, rechts uitgelijnd, uitlijning</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Tijdlijnbreedte waarboven Horizontale positionering = Adaptief berichten naar één kant uitlijnt in plaats van tegenover elkaar per afzender.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Maximale berichtbreedte (%)</translation>
     </message>
@@ -10473,7 +10478,12 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
         <translation>Percentage van de beschikbare tijdlijnbreedte dat één bericht kan innemen.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Adaptief positioneringsbreekpunt (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Kleurcodering afzender/bericht</translation>
     </message>
@@ -10494,7 +10504,7 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Bepaal wanneer gebruikersnamen van afzenders boven berichten worden weergegeven. In bellenweergave is je eigen gebruikersnaam altijd verborgen. In kleinere kamers zijn avatars en belkleuren vaak voldoende context.</translation>
     </message>

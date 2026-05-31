@@ -2570,7 +2570,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Kunde inte återskapa cachemappen.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>En fin %1-chattapp som du kan lära dig älska</translation>
     </message>
@@ -10320,11 +10320,6 @@ Du kan sluta ignorera senare via den här användarens profil eller via Inställ
         <translation>Mörkt</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Välj på vilken sida meddelanden visas. Adaptiv beror på tidslinjens bredd: motstående sidor per avsändare när smal (&lt; %1px), annars en sida.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Kryptering</translation>
@@ -10371,7 +10366,7 @@ Du kan sluta ignorera senare via den här användarens profil eller via Inställ
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Styr din &lt;a href="%1"&gt;Närvaro&lt;/a&gt;-status på Matrix-nätverket.
@@ -10458,12 +10453,22 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Horisontell placering</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Välj vilken sida meddelanden visas på. Adaptiv placerar meddelanden på motsatta sidor utifrån avsändare i smala tidlinjer och justerar alla till en sida i breda (se &lt;i&gt;Adaptiv positioneringsbrytpunkt&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>vänsterjusterad, högerjusterad, justering</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Tidslinjens bredd över vilken Horisontell placering = Adaptiv justerar meddelanden till en sida istället för att placera dem på motsatta sidor utifrån avsändare.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Maximal meddelandebredd (%)</translation>
     </message>
@@ -10473,7 +10478,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Procentandel av tillgänglig tidslinjbredd som ett enskilt meddelande kan uppta.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Adaptiv positioneringsbrytpunkt (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Färgkodning för avsändare/meddelande</translation>
     </message>
@@ -10494,7 +10504,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Styr när avsändarens användarnamn visas ovanför meddelanden. I bubbelläge är ditt eget användarnamn alltid dolt. I mindre rum räcker avatarer och bubbelkolor ofta som kontext.</translation>
     </message>

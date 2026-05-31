@@ -2566,7 +2566,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Önbellek klasörü yeniden oluşturulamadı.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Sevmeye değer harika bir %1 sohbet uygulaması</translation>
     </message>
@@ -10304,11 +10304,6 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <translation>Koyu</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Mesajların hangi tarafta görüneceğini seçin. Uyarlanabilir, zaman çizelgesi genişliğine bağlıdır: dar (&lt; %1px) olduğunda gönderene göre karşılıklı taraf, aksi takdirde tek taraf.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Şifreleme</translation>
@@ -10355,7 +10350,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ağındaki &lt;a href="%1"&gt;Varlık&lt;/a&gt; durumunuzu kontrol eder.
@@ -10442,12 +10437,22 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Yatay konumlandırma</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Mesajların hangi tarafta görüneceğini seçin. Uyarlamalı, dar zaman çizelgelerinde gönderene göre karşı tarafa, geniş olanlarda ise tek bir tarafa hizalar (bkz. &lt;i&gt;Uyarlamalı konumlandırma eşiği&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>sola hizalı, sağa hizalı, hizalama</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Yatay konumlandırma = Uyarlamalı ayarının, gönderene göre karşı tarafa hizalamak yerine mesajları tek bir tarafa hizaladığı zaman çizelgesi genişlik eşiği.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Maksimum mesaj genişliği (%)</translation>
     </message>
@@ -10457,7 +10462,12 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Tek bir mesajın kaplabileceği mevcut zaman tüneli genişliğinin yüzdesi.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Uyarlamalı konumlandırma eşiği (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Gönderen/mesaj renk kodlaması</translation>
     </message>
@@ -10478,7 +10488,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Gönderen kullanıcı adlarının mesajların üzerinde ne zaman görüntüleneceğini kontrol edin. Balon modunda kendi kullanıcı adınız her zaman gizlidir. Daha küçük odalarda avatarlar ve balon renkleri genellikle yeterli bağlam sağlar.</translation>
     </message>

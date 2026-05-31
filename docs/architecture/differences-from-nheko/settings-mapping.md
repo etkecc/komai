@@ -36,6 +36,7 @@ Note:
 | Look & Feel | FONTS & SCALING | Scale factor | `settings::core::SettingId::UiScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
 | Look & Feel | APPEARANCE | Enable UI animations | `settings::core::SettingId::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
 | Timeline | PRESENTATION | Maximum message width | `settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent` | *(new)* | `timeline.messages.layout.max_width_percent` | config.yml | yes |
+| Timeline | PRESENTATION | Adaptive positioning breakpoint | `settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx` | *(new)* | `timeline.messages.layout.adaptive_positioning_breakpoint_px` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `settings::core::SettingId::UiAvatarsCircular` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Look & Feel | AVATARS | Default avatar style | `settings::core::SettingId::UiAvatarsDefaultAvatarStyle` | _(removed)_ | `ui.avatars.default_avatar_style` | config.yml | yes |
 | Look & Feel | APPEARANCE | Density | `settings::core::SettingId::UiLayoutDensity` | `compact_room_list` | `ui.layout.density` | config.yml | yes |

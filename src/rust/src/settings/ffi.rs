@@ -216,6 +216,7 @@ pub(crate) fn ffi_config_timeline_section(
             layout_avatar_size: config.timeline.messages.layout.avatar_size.to_storage_string(),
             layout_show_own_avatar: config.timeline.messages.layout.show_own_avatar.unwrap_or(defaults::LAYOUT_SHOW_OWN_AVATAR),
             layout_max_width_percent: config.timeline.messages.layout.max_width_percent.unwrap_or(defaults::LAYOUT_MAX_WIDTH_PERCENT),
+            layout_adaptive_positioning_breakpoint_px: config.timeline.messages.layout.adaptive_positioning_breakpoint_px.unwrap_or(defaults::LAYOUT_ADAPTIVE_POSITIONING_BREAKPOINT_PX),
             sender_username: config.timeline.messages.sender_username.to_storage_string(),
             emoji_only_enlarge: config.timeline.messages.emoji_only_enlarge.unwrap_or(defaults::EMOJI_ONLY_ENLARGE),
             hover_highlight: config.timeline.messages.hover_highlight.unwrap_or(defaults::HOVER_HIGHLIGHT),
@@ -715,6 +716,9 @@ fn clone_config_timeline_section(
             layout_avatar_size: section.messages.layout_avatar_size.clone(),
             layout_show_own_avatar: section.messages.layout_show_own_avatar,
             layout_max_width_percent: section.messages.layout_max_width_percent,
+            layout_adaptive_positioning_breakpoint_px: section
+                .messages
+                .layout_adaptive_positioning_breakpoint_px,
             sender_username: section.messages.sender_username.clone(),
             emoji_only_enlarge: section.messages.emoji_only_enlarge,
             hover_highlight: section.messages.hover_highlight,

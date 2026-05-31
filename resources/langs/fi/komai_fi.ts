@@ -2570,7 +2570,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Välimuistikansiota ei voitu luoda uudelleen.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Hieno %1-viestisovellus, johon voi ihastua</translation>
     </message>
@@ -10320,11 +10320,6 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
         <translation>Tumma</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Valitse, kummalla puolella viestit näkyvät. Mukautuva riippuu aikajanan leveydestä: lähettäjän mukaan vastakkaisille puolille kapealla (&lt; %1px), muulloin yhdelle puolelle.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Salaus</translation>
@@ -10371,7 +10366,7 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Hallinnoi &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilaasi Matrix-verkossa.
@@ -10458,12 +10453,22 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Vaakasuuntainen sijoittelu</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Valitse, kummalla puolella viestit näytetään. Mukautuva asettaa viestit lähettäjän mukaan vastakkaisille puolille kapeilla aikajanoilla ja tasaa ne yhdelle puolelle leveillä (katso &lt;i&gt;Mukautuvan sijoittelun katkopiste&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>vasemmalle tasattu, oikealle tasattu, tasaus</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Aikajanan leveys, jonka ylittäessä Vaakasuuntainen sijoittelu = Mukautuva tasaa viestit yhdelle puolelle lähettäjän mukaan vastakkaisille puolille järjestämisen sijaan.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Viestien enimmäisleveys (%)</translation>
     </message>
@@ -10473,7 +10478,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Prosenttiosuus käytettävissä olevasta aikajanan leveydestä, jonka yksittäinen viesti voi täyttää.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Mukautuvan sijoittelun katkopiste (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Lähettäjän/viestin värikoodaus</translation>
     </message>
@@ -10494,7 +10504,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Hallitse, milloin lähettäjien käyttäjänimet näytetään viestien yläpuolella. Kuplatilassa oma käyttäjänimesi on aina piilotettu. Pienemmissä huoneissa avatarit ja kuplavärit tarjoavat usein riittävästi asiayhteyden.</translation>
     </message>

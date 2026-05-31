@@ -107,6 +107,8 @@ const TIMELINE_MESSAGES_LAYOUT_SHOW_OWN_AVATAR_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "show_own_avatar"];
 const TIMELINE_MESSAGES_LAYOUT_MAX_WIDTH_PERCENT_PATH: [&str; 4] =
     ["timeline", "messages", "layout", "max_width_percent"];
+const TIMELINE_MESSAGES_LAYOUT_ADAPTIVE_POSITIONING_BREAKPOINT_PX_PATH: [&str; 4] =
+    ["timeline", "messages", "layout", "adaptive_positioning_breakpoint_px"];
 const TIMELINE_MESSAGES_SENDER_USERNAME_PATH: [&str; 3] =
     ["timeline", "messages", "sender_username"];
 const TIMELINE_MESSAGES_EMOJI_ONLY_ENLARGE_PATH: [&str; 3] =
@@ -411,6 +413,11 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     max_width_percent: yaml::value_at_path(
                         root,
                         &TIMELINE_MESSAGES_LAYOUT_MAX_WIDTH_PERCENT_PATH,
+                    )
+                    .and_then(parse_scalar_i32),
+                    adaptive_positioning_breakpoint_px: yaml::value_at_path(
+                        root,
+                        &TIMELINE_MESSAGES_LAYOUT_ADAPTIVE_POSITIONING_BREAKPOINT_PX_PATH,
                     )
                     .and_then(parse_scalar_i32),
                 },

@@ -284,6 +284,12 @@ expectConfigInt(const ::komai::rust::SettingsLoadedConfig &snapshot,
         return expect(snapshot.timeline.messages.layout_max_width_percent == expected,
                       message);
     }
+    if (keyString ==
+        QLatin1String(SettingKey::TimelineMessagesLayoutAdaptivePositioningBreakpointPx)) {
+        return expect(snapshot.timeline.messages.layout_adaptive_positioning_breakpoint_px ==
+                        expected,
+                      message);
+    }
 if (keyString == QLatin1String(SettingKey::DesktopWindowFocusBlurDelaySeconds)) {
         return expect(snapshot.desktop.window_focus_blur.delay_seconds == expected,
                       message);
@@ -1487,29 +1493,40 @@ testConstrainedIntSettersRejectInvalidUpdates()
 
     settings->setTimelineMessagesLayoutMaxWidthPercent(70);
     settings->setDesktopWindowFocusBlurDelaySeconds(5);
+    settings->setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(2000);
 
-    const auto baselineMaxWidth  = settings->timelineMessagesLayoutMaxWidthPercent();
-    const auto baselineBlurDelay = settings->desktopWindowFocusBlurDelaySeconds();
+    const auto baselineMaxWidth   = settings->timelineMessagesLayoutMaxWidthPercent();
+    const auto baselineBlurDelay  = settings->desktopWindowFocusBlurDelaySeconds();
+    const auto baselineBreakpoint = settings->timelineMessagesLayoutAdaptivePositioningBreakpointPx();
 
     settings->setTimelineMessagesLayoutMaxWidthPercent(200); // invalid: > 100
     settings->setDesktopWindowFocusBlurDelaySeconds(-3);     // invalid: < 0
+    settings->setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(100);  // invalid: < 300
+    settings->setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(9000); // invalid: > 4000
 
     bool ok = true;
     ok &= expect(settings->timelineMessagesLayoutMaxWidthPercent() == baselineMaxWidth,
                  "invalid max width percent update is ignored");
     ok &= expect(settings->desktopWindowFocusBlurDelaySeconds() == baselineBlurDelay,
                  "invalid window blur delay update is ignored");
+    ok &= expect(settings->timelineMessagesLayoutAdaptivePositioningBreakpointPx() ==
+                   baselineBreakpoint,
+                 "invalid adaptive positioning breakpoint update is ignored");
 
     const auto &store = settings->coreStore();
     const auto maxWidthValue =
       store.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent);
     const auto blurDelayValue =
       store.valueAs<int>(settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds);
+    const auto breakpointValue = store.valueAs<int>(
+      settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx);
 
     ok &= expect(maxWidthValue.has_value() && *maxWidthValue == baselineMaxWidth,
                  "core store keeps previous max width percent on invalid update");
     ok &= expect(blurDelayValue.has_value() && *blurDelayValue == baselineBlurDelay,
                  "core store keeps previous window blur delay on invalid update");
+    ok &= expect(breakpointValue.has_value() && *breakpointValue == baselineBreakpoint,
+                 "core store keeps previous adaptive positioning breakpoint on invalid update");
 
     const auto configRoot = loadConfigSnapshot(ctx.configFile(), "config");
     ok &= expectConfigInt(configRoot,
@@ -1520,6 +1537,10 @@ testConstrainedIntSettersRejectInvalidUpdates()
                           SettingKey::DesktopWindowFocusBlurDelaySeconds,
                           baselineBlurDelay,
                           "config keeps previous window blur delay on invalid update");
+    ok &= expectConfigInt(configRoot,
+                          SettingKey::TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
+                          baselineBreakpoint,
+                          "config keeps previous adaptive positioning breakpoint on invalid update");
 
     return ok;
 }
@@ -1917,6 +1938,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::TimelineMessagesLayoutMaxWidthPercent));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::TimelineMessagesLayoutAdaptivePositioningBreakpointPx));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiAvatarsCircular));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScrollbarPolicy));
     serializerHandledConfigKeys.insert(

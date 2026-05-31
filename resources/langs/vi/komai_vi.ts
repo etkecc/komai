@@ -2566,7 +2566,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Không thể tạo lại thư mục bộ nhớ đệm.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Ứng dụng trò chuyện %1 tuyệt vời mà bạn sẽ yêu thích</translation>
     </message>
@@ -10304,11 +10304,6 @@ Bạn có thể bỏ bỏ qua sau qua hồ sơ người dùng này hoặc qua C�
         <translation>Tối</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Chọn phía hiển thị tin nhắn. Chế độ thích ứng phụ thuộc vào độ rộng dòng thời gian: hiển thị đối diện theo người gửi khi hẹp (&lt; %1px), một phía duy nhất trong các trường hợp còn lại.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Mã hóa</translation>
@@ -10355,7 +10350,7 @@ Bạn có thể bỏ bỏ qua sau qua hồ sơ người dùng này hoặc qua C�
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Kiểm soát trạng thái &lt;a href="%1"&gt;Hiện diện&lt;/a&gt; của bạn trên mạng Matrix.
@@ -10442,12 +10437,22 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Vị trí ngang</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Chọn bên hiển thị tin nhắn. Thích ứng sẽ đối lập theo người gửi trên dòng thời gian hẹp và căn về một phía trên dòng thời gian rộng (xem &lt;i&gt;Điểm ngắt định vị thích ứng&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>căn trái, căn phải, căn chỉnh</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Chiều rộng dòng thời gian mà tại đó Định vị ngang = Thích ứng căn tin nhắn về một phía thay vì đối lập theo người gửi.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Chiều rộng tin nhắn tối đa (%)</translation>
     </message>
@@ -10457,7 +10462,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
         <translation>Phần trăm chiều rộng dòng thời gian có sẵn mà một tin nhắn có thể chiếm.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Điểm ngắt định vị thích ứng (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Mã màu người gửi/tin nhắn</translation>
     </message>
@@ -10478,7 +10488,7 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Kiểm soát thời điểm hiển thị tên người gửi phía trên tin nhắn. Trong chế độ bong bóng, tên của bạn luôn được ẩn. Trong các phòng nhỏ, ảnh đại diện và màu bong bóng thường đã đủ nhận diện.</translation>
     </message>

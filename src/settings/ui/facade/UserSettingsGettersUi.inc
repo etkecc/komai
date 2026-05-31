@@ -70,3 +70,4 @@
     void refreshNotificationsAccountEnabled();
     bool hasNotifications() const;
     int timelineMessagesLayoutMaxWidthPercent() const;
+    int timelineMessagesLayoutAdaptivePositioningBreakpointPx() const;

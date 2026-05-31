@@ -2566,7 +2566,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Tidak dapat membuat ulang folder cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Aplikasi obrolan %1 yang akan Anda cintai</translation>
     </message>
@@ -10304,11 +10304,6 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
         <translation>Gelap</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Pilih sisi mana pesan ditampilkan. Adaptif bergantung pada lebar linimasa: berlawanan berdasarkan pengirim saat sempit (&lt; %1px), satu sisi untuk lainnya.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Enkripsi</translation>
@@ -10355,7 +10350,7 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Mengatur status &lt;a href="%1"&gt;Kehadiran&lt;/a&gt; Anda di jaringan Matrix.
@@ -10442,12 +10437,22 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Posisi horizontal</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Pilih sisi tempat pesan muncul. Adaptif menempatkan pesan berseberangan berdasarkan pengirim pada linimasa sempit dan menyelaraskan ke satu sisi pada linimasa yang lebar (lihat &lt;i&gt;Titik batas pemosisian adaptif&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>rata kiri, rata kanan, perataan</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Lebar linimasa di atas mana pemosisian Horizontal = Adaptif menyelaraskan pesan ke satu sisi alih-alih berseberangan berdasarkan pengirim.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Lebar pesan maksimum (%)</translation>
     </message>
@@ -10457,7 +10462,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Persentase lebar timeline yang tersedia yang dapat ditempati oleh satu pesan.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Titik batas pemosisian adaptif (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Kode warna pengirim/pesan</translation>
     </message>
@@ -10478,7 +10488,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Atur kapan nama pengguna pengirim ditampilkan di atas pesan. Dalam mode gelembung, nama pengguna Anda sendiri selalu tersembunyi. Dalam ruangan yang lebih kecil, avatar dan warna gelembung sering kali sudah cukup sebagai konteks.</translation>
     </message>

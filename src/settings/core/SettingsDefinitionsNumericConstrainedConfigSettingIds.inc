@@ -1,5 +1,6 @@
   // timeline
   SettingId::TimelineMessagesLayoutMaxWidthPercent,
+  SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
 
   // calls
   SettingId::CallsScreenshareFrameRate,

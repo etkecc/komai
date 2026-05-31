@@ -2570,7 +2570,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Cache-Ordner konnte nicht neu erstellt werden.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Eine feine %1-Chat-App, die du lieben lernst</translation>
     </message>
@@ -10320,11 +10320,6 @@ Du kannst das Ignorieren später über das Profil dieses Nutzers oder über Eins
         <translation>Dunkel</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Wähle, auf welcher Seite Nachrichten angezeigt werden. Adaptiv richtet sich nach der Timeline-Breite: bei schmalem Layout (&lt; %1px) gegenüberliegend je nach Absender, sonst einseitig.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Verschlüsselung</translation>
@@ -10371,7 +10366,7 @@ Du kannst das Ignorieren später über das Profil dieses Nutzers oder über Eins
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Steuert deinen &lt;a href="%1"&gt;Präsenz&lt;/a&gt;-Status im Matrix-Netzwerk.
@@ -10458,12 +10453,22 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Horizontale Ausrichtung</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Wähle, auf welcher Seite Nachrichten erscheinen. Adaptiv ordnet Nachrichten auf schmalen Timelines je nach Absender gegenüberliegend und auf breiten Timelines auf einer Seite an (siehe &lt;i&gt;Breakpoint für adaptive Ausrichtung&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>linksbündig, rechtsbündig, Ausrichtung</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Timeline-Breite, ab der Horizontale Ausrichtung = Adaptiv Nachrichten auf einer Seite statt je nach Absender gegenüberliegend ausrichtet.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Maximale Nachrichtenbreite (%)</translation>
     </message>
@@ -10473,7 +10478,12 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
         <translation>Prozentualer Anteil der verfügbaren Timeline-Breite, den eine einzelne Nachricht einnehmen kann.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Breakpoint für adaptive Ausrichtung (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Farbcodierung von Absender/Nachricht</translation>
     </message>
@@ -10494,7 +10504,7 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Steuert, wann Absendernamen über Nachrichten angezeigt werden. Im Blasenmodus ist dein eigener Nutzername immer ausgeblendet. In kleineren Räumen reichen Avatare und Blasenfarben oft als Kontext aus.</translation>
     </message>

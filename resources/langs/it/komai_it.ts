@@ -2570,7 +2570,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Impossibile ricreare la cartella della cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+132"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Un'ottima app di chat %1 di cui innamorarsi</translation>
     </message>
@@ -10320,11 +10320,6 @@ Puoi smettere di ignorarlo in seguito tramite il profilo dell'utente o in Impost
         <translation>Scuro</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <source>Choose which side messages appear on. Adaptive depends on timeline width: opposing by sender when narrow (&lt; %1px), single side otherwise.</source>
-        <translation>Scegli da quale lato appaiono i messaggi. Adattivo dipende dalla larghezza della timeline: lati opposti per mittente quando è stretta (&lt; %1px), lato singolo altrimenti.</translation>
-    </message>
-    <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
         <source>Encryption</source>
         <translation>Crittografia</translation>
@@ -10371,7 +10366,7 @@ Puoi smettere di ignorarlo in seguito tramite il profilo dell'utente o in Impost
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="-33"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controlla il tuo stato di &lt;a href="%1"&gt;Presenza&lt;/a&gt; sulla rete Matrix.
@@ -10458,12 +10453,22 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Posizionamento orizzontale</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
+        <source>Choose which side messages appear on. Adaptive opposes by sender on narrow timelines and aligns to one side on wide ones (see &lt;i&gt;Adaptive positioning breakpoint&lt;/i&gt;).</source>
+        <translation>Scegli su quale lato appaiono i messaggi. La modalità adattiva oppone i messaggi per mittente nelle timeline strette e li allinea su un lato in quelle larghe (vedi &lt;i&gt;Breakpoint posizionamento adattivo&lt;/i&gt;).</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>left aligned, right aligned, alignment</source>
         <translation>allineato a sinistra, allineato a destra, allineamento</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
+        <source>Timeline width above which Horizontal positioning = Adaptive aligns messages to one side instead of opposing by sender.</source>
+        <translation>Larghezza della timeline oltre la quale il posizionamento orizzontale = Adattivo allinea i messaggi su un lato invece di opporli per mittente.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Maximum message width (%)</source>
         <translation>Larghezza massima messaggio (%)</translation>
     </message>
@@ -10473,7 +10478,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Percentuale della larghezza disponibile della timeline che un singolo messaggio può occupare.</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="-15"/>
+        <source>Adaptive positioning breakpoint (px)</source>
+        <translation>Breakpoint posizionamento adattivo (px)</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Sender/message color coding</source>
         <translation>Codifica colore mittente/messaggio</translation>
     </message>
@@ -10494,7 +10504,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+21"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
         <translation>Controlla quando i nomi utente dei mittenti vengono mostrati sopra i messaggi. In modalità bolla, il proprio nome utente è sempre nascosto. Nelle stanze più piccole, gli avatar e i colori delle bolle sono spesso contesto sufficiente.</translation>
     </message>

@@ -202,6 +202,16 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["timeline", "messages", "layout", "adaptive_positioning_breakpoint_px"],
+        Value::Number(Number::from(
+            snapshot
+                .timeline
+                .messages
+                .layout_adaptive_positioning_breakpoint_px,
+        )),
+    );
+    yaml::set_value(
+        &mut root,
         &["timeline", "messages", "sender_username"],
         Value::String(snapshot.timeline.messages.sender_username.clone()),
     );

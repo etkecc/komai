@@ -11,6 +11,20 @@
       TimelineMessagesLayoutShowOwnAvatar, timelineMessagesLayoutShowOwnAvatarChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessagesLayoutMaxWidthPercent, timelineMessagesLayoutMaxWidthPercentChanged, Value);
+    CONNECT_SETTING_ID(TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
+                       timelineMessagesLayoutAdaptivePositioningBreakpointPxChanged,
+                       Value);
+
+    // The adaptive-breakpoint row is only meaningful while Horizontal positioning
+    // is Adaptive, so its enabled state tracks the positioning value.
+    if (const int breakpointIdx = rowForSettingId(
+          settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx);
+        breakpointIdx >= 0) {
+        connect(settings, &UserSettings::timelineMessagesLayoutPositioningChanged, this,
+                [this, breakpointIdx]() {
+                    emit dataChanged(index(breakpointIdx), index(breakpointIdx), {Enabled});
+                });
+    }
     CONNECT_SETTING_ID(TimelineMessagesSenderUsername, timelineMessagesSenderUsernameChanged, Value);
 
     // When avatar size changes, the sender username description may change (hidden-avatar warning)

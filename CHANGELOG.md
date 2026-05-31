@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.05.31.0
+
+- ✨ Feature: the timeline width at which "Adaptive" horizontal positioning collapses messages to one side is now configurable (Settings → Timeline → Presentation), instead of being fixed at 1600px ([89e859c16](https://github.com/etkecc/komai/commit/89e859c16)).
+- ✨ Feature: pasting a message that contains a user link now mentions that user ([8678dbaba](https://github.com/etkecc/komai/commit/8678dbaba)).
+- 🐛 Fix: typing `@room` or mentioning a user reliably notifies the target again; intentional mentions stopped being sent after the matrix-sdk migration, and the mention indication bar is back ([013810df3](https://github.com/etkecc/komai/commit/013810df3)).
+- 🐛 Fix: `/me` and the other body-sending slash commands (`/notice`, `/plain`, `/html`) now carry mentions, so a pinged user is actually notified ([0766a1c90](https://github.com/etkecc/komai/commit/0766a1c90)).
+- 📝 Docs: the sample [config.yml](https://github.com/etkecc/komai/blob/5563b1143/docs/user-guide/settings/examples/profile/config.yml) now matches the current settings schema ([5563b1143](https://github.com/etkecc/komai/commit/5563b1143)).
+
 ## 2026.05.27.0
 
 - ✨ Feature: support for upgrading rooms to a newer room version, via Room Info → "Upgrade..." or the new `/upgraderoom` slash command. ([42e5c8f71](https://github.com/etkecc/komai/commit/42e5c8f71), [c770f5b5f](https://github.com/etkecc/komai/commit/c770f5b5f)).

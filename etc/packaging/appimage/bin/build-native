@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Build Komai and produce an AppImage bundle.
-# Runs directly on the host -- requires Ubuntu 25.04+ with build deps installed.
+# Runs directly on the host -- requires Ubuntu 26.04+ with build deps installed.
 #
 # Usage:
 #   etc/packaging/appimage/bin/build-native <source_dir> <output_dir>

@@ -21,7 +21,7 @@ etc/packaging/
     builder-image         Docker image reference (Renovate-trackable)
     bin/
       build-docker        Docker-based build script
-      build-native        Native build script (Ubuntu 25.04+)
+      build-native        Native build script (Ubuntu 26.04+)
     README.md
   archlinux/    PKGBUILD + maintainer notes
   flatpak/      Flatpak manifest (cc.etke.komai.yaml)

@@ -54,7 +54,7 @@ pub(super) fn format_http_error(prefix: &str, error: &HttpError) -> String {
 }
 
 pub(super) fn format_ruma_api_error(prefix: &str, error: &RumaApiError) -> String {
-    if let Some(error) = error.as_client_api_error() {
+    if let RumaApiError::MatrixError(error) = error {
         return format_client_api_error(prefix, error);
     }
 

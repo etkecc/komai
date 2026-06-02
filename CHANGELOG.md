@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.06.02.0
+
+- 📦 Linux: the AppImage, Flatpak, and Snap bundles are now published for arm64 (`aarch64`) alongside x86-64, so Komai runs on arm64 Linux machines ([4988b678b](https://github.com/etkecc/komai/commit/4988b678b)).
+
+_(No application changes from v2026.05.31.1; this release only adds the new arm64 Linux builds.)_
+
 ## 2026.05.31.1
 
 - ✨ Feature: the timeline width at which "Adaptive" horizontal positioning collapses messages to one side is now configurable (Settings → Timeline → Presentation), instead of being fixed at 1600px ([89e859c16](https://github.com/etkecc/komai/commit/89e859c16)).

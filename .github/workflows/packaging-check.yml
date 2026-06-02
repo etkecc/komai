@@ -21,6 +21,7 @@ on:
           - appimage-arm64
           - flatpak
           - snap
+          - snap-arm64
           - macos-arm64
           - windows
 
@@ -108,6 +109,34 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: komai-snap
+          path: var/build/snap/komai_*.snap
+          if-no-files-found: error
+
+  snap-arm64:
+    # GitHub-hosted arm64 runner (the k150 self-hosted runner is amd64-only).
+    # The snapcraft builder image (ghcr.io/canonical/snapcraft) is multi-arch,
+    # so `snap-build-docker` runs natively on the arm64 host -- no QEMU. `just`
+    # is not preinstalled on GitHub-hosted runners (Docker is), so it is
+    # installed first. Opt-in only for now (not part of `all`) while the arm64
+    # path is being trialled; fold into `all` once it is proven green.
+    if: inputs.format == 'snap-arm64'
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install just
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
+            | sudo bash -s -- --to /usr/local/bin
+
+      - name: Build Snap
+        run: just snap-build-docker
+
+      - name: Upload Snap artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-snap-arm64
           path: var/build/snap/komai_*.snap
           if-no-files-found: error
 

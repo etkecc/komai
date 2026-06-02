@@ -30,6 +30,12 @@ platforms:
   amd64:
     build-on: [amd64]
     build-for: [amd64]
+  # In --destructive-mode snapcraft builds only the platform whose build-on
+  # matches the host arch, so each runner (amd64 k150 / arm64 GitHub-hosted)
+  # builds its own native snap from this one list.
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
 
 apps:
   komai:

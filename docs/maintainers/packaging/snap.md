@@ -2,7 +2,7 @@
 
 Build Komai as a [Snap](https://snapcraft.io/) package. Snaps are containerized application packages that auto-update and run on most Linux distributions with snapd installed.
 
-All build methods produce the same output: `var/build/snap/komai_<version>_amd64.snap`.
+All build methods produce a snap for the host architecture: `var/build/snap/komai_<version>_amd64.snap` on x86_64, or `komai_<version>_arm64.snap` on arm64.
 
 ## Build methods
 

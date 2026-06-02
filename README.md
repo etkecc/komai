@@ -60,7 +60,7 @@ More screenshots are inlined on individual feature pages — see the [👤 User 
 
 ## 📥 Installation
 
-**🐧 Linux** (`x86_64`): Komai ships as **AppImage**, **Flatpak**, and **Snap** packages on the [GitHub Releases](https://github.com/etkecc/komai/releases) page, plus a [`komai`](https://aur.archlinux.org/packages/komai) package on the Arch Linux AUR.
+**🐧 Linux** (`x86_64` and `arm64`): Komai ships as **AppImage**, **Flatpak**, and **Snap** packages on the [GitHub Releases](https://github.com/etkecc/komai/releases) page, plus a [`komai`](https://aur.archlinux.org/packages/komai) package on the Arch Linux AUR.
 
 **🪟 Windows** (`x64`): a portable **ZIP** for Windows 10 (22H2+) and later is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build excludes VOIP (no voice or video calls) and isn't code-signed, so the first launch shows a SmartScreen warning that needs **More info** -> **Run anyway**.
 

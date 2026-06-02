@@ -1,6 +1,6 @@
 # 📥 Installation
 
-Komai runs on Linux (`x86_64`), Windows (`x64`), and macOS (`arm64`, Apple Silicon) desktops. We offer [pre-built packages](#pre-built-packages), [distro packages](#distro-packages) (for some distros) and the ability to [🔨 Build from source](#-build-from-source).
+Komai runs on Linux (`x86_64` and `arm64`), Windows (`x64`), and macOS (`arm64`, Apple Silicon) desktops. We offer [pre-built packages](#pre-built-packages), [distro packages](#distro-packages) (for some distros) and the ability to [🔨 Build from source](#-build-from-source).
 
 ## 📦 Pre-built packages
 
@@ -8,7 +8,7 @@ Each [GitHub release](https://github.com/etkecc/komai/releases) ships these form
 
 ### 🧳 AppImage
 
-A portable single-file bundle that runs on most x86_64 Linux distros without installation. Requires FUSE 2 (`fuse2` on Arch, `libfuse2` on Debian/Ubuntu).
+A portable single-file bundle that runs on most x86_64 and arm64 Linux distros without installation (pick the `x86_64` or `aarch64` build for your CPU). Requires FUSE 2 (`fuse2` on Arch, `libfuse2` on Debian/Ubuntu).
 
 ```sh
 # Download komai-*.AppImage from the release page, then:

@@ -1,10 +1,11 @@
 name: Publish
 
 # Fires after CI succeeds on a `v*` tag push. Builds AppImage, Flatpak,
-# and Snap bundles on the self-hosted runner plus a Windows x64
-# no-installer ZIP on a GitHub-hosted Windows runner, then creates a
-# GitHub Release with the CHANGELOG section for that version as
-# release notes and the four artefacts attached.
+# and Snap bundles for both amd64 (self-hosted k150 runner) and arm64
+# (free GitHub-hosted ubuntu-24.04-arm runner), plus a Windows x64
+# no-installer ZIP and a macOS arm64 DMG on GitHub-hosted runners, then
+# creates a GitHub Release with the CHANGELOG section for that version as
+# release notes and all artefacts attached.
 #
 # Pipeline overview, cache strategy, and design rationale:
 #   docs/architecture/ci.md
@@ -23,7 +24,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-appimage:
+  build-appimage-amd64:
     if: |
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
@@ -41,11 +42,42 @@ jobs:
       - name: Upload AppImage artefact
         uses: actions/upload-artifact@v7
         with:
-          name: komai-appimage
+          name: komai-appimage-amd64
           path: var/build/appimage/*.AppImage
           if-no-files-found: error
 
-  build-flatpak:
+  build-appimage-arm64:
+    # Free GitHub-hosted arm64 runner (the k150 self-hosted runner is
+    # amd64-only). The ubuntu:26.04 Docker base is multi-arch, so the build
+    # runs natively without QEMU. `just` is not preinstalled on GitHub-hosted
+    # runners (Docker is), so it is installed first.
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Install just
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
+            | sudo bash -s -- --to /usr/local/bin
+
+      - name: Build AppImage
+        run: just appimage-build-docker
+
+      - name: Upload AppImage artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-appimage-arm64
+          path: var/build/appimage/*.AppImage
+          if-no-files-found: error
+
+  build-flatpak-amd64:
     if: |
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
@@ -63,7 +95,7 @@ jobs:
         # writable on the runner host, flatpak-builder's whole
         # build directory lives on the dedicated cache disk: no
         # actions/cache round-trip (the state can be ~multi-GB per
-        # release). `build-flatpak` runs directly on the host (no
+        # release). `build-flatpak-amd64` runs directly on the host (no
         # `container:` block), so we wire the symlink directly to a
         # host path without needing a `volumes:` bind-mount on the
         # job. Falls back to actions/cache below if the host-mount
@@ -114,11 +146,53 @@ jobs:
       - name: Upload Flatpak artefact
         uses: actions/upload-artifact@v7
         with:
-          name: komai-flatpak
+          name: komai-flatpak-amd64
           path: var/build/flatpak/komai-*.flatpak
           if-no-files-found: error
 
-  build-snap:
+  build-flatpak-arm64:
+    # Free GitHub-hosted arm64 runner. flatpak-build runs on-host (no
+    # container), so flatpak + flatpak-builder are installed here. The
+    # k150 host-mount cache path doesn't apply, so flatpak-builder state is
+    # persisted via actions/cache instead -- keyed on the manifest hash with
+    # no restore-keys fallback (same cache-poisoning rationale as the amd64
+    # job; the arch in the key keeps it separate from the amd64 fallback
+    # cache).
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Install just, flatpak and flatpak-builder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq flatpak flatpak-builder
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
+            | sudo bash -s -- --to /usr/local/bin
+
+      - name: Cache flatpak-builder state
+        uses: actions/cache@v5
+        with:
+          path: var/build/flatpak/.flatpak-builder
+          key: flatpak-state-arm64-${{ hashFiles('etc/packaging/flatpak/cc.etke.komai.yaml') }}
+
+      - name: Build Flatpak
+        run: just flatpak-build
+
+      - name: Upload Flatpak artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-flatpak-arm64
+          path: var/build/flatpak/komai-*.flatpak
+          if-no-files-found: error
+
+  build-snap-amd64:
     if: |
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
@@ -136,11 +210,41 @@ jobs:
       - name: Upload Snap artefact
         uses: actions/upload-artifact@v7
         with:
-          name: komai-snap
+          name: komai-snap-amd64
           path: var/build/snap/komai_*.snap
           if-no-files-found: error
 
-  build-windows:
+  build-snap-arm64:
+    # Free GitHub-hosted arm64 runner. The snapcraft builder image
+    # (ghcr.io/canonical/snapcraft) is multi-arch, so snap-build-docker runs
+    # natively without QEMU. `just` is installed first (Docker is preinstalled).
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      startsWith(github.event.workflow_run.head_branch || '', 'v')
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout tagged commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Install just
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
+            | sudo bash -s -- --to /usr/local/bin
+
+      - name: Build Snap
+        run: just snap-build-docker
+
+      - name: Upload Snap artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-snap-arm64
+          path: var/build/snap/komai_*.snap
+          if-no-files-found: error
+
+  build-windows-x64:
     # Explicit OS pin matching every other dep in the repo (Qt, Rust,
     # AppImage builder image, flatpak SDK, etc.); see the
     # build-windows-zip composite for the trade-off rationale.
@@ -180,7 +284,15 @@ jobs:
         uses: ./.github/actions/build-macos-dmg
 
   release:
-    needs: [ build-appimage, build-flatpak, build-snap, build-windows, build-macos-arm64 ]
+    needs:
+      - build-appimage-amd64
+      - build-appimage-arm64
+      - build-flatpak-amd64
+      - build-flatpak-arm64
+      - build-snap-amd64
+      - build-snap-arm64
+      - build-windows-x64
+      - build-macos-arm64
     runs-on: [self-hosted, k150]
     # Runs inside the CI image so `python3` and the `gh` CLI come from
     # the image, not the host. Keeps the release-creation path
@@ -207,18 +319,22 @@ jobs:
       - name: Stage artefacts under var/build/
         # `bin/release/publish.py` looks for artefacts at the standard
         # local layout (var/build/<format>/<file>). actions/download-artifact
-        # produces them under artefacts/komai-<format>/, so symlink each
-        # directory into place. This lets the same script that drives
-        # `just release-manual-publish` locally also drive the release
-        # step here -- single source of truth for CHANGELOG extraction
-        # and the `gh release create` invocation.
+        # produces them under artefacts/<artifact-name>/. The Linux formats
+        # ship two arches each (komai-<format>-amd64 + komai-<format>-arm64),
+        # whose files have arch-distinct names, so both are copied into the
+        # single var/build/<format>/ dir. This lets the same script that
+        # drives `just release-manual-publish` locally also drive the release
+        # step here -- single source of truth for CHANGELOG extraction and
+        # the `gh release create` invocation.
         run: |
-          mkdir -p var/build
-          ln -sfn "$(pwd)/artefacts/komai-appimage"    var/build/appimage
-          ln -sfn "$(pwd)/artefacts/komai-flatpak"     var/build/flatpak
-          ln -sfn "$(pwd)/artefacts/komai-snap"        var/build/snap
-          ln -sfn "$(pwd)/artefacts/komai-windows"     var/build/windows
-          ln -sfn "$(pwd)/artefacts/komai-macos-arm64" var/build/macos
+          set -euo pipefail
+          mkdir -p var/build/appimage var/build/flatpak var/build/snap \
+                   var/build/windows var/build/macos
+          cp artefacts/komai-appimage-*/*.AppImage var/build/appimage/
+          cp artefacts/komai-flatpak-*/*.flatpak   var/build/flatpak/
+          cp artefacts/komai-snap-*/*.snap         var/build/snap/
+          cp artefacts/komai-windows/*.zip         var/build/windows/
+          cp artefacts/komai-macos-arm64/*.dmg     var/build/macos/
 
       - name: Verify tag matches VERSION.txt
         # `bin/prek/version-drift.sh` already guarantees VERSION.txt /

@@ -19,8 +19,8 @@ import time
 from _lib import (
     REPO_ROOT,
     check_tools,
-    expected_artefacts,
     fail,
+    host_linux_artefacts,
     info,
     read_version,
     run,
@@ -49,7 +49,10 @@ def main() -> int:
     run_just("snap-build-docker")
 
     info("Verifying expected artefact paths...")
-    paths = expected_artefacts(version)
+    # Only the host-arch Linux artefacts are built here; the full cross-arch
+    # publish set (incl. the other arch, Windows and macOS) is assembled by
+    # publish.yml from its per-runner build jobs.
+    paths = host_linux_artefacts(version)
     missing = [p for p in paths if not p.is_file()]
     if missing:
         fail(

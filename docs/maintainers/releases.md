@@ -67,18 +67,19 @@ They run automatically if you have the git hook installed (`just prek-install-gi
 
 ### 5. Watch the publish run
 
-Pushing the tag triggers `ci.yml` again on the tag ref. Once that goes green, [`publish.yml`](https://github.com/etkecc/komai/actions/workflows/publish.yml) fires automatically and runs four jobs serially on the self-hosted runner:
+Pushing the tag triggers `ci.yml` again on the tag ref. Once that goes green, [`publish.yml`](https://github.com/etkecc/komai/actions/workflows/publish.yml) fires automatically. Each Linux format is built for both amd64 (on the self-hosted k150 runner) and arm64 (on a free GitHub-hosted `ubuntu-24.04-arm` runner), alongside a Windows x64 ZIP and a macOS arm64 DMG on GitHub-hosted runners; a final `release` job then gathers everything:
 
-- `build-appimage` (~25–30 min cold)
-- `build-flatpak` (~40 min cold, ~7–8 min on a warm state-dir)
-- `build-snap` (~30 min cold)
-- `release` — creates the GH Release, attaches all three artefacts, uses the matching CHANGELOG section as the release body.
+- `build-appimage-amd64` / `build-appimage-arm64`
+- `build-flatpak-amd64` / `build-flatpak-arm64` (the amd64 leg reuses the warm k150 state-dir; arm64 uses `actions/cache`)
+- `build-snap-amd64` / `build-snap-arm64`
+- `build-windows-x64`, `build-macos-arm64`
+- `release` — creates the GH Release, attaches all artefacts, uses the matching CHANGELOG section as the release body.
 
-Total wall time for a cold release is roughly 1h 40m. Most of that is the packaging jobs themselves; the release-creation step itself is ~3.5 min.
+The build jobs run in parallel across their runners, so wall time is set by the slowest single job (a cold packaging build); the release-creation step itself is ~3.5 min.
 
 ### 6. Verify
 
-When `publish.yml` finishes, check the [Releases page](https://github.com/etkecc/komai/releases) — the new release should be there with three artefacts attached and the CHANGELOG section as its body. As a smoke test, download the AppImage and run it.
+When `publish.yml` finishes, check the [Releases page](https://github.com/etkecc/komai/releases) — the new release should be there with the AppImage, Flatpak and Snap bundles (amd64 + arm64), the Windows ZIP and the macOS DMG attached, and the CHANGELOG section as its body. As a smoke test, download the AppImage and run it.
 
 
 ## Manual publish (off-CI fallback)
@@ -88,11 +89,13 @@ When `publish.yml` finishes, check the [Releases page](https://github.com/etkecc
 | Recipe | What it does |
 |---|---|
 | `just release-manual-validate` | Runs eight independent gates (clean tree, HEAD on tag, tag pushed to origin, CHANGELOG section non-empty, version-drift hook clean, `gh` authed with `repo` scope, repo context resolves, no existing GitHub release for the tag). Hard-fails with a recovery hint on the first miss. |
-| `just release-manual-build` | Drives `just appimage-build-docker` / `flatpak-build` / `snap-build-docker` sequentially and verifies the expected output paths. ~15 min warm, ~50 min cold. |
+| `just release-manual-build` | Drives `just appimage-build-docker` / `flatpak-build` / `snap-build-docker` sequentially and verifies the **host-arch** Linux output paths. ~15 min warm, ~50 min cold. |
 | `just release-manual-publish` | Extracts the CHANGELOG section as release notes and runs `gh release create`. Supports `--dry-run`. |
 | `just release-manual-all` | Orchestrator: validate → build → publish in order. Supports `--dry-run`. |
 
-The underlying scripts under `bin/release/` are shared with `publish.yml`'s release job — the CI workflow calls `bin/release/publish.py` directly so the awk extraction and `gh release create` invocation have a single source of truth.
+The underlying scripts under `bin/release/` are shared with `publish.yml`'s release job — the CI workflow calls `bin/release/publish.py` directly so the CHANGELOG extraction and `gh release create` invocation have a single source of truth.
+
+Note that `release-manual-build` only builds the three Linux bundles for the machine's own architecture; `publish.py` still expects the full cross-arch set (both Linux arches, the Windows ZIP and the macOS DMG), so a complete multi-platform release is only producible via the CI `publish.yml` path. The manual fallback is for iterating on the Linux artefact pipeline or recovering when CI is unavailable, not for cutting a full release single-handedly.
 
 Prerequisites: `git`, `gh` (authenticated, `repo` scope), `just`, `docker`, `flatpak-builder`. Each recipe checks the tools it directly invokes and fails clearly if any are missing.
 

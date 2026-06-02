@@ -12,6 +12,7 @@ Imported by the per-phase entry points (``validate.py``, ``build.py``,
 
 from __future__ import annotations
 
+import platform
 import re
 import shutil
 import subprocess
@@ -65,16 +66,19 @@ def tag_for(version: str) -> str:
     return f"v{version}"
 
 
-def appimage_path(version: str) -> Path:
-    return APPIMAGE_DIR / f"komai-{version}-x86_64.AppImage"
+# The Linux artefacts ship for both amd64 and arm64. AppImage/Flatpak name
+# the arch the Linux-uname way (x86_64 / aarch64); Snap uses the Debian
+# arch (amd64 / arm64). The defaults keep the historical amd64 filenames.
+def appimage_path(version: str, arch: str = "x86_64") -> Path:
+    return APPIMAGE_DIR / f"komai-{version}-{arch}.AppImage"
 
 
-def flatpak_path(version: str) -> Path:
-    return FLATPAK_DIR / f"komai-{version}-x86_64.flatpak"
+def flatpak_path(version: str, arch: str = "x86_64") -> Path:
+    return FLATPAK_DIR / f"komai-{version}-{arch}.flatpak"
 
 
-def snap_path(version: str) -> Path:
-    return SNAP_DIR / f"komai_{version}_amd64.snap"
+def snap_path(version: str, arch: str = "amd64") -> Path:
+    return SNAP_DIR / f"komai_{version}_{arch}.snap"
 
 
 def windows_zip_path(version: str) -> Path:
@@ -86,13 +90,47 @@ def macos_dmg_path(version: str) -> Path:
 
 
 def expected_artefacts(version: str) -> list[Path]:
+    """Every artefact a full (CI) release attaches, across all arches.
+
+    This is the set ``publish.py`` verifies and uploads; the build jobs in
+    ``publish.yml`` produce them on their respective runners. Local
+    single-machine builds only produce the host-arch Linux subset -- see
+    ``host_linux_artefacts``.
+    """
     return [
-        appimage_path(version),
-        flatpak_path(version),
-        snap_path(version),
+        appimage_path(version, "x86_64"),
+        appimage_path(version, "aarch64"),
+        flatpak_path(version, "x86_64"),
+        flatpak_path(version, "aarch64"),
+        snap_path(version, "amd64"),
+        snap_path(version, "arm64"),
         windows_zip_path(version),
         macos_dmg_path(version),
     ]
+
+
+def host_linux_artefacts(version: str) -> list[Path]:
+    """The three Linux artefacts ``release-manual-build`` produces locally.
+
+    Only the host architecture is built (the Docker/flatpak recipes target
+    the host), so this returns the AppImage/Flatpak/Snap paths for the
+    machine's own arch rather than the full cross-arch publish set.
+    """
+    machine = platform.machine()
+    if machine in ("x86_64", "AMD64"):
+        return [
+            appimage_path(version, "x86_64"),
+            flatpak_path(version, "x86_64"),
+            snap_path(version, "amd64"),
+        ]
+    if machine in ("aarch64", "arm64"):
+        return [
+            appimage_path(version, "aarch64"),
+            flatpak_path(version, "aarch64"),
+            snap_path(version, "arm64"),
+        ]
+    fail(f"unsupported host architecture for local release build: {machine!r}")
+    return []  # unreachable; fail() exits
 
 
 def extract_changelog_section(version: str) -> str:

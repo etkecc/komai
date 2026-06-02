@@ -56,9 +56,8 @@ jobs:
     # runner is amd64-only. The Docker base image (ubuntu:26.04) is multi-arch,
     # so `appimage-build-docker` runs natively on the arm64 host -- no QEMU.
     # `just` is not preinstalled on GitHub-hosted runners (Docker is), so it is
-    # installed first. Opt-in only for now (not part of `all`) while the arm64
-    # path is being trialled; fold into `all` once it is proven green.
-    if: inputs.format == 'appimage-arm64'
+    # installed first.
+    if: inputs.format == 'all' || inputs.format == 'appimage-arm64'
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
@@ -103,10 +102,8 @@ jobs:
     # recipe adds the flathub --user remote and pulls the aarch64
     # org.kde.Platform/Sdk via --install-deps-from=flathub, and already uses
     # --disable-rofiles-fuse + --user so it works in CI without polkit/fuse.
-    # `just` is not preinstalled on GitHub-hosted runners. Opt-in only for now
-    # (not part of `all`) while the arm64 path is being trialled; fold into
-    # `all` once it is proven green.
-    if: inputs.format == 'flatpak-arm64'
+    # `just` is not preinstalled on GitHub-hosted runners.
+    if: inputs.format == 'all' || inputs.format == 'flatpak-arm64'
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
@@ -151,9 +148,8 @@ jobs:
     # The snapcraft builder image (ghcr.io/canonical/snapcraft) is multi-arch,
     # so `snap-build-docker` runs natively on the arm64 host -- no QEMU. `just`
     # is not preinstalled on GitHub-hosted runners (Docker is), so it is
-    # installed first. Opt-in only for now (not part of `all`) while the arm64
-    # path is being trialled; fold into `all` once it is proven green.
-    if: inputs.format == 'snap-arm64'
+    # installed first.
+    if: inputs.format == 'all' || inputs.format == 'snap-arm64'
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout

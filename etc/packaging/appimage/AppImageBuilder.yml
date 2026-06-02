@@ -18,16 +18,21 @@ AppDir:
     exec_args: $@
   runtime:
     env:
-      APPDIR_LIBRARY_PATH: $APPDIR/usr/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer-1.0:$APPDIR/usr/lib/x86_64-linux-gnu/gconv:$APPDIR/usr/lib/x86_64-linux-gnu/libproxy:$APPDIR/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu/pulseaudio
+      APPDIR_LIBRARY_PATH: $APPDIR/usr/lib/@LIB_TUPLE@:$APPDIR/usr/lib/@LIB_TUPLE@/gstreamer-1.0:$APPDIR/usr/lib/@LIB_TUPLE@/gconv:$APPDIR/usr/lib/@LIB_TUPLE@/libproxy:$APPDIR/lib/@LIB_TUPLE@:$APPDIR/usr/lib/@LIB_TUPLE@/pulseaudio
   apt:
-    arch: amd64
+    # The apt arch, mirror, library tuple and AppImage runtime arch below are
+    # placeholders filled in per host architecture by
+    # etc/packaging/appimage/bin/build-native (x86_64 -> amd64/archive.ubuntu.com,
+    # aarch64 -> arm64/ports.ubuntu.com). Quoted so the unrendered template
+    # stays valid YAML (a bare leading `@` is a reserved indicator).
+    arch: "@APT_ARCH@"
     allow_unauthenticated: true
     sources:
-    - sourceline: deb http://archive.ubuntu.com/ubuntu/ resolute main restricted universe multiverse
+    - sourceline: deb @APT_MIRROR@ resolute main restricted universe multiverse
       key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
-    - sourceline: deb http://archive.ubuntu.com/ubuntu/ resolute-updates main restricted universe multiverse
+    - sourceline: deb @APT_MIRROR@ resolute-updates main restricted universe multiverse
       key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
-    - sourceline: deb http://archive.ubuntu.com/ubuntu/ resolute-security main restricted universe multiverse
+    - sourceline: deb @APT_MIRROR@ resolute-security main restricted universe multiverse
       key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
     include:
     - ca-certificates
@@ -138,6 +143,6 @@ AppDir:
       command: ./AppRun
       use_host_x: true
 AppImage:
-  arch: x86_64
+  arch: "@APPIMAGE_ARCH@"
   update-information: None
   sign-key: None

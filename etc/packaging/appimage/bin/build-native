@@ -69,6 +69,29 @@ appimage_dir="${APPIMAGE_WORK_DIR:-/tmp/komai-appimage}"
 komai_version="$(cat "$src_dir/VERSION.txt" | tr -d '[:space:]')"
 host_arch="$(uname -m)"
 
+# Map the host architecture to the arch-specific values the AppImageBuilder
+# recipe needs: the apt arch, the apt mirror (amd64/i386 live on
+# archive.ubuntu.com, every other port lives on ports.ubuntu.com), the
+# multiarch library tuple, and the appimagetool runtime arch.
+case "$host_arch" in
+    x86_64)
+        apt_arch="amd64"
+        apt_mirror="http://archive.ubuntu.com/ubuntu/"
+        lib_tuple="x86_64-linux-gnu"
+        appimage_arch="x86_64"
+        ;;
+    aarch64)
+        apt_arch="arm64"
+        apt_mirror="http://ports.ubuntu.com/ubuntu-ports/"
+        lib_tuple="aarch64-linux-gnu"
+        appimage_arch="aarch64"
+        ;;
+    *)
+        echo "ERROR: unsupported architecture '$host_arch' (expected x86_64 or aarch64)." >&2
+        exit 1
+        ;;
+esac
+
 echo "=== Configuring build ==="
 cmake -GNinja -H"$src_dir" -B"$build_dir" \
     -DCMAKE_INSTALL_PREFIX=/usr \
@@ -86,9 +109,15 @@ echo "=== Installing to AppDir ==="
 mkdir -p "$appimage_dir"
 DESTDIR="$appimage_dir/AppDir" cmake --install "$build_dir"
 
-echo "=== Packaging AppImage ==="
-# Inject the version from the VERSION.txt file into the AppImageBuilder recipe
-sed "s/version: latest/version: $komai_version/" \
+echo "=== Packaging AppImage ($host_arch) ==="
+# Inject the version from VERSION.txt and the arch-specific values derived
+# above into the AppImageBuilder recipe template. The mirror substitution
+# uses a `|` delimiter because the URL contains slashes.
+sed -e "s/version: latest/version: $komai_version/" \
+    -e "s|@APT_MIRROR@|$apt_mirror|g" \
+    -e "s/@APT_ARCH@/$apt_arch/g" \
+    -e "s/@LIB_TUPLE@/$lib_tuple/g" \
+    -e "s/@APPIMAGE_ARCH@/$appimage_arch/g" \
     "$src_dir/etc/packaging/appimage/AppImageBuilder.yml" > "$appimage_dir/AppImageBuilder.yml"
 cd "$appimage_dir"
 appimage-builder --skip-test --recipe AppImageBuilder.yml

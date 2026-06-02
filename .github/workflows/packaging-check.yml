@@ -1,11 +1,12 @@
 name: Packaging check
 
 # Manually-triggered sanity check for the AppImage / Flatpak / Snap / Windows
-# build recipes. Linux jobs run on the self-hosted k150 runner; the Windows
-# job runs on a GitHub-hosted windows-2025-vs2026 image. Used to iterate on
-# each packaging format independently before relying on it from publish.yml,
-# and kept long-term for periodic runtime/SDK drift checks (e.g. Flathub
-# KDE bumps).
+# build recipes. The amd64 Linux jobs run on the self-hosted k150 runner; arm64
+# Linux jobs run on a GitHub-hosted ubuntu-24.04-arm image (free for public
+# repos), and the Windows job on a GitHub-hosted windows-2025-vs2026 image.
+# Used to iterate on each packaging format independently before relying on it
+# from publish.yml, and kept long-term for periodic runtime/SDK drift checks
+# (e.g. Flathub KDE bumps).
 
 on:
   workflow_dispatch:
@@ -17,6 +18,7 @@ on:
         options:
           - all
           - appimage
+          - appimage-arm64
           - flatpak
           - snap
           - macos-arm64
@@ -44,6 +46,34 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: komai-appimage
+          path: var/build/appimage/*.AppImage
+          if-no-files-found: error
+
+  appimage-arm64:
+    # GitHub-hosted arm64 runner (free for public repos); the k150 self-hosted
+    # runner is amd64-only. The Docker base image (ubuntu:26.04) is multi-arch,
+    # so `appimage-build-docker` runs natively on the arm64 host -- no QEMU.
+    # `just` is not preinstalled on GitHub-hosted runners (Docker is), so it is
+    # installed first. Opt-in only for now (not part of `all`) while the arm64
+    # path is being trialled; fold into `all` once it is proven green.
+    if: inputs.format == 'appimage-arm64'
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install just
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
+            | sudo bash -s -- --to /usr/local/bin
+
+      - name: Build AppImage
+        run: just appimage-build-docker
+
+      - name: Upload AppImage artefact
+        uses: actions/upload-artifact@v7
+        with:
+          name: komai-appimage-arm64
           path: var/build/appimage/*.AppImage
           if-no-files-found: error
 

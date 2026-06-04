@@ -4050,12 +4050,12 @@ dependencies = [
 
 [[package]]
 name = "spellbook"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "009112b36a0967e851cc65805ac5905684c3e3ff2cd9af82ada329f0add55263"
+checksum = "0d204abcbdf8e88729306a8d0ca01a79d8a49969fe1f84696909d6dbc4321c1a"
 dependencies = [
- "foldhash 0.2.0",
- "hashbrown 0.17.0",
+ "foldhash 0.1.5",
+ "hashbrown 0.15.5",
 ]
 
 [[package]]

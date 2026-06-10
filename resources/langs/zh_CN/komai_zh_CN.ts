@@ -3602,7 +3602,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>输入消息，或按 ↑ 选择消息。</translation>
     </message>
@@ -3612,7 +3612,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>消息</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>贴纸</translation>
     </message>
@@ -3627,7 +3627,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>发送 [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>你没有在此聊天室发送消息的权限</translation>
     </message>

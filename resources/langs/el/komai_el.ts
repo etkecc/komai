@@ -3607,7 +3607,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Γράψτε ένα μήνυμα ή πατήστε ↑ για να επιλέξετε μηνύματα.</translation>
     </message>
@@ -3617,7 +3617,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Μήνυμα</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Αυτοκόλλητα</translation>
     </message>
@@ -3632,7 +3632,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Αποστολή [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Δεν έχετε άδεια αποστολής μηνυμάτων σε αυτό το δωμάτιο</translation>
     </message>

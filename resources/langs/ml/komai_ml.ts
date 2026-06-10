@@ -3607,7 +3607,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ ↑ അമർത്തുക.</translation>
     </message>
@@ -3617,7 +3617,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>സന്ദേശം</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>
@@ -3632,7 +3632,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>അയക്കുക [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>ഈ മുറിയിൽ സന്ദേശങ്ങൾ അയക്കാൻ നിങ്ങൾക്ക് അനുമതി ഇല്ല</translation>
     </message>

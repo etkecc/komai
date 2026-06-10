@@ -3612,7 +3612,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Напиши сообщение или нажми ↑, чтобы выбрать сообщения.</translation>
     </message>
@@ -3622,7 +3622,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Сообщение</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Стикеры</translation>
     </message>
@@ -3637,7 +3637,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Отправить [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>У вас нет прав для отправления сообщений в этой комнате</translation>
     </message>

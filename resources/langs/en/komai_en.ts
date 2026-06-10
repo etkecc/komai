@@ -3601,7 +3601,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation type="unfinished"/>
     </message>
@@ -3611,7 +3611,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>
@@ -3626,7 +3626,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>You don't have permission to send messages in this room</translation>
     </message>

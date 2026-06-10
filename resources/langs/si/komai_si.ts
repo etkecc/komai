@@ -3607,7 +3607,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>පණිවිඩයක් ලියන්න, හෝ පණිවිඩ තේරීමට ↑ ඔබන්න.</translation>
     </message>
@@ -3617,7 +3617,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>පණිවිඩය</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>ස්ටිකර</translation>
     </message>
@@ -3632,7 +3632,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>යවන්න [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>මෙම කාමරයේ පණිවිඩ යැවීමට ඔබට අවසර නැත</translation>
     </message>

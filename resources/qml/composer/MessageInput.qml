@@ -265,7 +265,36 @@ Rectangle {
         }
     }
     readonly property int minimumBarHeight: Math.max(48, Komai.navigationRowHeight)
-    readonly property bool composerExpanded: textInput.targetTextAreaHeight > textInput.singleLineHeight
+    readonly property bool composerExpanded: textInput.effectiveTextAreaHeight > textInput.singleLineHeight
+
+    // ── Per-room input-area resize state ───────────────────────────────
+    // The composer is a single instance reused across tabs; `room` rebinds
+    // when the user switches rooms. A drag-resize of the input area should:
+    //   - survive switching tabs and coming back;
+    //   - not bleed across rooms.
+    // Modelled as a roomId → desired textarea height (px) map. 0 / no entry
+    // means "no user preference": the textarea sizes to its content exactly
+    // as before. The desired height acts as a floor — content taller than it
+    // still grows (and scrolls) the same way it does today. No persistence
+    // to disk — app exit drops the map.
+    property var _inputResizeByRoom: ({})
+    readonly property string _inputResizeRoomKey: room ? String(room.roomId || "") : ""
+    readonly property real userDesiredInputHeight: _inputResizeRoomKey.length > 0
+        ? (_inputResizeByRoom[_inputResizeRoomKey] || 0)
+        : 0
+    readonly property real maxUserInputHeight: Math.max(0,
+        (inputBar.Window.window
+            ? inputBar.Window.window.height * 0.5
+            : 400))
+
+    function _setUserDesiredInputHeight(value) {
+        if (_inputResizeRoomKey.length === 0)
+            return;
+        const clamped = Math.max(0, Math.min(maxUserInputHeight, value));
+        const newMap = Object.assign({}, _inputResizeByRoom);
+        newMap[_inputResizeRoomKey] = clamped;
+        _inputResizeByRoom = newMap;
+    }
     readonly property bool commandPickerVisible: popup.opened && completer.completerType === "command"
     readonly property int permissionsRevision: room && room.permissions ? room.permissions.revision : 0
     readonly property bool canSendCurrentRoom: {
@@ -1029,6 +1058,11 @@ Rectangle {
             readonly property int singleLineHeight: Math.ceil(fontMetrics.lineSpacing + messageInput.topPadding + messageInput.bottomPadding)
             readonly property int targetTextAreaHeight: Math.max(singleLineHeight,
                                                                  Math.ceil(messageInput.contentHeight + messageInput.topPadding + messageInput.bottomPadding))
+            // User drag-resize floor (re-clamped at read time so a window
+            // shrink after the drag can't leave the composer oversized).
+            readonly property int userDesiredHeight: Math.ceil(Math.min(inputBar.userDesiredInputHeight,
+                                                                        inputBar.maxUserInputHeight))
+            readonly property int effectiveTextAreaHeight: Math.max(targetTextAreaHeight, userDesiredHeight)
             readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
             readonly property bool hasVerticalOverflow: targetTextAreaHeight > height
             readonly property bool scrollbarVisible: {
@@ -1055,9 +1089,12 @@ Rectangle {
                 : ScrollBar.vertical.implicitWidth
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
-            Layout.maximumHeight: Window.height / 4
-            Layout.minimumHeight: visible ? targetTextAreaHeight : 0
-            Layout.preferredHeight: visible ? targetTextAreaHeight : 0
+            // Content alone still caps at a quarter of the window; a user
+            // drag-resize may push the cap further (userDesiredHeight is
+            // already clamped to half the window).
+            Layout.maximumHeight: Math.max(inputBar.Window.height / 4, userDesiredHeight)
+            Layout.minimumHeight: visible ? effectiveTextAreaHeight : 0
+            Layout.preferredHeight: visible ? effectiveTextAreaHeight : 0
             visible: !inputBar.hasVoiceRecording
             // Fade out (rather than hide) during uploads so Layout.fillWidth
             // stays active and the button row doesn't redistribute; the draft
@@ -1066,7 +1103,7 @@ Rectangle {
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             contentWidth: availableWidth
-            implicitHeight: targetTextAreaHeight
+            implicitHeight: effectiveTextAreaHeight
             padding: 0
 
             TextArea {
@@ -1327,8 +1364,16 @@ Rectangle {
                 // selection that was just visible.
                 persistentSelection: true
                 topPadding: Komai.composerTextAreaPadding
-                verticalAlignment: TextEdit.AlignVCenter
-                implicitHeight: textInput.targetTextAreaHeight
+                // When the user has dragged the input area taller than its
+                // content, pin the text to the top (centred text floating in
+                // the middle of a tall empty editor reads wrong). The default
+                // content-sized state keeps its centred single-line look.
+                verticalAlignment: textInput.effectiveTextAreaHeight > textInput.targetTextAreaHeight
+                    ? TextEdit.AlignTop
+                    : TextEdit.AlignVCenter
+                // Fill the viewport when drag-resized taller than the content
+                // so clicks in the extra space still land in the editor.
+                implicitHeight: textInput.effectiveTextAreaHeight
                 width: textInput.width
                 wrapMode: TextEdit.Wrap
 
@@ -1350,7 +1395,9 @@ Rectangle {
                         : messageInput.leftPadding
                     y: messageInput.topPadding
                     z: 1
-                    verticalAlignment: Text.AlignVCenter
+                    verticalAlignment: messageInput.verticalAlignment === TextEdit.AlignTop
+                        ? Text.AlignTop
+                        : Text.AlignVCenter
                     visible: messageInput.length === 0 && !messageInput.inputMethodComposing
                 }
 
@@ -2120,6 +2167,54 @@ Rectangle {
             }
         }
     }
+
+    // ── Top-edge resize handle ──
+    // A thin grab strip at the top edge of the input bar (right under the
+    // separator line). Dragging it up grows the input area so long
+    // multi-paragraph drafts can be read at a glance; dragging back down
+    // shrinks toward the natural content-driven size. Modelled on the
+    // "Replying to ..." popup's resize strip — no visible affordance beyond
+    // the cursor change. Taps pass through to the textarea underneath; the
+    // handler only grabs once an actual drag starts.
+    Item {
+        id: inputResizeStrip
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: 8
+        z: 10
+        visible: row.visible && textInput.visible && !inputBar.hasUploads
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.SizeVerCursor
+        }
+
+        DragHandler {
+            id: inputResizeDrag
+
+            property real startHeight: 0
+
+            target: null
+            xAxis.enabled: false
+            yAxis.enabled: true
+            grabPermissions: PointerHandler.CanTakeOverFromAnything
+                | PointerHandler.ApprovesTakeOverByHandlersOfSameType
+
+            onActiveChanged: {
+                if (active)
+                    startHeight = textInput.height;
+            }
+            onTranslationChanged: {
+                if (!active)
+                    return;
+                // Dragging up (translation.y < 0) grows the input area.
+                inputBar._setUserDesiredInputHeight(startHeight - translation.y);
+            }
+        }
+    }
+
     Label {
         anchors.centerIn: parent
         color: palette.buttonText

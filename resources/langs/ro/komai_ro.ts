@@ -3612,7 +3612,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
@@ -3622,7 +3622,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>
@@ -3637,7 +3637,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Trimite [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Nu ai permisiunea de a trimite mesaje în această cameră</translation>
     </message>

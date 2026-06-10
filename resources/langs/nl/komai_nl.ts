@@ -3607,7 +3607,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Schrijf een bericht, of druk op ↑ om berichten te selecteren.</translation>
     </message>
@@ -3617,7 +3617,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Bericht</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Stickers</translation>
     </message>
@@ -3632,7 +3632,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Verzenden [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Je hebt geen toestemming om berichten te versturen in deze kamer</translation>
     </message>

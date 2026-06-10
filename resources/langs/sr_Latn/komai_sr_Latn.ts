@@ -3612,7 +3612,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Napiši poruku, ili pritisni ↑ da izabereš poruke.</translation>
     </message>
@@ -3622,7 +3622,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Poruka</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Nalepnice</translation>
     </message>
@@ -3637,7 +3637,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Pošalji [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Nemaš dozvolu za slanje poruka u ovoj sobi</translation>
     </message>

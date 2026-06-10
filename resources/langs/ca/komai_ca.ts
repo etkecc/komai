@@ -3607,7 +3607,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Escriu un missatge, o prem ↑ per seleccionar missatges.</translation>
     </message>
@@ -3617,7 +3617,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Missatge</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Adhesius</translation>
     </message>
@@ -3632,7 +3632,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Envia [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>No tens permís per enviar missatges en aquesta sala</translation>
     </message>

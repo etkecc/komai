@@ -3610,7 +3610,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Escribe un mensaje o pulsa ↑ para seleccionar mensajes.</translation>
     </message>
@@ -3620,7 +3620,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Mensaje</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Pegatinas</translation>
     </message>
@@ -3635,7 +3635,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Enviar [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>No tienes permisos para enviar mensajes en esta sala</translation>
     </message>

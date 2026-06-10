@@ -3607,7 +3607,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Skriv ett meddelande, eller tryck ↑ för att markera meddelanden.</translation>
     </message>
@@ -3617,7 +3617,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Meddelande</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Klistermärken</translation>
     </message>
@@ -3632,7 +3632,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Skicka [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Du har inte behörighet att skicka meddelanden i det här rummet</translation>
     </message>

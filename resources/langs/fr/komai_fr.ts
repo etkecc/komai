@@ -3607,7 +3607,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Écrivez un message, ou appuyez sur ↑ pour sélectionner des messages.</translation>
     </message>
@@ -3617,7 +3617,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>
@@ -3632,7 +3632,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Envoyer [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Vous n'avez pas l'autorisation d'envoyer des messages dans ce salon</translation>
     </message>

@@ -3607,7 +3607,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Kirjuta sõnum või vajuta ↑, et valida sõnumeid.</translation>
     </message>
@@ -3617,7 +3617,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Sõnum</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Kleepsud</translation>
     </message>
@@ -3632,7 +3632,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Saada [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Sul puuduvad selles jututoas õigused sõnumite saatmiseks</translation>
     </message>

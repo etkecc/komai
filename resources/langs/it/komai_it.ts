@@ -3607,7 +3607,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1084"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scrivi un messaggio, o premi ↑ per selezionare i messaggi.</translation>
     </message>
@@ -3617,7 +3617,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Messaggio</translation>
     </message>
     <message>
-        <location line="+701"/>
+        <location line="+711"/>
         <source>Stickers</source>
         <translation>Sticker</translation>
     </message>
@@ -3632,7 +3632,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Invia [%1]</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+107"/>
         <source>You don't have permission to send messages in this room</source>
         <translation>Non hai i permessi per inviare messaggi in questa stanza</translation>
     </message>

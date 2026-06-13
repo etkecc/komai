@@ -442,6 +442,48 @@ deleteSecureValueAsync(const QString &key,
           failedSecureBackendResult(QStringLiteral("Failed to queue secure backend delete task")));
 }
 
+namespace {
+
+// A read-only probe only proves the Secret Service answers queries, not that it
+// can durably persist one. A keyring that is present but locked or otherwise
+// unwritable (common on minimal Linux sessions with no auto-unlock) answers a
+// read for a missing key with EntryNotFound yet silently drops writes. Treating
+// that as "available" leaves the matrix-sdk store passphrase un-persisted, so a
+// later launch regenerates it and can no longer decrypt the store. Verify a full
+// write / read-back / delete cycle instead, and require the value to round-trip.
+bool
+probeSecureBackendRoundTrip()
+{
+    const QString probeKey   = QStringLiteral("komai.secure_backend_probe");
+    const QString probeValue = QStringLiteral("komai.secure_backend_probe.v1");
+
+    const auto writeResult = writeSecureValueResultBlocking(probeKey, probeValue);
+    if (!writeResult.ok()) {
+        activeLoggers().db->warn("Secure backend availability probe failed on write: {} ({})",
+                                 writeResult.errorCode,
+                                 writeResult.errorString.toStdString());
+        return false;
+    }
+
+    const auto readResult      = readSecureValueResult(probeKey);
+    const bool readBackMatches = readResult.ok() && readResult.value == probeValue;
+
+    // Best-effort cleanup so the sentinel does not linger in the keyring.
+    (void)deleteSecureValueResultBlocking(probeKey);
+
+    if (!readBackMatches) {
+        activeLoggers().db->warn("Secure backend availability probe failed on read-back: {} ({})",
+                                 readResult.errorCode,
+                                 readResult.errorString.toStdString());
+        return false;
+    }
+
+    activeLoggers().db->info("Secure backend availability probe: available");
+    return true;
+}
+
+} // namespace
+
 bool
 isSecureBackendAvailable()
 {
@@ -460,16 +502,10 @@ isSecureBackendAvailable()
         return false;
     }
 
-    const auto result = readSecureValueResult(QStringLiteral("komai.secure_backend_probe"));
-    if (result.ok() || result.missing()) {
-        activeLoggers().db->info("Secure backend availability probe: available");
-        return true;
-    }
-
-    activeLoggers().db->warn("Secure backend availability probe failed: {} ({})",
-                             result.errorCode,
-                             result.errorString.toStdString());
-    return false;
+    // Cache the round-trip result for the process: the probe writes to the keyring
+    // (which may prompt for unlock), so we only want to run it once per launch.
+    static const bool available = probeSecureBackendRoundTrip();
+    return available;
 }
 
 } // namespace settings::storage

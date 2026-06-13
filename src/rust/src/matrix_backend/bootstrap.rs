@@ -93,6 +93,48 @@ pub async fn build_client(
     builder.build().await
 }
 
+/// When a client build failed because the on-disk store cipher could not be
+/// initialized, returns a clear, user-facing explanation with a hint on how to
+/// recover. Returns `None` for every other error so callers keep their generic
+/// formatting.
+///
+/// matrix-sdk's SQLite store is sealed with a random passphrase we persist
+/// out-of-band (OS keyring, or a profile-local file when no keyring is
+/// available). If that passphrase cannot be read back — most often because the
+/// system keyring / Secret Service was locked or unavailable when the session
+/// was first stored — the store can no longer be decrypted and the build fails
+/// with an `aead` error. We deliberately do NOT delete the store on the user's
+/// behalf: the passphrase may merely be temporarily unreadable (a locked
+/// keyring), and wiping would destroy a still-recoverable session. Instead we
+/// tell the user what happened and how to recover.
+pub fn store_cipher_failure_hint(
+    error: &ClientBuildError,
+    paths: &DerivedMatrixSdkPaths,
+) -> Option<String> {
+    if !is_store_cipher_init_failure(error) {
+        return None;
+    }
+
+    Some(format!(
+        "The local encrypted store could not be opened because its secret key could not be \
+         read. This usually means your system keyring (Secret Service) was locked or \
+         unavailable when this session was set up. Unlock your keyring or password manager \
+         and try again. As a last resort — this discards locally cached encryption keys and \
+         requires signing in again — remove the Matrix store directory: {}",
+        paths.matrix_data_root
+    ))
+}
+
+/// True when the client failed to build because the on-disk store cipher could
+/// not be initialized — i.e. the supplied passphrase does not match the one the
+/// store was sealed with (or the cipher record is otherwise unreadable). Matched
+/// on the rendered error so we do not take a direct dependency on the sqlite
+/// store crate just to name one error variant; the wording comes from
+/// `matrix_sdk_sqlite::OpenStoreError::InitCipher`.
+fn is_store_cipher_init_failure(error: &ClientBuildError) -> bool {
+    error.to_string().contains("initialize the store cipher")
+}
+
 pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview, String> {
     let Some(restored) = restore_client(profile_id).await? else {
         return Ok(MatrixRestorePreview {
@@ -143,7 +185,10 @@ pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBac
         &paths,
     )
     .await
-    .map_err(|e| format!("failed to build matrix-sdk client for restore: {e}"))?;
+    .map_err(|e| {
+        store_cipher_failure_hint(&e, &paths)
+            .unwrap_or_else(|| format!("failed to build matrix-sdk client for restore: {e}"))
+    })?;
 
     configure_session_callbacks(
         &client,

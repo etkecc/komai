@@ -57,9 +57,7 @@ pub async fn start_oauth_login(
         "Starting OAuth login"
     );
 
-    let client = build_oauth_login_client(profile_id, homeserver_url, verify_certificates)
-        .await
-        .map_err(|e| format!("failed to build matrix-sdk OAuth client: {e}"))?;
+    let client = build_oauth_login_client(profile_id, homeserver_url, verify_certificates).await?;
     let redirect_uri =
         Url::parse(redirect_url).map_err(|e| format!("invalid OAuth redirect URL: {e}"))?;
     let registration_data = oauth_client_registration_data(&redirect_uri)?;
@@ -192,7 +190,7 @@ pub(super) async fn build_oauth_login_client(
     profile_id: &str,
     homeserver_url: &str,
     verify_certificates: bool,
-) -> Result<Client, ClientBuildError> {
+) -> Result<Client, String> {
     let store_passphrase = bootstrap::ensure_store_passphrase(profile_id);
     let paths = derive_matrix_sdk_paths(
         &crate::ffi::matrix_profile_data_root(profile_id),
@@ -208,4 +206,8 @@ pub(super) async fn build_oauth_login_client(
         &paths,
     )
     .await
+    .map_err(|error| {
+        bootstrap::store_cipher_failure_hint(&error, &paths)
+            .unwrap_or_else(|| format!("failed to build matrix-sdk OAuth client: {error}"))
+    })
 }

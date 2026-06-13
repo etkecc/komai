@@ -168,6 +168,25 @@ function openCatalogDialog(componentUrl, properties) {
         componentCatalog: componentCatalog
         timelineRoot: rootTimeline
     }
+    // Throwaway entry point for the Element Call QtWebEngine build spike (M2).
+    // The source only exists in -DELEMENT_CALL=ON builds; the Loader stays inert
+    // otherwise. Both this and ElementCallSpike.qml go away once the real call UI lands.
+    Loader {
+        id: elementCallSpikeLoader
+
+        active: false
+        source: "qrc:/resources/qml/voip/ElementCallSpike.qml"
+        onLoaded: item.show()
+    }
+    Shortcut {
+        sequence: "Ctrl+Alt+E"
+        onActivated: {
+            if (!elementCallSpikeLoader.active)
+                elementCallSpikeLoader.active = true;
+            else if (elementCallSpikeLoader.item)
+                elementCallSpikeLoader.item.show();
+        }
+    }
     RootEventRouter {
         componentCatalog: componentCatalog
         timelineRoot: rootTimeline

@@ -1338,6 +1338,14 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     </message>
 </context>
 <context>
+    <name>ElementCallSpike</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallSpike.qml" line="+19"/>
+        <source>Element Call build spike</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>EmojiVerification</name>
     <message>
         <location filename="../../qml/device-verification/EmojiVerification.qml" line="+13"/>
@@ -4544,7 +4552,7 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+175"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Uruchom z podanym profilem. Nowy profil jest tworzony automatycznie, jeśli jeszcze nie istnieje. Wiele profili umożliwia korzystanie z oddzielnych kont i jednoczesnych instancji. Dozwolone niepuste identyfikatory profili: pierwszy znak A-Z, a-z lub '_'; pozostałe znaki A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

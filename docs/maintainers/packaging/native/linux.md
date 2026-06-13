@@ -75,6 +75,15 @@ Each plugin is load-bearing: `gst-plugins-bad` provides `webrtcbin`
 calls fail to render), and `gst-plugin-pipewire` provides `pipewiresrc`
 for Wayland screen-share capture.
 
+For Element Call (skip if you pass `-DELEMENT_CALL=OFF`):
+
+```sh
+sudo pacman -S --needed --asdeps qt6-webengine
+```
+
+Element Call (MatrixRTC group calls) is hosted in a QtWebEngine view, so
+`qt6-webengine` is required to build and run it.
+
 ### Debian 13+ / Ubuntu 24.04+
 
 ```sh
@@ -93,6 +102,12 @@ sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
     gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
     gstreamer1.0-plugins-bad gstreamer1.0-nice gstreamer1.0-qt6 \
     gstreamer1.0-pipewire
+```
+
+For Element Call (skip if you pass `-DELEMENT_CALL=OFF`):
+
+```sh
+sudo apt install -y qt6-webengine-dev qt6-webengine-dev-tools qml6-module-qtwebengine
 ```
 
 If your distro's `cargo`/`rustc` doesn't match the pin in

@@ -19,6 +19,15 @@ AppDir:
   runtime:
     env:
       APPDIR_LIBRARY_PATH: $APPDIR/usr/lib/@LIB_TUPLE@:$APPDIR/usr/lib/@LIB_TUPLE@/gstreamer-1.0:$APPDIR/usr/lib/@LIB_TUPLE@/gconv:$APPDIR/usr/lib/@LIB_TUPLE@/libproxy:$APPDIR/lib/@LIB_TUPLE@:$APPDIR/usr/lib/@LIB_TUPLE@/pulseaudio
+      # QtWebEngine (Element Call). The compiled-in /usr prefix does not resolve
+      # inside a relocated AppImage, so point Chromium at the bundled helper,
+      # resource paks and locale paks explicitly. The Chromium sandbox needs a
+      # setuid helper or unprivileged user namespaces, neither reliable from an
+      # AppImage mount, so disable it (the app already runs unconfined).
+      QTWEBENGINEPROCESS_PATH: $APPDIR/usr/lib/qt6/libexec/QtWebEngineProcess
+      QTWEBENGINE_RESOURCES_PATH: $APPDIR/usr/share/qt6/resources
+      QTWEBENGINE_LOCALES_PATH: $APPDIR/usr/share/qt6/translations/qtwebengine_locales
+      QTWEBENGINE_DISABLE_SANDBOX: '1'
   apt:
     # The apt arch, mirror, library tuple and AppImage runtime arch below are
     # placeholders filled in per host architecture by
@@ -70,6 +79,16 @@ AppDir:
     - qml6-module-qtcore
     - qml6-module-qt-labs-platform
     - qml6-module-qt-labs-settings
+
+    # QtWebEngine (for Element Call). libqt6webenginecore6-bin ships the
+    # QtWebEngineProcess helper; libqt6webengine6-data ships the Chromium
+    # resource paks, icudtl.dat and locale paks; qml6-module-qtwebengine ships
+    # the QML plugin. appimage-builder pulls their transitive deps (nss, etc.).
+    - libqt6webenginecore6
+    - libqt6webenginecore6-bin
+    - libqt6webenginequick6
+    - qml6-module-qtwebengine
+    - libqt6webengine6-data
 
     # Application runtime dependencies
     - libqt6keychain1

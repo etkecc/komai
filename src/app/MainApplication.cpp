@@ -69,6 +69,10 @@
 #include "voip/CallDevices.h"
 #endif
 
+#ifdef ELEMENT_CALL_AVAILABLE
+#include <QtWebEngineQuick>
+#endif
+
 #ifdef QML_DEBUGGING
 #include <QQmlDebuggingEnabler>
 QQmlTriviallyDestructibleDebuggingEnabler enabler;
@@ -119,6 +123,12 @@ app::runMainApplication(int argc, char *argv[])
             matrixUri = arg;
         }
     }
+
+#ifdef ELEMENT_CALL_AVAILABLE
+    // Must run before the QApplication is constructed and before any QML engine
+    // or WebEngineView is created; it sets up the shared OpenGL context Chromium needs.
+    QtWebEngineQuick::initialize();
+#endif
 
     QApplication app(argc, argv);
 

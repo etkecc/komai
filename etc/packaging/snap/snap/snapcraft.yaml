@@ -8,6 +8,10 @@
 # The kde-neon-6 extension provides the Qt 6.7+ runtime and SDK via content
 # snaps, so Qt libraries are NOT listed in build-packages or stage-packages.
 # Only non-Qt dependencies (GStreamer, QtKeychain, libsecret, etc.) are bundled.
+# This includes QtWebEngine (for Element Call): the kde-qt6-core24 content snap
+# ships libQt6WebEngine*, QtWebEngineProcess and the Chromium resource paks, and
+# its -sdk counterpart ships the headers/cmake config, so ELEMENT_CALL=ON needs
+# nothing extra here.
 name: komai
 base: core24
 summary: A Matrix chat app you can get to love

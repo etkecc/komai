@@ -62,6 +62,11 @@ if(WIN32 OR APPLE OR HAIKU)
 endif()
 option(X11 "Whether to enable X11 specific features (screenshare, window roles)." ${X11_DEFAULT})
 cmake_dependent_option(SCREENSHARE_XDP "Whether to enable screenshare support using xdg-desktop-portal." ON "VOIP" OFF)
+# Element Call (MatrixRTC group voice/video). Pulls in QtWebEngine (Chromium),
+# which adds ~120-180 MB per artifact and is non-trivial to obtain on some
+# platforms (Windows/macOS), so it is gated behind this option. Default ON;
+# packagers without QtWebEngine can build with -DELEMENT_CALL=OFF.
+option(ELEMENT_CALL "Whether to enable Element Call support. Requires QtWebEngine." ON)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -167,6 +172,11 @@ set(QT_NO_PRIVATE_MODULE_WARNING ON)
 find_package(Qt6 6.5 COMPONENTS Core Widgets Gui LinguistTools Svg Multimedia Qml QuickControls2 Network REQUIRED)
 if (Qt6Qml_VERSION VERSION_GREATER_EQUAL "6.10.0")
     find_package(Qt6 REQUIRED COMPONENTS GuiPrivate QmlPrivate)
+endif()
+if(ELEMENT_CALL)
+    # WebEngineQuick hosts the Element Call web bundle. The QML import is
+    # "QtWebEngine"; the link target is Qt::WebEngineQuick.
+    find_package(Qt6 6.5 COMPONENTS WebEngineQuick REQUIRED)
 endif()
 find_package(Qt6DBus)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
@@ -1068,6 +1078,13 @@ if(QT_KNOWN_POLICY_QTP0004)
 endif()
 set(QML_SOURCES_EXCLUDE
 )
+if(NOT ELEMENT_CALL)
+    # These QML files "import QtWebEngine", which qmlcachegen cannot resolve
+    # without the WebEngineQuick module, so keep them out of -DELEMENT_CALL=OFF builds.
+    list(APPEND QML_SOURCES_EXCLUDE
+        resources/qml/voip/ElementCallSpike.qml
+    )
+endif()
 file(GLOB_RECURSE QML_SOURCES
     CONFIGURE_DEPENDS
     RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -1089,12 +1106,16 @@ set_source_files_properties(
     resources/qml/components/MutedText.qml
     PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
+set(KOMAI_QML_MODULE_DEPENDENCIES QtQuick QtQml.Models)
+if(ELEMENT_CALL)
+    list(APPEND KOMAI_QML_MODULE_DEPENDENCIES QtWebEngine)
+endif()
 qt_add_qml_module(komai
     URI cc.etke.komai
     NO_RESOURCE_TARGET_PATH
     RESOURCE_PREFIX "/"
     VERSION 1.1
-    DEPENDENCIES QtQuick QtQml.Models
+    DEPENDENCIES ${KOMAI_QML_MODULE_DEPENDENCIES}
     QML_FILES
     ${QML_SOURCES}
     SOURCES
@@ -1469,6 +1490,11 @@ target_link_libraries(komai PRIVATE
 if(UNIX)
     # for wayland activation tokens
     target_link_libraries(komai PRIVATE Qt::GuiPrivate)
+endif()
+
+if(ELEMENT_CALL)
+    target_link_libraries(komai PRIVATE Qt::WebEngineQuick)
+    target_compile_definitions(komai PRIVATE ELEMENT_CALL_AVAILABLE)
 endif()
 
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")

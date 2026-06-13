@@ -27,6 +27,11 @@ depends=(
 	qt6-imageformats
 	qt6-multimedia
 	qt6-svg
+	# QtWebEngine hosts the Element Call web bundle (ELEMENT_CALL is ON by
+	# default). On Arch this single package provides the libraries, headers,
+	# cmake config and the QtWebEngineProcess helper, so it is both a build
+	# and runtime dependency. Build with -DELEMENT_CALL=OFF to drop it.
+	qt6-webengine
 	qtkeychain-qt6
 )
 makedepends=(

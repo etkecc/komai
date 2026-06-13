@@ -1336,6 +1336,14 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     </message>
 </context>
 <context>
+    <name>ElementCallSpike</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallSpike.qml" line="+19"/>
+        <source>Element Call build spike</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>EmojiVerification</name>
     <message>
         <location filename="../../qml/device-verification/EmojiVerification.qml" line="+13"/>
@@ -4536,7 +4544,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+165"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+175"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Exécuter avec le profil donné. Un nouveau profil est créé automatiquement s'il n'existe pas encore. Plusieurs profils permettent des comptes séparés et des instances simultanées. Identifiants de profil non vides autorisés : premier caractère A-Z, a-z, ou '_' ; caractères restants A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

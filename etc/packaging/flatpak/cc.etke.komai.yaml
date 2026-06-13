@@ -3,6 +3,12 @@ command: cc.etke.komai
 runtime: org.kde.Platform
 runtime-version: '6.10'
 sdk: org.kde.Sdk
+# QtWebEngine is not part of the KDE runtime; it is provided by this BaseApp,
+# whose /app prefix (libs, QML plugin, QtWebEngineProcess, Chromium resource
+# paks) becomes the starting point of our /app. base-version tracks the runtime.
+# Required by Element Call (ELEMENT_CALL=ON); harmless when EC is disabled.
+base: io.qt.qtwebengine.BaseApp
+base-version: '6.10'
 finish-args:
   # needed for webcams, see https://github.com/Nheko-Reborn/nheko/issues/517
   - --device=all
@@ -61,6 +67,10 @@ cleanup:
   - /lib/gstreamer-1.0/libgstximagesink.so
   - /lib/gstreamer-1.0/validate/
   - /lib/libgst*
+# Strip the QtWebEngine BaseApp's dev tree (headers, cmake, pkgconfig, mkspecs)
+# from the final bundle once all modules are built. Provided by the BaseApp.
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
 modules:
   #
   # System dependencies (not managed by CPM — found via find_package/pkg-config)
@@ -115,6 +125,17 @@ modules:
       - -DCMAKE_BUILD_TYPE=Release
       - -DBUILD_TESTING=OFF
       - -DCOMPILE_QML=ON
+      # QtWebEngine (for Element Call) is installed into /app by the
+      # io.qt.qtwebengine.BaseApp; add /app so find_package can locate its
+      # Qt6WebEngineQuick config (the rest of Qt6 lives in the SDK's /usr).
+      - -DCMAKE_PREFIX_PATH=/app
+      # libQt6WebEngineCore.so pulls libsnappy.so.1 / libminizip.so.1 via
+      # DT_NEEDED, but the BaseApp installs those into /app/lib (not the
+      # /app/lib/<triplet> dir the linker already searches). Resolving the
+      # symbols of an indirectly-needed shared lib uses ld's -rpath-link path
+      # (a plain -L does not feed it), and --allow-shlib-undefined keeps the
+      # final check happy (the loader resolves these at runtime via /app/lib).
+      - -DCMAKE_EXE_LINKER_FLAGS=-Wl,-rpath-link,/app/lib -Wl,--allow-shlib-undefined
       # Flatpak doesn't ship a man page: asciidoctor (Ruby) is not in the KDE
       # runtime, and users can't easily `man komai` against a flatpak-installed
       # binary anyway since /var/lib/flatpak/.../share/man isn't in $MANPATH.

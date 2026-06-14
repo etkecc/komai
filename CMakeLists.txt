@@ -176,7 +176,13 @@ endif()
 if(ELEMENT_CALL)
     # WebEngineQuick hosts the Element Call web bundle. The QML import is
     # "QtWebEngine"; the link target is Qt::WebEngineQuick.
-    find_package(Qt6 6.5 COMPONENTS WebEngineQuick REQUIRED)
+    #
+    # WebChannelQuick is the transport for the window.postMessage bridge: the
+    # injected page script forwards widget->host Widget API messages through a
+    # QWebChannel to ElementCallWidgetSession (we do NOT use QWebChannel's RPC
+    # model with Element Call itself, only as a dumb JS->C++ pipe). The QML
+    # import is "QtWebChannel"; the link target is Qt::WebChannelQuick.
+    find_package(Qt6 6.5 COMPONENTS WebEngineQuick WebChannelQuick REQUIRED)
 endif()
 find_package(Qt6DBus)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
@@ -1142,13 +1148,16 @@ set(KOMAI_QML_MODULE_SOURCES
     src/models/UserDirectoryModel.h
 )
 if(ELEMENT_CALL)
-    list(APPEND KOMAI_QML_MODULE_DEPENDENCIES QtWebEngine)
-    # ElementCallWebProfile is a QML singleton (QML_ELEMENT/QML_SINGLETON), so it
-    # must be a module SOURCE for qmltyperegistrar to pick it up; it includes
-    # QtWebEngine headers, hence the ELEMENT_CALL guard.
+    list(APPEND KOMAI_QML_MODULE_DEPENDENCIES QtWebEngine QtWebChannel)
+    # ElementCallWebProfile is a QML singleton (QML_ELEMENT/QML_SINGLETON) and
+    # ElementCallWidgetSession is a QML-instantiable type (QML_ELEMENT), so both
+    # must be module SOURCES for qmltyperegistrar to pick them up. Gated behind
+    # ELEMENT_CALL because the spike QML that uses them imports QtWebEngine.
     list(APPEND KOMAI_QML_MODULE_SOURCES
         src/voip/ElementCallWebProfile.cpp
         src/voip/ElementCallWebProfile.h
+        src/voip/ElementCallWidgetSession.cpp
+        src/voip/ElementCallWidgetSession.h
     )
 endif()
 qt_add_qml_module(komai
@@ -1533,7 +1542,7 @@ if(UNIX)
 endif()
 
 if(ELEMENT_CALL)
-    target_link_libraries(komai PRIVATE Qt::WebEngineQuick)
+    target_link_libraries(komai PRIVATE Qt::WebEngineQuick Qt::WebChannelQuick)
     target_compile_definitions(komai PRIVATE ELEMENT_CALL_AVAILABLE)
 endif()
 

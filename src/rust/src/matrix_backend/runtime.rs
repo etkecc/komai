@@ -102,6 +102,8 @@ mod runtime_media;
 mod runtime_voip;
 #[path = "runtime_calls.rs"]
 mod runtime_calls;
+#[path = "runtime_element_call.rs"]
+mod element_call;
 #[path = "runtime_media_proxy.rs"]
 mod media_proxy;
 #[path = "runtime_preloader.rs"]
@@ -176,6 +178,9 @@ pub use notifications::{
 };
 pub use image_packs::{
     fetch_image_packs, remove_image_pack, save_image_pack, set_image_pack_globally_enabled,
+};
+pub use element_call::{
+    send_element_call_message, start_element_call_session, stop_element_call_session,
 };
 pub use runtime_voip::fetch_turn_server_info;
 pub use runtime_calls::{

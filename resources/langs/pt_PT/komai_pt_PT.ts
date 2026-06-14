@@ -1338,8 +1338,18 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>ElementCallSpike</name>
     <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+22"/>
+        <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
         <source>Element Call build spike</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+79"/>
+        <source>Starting Element Call…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open a room first, then press Ctrl+Alt+E.</source>
         <translation type="unfinished"/>
     </message>
 </context>

@@ -1494,6 +1494,17 @@ mod bridge {
             room_id: &str,
             display_names: Vec<String>,
         );
+        // Element Call widget driver -> webview bridge. Routed by session_id to
+        // the matching ElementCallWidgetSession on the GUI thread (these fire
+        // from tokio worker threads). Always provided by the C++ side even in
+        // -DELEMENT_CALL=OFF builds (they become no-ops there) since the Rust
+        // widget driver is compiled unconditionally.
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_element_call_widget_url_ready(session_id: u64, url: &str);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_element_call_widget_message(session_id: u64, message: &str);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_element_call_widget_stopped(session_id: u64, reason: &str);
     }
 
     extern "Rust" {
@@ -2014,6 +2025,19 @@ mod bridge {
             context: MatrixFfiBlockingContext,
             handle_id: u64,
         ) -> Result<MatrixTurnServerInfo>;
+        // Element Call widget driver. start returns a session id immediately;
+        // the generated webview URL arrives later via
+        // matrix_notify_element_call_widget_url_ready. These are non-blocking
+        // (start only validates the room synchronously, then spawns the driver),
+        // so they take no MatrixFfiBlockingContext.
+        fn matrix_element_call_start_session(
+            handle_id: u64,
+            room_id: &str,
+            base_url: &str,
+            theme: &str,
+        ) -> Result<u64>;
+        fn matrix_element_call_send_message(session_id: u64, message: &str) -> Result<()>;
+        fn matrix_element_call_stop_session(session_id: u64);
         fn matrix_set_account_notifications_enabled(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

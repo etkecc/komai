@@ -193,4 +193,16 @@ void
 matrix_notify_typing_users_updated(std::uint64_t, ::rust::Str, ::rust::Vec<::rust::String>)
 {}
 
+void
+matrix_notify_element_call_widget_url_ready(std::uint64_t, ::rust::Str)
+{}
+
+void
+matrix_notify_element_call_widget_message(std::uint64_t, ::rust::Str)
+{}
+
+void
+matrix_notify_element_call_widget_stopped(std::uint64_t, ::rust::Str)
+{}
+
 } // namespace komai::rust_bridge

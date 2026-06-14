@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QHash>
 #include <QUrl>
+#include <QWebEngineScript>
 #include <QWebEngineUrlRequestJob>
 #include <QWebEngineUrlScheme>
 
@@ -83,9 +84,22 @@ ElementCallSchemeHandler::requestStarted(QWebEngineUrlRequestJob *job)
 
     auto *file = new QFile(QString::fromLatin1(kResourceRoot) + path, job);
     if (!file->open(QIODevice::ReadOnly)) {
-        komai::logging::ui()->warn("[EC] 404 {}", job->requestUrl().toString().toStdString());
-        job->fail(QWebEngineUrlRequestJob::UrlNotFound);
-        return;
+        // Element Call is a single-page app: routes like "/room" are handled
+        // client-side and have no backing file. Serve index.html for any
+        // extensionless path (a navigation/route request) so the SPA boots and
+        // its router takes over; only genuine missing assets 404.
+        const int lastSlash       = path.lastIndexOf(QLatin1Char('/'));
+        const QString lastSegment = path.mid(lastSlash + 1);
+        const bool looksLikeRoute = !lastSegment.contains(QLatin1Char('.'));
+        if (looksLikeRoute) {
+            file->setFileName(QString::fromLatin1(kResourceRoot) + QStringLiteral("/index.html"));
+            path = QStringLiteral("/index.html");
+        }
+        if (!file->open(QIODevice::ReadOnly)) {
+            komai::logging::ui()->warn("[EC] 404 {}", job->requestUrl().toString().toStdString());
+            job->fail(QWebEngineUrlRequestJob::UrlNotFound);
+            return;
+        }
     }
     job->reply(mimeTypeForPath(path), file);
 }
@@ -106,4 +120,58 @@ ElementCallWebProfile::ElementCallWebProfile(QObject *parent)
     profile_ = QQuickWebEngineProfile::defaultProfile();
     handler_ = new ElementCallSchemeHandler(this);
     profile_->installUrlSchemeHandler(QByteArray(komai::elementcall::kScheme), handler_);
+}
+
+QList<QWebEngineScript>
+ElementCallWebProfile::bridgeUserScripts() const
+{
+    // The widget->host half of the Widget API bridge. We use QWebChannel purely
+    // as a dumb JS->C++ pipe for our window.postMessage interceptor (NOT as
+    // Element Call's RPC transport): QtWebEngine has no addJavascriptInterface,
+    // so this is the supported way to get messages out of the page. We forward
+    // only the messages the driver cares about (widget->host requests and
+    // host->widget responses); messages we inject ourselves are echoed back as
+    // 'message' events but fail the filter, so the driver never sees its own
+    // output. The host->widget direction is plain runJavaScript from QML.
+    static const auto kBridgeJs = QStringLiteral(R"JS(
+(function () {
+    var bridge = null;
+    var queue = [];
+    new QWebChannel(qt.webChannelTransport, function (channel) {
+        bridge = channel.objects.komaiBridge;
+        while (queue.length) bridge.postMessageFromWidget(queue.shift());
+    });
+    window.addEventListener('message', function (event) {
+        var d = event.data;
+        if (!d || typeof d !== 'object') return;
+        var forward = (d.response && d.api === 'toWidget') ||
+                      (!d.response && d.api === 'fromWidget');
+        if (!forward) return;
+        var json = JSON.stringify(d);
+        if (bridge) bridge.postMessageFromWidget(json);
+        else queue.push(json);
+    });
+})();
+)JS");
+
+    // qwebchannel.js must run before the bridge script (which uses QWebChannel).
+    // QtWebEngine resolves this qrc path to the QtWebChannel-shipped library and
+    // injects qt.webChannelTransport because the view has a webChannel set. Both
+    // run at DocumentCreation in the main world (same window as Element Call), so
+    // the listener is attached before Element Call posts its first message.
+    QWebEngineScript qwebchannel;
+    qwebchannel.setName(QStringLiteral("komai-qwebchannel"));
+    qwebchannel.setInjectionPoint(QWebEngineScript::DocumentCreation);
+    qwebchannel.setWorldId(QWebEngineScript::MainWorld);
+    qwebchannel.setRunsOnSubFrames(false);
+    qwebchannel.setSourceUrl(QUrl(QStringLiteral("qrc:///qtwebchannel/qwebchannel.js")));
+
+    QWebEngineScript bridge;
+    bridge.setName(QStringLiteral("komai-ec-bridge"));
+    bridge.setInjectionPoint(QWebEngineScript::DocumentCreation);
+    bridge.setWorldId(QWebEngineScript::MainWorld);
+    bridge.setRunsOnSubFrames(false);
+    bridge.setSourceCode(kBridgeJs);
+
+    return {qwebchannel, bridge};
 }

@@ -27,6 +27,10 @@
 #include "voip/CallManager.h"
 #include "voip/CallTypes.h"
 
+#ifdef ELEMENT_CALL_AVAILABLE
+#include "voip/ElementCallWidgetSession.h"
+#endif
+
 namespace {
 
 QString
@@ -669,6 +673,47 @@ matrix_notify_typing_users_updated(std::uint64_t handle_id,
 
         manager->handleMatrixBackendTypingUsersUpdated(handle_id, roomId, users);
     });
+}
+
+void
+matrix_notify_element_call_widget_url_ready(std::uint64_t session_id, ::rust::Str url)
+{
+#ifdef ELEMENT_CALL_AVAILABLE
+    const auto urlStr = toQString(url);
+    postToAppThread(
+      [session_id, urlStr]() { ElementCallWidgetSession::deliverUrlReady(session_id, urlStr); });
+#else
+    (void)session_id;
+    (void)url;
+#endif
+}
+
+void
+matrix_notify_element_call_widget_message(std::uint64_t session_id, ::rust::Str message)
+{
+#ifdef ELEMENT_CALL_AVAILABLE
+    const auto messageStr = toQString(message);
+    postToAppThread([session_id, messageStr]() {
+        ElementCallWidgetSession::deliverMessage(session_id, messageStr);
+    });
+#else
+    (void)session_id;
+    (void)message;
+#endif
+}
+
+void
+matrix_notify_element_call_widget_stopped(std::uint64_t session_id, ::rust::Str reason)
+{
+#ifdef ELEMENT_CALL_AVAILABLE
+    const auto reasonStr = toQString(reason);
+    postToAppThread([session_id, reasonStr]() {
+        ElementCallWidgetSession::deliverStopped(session_id, reasonStr);
+    });
+#else
+    (void)session_id;
+    (void)reason;
+#endif
 }
 
 } // namespace komai::rust_bridge

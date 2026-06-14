@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <QList>
 #include <QObject>
 #include <QQmlEngine>
 
@@ -14,6 +15,7 @@
 // declaration) because the Q_PROPERTY makes MOC require the complete type.
 #include <QtWebEngineQuick/QQuickWebEngineProfile>
 
+#include <QWebEngineScript>
 #include <QWebEngineUrlSchemeHandler>
 
 class QWebEngineUrlRequestJob;
@@ -72,6 +74,12 @@ public:
     static ElementCallWebProfile *create(QQmlEngine *, QJSEngine *) { return instance(); }
 
     QQuickWebEngineProfile *profile() const { return profile_; }
+
+    // The user scripts that turn a webview into an Element Call widget host:
+    // QtWebEngine's qwebchannel.js followed by the postMessage bridge. They are
+    // built in C++ because Qt 6's WebEngineScript is a value type that cannot be
+    // constructed from QML. Assign to a WebEngineView's userScripts.collection.
+    Q_INVOKABLE QList<QWebEngineScript> bridgeUserScripts() const;
 
 private:
     explicit ElementCallWebProfile(QObject *parent = nullptr);

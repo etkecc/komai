@@ -155,4 +155,17 @@ matrix_notify_typing_users_updated(std::uint64_t handle_id,
                                    ::rust::Str room_id,
                                    ::rust::Vec<::rust::String> display_names);
 
+// Element Call widget driver -> webview. Routed by session_id to the matching
+// ElementCallWidgetSession on the GUI thread. Defined unconditionally (the Rust
+// widget driver is always compiled); they are no-ops in -DELEMENT_CALL=OFF
+// builds where ElementCallWidgetSession does not exist.
+void
+matrix_notify_element_call_widget_url_ready(std::uint64_t session_id, ::rust::Str url);
+
+void
+matrix_notify_element_call_widget_message(std::uint64_t session_id, ::rust::Str message);
+
+void
+matrix_notify_element_call_widget_stopped(std::uint64_t session_id, ::rust::Str reason);
+
 } // namespace komai::rust_bridge

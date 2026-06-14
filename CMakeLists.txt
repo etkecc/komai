@@ -777,7 +777,7 @@ if(NOT litehtml_FOUND)
     CPMAddPackage(
         NAME litehtml
         GIT_REPOSITORY https://github.com/litehtml/litehtml.git
-        GIT_TAG v0.9
+        GIT_TAG v0.10
         OPTIONS "LITEHTML_BUILD_TESTING OFF"
         # EXCLUDE_FROM_ALL keeps the bundled litehtml + gumbo headers, CMake
         # configs, and static archives out of `cmake --install` so distro

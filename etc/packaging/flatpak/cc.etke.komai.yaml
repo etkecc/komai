@@ -183,6 +183,6 @@ modules:
         url: https://github.com/KDAB/KDSingleApplication.git
       - dest: .deps/litehtml
         disable-lfs: true
-        tag: v0.9
+        tag: v0.10
         type: git
         url: https://github.com/litehtml/litehtml.git

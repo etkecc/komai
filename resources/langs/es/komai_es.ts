@@ -1339,7 +1339,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>ElementCallSpike</name>
     <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+19"/>
+        <location filename="../../qml/voip/ElementCallSpike.qml" line="+22"/>
         <source>Element Call build spike</source>
         <translation type="unfinished"/>
     </message>
@@ -4547,7 +4547,7 @@ Verifica para desbloquear los mensajes cifrados.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+175"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+181"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Ejecutar con el perfil indicado. Se crea un nuevo perfil automáticamente si aún no existe. Varios perfiles permiten cuentas separadas e instancias simultáneas. IDs de perfil válidos (no vacíos): primer carácter A-Z, a-z o '_'; caracteres restantes A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

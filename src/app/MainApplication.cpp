@@ -71,6 +71,8 @@
 
 #ifdef ELEMENT_CALL_AVAILABLE
 #include <QtWebEngineQuick>
+
+#include "voip/ElementCallWebProfile.h"
 #endif
 
 #ifdef QML_DEBUGGING
@@ -125,6 +127,10 @@ app::runMainApplication(int argc, char *argv[])
     }
 
 #ifdef ELEMENT_CALL_AVAILABLE
+    // Register the secure komai-ec:// scheme that serves the Element Call
+    // bundle. Chromium reads its scheme registry once, so this must run before
+    // QtWebEngineQuick::initialize() (and before the QApplication).
+    komai::elementcall::registerUrlScheme();
     // Must run before the QApplication is constructed and before any QML engine
     // or WebEngineView is created; it sets up the shared OpenGL context Chromium needs.
     QtWebEngineQuick::initialize();

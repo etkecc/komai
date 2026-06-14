@@ -1338,7 +1338,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ElementCallSpike</name>
     <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+19"/>
+        <location filename="../../qml/voip/ElementCallSpike.qml" line="+22"/>
         <source>Element Call build spike</source>
         <translation type="unfinished"/>
     </message>
@@ -4544,7 +4544,7 @@ Verificar por debloquar mesages criptat.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+175"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+181"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Executar con li dat profil. Un nov profil es creat automaticmen si it ne existe ancos. Multiple profils permisset contos separat e instanties concurrent. Profil-ids valid non-vacant: prim character A-Z, a-z, o '_'; restant characters A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

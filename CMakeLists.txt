@@ -1107,8 +1107,19 @@ set_source_files_properties(
     PROPERTIES QT_QML_SINGLETON_TYPE TRUE
 )
 set(KOMAI_QML_MODULE_DEPENDENCIES QtQuick QtQml.Models)
+set(KOMAI_QML_MODULE_SOURCES
+    src/models/UserDirectoryModel.cpp
+    src/models/UserDirectoryModel.h
+)
 if(ELEMENT_CALL)
     list(APPEND KOMAI_QML_MODULE_DEPENDENCIES QtWebEngine)
+    # ElementCallWebProfile is a QML singleton (QML_ELEMENT/QML_SINGLETON), so it
+    # must be a module SOURCE for qmltyperegistrar to pick it up; it includes
+    # QtWebEngine headers, hence the ELEMENT_CALL guard.
+    list(APPEND KOMAI_QML_MODULE_SOURCES
+        src/voip/ElementCallWebProfile.cpp
+        src/voip/ElementCallWebProfile.h
+    )
 endif()
 qt_add_qml_module(komai
     URI cc.etke.komai
@@ -1119,8 +1130,7 @@ qt_add_qml_module(komai
     QML_FILES
     ${QML_SOURCES}
     SOURCES
-    src/models/UserDirectoryModel.cpp
-    src/models/UserDirectoryModel.h
+    ${KOMAI_QML_MODULE_SOURCES}
 )
     #qt_target_qml_sources(komai
     #   #PREFIX "/"

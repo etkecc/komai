@@ -1338,7 +1338,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ElementCallSpike</name>
     <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+19"/>
+        <location filename="../../qml/voip/ElementCallSpike.qml" line="+22"/>
         <source>Element Call build spike</source>
         <translation type="unfinished"/>
     </message>
@@ -4544,7 +4544,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+175"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+181"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Стартирай с посочения профил. Нов профил се създава автоматично, ако все още не съществува. Множество профили позволяват отделни акаунти и едновременни инстанции. Разрешени непразни идентификатори на профил: първи символ A-Z, a-z или '_'; останалите символи A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

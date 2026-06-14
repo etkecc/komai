@@ -1338,7 +1338,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>ElementCallSpike</name>
     <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+19"/>
+        <location filename="../../qml/voip/ElementCallSpike.qml" line="+22"/>
         <source>Element Call build spike</source>
         <translation type="unfinished"/>
     </message>
@@ -4544,7 +4544,7 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+175"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+181"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Executa amb el perfil indicat. Es crea un perfil nou automàticament si encara no existeix. Diversos perfils permeten comptes separats i instàncies simultànies. Identificadors de perfil no buits permesos: primer caràcter A-Z, a-z, o '_'; caràcters restants A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

@@ -160,6 +160,11 @@ modules:
       - path: ../../../var/emoji/cache
         dest: var/emoji/cache
         type: dir
+      # Element Call: `just element-call-fetch` populates var/element-call/<version> on
+      # the host; copy it in so CMake embeds the bundle without hitting the network.
+      - path: ../../../var/element-call
+        dest: var/element-call
+        type: dir
       # Pinned Rust toolchain — the SDK's rust-stable extension ships whatever
       # version is current, which may trigger compiler regressions (e.g. the
       # query-depth overflow in matrix-sdk on Rust >=1.94).  Bundle the exact

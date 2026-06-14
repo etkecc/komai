@@ -126,6 +126,12 @@ parts:
       # Fetch emoji data (the build step generates runtime JSON from these)
       python3 bin/emoji/pipeline.py fetch --repo-root "$CRAFT_PART_SRC"
 
+      # Fetch the pinned Element Call bundle into var/element-call/<version> so
+      # CMake embeds it (ELEMENT_CALL is ON by default).
+      python3 bin/element-call/fetch.py \
+        --lock "$CRAFT_PART_SRC/bin/element-call/sources.lock.yml" \
+        --out-dir "$CRAFT_PART_SRC/var/element-call"
+
       # Proceed with standard cmake plugin build
       craftctl default
     override-prime: |

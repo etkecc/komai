@@ -1070,6 +1070,36 @@ qt_add_resources(komai emoji_runtime_resources
         ${EMOJI_LOCALE_JSONS}
 )
 
+if(ELEMENT_CALL)
+    # Fetch + embed the pinned @element-hq/element-call-embedded bundle. Its file
+    # set is dynamic (hashed asset names), so fetch at configure time and glob the
+    # extracted web root rather than listing files. fetch.py is idempotent and
+    # offline-friendly (offline builds pre-populate var/element-call/<version>/).
+    set(ELEMENT_CALL_LOCK "${CMAKE_CURRENT_SOURCE_DIR}/bin/element-call/sources.lock.yml")
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${ELEMENT_CALL_LOCK}")
+    execute_process(
+        COMMAND "${Python3_EXECUTABLE}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/bin/element-call/fetch.py"
+            --lock "${ELEMENT_CALL_LOCK}"
+            --out-dir "${CMAKE_CURRENT_SOURCE_DIR}/var/element-call"
+        OUTPUT_VARIABLE ELEMENT_CALL_DIST_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        RESULT_VARIABLE ELEMENT_CALL_FETCH_RC
+    )
+    if(NOT ELEMENT_CALL_FETCH_RC EQUAL 0)
+        message(FATAL_ERROR
+            "Failed to fetch the Element Call bundle (exit ${ELEMENT_CALL_FETCH_RC}). "
+            "Build with -DELEMENT_CALL=OFF to skip Element Call.")
+    endif()
+    file(GLOB_RECURSE ELEMENT_CALL_BUNDLE_FILES CONFIGURE_DEPENDS "${ELEMENT_CALL_DIST_DIR}/*")
+    # Served to the webview as komai-ec://app/<path> (see ElementCallWebProfile).
+    qt_add_resources(komai element_call_resources
+        PREFIX "/element-call"
+        BASE "${ELEMENT_CALL_DIST_DIR}"
+        FILES ${ELEMENT_CALL_BUNDLE_FILES}
+    )
+endif()
+
 #
 # Add qml files
 #

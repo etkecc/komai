@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// Throwaway QtWebEngine build spike for the Element Call work. As of M3a it
-// loads a hand-written getUserMedia test page over the SECURE komai-ec://
-// scheme (ElementCallWebProfile) to prove that Chromium grants a secure
-// context and that camera/microphone acquisition works from native. Reachable
-// via the Ctrl+Alt+E shortcut wired in shell/Root.qml; replaced by the real
-// call surface in a later milestone.
+// Throwaway QtWebEngine build spike for the Element Call work. As of M3c it
+// loads the embedded Element Call bundle over the SECURE komai-ec:// scheme
+// (ElementCallWebProfile serves :/element-call/* from qrc). Without the widget
+// driver (M4) it gets as far as Element Call's loading screen. Reachable via
+// the Ctrl+Alt+E shortcut wired in shell/Root.qml; replaced by the real call
+// surface in a later milestone.
 
 import QtQuick
 import QtQuick.Window

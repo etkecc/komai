@@ -4,8 +4,9 @@
 
 #include "ElementCallWebProfile.h"
 
-#include <QBuffer>
 #include <QByteArray>
+#include <QFile>
+#include <QHash>
 #include <QUrl>
 #include <QWebEngineUrlRequestJob>
 #include <QWebEngineUrlScheme>
@@ -13,54 +14,38 @@
 #include "logging/Logging.h"
 
 namespace {
-// M3a secure-context proof: a tiny page that asks for camera + microphone and
-// reports whether the origin is a secure context and whether acquisition
-// succeeds. Served for every path until the real Element Call bundle lands.
-constexpr auto kSpikePage = R"HTML(<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Komai &mdash; getUserMedia secure-context check</title>
-<style>
-  body { font-family: sans-serif; margin: 1.5rem; background: #1a1a1a; color: #eee; }
-  #status { font-size: 1.1rem; margin: 1rem 0; white-space: pre-line; }
-  .ok { color: #6ec96e; } .bad { color: #e06c6c; }
-  video { width: 100%; max-width: 640px; background: #000; border-radius: 6px; }
-  code { color: #9ad; }
-</style>
-</head>
-<body>
-  <h1>Komai Element Call &mdash; secure-context proof</h1>
-  <p>Origin: <code id="origin"></code></p>
-  <p>Secure context: <code id="secure"></code></p>
-  <div id="status">Requesting camera + microphone&hellip;</div>
-  <video id="preview" autoplay playsinline muted></video>
-<script>
-  document.getElementById('origin').textContent = location.origin;
-  const secureEl = document.getElementById('secure');
-  secureEl.textContent = window.isSecureContext ? 'yes' : 'NO';
-  secureEl.className = window.isSecureContext ? 'ok' : 'bad';
+// The embedded Element Call bundle (bin/element-call, embedded under the qrc
+// prefix below by qt_add_resources). index.html uses relative asset URLs, so a
+// request for komai-ec://app/<path> maps straight onto :/element-call/<path>.
+constexpr auto kResourceRoot = ":/element-call";
 
-  const status = document.getElementById('status');
-  function fail(msg) { status.textContent = msg; status.className = 'bad'; }
-  function ok(msg) { status.textContent = msg; status.className = 'ok'; }
-
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    fail('navigator.mediaDevices.getUserMedia is unavailable (not a secure context?).');
-  } else {
-    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-      .then(stream => {
-        document.getElementById('preview').srcObject = stream;
-        const tracks = stream.getTracks().map(t => t.kind + ':' + t.label).join('\n');
-        ok('getUserMedia SUCCEEDED. Tracks:\n' + tracks);
-      })
-      .catch(err => fail('getUserMedia FAILED: ' + err.name + ' — ' + err.message));
-  }
-</script>
-</body>
-</html>
-)HTML";
+QByteArray
+mimeTypeForPath(const QString &path)
+{
+    // Chromium is strict about a few of these: ES modules must be served with a
+    // JavaScript MIME type and .wasm must be application/wasm for streaming
+    // compilation, so map explicitly rather than guessing.
+    static const QHash<QString, QByteArray> byExtension = {
+      {QStringLiteral("html"), QByteArrayLiteral("text/html")},
+      {QStringLiteral("js"), QByteArrayLiteral("text/javascript")},
+      {QStringLiteral("css"), QByteArrayLiteral("text/css")},
+      {QStringLiteral("json"), QByteArrayLiteral("application/json")},
+      {QStringLiteral("map"), QByteArrayLiteral("application/json")},
+      {QStringLiteral("wasm"), QByteArrayLiteral("application/wasm")},
+      {QStringLiteral("woff"), QByteArrayLiteral("font/woff")},
+      {QStringLiteral("woff2"), QByteArrayLiteral("font/woff2")},
+      {QStringLiteral("mp3"), QByteArrayLiteral("audio/mpeg")},
+      {QStringLiteral("ogg"), QByteArrayLiteral("audio/ogg")},
+      {QStringLiteral("tflite"), QByteArrayLiteral("application/octet-stream")},
+      {QStringLiteral("svg"), QByteArrayLiteral("image/svg+xml")},
+      {QStringLiteral("png"), QByteArrayLiteral("image/png")},
+      {QStringLiteral("ico"), QByteArrayLiteral("image/x-icon")},
+      {QStringLiteral("txt"), QByteArrayLiteral("text/plain")},
+    };
+    const int dot     = path.lastIndexOf(QLatin1Char('.'));
+    const QString ext = dot >= 0 ? path.mid(dot + 1).toLower() : QString();
+    return byExtension.value(ext, QByteArrayLiteral("application/octet-stream"));
+}
 } // namespace
 
 void
@@ -92,15 +77,17 @@ ElementCallSchemeHandler::ElementCallSchemeHandler(QObject *parent)
 void
 ElementCallSchemeHandler::requestStarted(QWebEngineUrlRequestJob *job)
 {
-    komai::logging::ui()->warn("[EC] scheme request: {}",
-                               job->requestUrl().toString().toStdString());
+    QString path = job->requestUrl().path();
+    if (path.isEmpty() || path == QLatin1String("/"))
+        path = QStringLiteral("/index.html");
 
-    // M3a: any path serves the secure-context test page. M3b will route
-    // job->requestUrl().path() into the embedded bundle's files.
-    auto *buffer = new QBuffer(job);
-    buffer->setData(QByteArray::fromRawData(kSpikePage, int(qstrlen(kSpikePage))));
-    buffer->open(QIODevice::ReadOnly);
-    job->reply(QByteArrayLiteral("text/html; charset=utf-8"), buffer);
+    auto *file = new QFile(QString::fromLatin1(kResourceRoot) + path, job);
+    if (!file->open(QIODevice::ReadOnly)) {
+        komai::logging::ui()->warn("[EC] 404 {}", job->requestUrl().toString().toStdString());
+        job->fail(QWebEngineUrlRequestJob::UrlNotFound);
+        return;
+    }
+    job->reply(mimeTypeForPath(path), file);
 }
 
 ElementCallWebProfile *

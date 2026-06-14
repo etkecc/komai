@@ -198,6 +198,11 @@ emoji-add-token emoji locale token:
 emoji-generate:
 	just --justfile {{ justfile() }} emoji-build
 
+# Fetches the pinned Element Call embedded bundle into var/element-call/<version>/
+# (used directly by CMake; run explicitly to pre-populate for offline packaging builds)
+element-call-fetch:
+	python3 {{ justfile_directory() }}/bin/element-call/fetch.py --lock {{ justfile_directory() }}/bin/element-call/sources.lock.yml --out-dir {{ justfile_directory() }}/var/element-call
+
 # Audits icon references vs resources/res.qrc and files on disk
 icons-audit *args:
 	{{ justfile_directory() }}/bin/icons/audit.sh {{ args }}
@@ -301,7 +306,7 @@ flatpak-cargo-sources:
 	python3 {{ justfile_directory() }}/bin/flatpak/cargo-sources.py {{ justfile_directory() }}
 
 # Builds a Flatpak bundle from the local source tree
-flatpak-build: _ensure_just_temp_directory emoji-fetch flatpak-cargo-sources
+flatpak-build: _ensure_just_temp_directory emoji-fetch element-call-fetch flatpak-cargo-sources
 	#!/usr/bin/env bash
 	set -euo pipefail
 
@@ -358,7 +363,7 @@ flatpak-clean:
 	rm -rf "{{ flatpak_build_dir }}"
 
 # Builds an AppImage bundle inside a Docker container (works on any distro)
-appimage-build-docker: _ensure_just_temp_directory emoji-fetch
+appimage-build-docker: _ensure_just_temp_directory emoji-fetch element-call-fetch
 	#!/usr/bin/env bash
 	set -euo pipefail
 
@@ -375,11 +380,11 @@ appimage-build-docker: _ensure_just_temp_directory emoji-fetch
 	"{{ justfile_directory() }}/etc/packaging/appimage/bin/build-docker" "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
 
 # Builds an AppImage bundle natively (requires Ubuntu 25.04+ with appimage-builder installed)
-appimage-build-native: emoji-fetch
+appimage-build-native: emoji-fetch element-call-fetch
 	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-native "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
 
 # Builds a snap package inside a Docker container (works on any distro)
-snap-build-docker: _ensure_just_temp_directory emoji-fetch
+snap-build-docker: _ensure_just_temp_directory emoji-fetch element-call-fetch
 	#!/usr/bin/env bash
 	set -euo pipefail
 
@@ -395,11 +400,11 @@ snap-build-docker: _ensure_just_temp_directory emoji-fetch
 	"{{ justfile_directory() }}/etc/packaging/snap/bin/build-docker" "{{ justfile_directory() }}" "{{ snap_build_dir }}"
 
 # Builds a snap package natively (requires snapcraft + LXD)
-snap-build-native: emoji-fetch
+snap-build-native: emoji-fetch element-call-fetch
 	{{ justfile_directory() }}/etc/packaging/snap/bin/build-native "{{ justfile_directory() }}" "{{ snap_build_dir }}"
 
 # Builds a snap package natively in destructive mode (no LXD, builds directly on host)
-snap-build-native-destructive: emoji-fetch
+snap-build-native-destructive: emoji-fetch element-call-fetch
 	SNAP_DESTRUCTIVE_MODE=1 {{ justfile_directory() }}/etc/packaging/snap/bin/build-native "{{ justfile_directory() }}" "{{ snap_build_dir }}"
 
 # Installs the locally-built snap (--dangerous for unsigned local snaps)

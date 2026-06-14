@@ -92,6 +92,16 @@
     },
     {
       "customType": "regex",
+      "description": "Element Call embedded bundle version pin (sha256 in the lock must be updated by hand on bump; fetch.py prints the right hash)",
+      "managerFilePatterns": [
+        "/^bin/element-call/sources\\.lock\\.yml$/"
+      ],
+      "matchStrings": ["version:\\s+\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "@element-hq/element-call-embedded",
+      "datasourceTemplate": "npm"
+    },
+    {
+      "customType": "regex",
       "description": "AppImage Docker base image",
       "managerFilePatterns": [
         "/^etc/packaging/appimage/builder-image$/"

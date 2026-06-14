@@ -1341,7 +1341,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+126"/>
         <source>Starting Element Call…</source>
         <translation type="unfinished"/>
     </message>

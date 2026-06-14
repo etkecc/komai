@@ -1341,7 +1341,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+126"/>
         <source>Starting Element Call…</source>
         <translation type="unfinished"/>
     </message>

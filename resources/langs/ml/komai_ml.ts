@@ -1343,7 +1343,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+126"/>
         <source>Starting Element Call…</source>
         <translation type="unfinished"/>
     </message>

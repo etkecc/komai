@@ -6,6 +6,9 @@
 
 #include <exception>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include "komai-rust-cxxbridge/ffi.h"
 
 #include "logging/Logging.h"
@@ -96,9 +99,41 @@ ElementCallWidgetSession::stop()
 }
 
 void
+ElementCallWidgetSession::hangup()
+{
+    if (sessionId_ == 0)
+        return;
+
+    // Element Call learns its own widget id from the URL; we learn it from the
+    // first message it sends. Fall back to the id we asked the driver to use
+    // (see runtime_element_call.rs) if we somehow haven't seen a message yet.
+    const QString widgetId =
+      widgetId_.isEmpty() ? QStringLiteral("komai-ec-%1").arg(sessionId_) : widgetId_;
+
+    const QString requestId = QStringLiteral("komai-%1-%2").arg(sessionId_).arg(++requestCounter_);
+    pendingHostRequests_.insert(requestId);
+    QJsonObject request{
+      {QStringLiteral("api"), QStringLiteral("toWidget")},
+      {QStringLiteral("widgetId"), widgetId},
+      {QStringLiteral("requestId"), requestId},
+      {QStringLiteral("action"), QStringLiteral("im.vector.hangup")},
+      {QStringLiteral("data"), QJsonObject{}},
+    };
+    komai::logging::ui()->warn("[EC] requesting hangup for widget session {}", sessionId_);
+    sendToWidget(request);
+}
+
+void
 ElementCallWidgetSession::postMessageFromWidget(const QString &json)
 {
     if (sessionId_ == 0)
+        return;
+
+    // Element Call posts a few host actions the matrix-sdk widget driver does
+    // not implement; answer those here rather than forward them (the driver
+    // would reject them as unknown actions, and io.element.close in particular
+    // must tear the call surface down).
+    if (interceptHostAction(json))
         return;
 
     try {
@@ -106,6 +141,77 @@ ElementCallWidgetSession::postMessageFromWidget(const QString &json)
     } catch (const std::exception &e) {
         komai::logging::ui()->warn("[EC] failed to forward widget message: {}", e.what());
     }
+}
+
+bool
+ElementCallWidgetSession::interceptHostAction(const QString &json)
+{
+    const QJsonDocument doc = QJsonDocument::fromJson(json.toUtf8());
+    if (!doc.isObject())
+        return false;
+    const QJsonObject obj = doc.object();
+
+    const QString api     = obj.value(QStringLiteral("api")).toString();
+    const bool isResponse = obj.contains(QStringLiteral("response"));
+
+    // Swallow Element Call's reply to a host->widget request we originated (e.g.
+    // im.vector.hangup): the driver never sent it and logs an error matching our
+    // non-UUID requestId. Real driver responses (UUID ids) are not in the set.
+    if (api == QLatin1String("toWidget") && isResponse) {
+        const QString requestId = obj.value(QStringLiteral("requestId")).toString();
+        return pendingHostRequests_.remove(requestId);
+    }
+
+    // Otherwise only widget->host requests are host actions. A fromWidget
+    // message that already carries a "response" is itself a response, not a
+    // request, so leave it for the driver.
+    if (api != QLatin1String("fromWidget"))
+        return false;
+    if (isResponse)
+        return false;
+
+    // Learn Element Call's widget id so we can address requests back at it.
+    const QString widgetId = obj.value(QStringLiteral("widgetId")).toString();
+    if (!widgetId.isEmpty() && widgetId_ != widgetId)
+        widgetId_ = widgetId;
+
+    const QString action = obj.value(QStringLiteral("action")).toString();
+
+    // Builds the Widget API response envelope for a request: the request object
+    // with a "response" field appended (matrix-widget-api's reply() shape).
+    const auto reply = [this, &obj](const QJsonValue &responseData) {
+        QJsonObject response = obj;
+        response.insert(QStringLiteral("response"), responseData);
+        sendToWidget(response);
+    };
+
+    if (action == QLatin1String("io.element.close")) {
+        // Element Call (or its hangup flow) asks the host to dismiss the widget.
+        reply(QJsonObject{});
+        komai::logging::ui()->warn("[EC] widget requested close for session {}", sessionId_);
+        emit closeRequested();
+        return true;
+    }
+    if (action == QLatin1String("set_always_on_screen")) {
+        // Picture-in-picture stickiness. We acknowledge success; honouring it
+        // (a floating call overlay) is a later UX milestone.
+        reply(QJsonObject{{QStringLiteral("success"), true}});
+        return true;
+    }
+    if (action == QLatin1String("io.element.device_mute")) {
+        // Element Call reports its mute state to the host. We have nothing to
+        // change, so the resulting configuration is whatever it sent us.
+        reply(obj.value(QStringLiteral("data")));
+        return true;
+    }
+
+    return false;
+}
+
+void
+ElementCallWidgetSession::sendToWidget(const QJsonObject &message)
+{
+    emit messageToWidget(QString::fromUtf8(QJsonDocument(message).toJson(QJsonDocument::Compact)));
 }
 
 void

@@ -1345,7 +1345,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+126"/>
         <source>Starting Element Call…</source>
         <translation type="unfinished"/>
     </message>

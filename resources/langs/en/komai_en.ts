@@ -1337,7 +1337,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+126"/>
         <source>Starting Element Call…</source>
         <translation type="unfinished"/>
     </message>

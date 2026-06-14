@@ -24,6 +24,25 @@ Window {
     height: 768
     title: qsTr("Element Call build spike")
 
+    // Emitted once the call has actually been torn down and the window should be
+    // unloaded (the Loader in Root.qml listens for this so a fresh session
+    // starts next time). Distinct from the Window `closing` signal, which also
+    // fires for a deferred close we reject below.
+    signal sessionClosed
+
+    // Set once we are committed to closing, so the deferred-close handler stops
+    // intercepting and lets the window go.
+    property bool forceClose: false
+
+    // Tear the session down and tell Root.qml to unload us. Idempotent: stop()
+    // no-ops on an already-stopped session.
+    function teardownAndClose() {
+        forceClose = true;
+        hangupFallbackTimer.stop();
+        ecSession.stop();
+        spikeWindow.sessionClosed();
+    }
+
     // Drives the widget session for the active room. The QWebChannel transport
     // exposes it to the page as `komaiBridge`; the injected bridge script calls
     // its postMessageFromWidget() slot for every widget->host message.
@@ -41,9 +60,37 @@ Window {
         onUrlReady: function (url) {
             console.warn("[EC] widget URL ready: " + url);
         }
+        // Element Call asked the host to dismiss the call surface (it posts this
+        // after the user hangs up, having already run its own leave flow).
+        onCloseRequested: spikeWindow.teardownAndClose();
         onStopped: function (reason) {
             console.warn("[EC] widget session stopped" +
                          (reason.length ? (": " + reason) : ""));
+            spikeWindow.teardownAndClose();
+        }
+    }
+
+    // Fallback if Element Call never posts io.element.close after we ask it to
+    // hang up (e.g. it failed to join): close anyway rather than hang.
+    Timer {
+        id: hangupFallbackTimer
+        interval: 2500
+        onTriggered: spikeWindow.teardownAndClose();
+    }
+
+    // Closing the window is a hangup request: ask Element Call to leave
+    // gracefully (it replies, runs its leave flow, then posts io.element.close
+    // which routes through onCloseRequested -> teardownAndClose). If there is no
+    // active call, just let the window go.
+    onClosing: function (close) {
+        if (forceClose)
+            return;
+        if (ecSession.active) {
+            close.accepted = false;
+            ecSession.hangup();
+            hangupFallbackTimer.restart();
+        } else {
+            spikeWindow.sessionClosed();
         }
     }
 

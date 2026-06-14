@@ -176,7 +176,15 @@ function openCatalogDialog(componentUrl, properties) {
 
         active: false
         source: "qrc:/resources/qml/voip/ElementCallSpike.qml"
-        onLoaded: item.show()
+        onLoaded: {
+            // Unload once the call is torn down so a fresh session (with a fresh
+            // widget driver) starts on the next Ctrl+Alt+E rather than reshowing
+            // a dead window.
+            item.sessionClosed.connect(function () {
+                elementCallSpikeLoader.active = false;
+            });
+            item.show();
+        }
     }
     Shortcut {
         sequence: "Ctrl+Alt+E"

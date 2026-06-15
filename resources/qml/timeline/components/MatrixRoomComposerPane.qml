@@ -53,8 +53,6 @@ Item {
         anchors.fill: parent
         spacing: 0
 
-        TimelineCallStatusBars {}
-
         Composer.ReplyPopup {
         id: replyPopup
 

@@ -402,19 +402,35 @@ Item {
             ? String(timelineView.roomPreview.roomid || "") : ""
         visible: active && (!!timelineView._activePoolEntry || timelineView.useMatrixRoomView)
     }
+    // Legacy (1:1 GStreamer) call bar. Sits at the top of the timeline region
+    // (below the room header / thread bar, above the timeline) to match the
+    // Element Call panel placement; the timeline reflows below it. Persists
+    // across room switches via the global CallManager state inside.
+    TimelineCallStatusBars {
+        id: legacyCallBar
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: threadViewBar.visible ? threadViewBar.bottom
+            : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)
+        height: visible ? implicitHeight : 0
+        z: 3
+    }
     Item {
         id: timelinePoolContainer
 
         anchors.bottom: matrixComposerPane.visible ? matrixComposerPane.top : parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        // Sits below the Element Call panel when a call is showing here, so the
-        // timeline (and its scrollbar) reflow into the remaining space rather
-        // than being overlaid; otherwise it spans the usual region.
+        // Sits below the Element Call panel (when a call shows here) and the
+        // legacy call bar, so the timeline (and its scrollbar) reflow into the
+        // remaining space rather than being overlaid; otherwise it spans the
+        // usual region.
         anchors.top: elementCallPanelLoader.inCallRoom
             ? elementCallPanelLoader.bottom
-            : (threadViewBar.visible ? threadViewBar.bottom
-                : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top))
+            : (legacyCallBar.visible ? legacyCallBar.bottom
+                : (threadViewBar.visible ? threadViewBar.bottom
+                    : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)))
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
     TimelineVideoCallLoader {
@@ -446,8 +462,9 @@ Item {
         active: ElementCall.supported && ElementCall.active
         source: "qrc:/resources/qml/voip/ElementCallPanel.qml"
 
-        anchors.top: threadViewBar.visible ? threadViewBar.bottom
-            : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)
+        anchors.top: legacyCallBar.visible ? legacyCallBar.bottom
+            : (threadViewBar.visible ? threadViewBar.bottom
+                : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top))
         anchors.left: parent.left
         anchors.right: parent.right
         height: (item && inCallRoom) ? item.panelHeight : 0

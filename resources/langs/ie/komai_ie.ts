@@ -959,12 +959,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
-        <source>Calls are currently supported only in direct chats.</source>
-        <translation>Appellas es actualmente supportat solmen in conversationes directes.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+49"/>
         <source>Hang up</source>
         <translation>Disconectar</translation>
     </message>
@@ -974,9 +969,24 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Ja in un apelle</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Place a call</source>
         <translation>Far un apelle</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Calls are not available in this room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Legacy call</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1333,6 +1343,39 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="+14"/>
         <source>They match!</source>
         <translation>Ili concorda!</translation>
+    </message>
+</context>
+<context>
+    <name>ElementCallPanel</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+157"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Expand</source>
+        <translation type="unfinished">Expandir</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Collapse</source>
+        <translation type="unfinished">Contraher</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>End call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+97"/>
+        <source>Leaving call…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Starting Element Call…</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -11874,6 +11917,16 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
         <location line="+1"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
         <translation>Permisse l'acceptation e initiation de appelles ancian (pre-MatrixRTC).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

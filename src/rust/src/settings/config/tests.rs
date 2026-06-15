@@ -601,6 +601,9 @@ fn encodes_generic_config_values() {
             legacy: crate::ffi::SettingsConfigCallsLegacySection {
                 enabled: true,
             },
+            element: crate::ffi::SettingsConfigCallsElementSection {
+                enabled: true,
+            },
             relay: crate::ffi::SettingsConfigCallsRelaySection {
                 use_fallback_server: false,
             },
@@ -1420,6 +1423,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
         },
         calls: crate::ffi::SettingsConfigCallsSection {
             legacy: crate::ffi::SettingsConfigCallsLegacySection { enabled: false },
+            element: crate::ffi::SettingsConfigCallsElementSection { enabled: true },
             relay: crate::ffi::SettingsConfigCallsRelaySection {
                 use_fallback_server: true,
             },
@@ -1654,6 +1658,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
         },
         calls: crate::ffi::SettingsConfigCallsSection {
             legacy: crate::ffi::SettingsConfigCallsLegacySection { enabled: false },
+            element: crate::ffi::SettingsConfigCallsElementSection { enabled: true },
             relay: crate::ffi::SettingsConfigCallsRelaySection { use_fallback_server: true },
             devices: crate::ffi::SettingsConfigCallsDevicesSection {
                 microphone: String::new(), camera: String::new(),

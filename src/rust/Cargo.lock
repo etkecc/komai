@@ -2122,6 +2122,7 @@ dependencies = [
  "hyper-util",
  "image",
  "img-parts",
+ "language-tags",
  "linkify",
  "matrix-sdk",
  "matrix-sdk-base",

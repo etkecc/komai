@@ -410,8 +410,15 @@ computeDerivedFields(MatrixTimelineItem &item,
                                              item.cachedType == qml_mtx_events::CallSelectAnswer ||
                                              item.cachedType == qml_mtx_events::CallNegotiate ||
                                              item.cachedType == qml_mtx_events::CallCandidates;
+    // MatrixRTC (Element Call) membership state events churn constantly as
+    // participants join, leave and refresh their per-device session state.
+    // Komai has no renderer for them, so they would otherwise show up as
+    // generic "changed unknown state event" notices; hide them like every
+    // other client does (Element Web/Cinny render no row for them either).
+    const bool isRtcMembership =
+      item.matrixEventType == QStringLiteral("org.matrix.msc3401.call.member");
     item.cachedIsHiddenEvent =
-      isAlwaysHiddenCallLifecycle ||
+      isAlwaysHiddenCallLifecycle || isRtcMembership ||
       (UserSettings::instance() &&
        UserSettings::instance()->isTimelineEventHiddenInRoom(item.cachedType, roomId));
     item.cachedEmojiOnlyCount = item.cachedType == qml_mtx_events::TextMessage

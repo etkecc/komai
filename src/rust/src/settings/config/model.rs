@@ -284,6 +284,7 @@ pub struct ConfigNetworkEncryption {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigCalls {
     pub legacy: ConfigCallsLegacy,
+    pub element: ConfigCallsElement,
     pub relay: ConfigCallsRelay,
     pub devices: ConfigCallsDevices,
     pub audio: ConfigCallsAudio,
@@ -292,6 +293,11 @@ pub struct ConfigCalls {
 
 #[derive(Clone, Debug, Default)]
 pub struct ConfigCallsLegacy {
+    pub enabled: Option<bool>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct ConfigCallsElement {
     pub enabled: Option<bool>,
 }
 

@@ -15,8 +15,9 @@ use super::storage;
 use tokens::StorageToken;
 
 pub use model::{
-    Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsLegacy,
-    ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer, ConfigComposerTypingSend,
+    Config, ConfigCalls, ConfigCallsAudio, ConfigCallsDevices, ConfigCallsElement,
+    ConfigCallsLegacy, ConfigCallsRelay, ConfigCallsScreenshare, ConfigComposer,
+    ConfigComposerTypingSend,
     ConfigDesktop, ConfigDesktopAttention, ConfigDesktopAttentionToggle, ConfigDesktopNotifications,
     ConfigDesktopSystemTray, ConfigDesktopWindowFocusBlur,
     ConfigIntegrations, ConfigIntegrationsTranscription, ConfigIntegrationsTranscriptionOverrides,
@@ -186,6 +187,7 @@ const NETWORK_ENCRYPTION_SHARE_WITH_TRUSTED_PATH: [&str; 3] =
 const NETWORK_ENCRYPTION_KEY_BACKUP_PATH: [&str; 3] =
     ["network", "encryption", "key_backup"];
 const CALLS_LEGACY_ENABLED_PATH: [&str; 3] = ["calls", "legacy", "enabled"];
+const CALLS_ELEMENT_ENABLED_PATH: [&str; 3] = ["calls", "element", "enabled"];
 const CALLS_RELAY_USE_FALLBACK_SERVER_PATH: [&str; 3] =
     ["calls", "relay", "use_fallback_server"];
 const CALLS_DEVICES_MICROPHONE_PATH: [&str; 3] = ["calls", "devices", "microphone"];
@@ -593,6 +595,10 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
         calls: ConfigCalls {
             legacy: ConfigCallsLegacy {
                 enabled: yaml::value_at_path(root, &CALLS_LEGACY_ENABLED_PATH)
+                    .and_then(parse_scalar_bool),
+            },
+            element: ConfigCallsElement {
+                enabled: yaml::value_at_path(root, &CALLS_ELEMENT_ENABLED_PATH)
                     .and_then(parse_scalar_bool),
             },
             relay: ConfigCallsRelay {

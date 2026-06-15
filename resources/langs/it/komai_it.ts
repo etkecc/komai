@@ -959,12 +959,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
-        <source>Calls are currently supported only in direct chats.</source>
-        <translation>Le chiamate sono attualmente supportate solo nelle chat dirette.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+49"/>
         <source>Hang up</source>
         <translation>Riaggancia</translation>
     </message>
@@ -974,9 +969,24 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Già in una chiamata</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Place a call</source>
         <translation>Effettua una chiamata</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Calls are not available in this room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Legacy call</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1333,6 +1343,39 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <location line="+14"/>
         <source>They match!</source>
         <translation>Corrispondono!</translation>
+    </message>
+</context>
+<context>
+    <name>ElementCallPanel</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+157"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Expand</source>
+        <translation type="unfinished">Espandi</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Collapse</source>
+        <translation type="unfinished">Comprimi</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>End call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+97"/>
+        <source>Leaving call…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Starting Element Call…</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -11874,6 +11917,16 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <location line="+1"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
         <translation>Consente di accettare e avviare chiamate legacy (pre-MatrixRTC).</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

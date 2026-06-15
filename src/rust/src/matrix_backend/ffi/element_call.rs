@@ -8,9 +8,10 @@ pub(crate) fn matrix_element_call_start_session(
     handle_id: u64,
     room_id: &str,
     base_url: &str,
+    lang: &str,
     theme: &str,
 ) -> Result<u64, String> {
-    matrix_backend::runtime::start_element_call_session(handle_id, room_id, base_url, theme)
+    matrix_backend::runtime::start_element_call_session(handle_id, room_id, base_url, lang, theme)
 }
 
 pub(crate) fn matrix_element_call_send_message(

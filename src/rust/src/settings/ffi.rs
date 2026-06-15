@@ -336,6 +336,9 @@ pub(crate) fn ffi_config_calls_section(
         legacy: ffi::SettingsConfigCallsLegacySection {
             enabled: config.calls.legacy.enabled.unwrap_or(defaults::CALLS_LEGACY_ENABLED),
         },
+        element: ffi::SettingsConfigCallsElementSection {
+            enabled: config.calls.element.enabled.unwrap_or(defaults::CALLS_ELEMENT_ENABLED),
+        },
         relay: ffi::SettingsConfigCallsRelaySection {
             use_fallback_server: config.calls.relay.use_fallback_server.unwrap_or(defaults::CALLS_RELAY_USE_FALLBACK_SERVER),
         },
@@ -834,6 +837,9 @@ fn clone_config_calls_section(
     ffi::SettingsConfigCallsSection {
         legacy: ffi::SettingsConfigCallsLegacySection {
             enabled: section.legacy.enabled,
+        },
+        element: ffi::SettingsConfigCallsElementSection {
+            enabled: section.element.enabled,
         },
         relay: ffi::SettingsConfigCallsRelaySection {
             use_fallback_server: section.relay.use_fallback_server,

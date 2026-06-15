@@ -959,12 +959,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
-        <source>Calls are currently supported only in direct chats.</source>
-        <translation>കോളുകൾ നിലവിൽ നേരിട്ടുള്ള ചാറ്റുകളിൽ മാത്രമേ പിന്തുണയ്ക്കുന്നുള്ളൂ.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+49"/>
         <source>Hang up</source>
         <translation>കോൾ അവസാനിപ്പിക്കുക</translation>
     </message>
@@ -974,9 +969,24 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഇതിനകം കോളിലാണ്</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Place a call</source>
         <translation>ഒരു കോൾ ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Calls are not available in this room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Legacy call</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1333,6 +1343,39 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+14"/>
         <source>They match!</source>
         <translation>അവ പൊരുത്തപ്പെടുന്നു!</translation>
+    </message>
+</context>
+<context>
+    <name>ElementCallPanel</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+157"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Expand</source>
+        <translation type="unfinished">വികസിപ്പിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Collapse</source>
+        <translation type="unfinished">ചുരുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>End call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+97"/>
+        <source>Leaving call…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Starting Element Call…</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -11874,6 +11917,16 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <location line="+1"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
         <translation>പഴയ (MatrixRTC-ന് മുൻപുള്ള) കോളുകൾ സ്വീകരിക്കാനും ആരംഭിക്കാനും അനുവദിക്കുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

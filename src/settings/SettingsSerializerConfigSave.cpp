@@ -204,6 +204,10 @@ stageConfig(const UserSettings &settings,
             {
               .enabled = settings.callsLegacyEnabled(),
             },
+          .element =
+            {
+              .enabled = settings.callsElementEnabled(),
+            },
           .relay =
             {
               .use_fallback_server = settings.callsRelayUseFallbackServer(),

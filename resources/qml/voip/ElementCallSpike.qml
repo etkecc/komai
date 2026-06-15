@@ -156,7 +156,7 @@ Window {
     // opens. (M4 testing entry point; the real UX gets a proper call button.)
     Component.onCompleted: {
         if (Rooms.currentRoomId.length)
-            ecSession.start(Rooms.currentRoomId, "");
+            ecSession.start(Rooms.currentRoomId);
         else
             console.warn("[EC] no current room; open a room before launching the spike");
     }

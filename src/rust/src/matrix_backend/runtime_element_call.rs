@@ -25,6 +25,7 @@
 
 use super::*;
 
+use language_tags::LanguageTag;
 use matrix_sdk::widget::{
     Capabilities, CapabilitiesProvider, ClientProperties, EncryptionSystem, Filter,
     MessageLikeEventFilter, StateEventFilter, ToDeviceEventFilter, VirtualElementCallWidgetConfig,
@@ -182,6 +183,7 @@ pub fn start_element_call_session(
     handle_id: u64,
     room_id: &str,
     base_url: &str,
+    lang: &str,
     theme: &str,
 ) -> Result<u64, String> {
     // Validate the room synchronously so the caller learns about obvious
@@ -199,11 +201,15 @@ pub fn start_element_call_session(
 
     let base_url = base_url.to_owned();
     let theme = if theme.trim().is_empty() { None } else { Some(theme.to_owned()) };
+    // Parse the UI locale into a BCP-47 language tag. A malformed/empty tag
+    // falls back to Element Call's default (en-US) inside ClientProperties.
+    let lang = if lang.trim().is_empty() { None } else { LanguageTag::parse(lang.trim()).ok() };
 
     crate::matrix_backend::ffi::runtime().spawn(run_session(
         session_id,
         room,
         base_url,
+        lang,
         theme,
         to_driver_rx,
         cancel,
@@ -240,6 +246,7 @@ async fn run_session(
     session_id: u64,
     room: Room,
     base_url: String,
+    lang: Option<LanguageTag>,
     theme: Option<String>,
     mut to_driver_rx: mpsc::UnboundedReceiver<String>,
     cancel: CancellationToken,
@@ -278,14 +285,31 @@ async fn run_session(
         }
     };
 
-    let client_props = ClientProperties::new(CLIENT_ID, None, theme);
-    let url = match settings.generate_webview_url(&room, client_props).await {
-        Ok(url) => url.to_string(),
+    let client_props = ClientProperties::new(CLIENT_ID, lang, theme);
+    let mut url = match settings.generate_webview_url(&room, client_props).await {
+        Ok(url) => url,
         Err(e) => {
             finish_failed(session_id, format!("failed to generate Element Call widget URL: {e}"));
             return;
         }
     };
+
+    // Tune Element Call's chrome for the embedded desktop surface. We pass no
+    // `intent`, so EC falls into its "unknown intent" preset which turns the
+    // branded header ON and `confineToRoom` OFF; we want the opposite:
+    //   * `header=none` removes the branded EC header (we draw our own bar).
+    //     `HeaderStyle` isn't re-exported from `matrix_sdk::widget` (so we can't
+    //     set `config.header`) and EC 0.20.x no longer reads the deprecated
+    //     `hideHeader` param, so the URL param is the only lever.
+    //   * `confineToRoom=true` removes EC's "Back to recents" / return-to-home
+    //     navigation (the call is embedded in a single room; leaving is driven by
+    //     our own End call button).
+    // `new_virtual_element_call_widget` emits neither key when the corresponding
+    // config fields are `None`, so appending is safe.
+    let fragment =
+        format!("{}&header=none&confineToRoom=true", url.fragment().unwrap_or("?"));
+    url.set_fragment(Some(&fragment));
+    let url = url.to_string();
 
     let (driver, handle) = WidgetDriver::new(settings);
     let caps = ElementCallCapabilitiesProvider { user_id: own_user_id, device_id };

@@ -8,12 +8,41 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLocale>
 
 #include "komai-rust-cxxbridge/ffi.h"
 
 #include "logging/Logging.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
+#include "ui/ThemeRegistry.h"
 #include "voip/ElementCallWebProfile.h"
+
+namespace {
+// Resolves the effective Element Call theme ("dark"/"light") from the active UI
+// theme slug. Element Call only distinguishes the two variants.
+QString
+currentElementCallTheme()
+{
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return QString();
+    return ThemeRegistry::instance().themeVariant(settings->uiThemeSlug());
+}
+
+// Resolves the UI locale as a BCP-47 language tag Element Call understands
+// ("en-US", "de", ...). Komai stores language codes with underscores ("pt_BR")
+// and an empty value means "use the system locale"; normalise both.
+QString
+currentElementCallLocale()
+{
+    const auto settings = UserSettings::instance();
+    QString code        = settings ? settings->uiLanguage() : QString();
+    if (code.isEmpty())
+        code = QLocale::system().name(); // e.g. "en_US"
+    return code.replace(QLatin1Char('_'), QLatin1Char('-'));
+}
+}
 
 QHash<quint64, ElementCallWidgetSession *> &
 ElementCallWidgetSession::registry()
@@ -36,7 +65,7 @@ ElementCallWidgetSession::~ElementCallWidgetSession()
 }
 
 bool
-ElementCallWidgetSession::start(const QString &roomId, const QString &theme)
+ElementCallWidgetSession::start(const QString &roomId)
 {
     if (sessionId_ != 0) {
         komai::logging::ui()->warn("[EC] start() called on an already-active widget session");
@@ -60,10 +89,16 @@ ElementCallWidgetSession::start(const QString &roomId, const QString &theme)
       QStringLiteral("%1://%2/")
         .arg(QLatin1String(komai::elementcall::kScheme), QLatin1String(komai::elementcall::kHost));
 
+    const QString lang  = currentElementCallLocale();
+    const QString theme = currentElementCallTheme();
+
     quint64 sessionId = 0;
     try {
-        sessionId = ::komai::rust::matrix_element_call_start_session(
-          handleId, roomId.toStdString(), baseUrl.toStdString(), theme.toStdString());
+        sessionId = ::komai::rust::matrix_element_call_start_session(handleId,
+                                                                     roomId.toStdString(),
+                                                                     baseUrl.toStdString(),
+                                                                     lang.toStdString(),
+                                                                     theme.toStdString());
     } catch (const std::exception &e) {
         komai::logging::ui()->warn("[EC] failed to start widget session: {}", e.what());
         return false;

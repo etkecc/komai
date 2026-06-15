@@ -43,10 +43,11 @@ public:
     qulonglong sessionId() const { return sessionId_; }
     bool active() const { return sessionId_ != 0; }
 
-    // Starts a widget session for roomId on the current backend handle. theme is
-    // "dark"/"light" (or empty to let Element Call default). Returns false if the
-    // driver could not be started; otherwise the URL arrives later via urlReady.
-    Q_INVOKABLE bool start(const QString &roomId, const QString &theme);
+    // Starts a widget session for roomId on the current backend handle. The
+    // Element Call locale and theme are resolved from the current UI settings.
+    // Returns false if the driver could not be started; otherwise the URL
+    // arrives later via urlReady.
+    Q_INVOKABLE bool start(const QString &roomId);
 
     // Tears the session down (hangup / call surface closed).
     Q_INVOKABLE void stop();

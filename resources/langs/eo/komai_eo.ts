@@ -959,12 +959,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
-        <source>Calls are currently supported only in direct chats.</source>
-        <translation>Vokoj nuntempe estas subtenataj nur en rektaj mesaĝoj.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+49"/>
         <source>Hang up</source>
         <translation>Fini vokon</translation>
     </message>
@@ -974,9 +969,24 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Jam en voko</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Place a call</source>
         <translation>Fari vokon</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Calls are not available in this room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Legacy call</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1333,6 +1343,39 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location line="+14"/>
         <source>They match!</source>
         <translation>Ili akordas!</translation>
+    </message>
+</context>
+<context>
+    <name>ElementCallPanel</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+157"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Expand</source>
+        <translation type="unfinished">Etendi</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Collapse</source>
+        <translation type="unfinished">Faldi</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>End call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+97"/>
+        <source>Leaving call…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Starting Element Call…</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -11877,6 +11920,16 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <location line="+1"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
         <translation>Permesas akcepti kaj iniciati heredaĵajn (antaŭ-MatrixRTC) vokojn.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

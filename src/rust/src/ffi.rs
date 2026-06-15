@@ -436,6 +436,10 @@ mod bridge {
         enabled: bool,
     }
 
+    struct SettingsConfigCallsElementSection {
+        enabled: bool,
+    }
+
     struct SettingsConfigCallsRelaySection {
         use_fallback_server: bool,
     }
@@ -460,6 +464,7 @@ mod bridge {
 
     struct SettingsConfigCallsSection {
         legacy: SettingsConfigCallsLegacySection,
+        element: SettingsConfigCallsElementSection,
         relay: SettingsConfigCallsRelaySection,
         devices: SettingsConfigCallsDevicesSection,
         audio: SettingsConfigCallsAudioSection,
@@ -2034,6 +2039,7 @@ mod bridge {
             handle_id: u64,
             room_id: &str,
             base_url: &str,
+            lang: &str,
             theme: &str,
         ) -> Result<u64>;
         fn matrix_element_call_send_message(session_id: u64, message: &str) -> Result<()>;

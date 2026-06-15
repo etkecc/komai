@@ -7,6 +7,10 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Enable legacy calls"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Allows legacy (pre-MatrixRTC) calls to be accepted and initiated."),
       SM::TabCalls, callsLegacyEnabled, setCallsLegacyEnabled, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
+    // EnableElementCall
+    SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Enable Element Call"),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend."),
+      SM::TabCalls, callsElementEnabled, setCallsElementEnabled, nullptr, CallsElementEnabled, SettingKey::CallsElementEnabled),
     // UseFallbackCallRelayServer
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Use turn.matrix.org as fallback relay"),
                         QT_TRANSLATE_NOOP("UserSettingsModel", "Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one."),

@@ -96,3 +96,11 @@ UserSettings::callsLegacyEnabled() const
         return *value;
     return callsLegacyEnabled_;
 }
+bool
+UserSettings::callsElementEnabled() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::CallsElementEnabled);
+        value.has_value())
+        return *value;
+    return callsElementEnabled_;
+}

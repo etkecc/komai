@@ -81,6 +81,7 @@ enum class SettingId
     ComposerTypingSendGlobal,
     NotificationsAccountEnabled,
     CallsLegacyEnabled,
+    CallsElementEnabled,
     CallsRelayUseFallbackServer,
     CallsDevicesMicrophone,
     CallsDevicesCamera,

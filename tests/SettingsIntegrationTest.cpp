@@ -1663,6 +1663,7 @@ testPersistedConfigBoolsAreLoadedFromConfigYaml()
         {SettingId::NetworkMrsEnabled, "network.mrs.enabled", false},
         {SettingId::NetworkHttp3Enabled, "network.http3.enabled", true},
         {SettingId::CallsLegacyEnabled, "calls.legacy.enabled", true},
+        {SettingId::CallsElementEnabled, "calls.element.enabled", true},
         {SettingId::CallsRelayUseFallbackServer, "calls.relay.use_fallback_server", true},
         {SettingId::CallsScreensharePictureInPicture,
          "calls.screenshare.picture_in_picture",
@@ -2040,6 +2041,7 @@ testConfigSchemaCoverageAndKeyUniqueness()
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::EncryptionBackupOnlineEnabled));
     serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::CallsLegacyEnabled));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::CallsElementEnabled));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::CallsRelayUseFallbackServer));
     serializerHandledConfigKeys.insert(

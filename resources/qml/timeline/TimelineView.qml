@@ -408,14 +408,54 @@ Item {
         anchors.bottom: matrixComposerPane.visible ? matrixComposerPane.top : parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: threadViewBar.visible ? threadViewBar.bottom
-            : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)
+        // Sits below the Element Call panel when a call is showing here, so the
+        // timeline (and its scrollbar) reflow into the remaining space rather
+        // than being overlaid; otherwise it spans the usual region.
+        anchors.top: elementCallPanelLoader.inCallRoom
+            ? elementCallPanelLoader.bottom
+            : (threadViewBar.visible ? threadViewBar.bottom
+                : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top))
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
     TimelineVideoCallLoader {
         anchors.fill: timelinePoolContainer
         componentCatalog: componentCatalog
         z: 2
+    }
+    // In-room Element Call surface. Sits at the top of the timeline region (below
+    // the room header / thread bar, above the timeline) so the timeline reflows
+    // below it as a column instead of being overlaid. Kept loaded for the whole
+    // call (so the live WebRTC session survives room switches) but only shown
+    // while the call's room is the one on screen; otherwise it is hidden with the
+    // call still running, the same way ActiveCallBar persists across switches.
+    // Driven by the always-compiled ElementCall singleton; the panel itself only
+    // exists on ELEMENT_CALL builds, so this Loader points at it by path (no hard
+    // type reference) and stays inactive when support is absent.
+    Loader {
+        id: elementCallPanelLoader
+
+        readonly property bool inCallRoom: ElementCall.activeRoomId.length > 0
+            && Rooms.currentRoomId === ElementCall.activeRoomId
+        // Height of the whole timeline region (header/thread bar bottom to the
+        // composer top), independent of our own height so the panel's fractional
+        // expanded height does not feed back into the layout.
+        readonly property real regionHeight:
+            (matrixComposerPane.visible ? matrixComposerPane.y : timelineView.height)
+            - elementCallPanelLoader.y
+
+        active: ElementCall.supported && ElementCall.active
+        source: "qrc:/resources/qml/voip/ElementCallPanel.qml"
+
+        anchors.top: threadViewBar.visible ? threadViewBar.bottom
+            : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: (item && inCallRoom) ? item.panelHeight : 0
+        visible: inCallRoom
+
+        onLoaded: item.availableHeight = Qt.binding(function () {
+            return elementCallPanelLoader.regionHeight;
+        })
     }
     MatrixRoomComposerPane {
         id: matrixComposerPane

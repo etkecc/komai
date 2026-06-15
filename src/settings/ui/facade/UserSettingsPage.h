@@ -272,6 +272,8 @@ class UserSettings final : public QObject
                  setCallsRelayUseFallbackServer NOTIFY callsRelayUseFallbackServerChanged)
     Q_PROPERTY(bool callsLegacyEnabled READ callsLegacyEnabled WRITE setCallsLegacyEnabled NOTIFY
                  callsLegacyEnabledChanged)
+    Q_PROPERTY(bool callsElementEnabled READ callsElementEnabled WRITE setCallsElementEnabled NOTIFY
+                 callsElementEnabledChanged)
     Q_PROPERTY(bool encryptionKeySharingOnlyVerifiedUsers READ encryptionKeySharingOnlyVerifiedUsers
                  WRITE setEncryptionKeySharingOnlyVerifiedUsers NOTIFY
                    encryptionKeySharingOnlyVerifiedUsersChanged)
@@ -675,6 +677,7 @@ public:
     void setCallsScreenshareShowCursor(bool state);
     void setCallsRelayUseFallbackServer(bool state);
     void setCallsLegacyEnabled(bool state);
+    void setCallsElementEnabled(bool state);
     void setEncryptionKeySharingOnlyVerifiedUsers(bool state);
     void setEncryptionKeySharingShareWithTrusted(bool state);
     void setEncryptionBackupOnlineEnabled(bool state);
@@ -923,6 +926,7 @@ signals:
     void callsScreenshareShowCursorChanged(bool state);
     void callsRelayUseFallbackServerChanged(bool state);
     void callsLegacyEnabledChanged(bool state);
+    void callsElementEnabledChanged(bool state);
     void encryptionKeySharingOnlyVerifiedUsersChanged(bool state);
     void encryptionKeySharingShareWithTrustedChanged(bool state);
     void encryptionBackupOnlineEnabledChanged(bool state);

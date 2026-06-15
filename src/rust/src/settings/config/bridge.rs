@@ -416,6 +416,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["calls", "element", "enabled"],
+        Value::Bool(snapshot.calls.element.enabled),
+    );
+    yaml::set_value(
+        &mut root,
         &["calls", "relay", "use_fallback_server"],
         Value::Bool(snapshot.calls.relay.use_fallback_server),
     );

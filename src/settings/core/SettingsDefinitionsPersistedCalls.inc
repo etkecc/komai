@@ -1,4 +1,5 @@
   {SettingId::CallsLegacyEnabled, SettingScope::Config, SettingKey::CallsLegacyEnabled, false},
+  {SettingId::CallsElementEnabled, SettingScope::Config, SettingKey::CallsElementEnabled, true},
   {SettingId::CallsRelayUseFallbackServer,
    SettingScope::Config,
    SettingKey::CallsRelayUseFallbackServer,

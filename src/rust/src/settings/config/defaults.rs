@@ -75,6 +75,7 @@ pub const HTTP3_ENABLED: bool = false;
 
 // -- calls --------------------------------------------------------------------
 pub const CALLS_LEGACY_ENABLED: bool = false;
+pub const CALLS_ELEMENT_ENABLED: bool = true;
 pub const CALLS_RELAY_USE_FALLBACK_SERVER: bool = false;
 pub const SCREENSHARE_FRAME_RATE: i32 = 30;
 pub const SCREENSHARE_PICTURE_IN_PICTURE: bool = true;

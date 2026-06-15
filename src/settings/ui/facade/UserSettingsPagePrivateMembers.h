@@ -108,6 +108,7 @@ bool callsScreenshareIncludeRemoteVideo_    = false;
 bool callsScreenshareShowCursor_            = true;
 bool callsRelayUseFallbackServer_           = false;
 bool callsLegacyEnabled_                    = false;
+bool callsElementEnabled_                   = true;
 bool networkTlsEnableCertificateValidation_ = true;
 QString profile_;
 QString userId_;

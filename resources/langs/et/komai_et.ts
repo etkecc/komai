@@ -959,12 +959,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>ComposerCallButton</name>
     <message>
-        <location filename="../../qml/composer/ComposerCallButton.qml" line="+27"/>
-        <source>Calls are currently supported only in direct chats.</source>
-        <translation>Kõnesid toetatakse praegu ainult otsesõnumites.</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location filename="../../qml/composer/ComposerCallButton.qml" line="+49"/>
         <source>Hang up</source>
         <translation>Lõpeta kõne</translation>
     </message>
@@ -974,9 +969,24 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Kõne on juba käimas</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Place a call</source>
         <translation>Helista</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Calls are not available in this room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+50"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Legacy call</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1333,6 +1343,39 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <location line="+14"/>
         <source>They match!</source>
         <translation>Mõlemad on samad!</translation>
+    </message>
+</context>
+<context>
+    <name>ElementCallPanel</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+157"/>
+        <source>Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Expand</source>
+        <translation type="unfinished">Laienda</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Collapse</source>
+        <translation type="unfinished">Ahenda</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>End call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+97"/>
+        <source>Leaving call…</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Starting Element Call…</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -11874,6 +11917,16 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <location line="+1"/>
         <source>Allows legacy (pre-MatrixRTC) calls to be accepted and initiated.</source>
         <translation>Võimaldab vanemaid (pre-MatrixRTC) kõnesid vastu võtta ja alustada.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable Element Call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>

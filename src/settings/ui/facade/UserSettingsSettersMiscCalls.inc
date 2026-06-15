@@ -19,6 +19,16 @@ UserSettings::setCallsLegacyEnabled(bool s)
     save();
 }
 void
+UserSettings::setCallsElementEnabled(bool s)
+{
+    if (callsElementEnabled_ == s)
+        return;
+    callsElementEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsElementEnabled, s);
+    emit callsElementEnabledChanged(s);
+    save();
+}
+void
 UserSettings::setCallsAudioRingtone(QString s)
 {
     if (callsAudioRingtone_ == s)

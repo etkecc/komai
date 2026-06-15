@@ -214,6 +214,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
     settings.setEncryptionBackupOnlineEnabledFromConfig(snapshot.network.encryption.key_backup);
 
     settings.setCallsLegacyEnabled(snapshot.calls.legacy.enabled);
+    settings.setCallsElementEnabled(snapshot.calls.element.enabled);
     settings.setCallsRelayUseFallbackServer(snapshot.calls.relay.use_fallback_server);
     settings.setCallsDevicesMicrophone(
       QString::fromStdString(static_cast<std::string>(snapshot.calls.devices.microphone)));

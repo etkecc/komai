@@ -523,6 +523,12 @@ set(SRC_FILES
     src/voip/CallManager.cpp
     src/voip/callmanager/CallManagerScreenShare.cpp
     src/voip/CallManager.h
+    # Always-compiled app-global coordinator for the Element Call surface. The
+    # QtWebEngine-backed panel/session it hands off to are ELEMENT_CALL-gated
+    # (KOMAI_QML_MODULE_SOURCES below), but this thin QML singleton is always
+    # present so the composer button can reference it on every build.
+    src/voip/ElementCallController.cpp
+    src/voip/ElementCallController.h
     src/voip/ScreenCastPortal.cpp
     src/voip/ScreenCastPortal.h
     src/voip/WebRTCSession.h
@@ -1119,6 +1125,7 @@ if(NOT ELEMENT_CALL)
     # without the WebEngineQuick module, so keep them out of -DELEMENT_CALL=OFF builds.
     list(APPEND QML_SOURCES_EXCLUDE
         resources/qml/voip/ElementCallSpike.qml
+        resources/qml/voip/ElementCallPanel.qml
     )
 endif()
 file(GLOB_RECURSE QML_SOURCES

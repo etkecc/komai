@@ -1,4 +1,5 @@
 X(CallsLegacyEnabled, settings.callsLegacyEnabled())
+X(CallsElementEnabled, settings.callsElementEnabled())
 X(CallsRelayUseFallbackServer, settings.callsRelayUseFallbackServer())
 X(CallsDevicesMicrophone, settings.callsDevicesMicrophone().toStdString())
 X(CallsDevicesCamera, settings.callsDevicesCamera().toStdString())

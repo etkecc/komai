@@ -1,5 +1,6 @@
     // Calls
     CONNECT_SETTING_ID(CallsLegacyEnabled, callsLegacyEnabledChanged, Value);
+    CONNECT_SETTING_ID(CallsElementEnabled, callsElementEnabledChanged, Value);
     CONNECT_SETTING_ID(CallsRelayUseFallbackServer, callsRelayUseFallbackServerChanged, Value);
     CONNECT_SETTING_ID(CallsDevicesMicrophone, callsDevicesMicrophoneChanged, Value, Values);
     CONNECT_SETTING_ID(CallsDevicesCamera, callsDevicesCameraChanged, Value, Values);

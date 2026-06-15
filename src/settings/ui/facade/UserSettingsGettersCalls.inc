@@ -9,3 +9,4 @@
     bool callsScreenshareShowCursor() const;
     bool callsRelayUseFallbackServer() const;
     bool callsLegacyEnabled() const;
+    bool callsElementEnabled() const;

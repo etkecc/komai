@@ -110,6 +110,7 @@ constexpr auto DesktopNotificationsMessageContentPolicy =
 constexpr auto DesktopAttentionWindowTitleEnabled    = "desktop.attention.window_title.enabled";
 constexpr auto DesktopAttentionAppBadgeEnabled       = "desktop.attention.app_badge.enabled";
 constexpr auto CallsLegacyEnabled                    = "calls.legacy.enabled";
+constexpr auto CallsElementEnabled                   = "calls.element.enabled";
 constexpr auto CallsRelayUseFallbackServer           = "calls.relay.use_fallback_server";
 constexpr auto CallsDevicesMicrophone                = "calls.devices.microphone";
 constexpr auto CallsDevicesCamera                    = "calls.devices.camera";

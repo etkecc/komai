@@ -18,6 +18,11 @@ AbstractButton {
 
     property string image: ""
     property bool danger: false
+    // Set when the button sits on a coloured (accent) bar, e.g. the green call
+    // bars: force a black foreground and a subtle translucent hover so it reads
+    // on the fixed light-green background across all themes (the theme palette
+    // foreground would be light, and so low-contrast, on dark themes).
+    property bool onAccent: false
 
     readonly property bool activeState: hovered || pressed || visualFocus
     // Match the room-header action buttons: the button is iconSize tall and the
@@ -33,7 +38,8 @@ AbstractButton {
     readonly property color foreground: danger
         ? ((0.299 * Komai.theme.error.r + 0.587 * Komai.theme.error.g
             + 0.114 * Komai.theme.error.b) > 0.55 ? "#000000" : "#ffffff")
-        : (activeState ? palette.brightText : palette.text)
+        : (onAccent ? "#000000"
+            : (activeState ? palette.brightText : palette.text))
 
     font.pointSize: Settings.uiFontSizePt
     font.bold: true
@@ -52,7 +58,9 @@ AbstractButton {
         radius: Komai.paddingSmall
         color: button.danger
             ? (button.activeState ? Qt.darker(Komai.theme.error, 1.15) : Komai.theme.error)
-            : (button.activeState ? palette.dark : "transparent")
+            : button.onAccent
+                ? (button.activeState ? Qt.rgba(0, 0, 0, 0.12) : "transparent")
+                : (button.activeState ? palette.dark : "transparent")
     }
 
     contentItem: RowLayout {

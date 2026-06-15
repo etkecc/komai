@@ -141,7 +141,9 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         implicitHeight: Komai.navigationRowHeight
-        color: palette.alternateBase
+        // Call green, matching the legacy ActiveCallBar and the Element Call
+        // "active call" bar shown in other rooms, so call surfaces read alike.
+        color: "#2ECC71"
         z: 1
 
         RowLayout {
@@ -155,6 +157,7 @@ Item {
                 Layout.fillWidth: true
                 elide: Text.ElideRight
                 text: qsTr("Element Call")
+                color: "#000000"
                 font.bold: true
             }
 
@@ -163,6 +166,7 @@ Item {
                 image: panel.collapsed
                     ? ":/icons/icons/ui/chevron-down.svg"
                     : ":/icons/icons/ui/chevron-up.svg"
+                onAccent: true
                 onClicked: panel.collapsed = !panel.collapsed
             }
 

@@ -416,6 +416,25 @@ Item {
         height: visible ? implicitHeight : 0
         z: 3
     }
+    // Element Call "active call" bar — shown when an EC call is live in a
+    // DIFFERENT room than the one on screen, so the call is reachable from any
+    // room (click to jump back; End call hangs up from here). Mutually
+    // exclusive with the in-room EC panel below, which shows when you ARE in
+    // the call's room. Sits just below the legacy call bar.
+    ElementCallActiveBar {
+        id: elementCallActiveBar
+
+        tabController: timelineView.tabController
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: legacyCallBar.visible ? legacyCallBar.bottom
+            : (threadViewBar.visible ? threadViewBar.bottom
+                : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top))
+        height: visible ? implicitHeight : 0
+        visible: ElementCall.supported && ElementCall.active
+            && Rooms.currentRoomId !== ElementCall.activeRoomId
+        z: 3
+    }
     Item {
         id: timelinePoolContainer
 
@@ -428,9 +447,10 @@ Item {
         // usual region.
         anchors.top: elementCallPanelLoader.inCallRoom
             ? elementCallPanelLoader.bottom
-            : (legacyCallBar.visible ? legacyCallBar.bottom
-                : (threadViewBar.visible ? threadViewBar.bottom
-                    : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)))
+            : (elementCallActiveBar.visible ? elementCallActiveBar.bottom
+                : (legacyCallBar.visible ? legacyCallBar.bottom
+                    : (threadViewBar.visible ? threadViewBar.bottom
+                        : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top))))
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
     TimelineVideoCallLoader {

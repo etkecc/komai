@@ -1346,14 +1346,32 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
 </context>
 <context>
+    <name>ElementCallActiveBar</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallActiveBar.qml" line="+79"/>
+        <source>Element Call in %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Back to call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>End call</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+157"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
         <source>Element Call</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Expand</source>
         <translation type="unfinished">Ausklappen</translation>
     </message>
@@ -1363,7 +1381,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation type="unfinished">Einklappen</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>End call</source>
         <translation type="unfinished"/>
     </message>

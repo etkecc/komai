@@ -976,17 +976,17 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+1"/>
         <source>Calls are not available in this room.</source>
-        <translation type="unfinished"/>
+        <translation>Appeles ne es disponibil in hic chambre.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Legacy call</source>
-        <translation type="unfinished"/>
+        <translation>Appel ancian</translation>
     </message>
 </context>
 <context>
@@ -1350,17 +1350,17 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location filename="../../qml/voip/ElementCallActiveBar.qml" line="+79"/>
         <source>Element Call in %1</source>
-        <translation type="unfinished"/>
+        <translation>Element Call in %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Back to call</source>
-        <translation type="unfinished"/>
+        <translation>Retornar al appel</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>Terminar appel</translation>
     </message>
 </context>
 <context>
@@ -1368,32 +1368,32 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Expand</source>
-        <translation type="unfinished">Expandir</translation>
+        <translation>Expandir</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished">Contraher</translation>
+        <translation>Collapsar</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>Terminar appel</translation>
     </message>
     <message>
         <location line="+97"/>
         <source>Leaving call…</source>
-        <translation type="unfinished"/>
+        <translation>Sortinte del appel…</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Iniciante Element Call…</translation>
     </message>
 </context>
 <context>
@@ -1401,17 +1401,17 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
         <source>Element Call build spike</source>
-        <translation type="unfinished"/>
+        <translation>Experimento de construction Element Call</translation>
     </message>
     <message>
         <location line="+126"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Iniciante Element Call…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation type="unfinished"/>
+        <translation>Aperir un chambre prím, alora premar Ctrl+Alt+E.</translation>
     </message>
 </context>
 <context>
@@ -1950,7 +1950,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+542"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Etiquettes del chambre posse solmen esser cambiat por chambres participat disponibil in ci session.</translation>
     </message>
@@ -7042,7 +7042,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Invitation pendant</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+56"/>
         <source>Pending invite.</source>
         <translation>Invitation pendant.</translation>
     </message>
@@ -8436,8 +8436,8 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>[RTC notification]</source>
-        <translation>[Notification RTC]</translation>
+        <source>Started a call</source>
+        <translation>Iniciát un appel</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8940,7 +8940,32 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Ir al chambre de substitution</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+49"/>
+        <source>%1 started a call · you are in the call</source>
+        <translation>%1 iniciát un appel · vu es in li appel</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · People in the call: %2</source>
+        <translation>%1 iniciát un appel · Persones in li appel: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 started a call · in progress</source>
+        <translation>%1 iniciát un appel · in progresse</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · call ended</source>
+        <translation>%1 iniciát un appel · appel terminat</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Join</source>
+        <translation>Participer</translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Unsupported state event (%1)</source>
         <translation>Eveniment de estat non supportat (%1)</translation>
     </message>
@@ -11939,12 +11964,12 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     <message>
         <location line="+3"/>
         <source>Enable Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Activar Element Call</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation type="unfinished"/>
+        <translation>Permisse appelates vocal e video de grupo via Element Call (MatrixRTC). Requir un homeserver con un backend MatrixRTC.</translation>
     </message>
     <message>
         <location line="+3"/>

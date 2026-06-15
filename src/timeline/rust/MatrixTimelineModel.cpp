@@ -548,6 +548,8 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case OriginalWidth:      return static_cast<int>(item.mediaWidth);
     case ProportionalHeight: return item.cachedProportionalH;
     case EventId:            return item.eventId;
+    case IsLatestCallNotification:
+        return !item.eventId.isEmpty() && item.eventId == latestRtcNotificationEventId_;
     case Status:             return item.cachedStatus;
     case IsEdited:           return item.isEdited;
     case IsEditable:         return item.cachedIsEditable;
@@ -560,7 +562,7 @@ MatrixTimelineModel::data(const QModelIndex &index, int role) const
     case ThreadId:           return item.threadId;
     case Reactions:          return item.reactions;
     case Room:               return false;
-    case RoomId:             return QString();
+    case RoomId:             return roomId_;
     case CallType:           return QString();
     case Dump:               return QVariant();
     case RelatedEventCacheBuster: return 0;
@@ -758,6 +760,7 @@ MatrixTimelineModel::roleNames() const
       {MessageShield, "messageShield"},
       {MatrixEventType, "matrixEventType"},
       {TombstoneReplacementRoomId, "tombstoneReplacementRoomId"},
+      {IsLatestCallNotification, "isLatestCallNotification"},
     };
 }
 
@@ -1503,8 +1506,42 @@ MatrixTimelineModel::replaceItems(QVector<MatrixTimelineItem> items)
     revealedItemCount_ = std::clamp(targetVisibleCount, 0, static_cast<int>(newRawCount));
     replaceVisibleItems(visibleItemsForRawCount(revealedItemCount_));
 
+    refreshLatestRtcNotification();
+
     if (newRawCount != oldRawCount)
         emit rawCountChanged();
+}
+
+void
+MatrixTimelineModel::refreshLatestRtcNotification()
+{
+    // Pick the newest `m.rtc.notification` (Element Call "a call started") so the
+    // call tile shows live ongoing/ended + Join state on only the latest one.
+    QString latestEventId;
+    uint64_t latestTimestamp = 0;
+    for (const auto &item : allItems_) {
+        if (item.cachedType != qml_mtx_events::CallNotification || item.eventId.isEmpty())
+            continue;
+        if (latestEventId.isEmpty() || item.timestamp >= latestTimestamp) {
+            latestTimestamp = item.timestamp;
+            latestEventId   = item.eventId;
+        }
+    }
+
+    if (latestEventId != latestRtcNotificationEventId_) {
+        latestRtcNotificationEventId_ = latestEventId;
+        emit latestRtcNotificationEventIdChanged();
+
+        // Refresh the IsLatestCallNotification role on the visible call rows so
+        // the delegate re-reads it (the old latest reverts to historical, the
+        // new latest goes live).
+        for (int row = 0; row < items_.size(); ++row) {
+            if (items_.at(row).cachedType == qml_mtx_events::CallNotification) {
+                const auto idx = index(row);
+                emit dataChanged(idx, idx, {IsLatestCallNotification});
+            }
+        }
+    }
 }
 
 void
@@ -1554,6 +1591,7 @@ MatrixTimelineModel::clear()
     allItems_.clear();
     revealedItemCount_ = 0;
     replaceVisibleItems({});
+    refreshLatestRtcNotification();
     if (hadRawItems)
         emit rawCountChanged();
 }

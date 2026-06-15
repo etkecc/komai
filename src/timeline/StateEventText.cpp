@@ -361,7 +361,7 @@ eventTypeLabel(const QString &itemKind, const QString & /*matrixEventType*/)
     if (itemKind == QStringLiteral("call_invite"))
         return Tr::tr("[Call invite]");
     if (itemKind == QStringLiteral("rtc_notification"))
-        return Tr::tr("[RTC notification]");
+        return Tr::tr("Started a call");
     if (itemKind == QStringLiteral("poll"))
         return Tr::tr("[Poll]");
     if (itemKind == QStringLiteral("sticker"))

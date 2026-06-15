@@ -31,6 +31,12 @@ class MatrixTimelineModel final : public EventDataSource
     /// surface "loading more messages" state at the top of the timeline.
     Q_PROPERTY(
       bool paginationInProgress READ paginationInProgress NOTIFY paginationInProgressChanged)
+    /// Event id of the most recent `m.rtc.notification` (Element Call "a call
+    /// started") in this room's timeline, or empty if there is none. The call
+    /// tile delegate uses it to show live ongoing/ended + Join state on only the
+    /// newest notification, leaving older ones as static historical notices.
+    Q_PROPERTY(QString latestRtcNotificationEventId READ latestRtcNotificationEventId NOTIFY
+                 latestRtcNotificationEventIdChanged)
 
 public:
     /// Canonical roles — values 0–45 match TimelineModel::Roles exactly so
@@ -105,6 +111,11 @@ public:
         MessageShield,
         MatrixEventType,
         TombstoneReplacementRoomId,
+        // True for the newest `m.rtc.notification` (Element Call) row in the
+        // room; the call tile uses it so only the latest notification shows live
+        // ongoing/ended + Join state. A model role (not a var-typed binding to
+        // latestRtcNotificationEventId) so it updates reactively via dataChanged.
+        IsLatestCallNotification,
     };
 
     explicit MatrixTimelineModel(QObject *parent = nullptr);
@@ -145,6 +156,7 @@ public:
     int rawCount() const { return allItems_.size(); }
     bool paginationInProgress() const { return paginationInProgress_; }
     void setPaginationInProgress(bool inProgress);
+    QString latestRtcNotificationEventId() const { return latestRtcNotificationEventId_; }
     int hiddenCount() const;
     bool redactItemByEventId(const QString &eventId);
     bool removeItemByTransactionId(const QString &transactionId);
@@ -156,6 +168,7 @@ signals:
     void countChanged();
     void rawCountChanged();
     void paginationInProgressChanged();
+    void latestRtcNotificationEventIdChanged();
     void specialEffectsTriggered(const QStringList &effectNames);
     void aboutToReplaceContent();
     void contentReplaced();
@@ -172,12 +185,16 @@ private:
     void applyRedactedPresentation(MatrixTimelineItem &item) const;
     void applyOptimisticRedactions(QVector<MatrixTimelineItem> &items);
     void emitEffectsForPrependedItems(const QVector<MatrixTimelineItem> &nextItems);
+    // Recompute latestRtcNotificationEventId_ from allItems_; emits its changed
+    // signal only when the resolved event id differs.
+    void refreshLatestRtcNotification();
 
     QString roomId_;
     QVector<MatrixTimelineItem> allItems_;
     QVector<MatrixTimelineItem> items_;
     int revealedItemCount_     = 0;
     bool paginationInProgress_ = false;
+    QString latestRtcNotificationEventId_;
     QSet<QString> optimisticRedactedEventIds_;
 };
 

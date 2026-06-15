@@ -976,17 +976,17 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+1"/>
         <source>Calls are not available in this room.</source>
-        <translation type="unfinished"/>
+        <translation>Les appels ne sont pas disponibles dans ce salon.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Legacy call</source>
-        <translation type="unfinished"/>
+        <translation>Appel classique</translation>
     </message>
 </context>
 <context>
@@ -1350,17 +1350,17 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location filename="../../qml/voip/ElementCallActiveBar.qml" line="+79"/>
         <source>Element Call in %1</source>
-        <translation type="unfinished"/>
+        <translation>Element Call dans %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Back to call</source>
-        <translation type="unfinished"/>
+        <translation>Retour à l'appel</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>Terminer l'appel</translation>
     </message>
 </context>
 <context>
@@ -1368,32 +1368,32 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Expand</source>
-        <translation type="unfinished">Développer</translation>
+        <translation>Agrandir</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished">Réduire</translation>
+        <translation>Réduire</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>Terminer l'appel</translation>
     </message>
     <message>
         <location line="+97"/>
         <source>Leaving call…</source>
-        <translation type="unfinished"/>
+        <translation>Déconnexion de l'appel…</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Démarrage d'Element Call…</translation>
     </message>
 </context>
 <context>
@@ -1401,17 +1401,17 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
         <source>Element Call build spike</source>
-        <translation type="unfinished"/>
+        <translation>Prototype Element Call</translation>
     </message>
     <message>
         <location line="+126"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Démarrage d'Element Call…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation type="unfinished"/>
+        <translation>Ouvrez d'abord un salon, puis appuyez sur Ctrl+Alt+E.</translation>
     </message>
 </context>
 <context>
@@ -1950,7 +1950,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+542"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Les étiquettes de salon ne peuvent être modifiées que pour les salons rejoints disponibles dans cette session.</translation>
     </message>
@@ -7042,7 +7042,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Invitation en attente</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+56"/>
         <source>Pending invite.</source>
         <translation>Invitation en attente.</translation>
     </message>
@@ -8436,8 +8436,8 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>[RTC notification]</source>
-        <translation>[Notification RTC]</translation>
+        <source>Started a call</source>
+        <translation>A démarré un appel</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8940,7 +8940,32 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Aller au salon de remplacement</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+49"/>
+        <source>%1 started a call · you are in the call</source>
+        <translation>%1 a démarré un appel · vous êtes dans l'appel</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · People in the call: %2</source>
+        <translation>%1 a démarré un appel · Personnes dans l'appel : %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 started a call · in progress</source>
+        <translation>%1 a démarré un appel · en cours</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · call ended</source>
+        <translation>%1 a démarré un appel · appel terminé</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Join</source>
+        <translation>Rejoindre</translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Unsupported state event (%1)</source>
         <translation>Événement d'état non pris en charge (%1)</translation>
     </message>
@@ -11939,12 +11964,12 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     <message>
         <location line="+3"/>
         <source>Enable Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Activer Element Call</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation type="unfinished"/>
+        <translation>Permet les appels vocaux et vidéo de groupe Element Call (MatrixRTC). Nécessite un serveur avec un backend MatrixRTC.</translation>
     </message>
     <message>
         <location line="+3"/>

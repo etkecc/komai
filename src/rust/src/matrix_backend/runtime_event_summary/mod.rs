@@ -136,7 +136,7 @@ pub fn summarize_timeline_content(
         TimelineItemContent::RtcNotification { .. } => summary(
             "rtc_notification",
             "m.rtc.notification",
-            "[RTC notification]",
+            "Started a call",
         ),
     }
 }
@@ -156,7 +156,7 @@ pub fn summarize_sync_timeline_event(event: &AnySyncTimelineEvent) -> Option<Mat
             summary("call_invite", "m.call.invite", "[Call invite]")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::RtcNotification(_)) => {
-            summary("rtc_notification", "m.rtc.notification", "[RTC notification]")
+            summary("rtc_notification", "m.rtc.notification", "Started a call")
         }
         AnySyncTimelineEvent::MessageLike(AnySyncMessageLikeEvent::Reaction(_)) => {
             summary("reaction", "m.reaction", "Reactions updated")

@@ -975,17 +975,17 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location line="+1"/>
         <source>Calls are not available in this room.</source>
-        <translation type="unfinished"/>
+        <translation>Cuộc gọi không khả dụng trong phòng này.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Legacy call</source>
-        <translation type="unfinished"/>
+        <translation>Cuộc gọi cũ</translation>
     </message>
 </context>
 <context>
@@ -1348,17 +1348,17 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location filename="../../qml/voip/ElementCallActiveBar.qml" line="+79"/>
         <source>Element Call in %1</source>
-        <translation type="unfinished"/>
+        <translation>Element Call trong %1</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Back to call</source>
-        <translation type="unfinished"/>
+        <translation>Quay lại cuộc gọi</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>Kết thúc cuộc gọi</translation>
     </message>
 </context>
 <context>
@@ -1366,32 +1366,32 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Expand</source>
-        <translation type="unfinished">Mở rộng</translation>
+        <translation>Mở rộng</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished">Thu gọn</translation>
+        <translation>Thu gọn</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>Kết thúc cuộc gọi</translation>
     </message>
     <message>
         <location line="+97"/>
         <source>Leaving call…</source>
-        <translation type="unfinished"/>
+        <translation>Đang rời cuộc gọi…</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Đang khởi động Element Call…</translation>
     </message>
 </context>
 <context>
@@ -1399,17 +1399,17 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
         <source>Element Call build spike</source>
-        <translation type="unfinished"/>
+        <translation>Thử nghiệm Element Call</translation>
     </message>
     <message>
         <location line="+126"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Đang khởi động Element Call…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation type="unfinished"/>
+        <translation>Mở một phòng trước, sau đó nhấn Ctrl+Alt+E.</translation>
     </message>
 </context>
 <context>
@@ -1948,7 +1948,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+542"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Thẻ phòng chỉ có thể thay đổi cho các phòng đã tham gia trong phiên này.</translation>
     </message>
@@ -7033,7 +7033,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Lời mời đang chờ</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+56"/>
         <source>Pending invite.</source>
         <translation>Lời mời đang chờ.</translation>
     </message>
@@ -8427,8 +8427,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>[RTC notification]</source>
-        <translation>[Thông báo RTC]</translation>
+        <source>Started a call</source>
+        <translation>Đã bắt đầu cuộc gọi</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8929,7 +8929,32 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Đến phòng thay thế</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+49"/>
+        <source>%1 started a call · you are in the call</source>
+        <translation>%1 đã bắt đầu cuộc gọi · bạn đang trong cuộc gọi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · People in the call: %2</source>
+        <translation>%1 đã bắt đầu cuộc gọi · Người trong cuộc gọi: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 started a call · in progress</source>
+        <translation>%1 đã bắt đầu cuộc gọi · đang diễn ra</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · call ended</source>
+        <translation>%1 đã bắt đầu cuộc gọi · cuộc gọi đã kết thúc</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Join</source>
+        <translation>Tham gia</translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Unsupported state event (%1)</source>
         <translation>Sự kiện trạng thái không được hỗ trợ (%1)</translation>
     </message>
@@ -11923,12 +11948,12 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     <message>
         <location line="+3"/>
         <source>Enable Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Bật Element Call</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation type="unfinished"/>
+        <translation>Cho phép gọi nhóm thoại và video qua Element Call (MatrixRTC). Yêu cầu máy chủ nhà có hỗ trợ MatrixRTC.</translation>
     </message>
     <message>
         <location line="+3"/>

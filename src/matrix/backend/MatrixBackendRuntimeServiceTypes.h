@@ -152,18 +152,20 @@ struct MatrixRoomSummary
     QString inviterDisplayName;
     QString inviterAvatarUrl;
     QString inviteReason;
-    bool isInvite              = false;
-    bool isSpace               = false;
-    bool isDirect              = false;
-    bool isBotRoom             = false;
-    bool isEncrypted           = false;
-    bool isPublic              = false;
-    uint64_t memberCount       = 0;
-    uint64_t unreadMessages    = 0;
-    uint64_t notificationCount = 0;
-    uint64_t highlightCount    = 0;
-    bool isMarkedUnread        = false;
-    uint64_t timestamp         = 0;
+    bool isInvite                       = false;
+    bool isSpace                        = false;
+    bool isDirect                       = false;
+    bool isBotRoom                      = false;
+    bool isEncrypted                    = false;
+    bool isPublic                       = false;
+    uint64_t memberCount                = 0;
+    uint64_t unreadMessages             = 0;
+    uint64_t notificationCount          = 0;
+    uint64_t highlightCount             = 0;
+    bool isMarkedUnread                 = false;
+    bool hasActiveCall                  = false;
+    uint64_t activeCallParticipantCount = 0;
+    uint64_t timestamp                  = 0;
 };
 
 struct MatrixNotificationRequest

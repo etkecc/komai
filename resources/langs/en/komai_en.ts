@@ -1944,7 +1944,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+542"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation type="unfinished"/>
     </message>
@@ -7012,7 +7012,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+56"/>
         <source>Pending invite.</source>
         <translation>Pending invite.</translation>
     </message>
@@ -8405,7 +8405,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>[RTC notification]</source>
+        <source>Started a call</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -8909,7 +8909,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Go to replacement room</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+49"/>
+        <source>%1 started a call · you are in the call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · People in the call: %2</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 started a call · in progress</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · call ended</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Join</source>
+        <translation type="unfinished">Join</translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Unsupported state event (%1)</source>
         <translation type="unfinished"/>
     </message>

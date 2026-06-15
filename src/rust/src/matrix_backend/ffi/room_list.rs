@@ -38,6 +38,8 @@ pub(crate) fn into_ffi_matrix_room_summary(
         notification_count: room.notification_count,
         highlight_count: room.highlight_count,
         is_marked_unread: room.is_marked_unread,
+        has_active_call: room.has_active_call,
+        active_call_participant_count: room.active_call_participant_count,
         timestamp: room.timestamp,
     }
 }

@@ -205,6 +205,10 @@ RoomlistModel::dataForMatrixRoom(const QString &room_id,
         return room.isEncrypted;
     case Roles::IsMarkedUnread:
         return room.isMarkedUnread;
+    case Roles::HasActiveCall:
+        return room.hasActiveCall;
+    case Roles::ActiveCallParticipantCount:
+        return static_cast<int>(room.activeCallParticipantCount);
     default:
         return {};
     }

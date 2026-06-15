@@ -304,10 +304,17 @@ async fn run_session(
     //   * `confineToRoom=true` removes EC's "Back to recents" / return-to-home
     //     navigation (the call is embedded in a single room; leaving is driven by
     //     our own End call button).
-    // `new_virtual_element_call_widget` emits neither key when the corresponding
-    // config fields are `None`, so appending is safe.
-    let fragment =
-        format!("{}&header=none&confineToRoom=true", url.fragment().unwrap_or("?"));
+    //   * `sendNotificationType=notification` makes Element Call publish an
+    //     `m.rtc.notification` (MSC4075) when a call starts, so the timeline shows
+    //     a "started a call" tile. Without an `intent` EC's "unknown intent" preset
+    //     leaves this `undefined` and emits nothing. We use `notification` (silent)
+    //     rather than `ring` here; ringing is a separate concern.
+    // `new_virtual_element_call_widget` emits none of these keys when the
+    // corresponding config fields are `None`, so appending is safe.
+    let fragment = format!(
+        "{}&header=none&confineToRoom=true&sendNotificationType=notification",
+        url.fragment().unwrap_or("?")
+    );
     url.set_fragment(Some(&fragment));
     let url = url.to_string();
 

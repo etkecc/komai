@@ -989,6 +989,8 @@ mod bridge {
         notification_count: u64,
         highlight_count: u64,
         is_marked_unread: bool,
+        has_active_call: bool,
+        active_call_participant_count: u64,
         timestamp: u64,
     }
 

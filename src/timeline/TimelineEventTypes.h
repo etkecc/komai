@@ -42,6 +42,8 @@ enum EventType
     CallReject,
     /// m.call.negotiate
     CallNegotiate,
+    /// m.rtc.notification (MatrixRTC / Element Call "a call started")
+    CallNotification,
     /// m.room.canonical_alias
     CanonicalAlias,
     /// m.room.create

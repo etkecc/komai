@@ -491,6 +491,68 @@ EventDelegateChooser {
         }
     }
     EventDelegateChoice {
+        roleValues: [MtxEvent.CallNotification]
+
+        ColumnLayout {
+            id: callNotification
+
+            required property string eventId
+            required property string roomId
+            required property string userName
+            // Per-row model role: true only for the newest call notification in
+            // the room, so only it reflects live call state (one call per room);
+            // older ones stay static historical notices. A role (not a var
+            // binding) so it updates reactively via dataChanged.
+            required property bool isLatestCallNotification
+            property bool stateEventIconOnRight: false
+
+            readonly property bool isLatest: callNotification.isLatestCallNotification
+            // Rooms.activeCalls maps roomId -> live participant count; the lookup
+            // re-evaluates as people join/leave the MatrixRTC session. This is
+            // room-level, so it is true for EVERY tile in a room that has a live
+            // call — gate "is THIS tile's call live" on isLatest too.
+            readonly property bool roomCallActive: Rooms.activeCalls[callNotification.roomId] !== undefined
+            readonly property int participantCount: callNotification.roomCallActive
+                ? Rooms.activeCalls[callNotification.roomId] : 0
+            readonly property bool joinedHere: ElementCall.active
+                && ElementCall.activeRoomId === callNotification.roomId
+            // The current/live call corresponds to the newest notification (one
+            // call per room); any older notification's call has ended.
+            readonly property bool isLive: callNotification.isLatest && callNotification.roomCallActive
+            readonly property bool canJoin: callNotification.isLive
+                && ElementCall.supported && Settings.callsElementEnabled && !callNotification.joinedHere
+
+            StateEventMessage {
+                Layout.fillWidth: true
+                body: formatted
+                formatted: {
+                    if (callNotification.isLive) {
+                        if (callNotification.joinedHere)
+                            return qsTr("%1 started a call · you are in the call").arg(callNotification.userName);
+                        if (callNotification.participantCount > 0)
+                            return qsTr("%1 started a call · People in the call: %2").arg(callNotification.userName).arg(callNotification.participantCount);
+                        return qsTr("%1 started a call · in progress").arg(callNotification.userName);
+                    }
+                    return qsTr("%1 started a call · call ended").arg(callNotification.userName);
+                }
+                isOnlyEmoji: 0
+                isReply: EventDelegateChooser.isReply
+                isStateEvent: true
+                stateEventIconSource: ":/icons/icons/ui/place-call.svg"
+                stateEventIconColorCategory: callNotification.isLive ? "positive" : "neutral"
+                stateEventIconOnRight: callNotification.stateEventIconOnRight
+                keepFullText: true
+            }
+            Components.KomaiButton {
+                Layout.alignment: Qt.AlignHCenter
+                text: qsTr("Join")
+                visible: callNotification.canJoin
+
+                onClicked: ElementCall.startCall(callNotification.roomId)
+            }
+        }
+    }
+    EventDelegateChoice {
         roleValues: []
 
         MatrixText {

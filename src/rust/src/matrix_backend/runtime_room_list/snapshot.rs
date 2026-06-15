@@ -265,6 +265,11 @@ pub(super) async fn room_list_item_to_summary(
         notification_count: raw_unread_notifications,
         highlight_count: raw_unread_mentions,
         is_marked_unread: room.is_marked_unread(),
+        // MatrixRTC (Element Call) session state, recomputed on every snapshot
+        // (which the sync loop rebuilds whenever `m.call.member` state churns),
+        // so the room-level "a call is live here" signal stays current.
+        has_active_call: room.has_active_room_call(),
+        active_call_participant_count: room.active_room_call_participants().len() as u64,
         timestamp,
     }
 }

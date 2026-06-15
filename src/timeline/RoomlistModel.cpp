@@ -51,7 +51,10 @@ matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::Matri
            left.memberCount == right.memberCount && left.unreadMessages == right.unreadMessages &&
            left.notificationCount == right.notificationCount &&
            left.highlightCount == right.highlightCount &&
-           left.isMarkedUnread == right.isMarkedUnread && left.timestamp == right.timestamp;
+           left.isMarkedUnread == right.isMarkedUnread &&
+           left.hasActiveCall == right.hasActiveCall &&
+           left.activeCallParticipantCount == right.activeCallParticipantCount &&
+           left.timestamp == right.timestamp;
 }
 
 bool
@@ -348,7 +351,24 @@ RoomlistModel::roleNames() const
       {IsBotRoom, "isBotRoom"},
       {IsEncrypted, "isEncrypted"},
       {IsMarkedUnread, "isMarkedUnread"},
+      {HasActiveCall, "hasActiveCall"},
+      {ActiveCallParticipantCount, "activeCallParticipantCount"},
     };
+}
+
+void
+RoomlistModel::refreshActiveCalls()
+{
+    QVariantMap next;
+    for (auto it = matrixJoinedRooms_.cbegin(); it != matrixJoinedRooms_.cend(); ++it) {
+        if (it.value().hasActiveCall)
+            next.insert(it.key(), static_cast<int>(it.value().activeCallParticipantCount));
+    }
+
+    if (next != activeCalls_) {
+        activeCalls_ = std::move(next);
+        emit activeCallsChanged();
+    }
 }
 
 QString
@@ -708,6 +728,8 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
         roomids            = std::move(newRoomIds);
         endResetModel();
     }
+
+    refreshActiveCalls();
 
     const auto currentTotalNotifications = totalNotificationCount(matrixJoinedRooms_);
     if (hadPreviousMatrixSnapshot && shouldAlertOnIncoming &&

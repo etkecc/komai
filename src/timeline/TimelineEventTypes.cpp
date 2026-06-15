@@ -202,12 +202,13 @@ qml_mtx_events::matrixTimelineEventType(const QString &itemKind, const QString &
         return Redaction;
     if (normalizedEventType == QStringLiteral("m.room.message"))
         return UnknownMessage;
+    if (normalizedKind == QStringLiteral("rtc_notification"))
+        return CallNotification;
     if (normalizedKind == QStringLiteral("other_state") ||
         normalizedKind == QStringLiteral("failed_to_parse_state") ||
         normalizedKind == QStringLiteral("other_message") ||
         normalizedKind == QStringLiteral("failed_to_parse_message_like") ||
         normalizedKind == QStringLiteral("poll") ||
-        normalizedKind == QStringLiteral("rtc_notification") ||
         normalizedKind == QStringLiteral("date_divider")) {
         return UnknownEvent;
     }

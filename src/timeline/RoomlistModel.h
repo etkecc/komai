@@ -10,6 +10,7 @@
 #include <QQmlEngine>
 #include <QSortFilterProxyModel>
 #include <QString>
+#include <QVariant>
 #include <optional>
 #include <set>
 #include <string>
@@ -90,6 +91,10 @@ class RoomlistModel final : public QAbstractListModel
       QString currentRoomId READ currentRoomId NOTIFY currentRoomIdChanged RESET resetCurrentRoom)
     Q_PROPERTY(RoomPreview currentRoomPreview READ currentRoomPreview NOTIFY
                  currentRoomPreviewChanged RESET resetCurrentRoom)
+    // Rooms that currently have a live MatrixRTC (Element Call) session, mapped
+    // to their participant count. Lets QML (timeline call tiles, avatar call
+    // indicators) react to calls happening in rooms the user has not joined.
+    Q_PROPERTY(QVariantMap activeCalls READ activeCalls NOTIFY activeCallsChanged)
 public:
     enum Roles
     {
@@ -117,6 +122,8 @@ public:
         IsBotRoom,
         IsEncrypted,
         IsMarkedUnread,
+        HasActiveCall,
+        ActiveCallParticipantCount,
     };
 
     RoomlistModel(TimelineViewManager *parent = nullptr);
@@ -139,6 +146,8 @@ public:
     void notifyRoomPreviewsBackfilled();
 
     RoomPreview currentRoomPreview() const { return currentRoomPreview_.value_or(RoomPreview{}); }
+
+    const QVariantMap &activeCalls() const { return activeCalls_; }
 
 public slots:
     void initializeRooms();
@@ -191,8 +200,15 @@ signals:
     void suppressedUpdatesChanged();
     void spaceSelected(QString roomId);
     void roomLeft(QString roomid);
+    void activeCallsChanged();
 
 private:
+    // Recompute `activeCalls_` from the current room summaries; emits
+    // activeCallsChanged() only when the set/counts actually change.
+    void refreshActiveCalls();
+
+    QVariantMap activeCalls_;
+
     struct AttentionState
     {
         bool hasUnread     = false;
@@ -314,6 +330,9 @@ class FilteredRoomlistModel final : public QSortFilterProxyModel
                  currentRoomPreviewChanged RESET resetCurrentRoom)
     Q_PROPERTY(
       bool hasSuppressedUpdates READ hasSuppressedUpdates NOTIFY hasSuppressedUpdatesChanged)
+    // Forwards the source model's live "rooms with an active call" map
+    // (roomId -> participant count) to QML; see RoomlistModel::activeCalls.
+    Q_PROPERTY(QVariantMap activeCalls READ activeCalls NOTIFY activeCallsChanged)
 public:
     FilteredRoomlistModel(RoomlistModel *model, QObject *parent = nullptr);
 
@@ -333,6 +352,7 @@ public:
     QString currentRoomId() const { return roomlistmodel->currentRoomId(); }
     RoomPreview currentRoomPreview() const { return roomlistmodel->currentRoomPreview(); }
     bool hasSuppressedUpdates() const { return roomlistmodel->hasSuppressedUpdates(); }
+    QVariantMap activeCalls() const { return roomlistmodel->activeCalls(); }
 
 public slots:
     int roomidToIndex(QString roomid)
@@ -437,6 +457,7 @@ signals:
     void currentRoomPreviewChanged();
     void hasSuppressedUpdatesChanged();
     void roomLeft(QString roomid);
+    void activeCallsChanged();
 
 private:
     QModelIndex sourceRowIndex(int sourceRow) const;

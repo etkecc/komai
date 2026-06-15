@@ -330,6 +330,11 @@ pub struct MatrixRoomSummary {
     pub notification_count: u64,
     pub highlight_count: u64,
     pub is_marked_unread: bool,
+    /// Whether the room currently has an active MatrixRTC (Element Call)
+    /// session, derived from non-expired `m.call.member` memberships.
+    pub has_active_call: bool,
+    /// Number of distinct participants currently in that MatrixRTC session.
+    pub active_call_participant_count: u64,
     pub timestamp: u64,
 }
 

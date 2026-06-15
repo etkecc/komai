@@ -976,17 +976,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+1"/>
         <source>Calls are not available in this room.</source>
-        <translation type="unfinished"/>
+        <translation>ഈ മുറിയിൽ കോളുകൾ ലഭ്യമല്ല.</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Legacy call</source>
-        <translation type="unfinished"/>
+        <translation>പഴയ കോൾ</translation>
     </message>
 </context>
 <context>
@@ -1350,17 +1350,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/voip/ElementCallActiveBar.qml" line="+79"/>
         <source>Element Call in %1</source>
-        <translation type="unfinished"/>
+        <translation>%1-ൽ Element Call</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Back to call</source>
-        <translation type="unfinished"/>
+        <translation>കോളിലേക്ക് തിരിച്ചുപോകുക</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>കോൾ അവസാനിപ്പിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -1368,32 +1368,32 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
         <source>Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Expand</source>
-        <translation type="unfinished">വികസിപ്പിക്കുക</translation>
+        <translation>വലുതാക്കുക</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation type="unfinished">ചുരുക്കുക</translation>
+        <translation>ചുരുക്കുക</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>End call</source>
-        <translation type="unfinished"/>
+        <translation>കോൾ അവസാനിപ്പിക്കുക</translation>
     </message>
     <message>
         <location line="+97"/>
         <source>Leaving call…</source>
-        <translation type="unfinished"/>
+        <translation>കോൾ വിടുന്നു…</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Element Call ആരംഭിക്കുന്നു…</translation>
     </message>
 </context>
 <context>
@@ -1401,17 +1401,17 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
         <source>Element Call build spike</source>
-        <translation type="unfinished"/>
+        <translation>Element Call ബിൽഡ് സ്പൈക്ക്</translation>
     </message>
     <message>
         <location line="+126"/>
         <source>Starting Element Call…</source>
-        <translation type="unfinished"/>
+        <translation>Element Call ആരംഭിക്കുന്നു…</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation type="unfinished"/>
+        <translation>ആദ്യം ഒരു മുറി തുറക്കുക, തുടർന്ന് Ctrl+Alt+E അമർത്തുക.</translation>
     </message>
 </context>
 <context>
@@ -1950,7 +1950,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+538"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+542"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>ഈ സെഷനിൽ ലഭ്യമായ ചേർന്ന മുറികൾക്ക് മാത്രമേ മുറി ടാഗുകൾ മാറ്റാൻ കഴിയൂ.</translation>
     </message>
@@ -7042,7 +7042,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>തീർപ്പാകാത്ത ക്ഷണം</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+56"/>
         <source>Pending invite.</source>
         <translation>തീർപ്പാകാത്ത ക്ഷണം.</translation>
     </message>
@@ -8436,8 +8436,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>[RTC notification]</source>
-        <translation>[RTC അറിയിപ്പ്]</translation>
+        <source>Started a call</source>
+        <translation>ഒരു കോൾ ആരംഭിച്ചു</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -8940,7 +8940,32 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>പകരം മുറിയിലേക്ക് പോകുക</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+49"/>
+        <source>%1 started a call · you are in the call</source>
+        <translation>%1 ഒരു കോൾ ആരംഭിച്ചു · നിങ്ങൾ കോളിൽ ഉണ്ട്</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · People in the call: %2</source>
+        <translation>%1 ഒരു കോൾ ആരംഭിച്ചു · കോളിലുള്ള ആളുകൾ: %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 started a call · in progress</source>
+        <translation>%1 ഒരു കോൾ ആരംഭിച്ചു · നടന്നുകൊണ്ടിരിക്കുന്നു</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>%1 started a call · call ended</source>
+        <translation>%1 ഒരു കോൾ ആരംഭിച്ചു · കോൾ അവസാനിച്ചു</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Join</source>
+        <translation>ചേരുക</translation>
+    </message>
+    <message>
+        <location line="+23"/>
         <source>Unsupported state event (%1)</source>
         <translation>പിന്തുണയ്ക്കാത്ത സ്റ്റേറ്റ് ഇവന്റ് (%1)</translation>
     </message>
@@ -11939,12 +11964,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     <message>
         <location line="+3"/>
         <source>Enable Element Call</source>
-        <translation type="unfinished"/>
+        <translation>Element Call പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation type="unfinished"/>
+        <translation>Element Call (MatrixRTC) ഗ്രൂപ്പ് ശബ്ദ, വീഡിയോ കോളുകൾ അനുവദിക്കുന്നു. MatrixRTC ബാക്കെൻഡ് ഉള്ള ഒരു ഹോംസെർവർ ആവശ്യമാണ്.</translation>
     </message>
     <message>
         <location line="+3"/>

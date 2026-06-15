@@ -31,12 +31,13 @@ Item {
         && ((CallManager.isOnCall && CallManager.callRoomId === roomId)
             || (ElementCall.active && ElementCall.activeRoomId === roomId))
 
-    // How far the halo blooms beyond the avatar edge.
+    // How far the faint outer bloom reaches past the avatar edge (drives the
+    // blur radius below).
     readonly property int glowSpread: Math.round(Math.min(width, height) * 0.55)
     // How far the SOLID disk pokes past the avatar edge before it blurs. This
-    // dense band hugging the avatar is the most visible part of the glow; the
-    // bloom still fades out beyond it.
-    readonly property int rimBeyond: Math.round(Math.min(width, height) * 0.16)
+    // dense band hugging the avatar is the most VISIBLE part of the glow, so it
+    // dominates how far the glow appears to reach into neighbouring rows/tabs.
+    readonly property int rimBeyond: Math.round(Math.min(width, height) * 0.08)
 
     visible: callActive
     enabled: false
@@ -80,14 +81,14 @@ Item {
         SequentialAnimation on scale {
             running: root.visible && Settings.uiMotionAnimationsEnabled
             loops: Animation.Infinite
-            NumberAnimation { from: 0.97; to: 1.08; duration: 1100; easing.type: Easing.InOutSine }
-            NumberAnimation { from: 1.08; to: 0.97; duration: 1100; easing.type: Easing.InOutSine }
+            NumberAnimation { from: 0.96; to: 1.09; duration: 1000; easing.type: Easing.InOutSine }
+            NumberAnimation { from: 1.09; to: 0.96; duration: 1000; easing.type: Easing.InOutSine }
         }
         SequentialAnimation on opacity {
             running: root.visible && Settings.uiMotionAnimationsEnabled
             loops: Animation.Infinite
-            NumberAnimation { from: 1.0; to: 0.6; duration: 1100; easing.type: Easing.InOutSine }
-            NumberAnimation { from: 0.6; to: 1.0; duration: 1100; easing.type: Easing.InOutSine }
+            NumberAnimation { from: 1.0; to: 0.35; duration: 1000; easing.type: Easing.InOutSine }
+            NumberAnimation { from: 0.35; to: 1.0; duration: 1000; easing.type: Easing.InOutSine }
         }
     }
 }

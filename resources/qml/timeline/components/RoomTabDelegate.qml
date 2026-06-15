@@ -609,6 +609,17 @@ Rectangle {
                 source: "image://colorimage/:/icons/icons/ui/pin-filled.svg?" + palette.highlight
                 sourceSize: Qt.size(badgeSize, badgeSize)
             }
+
+            RoomCallGlow {
+                anchors.fill: parent
+                roomId: tabDelegate.roomId
+                z: -1
+            }
+
+            RoomCallIndicator {
+                anchors.fill: parent
+                roomId: tabDelegate.roomId
+            }
         }
 
         Text {

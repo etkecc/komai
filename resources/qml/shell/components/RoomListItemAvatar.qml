@@ -51,4 +51,15 @@ Avatar {
         mayBeVisible: root.collapsed && (root.isSpace ? Settings.navigationCommunitiesShowUnreadIndicators : root.hasUnreadMessages)
         unreadCount: root.unreadCount
     }
+
+    RoomCallGlow {
+        anchors.fill: parent
+        roomId: root.roomId
+        z: -1
+    }
+
+    RoomCallIndicator {
+        anchors.fill: parent
+        roomId: root.roomId
+    }
 }

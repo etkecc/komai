@@ -29,7 +29,10 @@ endif()
 # from source and linked into the komai binary. Build them as static libraries so
 # the installed binary is self-contained and doesn't require these .so files at
 # runtime. Packagers using -DCPM_USE_LOCAL_PACKAGES=ON get system shared libs
-# via find_package() instead, so this setting doesn't affect them.
+# via find_package() for KDSingleApplication and QtKeychain instead, so this
+# setting doesn't affect them. litehtml is the exception: it is always built
+# from our pinned source regardless of that flag (see the CPMAddPackage call
+# below for why).
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build bundled dependencies as static libraries")
 
 set(
@@ -763,29 +766,26 @@ include(FeatureSummary)
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
 
-# litehtml's upstream CMake packaging (e.g. Arch's /usr/lib/cmake/litehtml/
-# litehtmlConfig.cmake) ships without a litehtmlConfigVersion.cmake.  CPM
-# would extract "0.9" from GIT_TAG and pass it as a version constraint to
-# find_package, which then refuses to match the unversioned system config.
-# CPM has no supported way to suppress that derived version arg (cmake_parse_arguments
-# drops VERSION "" as if undefined), so we run find_package ourselves and only
-# fall through to the bundled build when no system package was found.
-if(CPM_USE_LOCAL_PACKAGES OR CPM_LOCAL_PACKAGES_ONLY)
-    find_package(litehtml CONFIG QUIET)
-endif()
-if(NOT litehtml_FOUND)
-    CPMAddPackage(
-        NAME litehtml
-        GIT_REPOSITORY https://github.com/litehtml/litehtml.git
-        GIT_TAG v0.9
-        OPTIONS "LITEHTML_BUILD_TESTING OFF"
-        # EXCLUDE_FROM_ALL keeps the bundled litehtml + gumbo headers, CMake
-        # configs, and static archives out of `cmake --install` so distro
-        # packagers don't need a post-install scrub when CPM falls through
-        # (e.g. on platforms with no system litehtml at all).
-        EXCLUDE_FROM_ALL YES
-    )
-endif()
+# litehtml is always built from our pinned source, never the system package —
+# even under -DCPM_USE_LOCAL_PACKAGES=ON (which still applies to every other
+# dependency). litehtml's document_container is a pure-virtual interface that
+# LitehtmlContainer subclasses, and it changes shape between releases (v0.10
+# reworked create_font/draw_background/get_client_rect, added on_mouse_event,
+# and dropped document::content_width). Our C++ can only match one version at a
+# time, so letting a rolling distro substitute its own litehtml would silently
+# break the build the moment its package version diverged from ours. Pinning
+# the GIT_TAG here keeps the API we compile against deterministic everywhere
+# (native, CI, Flatpak, AppImage, Snap, and the Arch package).
+CPMAddPackage(
+    NAME litehtml
+    GIT_REPOSITORY https://github.com/litehtml/litehtml.git
+    GIT_TAG v0.9
+    OPTIONS "LITEHTML_BUILD_TESTING OFF"
+    # EXCLUDE_FROM_ALL keeps the bundled litehtml + gumbo headers, CMake
+    # configs, and static archives out of `cmake --install` so distro
+    # packagers don't ship them — only the static code linked into komai.
+    EXCLUDE_FROM_ALL YES
+)
 if(litehtml_ADDED)
     # Suppress compiler warnings from litehtml's own sources and headers
     target_compile_options(litehtml PRIVATE -w)

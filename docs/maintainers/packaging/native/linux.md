@@ -56,8 +56,12 @@ sudo cmake --install var/build/native
 sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig python rust \
     openssl \
-    qtkeychain-qt6 kdsingleapplication litehtml
+    qtkeychain-qt6 kdsingleapplication
 ```
+
+litehtml is intentionally absent: it is always built from a pinned source
+fetched by CPM (see `CMakeLists.txt`), never from the system package, so its
+`document_container` ABI stays matched to our C++.
 
 For VOIP (skip if you pass `-DVOIP=OFF`):
 

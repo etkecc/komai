@@ -21,7 +21,6 @@ depends=(
 	gst-plugins-bad-libs
 	hicolor-icon-theme
 	kdsingleapplication
-	litehtml
 	'org.freedesktop.secrets'
 	qt6-base
 	qt6-declarative

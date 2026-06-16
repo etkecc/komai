@@ -33,7 +33,7 @@ Primary callsites:
 
 ## litehtml Rendering Architecture
 
-Timeline messages use [litehtml](https://github.com/litehtml/litehtml) v0.9 (BSD-3-Clause), a lightweight C++ HTML/CSS engine with no JavaScript, no network access, and no plugins. It is fetched via CMake FetchContent and statically linked.
+Timeline messages use [litehtml](https://github.com/litehtml/litehtml) v0.9 (BSD-3-Clause), a lightweight C++ HTML/CSS engine with no JavaScript, no network access, and no plugins. It is always fetched from a pinned tag via CPM/CMake FetchContent and statically linked, never taken from the system package (even under `-DCPM_USE_LOCAL_PACKAGES=ON`): `litehtml::document_container` is a pure-virtual interface `LitehtmlContainer` subclasses, and it changes shape between releases, so the version we compile against has to stay fixed.
 
 ### Component Overview
 

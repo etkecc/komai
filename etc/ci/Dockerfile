@@ -31,7 +31,7 @@ RUN pacman -Syu --noconfirm --needed \
         cmake just python python-yaml mise reuse rustup \
         qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
         cmark openssl \
-        qtkeychain-qt6 kdsingleapplication litehtml \
+        qtkeychain-qt6 kdsingleapplication \
         curl libsecret kwallet pipewire-jack \
         gst-plugins-bad-libs \
         github-cli \

@@ -199,7 +199,9 @@ TimelineMessageStyleBase {
             avatarUrl: wrapper.avatarImageUrl(wrapper.userId)
             avatarUserId: wrapper.userId
             avatarRoomId: wrapper.roomIdForColorCoding
-            toolTipText: wrapper.userId
+            toolTipText: (wrapper.userName.length > 0 && wrapper.userName !== wrapper.userId)
+                ? `${wrapper.userName} (${wrapper.userId})`
+                : wrapper.userId
             width: avatarSide
             height: avatarSide
 

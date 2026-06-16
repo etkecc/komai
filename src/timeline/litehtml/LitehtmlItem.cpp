@@ -278,9 +278,16 @@ LitehtmlItem::relayout()
     m_container->setViewportSize(w, static_cast<int>(height()));
     QElapsedTimer timer;
     timer.start();
-    m_document->render(w);
-    const qint64 renderUs = timer.nsecsElapsed() / 1000;
-    int cw                = m_document->content_width() + static_cast<int>(m_leftPadding) +
+    // litehtml 0.10 dropped document::content_width() (declared but undefined).
+    // It used to return the tight content extent — the widest laid-out line,
+    // excluding the full-width <html>/<body> boxes. render() returns exactly
+    // that intrinsic width (already capped at the render width by wrapping), so
+    // we use its return value. document::width() is unusable here: it includes
+    // the <html> root, which is display:block and fills the whole render width,
+    // so it would size every bubble to the maximum width.
+    const litehtml::pixel_t naturalWidth = m_document->render(w);
+    const qint64 renderUs                = timer.nsecsElapsed() / 1000;
+    int cw = static_cast<int>(naturalWidth) + static_cast<int>(m_leftPadding) +
              static_cast<int>(m_rightPadding);
     // litehtml's content_width is the sum of glyph advance widths. Italic
     // glyphs slant past their advance, so the last character's ink extends a

@@ -33,13 +33,16 @@ LitehtmlContainer::toQColor(const litehtml::web_color &c)
 // -- Font management --
 
 litehtml::uint_ptr
-LitehtmlContainer::create_font(const char *faceName,
-                               int size,
-                               int weight,
-                               litehtml::font_style italic,
-                               unsigned int decoration,
+LitehtmlContainer::create_font(const litehtml::font_description &descr,
+                               const litehtml::document * /*doc*/,
                                litehtml::font_metrics *fm)
 {
+    // litehtml 0.10 bundles all font attributes into font_description; the
+    // face name, pixel size, weight, style and text-decoration flags that
+    // used to be separate create_font arguments now come from there.
+    const char *faceName = descr.family.c_str();
+    const int size       = qRound(descr.size);
+
     auto *font = new QFont();
 
     if (faceName && *faceName) {
@@ -58,16 +61,16 @@ LitehtmlContainer::create_font(const char *faceName,
 
     // Map CSS weight (100-900) to QFont weight.
     // litehtml passes values like 400 (normal), 700 (bold).
-    font->setWeight(static_cast<QFont::Weight>(qBound(1, weight, 1000)));
+    font->setWeight(static_cast<QFont::Weight>(qBound(1, descr.weight, 1000)));
 
-    font->setItalic(italic == litehtml::font_style_italic);
-    font->setUnderline(decoration & litehtml::font_decoration_underline);
-    font->setStrikeOut(decoration & litehtml::font_decoration_linethrough);
-    font->setOverline(decoration & litehtml::font_decoration_overline);
+    font->setItalic(descr.style == litehtml::font_style_italic);
+    font->setUnderline(descr.decoration_line & litehtml::text_decoration_line_underline);
+    font->setStrikeOut(descr.decoration_line & litehtml::text_decoration_line_line_through);
+    font->setOverline(descr.decoration_line & litehtml::text_decoration_line_overline);
 
     if (fm) {
         QFontMetrics metrics(*font);
-        QString faceStr = faceName ? QString::fromUtf8(faceName) : QString();
+        QString faceStr = QString::fromUtf8(faceName);
         // litehtml passes CSS font-family values which may include quotes
         // (e.g. "'Noto Color Emoji'" from font-family: 'Noto Color Emoji').
         // Strip surrounding quotes for comparison.
@@ -102,6 +105,16 @@ LitehtmlContainer::create_font(const char *faceName,
             fm->height   = metrics.height();
             fm->x_height = metrics.xHeight();
         }
+        // litehtml 0.10 resolves em lengths as `value * font_metrics::font_size`
+        // (document::to_pixels). font_size is a new field that did not exist in
+        // 0.9; leaving it at its 0 default collapses every em-based length —
+        // including our `0.65em` paragraph/heading margins — to zero, removing
+        // all block spacing. It must be the font's pixel size. ch_width and the
+        // sub/super shifts are likewise new; mirror the reference containers.
+        fm->font_size   = size;
+        fm->ch_width    = metrics.horizontalAdvance(QLatin1Char('0'));
+        fm->sub_shift   = size / 5;
+        fm->super_shift = size / 3;
         fm->draw_spaces = true;
     }
 
@@ -114,7 +127,7 @@ LitehtmlContainer::delete_font(litehtml::uint_ptr hFont)
     delete reinterpret_cast<QFont *>(hFont);
 }
 
-int
+litehtml::pixel_t
 LitehtmlContainer::text_width(const char *text, litehtml::uint_ptr hFont)
 {
     auto *font = reinterpret_cast<QFont *>(hFont);
@@ -275,14 +288,14 @@ LitehtmlContainer::endTextRunCollection()
     }
 }
 
-int
-LitehtmlContainer::pt_to_px(int pt) const
+litehtml::pixel_t
+LitehtmlContainer::pt_to_px(float pt) const
 {
     // Match Qt's standard conversion factor (11pt -> ~14.67px at 96dpi).
     return qRound(pt * 96.0 / 72.0);
 }
 
-int
+litehtml::pixel_t
 LitehtmlContainer::get_default_font_size() const
 {
     return pt_to_px(qRound(m_defaultFont.pointSizeF()));
@@ -566,45 +579,78 @@ LitehtmlContainer::get_image_size(const char *src, const char * /*baseurl*/, lit
 // -- Drawing --
 
 void
-LitehtmlContainer::draw_background(litehtml::uint_ptr /*hdc*/,
-                                   const std::vector<litehtml::background_paint> &bgs)
+LitehtmlContainer::draw_solid_fill(litehtml::uint_ptr /*hdc*/,
+                                   const litehtml::background_layer &layer,
+                                   const litehtml::web_color &color)
 {
-    if (!m_painter)
+    // litehtml 0.10 splits the old draw_background into one call per layer:
+    // solid colours arrive here, images via draw_image, and CSS gradients via
+    // the draw_*_gradient hooks.
+    if (!m_painter || color.alpha == 0)
         return;
 
-    // Iterate in reverse: CSS paints farthest background first.
-    for (auto it = bgs.rbegin(); it != bgs.rend(); ++it) {
-        const auto &bg = *it;
-
-        // Fill with background color if not transparent.
-        if (bg.color.alpha > 0) {
-            QRect rect(bg.border_box.x, bg.border_box.y, bg.border_box.width, bg.border_box.height);
-            const auto &r  = bg.border_radius;
-            bool hasRadius = r.top_left_x || r.top_right_x || r.bottom_left_x || r.bottom_right_x;
-            if (hasRadius) {
-                // Use a uniform radius (average of all corners).
-                int rx = (r.top_left_x + r.top_right_x + r.bottom_right_x + r.bottom_left_x) / 4;
-                int ry = (r.top_left_y + r.top_right_y + r.bottom_right_y + r.bottom_left_y) / 4;
-                m_painter->setRenderHint(QPainter::Antialiasing, true);
-                m_painter->setPen(Qt::NoPen);
-                m_painter->setBrush(toQColor(bg.color));
-                m_painter->drawRoundedRect(rect, rx, ry);
-                m_painter->setRenderHint(QPainter::Antialiasing, false);
-            } else {
-                m_painter->fillRect(rect, toQColor(bg.color));
-            }
-        }
-
-        // Draw background image if present.
-        if (!bg.image.empty()) {
-            const auto key = QString::fromStdString(bg.image);
-            if (m_imageCache.contains(key)) {
-                m_painter->drawImage(
-                  QRect(bg.position_x, bg.position_y, bg.image_size.width, bg.image_size.height),
-                  m_imageCache[key]);
-            }
-        }
+    const auto &b = layer.border_box;
+    QRect rect(b.x, b.y, b.width, b.height);
+    const auto &r  = layer.border_radius;
+    bool hasRadius = r.top_left_x || r.top_right_x || r.bottom_left_x || r.bottom_right_x;
+    if (hasRadius) {
+        // Use a uniform radius (average of all corners).
+        int rx = (r.top_left_x + r.top_right_x + r.bottom_right_x + r.bottom_left_x) / 4;
+        int ry = (r.top_left_y + r.top_right_y + r.bottom_right_y + r.bottom_left_y) / 4;
+        m_painter->setRenderHint(QPainter::Antialiasing, true);
+        m_painter->setPen(Qt::NoPen);
+        m_painter->setBrush(toQColor(color));
+        m_painter->drawRoundedRect(rect, rx, ry);
+        m_painter->setRenderHint(QPainter::Antialiasing, false);
+    } else {
+        m_painter->fillRect(rect, toQColor(color));
     }
+}
+
+void
+LitehtmlContainer::draw_image(litehtml::uint_ptr /*hdc*/,
+                              const litehtml::background_layer &layer,
+                              const std::string &url,
+                              const std::string & /*base_url*/)
+{
+    if (!m_painter || url.empty())
+        return;
+
+    const auto key = QString::fromStdString(url);
+    if (!m_imageCache.contains(key))
+        return;
+
+    // origin_box is where the image's first tile is laid out; for our pill /
+    // avatar content (single, non-repeating images) drawing it once there
+    // matches the old position_x/position_y + image_size rectangle.
+    const auto &o = layer.origin_box;
+    m_painter->drawImage(QRect(o.x, o.y, o.width, o.height), m_imageCache[key]);
+}
+
+void
+LitehtmlContainer::draw_linear_gradient(
+  litehtml::uint_ptr /*hdc*/,
+  const litehtml::background_layer & /*layer*/,
+  const litehtml::background_layer::linear_gradient & /*gradient*/)
+{
+    // CSS gradients are not used by the HTML we render (pills, formatted
+    // message bodies), so these are intentionally no-ops.
+}
+
+void
+LitehtmlContainer::draw_radial_gradient(
+  litehtml::uint_ptr /*hdc*/,
+  const litehtml::background_layer & /*layer*/,
+  const litehtml::background_layer::radial_gradient & /*gradient*/)
+{
+}
+
+void
+LitehtmlContainer::draw_conic_gradient(
+  litehtml::uint_ptr /*hdc*/,
+  const litehtml::background_layer & /*layer*/,
+  const litehtml::background_layer::conic_gradient & /*gradient*/)
+{
 }
 
 void
@@ -696,12 +742,12 @@ LitehtmlContainer::del_clip()
 // -- Viewport & metadata --
 
 void
-LitehtmlContainer::get_client_rect(litehtml::position &client) const
+LitehtmlContainer::get_viewport(litehtml::position &viewport) const
 {
-    client.x      = 0;
-    client.y      = 0;
-    client.width  = m_viewportWidth;
-    client.height = m_viewportHeight;
+    viewport.x      = 0;
+    viewport.y      = 0;
+    viewport.width  = m_viewportWidth;
+    viewport.height = m_viewportHeight;
 }
 
 void
@@ -756,6 +802,15 @@ LitehtmlContainer::on_anchor_click(const char *url, const litehtml::element::ptr
         m_lastHoveredUrl = decoded;
     else
         emit linkClicked(decoded);
+}
+
+void
+LitehtmlContainer::on_mouse_event(const litehtml::element::ptr & /*el*/,
+                                  litehtml::mouse_event /*event*/)
+{
+    // litehtml 0.10 reports element mouse enter/leave here for :hover-style
+    // effects; our rendering recomputes hover via on_mouse_over each frame, so
+    // there is nothing extra to track.
 }
 
 void

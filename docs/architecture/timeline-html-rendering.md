@@ -33,7 +33,7 @@ Primary callsites:
 
 ## litehtml Rendering Architecture
 
-Timeline messages use [litehtml](https://github.com/litehtml/litehtml) v0.9 (BSD-3-Clause), a lightweight C++ HTML/CSS engine with no JavaScript, no network access, and no plugins. It is always fetched from a pinned tag via CPM/CMake FetchContent and statically linked, never taken from the system package (even under `-DCPM_USE_LOCAL_PACKAGES=ON`): `litehtml::document_container` is a pure-virtual interface `LitehtmlContainer` subclasses, and it changes shape between releases, so the version we compile against has to stay fixed.
+Timeline messages use [litehtml](https://github.com/litehtml/litehtml) v0.10 (BSD-3-Clause), a lightweight C++ HTML/CSS engine with no JavaScript, no network access, and no plugins. It is always fetched from a pinned tag via CPM/CMake FetchContent and statically linked, never taken from the system package (even under `-DCPM_USE_LOCAL_PACKAGES=ON`): `litehtml::document_container` is a pure-virtual interface `LitehtmlContainer` subclasses, and it changes shape between releases, so the version we compile against has to stay fixed.
 
 ### Component Overview
 
@@ -62,7 +62,7 @@ The user CSS has higher priority than the master CSS in litehtml's cascade.
 1. `setHtml()` creates a `litehtml::document` via `createFromString()`.
 2. `relayout()` skips if `width() < 1` (no real width assigned yet).
 3. `EventDelegateChooser::updatePolish()` sets the delegate width → `geometryChange()` fires.
-4. `relayout()` runs: `document::render(width)` → `setImplicitWidth(content_width)` / `setImplicitHeight(doc_height)`.
+4. `relayout()` runs: `document::render(width)` → `setImplicitWidth(render_return)` / `setImplicitHeight(doc_height)`, where `render_return` is the value `document::render()` returns (the intrinsic content width).
 5. `EventDelegateChooser` reads `implicitWidth` and constrains the final width.
 6. On subsequent width changes, `geometryChange()` triggers re-layout.
 
@@ -70,9 +70,11 @@ The user CSS has higher priority than the master CSS in litehtml's cascade.
 
 The user CSS sets `body { display: inline-block; max-width: 100%; }`. This is required for correct bubble width measurement.
 
-litehtml's `document::content_width()` walks all rendered elements via `calc_document_size()` and returns `max(x + right())` for non-root, non-body elements. For block-level elements (`<p>`, `<pre>`, `<blockquote>`, headings, etc.), `right()` equals the full container width — blocks expand to fill their parent in standard CSS. Many Matrix clients emit `<p>` tags in `formatted_body` even for single-line messages, so without this fix `content_width()` would equal the render width for most messages, making `EventDelegateChooser`'s two-pass layout a no-op and causing bubbles to always fill to maximum width.
+The bubble must be sized to the **tight content extent** (the widest laid-out line), so a short message gets a narrow bubble instead of filling the whole timeline column. `relayout()` reads this from the value `document::render(width)` returns — litehtml's intrinsic content width (`render_item` natural width), which is the widest line after wrapping, already capped at the render width.
 
-With `display: inline-block`, `<body>` shrink-wraps to its max-content width (the widest text line or inline element). Its block children then render at that narrower width, and `content_width()` reports the true intrinsic width. `max-width: 100%` ensures content that is genuinely wider than the constraint still caps correctly.
+`document::width()` must **not** be used here: it walks all rendered boxes via `calc_document_size()` (`max(x + right())`) including the `<html>` root, which is `display: block` and therefore fills the full render width — so it would size every bubble to the maximum. With `display: inline-block`, `<body>` shrink-wraps to its max-content width, and `max-width: 100%` caps genuinely-wide content; the `render()` return reflects that shrink-wrapped extent.
+
+(litehtml 0.9 exposed a separate `document::content_width()` for this tight extent. 0.10 merged the per-document sizes into a single `calc_document_size()` and left `content_width()` declared but undefined; its value is what `render()` now returns, so we read that instead. The two are identical across single-line, multi-paragraph, and wrapped-text content.)
 
 ### Link Hover Detection
 

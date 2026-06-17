@@ -159,6 +159,7 @@ Item {
         text: control.text
         color: control.textColor
         font.pointSize: Settings.uiFontSizePt
+        textFormat: Text.PlainText
         wrapMode: Text.Wrap
         x: control.leftPadding
         y: control.topPadding

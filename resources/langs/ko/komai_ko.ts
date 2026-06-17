@@ -3242,7 +3242,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
         <source>Show</source>
         <translation>표시</translation>
     </message>
@@ -9075,7 +9075,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>드래그 앤 드롭으로는 로컬에 존재하는 파일만 첨부할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

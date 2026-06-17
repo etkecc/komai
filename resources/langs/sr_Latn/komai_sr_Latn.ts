@@ -3252,7 +3252,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
         <source>Show</source>
         <translation>Prikaži</translation>
     </message>
@@ -9101,7 +9101,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Prevlačenjem i ispuštanjem mogu se dodati samo postojeći lokalni fajlovi.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

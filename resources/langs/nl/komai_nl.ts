@@ -3247,7 +3247,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
         <source>Show</source>
         <translation>Tonen</translation>
     </message>
@@ -9088,7 +9088,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Alleen bestaande lokale bestanden kunnen worden bijgevoegd via slepen en neerzetten.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

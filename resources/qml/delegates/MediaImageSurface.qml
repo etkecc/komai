@@ -202,6 +202,19 @@ Item {
                     img._retryNonce += 1;
                 }
             }
+
+            // When connectivity is re-established, retry a failed thumbnail
+            // immediately instead of waiting out its backoff window.
+            Connections {
+                target: TimelineManager
+
+                function onIsConnectedChanged(connected) {
+                    if (connected && img._hasNetworkSource && img.status === Image.Error) {
+                        img._retryAttempt = 0;
+                        img._retryNonce += 1;
+                    }
+                }
+            }
         }
 
         MxcAnimatedImage {

@@ -3247,7 +3247,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
         <source>Show</source>
         <translation>Näytä</translation>
     </message>
@@ -9088,7 +9088,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Vain olemassa olevia paikallisia tiedostoja voi liittää vetämällä ja pudottamalla.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

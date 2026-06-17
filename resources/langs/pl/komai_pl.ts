@@ -3252,7 +3252,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
         <source>Show</source>
         <translation>Pokaż</translation>
     </message>
@@ -9102,7 +9102,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Przeciąganiem i upuszczaniem można dołączać tylko istniejące pliki lokalne.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

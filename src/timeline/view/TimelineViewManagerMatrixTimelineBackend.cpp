@@ -11,6 +11,7 @@
 #include "logging/Logging.h"
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "matrix/backend/MatrixFfiBlockingContext.h"
+#include "providers/MxcImageProvider.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "timeline/view/TimelineViewManagerMatrixTimelineInternal.h"
@@ -180,6 +181,13 @@ TimelineViewManager::handleMatrixBackendSyncConnectionStateChanged(std::uint64_t
         return;
 
     isConnected_ = isConnected;
+
+    // Connectivity is back: clear the media-fetch backoff so the avatar/thumbnail
+    // Images that bump their retry nonce on this same signal get a real fetch
+    // instead of being skipped by a still-open backoff window.
+    if (isConnected_)
+        MxcImageProvider::resetFetchBackoff();
+
     emit isConnectedChanged(isConnected_);
 }
 bool

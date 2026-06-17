@@ -3252,7 +3252,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>
@@ -9101,7 +9101,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Перетаскиванием можно прикреплять только существующие локальные файлы.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

@@ -160,6 +160,19 @@ AbstractButton {
                     img._retryNonce += 1;
                 }
             }
+
+            // When connectivity is re-established, retry a failed avatar
+            // immediately instead of waiting out its backoff window.
+            Connections {
+                target: TimelineManager
+
+                function onIsConnectedChanged(connected) {
+                    if (connected && img._isNetworkAvatar && img.status === Image.Error) {
+                        img._retryAttempt = 0;
+                        img._retryNonce += 1;
+                    }
+                }
+            }
         }
     }
     Rectangle {

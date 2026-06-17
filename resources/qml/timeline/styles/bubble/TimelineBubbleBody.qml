@@ -29,6 +29,13 @@ Item {
         && typeof wrapper.main.suppressTextSelection === "function")
     readonly property var metadataItem: metadataLoader.item ? metadataLoader.item : metadataFallback
     property int replyPreviewRevision: 0
+    // Dashed thread outline: shown only on a thread root in the main timeline,
+    // where it marks a message that has a thread. Inside the thread view every
+    // message belongs to the thread, so the outline is pure repetition there;
+    // the tinted background and the thread header bar already convey context.
+    readonly property bool threadOutlineVisible: wrapper.isThreadRoot
+        && !wrapper.isStateEvent
+        && !(wrapper.chatRoot && wrapper.chatRoot.threadViewActive)
 
     width: wrapper.width - wrapper.avatarMargin
     height: implicitHeight
@@ -678,13 +685,10 @@ Item {
 
             x: {
                 if (root.wrapper.pushMetadataToEdge) {
-                    // Match the dashed thread outline below: it wraps both
-                    // thread replies (`threadId`) and thread roots
-                    // (`isThreadRoot`), so the metadata bar needs the same
-                    // inset in both cases or the row-edge bar sits flush
-                    // against the outline only on thread roots.
-                    var inThread = root.wrapper.threadId || root.wrapper.isThreadRoot;
-                    var threadInset = inThread ? Komai.paddingSmall : 0;
+                    // Match the dashed thread outline below: only an outlined
+                    // message needs the inset that keeps the row-edge bar off
+                    // the outline.
+                    var threadInset = root.threadOutlineVisible ? Komai.paddingSmall : 0;
                     return Math.round(root.wrapper.messageIsRightAligned
                         ? threadInset
                         : (root.width - width - threadInset));
@@ -1002,7 +1006,7 @@ Item {
     TimelineRoundedOutline {
         anchors.fill: parent
         z: 2
-        visible: (!!root.wrapper.threadId || root.wrapper.isThreadRoot) && !root.wrapper.isStateEvent
+        visible: root.threadOutlineVisible
         borderColor: threadBackground.threadColor
         strokeWidth: 1.5
         dashPattern: [6, 10]

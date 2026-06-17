@@ -9088,7 +9088,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>Somente arquivos locais existentes podem ser anexados por arrastar e soltar.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

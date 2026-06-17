@@ -9088,7 +9088,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Solo i file locali esistenti possono essere allegati tramite trascinamento.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

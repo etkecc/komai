@@ -9101,7 +9101,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Prin glisare și plasare pot fi atașate doar fișiere locale existente.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

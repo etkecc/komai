@@ -9088,7 +9088,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Endast befintliga lokala filer kan bifogas med drag och släpp.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

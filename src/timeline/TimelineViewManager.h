@@ -485,6 +485,9 @@ public slots:
 
 private:
     void scheduleMatrixSidebarRefresh();
+    // Emit isConnectedChanged only when the value actually changes, with a log line
+    // so connectivity transitions are observable. Every source funnels through here.
+    void updateConnectedState();
     bool setIgnoredUsers(QVector<QString> ignoredUsers);
     void queueMatrixRoomReadMarker(uint64_t handleId,
                                    const QString &roomId,
@@ -494,8 +497,9 @@ private:
     void clearMatrixReadMarkerQueue();
     void queueActiveMatrixPendingJump(const QString &roomId, const QString &eventId);
 
-    bool waitingForFirstSync_ = true;
-    bool isConnected_         = true;
+    bool waitingForFirstSync_  = true;
+    bool isConnected_          = true; // app/sync-level connectivity
+    bool lastConnectedEmitted_ = true; // last value emitted via isConnectedChanged
     QVector<QString> ignoredUsers_;
 
     bool roomVersionsCapabilityLoaded_   = false;

@@ -9075,7 +9075,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Chỉ có thể kéo và thả các tệp cục bộ đã tồn tại để đính kèm.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

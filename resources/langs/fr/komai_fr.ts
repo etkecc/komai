@@ -9088,7 +9088,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Seuls les fichiers locaux existants peuvent être joints par glisser-déposer.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

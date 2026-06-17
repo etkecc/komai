@@ -23,6 +23,7 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "models/InviteesModel.h"
 #include "models/MemberList.h"
+#include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"
 #include "timeline/PresenceEmitter.h"
@@ -92,11 +93,11 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
     });
     connect(parent, &ChatPage::connectionLost, this, [this] {
         isConnected_ = false;
-        emit isConnectedChanged(false);
+        updateConnectedState();
     });
     connect(parent, &ChatPage::connectionRestored, this, [this] {
         isConnected_ = true;
-        emit isConnectedChanged(true);
+        updateConnectedState();
     });
     connect(rooms_, &RoomlistModel::spaceSelected, communities_, [this](QString roomId) {
         communities_->setCurrentFilterId("space:" + roomId);
@@ -491,6 +492,24 @@ TimelineViewManager::navigateForward()
     communities_->setCurrentFilterId(entry->filterId);
     rooms_->setCurrentRoom(entry->roomId);
     navigating_ = false;
+}
+
+void
+TimelineViewManager::updateConnectedState()
+{
+    if (isConnected_ == lastConnectedEmitted_)
+        return;
+    lastConnectedEmitted_ = isConnected_;
+
+    komai::logging::net()->info("Connectivity changed: connected={}", isConnected_);
+
+    if (isConnected_) {
+        // Connectivity is back: clear the media-fetch backoff so failed
+        // avatar/thumbnail Images that retry on this signal get a real fetch.
+        MxcImageProvider::resetFetchBackoff();
+    }
+
+    emit isConnectedChanged(isConnected_);
 }
 
 #include "moc_TimelineViewManager.cpp"

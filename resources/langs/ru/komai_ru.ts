@@ -9101,7 +9101,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Перетаскиванием можно прикреплять только существующие локальные файлы.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+169"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>

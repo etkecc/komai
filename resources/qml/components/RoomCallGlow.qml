@@ -18,13 +18,18 @@ Item {
     property string roomId: ""
     // Avatar shape it sits behind, so the disk matches the avatar corners.
     property bool circular: Settings.uiAvatarsCircular
-    // A bright, theme-INDEPENDENT call green (same emerald the legacy
-    // ActiveCallBar uses). The glow paints over the row/tab highlight
-    // background, which varies per theme and selection state; a high-value
-    // saturated green keeps contrast on white, on mid-grey highlights, and on
-    // dark themes alike, where a theme-tuned (text-legible) green would wash
-    // out on a same-luminance backdrop.
-    property color accentColor: "#2ECC71"
+
+    // The glow is a diffuse, breathing bloom painted OVER the row/tab highlight
+    // background, which varies per theme and per selection state. The theme's
+    // semantic colours are tuned for TEXT legibility (e.g. success is #008000 on
+    // light themes) and wash out as a bloom. So we follow the theme's call-green
+    // HUE but normalize it to a bright, saturated value via glowify(), keeping
+    // consistent salience on white, on mid-grey highlights, and on dark themes.
+    function glowify(c) {
+        return Qt.hsla(c.hslHue < 0 ? 0 : c.hslHue,
+                       Math.max(c.hslSaturation, 0.6), 0.55, 1.0)
+    }
+    property color accentColor: glowify(Komai.theme.success)
 
     readonly property bool callActive:
         roomId.length > 0

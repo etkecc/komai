@@ -3242,7 +3242,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Tampilkan</translation>
     </message>

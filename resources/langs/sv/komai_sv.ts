@@ -3247,7 +3247,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Visa</translation>
     </message>

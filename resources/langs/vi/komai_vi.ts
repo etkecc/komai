@@ -3242,7 +3242,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Hiển thị</translation>
     </message>

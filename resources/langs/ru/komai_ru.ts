@@ -3252,7 +3252,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>

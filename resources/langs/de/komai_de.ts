@@ -3247,7 +3247,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Anzeigen</translation>
     </message>

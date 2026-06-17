@@ -10,11 +10,19 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QGuiApplication>
+#include <QHash>
+#include <QMutex>
 #include <QPainter>
 #include <QPainterPath>
+#include <QRandomGenerator>
 #include <QScreen>
 #include <QThreadPool>
 #include <QTimer>
+
+#include <algorithm>
+#include <chrono>
+#include <cstdlib>
+#include <optional>
 
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
@@ -117,6 +125,150 @@ prepareThumbnailImage(QByteArray data,
         image.setText(QStringLiteral("mxc url"), providerIdToMxcUri(id));
     return image;
 }
+
+// Negative cache with exponential backoff for media fetches that fail (dead
+// homeserver, broken federation media, fetch timeouts). Without it, QML
+// re-requests a broken avatar/thumbnail on every layout pass, and each request
+// spawns a thread-pool worker that blocks on a doomed network fetch, pinning the
+// CPU and draining the battery. Keyed by the provider id (which is
+// size-independent): a homeserver that cannot serve a piece of media cannot
+// serve it at any size, so all size variants share one backoff window.
+class MediaFetchBackoff
+{
+public:
+    // Outcome of a fetch-gate check for a given key.
+    struct Decision
+    {
+        bool fetch   = true;  // whether the caller should hit the network now
+        bool isRetry = false; // true when fetching again after a prior failure's window elapsed
+        qint64 secondsRemaining = 0; // when !fetch, whole seconds left in the backoff window
+    };
+
+    // Decides whether a fetch should proceed now. Returns fetch=false (with
+    // secondsRemaining) while a backoff window is still open; fetch=true with
+    // isRetry=true when a previously-failed key's window has elapsed (a genuine
+    // retry); fetch=true with isRetry=false for a key we've never seen fail.
+    Decision shouldFetch(const QString &key)
+    {
+        QMutexLocker locker(&mutex_);
+        const auto it = entries_.constFind(key);
+        if (it == entries_.constEnd())
+            return Decision{true, false, 0};
+
+        const auto now = std::chrono::steady_clock::now();
+        if (now >= it->nextAttempt)
+            return Decision{true, true, 0};
+
+        const auto remaining =
+          std::chrono::duration_cast<std::chrono::seconds>(it->nextAttempt - now).count();
+        return Decision{false, false, remaining};
+    }
+
+    // Records a failed fetch and returns the backoff (in seconds) that must
+    // elapse before the next attempt for this key is allowed.
+    qint64 recordFailure(const QString &key)
+    {
+        QMutexLocker locker(&mutex_);
+        auto &entry = entries_[key];
+        entry.failureCount += 1;
+
+        const qint64 base           = baseBackoffSeconds();
+        const qint64 cap            = std::max<qint64>(kMaxBackoffSeconds, base);
+        const int shift             = std::min(entry.failureCount - 1, 16);
+        const qint64 backoffSeconds = std::min<qint64>(cap, base * (qint64(1) << shift));
+        entry.nextAttempt = std::chrono::steady_clock::now() + std::chrono::seconds(backoffSeconds);
+        return backoffSeconds;
+    }
+
+    void recordSuccess(const QString &key)
+    {
+        QMutexLocker locker(&mutex_);
+        entries_.remove(key);
+    }
+
+    // Drops all backoff state so every media is retried on its next request.
+    void reset()
+    {
+        QMutexLocker locker(&mutex_);
+        const auto cleared = entries_.size();
+        entries_.clear();
+        locker.unlock();
+
+        if (cleared > 0)
+            komai::logging::net()->info(
+              "Cleared media-fetch backoff for {} item(s); previously failed media will be retried",
+              cleared);
+    }
+
+private:
+    static constexpr qint64 kMaxBackoffSeconds = 30 * 60; // 30 minutes
+
+    // Base (first-failure) backoff in seconds. Overridable via
+    // KOMAI_DEBUG_MEDIA_BACKOFF_BASE_SECONDS to make recovery observable during
+    // testing without waiting the full default window. Parsed once.
+    static qint64 baseBackoffSeconds()
+    {
+        static const qint64 value = [] {
+            const char *raw = std::getenv("KOMAI_DEBUG_MEDIA_BACKOFF_BASE_SECONDS");
+            if (raw && *raw) {
+                bool ok                = false;
+                const qlonglong parsed = QString::fromUtf8(raw).toLongLong(&ok);
+                if (ok && parsed > 0)
+                    return qint64(parsed);
+            }
+            return qint64(30);
+        }();
+        return value;
+    }
+
+    struct Entry
+    {
+        int failureCount = 0;
+        std::chrono::steady_clock::time_point nextAttempt;
+    };
+
+    QMutex mutex_;
+    QHash<QString, Entry> entries_;
+};
+
+MediaFetchBackoff &
+mediaFetchBackoff()
+{
+    static MediaFetchBackoff instance;
+    return instance;
+}
+
+// Test hook: when KOMAI_DEBUG_MEDIA_FAIL_RATE holds a probability in (0, 1],
+// that fraction of thumbnail/timeline media fetches are treated as failures
+// without touching the network. Lets us exercise the backoff path without a
+// homeserver that actually has broken media. Parsed once.
+bool
+shouldSimulateMediaFailure()
+{
+    static const double rate = [] {
+        const char *raw = std::getenv("KOMAI_DEBUG_MEDIA_FAIL_RATE");
+        if (!raw || !*raw)
+            return 0.0;
+
+        bool ok             = false;
+        const double parsed = QString::fromUtf8(raw).toDouble(&ok);
+        if (!ok)
+            return 0.0;
+
+        return std::clamp(parsed, 0.0, 1.0);
+    }();
+
+    if (rate <= 0.0)
+        return false;
+
+    return QRandomGenerator::global()->generateDouble() < rate;
+}
+}
+
+void
+MxcImageProvider::resetFetchBackoff()
+{
+    mediaFetchBackoff().reset();
 }
 
 MxcImageProvider::MxcImageProvider()
@@ -271,6 +423,17 @@ MxcImageProvider::download(const QString &id,
 
     if (isMatrixTimelineProviderId(id)) {
         if (const auto handleId = activeMatrixBackendHandleId()) {
+            const auto gate = mediaFetchBackoff().shouldFetch(id);
+            if (!gate.fetch) {
+                // A recent fetch for this media failed; skip the network round-trip
+                // until the backoff window elapses. Behaves like a cached failure.
+                then(id, QSize(), {}, QLatin1String(""));
+                return;
+            }
+            if (gate.isRetry)
+                komai::logging::net()->info(
+                  "Retrying matrix-sdk active timeline media {} after backoff", id.toStdString());
+
             const auto requestedWidth  = requestedSize.width() > 0 ? requestedSize.width() : 0;
             const auto requestedHeight = requestedSize.height() > 0 ? requestedSize.height() : 0;
             const auto itemId          = providerIdToMatrixTimelineItemId(id);
@@ -286,19 +449,25 @@ MxcImageProvider::download(const QString &id,
                                                   itemId] {
                 const auto context = komai::matrix_backend::blockingCallContext();
                 QString error;
-                const auto data =
-                  komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-                    context, *handleId, itemId, requestedWidth, requestedHeight, crop, &error);
+                std::optional<QByteArray> data;
+                if (shouldSimulateMediaFailure())
+                    error = QStringLiteral("simulated media failure (KOMAI_DEBUG_MEDIA_FAIL_RATE)");
+                else
+                    data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+                      context, *handleId, itemId, requestedWidth, requestedHeight, crop, &error);
                 if (!data || data->isEmpty()) {
+                    const auto backoffSeconds = mediaFetchBackoff().recordFailure(id);
                     komai::logging::net()->warn(
                       "Failed to fetch matrix-sdk active timeline media {} via backend handle {}: "
-                      "{}",
+                      "{} — retrying in no less than {}s",
                       itemId.toStdString(),
                       *handleId,
-                      error.toStdString());
+                      error.toStdString(),
+                      backoffSeconds);
                     then(id, QSize(), {}, QLatin1String(""));
                     return;
                 }
+                mediaFetchBackoff().recordSuccess(id);
 
                 QImage image;
                 if (requestedSize.isValid())
@@ -364,6 +533,17 @@ MxcImageProvider::download(const QString &id,
         }
 
         if (const auto handleId = activeMatrixBackendHandleId()) {
+            const auto gate = mediaFetchBackoff().shouldFetch(id);
+            if (!gate.fetch) {
+                // A recent fetch for this media failed; skip the network round-trip
+                // until the backoff window elapses. Behaves like a cached failure.
+                then(id, QSize(), {}, QLatin1String(""));
+                return;
+            }
+            if (gate.isRetry)
+                komai::logging::net()->info("Retrying matrix-sdk thumbnail {} after backoff",
+                                            id.toStdString());
+
             const auto requestedWidth  = requestedSize.width() > 0 ? requestedSize.width() : 0;
             const auto requestedHeight = requestedSize.height() > 0 ? requestedSize.height() : 0;
 
@@ -378,23 +558,31 @@ MxcImageProvider::download(const QString &id,
                                                   requestedHeight] {
                 const auto context = komai::matrix_backend::blockingCallContext();
                 QString error;
-                const auto data =
-                  komai::MatrixBackendRuntimeService::fetchMediaContent(context,
-                                                                        *handleId,
-                                                                        providerIdToMxcUri(id),
-                                                                        requestedWidth,
-                                                                        requestedHeight,
-                                                                        !cropLocally,
-                                                                        &error);
+                std::optional<QByteArray> data;
+                if (shouldSimulateMediaFailure())
+                    error = QStringLiteral("simulated media failure (KOMAI_DEBUG_MEDIA_FAIL_RATE)");
+                else
+                    data =
+                      komai::MatrixBackendRuntimeService::fetchMediaContent(context,
+                                                                            *handleId,
+                                                                            providerIdToMxcUri(id),
+                                                                            requestedWidth,
+                                                                            requestedHeight,
+                                                                            !cropLocally,
+                                                                            &error);
                 if (!data || data->isEmpty()) {
+                    const auto backoffSeconds = mediaFetchBackoff().recordFailure(id);
                     komai::logging::net()->warn(
-                      "Failed to fetch matrix-sdk thumbnail {} via backend handle {}: {}",
+                      "Failed to fetch matrix-sdk thumbnail {} via backend handle {}: {} — "
+                      "retrying in no less than {}s",
                       id.toStdString(),
                       *handleId,
-                      error.toStdString());
+                      error.toStdString(),
+                      backoffSeconds);
                     then(id, QSize(), {}, QLatin1String(""));
                     return;
                 }
+                mediaFetchBackoff().recordSuccess(id);
 
                 auto image = prepareThumbnailImage(*data, requestedSize, cropLocally, radius, id);
                 if (image.save(fileInfo.absoluteFilePath(), "png")) {

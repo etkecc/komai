@@ -100,6 +100,15 @@ AbstractButton {
         Image {
             id: img
 
+            // Per-image retry state for network (MxcImage) avatars. A failed
+            // fetch leaves the image in Image.Error and Qt will not re-ask the
+            // provider for the same URL, so we change the URL via _retryNonce to
+            // force a fresh request on an incremental backoff (see retryTimer).
+            property int _retryNonce: 0
+            property int _retryAttempt: 0
+            readonly property bool _isNetworkAvatar: avatar.url.startsWith('image://')
+                && !avatar.url.startsWith('image://colorimage')
+
             anchors.fill: parent
             // Bundled resource SVGs (e.g. ":/icons/icons/ui/world.svg") load
             // synchronously so that colour changes on hover don't flicker.
@@ -110,7 +119,8 @@ AbstractButton {
             } else if (avatar.url.startsWith('image://')) {
                 return avatar.url + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25)
                     + ((avatar.crop) ? "" : "&scale")
-                    + "&avatarSize=" + avatar._mxcThumbSidePx;
+                    + "&avatarSize=" + avatar._mxcThumbSidePx
+                    + "&_retry=" + img._retryNonce;
             } else if (avatar.url.startsWith(':/logos/') || avatar.url.startsWith('qrc:/logos/')
                        || avatar.url.startsWith(':/preview-avatars/') || avatar.url.startsWith('qrc:/preview-avatars/')) {
                 // Keep branded logos and bundled avatar images un-tinted.
@@ -124,6 +134,32 @@ AbstractButton {
             // already applies device-pixel-ratio handling in C++.
             sourceSize: Qt.size(avatar._isBundledRasterAvatar ? avatar._rasterThumbSidePx : avatar._mxcThumbSidePx,
                                 avatar._isBundledRasterAvatar ? avatar._rasterThumbSidePx : avatar._mxcThumbSidePx)
+
+            // While the avatar stays in error, the default avatar remains shown,
+            // so re-requesting only swaps pixels in once a retry actually
+            // succeeds: no flicker between attempts. The C++ provider applies its
+            // own backoff, so these pokes never become a network storm.
+            onStatusChanged: {
+                if (!img._isNetworkAvatar)
+                    return;
+                if (img.status === Image.Error) {
+                    retryTimer.restart();
+                } else if (img.status === Image.Ready) {
+                    img._retryAttempt = 0;
+                    retryTimer.stop();
+                }
+            }
+
+            Timer {
+                id: retryTimer
+
+                repeat: false
+                interval: Math.min(5000 * Math.pow(2, img._retryAttempt), 300000)
+                onTriggered: {
+                    img._retryAttempt += 1;
+                    img._retryNonce += 1;
+                }
+            }
         }
     }
     Rectangle {

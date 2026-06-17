@@ -3247,7 +3247,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Montri</translation>
     </message>

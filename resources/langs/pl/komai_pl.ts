@@ -3252,7 +3252,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Pokaż</translation>
     </message>

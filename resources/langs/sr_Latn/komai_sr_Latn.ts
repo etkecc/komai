@@ -3252,7 +3252,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Prikaži</translation>
     </message>

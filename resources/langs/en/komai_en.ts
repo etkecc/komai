@@ -3241,7 +3241,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation type="unfinished">Show</translation>
     </message>

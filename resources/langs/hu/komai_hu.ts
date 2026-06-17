@@ -3242,7 +3242,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Megjelenítés</translation>
     </message>

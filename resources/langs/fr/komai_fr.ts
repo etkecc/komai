@@ -3247,7 +3247,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Afficher</translation>
     </message>

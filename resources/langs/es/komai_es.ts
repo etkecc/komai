@@ -3250,7 +3250,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>

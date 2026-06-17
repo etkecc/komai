@@ -3247,7 +3247,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Tonen</translation>
     </message>

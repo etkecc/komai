@@ -3252,7 +3252,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+206"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+236"/>
         <source>Show</source>
         <translation>Zobrazit</translation>
     </message>

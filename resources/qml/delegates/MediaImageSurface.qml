@@ -156,12 +156,21 @@ Item {
         Image {
             id: img
 
+            // Per-image retry state. A failed thumbnail fetch leaves the image in
+            // Image.Error and Qt will not re-ask the provider for the same URL, so
+            // _retryNonce changes the URL to force a fresh request on an
+            // incremental backoff (see retryTimer). The blurhash placeholder stays
+            // shown meanwhile, so retries only swap pixels in once one succeeds.
+            property int _retryNonce: 0
+            property int _retryAttempt: 0
+            readonly property bool _hasNetworkSource: surface.url != "" && surface.showImage
+
             visible: !mxcimage.loaded
             anchors.fill: parent
-            source: (surface.url != "" && surface.showImage)
+            source: img._hasNetworkSource
                 ? (surface.useActiveMatrixTimelineSource
-                    ? ("image://MxcImage/matrix-timeline:" + surface.eventId + "?scale")
-                    : (surface.url.replace("mxc://", "image://MxcImage/") + "?scale" + (surface.roomContext ? "&room=" + surface.roomContext.roomId : "")))
+                    ? ("image://MxcImage/matrix-timeline:" + surface.eventId + "?scale&_retry=" + img._retryNonce)
+                    : (surface.url.replace("mxc://", "image://MxcImage/") + "?scale" + (surface.roomContext ? "&room=" + surface.roomContext.roomId : "") + "&_retry=" + img._retryNonce))
                 : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit
@@ -172,6 +181,27 @@ Item {
             sourceSize.width: Math.min(Screen.desktopAvailableWidth, surface.originalWidth < 1 ? Screen.desktopAvailableWidth : surface.originalWidth) * Screen.devicePixelRatio
             sourceSize.height: Math.min(Screen.desktopAvailableHeight, (surface.originalWidth < 1 ? Screen.desktopAvailableHeight : surface.originalWidth * surface.safeProportionalHeight)) * Screen.devicePixelRatio
 
+            onStatusChanged: {
+                if (!img._hasNetworkSource)
+                    return;
+                if (img.status === Image.Error) {
+                    retryTimer.restart();
+                } else if (img.status === Image.Ready) {
+                    img._retryAttempt = 0;
+                    retryTimer.stop();
+                }
+            }
+
+            Timer {
+                id: retryTimer
+
+                repeat: false
+                interval: Math.min(5000 * Math.pow(2, img._retryAttempt), 300000)
+                onTriggered: {
+                    img._retryAttempt += 1;
+                    img._retryNonce += 1;
+                }
+            }
         }
 
         MxcAnimatedImage {

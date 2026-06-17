@@ -96,4 +96,9 @@ public slots:
                          bool crop             = true,
                          double radius         = 0,
                          const QString &roomId = {});
+
+    // Clears the negative cache that throttles retries of failed media fetches,
+    // so every broken avatar/thumbnail is retried on the next request. Intended
+    // to be called when network connectivity is re-established.
+    static void resetFetchBackoff();
 };

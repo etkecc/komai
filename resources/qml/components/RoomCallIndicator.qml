@@ -15,17 +15,28 @@ Item {
     id: root
 
     property string roomId: ""
-    // Accent colour for the badge glyph.
+    // Glyph colour for a call you are on (green) vs a live call here you have
+    // NOT joined (the warning hue). The badge sits on a light plate, so the raw
+    // semantic theme colours read fine without the glow's brightness boost.
     property color accentColor: Komai.theme.success
+    property color foreignColor: Komai.theme.warning
     // Badge fill: a light/neutral plate so the glyph stands out (like the cog
     // badge, which uses palette.window).
     property color badgeColor: palette.window
-    property color glyphColor: accentColor
+    property color glyphColor: foreignCall ? foreignColor : accentColor
 
-    readonly property bool callActive:
+    // You are on the call in this room (either call stack).
+    readonly property bool joinedCall:
         roomId.length > 0
         && ((CallManager.isOnCall && CallManager.callRoomId === roomId)
             || (ElementCall.active && ElementCall.activeRoomId === roomId))
+    // A call is live in this room but you are not on it. Rooms.activeCalls maps
+    // roomId -> live participant count (undefined when no call); reactive via
+    // activeCallsChanged.
+    readonly property bool foreignCall:
+        roomId.length > 0 && !joinedCall
+        && Rooms.activeCalls[roomId] !== undefined
+    readonly property bool callActive: joinedCall || foreignCall
 
     readonly property int badgeSize: Math.round(Math.min(width, height) * 0.46)
     readonly property int glyphSize: Math.round(badgeSize * 0.6)

@@ -21,20 +21,34 @@ Item {
 
     // The glow is a diffuse, breathing bloom painted OVER the row/tab highlight
     // background, which varies per theme and per selection state. The theme's
-    // semantic colours are tuned for TEXT legibility (e.g. success is #008000 on
-    // light themes) and wash out as a bloom. So we follow the theme's call-green
-    // HUE but normalize it to a bright, saturated value via glowify(), keeping
-    // consistent salience on white, on mid-grey highlights, and on dark themes.
+    // semantic colours are tuned for TEXT legibility (e.g. success is #008000,
+    // warning #9c5e00 on light themes) and wash out as a bloom. So we follow the
+    // theme's HUE but normalize it to a bright, saturated value via glowify(),
+    // keeping consistent salience on white, on mid-grey highlights, and on dark
+    // themes alike.
     function glowify(c) {
         return Qt.hsla(c.hslHue < 0 ? 0 : c.hslHue,
                        Math.max(c.hslSaturation, 0.6), 0.55, 1.0)
     }
+    // A call you are on (green, same family as the legacy ActiveCallBar).
     property color accentColor: glowify(Komai.theme.success)
+    // A live call in this room you have NOT joined ("you could join" — the
+    // warning hue: attention, without the danger meaning of error/red).
+    property color foreignColor: glowify(Komai.theme.warning)
 
-    readonly property bool callActive:
+    // You are on the call in this room (either call stack).
+    readonly property bool joinedCall:
         roomId.length > 0
         && ((CallManager.isOnCall && CallManager.callRoomId === roomId)
             || (ElementCall.active && ElementCall.activeRoomId === roomId))
+    // A call is live in this room but you are not on it. Rooms.activeCalls maps
+    // roomId -> live participant count (undefined when no call); reactive via
+    // activeCallsChanged.
+    readonly property bool foreignCall:
+        roomId.length > 0 && !joinedCall
+        && Rooms.activeCalls[roomId] !== undefined
+    readonly property bool callActive: joinedCall || foreignCall
+    readonly property color effectiveColor: foreignCall ? foreignColor : accentColor
 
     // How far the faint outer bloom reaches past the avatar edge (drives the
     // blur radius below).
@@ -63,7 +77,7 @@ Item {
             anchors.fill: parent
             anchors.margins: root.glowSpread - root.rimBeyond
             radius: root.circular ? width / 2 : Math.round(width / 8)
-            color: root.accentColor
+            color: root.effectiveColor
         }
     }
 

@@ -31,6 +31,8 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
     notifications::install_live_notification_handler(handle_id, restored.client.clone()).await;
     let call_event_handlers =
         runtime_calls::install_incoming_call_event_handlers(handle_id, restored.client.clone());
+    let rtc_event_handlers =
+        rtc::install_rtc_event_handlers(handle_id, restored.client.clone());
     backend_handles()
         .lock()
         .expect("poisoned matrix backend handle registry mutex")
@@ -58,6 +60,7 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
                 subscribed_rooms: subscriptions::SubscribedRooms::new(),
                 _verification_event_handlers: verification_event_handlers,
                 _call_event_handlers: call_event_handlers,
+                _rtc_event_handlers: rtc_event_handlers,
             },
         );
 

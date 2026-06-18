@@ -1395,6 +1395,24 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
     </message>
 </context>
 <context>
+    <name>ElementCallRingBar</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallRingBar.qml" line="+82"/>
+        <source>Incoming call from %1</source>
+        <translation>Cuộc gọi đến từ %1</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Join</source>
+        <translation>Tham gia</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Decline</source>
+        <translation>Từ chối</translation>
+    </message>
+</context>
+<context>
     <name>ElementCallSpike</name>
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>

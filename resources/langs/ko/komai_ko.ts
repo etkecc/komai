@@ -1395,6 +1395,24 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>ElementCallRingBar</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallRingBar.qml" line="+82"/>
+        <source>Incoming call from %1</source>
+        <translation>%1에서 걸려온 전화</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Join</source>
+        <translation>참여</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Decline</source>
+        <translation>거절</translation>
+    </message>
+</context>
+<context>
     <name>ElementCallSpike</name>
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>

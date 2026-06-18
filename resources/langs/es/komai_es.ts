@@ -1398,6 +1398,24 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     </message>
 </context>
 <context>
+    <name>ElementCallRingBar</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallRingBar.qml" line="+82"/>
+        <source>Incoming call from %1</source>
+        <translation>Llamada entrante de %1</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Join</source>
+        <translation>Unirse</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Decline</source>
+        <translation>Rechazar</translation>
+    </message>
+</context>
+<context>
     <name>ElementCallSpike</name>
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>

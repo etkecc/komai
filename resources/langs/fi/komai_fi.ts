@@ -1397,6 +1397,24 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     </message>
 </context>
 <context>
+    <name>ElementCallRingBar</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallRingBar.qml" line="+82"/>
+        <source>Incoming call from %1</source>
+        <translation>Saapuva puhelu käyttäjältä %1</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Join</source>
+        <translation>Liity</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Decline</source>
+        <translation>Hylkää</translation>
+    </message>
+</context>
+<context>
     <name>ElementCallSpike</name>
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>

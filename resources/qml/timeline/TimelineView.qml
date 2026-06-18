@@ -435,6 +435,23 @@ Item {
             && Rooms.currentRoomId !== ElementCall.activeRoomId
         z: 3
     }
+    // Element Call "incoming call" ring bar — shown from any room while a 1:1 EC
+    // call is ringing us (not yet joined/declined). Sits just below the active
+    // call bar; Join opens the call, Decline silences it.
+    ElementCallRingBar {
+        id: elementCallRingBar
+
+        tabController: timelineView.tabController
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: elementCallActiveBar.visible ? elementCallActiveBar.bottom
+            : (legacyCallBar.visible ? legacyCallBar.bottom
+                : (threadViewBar.visible ? threadViewBar.bottom
+                    : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)))
+        height: visible ? implicitHeight : 0
+        visible: ElementCall.supported && ElementCall.incomingRingActive
+        z: 3
+    }
     Item {
         id: timelinePoolContainer
 
@@ -447,10 +464,11 @@ Item {
         // usual region.
         anchors.top: elementCallPanelLoader.inCallRoom
             ? elementCallPanelLoader.bottom
-            : (elementCallActiveBar.visible ? elementCallActiveBar.bottom
-                : (legacyCallBar.visible ? legacyCallBar.bottom
-                    : (threadViewBar.visible ? threadViewBar.bottom
-                        : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top))))
+            : (elementCallRingBar.visible ? elementCallRingBar.bottom
+                : (elementCallActiveBar.visible ? elementCallActiveBar.bottom
+                    : (legacyCallBar.visible ? legacyCallBar.bottom
+                        : (threadViewBar.visible ? threadViewBar.bottom
+                            : (matrixHeaderPane.visible ? matrixHeaderPane.bottom : parent.top)))))
         visible: !!timelineView._activePoolEntry || timelineView.useMatrixRoomView
     }
     TimelineVideoCallLoader {

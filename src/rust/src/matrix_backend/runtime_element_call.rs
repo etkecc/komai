@@ -242,6 +242,16 @@ pub fn stop_element_call_session(session_id: u64) {
     }
 }
 
+/// Whether to treat `room` as a direct (1:1) chat when choosing the call
+/// notification type. Mirrors the room-list classifier's `is_direct` rule
+/// (`runtime_room_list::classify`): direct if the room has an `m.direct` target,
+/// or — as a heuristic for unmarked 1:1 rooms — exactly two active members. We
+/// use our own determination rather than the SDK's `Room::is_direct` so the
+/// ring/notification choice matches what the rest of Komai considers a DM.
+fn room_is_direct(room: &Room) -> bool {
+    !room.direct_targets().is_empty() || room.active_members_count() == 2
+}
+
 async fn run_session(
     session_id: u64,
     room: Room,
@@ -294,6 +304,22 @@ async fn run_session(
         }
     };
 
+    // Element's convention (and ours): a 1:1 call RINGS the other party, a group
+    // call sends a silent notification. We pick this ourselves rather than via an
+    // EC `intent` preset, using our own DM determination (see `room_is_direct`).
+    //   * `ring` makes the callee's client ring audibly; `notification` is silent.
+    //     Either way Element Call publishes an `m.rtc.notification` (MSC4075) on
+    //     call start, which also drives our "started a call" timeline tile.
+    //   * For a DM ring we also set `waitForCallPickup` + `autoLeave` so our
+    //     caller-side EC stops ringing out and leaves when the callee declines,
+    //     nobody answers, or the other party leaves (Element's StartNewCallDM
+    //     behaviour). Group notifications need neither.
+    let (notification_type, dm_ring_params) = if room_is_direct(&room) {
+        ("ring", "&waitForCallPickup=true&autoLeave=true")
+    } else {
+        ("notification", "")
+    };
+
     // Tune Element Call's chrome for the embedded desktop surface. We pass no
     // `intent`, so EC falls into its "unknown intent" preset which turns the
     // branded header ON and `confineToRoom` OFF; we want the opposite:
@@ -304,15 +330,10 @@ async fn run_session(
     //   * `confineToRoom=true` removes EC's "Back to recents" / return-to-home
     //     navigation (the call is embedded in a single room; leaving is driven by
     //     our own End call button).
-    //   * `sendNotificationType=notification` makes Element Call publish an
-    //     `m.rtc.notification` (MSC4075) when a call starts, so the timeline shows
-    //     a "started a call" tile. Without an `intent` EC's "unknown intent" preset
-    //     leaves this `undefined` and emits nothing. We use `notification` (silent)
-    //     rather than `ring` here; ringing is a separate concern.
     // `new_virtual_element_call_widget` emits none of these keys when the
     // corresponding config fields are `None`, so appending is safe.
     let fragment = format!(
-        "{}&header=none&confineToRoom=true&sendNotificationType=notification",
+        "{}&header=none&confineToRoom=true&sendNotificationType={notification_type}{dm_ring_params}",
         url.fragment().unwrap_or("?")
     );
     url.set_fragment(Some(&fragment));

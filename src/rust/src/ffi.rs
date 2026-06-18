@@ -1223,6 +1223,37 @@ mod bridge {
         description: MatrixCallSessionDescription,
     }
 
+    // MatrixRTC (MSC4075) incoming call notification, forwarded to the C++
+    // ElementCallController which owns the ring decision + UI.
+    struct MatrixRtcNotificationEvent {
+        room_id: String,
+        // The notification event id (referenced when sending an m.rtc.decline).
+        event_id: String,
+        sender_id: String,
+        // "ring" (audible) or "notification" (silent); other values are ignored.
+        notification_type: String,
+        // The notification was sent by our own user (do not ring ourselves).
+        is_self: bool,
+        // We are addressed by the notification's m.mentions (or it had none).
+        mentions_me: bool,
+        // How long the notification rings for, in milliseconds (MSC4075 lifetime).
+        lifetime_ms: u64,
+        // Unix-epoch ms at which ringing should stop (lifetime applied to the
+        // sender/server timestamp), already clock-skew corrected.
+        expires_at_ms: u64,
+    }
+
+    // MatrixRTC (MSC4310) call decline, forwarded so our other devices stop
+    // ringing once one device declines.
+    struct MatrixRtcDeclineEvent {
+        room_id: String,
+        // The m.rtc.notification this decline references.
+        notification_event_id: String,
+        sender_id: String,
+        // The decline was sent by our own user (possibly another device).
+        is_self: bool,
+    }
+
     struct MatrixReadReceiptEntry {
         user_id: String,
         display_name: String,
@@ -1512,6 +1543,15 @@ mod bridge {
         fn matrix_notify_element_call_widget_message(session_id: u64, message: &str);
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_element_call_widget_stopped(session_id: u64, reason: &str);
+        // MatrixRTC ring/notify (MSC4075) + decline (MSC4310) -> the always-built
+        // ElementCallController on the GUI thread (these fire from tokio worker
+        // threads). Always provided by C++ even in -DELEMENT_CALL=OFF builds (the
+        // controller exists there too and ignores them when EC is unsupported)
+        // since the Rust RTC handlers are compiled unconditionally.
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_rtc_notification(handle_id: u64, event: MatrixRtcNotificationEvent);
+        #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_rtc_decline(handle_id: u64, event: MatrixRtcDeclineEvent);
     }
 
     extern "Rust" {
@@ -2046,6 +2086,14 @@ mod bridge {
         ) -> Result<u64>;
         fn matrix_element_call_send_message(session_id: u64, message: &str) -> Result<()>;
         fn matrix_element_call_stop_session(session_id: u64);
+        // Decline an incoming MatrixRTC call notification (sends m.rtc.decline,
+        // MSC4310). Non-blocking: validates the room synchronously, then spawns
+        // the send.
+        fn matrix_element_call_decline(
+            handle_id: u64,
+            room_id: &str,
+            notification_event_id: &str,
+        ) -> Result<()>;
         fn matrix_set_account_notifications_enabled(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

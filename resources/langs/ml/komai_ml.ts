@@ -1397,6 +1397,24 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
 </context>
 <context>
+    <name>ElementCallRingBar</name>
+    <message>
+        <location filename="../../qml/voip/ElementCallRingBar.qml" line="+82"/>
+        <source>Incoming call from %1</source>
+        <translation>%1-ൽ നിന്ന് കോൾ വരുന്നു</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Join</source>
+        <translation>ചേരുക</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Decline</source>
+        <translation>നിരസിക്കുക</translation>
+    </message>
+</context>
+<context>
     <name>ElementCallSpike</name>
     <message>
         <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>

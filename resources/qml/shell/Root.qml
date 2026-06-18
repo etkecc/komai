@@ -356,6 +356,28 @@ function openCatalogDialog(componentUrl, properties) {
         }
     }
     Connections {
+        target: ElementCall
+        // Re-push liveness when a ring starts, so the controller learns the call
+        // is live (and can later detect the caller cancelling).
+        function onIncomingRingChanged() {
+            timelineRoot.pushIncomingRingLiveness();
+        }
+    }
+    // Feed the ringing call's live state (is anyone still in it?) to the
+    // controller, so it can stop ringing when the caller cancels before we
+    // answer. Sourced from Rooms.activeCalls, which tracks live calls per room.
+    Connections {
+        target: Rooms
+        function onActiveCallsChanged() {
+            timelineRoot.pushIncomingRingLiveness();
+        }
+    }
+    function pushIncomingRingLiveness() {
+        if (ElementCall.incomingRingActive && ElementCall.incomingRingRoomId.length > 0)
+            ElementCall.updateRingLiveness(
+                Rooms.activeCalls[ElementCall.incomingRingRoomId] !== undefined);
+    }
+    Connections {
         function onShowNotification(msg) {
             snackbar.showNotification(msg);
             console.log("New snack: " + msg);

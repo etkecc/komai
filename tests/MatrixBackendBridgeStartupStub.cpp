@@ -205,4 +205,12 @@ void
 matrix_notify_element_call_widget_stopped(std::uint64_t, ::rust::Str)
 {}
 
+void
+matrix_notify_rtc_notification(std::uint64_t, ::komai::rust::MatrixRtcNotificationEvent)
+{}
+
+void
+matrix_notify_rtc_decline(std::uint64_t, ::komai::rust::MatrixRtcDeclineEvent)
+{}
+
 } // namespace komai::rust_bridge

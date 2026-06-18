@@ -104,6 +104,8 @@ mod runtime_voip;
 mod runtime_calls;
 #[path = "runtime_element_call.rs"]
 mod element_call;
+#[path = "runtime_rtc.rs"]
+mod rtc;
 #[path = "runtime_media_proxy.rs"]
 mod media_proxy;
 #[path = "runtime_preloader.rs"]
@@ -182,6 +184,7 @@ pub use image_packs::{
 pub use element_call::{
     send_element_call_message, start_element_call_session, stop_element_call_session,
 };
+pub use rtc::decline_rtc_notification;
 pub use runtime_voip::fetch_turn_server_info;
 pub use runtime_calls::{
     serialize_call_invite, serialize_call_candidates, serialize_call_answer,
@@ -653,6 +656,7 @@ struct MatrixBackendHandle {
     subscribed_rooms: Arc<subscriptions::SubscribedRooms>,
     _verification_event_handlers: Vec<EventHandlerDropGuard>,
     _call_event_handlers: Vec<EventHandlerDropGuard>,
+    _rtc_event_handlers: Vec<EventHandlerDropGuard>,
 }
 
 #[derive(Clone)]

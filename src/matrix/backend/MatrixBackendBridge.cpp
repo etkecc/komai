@@ -26,6 +26,7 @@
 #include "ui/MainWindow.h"
 #include "voip/CallManager.h"
 #include "voip/CallTypes.h"
+#include "voip/ElementCallController.h"
 
 #ifdef ELEMENT_CALL_AVAILABLE
 #include "voip/ElementCallWidgetSession.h"
@@ -714,6 +715,45 @@ matrix_notify_element_call_widget_stopped(std::uint64_t session_id, ::rust::Str 
     (void)session_id;
     (void)reason;
 #endif
+}
+
+void
+matrix_notify_rtc_notification(std::uint64_t handle_id,
+                               ::komai::rust::MatrixRtcNotificationEvent event)
+{
+    const auto roomId  = toQString(::rust::Str(event.room_id.data(), event.room_id.size()));
+    const auto eventId = toQString(::rust::Str(event.event_id.data(), event.event_id.size()));
+    const auto sender  = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
+    const auto type =
+      toQString(::rust::Str(event.notification_type.data(), event.notification_type.size()));
+    const auto isSelf      = event.is_self;
+    const auto mentionsMe  = event.mentions_me;
+    const auto expiresAtMs = event.expires_at_ms;
+
+    postToAppThread([handle_id, roomId, eventId, sender, type, isSelf, mentionsMe, expiresAtMs]() {
+        auto *mainWindow = MainWindow::instance();
+        if (!mainWindow || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+        if (auto *controller = ElementCallController::instance())
+            controller->onRtcNotification(
+              roomId, eventId, sender, type, isSelf, mentionsMe, expiresAtMs);
+    });
+}
+
+void
+matrix_notify_rtc_decline(std::uint64_t handle_id, ::komai::rust::MatrixRtcDeclineEvent event)
+{
+    const auto eventId = toQString(
+      ::rust::Str(event.notification_event_id.data(), event.notification_event_id.size()));
+    const auto isSelf = event.is_self;
+
+    postToAppThread([handle_id, eventId, isSelf]() {
+        auto *mainWindow = MainWindow::instance();
+        if (!mainWindow || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+        if (auto *controller = ElementCallController::instance())
+            controller->onRtcDecline(eventId, isSelf);
+    });
 }
 
 } // namespace komai::rust_bridge

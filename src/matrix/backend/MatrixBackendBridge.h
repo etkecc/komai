@@ -21,6 +21,8 @@ struct MatrixCallHangUpEvent;
 struct MatrixCallSelectAnswerEvent;
 struct MatrixCallRejectEvent;
 struct MatrixCallNegotiateEvent;
+struct MatrixRtcNotificationEvent;
+struct MatrixRtcDeclineEvent;
 }
 
 namespace komai::rust_bridge {
@@ -167,5 +169,16 @@ matrix_notify_element_call_widget_message(std::uint64_t session_id, ::rust::Str 
 
 void
 matrix_notify_element_call_widget_stopped(std::uint64_t session_id, ::rust::Str reason);
+
+// MatrixRTC ring/notify (MSC4075) + decline (MSC4310) -> ElementCallController on
+// the GUI thread. Defined unconditionally (the Rust RTC handlers are always
+// compiled); they early-out in -DELEMENT_CALL=OFF builds where Element Call is
+// unsupported.
+void
+matrix_notify_rtc_notification(std::uint64_t handle_id,
+                               ::komai::rust::MatrixRtcNotificationEvent event);
+
+void
+matrix_notify_rtc_decline(std::uint64_t handle_id, ::komai::rust::MatrixRtcDeclineEvent event);
 
 } // namespace komai::rust_bridge

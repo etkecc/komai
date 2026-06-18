@@ -24,3 +24,11 @@ pub(crate) fn matrix_element_call_send_message(
 pub(crate) fn matrix_element_call_stop_session(session_id: u64) {
     matrix_backend::runtime::stop_element_call_session(session_id)
 }
+
+pub(crate) fn matrix_element_call_decline(
+    handle_id: u64,
+    room_id: &str,
+    notification_event_id: &str,
+) -> Result<(), String> {
+    matrix_backend::runtime::decline_rtc_notification(handle_id, room_id, notification_event_id)
+}

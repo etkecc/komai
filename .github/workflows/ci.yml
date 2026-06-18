@@ -81,7 +81,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Compute unified cargo target dir
         # Corrosion passes `--target-dir <path>` on its cargo CLI

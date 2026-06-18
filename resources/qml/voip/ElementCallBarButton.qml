@@ -29,10 +29,11 @@ AbstractButton {
     property bool onAccent: false
 
     readonly property bool activeState: hovered || pressed || visualFocus
-    // Match the room-header action buttons: the button is iconSize tall and the
-    // glyph is a touch smaller than that (not the full size, which looked
-    // oversized).
-    readonly property int buttonPaddingH: Komai.paddingSmall
+    // Match the room-header action buttons exactly: the button is iconSize tall
+    // and the glyph is inset by the same density-aware padding RoomHeader uses
+    // for its action buttons (wider inset in Spacious), so the glyph ends up the
+    // same size as the header icons across all densities rather than oversized.
+    readonly property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
     readonly property int glyphSize: Math.max(14, Komai.iconSize - 2 * buttonPaddingH)
 
     // Foreground that stays readable on whatever background we draw. For the

@@ -168,7 +168,7 @@ Item {
             // current state; clicking toggles it.
             ElementCallBarButton {
                 visible: ecSession.deviceControlsAvailable
-                onAccent: true
+                style: ElementCallBarButton.Style.OnAccent
                 image: ecSession.micEnabled
                     ? ":/icons/icons/ui/microphone-unmute.svg"
                     : ":/icons/icons/ui/microphone-mute.svg"
@@ -180,7 +180,7 @@ Item {
 
             ElementCallBarButton {
                 visible: ecSession.deviceControlsAvailable
-                onAccent: true
+                style: ElementCallBarButton.Style.OnAccent
                 image: ecSession.cameraEnabled
                     ? ":/icons/icons/ui/video.svg"
                     : ":/icons/icons/ui/video-off.svg"
@@ -195,7 +195,7 @@ Item {
                 image: panel.collapsed
                     ? ":/icons/icons/ui/chevron-down.svg"
                     : ":/icons/icons/ui/chevron-up.svg"
-                onAccent: true
+                style: ElementCallBarButton.Style.OnAccent
                 onClicked: panel.collapsed = !panel.collapsed
             }
 
@@ -206,7 +206,7 @@ Item {
             ElementCallBarButton {
                 text: qsTr("End call")
                 image: ":/icons/icons/ui/end-call.svg"
-                danger: true
+                style: ElementCallBarButton.Style.Danger
                 enabled: !panel.leaving
                 onClicked: ElementCall.hangup()
             }

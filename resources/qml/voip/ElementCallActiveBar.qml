@@ -87,7 +87,7 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             text: qsTr("Back to call")
             image: ":/icons/icons/ui/place-call.svg"
-            onAccent: true
+            style: ElementCallBarButton.Style.OnAccent
             onClicked: bar.returnToCall()
         }
 
@@ -95,7 +95,7 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             text: qsTr("End call")
             image: ":/icons/icons/ui/end-call.svg"
-            danger: true
+            style: ElementCallBarButton.Style.Danger
             enabled: !bar.leaving
             onClicked: {
                 bar.leaving = true;

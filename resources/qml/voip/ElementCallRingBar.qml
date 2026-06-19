@@ -90,7 +90,7 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             text: qsTr("Join")
             image: ":/icons/icons/ui/place-call.svg"
-            accept: true
+            style: ElementCallBarButton.Style.Accept
             onClicked: bar.joinCall()
         }
 
@@ -98,7 +98,7 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             text: qsTr("Decline")
             image: ":/icons/icons/ui/end-call.svg"
-            danger: true
+            style: ElementCallBarButton.Style.Danger
             onClicked: ElementCall.declineIncomingRing()
         }
     }

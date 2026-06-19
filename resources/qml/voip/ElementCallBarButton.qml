@@ -4,10 +4,11 @@
 
 // A flat action button for the Element Call bar, styled to match the room header
 // action buttons (no border, transparent background that fills on hover, larger
-// icon, bold label). Set `danger: true` for the destructive "End call" variant
-// (theme error colour) or `accept: true` for the affirmative "Join" variant
-// (theme success colour); both fill solid with a luminance-picked readable
-// foreground.
+// icon, bold label). The `style` property selects one of four mutually exclusive
+// looks (see the Style enum): Neutral (the default), Accept (affirmative "Join",
+// solid theme-success fill), Danger (destructive "End call", solid theme-error
+// fill), and OnAccent (a neutral button sitting on a coloured/accent bar). Accept
+// and Danger pick a black/white foreground by luminance for cross-theme contrast.
 
 import QtQuick
 import QtQuick.Controls
@@ -18,17 +19,23 @@ import cc.etke.komai
 AbstractButton {
     id: button
 
+    // Mutually exclusive visual variants. Neutral and OnAccent are both "no fill,
+    // fills on hover" buttons; they differ only in the foreground/hover colours
+    // used against a normal vs a coloured (accent) background.
+    enum Style { Neutral, Accept, Danger, OnAccent }
+
     property string image: ""
     // Optional themed tooltip, shown on hover (e.g. for icon-only buttons).
     property string toolTipText: ""
-    property bool danger: false
-    // The affirmative variant (e.g. "Join"): a solid theme-success fill.
-    property bool accept: false
-    // Set when the button sits on a coloured (accent) bar, e.g. the green call
-    // bars: force a black foreground and a subtle translucent hover so it reads
-    // on the fixed light-green background across all themes (the theme palette
-    // foreground would be light, and so low-contrast, on dark themes).
-    property bool onAccent: false
+    // One of ElementCallBarButton.Style.*. OnAccent forces a black foreground and
+    // a subtle translucent hover so a neutral button reads on the fixed
+    // light-green call bars across all themes (the theme palette foreground would
+    // be light, and so low-contrast, on dark themes).
+    property int style: ElementCallBarButton.Style.Neutral
+
+    readonly property bool _danger: style === ElementCallBarButton.Style.Danger
+    readonly property bool _accept: style === ElementCallBarButton.Style.Accept
+    readonly property bool _onAccent: style === ElementCallBarButton.Style.OnAccent
 
     readonly property bool activeState: hovered || pressed || visualFocus
     // Match the room-header action buttons exactly: the button is iconSize tall
@@ -42,13 +49,13 @@ AbstractButton {
     // danger variant we sit on the theme error colour (which varies per theme),
     // so pick black/white by relative luminance; otherwise follow the room-header
     // convention (brightText on hover, text otherwise).
-    readonly property color foreground: danger
+    readonly property color foreground: _danger
         ? ((0.299 * Komai.theme.error.r + 0.587 * Komai.theme.error.g
             + 0.114 * Komai.theme.error.b) > 0.55 ? "#000000" : "#ffffff")
-        : accept
+        : _accept
             ? ((0.299 * Komai.theme.success.r + 0.587 * Komai.theme.success.g
                 + 0.114 * Komai.theme.success.b) > 0.55 ? "#000000" : "#ffffff")
-            : (onAccent ? "#000000"
+            : (_onAccent ? "#000000"
                 : (activeState ? palette.brightText : palette.text))
 
     font.pointSize: Settings.uiFontSizePt
@@ -66,11 +73,11 @@ AbstractButton {
 
     background: Rectangle {
         radius: Komai.paddingSmall
-        color: button.danger
+        color: button._danger
             ? (button.activeState ? Qt.darker(Komai.theme.error, 1.15) : Komai.theme.error)
-            : button.accept
+            : button._accept
                 ? (button.activeState ? Qt.darker(Komai.theme.success, 1.15) : Komai.theme.success)
-                : button.onAccent
+                : button._onAccent
                     ? (button.activeState ? Qt.rgba(0, 0, 0, 0.12) : "transparent")
                     : (button.activeState ? palette.dark : "transparent")
     }

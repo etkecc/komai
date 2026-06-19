@@ -618,7 +618,7 @@ Você pode, opcionalmente, fornecer um motivo para que outras pessoas aceitem su
         <translation>Usuário desbanido: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Não é possível convidar usuários até que a sessão Matrix esteja pronta.</translation>
     </message>
@@ -628,7 +628,7 @@ Você pode, opcionalmente, fornecer um motivo para que outras pessoas aceitem su
         <translation>Falha ao convidar %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Algo deu errado</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifique para desbloquear mensagens criptografadas.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 enviou uma mensagem criptografada</translation>
@@ -4141,6 +4141,29 @@ Verifique para desbloquear mensagens criptografadas.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Responder</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Chamada recebida</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Iniciou uma chamada</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Entrar</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Recusar</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Execute '%1 &lt;grupo&gt; --help' para detalhes dos subcomandos.</translation>
         <translation>Iniciar oculto na bandeja do sistema somente nesta execução, sem alterar a configuração "Iniciar na bandeja". Útil em entradas de inicialização automática para que as inicializações de sessão ocorram de forma silenciosa, enquanto as inicializações normais ainda abrem a janela. Requer "Fechar para a bandeja" ativado e uma bandeja do sistema funcional. Em configurações com múltiplos perfis, combine com -p para ignorar o seletor de perfis.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Responder</translation>
     </message>

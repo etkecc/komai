@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation type="unfinished"/>
     </message>
@@ -560,7 +560,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation type="unfinished"/>
     </message>
@@ -4082,7 +4082,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 sent an encrypted message</translation>
@@ -4130,6 +4130,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation type="unfinished">Reply</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation type="unfinished">Join</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation type="unfinished">Decline</translation>
     </message>
 </context>
 <context>
@@ -4687,7 +4710,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Respond</translation>
     </message>

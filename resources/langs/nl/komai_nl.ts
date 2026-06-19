@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Gebruikers kunnen niet worden uitgenodigd totdat de Matrix-sessie gereed is.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Uitnodigen van %1 mislukt: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Er is iets misgegaan</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 stuurde een versleuteld bericht</translation>
@@ -4141,6 +4141,29 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Beantwoorden</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Inkomende oproep</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Oproep gestart</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Deelnemen</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Weigeren</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
         <translation>Start verborgen in het systeemvak alleen voor deze start, waarbij de instelling "In vak starten" ongewijzigd blijft. Nuttig in autostart-vermeldingen zodat sessiestarts stil blijven terwijl normale starts het venster nog steeds openen. Vereist dat "Sluiten naar vak" is ingeschakeld en een werkend systeemvak. Combineer in opstellingen met meerdere profielen met -p om de profielkiezer te omzeilen.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Antwoorden</translation>
     </message>

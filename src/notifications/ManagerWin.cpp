@@ -185,3 +185,23 @@ NotificationsManager::removeNotification(const QString &roomId, const QString &e
 
     forgetTrackedNotification(roomId, eventId);
 }
+
+void
+NotificationsManager::postCallNotification(const QString &roomId,
+                                           const QString &eventId,
+                                           const QString &roomName,
+                                           bool isRing,
+                                           bool canDecline,
+                                           const QImage &icon)
+{
+    Q_UNUSED(roomId)
+    Q_UNUSED(eventId)
+    Q_UNUSED(roomName)
+    Q_UNUSED(isRing)
+    Q_UNUSED(canDecline)
+    Q_UNUSED(icon)
+    // Element Call is not built on Windows yet (QtWebEngine packaging is handled
+    // in a later milestone), so this is never reached on this platform. Left as
+    // a no-op; Join/Decline toast actions will be wired up alongside Windows
+    // Element Call support.
+}

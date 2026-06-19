@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QUrl>
 
+#include "chat/ChatPage.h"
 #include "komai-rust-cxxbridge/ffi.h"
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -56,6 +57,11 @@ ElementCallController::startCall(const QString &roomId)
         clearRing();
     }
 
+    // Joining clears any desktop notification(s) for this room's call (the ring
+    // one is closed by clearRing above; a group one is closed here).
+    if (auto *chat = ChatPage::instance())
+        chat->withdrawCallNotificationsForRoom(roomId);
+
     activeRoomId_ = roomId;
     active_       = true;
     emit activeRoomIdChanged();
@@ -92,50 +98,101 @@ ElementCallController::onRtcNotification(const QString &roomId,
                                          const QString &notificationType,
                                          bool isSelf,
                                          bool mentionsMe,
-                                         quint64 expiresAtMs)
+                                         quint64 expiresAtMs,
+                                         int notificationMode)
 {
-    // We only RING for `ring` notifications addressed to us, from someone else,
-    // for a call we have neither joined nor already handled. Silent
-    // `notification` (group) notifications are surfaced by the timeline tile /
-    // avatar glow, not here.
+    // Two kinds of incoming MatrixRTC notification reach us here:
+    //   * `ring`         — an addressed 1:1 invite. We RING (in-app ring bar +
+    //                      ringtone) and raise a desktop notification.
+    //   * `notification` — a silent group-call notice. No ring; we raise a
+    //                      silent desktop notification honouring the room's
+    //                      notify setting. Also surfaced by the timeline tile /
+    //                      avatar glow.
     if (!supported())
         return;
-    if (notificationType != QStringLiteral("ring"))
-        return;
-    if (isSelf || !mentionsMe)
+
+    const bool isRing = (notificationType == QStringLiteral("ring"));
+    if (!isRing && notificationType != QStringLiteral("notification"))
+        return; // Unknown notification type.
+    if (isSelf)
         return;
     if (active_ && activeRoomId_ == roomId)
-        return;
+        return; // We are already in this call.
     if (handledNotifications_.contains(notificationEventId))
-        return;
+        return; // Declined / dismissed / already joined.
 
     const quint64 now = static_cast<quint64>(QDateTime::currentMSecsSinceEpoch());
     if (expiresAtMs != 0 && expiresAtMs <= now)
-        return; // The ring already expired before we processed it.
+        return; // The notification already expired before we processed it.
 
-    ringRoomId_              = roomId;
-    ringNotificationEventId_ = notificationEventId;
-    ringSenderId_            = senderId;
-    ringActive_              = true;
-    ringWasLive_             = false;
+    // Ring: only when we are actually addressed (a ring not aimed at us is not
+    // ours to answer). Drives the global ring bar + ringtone.
+    if (isRing && mentionsMe) {
+        ringRoomId_              = roomId;
+        ringNotificationEventId_ = notificationEventId;
+        ringSenderId_            = senderId;
+        ringActive_              = true;
+        ringWasLive_             = false;
 
-    // Stop ringing when the notification expires (MSC4075 lifetime), matching how
-    // long the caller rings out. Fall back to a 30s ring if no expiry was given.
-    if (!ringExpiryTimer_) {
-        ringExpiryTimer_ = new QTimer(this);
-        ringExpiryTimer_->setSingleShot(true);
-        connect(ringExpiryTimer_, &QTimer::timeout, this, [this]() {
-            komai::logging::ui()->warn("[EC] incoming ring expired");
-            clearRing();
-        });
+        // Stop ringing when the notification expires (MSC4075 lifetime), matching
+        // how long the caller rings out. Fall back to a 30s ring if no expiry was
+        // given.
+        if (!ringExpiryTimer_) {
+            ringExpiryTimer_ = new QTimer(this);
+            ringExpiryTimer_->setSingleShot(true);
+            connect(ringExpiryTimer_, &QTimer::timeout, this, [this]() {
+                komai::logging::ui()->warn("[EC] incoming ring expired");
+                clearRing();
+            });
+        }
+        const quint64 remaining = (expiresAtMs > now) ? (expiresAtMs - now) : 30000;
+        ringExpiryTimer_->start(static_cast<int>(qMin<quint64>(remaining, 120000)));
+
+        startRingtone();
+        emit incomingRingChanged();
+        komai::logging::ui()->warn("[EC] incoming call ring from {} in room {}",
+                                   senderId.toStdString(),
+                                   roomId.toStdString());
     }
-    const quint64 remaining = (expiresAtMs > now) ? (expiresAtMs - now) : 30000;
-    ringExpiryTimer_->start(static_cast<int>(qMin<quint64>(remaining, 120000)));
 
-    startRingtone();
-    emit incomingRingChanged();
-    komai::logging::ui()->warn(
-      "[EC] incoming call ring from {} in room {}", senderId.toStdString(), roomId.toStdString());
+    // A ring not addressed to us is neither rung nor notified.
+    if (isRing && !mentionsMe)
+        return;
+
+    maybePostCallNotification(
+      roomId, notificationEventId, senderId, isRing, mentionsMe, notificationMode);
+}
+
+void
+ElementCallController::maybePostCallNotification(const QString &roomId,
+                                                 const QString &notificationEventId,
+                                                 const QString &senderId,
+                                                 bool isRing,
+                                                 bool mentionsMe,
+                                                 int notificationMode)
+{
+    // Silent group notifications honour the room's notify setting the same way a
+    // regular message would: skip muted rooms, and in mentions-only rooms notify
+    // only when we are addressed (a personal mention OR a room-wide @room, which
+    // also notifies for messages via the roomnotif push rule). Ring calls are
+    // always eligible (an addressed 1:1 invite).
+    if (!isRing) {
+        if (notificationMode == 0 /* mute */)
+            return;
+        if (notificationMode == 1 /* mentions / keywords only */ && !mentionsMe)
+            return;
+    }
+
+    if (postedCallNotifications_.contains(notificationEventId))
+        return; // Already raised a desktop notification for this call.
+    postedCallNotifications_.insert(notificationEventId);
+
+    // ChatPage owns the notification surface (and applies focus gating). It is
+    // always present once a session is up, which is the only time RTC
+    // notifications arrive; if it is somehow absent there is nothing to show.
+    if (auto *chat = ChatPage::instance())
+        chat->dispatchCallNotification(
+          roomId, notificationEventId, senderId, isRing, /*canDecline=*/isRing);
 }
 
 void
@@ -241,6 +298,10 @@ ElementCallController::clearRing()
         ringExpiryTimer_->stop();
     if (!ringActive_)
         return;
+    // Close the desktop notification raised for this ring (no-op if none / if it
+    // was suppressed because the app was focused).
+    if (auto *chat = ChatPage::instance())
+        chat->withdrawCallNotification(ringRoomId_, ringNotificationEventId_);
     ringActive_  = false;
     ringWasLive_ = false;
     ringRoomId_.clear();

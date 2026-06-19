@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix oturumu hazır olana kadar kullanıcılar davet edilemez.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>%1 davet edilemedi: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Bir şeyler ters gitti</translation>
     </message>
@@ -4088,7 +4088,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 şifreli bir mesaj gönderdi</translation>
@@ -4136,6 +4136,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Yanıtla</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Gelen arama</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Arama başlatıldı</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Katıl</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Reddet</translation>
     </message>
 </context>
 <context>
@@ -4703,7 +4726,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
         <translation>Yalnızca bu başlatma için sistem tepsisinde gizli başlat; "Tepside başlat" ayarına dokunulmaz. Oturum başlatmalarının sessiz kalması, normal başlatmaların ise pencereyi açmaya devam etmesi için otomatik başlangıç girişlerinde kullanışlıdır. "Sistem tepsisine kapat" seçeneğinin etkin ve çalışan bir sistem tepsisinin mevcut olması gerekir. Çok profilli kurulumlarda, profil değiştiriciyi atlamak için -p ile birleştirin.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Yanıtla</translation>
     </message>

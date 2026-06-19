@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix සැසිය සූදානම් වනතෙක් පරිශීලකයන් ආරාධනා කළ නොහැකිය.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>%1 ආරාධනා කිරීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>යමක් වැරදී ගියේය</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 සංකේතිත පණිවිඩයක් යැව්වා</translation>
@@ -4141,6 +4141,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>පිළිතුරු දෙන්න</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>ලැබෙන ඇමතුම</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>ඇමතුමක් ආරම්භ කළා</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>සම්බන්ධ වන්න</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>ප්‍රතික්ෂේප කරන්න</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>මෙම ආරම්භය සඳහා පමණක් පද්ධති ට්‍රේ තුළ සඟවා ආරම්භ කරන්න, "ට්‍රේ තුළ ආරම්භ" සැකසුම වෙනස් නොකර. ස්වයං-ආරම්භ ඇතුළත්කිරීම් සඳහා ප්‍රයෝජනවත් - සෙෂන් ආරම්භයන් නිශ්ශබ්දව රැඳෙන අතර සාමාන්‍ය ආරම්භයන් කවුළුව විවෘත කරයි. "ට්‍රේ වෙත වසන්න" සක්‍රීය කර ඇති අතර ක්‍රියාකාරී පද්ධති ට්‍රේ එකක් අවශ්‍ය. බහු-පැතිකඩ සැකසුම් වලදී, පැතිකඩ මාරුකාරය මඟ හැරීමට -p සමඟ ඒකාබද්ධ කරන්න.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>ප්‍රතිචාර දක්වන්න</translation>
     </message>

@@ -108,7 +108,8 @@ public:
                            const QString &notificationType,
                            bool isSelf,
                            bool mentionsMe,
-                           quint64 expiresAtMs);
+                           quint64 expiresAtMs,
+                           int notificationMode);
     void onRtcDecline(const QString &notificationEventId, bool isSelf);
 
 signals:
@@ -124,6 +125,16 @@ private:
     void stopRingtone();
     // Silence the ringtone, stop the expiry timer, and clear the ring state.
     void clearRing();
+    // Decide whether an incoming RTC notification should raise a desktop OS
+    // notification and, if so, hand it to ChatPage to present. Ring calls are
+    // always eligible (they are addressed 1:1 invites); silent group
+    // notifications honour the room's notify setting (mute / mentions-only).
+    void maybePostCallNotification(const QString &roomId,
+                                   const QString &notificationEventId,
+                                   const QString &senderId,
+                                   bool isRing,
+                                   bool mentionsMe,
+                                   int notificationMode);
 
     static ElementCallController *s_instance_;
 
@@ -143,4 +154,7 @@ private:
     // Notification event ids we have declined / dismissed, so a re-delivered or
     // duplicate notification does not ring again.
     QSet<QString> handledNotifications_;
+    // Notification event ids we have already raised a desktop notification for,
+    // so a re-delivered notification does not pop a second one.
+    QSet<QString> postedCallNotifications_;
 };

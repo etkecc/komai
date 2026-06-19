@@ -613,7 +613,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Разблокированный пользователь: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Нельзя приглашать пользователей, пока сессия Matrix не готова.</translation>
     </message>
@@ -623,7 +623,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не удалось пригласить %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Что-то пошло не так</translation>
     </message>
@@ -4098,7 +4098,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 отправил зашифрованное сообщение</translation>
@@ -4146,6 +4146,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Ответить</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Входящий звонок</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Начат звонок</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Присоединиться</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Отклонить</translation>
     </message>
 </context>
 <context>
@@ -4658,7 +4681,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Ответить</translation>
     </message>

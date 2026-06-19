@@ -38,12 +38,30 @@ public:
 
     void postNotification(const komai::NotificationPayload &notification, const QImage &icon);
 
+    // Post a desktop notification for an incoming MatrixRTC (Element Call) call.
+    // `isRing` is an addressed 1:1 invite; otherwise it is a silent group-call
+    // notice. The notification carries a "Join" action (and, when `canDecline`,
+    // a "Decline" action); activating it or clicking the body joins the call.
+    void postCallNotification(const QString &roomId,
+                              const QString &eventId,
+                              const QString &roomName,
+                              bool isRing,
+                              bool canDecline,
+                              const QImage &icon);
+
     void removeNotification(const QString &roomId, const QString &eventId);
+    // Close all call notifications currently shown for the room (leaves ordinary
+    // message notifications in place).
+    void removeCallNotificationsForRoom(const QString &roomId);
     void reconcileRoomNotifications(const QString &roomId, int keepNewestCount);
 
 signals:
     void notificationClicked(const QString roomId, const QString eventId);
     void sendNotificationReply(const QString roomId, const QString eventId, const QString body);
+    // An incoming-call notification's Join action (or body click) was activated.
+    void callJoinRequested(const QString roomId);
+    // An incoming-call notification's Decline action was activated.
+    void callDeclineRequested(const QString roomId, const QString eventId);
     void systemPostNotificationCb(const QString &room_id,
                                   const QString &event_id,
                                   const QString &roomName,
@@ -120,6 +138,12 @@ private:
     void rememberTrackedNotification(const QString &roomId, const QString &eventId);
     void forgetTrackedNotification(const QString &roomId, const QString &eventId);
 
+    // Mark a tracked notification as an incoming-call one (so action handlers
+    // route Join/Decline, and removeCallNotificationsForRoom can find them).
+    void rememberCallNotification(const QString &roomId, const QString &eventId, bool canDecline);
+    void forgetCallNotification(const QString &roomId, const QString &eventId);
+    bool isCallNotification(const QString &roomId, const QString &eventId) const;
+
     QString getMessageTemplate(const komai::NotificationPayload &notification);
     QString plainNotificationBody(const komai::NotificationPayload &notification);
     QString formattedNotificationBody(const komai::NotificationPayload &notification);
@@ -128,6 +152,11 @@ private:
     // Cross-platform tracking for "remove all notifications in this room" semantics.
     QMap<QString, roomEventId> trackedNotifications;
     quint64 nextTrackedNotificationSequence_ = 1;
+
+    // Tracked-notification keys that are incoming-call notifications, mapped to
+    // whether they offer a Decline action. Used to route Join/Decline activation
+    // and to close just the call notifications for a room.
+    QMap<QString, bool> callNotifications_;
 
     // Linux D-Bus notification id to (room ID, event ID).
     QMap<uint, roomEventId> notificationIds;

@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Ne eblas inviti uzantojn ĝis la Matrix-sesio estas preta.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Malsukcesis inviti %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Io eraris</translation>
     </message>
@@ -4093,7 +4093,7 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 sendis ĉifritan mesaĝon</translation>
@@ -4141,6 +4141,29 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Respondi</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Alvenanta voko</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Komencis vokon</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Aliĝi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Rifuzi</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
         <translation>Komenci kaŝite en la sistema pleto nur por ĉi tiu lanĉo, lasante la agordon "Komenci en pleto" senŝanĝan. Utila en aŭtostart-enskriboj por ke sesiaj lanĉoj restu silenaj dum normalaj lanĉoj ankoraŭ malfermas la fenestron. Necesas ebligita "Fermi al pleto" kaj funkcianta sistema pleto. En multprofilaj aranĝoj, kombinu kun -p por preteriri la profilŝanĝilon.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Respondi</translation>
     </message>

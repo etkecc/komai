@@ -28,6 +28,24 @@ use super::*;
 use super::event_summary::{MatrixEventSummary, summarize_sync_timeline_event};
 use crate::html_processor::to_notification_markup;
 
+/// Whether a fetched notification item is a MatrixRTC call notification/decline,
+/// which is surfaced through its own desktop notification (runtime_rtc) and must
+/// not also go through the generic message-notification pipeline.
+fn is_rtc_notification_event(
+    notification: &matrix_sdk_ui::notification_client::NotificationItem,
+) -> bool {
+    match &notification.event {
+        SdkNotificationEvent::Timeline(event) => matches!(
+            event.event_type().to_string().as_str(),
+            "m.rtc.notification"
+                | "org.matrix.msc4075.rtc.notification"
+                | "m.rtc.decline"
+                | "org.matrix.msc4310.rtc.decline"
+        ),
+        _ => false,
+    }
+}
+
 fn notification_event_id(notification: &matrix_sdk::sync::Notification) -> Option<String> {
     match &notification.event {
         RawAnySyncOrStrippedTimelineEvent::Sync(raw_event) => {
@@ -102,7 +120,23 @@ pub async fn install_live_notification_handler(handle_id: u64, client: Client) {
     client
         .register_notification_handler(move |notification, room, _client| async move {
             match &notification.event {
-                RawAnySyncOrStrippedTimelineEvent::Sync(_) => {
+                RawAnySyncOrStrippedTimelineEvent::Sync(raw_event) => {
+                    // MatrixRTC call notifications/declines get their own, richer
+                    // desktop notification (with Join/Decline) via runtime_rtc;
+                    // skip them here so the generic message pipeline does not also
+                    // pop a plain "sent a message" notification for the same event.
+                    if matches!(
+                        raw_event.get_field::<String>("type").ok().flatten().as_deref(),
+                        Some(
+                            "m.rtc.notification"
+                                | "org.matrix.msc4075.rtc.notification"
+                                | "m.rtc.decline"
+                                | "org.matrix.msc4310.rtc.decline"
+                        )
+                    ) {
+                        return;
+                    }
+
                     let Some(event_id) = notification_event_id(&notification) else {
                         tracing::debug!(
                             handle_id,
@@ -373,6 +407,13 @@ pub async fn fetch_notification_items(
 
         match status_result {
             Ok(NotificationStatus::Event(notification)) => {
+                // MatrixRTC call notifications get their own Join/Decline desktop
+                // notification (runtime_rtc); never surface them through the
+                // generic message pipeline (e.g. a pending one fetched at startup).
+                if is_rtc_notification_event(&notification) {
+                    tracing::debug!(handle_id, %event_id, "Skipping RTC call notification in the message pipeline");
+                    continue;
+                }
                 items.push(notification_item_from_sdk(&room_id, event_id.as_str(), *notification));
             }
             Ok(NotificationStatus::EventFilteredOut) => {

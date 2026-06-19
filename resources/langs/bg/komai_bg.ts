@@ -555,7 +555,7 @@
         <translation>Matrix backend runtime не успя да стартира за тази сесия. Моля, влез отново.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Не може да се поканят потребители, докато Matrix сесията не е готова.</translation>
     </message>
@@ -565,7 +565,7 @@
         <translation>Неуспешна покана на %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Нещо се обърка</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+78"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+115"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+83"/>
         <source>%1 sent a message</source>
         <translation>%1 изпрати съобщение</translation>
@@ -4133,7 +4133,30 @@ Verify to unlock encrypted messages.</source>
         <translation>Отговори</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-1"/>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+41"/>
+        <source>Incoming call</source>
+        <translation>Входящо обаждане</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Започна обаждане</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Влез</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Отказ</translation>
+    </message>
+    <message>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-42"/>
         <source>%1 replied with an encrypted message</source>
         <translation>%1 отговори с шифровано съобщение</translation>
     </message>

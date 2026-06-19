@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>تا زمانی که نشست Matrix آماده نشود، امکان دعوت کاربران وجود ندارد.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>دعوت %1 ناموفق بود: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>مشکلی پیش آمد</translation>
     </message>
@@ -4088,7 +4088,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 یک پیام رمزگذاری‌شده ارسال کرد</translation>
@@ -4136,6 +4136,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>پاسخ</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>تماس ورودی</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>تماسی آغاز شد</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>پیوستن</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>رد کردن</translation>
     </message>
 </context>
 <context>
@@ -4703,7 +4726,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>برای این اجرا فقط پنهان در سینی سیستم اجرا می‌شود و تنظیم "شروع در سینی" را دست نخورده می‌گذارد. برای ورودی‌های راه‌اندازی خودکار مفید است تا اجراهای جلسه خاموش بمانند، در حالی که اجراهای عادی همچنان پنجره را باز می‌کنند. نیاز به فعال بودن "بستن به سینی" و یک سینی سیستم فعال دارد. در تنظیمات چند پروفایلی، با -p ترکیب کنید تا از سوئیچر پروفایل عبور کنید.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>پاسخ دادن</translation>
     </message>

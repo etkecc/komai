@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix 工作階段就緒前無法邀請使用者。</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>邀請 %1 失敗：%2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>發生錯誤</translation>
     </message>
@@ -4088,7 +4088,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 傳送了一則加密訊息</translation>
@@ -4136,6 +4136,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>回覆</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>來電</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>已開始通話</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>加入</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>拒絕</translation>
     </message>
 </context>
 <context>
@@ -4703,7 +4726,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>僅此次啟動時隱藏至系統匣，不更改「啟動至系統匣」設定。適用於自動啟動項目，使工作階段啟動保持靜默，而一般啟動仍會開啟視窗。需要啟用「關閉至系統匣」且系統匣正常運作。在多設定檔環境中，可與 -p 搭配使用以略過設定檔切換器。</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>回覆</translation>
     </message>

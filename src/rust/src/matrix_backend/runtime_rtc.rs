@@ -40,7 +40,7 @@ pub(crate) fn install_rtc_event_handlers(
             };
             match event_type.trim() {
                 "m.rtc.notification" | "org.matrix.msc4075.rtc.notification" => {
-                    dispatch_rtc_notification(handle_id, &room, &value);
+                    dispatch_rtc_notification(handle_id, &room, &value).await;
                 }
                 "m.rtc.decline" | "org.matrix.msc4310.rtc.decline" => {
                     dispatch_rtc_decline(handle_id, &room, &value);
@@ -53,7 +53,7 @@ pub(crate) fn install_rtc_event_handlers(
     vec![client.event_handler_drop_guard(handle)]
 }
 
-fn dispatch_rtc_notification(handle_id: u64, room: &matrix_sdk::Room, value: &Value) {
+async fn dispatch_rtc_notification(handle_id: u64, room: &matrix_sdk::Room, value: &Value) {
     let event_id = value.get("event_id").and_then(|v| v.as_str()).unwrap_or_default();
     let sender = value.get("sender").and_then(|v| v.as_str()).unwrap_or_default();
     if event_id.is_empty() || sender.is_empty() {
@@ -74,8 +74,10 @@ fn dispatch_rtc_notification(handle_id: u64, room: &matrix_sdk::Room, value: &Va
     let own_user_id = room.own_user_id().as_str().to_owned();
     let is_self = sender == own_user_id;
 
-    // MSC4075: `m.mentions` decides who the notification targets. Ring only if we
-    // are addressed (listed in `user_ids`, or a room-wide mention). If the field
+    // MSC4075: `m.mentions` decides who the notification targets. We are
+    // addressed if listed personally in `user_ids` OR via a room-wide `@room`
+    // (the same signal a regular `@room` message carries, so call notifications
+    // honour a room's notify setting exactly the way messages do). If the field
     // is absent we cannot tell, so we err on the side of notifying.
     let mentions_me = match content.and_then(|c| c.get("m.mentions")) {
         Some(mentions) => {
@@ -103,6 +105,16 @@ fn dispatch_rtc_notification(handle_id: u64, room: &matrix_sdk::Room, value: &Va
     };
     let expires_at_ms = start_ts.saturating_add(lifetime_ms);
 
+    // The room's notify setting, so the host can honour a muted or mentions-only
+    // room when deciding whether to raise a desktop notification for a group
+    // call. None (no per-room override) is treated as "all messages".
+    use matrix_sdk::notification_settings::RoomNotificationMode;
+    let notification_mode = match room.notification_mode().await {
+        Some(RoomNotificationMode::Mute) => 0,
+        Some(RoomNotificationMode::MentionsAndKeywordsOnly) => 1,
+        _ => 2,
+    };
+
     crate::ffi::matrix_notify_rtc_notification(
         handle_id,
         crate::ffi::MatrixRtcNotificationEvent {
@@ -114,6 +126,7 @@ fn dispatch_rtc_notification(handle_id: u64, room: &matrix_sdk::Room, value: &Va
             mentions_me,
             lifetime_ms,
             expires_at_ms,
+            notification_mode,
         },
     );
 }

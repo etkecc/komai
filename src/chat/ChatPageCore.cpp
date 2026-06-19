@@ -32,6 +32,7 @@
 #include "ui/UserProfile.h"
 #include "utils/Utils.h"
 #include "voip/CallManager.h"
+#include "voip/ElementCallController.h"
 
 #include "notifications/Manager.h"
 
@@ -168,6 +169,31 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
             &NotificationsManager::sendNotificationReply,
             this,
             &ChatPage::sendNotificationReply);
+    connect(notificationsManager,
+            &NotificationsManager::callJoinRequested,
+            this,
+            [this](const QString &roomId) {
+                // Raise the app, open the call room, and start the Element Call
+                // surface (the in-room panel becomes visible there).
+                if (view_manager_)
+                    view_manager_->rooms()->setCurrentRoom(roomId);
+                if (auto *mainWindow = MainWindow::instance()) {
+                    mainWindow->setVisible(true);
+                    mainWindow->raise();
+                    mainWindow->requestActivate();
+                }
+                if (auto *ec = ElementCallController::instance())
+                    ec->startCall(roomId);
+            });
+    connect(notificationsManager,
+            &NotificationsManager::callDeclineRequested,
+            this,
+            [](const QString &, const QString &) {
+                // Decline the current incoming ring (single active ring at a
+                // time, so this targets the one the notification belongs to).
+                if (auto *ec = ElementCallController::instance())
+                    ec->declineIncomingRing();
+            });
     connect(view_manager_->rooms(),
             &RoomlistModel::currentRoomIdChanged,
             this,
@@ -355,6 +381,90 @@ ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notifi
 
           notificationManager->postNotification(payload, pixmap.toImage());
       });
+}
+
+void
+ChatPage::dispatchCallNotification(const QString &roomId,
+                                   const QString &notificationEventId,
+                                   const QString &senderId,
+                                   bool isRing,
+                                   bool canDecline)
+{
+    Q_UNUSED(senderId)
+
+    if (shuttingDown_ || !notificationsManager || !userSettings_)
+        return;
+    if (!userSettings_->notificationsAccountEnabled() ||
+        !userSettings_->desktopNotificationsEnabled())
+        return;
+    if (roomId.trimmed().isEmpty())
+        return;
+
+    // Suppress when focused: a ring already shows the global ring bar + plays the
+    // ringtone whenever a window is up, and a group notice is redundant while you
+    // are already viewing the call's room.
+    const auto suppressedByFocus = [this, isRing, &roomId]() {
+        if (isRing) {
+            auto *focused = QGuiApplication::focusWindow();
+            return focused && focused->isActive();
+        }
+        return isRoomActive(roomId);
+    };
+    if (suppressedByFocus())
+        return;
+
+    QString roomName;
+    QString avatarUrl;
+    if (view_manager_) {
+        auto *rooms   = view_manager_->rooms();
+        const int row = rooms ? rooms->roomidToIndex(roomId) : -1;
+        if (rooms && row >= 0) {
+            const auto idx = rooms->index(row);
+            roomName       = rooms->data(idx, RoomlistModel::RoomName).toString();
+            avatarUrl      = rooms->data(idx, RoomlistModel::AvatarUrl).toString();
+        }
+    }
+    if (roomName.isEmpty())
+        roomName = roomId;
+
+    QPointer<ChatPage> guard(this);
+    QPointer<NotificationsManager> notificationManager(notificationsManager);
+    AvatarProvider::resolve(
+      avatarUrl,
+      96,
+      this,
+      [guard, notificationManager, roomId, notificationEventId, roomName, isRing, canDecline](
+        QPixmap pixmap) mutable {
+          if (!guard || !notificationManager || guard->shuttingDown_ || !guard->userSettings_)
+              return;
+          if (!guard->userSettings_->notificationsAccountEnabled() ||
+              !guard->userSettings_->desktopNotificationsEnabled())
+              return;
+          // Re-check focus once the avatar has resolved.
+          if (isRing) {
+              auto *focused = QGuiApplication::focusWindow();
+              if (focused && focused->isActive())
+                  return;
+          } else if (guard->isRoomActive(roomId)) {
+              return;
+          }
+          notificationManager->postCallNotification(
+            roomId, notificationEventId, roomName, isRing, canDecline, pixmap.toImage());
+      });
+}
+
+void
+ChatPage::withdrawCallNotification(const QString &roomId, const QString &notificationEventId)
+{
+    if (notificationsManager)
+        notificationsManager->removeNotification(roomId, notificationEventId);
+}
+
+void
+ChatPage::withdrawCallNotificationsForRoom(const QString &roomId)
+{
+    if (notificationsManager)
+        notificationsManager->removeCallNotificationsForRoom(roomId);
 }
 
 void

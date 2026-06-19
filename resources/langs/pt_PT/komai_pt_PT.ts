@@ -613,7 +613,7 @@ Opcionalmente, pode indicar uma razão para que outros aceitem o seu pedido de e
         <translation>Utilizador perdoado: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Não é possível convidar utilizadores enquanto a sessão Matrix não estiver pronta.</translation>
     </message>
@@ -623,7 +623,7 @@ Opcionalmente, pode indicar uma razão para que outros aceitem o seu pedido de e
         <translation>Falha ao convidar %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Ocorreu um erro</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifique para desbloquear mensagens encriptadas.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 enviou uma mensagem encriptada</translation>
@@ -4141,6 +4141,29 @@ Verifique para desbloquear mensagens encriptadas.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Responder</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Chamada recebida</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Iniciou uma chamada</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Entrar</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Recusar</translation>
     </message>
 </context>
 <context>
@@ -4651,7 +4674,7 @@ Verifique para desbloquear mensagens encriptadas.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Responder</translation>
     </message>

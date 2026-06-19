@@ -726,17 +726,26 @@ matrix_notify_rtc_notification(std::uint64_t handle_id,
     const auto sender  = toQString(::rust::Str(event.sender_id.data(), event.sender_id.size()));
     const auto type =
       toQString(::rust::Str(event.notification_type.data(), event.notification_type.size()));
-    const auto isSelf      = event.is_self;
-    const auto mentionsMe  = event.mentions_me;
-    const auto expiresAtMs = event.expires_at_ms;
+    const auto isSelf           = event.is_self;
+    const auto mentionsMe       = event.mentions_me;
+    const auto expiresAtMs      = event.expires_at_ms;
+    const auto notificationMode = event.notification_mode;
 
-    postToAppThread([handle_id, roomId, eventId, sender, type, isSelf, mentionsMe, expiresAtMs]() {
+    postToAppThread([handle_id,
+                     roomId,
+                     eventId,
+                     sender,
+                     type,
+                     isSelf,
+                     mentionsMe,
+                     expiresAtMs,
+                     notificationMode]() {
         auto *mainWindow = MainWindow::instance();
         if (!mainWindow || mainWindow->matrixBackendHandleId() != handle_id)
             return;
         if (auto *controller = ElementCallController::instance())
             controller->onRtcNotification(
-              roomId, eventId, sender, type, isSelf, mentionsMe, expiresAtMs);
+              roomId, eventId, sender, type, isSelf, mentionsMe, expiresAtMs, notificationMode);
     });
 }
 

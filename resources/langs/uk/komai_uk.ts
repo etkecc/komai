@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Неможливо запросити користувачів, доки сесія Matrix не готова.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Не вдалося запросити %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Щось пішло не так</translation>
     </message>
@@ -4098,7 +4098,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 надіслав зашифроване повідомлення</translation>
@@ -4146,6 +4146,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Відповісти</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Вхідний дзвінок</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Розпочато дзвінок</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Приєднатися</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Відхилити</translation>
     </message>
 </context>
 <context>
@@ -4717,7 +4740,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Запустити приховано в системному треї лише для цього запуску, не змінюючи налаштування "Запуск у треї". Корисно для записів автозапуску, щоб запуски сеансу залишались непомітними, тоді як звичайні запуски відкривають вікно. Потребує увімкненого параметра "Закрити у трей" та працюючого системного трею. У конфігураціях з кількома профілями поєднайте з -p для обходу перемикача профілів.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Відповісти</translation>
     </message>

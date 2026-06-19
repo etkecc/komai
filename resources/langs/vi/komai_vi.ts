@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Không thể mời người dùng cho đến khi phiên Matrix sẵn sàng.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Không thể mời %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Đã xảy ra lỗi</translation>
     </message>
@@ -4088,7 +4088,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 đã gửi một tin nhắn đã mã hóa</translation>
@@ -4136,6 +4136,29 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Trả lời</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Cuộc gọi đến</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Đã bắt đầu cuộc gọi</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Tham gia</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Từ chối</translation>
     </message>
 </context>
 <context>
@@ -4703,7 +4726,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
         <translation>Khởi động ẩn trong khay hệ thống chỉ cho lần khởi chạy này, giữ nguyên cài đặt "Khởi động trong khay". Hữu ích trong các mục khởi động tự động để phiên khởi chạy giữ im lặng trong khi các lần khởi chạy thông thường vẫn mở cửa sổ. Yêu cầu "Đóng vào khay" được bật và khay hệ thống hoạt động. Trong thiết lập nhiều hồ sơ, kết hợp với -p để bỏ qua bộ chuyển đổi hồ sơ.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Trả lời</translation>
     </message>

@@ -1234,13 +1234,18 @@ mod bridge {
         notification_type: String,
         // The notification was sent by our own user (do not ring ourselves).
         is_self: bool,
-        // We are addressed by the notification's m.mentions (or it had none).
+        // We are addressed by the notification's m.mentions (listed personally
+        // OR via a room-wide @room), or it had none.
         mentions_me: bool,
         // How long the notification rings for, in milliseconds (MSC4075 lifetime).
         lifetime_ms: u64,
         // Unix-epoch ms at which ringing should stop (lifetime applied to the
         // sender/server timestamp), already clock-skew corrected.
         expires_at_ms: u64,
+        // The room's notification mode: 0 = mute, 1 = mentions/keywords only,
+        // 2 = all messages. Lets the desktop-notification decision honour the
+        // room's notify setting for silent (group) call notifications.
+        notification_mode: i32,
     }
 
     // MatrixRTC (MSC4310) call decline, forwarded so our other devices stop

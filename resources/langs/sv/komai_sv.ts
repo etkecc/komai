@@ -618,7 +618,7 @@ Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</t
         <translation>Hävde bannlysningen av användare: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Det går inte att bjuda in användare förrän Matrix-sessionen är redo.</translation>
     </message>
@@ -628,7 +628,7 @@ Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</t
         <translation>Misslyckades med att bjuda in %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Något gick fel</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 skickade ett krypterat meddelande</translation>
@@ -4141,6 +4141,29 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Svara</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Inkommande samtal</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Startade ett samtal</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Gå med</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Avböj</translation>
     </message>
 </context>
 <context>
@@ -4651,7 +4674,7 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Svara</translation>
     </message>

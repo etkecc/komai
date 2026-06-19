@@ -613,7 +613,7 @@ Puoi facoltativamente fornire un motivo affinché gli altri accettino la tua ric
         <translation>Rimosso il ban dall'utente: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Impossibile invitare utenti finché la sessione Matrix non è pronta.</translation>
     </message>
@@ -623,7 +623,7 @@ Puoi facoltativamente fornire un motivo affinché gli altri accettino la tua ric
         <translation>Impossibile invitare %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Qualcosa è andato storto</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 ha inviato un messaggio crittato</translation>
@@ -4141,6 +4141,29 @@ Verifica per sbloccare i messaggi crittati.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Rispondi</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Chiamata in arrivo</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Ha avviato una chiamata</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Partecipa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Rifiuta</translation>
     </message>
 </context>
 <context>
@@ -4651,7 +4674,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Rispondi</translation>
     </message>

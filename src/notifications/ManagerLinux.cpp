@@ -200,6 +200,75 @@ NotificationsManager::systemPostNotification(const QString &room_id,
 }
 
 void
+NotificationsManager::postCallNotification(const QString &roomId,
+                                           const QString &eventId,
+                                           const QString &roomName,
+                                           bool isRing,
+                                           bool canDecline,
+                                           const QImage &icon)
+{
+    QVariantMap hints;
+    hints[QStringLiteral("image-data")]    = icon;
+    hints[QStringLiteral("desktop-entry")] = "komai";
+    hints[QStringLiteral("category")] = isRing ? "x-komai.call.incoming" : "x-komai.call.group";
+    // A ring is urgent and should stay until answered/declined; we play our own
+    // ringtone, so suppress the notification server's sound to avoid doubling up.
+    hints[QStringLiteral("urgency")]        = isRing ? uchar(2) : uchar(1);
+    hints[QStringLiteral("suppress-sound")] = true;
+
+    if (auto profile = UserSettings::instance()->profile(); !profile.isEmpty())
+        hints[QStringLiteral("x-kde-origin-name")] = profile;
+
+    uint replace_id = 0;
+    for (auto elem = notificationIds.begin(); elem != notificationIds.end(); ++elem) {
+        if (elem.value().roomId == roomId && elem.value().eventId == eventId) {
+            replace_id = elem.key();
+            break;
+        }
+    }
+
+    const QString summary = roomName.isEmpty() ? roomId : roomName;
+    const QString body    = isRing ? tr("Incoming call") : tr("Started a call");
+
+    // "default" makes clicking the popup body join; "join" is the explicit
+    // button. A ring also offers "decline".
+    QStringList actions;
+    actions << QStringLiteral("default") << tr("Join");
+    actions << QStringLiteral("join") << tr("Join");
+    if (canDecline)
+        actions << QStringLiteral("decline") << tr("Decline");
+
+    QList<QVariant> argumentList;
+    argumentList << QStringLiteral("Komai"); // app_name
+    argumentList << replace_id;              // replace_id
+    argumentList << QString();               // app_icon
+    argumentList << summary;                 // summary
+    argumentList << body;                    // body
+    argumentList << actions;                 // actions
+    argumentList << hints;                   // hints
+    // A ring stays put (we close it on answer/decline/expiry); a silent group
+    // notice may fade on the server's default timeout.
+    argumentList << (isRing ? 0 : -1); // timeout in ms
+
+    QDBusPendingCall call = dbus.asyncCallWithArgumentList(QStringLiteral("Notify"), argumentList);
+    auto watcher          = new QDBusPendingCallWatcher{call, this};
+    connect(watcher,
+            &QDBusPendingCallWatcher::finished,
+            this,
+            [watcher, this, roomId, eventId, canDecline]() {
+                if (watcher->reply().type() == QDBusMessage::ErrorMessage)
+                    qDebug() << "D-Bus Error:" << watcher->reply().errorMessage();
+                else {
+                    notificationIds[watcher->reply().arguments().first().toUInt()] =
+                      roomEventId{roomId, eventId};
+                    rememberTrackedNotification(roomId, eventId);
+                    rememberCallNotification(roomId, eventId, canDecline);
+                }
+                watcher->deleteLater();
+            });
+}
+
+void
 NotificationsManager::closeNotification(uint id)
 {
     auto call    = dbus.asyncCall(QStringLiteral("CloseNotification"), (uint)id); // replace_id
@@ -234,7 +303,13 @@ NotificationsManager::actionInvoked(uint id, QString action)
 {
     if (notificationIds.contains(id)) {
         roomEventId idEntry = notificationIds[id];
-        if (action == QLatin1String("default")) {
+        const bool isCall   = isCallNotification(idEntry.roomId, idEntry.eventId);
+        if (action == QLatin1String("decline")) {
+            emit callDeclineRequested(idEntry.roomId, idEntry.eventId);
+        } else if (action == QLatin1String("join") ||
+                   (isCall && action == QLatin1String("default"))) {
+            emit callJoinRequested(idEntry.roomId);
+        } else if (action == QLatin1String("default")) {
             emit notificationClicked(idEntry.roomId, idEntry.eventId);
         }
     }

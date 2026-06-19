@@ -56,6 +56,18 @@ public:
     //! Check if the given room is currently open.
     bool isRoomActive(const QString &room_id);
     void dispatchMatrixNotification(const komai::MatrixNotificationItem &notification);
+    // Present a desktop notification for an incoming MatrixRTC (Element Call)
+    // call. `isRing` is an addressed 1:1 invite (offer Join + Decline);
+    // otherwise it is a silent group-call notice (Join only). Suppressed when
+    // the app/room is already focused, matching message notifications.
+    void dispatchCallNotification(const QString &roomId,
+                                  const QString &notificationEventId,
+                                  const QString &senderId,
+                                  bool isRing,
+                                  bool canDecline);
+    // Close a previously raised call notification (answered / declined / ended).
+    void withdrawCallNotification(const QString &roomId, const QString &notificationEventId);
+    void withdrawCallNotificationsForRoom(const QString &roomId);
     void reconcileRoomNotifications(const QString &roomId, int keepNewestCount);
 
     void removeAllNotifications();

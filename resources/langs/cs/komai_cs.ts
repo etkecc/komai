@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nelze pozvat uživatele, dokud není relace Matrix připravena.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Nepodařilo se pozvat %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Něco se pokazilo</translation>
     </message>
@@ -4098,7 +4098,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 poslal šifrovanou zprávu</translation>
@@ -4146,6 +4146,29 @@ Ověřením se odemknou šifrované zprávy.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Odpovědět</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Příchozí hovor</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Zahájil hovor</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Připojit se</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Odmítnout</translation>
     </message>
 </context>
 <context>
@@ -4717,7 +4740,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
         <translation>Spustit skrytě v systémové liště pouze pro toto spuštění, aniž by bylo změněno nastavení "Spustit v liště". Užitečné pro záznamy automatického spouštění: spuštění relace proběhne tiše, zatímco normální spuštění okno stále otevře. Vyžaduje povolené "Zavřít do lišty" a funkční systémovou lištu. V nastaveních s více profily kombinujte s -p pro obejití přepínače profilů.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Odpovědět</translation>
     </message>

@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>No es poden convidar usuaris fins que la sessió de Matrix estigui llesta.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>No s'ha pogut convidar %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>S'ha produït un error</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 ha enviat un missatge xifrat</translation>
@@ -4141,6 +4141,29 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Respon</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Trucada entrant</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Ha iniciat una trucada</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Uneix-te</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Rebutja</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Inicia ocult a la safata del sistema només per a aquest llançament, sense modificar la configuració "Inicia a la safata". És útil en entrades d'inici automàtic perquè els llançaments de sessió siguin silenciosos mentre els llançaments normals segueixen obrint la finestra. Requereix "Tanca a la safata" activat i una safata del sistema en funcionament. En configuracions de múltiples perfils, combina-ho amb -p per ometre el selector de perfils.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Respondre</translation>
     </message>

@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix 세션이 준비될 때까지 사용자를 초대할 수 없습니다.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>%1을(를) 초대하지 못했습니다: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>문제가 발생했습니다</translation>
     </message>
@@ -4088,7 +4088,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1님이 암호화된 메시지를 보냈습니다</translation>
@@ -4136,6 +4136,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>답장</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>수신 통화</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>통화를 시작했습니다</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>참여</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>거절</translation>
     </message>
 </context>
 <context>
@@ -4703,7 +4726,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>이번 실행에 한해 시스템 트레이에 숨겨진 상태로 시작하며, "트레이에서 시작" 설정은 그대로 유지합니다. 자동 시작 항목에 유용하며, 세션 시작 시 조용히 실행되고 일반 실행 시에는 창이 열립니다. "트레이로 닫기" 활성화 및 작동 중인 시스템 트레이가 필요합니다. 다중 프로필 설정에서는 -p와 함께 사용하여 프로필 선택기를 건너뛸 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>응답</translation>
     </message>

@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Käyttäjiä ei voi kutsua ennen kuin Matrix-istunto on valmis.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Käyttäjän %1 kutsuminen epäonnistui: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Jokin meni vikaan</translation>
     </message>
@@ -4093,7 +4093,7 @@ Vahvista avataksesi salatut viestit.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 lähetti salatun viestin</translation>
@@ -4141,6 +4141,29 @@ Vahvista avataksesi salatut viestit.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Vastaa</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Saapuva puhelu</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Aloitti puhelun</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Liity</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Hylkää</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
         <translation>Käynnistyy piilotettuna järjestelmäalustalle vain tällä kerralla jättäen "Käynnisty alustalle" -asetuksen ennalleen. Hyödyllinen automaattisen käynnistyksen merkinnöissä, jotta istunnon käynnistykset pysyvät huomaamattomina tavallisten käynnistysten edelleen avatessa ikkunan. Vaatii "Sulje alustalle" -asetuksen käyttöönottoa ja toimivaa järjestelmäalustaa. Useamman profiilin kokoonpanoissa yhdistä -p-lipun kanssa profiilivalitsimen ohittamiseksi.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Vastaa</translation>
     </message>

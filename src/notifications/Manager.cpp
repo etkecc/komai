@@ -29,7 +29,44 @@ NotificationsManager::rememberTrackedNotification(const QString &roomId, const Q
 void
 NotificationsManager::forgetTrackedNotification(const QString &roomId, const QString &eventId)
 {
-    trackedNotifications.remove(trackedNotificationKey(roomId, eventId));
+    const auto key = trackedNotificationKey(roomId, eventId);
+    trackedNotifications.remove(key);
+    callNotifications_.remove(key);
+}
+
+void
+NotificationsManager::rememberCallNotification(const QString &roomId,
+                                               const QString &eventId,
+                                               bool canDecline)
+{
+    callNotifications_.insert(trackedNotificationKey(roomId, eventId), canDecline);
+}
+
+void
+NotificationsManager::forgetCallNotification(const QString &roomId, const QString &eventId)
+{
+    callNotifications_.remove(trackedNotificationKey(roomId, eventId));
+}
+
+bool
+NotificationsManager::isCallNotification(const QString &roomId, const QString &eventId) const
+{
+    return callNotifications_.contains(trackedNotificationKey(roomId, eventId));
+}
+
+void
+NotificationsManager::removeCallNotificationsForRoom(const QString &roomId)
+{
+    // Snapshot the matching keys first: removeNotification mutates the tracking
+    // maps as it closes each one.
+    std::vector<roomEventId> matches;
+    for (auto it = callNotifications_.cbegin(); it != callNotifications_.cend(); ++it) {
+        const auto &entry = trackedNotifications.value(it.key());
+        if (entry.roomId == roomId)
+            matches.push_back(entry);
+    }
+    for (const auto &entry : matches)
+        removeNotification(entry.roomId, entry.eventId);
 }
 
 QVector<roomEventId>

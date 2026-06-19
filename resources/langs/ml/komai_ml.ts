@@ -623,7 +623,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ഉപയോക്താവ് ban-ൽ നിന്ന് നീക്കം ചെയ്തു: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix സെഷൻ തയ്യാറാകുന്നതുവരെ ഉപയോക്താക്കളെ ക്ഷണിക്കാൻ കഴിയില്ല.</translation>
     </message>
@@ -633,7 +633,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1 നെ ക്ഷണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>എന്തോ തെറ്റ് സംഭവിച്ചു</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 ഒരു എൻക്രിപ്റ്റഡ് സന്ദേശം അയച്ചു</translation>
@@ -4141,6 +4141,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>മറുപടി</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>ഇൻകമിംഗ് കോൾ</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>ഒരു കോൾ ആരംഭിച്ചു</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>ചേരുക</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>നിരസിക്കുക</translation>
     </message>
 </context>
 <context>
@@ -4651,7 +4674,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>മറുപടി നൽകുക</translation>
     </message>

@@ -613,7 +613,7 @@ Opcionálisan megadhat egy indokot, hogy mások elfogadják a kopogtatását:</t
         <translation>Kitiltás feloldva a felhasználónak: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Felhasználókat nem lehet meghívni, amíg a Matrix munkamenet nem áll készen.</translation>
     </message>
@@ -623,7 +623,7 @@ Opcionálisan megadhat egy indokot, hogy mások elfogadják a kopogtatását:</t
         <translation>%1 meghívása sikertelen: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Valami hiba történt</translation>
     </message>
@@ -4088,7 +4088,7 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 küldött egy titkosított üzenetet</translation>
@@ -4136,6 +4136,29 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Válasz</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Bejövő hívás</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Hívást indított</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Csatlakozás</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Elutasítás</translation>
     </message>
 </context>
 <context>
@@ -4644,7 +4667,7 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Válasz</translation>
     </message>

@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>لا يمكن دعوة المستخدمين حتى تصبح جلسة Matrix جاهزة.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>فشلت دعوة %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>حدث خطأ ما</translation>
     </message>
@@ -4113,7 +4113,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 أرسل رسالة مشفرة</translation>
@@ -4161,6 +4161,29 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Reply</source>
         <translation>رد</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>مكالمة واردة</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>بدأ مكالمة</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>انضمام</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>رفض</translation>
     </message>
 </context>
 <context>
@@ -4738,7 +4761,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>الابتداء مخفيًا في علبة النظام لهذا التشغيل فقط، مع إبقاء إعداد "الابتداء في العلبة" دون تغيير. مفيد في إدخالات البدء التلقائي كي تظل تشغيلات الجلسة صامتة بينما تفتح التشغيلات العادية النافذة. يتطلب تمكين "الإغلاق إلى العلبة" ووجود علبة نظام تعمل. في الإعدادات متعددة الملفات الشخصية، ادمجه مع -p لتجاوز محول الملف الشخصي.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>الرد</translation>
     </message>

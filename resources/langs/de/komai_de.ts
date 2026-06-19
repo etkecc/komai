@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nutzer können erst eingeladen werden, wenn die Matrix-Sitzung bereit ist.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Einladen von %1 fehlgeschlagen: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Etwas ist schiefgelaufen</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 hat eine verschlüsselte Nachricht gesendet</translation>
@@ -4141,6 +4141,29 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Antworten</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Eingehender Anruf</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Anruf gestartet</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Beitreten</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Ablehnen</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Unterbefehle (ohne Anzeigeserver ausführen):
         <translation>Nur für diesen Start im Infobereich versteckt starten, ohne die Einstellung "Im Infobereich starten" zu ändern. Nützlich für Autostart-Einträge, damit Sitzungsstarts lautlos bleiben, während normale Starts das Fenster weiterhin öffnen. Erfordert aktiviertes "In Infobereich schließen" und einen funktionierenden Infobereich. Bei Multi-Profil-Setups mit -p kombinieren, um den Profilwechsler zu umgehen.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Antworten</translation>
     </message>

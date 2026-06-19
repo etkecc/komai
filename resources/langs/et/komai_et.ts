@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Kasutajaid ei saa kutsuda enne, kui Matrix-seanss on valmis.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Ei õnnestunud kutsuda kasutajat %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Midagi läks valesti</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 saatis krüptitud sõnumi</translation>
@@ -4141,6 +4141,29 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Vasta</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Sissetulev kõne</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Alustas kõnet</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Liitu</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Keeldu</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
         <translation>Käivita ainult sel käivituskorral peidetult süsteemisalves, jättes seade "Käivita salves" muutmata. Kasulik automaatkäivituse kirjetes, et seansi käivitused jääksid vaikseks, samas kui tavalised käivitused avavad endiselt akna. Nõuab lubatud valikut "Sulge salve" ja toimivat süsteemisalve. Mitme profiiliga seadistustes kombineeri -p lipuga profiilivalija möödahiilimiseks.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Vasta</translation>
     </message>

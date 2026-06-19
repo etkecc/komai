@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>On ne pote invitar usatores til li session Matrix es pret.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Faliat a invitar %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Alcos va mal</translation>
     </message>
@@ -4093,7 +4093,7 @@ Verificar por debloquar mesages criptat.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 ha inviat un mesage criptat</translation>
@@ -4141,6 +4141,29 @@ Verificar por debloquar mesages criptat.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Responder</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Apell entrant</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Commensat un apell</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Juntar se</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Declinar</translation>
     </message>
 </context>
 <context>
@@ -4710,7 +4733,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
         <translation>Iniciar celat in li system tray solmen por ci lanciament, laissante li parametro "Iniciar in tray" intactat. Util in entrades de autoiniciar por que lanciamentes de session resta silentios dum lanciamentes normal ancora apere li fenestre. Require "Clauder al tray" activat e un system tray funcionante. In configurationes multi-profile, combinar con -p por circumvenir li selector de profile.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Responder</translation>
     </message>

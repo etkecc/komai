@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nije moguće pozivati korisnike dok Matrix sesija nije spremna.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Pozivanje korisnika %1 nije uspelo: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Nešto je pošlo naopako</translation>
     </message>
@@ -4098,7 +4098,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 je poslao/la šifrovanu poruku</translation>
@@ -4146,6 +4146,29 @@ Verifikuj da otključaš šifrovane poruke.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Odgovori</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Dolazni poziv</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>Poziv je pokrenut</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Pridruži se</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Odbij</translation>
     </message>
 </context>
 <context>
@@ -4717,7 +4740,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
         <translation>Pokretanje skriveno u sistemskoj traci samo za ovo pokretanje, bez promene podešavanja "Pokretanje u traci". Korisno u unosima za automatsko pokretanje kako bi pokretanja sesije ostala tiha, dok normalna pokretanja i dalje otvaraju prozor. Zahteva omogućeno "Zatvori u traci" i funkcionalnu sistemsku traku. U konfiguracijama sa više profila, kombinovati sa -p za zaobilaženje prebacivača profila.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Odgovori</translation>
     </message>

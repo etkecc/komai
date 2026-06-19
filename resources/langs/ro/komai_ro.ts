@@ -550,7 +550,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+106"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nu se pot invita utilizatori până când sesiunea Matrix este pregătită.</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation>Nu s-a putut invita %1: %2</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+340"/>
         <source>Something went wrong</source>
         <translation>Ceva a mers greșit</translation>
     </message>
@@ -4098,7 +4098,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
 <context>
     <name>NotificationsManager</name>
     <message>
-        <location filename="../../../src/notifications/Manager.cpp" line="+81"/>
+        <location filename="../../../src/notifications/Manager.cpp" line="+118"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+78"/>
         <source>%1 sent an encrypted message</source>
         <translation>%1 a trimis un mesaj criptat</translation>
@@ -4146,6 +4146,29 @@ Verifică pentru a debloca mesajele criptate.</translation>
         <location line="+2"/>
         <source>Reply</source>
         <translation>Răspunde</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+36"/>
+        <source>Incoming call</source>
+        <translation>Apel primit</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
+        <source>Started a call</source>
+        <translation>A început un apel</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+1"/>
+        <source>Join</source>
+        <translation>Alătură-te</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Decline</source>
+        <translation>Refuză</translation>
     </message>
 </context>
 <context>
@@ -4717,7 +4740,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
         <translation>Pornire ascunsă în tavă de sistem doar pentru această lansare, lăsând setarea "Pornire în tavă" neschimbată. Util în intrările de pornire automată pentru ca lansările de sesiune să fie silențioase, în timp ce lansările normale deschid în continuare fereastra. Necesită activarea "Închidere în tavă" și o tavă de sistem funcțională. În configurații cu mai multe profiluri, se combină cu -p pentru a ocoli selectorul de profil.</translation>
     </message>
     <message>
-        <location filename="../../../src/notifications/ManagerMac.cpp" line="-66"/>
+        <location filename="../../../src/notifications/ManagerMac.cpp" line="-102"/>
         <source>Respond</source>
         <translation>Răspunde</translation>
     </message>

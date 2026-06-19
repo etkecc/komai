@@ -94,3 +94,30 @@ NotificationsManager::postNotification(const komai::NotificationPayload &notific
             postResolvedNotification(messageInfo, bodyText, "", notification.playSound);
     }
 }
+
+void
+NotificationsManager::postCallNotification(const QString &roomId,
+                                           const QString &eventId,
+                                           const QString &roomName,
+                                           bool isRing,
+                                           bool canDecline,
+                                           const QImage &icon)
+{
+    Q_UNUSED(icon)
+    Q_UNUSED(canDecline)
+    // Element Call is not built on macOS yet (QtWebEngine packaging is handled in
+    // a later milestone), so this is never reached on this platform. Show a
+    // plain notice (clicking opens the room) and track it as a call notification
+    // so removeCallNotificationsForRoom can find it.
+    const auto room_name = roomName.isEmpty() ? roomId : roomName;
+    rememberTrackedNotification(roomId, eventId);
+    rememberCallNotification(roomId, eventId, canDecline);
+    objCxxPostNotification(room_name,
+                           roomId,
+                           eventId,
+                           eventId,
+                           isRing ? tr("Incoming call") : tr("Started a call"),
+                           QString(),
+                           QString(),
+                           /*playSound=*/false);
+}

@@ -1366,47 +1366,67 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>Silentiar microfon</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>Desilentiar microfon</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
-        <translation>Deactivar camera</translation>
-    </message>
-    <message>
+        <location line="+235"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
-        <translation>Activar camera</translation>
+        <source>Mute</source>
+        <translation>Mutar</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>Desmutar</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
+        <translation>Arretar camera</translation>
+    </message>
+    <message>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
+        <translation>Iniciar camera</translation>
+    </message>
+    <message>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>Expandir</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>Collapsar</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>Plen ecran</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>Terminar appel</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>Sortinte del appel…</translation>
     </message>
@@ -1414,6 +1434,11 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Iniciante Element Call…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>Sortir del plen ecran</translation>
     </message>
 </context>
 <context>

@@ -1364,47 +1364,67 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>Mikrofonu sessize al</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>Mikrofonun sesini aç</translation>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Mute</source>
+        <translation>Sessize al</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>Sesi aç</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
         <translation>Kamerayı kapat</translation>
     </message>
     <message>
+        <location line="-237"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
         <translation>Kamerayı aç</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>Genişlet</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>Daralt</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>Tam ekran</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>Aramayı bitir</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>Aramadan çıkılıyor…</translation>
     </message>
@@ -1412,6 +1432,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Element Call başlatılıyor…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>Tam ekrandan çık</translation>
     </message>
 </context>
 <context>

@@ -1366,47 +1366,67 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>Microfoon dempen</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>Microfoon dempen opheffen</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
-        <translation>Camera uitschakelen</translation>
-    </message>
-    <message>
+        <location line="+235"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
-        <translation>Camera inschakelen</translation>
+        <source>Mute</source>
+        <translation>Dempen</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>Dempen opheffen</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
+        <translation>Camera stoppen</translation>
+    </message>
+    <message>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
+        <translation>Camera starten</translation>
+    </message>
+    <message>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>Uitklappen</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>Inklappen</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>Volledig scherm</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>Gesprek beëindigen</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>Gesprek verlaten…</translation>
     </message>
@@ -1414,6 +1434,11 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Element Call starten…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>Volledig scherm verlaten</translation>
     </message>
 </context>
 <context>

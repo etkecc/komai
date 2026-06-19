@@ -1367,47 +1367,67 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>Silenciar micrófono</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>Activar micrófono</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
-        <translation>Apagar cámara</translation>
-    </message>
-    <message>
+        <location line="+235"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
-        <translation>Encender cámara</translation>
+        <source>Mute</source>
+        <translation>Silenciar</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>Desilenciar</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
+        <translation>Detener cámara</translation>
+    </message>
+    <message>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
+        <translation>Iniciar cámara</translation>
+    </message>
+    <message>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>Expandir</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>Contraer</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>Pantalla completa</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>Finalizar llamada</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>Saliendo de la llamada…</translation>
     </message>
@@ -1415,6 +1435,11 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Iniciando Element Call…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>Salir de pantalla completa</translation>
     </message>
 </context>
 <context>

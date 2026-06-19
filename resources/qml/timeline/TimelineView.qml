@@ -562,6 +562,11 @@ Item {
             && matrixTimeline.canHandleEscape()
             && mainWindow.depth <= 1
             && !timelineRoot.activeMediaOverlay
+            // While the Element Call panel is fullscreen, Escape must leave
+            // fullscreen, not run the timeline's escape cascade. This window-wide
+            // shortcut would otherwise swallow the key before the panel's
+            // key-catcher sees it.
+            && !(elementCallPanelLoader.item && elementCallPanelLoader.item.fullscreen)
     }
     TimelineEffects {
         id: timelineEffects

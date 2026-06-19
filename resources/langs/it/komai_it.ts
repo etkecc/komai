@@ -1366,47 +1366,67 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>Silenzia microfono</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>Riattiva microfono</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
-        <translation>Disattiva fotocamera</translation>
-    </message>
-    <message>
+        <location line="+235"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
-        <translation>Attiva fotocamera</translation>
+        <source>Mute</source>
+        <translation>Silenzia</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>Riattiva audio</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
+        <translation>Ferma fotocamera</translation>
+    </message>
+    <message>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
+        <translation>Avvia fotocamera</translation>
+    </message>
+    <message>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>Espandi</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>Comprimi</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>Schermo intero</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>Termina chiamata</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>Uscita dalla chiamata…</translation>
     </message>
@@ -1414,6 +1434,11 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Avvio di Element Call…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>Esci da schermo intero</translation>
     </message>
 </context>
 <context>

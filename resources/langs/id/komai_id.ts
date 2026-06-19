@@ -1364,47 +1364,67 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>Bisukan mikrofon</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>Aktifkan mikrofon</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
-        <translation>Matikan kamera</translation>
-    </message>
-    <message>
+        <location line="+235"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
-        <translation>Nyalakan kamera</translation>
+        <source>Mute</source>
+        <translation>Bisukan</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>Aktifkan suara</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
+        <translation>Hentikan kamera</translation>
+    </message>
+    <message>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
+        <translation>Mulai kamera</translation>
+    </message>
+    <message>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>Perluas</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>Ciutkan</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>Layar penuh</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>Akhiri panggilan</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>Meninggalkan panggilan…</translation>
     </message>
@@ -1412,6 +1432,11 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Memulai Element Call…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>Keluar layar penuh</translation>
     </message>
 </context>
 <context>

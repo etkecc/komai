@@ -151,6 +151,22 @@ ElementCallWebProfile::bridgeUserScripts() const
         if (bridge) bridge.postMessageFromWidget(json);
         else queue.push(json);
     });
+    // Double-click the call view to toggle fullscreen, the usual video
+    // convention. Ignore double-clicks on Element Call's own controls (buttons,
+    // links, inputs) so toggling a mute button does not also flip fullscreen.
+    window.addEventListener('dblclick', function (event) {
+        var t = event.target;
+        if (t && t.closest &&
+            t.closest('button, a, input, select, textarea, [role="button"], [role="menuitem"]'))
+            return;
+        if (bridge) bridge.requestFullscreenToggle();
+    });
+    // Escape leaves fullscreen. This is the fallback for when the user has clicked
+    // into the call video so the webview holds keyboard focus; the QML key-catcher
+    // covers the usual case. The host only acts when actually in our fullscreen.
+    window.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && bridge) bridge.requestExitFullscreen();
+    }, true);
 })();
 )JS");
 

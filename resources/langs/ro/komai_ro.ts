@@ -1368,47 +1368,67 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>Dezactivare microfon</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>Activare microfon</translation>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Mute</source>
+        <translation>Dezactivare sunet</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>Activare sunet</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
         <translation>Oprire cameră</translation>
     </message>
     <message>
+        <location line="-237"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
         <translation>Pornire cameră</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>Extinde</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>Restrânge</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>Ecran complet</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>Termină apelul</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>Se iese din apel…</translation>
     </message>
@@ -1416,6 +1436,11 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Se pornește Element Call…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>Ieșire din ecran complet</translation>
     </message>
 </context>
 <context>

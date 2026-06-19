@@ -79,6 +79,17 @@ public:
     Q_INVOKABLE void setMicEnabled(bool enabled);
     Q_INVOKABLE void setCameraEnabled(bool enabled);
 
+    // Called from the injected page bridge when the user double-clicks the call
+    // view (away from Element Call's own controls); the call surface toggles
+    // fullscreen in response.
+    Q_INVOKABLE void requestFullscreenToggle() { emit fullscreenToggleRequested(); }
+
+    // Called from the injected page bridge when the user presses Escape while the
+    // webview itself has keyboard focus (e.g. after clicking into the call video).
+    // The QML side normally holds focus on a key-catcher while fullscreen, but
+    // this covers the case where the page has it instead.
+    Q_INVOKABLE void requestExitFullscreen() { emit exitFullscreenRequested(); }
+
     // QWebChannel-exposed slot the injected page bridge calls for every
     // widget->host Widget API message. Element Call-specific host actions
     // (io.element.close, set_always_on_screen, io.element.device_mute) are
@@ -98,6 +109,10 @@ signals:
     void activeChanged();
     // Emitted whenever the mirrored mic/camera state or its availability changes.
     void deviceMuteStateChanged();
+    // Emitted when the user double-clicks the call view (see requestFullscreenToggle).
+    void fullscreenToggleRequested();
+    // Emitted when the user presses Escape inside the webview (see requestExitFullscreen).
+    void exitFullscreenRequested();
 
     // The webview should load this URL (Element Call in widget mode).
     void urlReady(const QString &url);

@@ -1366,47 +1366,67 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+159"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Mute microphone</source>
-        <translation>മൈക്രോഫോൺ മ്യൂട്ട് ചെയ്യുക</translation>
-    </message>
-    <message>
+        <location line="+16"/>
         <location line="+1"/>
-        <source>Unmute microphone</source>
-        <translation>മൈക്രോഫോൺ അൺമ്യൂട്ട് ചെയ്യുക</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Turn camera off</source>
-        <translation>ക്യാമറ ഓഫ് ചെയ്യുക</translation>
-    </message>
-    <message>
+        <location line="+235"/>
         <location line="+1"/>
-        <source>Turn camera on</source>
-        <translation>ക്യാമറ ഓൺ ചെയ്യുക</translation>
+        <source>Mute</source>
+        <translation>നിശബ്ദമാക്കുക</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Unmute</source>
+        <translation>ശബ്ദം ഓണാക്കുക</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Stop camera</source>
+        <translation>ക്യാമറ നിർത്തുക</translation>
+    </message>
+    <message>
+        <location line="-237"/>
+        <location line="+1"/>
+        <location line="+235"/>
+        <location line="+1"/>
+        <source>Start camera</source>
+        <translation>ക്യാമറ ആരംഭിക്കുക</translation>
+    </message>
+    <message>
+        <location line="-231"/>
+        <location line="+1"/>
         <source>Expand</source>
         <translation>വലുതാക്കുക</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-1"/>
+        <location line="+1"/>
         <source>Collapse</source>
         <translation>ചുരുക്കുക</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+11"/>
+        <source>Fullscreen</source>
+        <translation>ഫുൾസ്ക്രീൻ</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <location line="+215"/>
         <source>End call</source>
         <translation>കോൾ അവസാനിപ്പിക്കുക</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="-83"/>
         <source>Leaving call…</source>
         <translation>കോൾ വിടുന്നു…</translation>
     </message>
@@ -1414,6 +1434,11 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+0"/>
         <source>Starting Element Call…</source>
         <translation>Element Call ആരംഭിക്കുന്നു…</translation>
+    </message>
+    <message>
+        <location line="+98"/>
+        <source>Exit fullscreen</source>
+        <translation>ഫുൾസ്ക്രീൻ അവസാനിപ്പിക്കുക</translation>
     </message>
 </context>
 <context>

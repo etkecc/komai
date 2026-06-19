@@ -619,19 +619,17 @@ Window {
 
         Row {
             id: actionsRow
-            property int uniformActionWidth: Math.max(forwardButton.visible ? forwardButton.implicitWidth : 0,
-                                                      openButton.implicitWidth,
-                                                      copyButton.implicitWidth,
-                                                      downloadButton.implicitWidth,
-                                                      closeButton.implicitWidth)
 
-            spacing: Komai.paddingLarge
+            // Flush buttons (no inter-button gap), matching the room header and the
+            // Element Call control bars: each button is a compact icon-left /
+            // label-right pill that sizes to its own content. Invisible buttons
+            // (e.g. Forward outside a room) are skipped by the Row automatically.
+            spacing: 0
             anchors.centerIn: parent
 
             ImageOverlayActionButton {
                 id: forwardButton
                 visible: mediaOverlay.canForwardCurrentMessage()
-                width: visible ? actionsRow.uniformActionWidth : 0
                 KeyNavigation.tab: openButton
                 KeyNavigation.backtab: closeButton
 
@@ -642,7 +640,6 @@ Window {
                 hoverIconColor: actionButtonHoverColor
                 hoverTextColor: actionButtonHoverColor
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
-                iconSize: actionButtonIconSize
 
                 onClicked: {
                     const forwardRoom = mediaOverlay.room;
@@ -659,7 +656,6 @@ Window {
 
             ImageOverlayActionButton {
                 id: openButton
-                width: actionsRow.uniformActionWidth
                 KeyNavigation.tab: copyButton
                 KeyNavigation.backtab: forwardButton.visible ? forwardButton : closeButton
 
@@ -669,7 +665,6 @@ Window {
                 hoverIconColor: actionButtonHoverColor
                 hoverTextColor: actionButtonHoverColor
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
-                iconSize: actionButtonIconSize
 
                 onClicked: {
                     const roomRef = mediaOverlay.room;
@@ -688,7 +683,6 @@ Window {
 
             ImageOverlayActionButton {
                 id: copyButton
-                width: actionsRow.uniformActionWidth
                 KeyNavigation.tab: downloadButton
                 KeyNavigation.backtab: openButton
 
@@ -698,7 +692,6 @@ Window {
                 hoverIconColor: actionButtonHoverColor
                 hoverTextColor: actionButtonHoverColor
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
-                iconSize: actionButtonIconSize
 
                 onClicked: {
                     const roomRef = mediaOverlay.room;
@@ -717,7 +710,6 @@ Window {
 
             ImageOverlayActionButton {
                 id: downloadButton
-                width: actionsRow.uniformActionWidth
                 KeyNavigation.tab: closeButton
                 KeyNavigation.backtab: copyButton
 
@@ -727,7 +719,6 @@ Window {
                 hoverIconColor: actionButtonHoverColor
                 hoverTextColor: actionButtonHoverColor
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
-                iconSize: actionButtonIconSize
 
                 onClicked: {
                     const roomRef = mediaOverlay.room;
@@ -746,7 +737,6 @@ Window {
 
             ImageOverlayActionButton {
                 id: closeButton
-                width: actionsRow.uniformActionWidth
                 KeyNavigation.tab: forwardButton.visible ? forwardButton : openButton
                 KeyNavigation.backtab: downloadButton
 
@@ -760,7 +750,6 @@ Window {
                 hoverIconColor: actionButtonHoverColor
                 hoverTextColor: actionButtonHoverColor
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
-                iconSize: actionButtonIconSize
 
                 background: Rectangle {
                     radius: Komai.paddingMedium

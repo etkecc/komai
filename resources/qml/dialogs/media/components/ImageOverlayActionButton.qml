@@ -21,16 +21,22 @@ AbstractButton {
 
     // Allow buttons anchored to a screen edge to remove top-right rounding only when highlighted.
     property bool flatTopRightCorner: false
-    property int iconSize: 24
-    property int blockPadding: Komai.paddingMedium
     property int contentSpacing: Komai.paddingSmall
 
-    leftPadding: blockPadding
-    rightPadding: blockPadding
-    topPadding: blockPadding
-    bottomPadding: blockPadding
-    implicitWidth: Math.max(76, contentBody.implicitWidth + leftPadding + rightPadding)
-    implicitHeight: contentBody.implicitHeight + topPadding + bottomPadding
+    // Match the Element Call control bars and the room-header action buttons
+    // exactly: the button is iconSize tall and the glyph is inset by the same
+    // density-aware padding (wider in Spacious), so the button heights and glyph
+    // sizes line up with the fullscreen call OSD and the rest of the app rather
+    // than collapsing to a short pill.
+    readonly property int buttonPaddingH: (Komai.density !== Settings.Density.Spacious) ? Komai.paddingSmall : Komai.paddingMedium
+    property int iconSize: Math.max(14, Komai.iconSize - 2 * buttonPaddingH)
+
+    leftPadding: buttonPaddingH
+    rightPadding: buttonPaddingH
+    topPadding: 0
+    bottomPadding: 0
+    implicitWidth: contentBody.implicitWidth + leftPadding + rightPadding
+    implicitHeight: Komai.iconSize
     hoverEnabled: true
     activeFocusOnTab: true
     focusPolicy: Qt.StrongFocus
@@ -63,8 +69,8 @@ AbstractButton {
     contentItem: Item {
         id: contentBody
 
-        implicitWidth: contentColumn.implicitWidth
-        implicitHeight: contentColumn.implicitHeight
+        implicitWidth: contentRow.implicitWidth
+        implicitHeight: contentRow.implicitHeight
 
         MouseArea {
             anchors.fill: parent
@@ -72,8 +78,8 @@ AbstractButton {
             acceptedButtons: Qt.NoButton
         }
 
-        Column {
-            id: contentColumn
+        Row {
+            id: contentRow
 
             spacing: root.contentSpacing
             anchors.centerIn: parent
@@ -81,7 +87,7 @@ AbstractButton {
             Image {
                 width: root.iconSize
                 height: root.iconSize
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
                 mirror: root.iconMirror
                 source: root.iconSource !== ""
                         ? "image://colorimage/" + root.iconSource + "?" + (root.hovered || root.visualFocus ? root.hoverIconColor : root.textColor)
@@ -91,7 +97,8 @@ AbstractButton {
             }
 
             Text {
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                visible: root.labelText !== ""
                 color: root.hovered || root.pressed || root.visualFocus ? root.hoverTextColor : root.textColor
                 text: root.labelText
                 font.bold: true

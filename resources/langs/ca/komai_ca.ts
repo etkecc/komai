@@ -3397,27 +3397,27 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+638"/>
         <source>Forward</source>
         <translation>Reenvia</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+25"/>
         <source>Open</source>
         <translation>Obre</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Save</source>
         <translation>Desa</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+31"/>
         <source>Close</source>
         <translation>Tanca</translation>
     </message>

@@ -3392,27 +3392,27 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+638"/>
         <source>Forward</source>
         <translation>Chuyển tiếp</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+25"/>
         <source>Open</source>
         <translation>Mở</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Copy</source>
         <translation>Sao chép</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Save</source>
         <translation>Lưu</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+31"/>
         <source>Close</source>
         <translation>Đóng</translation>
     </message>

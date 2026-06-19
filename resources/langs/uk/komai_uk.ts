@@ -3402,27 +3402,27 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+638"/>
         <source>Forward</source>
         <translation>Переслати</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+25"/>
         <source>Open</source>
         <translation>Відкрити</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Copy</source>
         <translation>Копіювати</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+31"/>
         <source>Close</source>
         <translation>Закрити</translation>
     </message>

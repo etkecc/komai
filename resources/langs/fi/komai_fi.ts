@@ -3397,27 +3397,27 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+638"/>
         <source>Forward</source>
         <translation>Välitä</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+25"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Copy</source>
         <translation>Kopioi</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+31"/>
         <source>Close</source>
         <translation>Sulje</translation>
     </message>

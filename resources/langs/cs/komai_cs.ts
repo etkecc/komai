@@ -3402,27 +3402,27 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+640"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+638"/>
         <source>Forward</source>
         <translation>Přeposlat</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+25"/>
         <source>Open</source>
         <translation>Otevřít</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+31"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>

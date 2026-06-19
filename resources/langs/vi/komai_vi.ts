@@ -1364,7 +1364,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+218"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
@@ -1455,24 +1455,6 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <location line="+8"/>
         <source>Decline</source>
         <translation>Từ chối</translation>
-    </message>
-</context>
-<context>
-    <name>ElementCallSpike</name>
-    <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
-        <source>Element Call build spike</source>
-        <translation>Thử nghiệm Element Call</translation>
-    </message>
-    <message>
-        <location line="+126"/>
-        <source>Starting Element Call…</source>
-        <translation>Đang khởi động Element Call…</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation>Mở một phòng trước, sau đó nhấn Ctrl+Alt+E.</translation>
     </message>
 </context>
 <context>

@@ -3,14 +3,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // In-room Element Call surface: a collapsible panel that hosts the Element Call
-// QtWebEngine widget for the room with the active call. It is the real-call
-// replacement for the throwaway ElementCallSpike window.
+// QtWebEngine widget for the room with the active call.
 //
 // Lifecycle is coordinated by the always-compiled ElementCall singleton: the
-// composer call button (or a dev shortcut) calls ElementCall.startCall(roomId),
-// which flips ElementCall.active and makes this panel's Loader (in TimelineView)
-// instantiate us. We start a native matrix-sdk widget session for the room and
-// relay the Widget API postMessage traffic both ways, exactly like the spike.
+// composer call button calls ElementCall.startCall(roomId), which flips
+// ElementCall.active and makes this panel's Loader (in TimelineView) instantiate
+// us. We start a native matrix-sdk widget session for the room and relay the
+// Widget API postMessage traffic both ways.
 //
 // Komai owns only the collapsed <-> expanded axis (a thin header bar that
 // expands to host the widget); Element Call owns its own in-call layout

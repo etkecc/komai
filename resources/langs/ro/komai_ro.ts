@@ -1368,7 +1368,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+218"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
@@ -1459,24 +1459,6 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <location line="+8"/>
         <source>Decline</source>
         <translation>Refuză</translation>
-    </message>
-</context>
-<context>
-    <name>ElementCallSpike</name>
-    <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
-        <source>Element Call build spike</source>
-        <translation>Spike Element Call build</translation>
-    </message>
-    <message>
-        <location line="+126"/>
-        <source>Starting Element Call…</source>
-        <translation>Se pornește Element Call…</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation>Deschide mai întâi o cameră, apoi apasă Ctrl+Alt+E.</translation>
     </message>
 </context>
 <context>

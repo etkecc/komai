@@ -1368,7 +1368,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+218"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
@@ -1459,24 +1459,6 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <location line="+8"/>
         <source>Decline</source>
         <translation>Odbij</translation>
-    </message>
-</context>
-<context>
-    <name>ElementCallSpike</name>
-    <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
-        <source>Element Call build spike</source>
-        <translation>Element Call razvojna proba</translation>
-    </message>
-    <message>
-        <location line="+126"/>
-        <source>Starting Element Call…</source>
-        <translation>Pokretanje Element Call-a…</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation>Prvo otvori sobu, zatim pritisni Ctrl+Alt+E.</translation>
     </message>
 </context>
 <context>

@@ -1366,7 +1366,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+218"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
@@ -1457,24 +1457,6 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+8"/>
         <source>Decline</source>
         <translation>നിരസിക്കുക</translation>
-    </message>
-</context>
-<context>
-    <name>ElementCallSpike</name>
-    <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
-        <source>Element Call build spike</source>
-        <translation>Element Call ബിൽഡ് സ്പൈക്ക്</translation>
-    </message>
-    <message>
-        <location line="+126"/>
-        <source>Starting Element Call…</source>
-        <translation>Element Call ആരംഭിക്കുന്നു…</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation>ആദ്യം ഒരു മുറി തുറക്കുക, തുടർന്ന് Ctrl+Alt+E അമർത്തുക.</translation>
     </message>
 </context>
 <context>

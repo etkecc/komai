@@ -1121,10 +1121,9 @@ endif()
 set(QML_SOURCES_EXCLUDE
 )
 if(NOT ELEMENT_CALL)
-    # These QML files "import QtWebEngine", which qmlcachegen cannot resolve
-    # without the WebEngineQuick module, so keep them out of -DELEMENT_CALL=OFF builds.
+    # This QML file "import QtWebEngine", which qmlcachegen cannot resolve
+    # without the WebEngineQuick module, so keep it out of -DELEMENT_CALL=OFF builds.
     list(APPEND QML_SOURCES_EXCLUDE
-        resources/qml/voip/ElementCallSpike.qml
         resources/qml/voip/ElementCallPanel.qml
     )
 endif()

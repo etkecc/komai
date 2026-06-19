@@ -1364,7 +1364,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+218"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
@@ -1455,24 +1455,6 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+8"/>
         <source>Decline</source>
         <translation>거절</translation>
-    </message>
-</context>
-<context>
-    <name>ElementCallSpike</name>
-    <message>
-        <location filename="../../qml/voip/ElementCallSpike.qml" line="+25"/>
-        <source>Element Call build spike</source>
-        <translation>Element Call 빌드 스파이크</translation>
-    </message>
-    <message>
-        <location line="+126"/>
-        <source>Starting Element Call…</source>
-        <translation>Element Call 시작 중…</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open a room first, then press Ctrl+Alt+E.</source>
-        <translation>먼저 방을 열고 Ctrl+Alt+E를 누르세요.</translation>
     </message>
 </context>
 <context>

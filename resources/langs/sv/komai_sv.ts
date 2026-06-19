@@ -1371,7 +1371,27 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+18"/>
+        <source>Mute microphone</source>
+        <translation>Stäng av mikrofon</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unmute microphone</source>
+        <translation>Slå på mikrofon</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Turn camera off</source>
+        <translation>Stäng av kamera</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn camera on</source>
+        <translation>Slå på kamera</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Expand</source>
         <translation>Maximera</translation>
     </message>

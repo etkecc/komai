@@ -1371,7 +1371,27 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+18"/>
+        <source>Mute microphone</source>
+        <translation>Silenzia microfono</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unmute microphone</source>
+        <translation>Riattiva microfono</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Turn camera off</source>
+        <translation>Disattiva fotocamera</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn camera on</source>
+        <translation>Attiva fotocamera</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Expand</source>
         <translation>Espandi</translation>
     </message>

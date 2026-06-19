@@ -1373,7 +1373,27 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+18"/>
+        <source>Mute microphone</source>
+        <translation>Wycisz mikrofon</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unmute microphone</source>
+        <translation>Włącz mikrofon</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Turn camera off</source>
+        <translation>Wyłącz kamerę</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn camera on</source>
+        <translation>Włącz kamerę</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Expand</source>
         <translation>Rozwiń</translation>
     </message>

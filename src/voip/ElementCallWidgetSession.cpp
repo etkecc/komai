@@ -139,23 +139,30 @@ ElementCallWidgetSession::hangup()
     if (sessionId_ == 0)
         return;
 
-    // Element Call learns its own widget id from the URL; we learn it from the
-    // first message it sends. Fall back to the id we asked the driver to use
-    // (see runtime_element_call.rs) if we somehow haven't seen a message yet.
-    const QString widgetId =
-      widgetId_.isEmpty() ? QStringLiteral("komai-ec-%1").arg(sessionId_) : widgetId_;
-
-    const QString requestId = QStringLiteral("komai-%1-%2").arg(sessionId_).arg(++requestCounter_);
-    pendingHostRequests_.insert(requestId);
-    QJsonObject request{
-      {QStringLiteral("api"), QStringLiteral("toWidget")},
-      {QStringLiteral("widgetId"), widgetId},
-      {QStringLiteral("requestId"), requestId},
-      {QStringLiteral("action"), QStringLiteral("im.vector.hangup")},
-      {QStringLiteral("data"), QJsonObject{}},
-    };
     komai::logging::ui()->warn("[EC] requesting hangup for widget session {}", sessionId_);
-    sendToWidget(request);
+    sendToWidgetRequest(QStringLiteral("im.vector.hangup"), QJsonObject{});
+}
+
+void
+ElementCallWidgetSession::setMicEnabled(bool enabled)
+{
+    if (sessionId_ == 0 || micEnabled_ == enabled)
+        return;
+    // Send only the changed field; Element Call copies its current state and
+    // applies the provided keys, then reports the resulting state back via the
+    // fromWidget device_mute we mirror (which is what actually updates our
+    // properties), so we do not optimistically flip them here.
+    sendToWidgetRequest(QStringLiteral("io.element.device_mute"),
+                        QJsonObject{{QStringLiteral("audio_enabled"), enabled}});
+}
+
+void
+ElementCallWidgetSession::setCameraEnabled(bool enabled)
+{
+    if (sessionId_ == 0 || cameraEnabled_ == enabled)
+        return;
+    sendToWidgetRequest(QStringLiteral("io.element.device_mute"),
+                        QJsonObject{{QStringLiteral("video_enabled"), enabled}});
 }
 
 void
@@ -234,8 +241,22 @@ ElementCallWidgetSession::interceptHostAction(const QString &json)
         return true;
     }
     if (action == QLatin1String("io.element.device_mute")) {
-        // Element Call reports its mute state to the host. We have nothing to
-        // change, so the resulting configuration is whatever it sent us.
+        // Element Call reports its current mic/camera state to the host (on join
+        // and whenever it changes, including after a toggle we requested). Mirror
+        // it onto our properties so the native controls reflect reality, then ack
+        // by echoing the data back (Element Call ignores the reply for its own
+        // outgoing report; only the toWidget direction drives its state).
+        const QJsonObject data = obj.value(QStringLiteral("data")).toObject();
+        const bool wasKnown    = deviceMuteStateKnown_;
+        const bool prevMic     = micEnabled_;
+        const bool prevCamera  = cameraEnabled_;
+        if (data.contains(QStringLiteral("audio_enabled")))
+            micEnabled_ = data.value(QStringLiteral("audio_enabled")).toBool();
+        if (data.contains(QStringLiteral("video_enabled")))
+            cameraEnabled_ = data.value(QStringLiteral("video_enabled")).toBool();
+        deviceMuteStateKnown_ = true;
+        if (!wasKnown || micEnabled_ != prevMic || cameraEnabled_ != prevCamera)
+            emit deviceMuteStateChanged();
         reply(obj.value(QStringLiteral("data")));
         return true;
     }
@@ -250,6 +271,26 @@ ElementCallWidgetSession::sendToWidget(const QJsonObject &message)
 }
 
 void
+ElementCallWidgetSession::sendToWidgetRequest(const QString &action, const QJsonObject &data)
+{
+    // Element Call learns its own widget id from the URL; we learn it from the
+    // first message it sends. Fall back to the id we asked the driver to use
+    // (see runtime_element_call.rs) if we somehow haven't seen a message yet.
+    const QString widgetId =
+      widgetId_.isEmpty() ? QStringLiteral("komai-ec-%1").arg(sessionId_) : widgetId_;
+
+    const QString requestId = QStringLiteral("komai-%1-%2").arg(sessionId_).arg(++requestCounter_);
+    pendingHostRequests_.insert(requestId);
+    sendToWidget(QJsonObject{
+      {QStringLiteral("api"), QStringLiteral("toWidget")},
+      {QStringLiteral("widgetId"), widgetId},
+      {QStringLiteral("requestId"), requestId},
+      {QStringLiteral("action"), action},
+      {QStringLiteral("data"), data},
+    });
+}
+
+void
 ElementCallWidgetSession::clearSession()
 {
     if (sessionId_ == 0)
@@ -258,6 +299,15 @@ ElementCallWidgetSession::clearSession()
     sessionId_ = 0;
     emit sessionIdChanged();
     emit activeChanged();
+
+    // Forget the mirrored device state so a fresh session starts with the native
+    // controls hidden until Element Call reports its mute state again.
+    if (deviceMuteStateKnown_) {
+        deviceMuteStateKnown_ = false;
+        micEnabled_           = true;
+        cameraEnabled_        = true;
+        emit deviceMuteStateChanged();
+    }
 }
 
 void

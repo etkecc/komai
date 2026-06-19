@@ -1371,7 +1371,27 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+18"/>
+        <source>Mute microphone</source>
+        <translation>Vaigista mikrofon</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unmute microphone</source>
+        <translation>Tühista mikrofoni vaigistus</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Turn camera off</source>
+        <translation>Lülita kaamera välja</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn camera on</source>
+        <translation>Lülita kaamera sisse</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Expand</source>
         <translation>Laienda</translation>
     </message>

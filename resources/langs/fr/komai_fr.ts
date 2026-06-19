@@ -1371,7 +1371,27 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Element Call</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+18"/>
+        <source>Mute microphone</source>
+        <translation>Couper le microphone</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Unmute microphone</source>
+        <translation>Réactiver le microphone</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Turn camera off</source>
+        <translation>Désactiver la caméra</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Turn camera on</source>
+        <translation>Activer la caméra</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Expand</source>
         <translation>Agrandir</translation>
     </message>

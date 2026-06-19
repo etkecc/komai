@@ -19,6 +19,8 @@ AbstractButton {
     id: button
 
     property string image: ""
+    // Optional themed tooltip, shown on hover (e.g. for icon-only buttons).
+    property string toolTipText: ""
     property bool danger: false
     // The affirmative variant (e.g. "Join"): a solid theme-success fill.
     property bool accept: false
@@ -106,5 +108,12 @@ AbstractButton {
     KomaiCursorShape {
         anchors.fill: parent
         cursorShape: button.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
+    KomaiToolTip {
+        anchorItem: button
+        text: button.toolTipText
+        delay: 0
+        requestedVisible: button.hovered && button.toolTipText.length > 0
     }
 }

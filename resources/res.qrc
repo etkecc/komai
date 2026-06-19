@@ -141,6 +141,7 @@
         <file alias="icons/ui/text-bold.svg">icons/fluent/assets/Text Bold/SVG/ic_fluent_text_bold_24_regular.svg</file>
         <file alias="icons/ui/text-italic.svg">icons/fluent/assets/Text Italic/SVG/ic_fluent_text_italic_24_regular.svg</file>
         <file alias="icons/ui/text-quote.svg">icons/fluent/assets/Text Quote/SVG/ic_fluent_text_quote_24_regular.svg</file>
+        <file alias="icons/ui/video-off.svg">icons/fluent/assets/Video Off/SVG/ic_fluent_video_off_32_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.svg</file>

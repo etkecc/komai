@@ -161,6 +161,35 @@ Item {
                 font.bold: true
             }
 
+            // Native mic / camera toggles mirroring Element Call's own state
+            // (io.element.device_mute). Most useful while the panel is collapsed,
+            // when Element Call's in-call controls are hidden; they appear only
+            // once Element Call has reported its mute state. Icon shows the
+            // current state; clicking toggles it.
+            ElementCallBarButton {
+                visible: ecSession.deviceControlsAvailable
+                onAccent: true
+                image: ecSession.micEnabled
+                    ? ":/icons/icons/ui/microphone-unmute.svg"
+                    : ":/icons/icons/ui/microphone-mute.svg"
+                onClicked: ecSession.setMicEnabled(!ecSession.micEnabled)
+                toolTipText: ecSession.micEnabled
+                    ? qsTr("Mute microphone")
+                    : qsTr("Unmute microphone")
+            }
+
+            ElementCallBarButton {
+                visible: ecSession.deviceControlsAvailable
+                onAccent: true
+                image: ecSession.cameraEnabled
+                    ? ":/icons/icons/ui/video.svg"
+                    : ":/icons/icons/ui/video-off.svg"
+                onClicked: ecSession.setCameraEnabled(!ecSession.cameraEnabled)
+                toolTipText: ecSession.cameraEnabled
+                    ? qsTr("Turn camera off")
+                    : qsTr("Turn camera on")
+            }
+
             ElementCallBarButton {
                 text: panel.collapsed ? qsTr("Expand") : qsTr("Collapse")
                 image: panel.collapsed

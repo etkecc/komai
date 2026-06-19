@@ -35,6 +35,15 @@ class ElementCallWidgetSession : public QObject
     Q_PROPERTY(qulonglong sessionId READ sessionId NOTIFY sessionIdChanged)
     Q_PROPERTY(bool active READ active NOTIFY activeChanged)
 
+    // Live mirror of Element Call's own microphone / camera mute state, learned
+    // from the io.element.device_mute messages it posts (on join and on every
+    // internal toggle). `deviceControlsAvailable` flips true once we have seen at
+    // least one such message, so the native toggles only appear with real state.
+    Q_PROPERTY(bool micEnabled READ micEnabled NOTIFY deviceMuteStateChanged)
+    Q_PROPERTY(bool cameraEnabled READ cameraEnabled NOTIFY deviceMuteStateChanged)
+    Q_PROPERTY(
+      bool deviceControlsAvailable READ deviceControlsAvailable NOTIFY deviceMuteStateChanged)
+
 public:
     explicit ElementCallWidgetSession(QObject *parent = nullptr);
     ~ElementCallWidgetSession() override;
@@ -42,6 +51,10 @@ public:
     QString url() const { return url_; }
     qulonglong sessionId() const { return sessionId_; }
     bool active() const { return sessionId_ != 0; }
+
+    bool micEnabled() const { return micEnabled_; }
+    bool cameraEnabled() const { return cameraEnabled_; }
+    bool deviceControlsAvailable() const { return deviceMuteStateKnown_; }
 
     // Starts a widget session for roomId on the current backend handle. The
     // Element Call locale and theme are resolved from the current UI settings.
@@ -58,6 +71,13 @@ public:
     // Used when the call surface is dismissed by the user (vs Element Call's own
     // in-call hangup button, which posts io.element.close directly).
     Q_INVOKABLE void hangup();
+
+    // Toggle Element Call's microphone / camera from native chrome. Sends a
+    // toWidget io.element.device_mute carrying only the changed field; Element
+    // Call applies it and echoes the resulting state back via the fromWidget
+    // device_mute we mirror, so micEnabled/cameraEnabled stay authoritative.
+    Q_INVOKABLE void setMicEnabled(bool enabled);
+    Q_INVOKABLE void setCameraEnabled(bool enabled);
 
     // QWebChannel-exposed slot the injected page bridge calls for every
     // widget->host Widget API message. Element Call-specific host actions
@@ -76,6 +96,8 @@ signals:
     void urlChanged();
     void sessionIdChanged();
     void activeChanged();
+    // Emitted whenever the mirrored mic/camera state or its availability changes.
+    void deviceMuteStateChanged();
 
     // The webview should load this URL (Element Call in widget mode).
     void urlReady(const QString &url);
@@ -97,6 +119,10 @@ private:
     // Sends a Widget API message to the page (host->widget). Reused for both
     // fromWidget responses (acks) and toWidget requests we originate.
     void sendToWidget(const class QJsonObject &message);
+    // Builds and sends a host->widget (toWidget) request for `action` with `data`,
+    // registering its requestId so Element Call's reply is swallowed (it would not
+    // match a driver UUID). Used by hangup() and the device-mute toggles.
+    void sendToWidgetRequest(const QString &action, const class QJsonObject &data);
 
     void clearSession();
 
@@ -114,4 +140,10 @@ private:
     // the driver (it never sent the request, and would log an error trying to
     // match our non-UUID requestId).
     QSet<QString> pendingHostRequests_;
+
+    // Mirror of Element Call's mic/camera state (see the Q_PROPERTYs). Default to
+    // enabled; corrected by the first io.element.device_mute Element Call posts.
+    bool micEnabled_           = true;
+    bool cameraEnabled_        = true;
+    bool deviceMuteStateKnown_ = false;
 };

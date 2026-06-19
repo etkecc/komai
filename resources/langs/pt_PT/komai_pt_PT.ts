@@ -1366,44 +1366,44 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>Silenciar</translation>
     </message>
     <message>
-        <location line="-237"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>Reativar som</translation>
     </message>
     <message>
-        <location line="-226"/>
+        <location line="-277"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>Desligar câmara</translation>
     </message>
     <message>
-        <location line="-237"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>Ligar câmara</translation>
     </message>
     <message>
-        <location line="-231"/>
+        <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>Expandir</translation>
@@ -1421,7 +1421,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     </message>
     <message>
         <location line="+9"/>
-        <location line="+215"/>
+        <location line="+266"/>
         <source>End call</source>
         <translation>Terminar chamada</translation>
     </message>

@@ -1366,44 +1366,44 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>Stummschalten</translation>
     </message>
     <message>
-        <location line="-237"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>Stummschaltung aufheben</translation>
     </message>
     <message>
-        <location line="-226"/>
+        <location line="-277"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>Kamera stoppen</translation>
     </message>
     <message>
-        <location line="-237"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>Kamera starten</translation>
     </message>
     <message>
-        <location line="-231"/>
+        <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>Ausklappen</translation>
@@ -1421,7 +1421,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="+9"/>
-        <location line="+215"/>
+        <location line="+266"/>
         <source>End call</source>
         <translation>Anruf beenden</translation>
     </message>

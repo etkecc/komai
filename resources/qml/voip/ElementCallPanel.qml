@@ -77,11 +77,33 @@ Item {
     // letting the call view sit there looking frozen.
     property bool leaving: false
 
+    // User-chosen expanded height, set by dragging the bottom border. 0 means
+    // "no preference": fall back to the default fraction below. Kept in memory on
+    // the panel instance, which stays loaded across room/tab switches (only its
+    // visibility toggles), so the choice survives switching rooms; it resets on
+    // hangup (the panel unloads), matching the composer/reply resize affordances.
+    property real userHeight: 0
+
+    // Bounds for the expanded body: never smaller than the header plus a minimum
+    // usable call area, never taller than the region the Loader gives us (so the
+    // timeline below always keeps room). Computed from availableHeight only, never
+    // from our own measured height, to avoid a layout binding loop.
+    readonly property real minExpandedHeight: headerBar.implicitHeight + 200
+    readonly property real maxExpandedHeight: Math.max(minExpandedHeight, availableHeight)
+    readonly property real defaultExpandedHeight: Math.max(minExpandedHeight,
+        Math.min(720, Math.round(availableHeight * 0.62)))
+
     // Height the panel wants to occupy. The Loader reads this.
     readonly property real panelHeight: collapsed
         ? headerBar.implicitHeight
-        : Math.max(headerBar.implicitHeight + 200,
-                   Math.min(720, Math.round(availableHeight * 0.62)))
+        : (userHeight > 0
+            ? Math.max(minExpandedHeight, Math.min(maxExpandedHeight, userHeight))
+            : defaultExpandedHeight)
+
+    // Apply a dragged height, clamped to the expanded bounds.
+    function _setUserHeight(value) {
+        panel.userHeight = Math.max(minExpandedHeight, Math.min(maxExpandedHeight, value));
+    }
 
     // Set once we are tearing down so the close handlers stop re-entering.
     property bool closing: false
@@ -280,6 +302,11 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        // Clip the webview to the slot so that when the panel shrinks (dragging the
+        // bottom border up), a momentarily-stale, oversized QtWebEngine render
+        // surface (Chromium resizes asynchronously) cannot paint past the new
+        // bottom edge onto the timeline that has reflowed up into the freed space.
+        clip: true
     }
 
     WebEngineView {
@@ -351,6 +378,52 @@ Item {
         color: Komai.theme.separator
         visible: !panel.collapsed && !panel.fullscreen
         z: 3
+    }
+
+    // Drag handle on the bottom border: dragging it down grows the call surface,
+    // dragging up shrinks it. A thin transparent strip widens the 1px border into
+    // an ~8px hit area (the visible line above shows through). Only active while
+    // expanded and not fullscreen. Modelled on ReplyPopup's top-edge resize strip.
+    Item {
+        id: resizeStrip
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: 8
+        z: 5
+        visible: !panel.collapsed && !panel.fullscreen
+        enabled: visible
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.SizeVerCursor
+        }
+
+        DragHandler {
+            id: resizeDrag
+
+            property real startHeight: 0
+
+            target: null
+            xAxis.enabled: false
+            yAxis.enabled: true
+            // Win the drag over the panel's stray-hover MouseArea and the busy
+            // overlay's MouseArea, which would otherwise swallow the press.
+            grabPermissions: PointerHandler.CanTakeOverFromAnything
+                | PointerHandler.ApprovesTakeOverByHandlersOfSameType
+
+            onActiveChanged: {
+                if (active)
+                    startHeight = panel.panelHeight;
+            }
+            onTranslationChanged: {
+                if (!active)
+                    return;
+                // Dragging down (translation.y > 0) grows the surface.
+                panel._setUserHeight(startHeight + translation.y);
+            }
+        }
     }
 
     // Busy overlay shown while a session is starting (no URL yet) or while the

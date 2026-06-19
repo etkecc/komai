@@ -1364,44 +1364,44 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+197"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+219"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>Bisukan</translation>
     </message>
     <message>
-        <location line="-237"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>Aktifkan suara</translation>
     </message>
     <message>
-        <location line="-226"/>
+        <location line="-277"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>Hentikan kamera</translation>
     </message>
     <message>
-        <location line="-237"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+235"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>Mulai kamera</translation>
     </message>
     <message>
-        <location line="-231"/>
+        <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>Perluas</translation>
@@ -1419,7 +1419,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+9"/>
-        <location line="+215"/>
+        <location line="+266"/>
         <source>End call</source>
         <translation>Akhiri panggilan</translation>
     </message>

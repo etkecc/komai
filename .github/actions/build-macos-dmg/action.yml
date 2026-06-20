@@ -93,11 +93,16 @@ runs:
       if: steps.qt-cache.outputs.cache-hit != 'true'
       # `clang_64` is the only macOS aqt arch token; Qt's macOS build
       # is universal-binary since 6.2 and works on both runners.
-      # Module list mirrors build-windows-zip's verbatim.
+      # Module list mirrors build-windows-zip's verbatim, including the
+      # qtwebengine/qtwebchannel/qtpositioning trio for Element Call
+      # (ELEMENT_CALL is ON by default). macdeployqt bundles
+      # QtWebEngineCore.framework (with the nested QtWebEngineProcess.app
+      # helper); the ad-hoc deep-sign step below covers that helper.
       shell: bash
       run: |
         python3 -m aqt install-qt mac desktop "${{ inputs.qt-version }}" clang_64 \
-          -O "$HOME/Qt" -m qtmultimedia qtimageformats qtshadertools
+          -O "$HOME/Qt" -m qtmultimedia qtimageformats qtshadertools \
+          qtwebengine qtwebchannel qtpositioning
 
     - name: Warm Rust toolchain
       # Force-install the rust-toolchain.toml pinned channel before

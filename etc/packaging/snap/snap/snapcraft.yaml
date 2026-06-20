@@ -65,6 +65,13 @@ apps:
     environment:
       GST_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gstreamer-1.0
       GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/gstreamer-1.0
+      # QtWebEngine (Element Call). Under strict confinement snapd's AppArmor
+      # profile blocks Chromium's setuid/user-namespace sandbox, so its
+      # render/zygote process fails to start (blank webview). Disabling
+      # Chromium's internal sandbox is the established pattern for confined
+      # QtWebEngine snaps; snapd's own AppArmor + seccomp confinement still
+      # applies. Mirrors the AppImage recipe.
+      QTWEBENGINE_DISABLE_SANDBOX: "1"
 
 parts:
   komai:

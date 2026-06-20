@@ -8,7 +8,7 @@ Verified on Apple Silicon, macOS 26.
 ## Prerequisites
 
 - macOS 13.3 or newer. Earlier versions don't ship a libc++ with the floating-point overloads of `std::to_chars`, which Komai uses through `std::format`.
-- [Qt 6.5+](https://www.qt.io/download) with Base, Declarative, Multimedia, SVG, and Tools modules. Both Homebrew (`brew install qt`) and the Qt online installer are known to work.
+- [Qt 6.5+](https://www.qt.io/download) with Base, Declarative, Multimedia, SVG, and Tools modules, plus WebEngine, WebChannel, and Positioning for Element Call (`ELEMENT_CALL` is ON by default; drop these if you build with `-DELEMENT_CALL=OFF`). Both Homebrew (`brew install qt`, which includes WebEngine) and the Qt online installer are known to work. Via `aqtinstall`: `-m qtmultimedia qtimageformats qtshadertools qtwebengine qtwebchannel qtpositioning`.
 - [Python 3](https://www.python.org/downloads/) on `PATH`.
 - [Rust](https://rustup.rs/) — `rustup` reads [`rust-toolchain.toml`](../../../../rust-toolchain.toml) and picks the pinned version.
 - Xcode 14+ or a recent Apple Clang from Command Line Tools.

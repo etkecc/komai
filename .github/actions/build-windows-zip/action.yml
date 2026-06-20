@@ -102,10 +102,17 @@ runs:
       # Module list mirrors windows.md verbatim. `qtdeclarative`,
       # `qtsvg`, and `qttools` are part of the base install on Qt
       # 6.10 and aqt errors out if listed again as add-ons.
+      # qtwebengine/qtwebchannel/qtpositioning back Element Call
+      # (ELEMENT_CALL is ON by default): qtwebchannel provides
+      # Qt::WebChannelQuick, qtpositioning is a QtWebEngine dependency.
+      # Listed explicitly rather than relying on aqt's module-dependency
+      # resolution. windeployqt bundles QtWebEngineProcess.exe + the
+      # Chromium resource/locale paks from these automatically.
       shell: pwsh
       run: |
         python -m aqt install-qt windows desktop ${{ inputs.qt-version }} ${{ inputs.qt-arch }} `
-            -O C:\Qt -m qtmultimedia qtimageformats qtshadertools
+            -O C:\Qt -m qtmultimedia qtimageformats qtshadertools `
+            qtwebengine qtwebchannel qtpositioning
 
     - name: Install pkg-config
       # pkgconfiglite is only required because CMakeLists.txt's

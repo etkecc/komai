@@ -149,8 +149,14 @@ Substitute your chosen version for `<QT_VER>` below.
 
 ```powershell
 python -m aqt install-qt windows desktop <QT_VER> win64_msvc2022_64 -O C:\Qt `
-    -m qtmultimedia qtimageformats qtshadertools
+    -m qtmultimedia qtimageformats qtshadertools `
+    qtwebengine qtwebchannel qtpositioning
 ```
+
+`qtwebengine`, `qtwebchannel`, and `qtpositioning` back Element Call
+(`ELEMENT_CALL` is ON by default): qtwebchannel provides
+`Qt::WebChannelQuick`, qtpositioning is a QtWebEngine dependency. Drop
+all three if you build with `-DELEMENT_CALL=OFF`.
 
 **Do not** pass `qtdeclarative`, `qtsvg`, or `qttools` to `-m` -- on
 Qt 6.10 they're part of the base install and aqt errors out if listed

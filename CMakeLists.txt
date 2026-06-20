@@ -1103,6 +1103,11 @@ if(ELEMENT_CALL)
             "Failed to fetch the Element Call bundle (exit ${ELEMENT_CALL_FETCH_RC}). "
             "Build with -DELEMENT_CALL=OFF to skip Element Call.")
     endif()
+    # fetch.py prints a native path; on Windows that has backslashes, which CMake
+    # bakes verbatim into the CONFIGURE_DEPENDS glob string in VerifyGlobs.cmake
+    # and then rejects at build time ("Invalid character escape '\a'"). Normalize
+    # to CMake-style forward slashes so the glob string stays valid everywhere.
+    file(TO_CMAKE_PATH "${ELEMENT_CALL_DIST_DIR}" ELEMENT_CALL_DIST_DIR)
     file(GLOB_RECURSE ELEMENT_CALL_BUNDLE_FILES CONFIGURE_DEPENDS "${ELEMENT_CALL_DIST_DIR}/*")
     # Served to the webview as komai-ec://app/<path> (see ElementCallWebProfile).
     qt_add_resources(komai element_call_resources

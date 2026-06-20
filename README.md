@@ -28,7 +28,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 📎 [Attachments](docs/user-guide/features/attachments.md) (file, image, audio) with a [built-in media viewer](docs/user-guide/features/media-playback.md) and in-app video playback
 - 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to dictate speech into the composer (OpenAI-API-compatible)
 - ✍️ [Spell checking](docs/user-guide/features/spellcheck.md) -- offline, multi-language, with a bundled English dictionary; picks up your system's Hunspell dictionaries
-- 📞 [Calls](docs/user-guide/features/calls.md) -- legacy 1:1 voice only; video/screen-share buggy. Disabled by default; no [Element Call](docs/user-guide/features/calls.md#-element-call) yet
+- 📞 [Calls](docs/user-guide/features/legacy-calls.md) -- [Element Call](docs/architecture/element-call.md) group voice/video (MatrixRTC), plus a legacy 1:1 voice stack (video/screen-share buggy, disabled by default)
 - 😀 [Emoji](docs/user-guide/features/emojis.md) messages with custom emojis and localized [CLDR](https://cldr.unicode.org/) keyword search (`:whiskey` finds 🥃)
 - 💬 Replies, [Discord](https://discord.com/)-style [threads](docs/user-guide/features/threads.md), and message forwarding
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)

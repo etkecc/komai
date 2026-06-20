@@ -5,7 +5,7 @@ User-facing capabilities of Komai. Each page covers one feature in depth.
 - 👥 [Application Profiles](application-profiles.md) -- profile switcher, create/launch/delete workflows
 - 📎 [Attachments](attachments.md) -- sending files, images, and audio; client-side metadata stripping
 - 🤖 [Automations](automations/README.md) -- MCP, CLI, and D-Bus surfaces for scripts, desktop tools, and AI hosts
-- 📞 [Calls](calls.md) -- what works (voice 1:1) and doesn't (video / screen-share / Element Call) today; disabled by default
+- 📞 [Legacy Calls](legacy-calls.md) -- the legacy 1:1 voice/video stack (voice works; video/screen-share buggy), disabled by default; group calls use Element Call
 - 🏘️ [Communities Sidebar](communities-sidebar.md) -- filter your Matrix rooms by various builtin filters and Matrix Spaces
 - 😀 [Emoji Search and Picker](emojis.md) -- localized emoji discovery, aliases, and trigger behavior
 - ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts

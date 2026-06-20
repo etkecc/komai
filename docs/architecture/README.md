@@ -23,6 +23,7 @@ Technical documentation for Komai internals.
 - 🔙 [Navigation History](navigation-history.md) -- back/forward navigation via mouse buttons, in-memory history stack
 - 🎬 [Media Overlay](media-overlay.md) -- full-screen image/video viewer, gallery navigation, and streaming playback
 - 🎵 [Audio Playback](audio-playback.md) -- inline audio player behavior, playback-rate controls, and room-local v1 limitations
+- 📞 [Element Call](element-call.md) -- MatrixRTC group calls via embedded QtWebEngine + native matrix-sdk widget driver, the secure-scheme bundle, the postMessage bridge, ringing, and per-target QtWebEngine packaging
 - 🔤 [Spell Checking](spellcheck.md) -- Rust spellbook engine, dictionary discovery, in-document QTextCursor squiggles, format-fanout countermeasures, and config layout
 - 🧵 [Thread Timeline](thread-timeline.md) -- SDK + /relations hybrid architecture, live updates, sync gap workaround, and delegate recycling fix
 - 🔢 [Thread Reply Counts](thread-reply-counts.md) -- why ThreadingSupport can't be used, list_threads() caching approach, and data flow

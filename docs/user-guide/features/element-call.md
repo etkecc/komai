@@ -1,10 +1,10 @@
 # 📹 Element Call
 
-[Element Call](https://github.com/element-hq/element-call) is modern Matrix group
+[Element Call](https://github.com/element-hq/element-call) is modern Matrix
 calling ([MatrixRTC](https://github.com/matrix-org/matrix-spec-proposals/pull/4143)):
 end-to-end encrypted voice and video, routed through a media server
 ([LiveKit](https://github.com/livekit/livekit)) instead of peer-to-peer. Komai
-builds it in, so you start and join group calls from any room without leaving the
+builds it in, so you start and join calls from any room without leaving the
 app.
 
 It's on by default, and separate from the older [📞 legacy 1:1 calls](legacy-calls.md).

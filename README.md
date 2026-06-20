@@ -28,7 +28,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 - 📎 [Attachments](docs/user-guide/features/attachments.md) (file, image, audio) with a [built-in media viewer](docs/user-guide/features/media-playback.md) and in-app video playback
 - 🎙️ [Voice transcription](docs/user-guide/features/voice-transcription.md) -- long-press Space to dictate speech into the composer (OpenAI-API-compatible)
 - ✍️ [Spell checking](docs/user-guide/features/spellcheck.md) -- offline, multi-language, with a bundled English dictionary; picks up your system's Hunspell dictionaries
-- 📹 [Element Call](docs/user-guide/features/element-call.md) -- modern [MatrixRTC](https://github.com/matrix-org/matrix-spec-proposals/pull/4143) group voice/video, end-to-end encrypted, built right into the app (the older [legacy 1:1 calls](docs/user-guide/features/legacy-calls.md) remain, off by default)
+- 📹 [Element Call](docs/user-guide/features/element-call.md) -- modern [MatrixRTC](https://github.com/matrix-org/matrix-spec-proposals/pull/4143) voice/video calls (1:1 and group), end-to-end encrypted, built right into the app (the older [legacy 1:1 calls](docs/user-guide/features/legacy-calls.md) remain, off by default)
 - 😀 [Emoji](docs/user-guide/features/emojis.md) messages with custom emojis and localized [CLDR](https://cldr.unicode.org/) keyword search (`:whiskey` finds 🥃)
 - 💬 Replies, [Discord](https://discord.com/)-style [threads](docs/user-guide/features/threads.md), and message forwarding
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/features/application-profiles.md)

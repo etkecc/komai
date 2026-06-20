@@ -81,7 +81,7 @@ For Element Call (skip if you pass `-DELEMENT_CALL=OFF`):
 sudo pacman -S --needed --asdeps qt6-webengine
 ```
 
-Element Call (MatrixRTC group calls) is hosted in a QtWebEngine view, so
+Element Call (MatrixRTC calls) is hosted in a QtWebEngine view, so
 `qt6-webengine` is required to build and run it.
 
 ### Debian 13+ / Ubuntu 24.04+

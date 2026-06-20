@@ -1,7 +1,7 @@
 # 📞 Element Call
 
 Komai embeds [Element Call](https://github.com/element-hq/element-call) to provide
-MatrixRTC group voice and video. Element Call is a web app (a React single-page
+MatrixRTC voice and video. Element Call is a web app (a React single-page
 app) that runs inside a QtWebEngine view and talks to its host over the Matrix
 Widget API. Komai plays the host role natively: a `matrix_sdk::widget` driver in
 Rust answers the widget's Matrix requests against the already-logged-in client,

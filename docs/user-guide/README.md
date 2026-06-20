@@ -14,8 +14,8 @@
 
 - 👥 [Application Profiles](features/application-profiles.md) -- profile switcher, create/launch/delete workflows
 - 🤖 [Automations](features/automations/README.md) -- MCP, CLI, and D-Bus surfaces for scripts, desktop tools, and AI hosts
-- 📹 [Element Call](features/element-call.md) -- modern group voice/video (MatrixRTC); start/join from any room, the call panel, indicators, ringing, and the homeserver backend it needs
-- 📞 [Legacy Calls](features/legacy-calls.md) -- the legacy 1:1 voice/video stack (voice works; video/screen-share buggy), disabled by default; group calls use Element Call
+- 📹 [Element Call](features/element-call.md) -- modern voice/video (MatrixRTC); start/join from any room, the call panel, indicators, ringing, and the homeserver backend it needs
+- 📞 [Legacy Calls](features/legacy-calls.md) -- the legacy 1:1 voice/video stack (voice works; video/screen-share buggy), disabled by default; modern calls use Element Call
 - 🏘️ [Communities Sidebar](features/communities-sidebar.md) -- filter your Matrix rooms by various builtin filters and Matrix Spaces
 - 😀 [Emoji Search and Picker](features/emojis.md) -- localized emoji discovery, aliases, and trigger behavior
 - ⌨️ [Keyboard Shortcuts](features/keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts

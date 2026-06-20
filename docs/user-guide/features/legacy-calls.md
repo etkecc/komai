@@ -3,7 +3,7 @@
 This page covers Komai's **legacy 1:1 call** stack: the older Matrix call protocol
 (`m.call.*`) inherited from Nheko. It is **partial and disabled by default**.
 
-For modern group voice/video, use **Element Call** (MatrixRTC), which Komai now
+For modern voice/video, use **Element Call** (MatrixRTC), which Komai now
 supports and which is where the Matrix ecosystem is heading. See the
 [📹 Element Call guide](element-call.md) for how to use it (or the
 [Element Call architecture notes](../../architecture/element-call.md) for the
@@ -54,7 +54,7 @@ This was already partly broken in upstream Nheko and we have not fully untangled
 
 ## 🌐 Element Call
 
-[Element Call](https://github.com/element-hq/element-call) is the modern Matrix calling system: WebRTC SFU-backed group calls, end-to-end encrypted, based on [MSC4143](https://github.com/matrix-org/matrix-spec-proposals/pull/4143) (MatrixRTC).
+[Element Call](https://github.com/element-hq/element-call) is the modern Matrix calling system: WebRTC SFU-backed calls, end-to-end encrypted, based on [MSC4143](https://github.com/matrix-org/matrix-spec-proposals/pull/4143) (MatrixRTC).
 
 Komai supports Element Call as a separate, parallel system from the legacy stack
 above (it does not use GStreamer). It is enabled by default, and the call button

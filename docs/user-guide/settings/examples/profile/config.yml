@@ -188,7 +188,7 @@ calls:
     # Enable the older pre-MatrixRTC m.call-based calling UX.
     enabled: false
   element:
-    # Enable Element Call (MatrixRTC) group voice/video calls.
+    # Enable Element Call (MatrixRTC) voice/video calls.
     enabled: true
   relay:
     use_fallback_server: false

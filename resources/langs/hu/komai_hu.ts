@@ -12294,6 +12294,16 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Alapértelmezett avatarok (Boring Avatars)</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>MatrixRTC calls (Element Call)</source>
+        <translation>MatrixRTC hívások (Element Call)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Webview engine (Qt WebEngine)</source>
+        <translation>Webview motor (Qt WebEngine)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
         <translation>Profil</translation>

@@ -12310,6 +12310,16 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഡിഫോൾട്ട് അവതാറുകൾ (Boring Avatars)</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>MatrixRTC calls (Element Call)</source>
+        <translation>MatrixRTC കോളുകൾ (Element Call)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Webview engine (Qt WebEngine)</source>
+        <translation>വെബ്‌വ്യൂ എൻജിൻ (Qt WebEngine)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
         <translation>പ്രൊഫൈൽ</translation>

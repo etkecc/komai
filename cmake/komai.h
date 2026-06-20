@@ -5,6 +5,7 @@ inline constexpr auto fluent_icons_ref = "${FLUENT_ICONS_VERSION}";
 inline constexpr auto fontawesome_icons_ref = "${FONTAWESOME_ICONS_VERSION}";
 inline constexpr auto matrix_sdk_rev     = "${MATRIX_SDK_REV}";
 inline constexpr auto matrix_sdk_version = "${MATRIX_SDK_VERSION}";
+inline constexpr auto element_call_version = "${ELEMENT_CALL_VERSION}";
 inline constexpr auto build_os         = "${CMAKE_HOST_SYSTEM_NAME}";
 inline constexpr auto enable_debug_log = ${KOMAI_ENABLE_DEBUG_LOG};
 inline constexpr auto desktop_id       = "${KOMAI_DESKTOP_ID}";

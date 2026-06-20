@@ -12294,6 +12294,16 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <translation>Varsayılan avatarlar (Boring Avatars)</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>MatrixRTC calls (Element Call)</source>
+        <translation>MatrixRTC aramaları (Element Call)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Webview engine (Qt WebEngine)</source>
+        <translation>Webview motoru (Qt WebEngine)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
         <translation>Profil</translation>

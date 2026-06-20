@@ -12326,6 +12326,16 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Аватари за замовчуванням (Boring Avatars)</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>MatrixRTC calls (Element Call)</source>
+        <translation>Дзвінки MatrixRTC (Element Call)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Webview engine (Qt WebEngine)</source>
+        <translation>Рушій WebView (Qt WebEngine)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
         <translation>Профіль</translation>

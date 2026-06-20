@@ -12313,6 +12313,16 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
         <translation>Avatares predeterminados (Boring Avatars)</translation>
     </message>
     <message>
+        <location line="+5"/>
+        <source>MatrixRTC calls (Element Call)</source>
+        <translation>Llamadas MatrixRTC (Element Call)</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Webview engine (Qt WebEngine)</source>
+        <translation>Motor de Webview (Qt WebEngine)</translation>
+    </message>
+    <message>
         <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
         <source>Profile</source>
         <translation>Perfil</translation>

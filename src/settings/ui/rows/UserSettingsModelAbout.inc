@@ -43,3 +43,13 @@
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Default avatars (Boring Avatars)"), nullptr, SM::Link, SM::TabAbout,
       aboutAcknowledgementBoringAvatarsProjectValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
+#ifdef ELEMENT_CALL_AVAILABLE
+    // AcknowledgementsElementCall
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "MatrixRTC calls (Element Call)"), nullptr, SM::Link, SM::TabAbout,
+      aboutAcknowledgementElementCallProjectValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },
+    // AcknowledgementsQtWebEngine
+    { QT_TRANSLATE_NOOP("UserSettingsModel", "Webview engine (Qt WebEngine)"), nullptr, SM::Link, SM::TabAbout,
+      aboutAcknowledgementQtWebEngineProjectValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },
+#endif

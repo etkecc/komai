@@ -334,6 +334,7 @@ set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
     "${CMAKE_SOURCE_DIR}/rust-toolchain.toml"
     "${CMAKE_SOURCE_DIR}/bin/icons/fluent/VERSION_REF"
     "${CMAKE_SOURCE_DIR}/bin/icons/fontawesome/VERSION_REF"
+    "${CMAKE_SOURCE_DIR}/bin/element-call/sources.lock.yml"
     "${CMAKE_SOURCE_DIR}/src/rust/Cargo.toml"
 )
 
@@ -399,6 +400,22 @@ elseif(MATRIX_SDK_VERSION)
 else()
     message(WARNING "Could not parse matrix-sdk pin from ${MATRIX_SDK_CARGO_TOML}")
 endif()
+
+# Read pinned Element Call version from bin/element-call/sources.lock.yml (used
+# by About acknowledgements). The pin is a quoted YAML value
+# (`version: "X.Y.Z"`); the unquoted `version: 1` schema line does not match.
+set(ELEMENT_CALL_VERSION "unknown")
+set(ELEMENT_CALL_LOCK_FILE "${CMAKE_SOURCE_DIR}/bin/element-call/sources.lock.yml")
+if(EXISTS "${ELEMENT_CALL_LOCK_FILE}")
+    file(STRINGS "${ELEMENT_CALL_LOCK_FILE}" _element_call_lines REGEX "version[ \t]*:[ \t]*\"[^\"]+\"")
+    foreach(_line IN LISTS _element_call_lines)
+        if(_line MATCHES "version[ \t]*:[ \t]*\"([^\"]+)\"")
+            set(ELEMENT_CALL_VERSION "${CMAKE_MATCH_1}")
+            break()
+        endif()
+    endforeach()
+endif()
+message(STATUS "Element Call version: ${ELEMENT_CALL_VERSION}")
 
 cmake_host_system_information(RESULT BUILD_HOST QUERY HOSTNAME)
 

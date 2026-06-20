@@ -86,6 +86,36 @@ aboutAcknowledgementMatrixSdkProjectValue()
                           "(<a href=\"https://github.com/matrix-org/matrix-rust-sdk/blob/main/LICENSE\">Apache-2.0</a>)");
 }
 
+#ifdef ELEMENT_CALL_AVAILABLE
+static QVariant
+aboutAcknowledgementElementCallProjectValue()
+{
+    const QString version = QString::fromLatin1(komai::element_call_version);
+
+    QString refSegment;
+    if (!version.isEmpty() && version != QStringLiteral("unknown")) {
+        refSegment = QStringLiteral(" @ <a href=\"https://github.com/element-hq/element-call/releases/tag/v") +
+                     version + QStringLiteral("\">") + version + QStringLiteral("</a>");
+    }
+
+    return QStringLiteral(
+             "<a href=\"https://github.com/element-hq/element-call\">Element Call</a>") +
+           refSegment +
+           QStringLiteral(" by <a href=\"https://element.io\">New Vector Ltd (Element)</a> "
+                          "(<a href=\"https://github.com/element-hq/element-call/blob/main/LICENSE-AGPL-3.0\">"
+                          "AGPL-3.0-only</a>)");
+}
+
+static QVariant
+aboutAcknowledgementQtWebEngineProjectValue()
+{
+    return QStringLiteral(
+      "<a href=\"https://doc.qt.io/qt-6/qtwebengine-overview.html\">Qt WebEngine</a> (Chromium) "
+      "by <a href=\"https://www.qt.io\">The Qt Company</a> "
+      "(<a href=\"https://doc.qt.io/qt-6/qtwebengine-licensing.html\">LGPL-3.0 / BSD-style</a>)");
+}
+#endif
+
 static QVariant
 aboutCreatedByValue()
 {

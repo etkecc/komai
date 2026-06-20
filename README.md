@@ -96,3 +96,5 @@ Komai's Matrix protocol and end-to-end encryption core is built on the [matrix-r
 - [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) — primary icon set (MIT)
 - [Font Awesome Free](https://github.com/FortAwesome/Font-Awesome) — supplementary icons and brand logos (CC BY 4.0)
 - [Tinted Theming (Base16)](https://github.com/tinted-theming)
+- [Element Call](https://github.com/element-hq/element-call) -- embedded [MatrixRTC](https://github.com/matrix-org/matrix-spec-proposals/pull/4143) voice/video calling client (AGPL-3.0-only)
+- [Qt WebEngine](https://doc.qt.io/qt-6/qtwebengine-overview.html) -- Chromium-based webview engine that hosts the embedded Element Call client ([licensing](https://doc.qt.io/qt-6/qtwebengine-licensing.html))

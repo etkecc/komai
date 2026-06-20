@@ -7898,9 +7898,14 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opsi di bawah tidak berpengaruh karena notifikasi akun dinonaktifkan di atas.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; mengelola mikrofon, kamera, dan berbagi layar di dalam antarmuka panggilan.</translation>
     </message>
 </context>
 <context>
@@ -12004,6 +12009,11 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Umum</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Memungkinkan &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) untuk panggilan suara dan video grup. Memerlukan homeserver dengan backend MatrixRTC.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Aktifkan panggilan lama</translation>
@@ -12014,17 +12024,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Mengizinkan panggilan lama (sebelum MatrixRTC) untuk diterima dan dimulai.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Aktifkan Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Mengaktifkan panggilan suara dan video grup Element Call (MatrixRTC). Memerlukan homeserver dengan backend MatrixRTC.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Gunakan turn.matrix.org sebagai relay cadangan</translation>
     </message>
@@ -12034,9 +12039,14 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>Gunakan turn.matrix.org sebagai relay/server STUN cadangan jika homeserver tidak menyediakannya.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Perangkat</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Konfigurasi Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Panggilan Lawas (Perangkat)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12079,7 +12089,12 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>fps, frame per detik, kelancaran</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Panggilan Lawas (Berbagi Layar)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Nada dering</translation>
     </message>
@@ -12089,12 +12104,7 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
         <translation>suara panggilan, panggilan masuk</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Berbagi layar</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Frame rate berbagi layar</translation>
     </message>

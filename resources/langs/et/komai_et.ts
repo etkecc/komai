@@ -7907,9 +7907,14 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Allpool olevatel valikutel pole mõju, kuna konto teatised on ülal keelatud.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; haldab mikrofoni, kaamerat ja ekraani jagamist kõneliideses.</translation>
     </message>
 </context>
 <context>
@@ -12020,6 +12025,11 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Üldine</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Võimaldab &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) grupi hääl- ja videokõnesid. Nõuab koduserverit MatrixRTC taustaprogrammiga.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Luba vanad kõned</translation>
@@ -12030,17 +12040,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Võimaldab vanemaid (pre-MatrixRTC) kõnesid vastu võtta ja alustada.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Luba Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Võimaldab Element Call (MatrixRTC) grupi hääl- ja videokõnesid. Nõuab koduserverit, millel on MatrixRTC tagaosa.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Kasuta turn.matrix.org-i varurelééna</translation>
     </message>
@@ -12050,9 +12055,14 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Kasutab turn.matrix.org-i varurelée/STUN-serverina, kui koduserver seda ei paku.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Seadmed</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Calli seaded</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Pärandkõned (Seadmed)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12095,7 +12105,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>fps, kaadrit sekundis, siledus</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Pärandkõned (Ekraanijagamine)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Helinatoon</translation>
     </message>
@@ -12105,12 +12120,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>kõne heli, sissetulev kõne</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Ekraanijagamine</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Ekraanijagamise kaadrisagedus</translation>
     </message>

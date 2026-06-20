@@ -7917,9 +7917,14 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Poniższe opcje nie mają żadnego efektu, ponieważ powiadomienia konta są wyłączone powyżej.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; zarządza mikrofonem, kamerą i udostępnianiem ekranu w interfejsie połączenia.</translation>
     </message>
 </context>
 <context>
@@ -12037,6 +12042,11 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Ogólne</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Umożliwia grupowe połączenia głosowe i wideo przez &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC). Wymaga serwera domowego z backendem MatrixRTC.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Włącz starsze połączenia</translation>
@@ -12047,17 +12057,12 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Umożliwia odbieranie i inicjowanie połączeń w starszym formacie (sprzed MatrixRTC).</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Włącz Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Umożliwia grupowe połączenia głosowe i wideo przez Element Call (MatrixRTC). Wymaga serwera domowego z backendem MatrixRTC.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Używaj turn.matrix.org jako zapasowego przekaźnika</translation>
     </message>
@@ -12067,9 +12072,14 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>Używaj turn.matrix.org jako zapasowego serwera przekaźnikowego/STUN, gdy serwer domowy go nie udostępnia.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Urządzenia</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Konfiguracja Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Starsze połączenia (urządzenia)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12112,7 +12122,12 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>fps, klatki na sekundę, płynność</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Starsze połączenia (udostępnianie ekranu)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Dzwonek</translation>
     </message>
@@ -12122,12 +12137,7 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
         <translation>dźwięk połączenia, połączenie przychodzące</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Udostępnianie ekranu</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Liczba klatek udostępniania ekranu</translation>
     </message>

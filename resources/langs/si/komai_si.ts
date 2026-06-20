@@ -7907,9 +7907,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>ඉහත ගිණුම් දැනුම්දීම් අක්‍රිය කර ඇති නිසා, පහත විකල්පවලට බලපෑමක් නොමැත.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; ඇමතුම් අතරතුර අතුරු මුහුණත තුළ මයික්රෆෝනය, කැමරාව සහ තිරය බෙදාගැනීම කළමනාකරණය කරයි.</translation>
     </message>
 </context>
 <context>
@@ -12020,6 +12025,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>සාමාන්‍ය</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) සාමූහික හඬ සහ වීඩියෝ ඇමතුම් සක්‍රිය කරයි. MatrixRTC backend සහිත homeserver අවශ්‍ය වේ.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>පැරණි ඇමතුම් සක්‍රිය කරන්න</translation>
@@ -12030,17 +12040,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>legacy (MatrixRTC-ට පූර්ව) ඇමතුම් පිළිගැනීමට සහ ආරම්භ කිරීමට ඉඩ සලසයි.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Element Call සක්‍රිය කරන්න</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Element Call (MatrixRTC) සමූහ හඬ සහ වීඩියෝ ඇමතුම් ඉඩ දෙයි. MatrixRTC backend සහිත homeserver එකක් අවශ්‍ය වේ.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>turn.matrix.org ආදේශ රිලේ ලෙස භාවිත කරන්න</translation>
     </message>
@@ -12050,9 +12055,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ඔබගේ ගෘහ සේවාදායකයා එකක් සපයා නොදෙන විට turn.matrix.org ආදේශ රිලේ/STUN සේවාදායකයා ලෙස භාවිත කරන්න.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>උපකරණ</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Call වින්‍යාසය</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>පැරණි ඇමතුම් (උපකරණ)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12095,7 +12105,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>fps, තත්පරයට රාමු, සුමට බව</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>පැරණි ඇමතුම් (තිරය බෙදාගැනීම)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>රිංටෝනය</translation>
     </message>
@@ -12105,12 +12120,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ඇමතුම් ශබ්දය, ලැබෙන ඇමතුම</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>තිරය බෙදාගැනීම</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>තිරය බෙදාගැනීමේ රාමු අනුපාතය</translation>
     </message>

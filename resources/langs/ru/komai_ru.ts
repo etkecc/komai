@@ -7916,9 +7916,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Параметры ниже не действуют, так как уведомления аккаунта отключены выше.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; управляет микрофоном, камерой и демонстрацией экрана в интерфейсе звонка.</translation>
     </message>
 </context>
 <context>
@@ -12036,6 +12041,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Общее</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Позволяет выполнять групповые голосовые и видеозвонки через &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC). Требует домашний сервер с бэкендом MatrixRTC.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Включить устаревшие звонки</translation>
@@ -12046,17 +12056,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Разрешает принимать и инициировать устаревшие (до MatrixRTC) звонки.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Включить Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Разрешает групповые голосовые и видеозвонки через Element Call (MatrixRTC). Требуется домашний сервер с поддержкой MatrixRTC.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Использовать turn.matrix.org как запасной relay</translation>
     </message>
@@ -12066,9 +12071,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Использовать turn.matrix.org как запасной relay/STUN-сервер, если домашний сервер не предоставляет его.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Устройства</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Настройки Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Устаревшие звонки (устройства)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12111,7 +12121,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>fps, кадров в секунду, плавность</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Устаревшие звонки (демонстрация экрана)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Рингтон</translation>
     </message>
@@ -12121,12 +12136,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>звук звонка, входящий звонок</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Демонстрация экрана</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Частота кадров при демонстрации экрана</translation>
     </message>

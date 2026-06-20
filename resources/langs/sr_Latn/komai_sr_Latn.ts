@@ -7916,9 +7916,14 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opcije ispod nemaju efekta jer su obaveštenja naloga onemogućena iznad.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; upravlja mikrofonom, kamerom i deljenjem ekrana unutar interfejsa tokom poziva.</translation>
     </message>
 </context>
 <context>
@@ -12036,6 +12041,11 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Opšte</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Omogućava &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) grupne glasovne i video pozive. Zahteva homeserver sa MatrixRTC backendom.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Uključi zastarele pozive</translation>
@@ -12046,17 +12056,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Omogućava prihvatanje i pokretanje zastarelih (pre-MatrixRTC) poziva.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Omogući Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Omogućava Element Call (MatrixRTC) grupne glasovne i video pozive. Zahteva matični server sa MatrixRTC backendom.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Koristiti turn.matrix.org kao rezervni relay</translation>
     </message>
@@ -12066,9 +12071,14 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>Koristiti turn.matrix.org kao rezervni relay/STUN server ako matični server ne pruža sopstveni.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Uređaji</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Konfiguracija Element Call-a</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Zastareli pozivi (uređaji)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12111,7 +12121,12 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>fps, sličica u sekundi, glatkoća</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Zastareli pozivi (deljenje ekrana)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Melodija</translation>
     </message>
@@ -12121,12 +12136,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <translation>zvuk poziva, dolazni poziv</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Deljenje ekrana</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Brzina kadrova pri deljenju ekrana</translation>
     </message>

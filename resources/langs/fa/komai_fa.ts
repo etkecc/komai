@@ -7898,9 +7898,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>گزینه‌های زیر تأثیری ندارند زیرا اعلان‌های حساب در بالا غیرفعال است.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; میکروفون، دوربین و اشتراک‌گذاری صفحه را در رابط کاربری حین تماس مدیریت می‌کند.</translation>
     </message>
 </context>
 <context>
@@ -12004,6 +12009,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>عمومی</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>امکان تماس‌های صوتی و تصویری گروهی &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) را فراهم می‌کند. به یک سرور خانه با پشتیبان MatrixRTC نیاز دارد.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>فعال کردن تماس‌های قدیمی</translation>
@@ -12014,17 +12024,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>اجازه می‌دهد تماس‌های قدیمی (پیش از MatrixRTC) پذیرفته و آغاز شوند.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>فعال‌سازی Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>امکان تماس‌های گروهی صوتی و تصویری Element Call (MatrixRTC) را فراهم می‌کند. نیازمند یک هاسرور با پشتیبانی MatrixRTC است.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>استفاده از turn.matrix.org به عنوان رله پشتیبان</translation>
     </message>
@@ -12034,9 +12039,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>از turn.matrix.org به عنوان رله/سرور STUN پشتیبان هنگامی که هوم‌سرور شما یکی ارائه نمی‌دهد استفاده می‌کند.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>دستگاه‌ها</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>پیکربندی Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>تماس‌های قدیمی (دستگاه‌ها)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12079,7 +12089,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>fps، فریم در ثانیه، روانی</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>تماس‌های قدیمی (اشتراک‌گذاری صفحه)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>زنگ تماس</translation>
     </message>
@@ -12089,12 +12104,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>صدای تماس، تماس دریافتی</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>اشتراک‌گذاری صفحه</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>نرخ فریم اشتراک‌گذاری صفحه</translation>
     </message>

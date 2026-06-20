@@ -7898,9 +7898,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>위에서 계정 알림이 비활성화되어 있어 아래 옵션은 적용되지 않습니다.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt;은(는) 통화 인터페이스 내에서 마이크, 카메라, 화면 공유를 관리합니다.</translation>
     </message>
 </context>
 <context>
@@ -12004,6 +12009,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>일반</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) 그룹 음성 및 영상 통화를 허용합니다. MatrixRTC 백엔드가 있는 홈서버가 필요합니다.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>레거시 통화 활성화</translation>
@@ -12014,17 +12024,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>레거시(MatrixRTC 이전) 통화를 수락하고 시작할 수 있습니다.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Element Call 활성화</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Element Call (MatrixRTC) 그룹 음성 및 화상 통화를 허용합니다. MatrixRTC 백엔드가 있는 홈서버가 필요합니다.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>turn.matrix.org를 대체 릴레이로 사용</translation>
     </message>
@@ -12034,9 +12039,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>홈서버에서 릴레이/STUN 서버를 제공하지 않을 때 turn.matrix.org를 대체 서버로 사용합니다.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>기기</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Call 설정</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>레거시 통화 (기기)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12079,7 +12089,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>FPS, 초당 프레임, 부드러움</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>레거시 통화 (화면 공유)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>벨소리</translation>
     </message>
@@ -12089,12 +12104,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>통화 소리, 수신 통화</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>화면 공유</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>화면 공유 프레임 속도</translation>
     </message>

@@ -7907,9 +7907,14 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Alternativen nedan har ingen effekt eftersom kontoaviseringar är inaktiverade ovan.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; hanterar mikrofon, kamera och skärmdelning i samtalsgränssnittet.</translation>
     </message>
 </context>
 <context>
@@ -12020,6 +12025,11 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Allmänt</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Aktiverar &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) grupp-röst- och videosamtal. Kräver en hemserver med en MatrixRTC-backend.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Aktivera äldre samtal</translation>
@@ -12030,17 +12040,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Tillåter äldre (pre-MatrixRTC) samtal att accepteras och initieras.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Aktivera Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Aktiverar Element Call (MatrixRTC) gruppröst- och videosamtal. Kräver en hemserver med ett MatrixRTC-backend.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Använd turn.matrix.org som reservrelä</translation>
     </message>
@@ -12050,9 +12055,14 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>Använd turn.matrix.org som reservrelä/STUN-server när din hemserver inte tillhandahåller någon.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Enheter</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Call-konfiguration</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Äldre samtal (enheter)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12095,7 +12105,12 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>fps, bilder per sekund, jämnhet</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Äldre samtal (skärmdelning)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Ringsignal</translation>
     </message>
@@ -12105,12 +12120,7 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
         <translation>samtalsljud, inkommande samtal</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Skärmdelning</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Bildfrekvens för skärmdelning</translation>
     </message>

@@ -7898,9 +7898,14 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Az alábbi opciók nem érvényesülnek, mert a fiók értesítései fent le vannak tiltva.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; kezeli a mikrofont, a kamerát és a képernyőmegosztást a hívás közbeni felületen.</translation>
     </message>
 </context>
 <context>
@@ -12004,6 +12009,11 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Általános</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Engedélyezi az &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) csoportos hang- és videóhívásokat. MatrixRTC háttérrendszert támogató homeserver szükséges.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Régi hívások engedélyezése</translation>
@@ -12014,17 +12024,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>Lehetővé teszi az örökölt (MatrixRTC előtti) hívások fogadását és kezdeményezését.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Element Call engedélyezése</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Lehetővé teszi az Element Call (MatrixRTC) csoportos hang- és videóhívásokat. Szükséges hozzá egy MatrixRTC backenddel rendelkező szerver.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>A turn.matrix.org használata tartalék relayként</translation>
     </message>
@@ -12034,9 +12039,14 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>A turn.matrix.org használata tartalék relay/STUN szerverként, ha az otthoni szerver nem biztosít ilyet.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Eszközök</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Call konfiguráció</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Régi hívások (Eszközök)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12079,7 +12089,12 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>fps, másodpercenkénti képkocka, simaság</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Régi hívások (Képernyőmegosztás)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Csengőhang</translation>
     </message>
@@ -12089,12 +12104,7 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
         <translation>hívási hang, bejövő hívás</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Képernyőmegosztás</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Képernyőmegosztás képkockasebessége</translation>
     </message>

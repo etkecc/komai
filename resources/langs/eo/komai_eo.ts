@@ -7909,9 +7909,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>La opcioj sube ne havas efikon ĉar la konto-sciigoj estas malaktivigitaj supre.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; administras mikrofonon, kameraon kaj ekrankunhavigon en la dum-voka interfaco.</translation>
     </message>
 </context>
 <context>
@@ -12023,6 +12028,11 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Ĝenerala</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Ebligas &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) grupajn voĉajn kaj videovokojn. Postulas hejmoservilon kun MatrixRTC-malantaŭo.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Ebligi heredajn vokojn</translation>
@@ -12033,17 +12043,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Permesas akcepti kaj iniciati heredaĵajn (antaŭ-MatrixRTC) vokojn.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Ebligi Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Ebligas grupajn voĉ- kaj video-vokojn de Element Call (MatrixRTC). Bezonas hejmoservilon kun MatrixRTC-dorso.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Uzi turn.matrix.org kiel rezervan retranssendilon</translation>
     </message>
@@ -12053,9 +12058,14 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>Uzi turn.matrix.org kiel rezervan retranssendilon/STUN-servilon kiam via hejm-servilo ne provizas unu.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Aparatoj</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Agordo de Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Heredaj Vokoj (Aparatoj)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12098,7 +12108,12 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>fps, kadroj por sekundo, glateco</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Heredaj Vokoj (Ekrankunhavigo)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Ringsono</translation>
     </message>
@@ -12108,12 +12123,7 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
         <translation>alvoksonoj, venanta alvoko</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Ekrandividado</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Bildokvanto de ekrandividado</translation>
     </message>

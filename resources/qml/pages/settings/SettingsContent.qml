@@ -178,6 +178,12 @@ Item {
                         width: grid.width
                         height: implicitHeight
                         spacing: Komai.paddingMedium
+                        // The Enabled role greys out a whole row (label + control + description)
+                        // when its setting is gated off — e.g. the legacy-call rows while legacy
+                        // calls are disabled. Applying it on the row covers the description text too
+                        // (a sibling of the control), and the disabled palette group dims them all
+                        // to a consistent faint colour. SectionTitle rows have enabled == true.
+                        enabled: r.model.enabled
 
                         SettingsSection {
                             id: sectionLabel
@@ -191,6 +197,9 @@ Item {
                                         && Settings.hasActiveSession
                                         && !Settings.notificationsAccountEnabled) {
                                     return qsTr("Options below have no effect because account notifications are disabled above.");
+                                }
+                                if (r.model.tagId === "calls-element-section") {
+                                    return qsTr("<a href=\"https://github.com/element-hq/element-call\">Element Call</a> manages microphone, camera, and screen sharing within the in-call interface.");
                                 }
                                 return "";
                             }

@@ -7907,9 +7907,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>അക്കൗണ്ട് അറിയിപ്പുകൾ മുകളിൽ പ്രവർത്തനരഹിതമാക്കിയതിനാൽ, താഴെയുള്ള ഓപ്ഷനുകൾക്ക് ഒരു ഫലവുമില്ല.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; കോൾ ഇന്റർഫേസിനുള്ളിൽ മൈക്രോഫോൺ, ക്യാമറ, സ്ക്രീൻ ഷെയറിംഗ് എന്നിവ നിയന്ത്രിക്കുന്നു.</translation>
     </message>
 </context>
 <context>
@@ -12020,6 +12025,11 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>പൊതു</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) ഗ്രൂപ്പ് വോയ്സ്, വീഡിയോ കോളുകൾ അനുവദിക്കുന്നു. MatrixRTC ബാക്കെൻഡ് ഉള്ള ഒരു ഹോം സെർവർ ആവശ്യമാണ്.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>ലെഗസി കോളുകൾ പ്രവർത്തനക്ഷമമാക്കുക</translation>
@@ -12030,17 +12040,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>പഴയ (MatrixRTC-ന് മുൻപുള്ള) കോളുകൾ സ്വീകരിക്കാനും ആരംഭിക്കാനും അനുവദിക്കുന്നു.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Element Call പ്രവർത്തനക്ഷമമാക്കുക</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Element Call (MatrixRTC) ഗ്രൂപ്പ് ശബ്ദ, വീഡിയോ കോളുകൾ അനുവദിക്കുന്നു. MatrixRTC ബാക്കെൻഡ് ഉള്ള ഒരു ഹോംസെർവർ ആവശ്യമാണ്.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>turn.matrix.org ഫോൾബാക്ക് റിലേയായി ഉപയോഗിക്കുക</translation>
     </message>
@@ -12050,9 +12055,14 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>നിങ്ങളുടെ ഹോംസർവ്വർ ഒന്ന് നൽകാത്തപ്പോൾ turn.matrix.org ഒരു ഫോൾബാക്ക് റിലേ/STUN സർവ്വറായി ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>ഉപകരണങ്ങൾ</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Call ക്രമീകരണം</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>പഴയ കോളുകൾ (ഉപകരണങ്ങൾ)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12095,7 +12105,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>fps, സെക്കൻഡിൽ ഫ്രെയിമുകൾ, സ്മൂത്ത്നെസ്സ്</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>പഴയ കോളുകൾ (സ്ക്രീൻ ഷെയറിംഗ്)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>റിംഗ്ടോൺ</translation>
     </message>
@@ -12105,12 +12120,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>കോൾ ശബ്ദം, ഇൻകമിംഗ് കോൾ</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>സ്ക്രീൻ ഷെയറിംഗ്</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>സ്ക്രീൻ ഷെയർ ഫ്രെയിം നിരക്ക്</translation>
     </message>

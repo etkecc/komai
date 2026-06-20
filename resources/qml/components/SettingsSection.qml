@@ -50,7 +50,10 @@ Item {
             }
         }
 
-        Text {
+        // TextEdit (not Text) so embedded <a> links render in the Link palette
+        // role, matching the row descriptions; a plain Text hardcodes link blue.
+        TextEdit {
+            id: helperLabel
             Layout.fillWidth: true
             Layout.leftMargin: Komai.paddingSmall
             Layout.rightMargin: Komai.paddingSmall
@@ -62,6 +65,16 @@ Item {
             horizontalAlignment: root.mirrored ? Text.AlignRight : Text.AlignLeft
             LayoutMirroring.enabled: false
             wrapMode: Text.Wrap
+            readOnly: true
+            selectByMouse: true
+
+            onLinkActivated: function(link) { Qt.openUrlExternally(link) }
+
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
+                cursorShape: helperLabel.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+            }
         }
     }
 }

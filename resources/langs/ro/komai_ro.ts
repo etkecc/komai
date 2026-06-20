@@ -7916,9 +7916,14 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Opțiunile de mai jos nu au efect deoarece notificările contului sunt dezactivate mai sus.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; gestionează microfonul, camera și partajarea ecranului în interfața de apel.</translation>
     </message>
 </context>
 <context>
@@ -12036,6 +12041,11 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>General</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Permite apeluri de grup vocale și video prin &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC). Necesită un homeserver cu backend MatrixRTC.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Activează apelurile clasice</translation>
@@ -12046,17 +12056,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Permite acceptarea și inițierea apelurilor vechi (pre-MatrixRTC).</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Activează Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Permite apeluri de grup vocale și video prin Element Call (MatrixRTC). Necesită un homeserver cu backend MatrixRTC.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Folosește turn.matrix.org ca releu de rezervă</translation>
     </message>
@@ -12066,9 +12071,14 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>Folosește turn.matrix.org ca server de releu/STUN de rezervă când serverul tău de acasă nu oferă unul.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Dispozitive</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Configurare Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Apeluri clasice (Dispozitive)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12111,7 +12121,12 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>fps, cadre pe secundă, fluiditate</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Apeluri clasice (Partajare ecran)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Ton de apel</translation>
     </message>
@@ -12121,12 +12136,7 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
         <translation>sunet apel, apel primit</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Partajarea ecranului</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Rată de cadre la partajarea ecranului</translation>
     </message>

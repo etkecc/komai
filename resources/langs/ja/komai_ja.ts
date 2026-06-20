@@ -7898,9 +7898,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>上でアカウント通知が無効になっているため、以下のオプションは効果がありません。</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; は通話中のインターフェース内でマイク、カメラ、画面共有を管理します。</translation>
     </message>
 </context>
 <context>
@@ -12004,6 +12009,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>一般</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt;（MatrixRTC）によるグループ音声・ビデオ通話を有効にします。MatrixRTC バックエンドを持つホームサーバーが必要です。</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>レガシー通話を有効にする</translation>
@@ -12014,17 +12024,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>レガシー（MatrixRTC以前）の通話の受信と発信を許可します。</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Element Callを有効にする</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Element Call (MatrixRTC) によるグループ音声通話・ビデオ通話を有効にします。MatrixRTC バックエンドに対応したホームサーバーが必要です。</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>turn.matrix.org をフォールバックリレーとして使用</translation>
     </message>
@@ -12034,9 +12039,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ホームサーバーが提供しない場合、turn.matrix.org をフォールバックリレー/STUN サーバーとして使用します。</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>デバイス</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Call 設定</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>レガシー通話（デバイス）</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12079,7 +12089,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>FPS、フレームレート、滑らかさ</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>レガシー通話（画面共有）</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>着信音</translation>
     </message>
@@ -12089,12 +12104,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>着信音、着信</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>画面共有</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>画面共有のフレームレート</translation>
     </message>

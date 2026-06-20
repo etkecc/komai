@@ -7943,9 +7943,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>الخيارات الموجودة أدناه لا تأثير لها لأن إشعارات الحساب معطلة أعلاه.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; يدير الميكروفون والكاميرا ومشاركة الشاشة داخل واجهة المكالمة.</translation>
     </message>
 </context>
 <context>
@@ -12084,6 +12089,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>عام</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>يتيح مكالمات &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) الصوتية والمرئية الجماعية. يتطلب خادماً منزلياً يدعم خلفية MatrixRTC.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>تفعيل المكالمات القديمة</translation>
@@ -12094,17 +12104,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>يسمح بقبول المكالمات القديمة (ما قبل MatrixRTC) وبدئها.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>تمكين Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>يتيح مكالمات الصوت والفيديو الجماعية عبر Element Call (MatrixRTC). يتطلب خادم منزلي يدعم واجهة خلفية MatrixRTC.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>استخدام turn.matrix.org كمرحّل احتياطي</translation>
     </message>
@@ -12114,9 +12119,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>استخدام turn.matrix.org كخادم وسيط/STUN احتياطي عندما لا يوفر الخادم المنزلي أحداً.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>الأجهزة</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>إعدادات Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>المكالمات القديمة (الأجهزة)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12159,7 +12169,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>fps، إطارات في الثانية، سلاسة</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>المكالمات القديمة (مشاركة الشاشة)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>نغمة الرنين</translation>
     </message>
@@ -12169,12 +12184,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>صوت المكالمة، مكالمة واردة</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>مشاركة الشاشة</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>معدل إطارات مشاركة الشاشة</translation>
     </message>

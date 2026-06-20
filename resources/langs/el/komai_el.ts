@@ -7907,9 +7907,14 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Οι παρακάτω επιλογές δεν έχουν αποτέλεσμα επειδή οι ειδοποιήσεις λογαριασμού είναι απενεργοποιημένες παραπάνω.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>Το &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; διαχειρίζεται το μικρόφωνο, την κάμερα και την κοινή χρήση οθόνης εντός της διεπαφής κλήσης.</translation>
     </message>
 </context>
 <context>
@@ -12020,6 +12025,11 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Γενικά</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Επιτρέπει ομαδικές φωνητικές και βιντεοκλήσεις μέσω &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC). Απαιτεί διακομιστή με υποστήριξη MatrixRTC.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Ενεργοποίηση κλασικών κλήσεων</translation>
@@ -12030,17 +12040,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Επιτρέπει αποδοχή και εκκίνηση παλαιών κλήσεων (προ-MatrixRTC).</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Ενεργοποίηση Element Call</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Επιτρέπει κλήσεις ομάδας φωνής και βίντεο μέσω Element Call (MatrixRTC). Απαιτεί διακομιστή με backend MatrixRTC.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Χρήση του turn.matrix.org ως εφεδρικό relay</translation>
     </message>
@@ -12050,9 +12055,14 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Χρήση του turn.matrix.org ως εφεδρικός διακομιστής relay/STUN όταν ο διακομιστής σας δεν παρέχει έναν.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Συσκευές</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Διαμόρφωση Element Call</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Παλαιές κλήσεις (Συσκευές)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12095,7 +12105,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>fps, καρέ ανά δευτερόλεπτο, ομαλότητα</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Παλαιές κλήσεις (Κοινή χρήση οθόνης)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Ήχος κλήσης</translation>
     </message>
@@ -12105,12 +12120,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>ήχος κλήσης, εισερχόμενη κλήση</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Κοινή χρήση οθόνης</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Ρυθμός καρέ κοινής χρήσης οθόνης</translation>
     </message>

@@ -7907,9 +7907,14 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>SettingsContent</name>
     <message>
-        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+193"/>
+        <location filename="../../qml/pages/settings/SettingsContent.qml" line="+199"/>
         <source>Options below have no effect because account notifications are disabled above.</source>
         <translation>Alla olevilla asetuksilla ei ole vaikutusta, koska tilin ilmoitukset on poistettu käytöstä yllä.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; manages microphone, camera, and screen sharing within the in-call interface.</source>
+        <translation>&lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; hallinnoi mikrofonia, kameraa ja näytönjakoa puhelun käyttöliittymässä.</translation>
     </message>
 </context>
 <context>
@@ -12020,6 +12025,11 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Yleinen</translation>
     </message>
     <message>
+        <location line="+4"/>
+        <source>Allows &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
+        <translation>Mahdollistaa &lt;a href="https://github.com/element-hq/element-call"&gt;Element Call&lt;/a&gt; (MatrixRTC) -ryhmäpuhelut äänellä ja videolla. Vaatii kotipalvelimen, jossa on MatrixRTC-taustapalvelu.</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Enable legacy calls</source>
         <translation>Ota vanhat puhelut käyttöön</translation>
@@ -12030,17 +12040,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>Sallii vanhojen (ennen MatrixRTC:tä) puhelujen vastaanottamisen ja aloittamisen.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-5"/>
         <source>Enable Element Call</source>
         <translation>Ota Element Call käyttöön</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Allows Element Call (MatrixRTC) group voice and video calls. Requires a homeserver with a MatrixRTC backend.</source>
-        <translation>Mahdollistaa Element Call (MatrixRTC) -ryhmä-ääni- ja videopuhelut. Vaatii kotipalvelimen, jolla on MatrixRTC-taustapalvelu.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+72"/>
         <source>Use turn.matrix.org as fallback relay</source>
         <translation>Käytä turn.matrix.org-palvelua varavälittimeksi</translation>
     </message>
@@ -12050,9 +12055,14 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>turn.matrix.org-palvelua käytetään varavälitys-/STUN-palvelimena, kun kotipalvelin ei tarjoa sellaista.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Devices</source>
-        <translation>Laitteet</translation>
+        <location line="-52"/>
+        <source>Element Call configuration</source>
+        <translation>Element Call -asetukset</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Legacy Calls (Devices)</source>
+        <translation>Vanhat puhelut (laitteet)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -12095,7 +12105,12 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>fps, ruutua sekunnissa, sulavuus</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+8"/>
+        <source>Legacy Calls (Screen Sharing)</source>
+        <translation>Vanhat puhelut (näytönjako)</translation>
+    </message>
+    <message>
+        <location line="-69"/>
         <source>Ringtone</source>
         <translation>Soittoääni</translation>
     </message>
@@ -12105,12 +12120,7 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
         <translation>puheluääni, saapuva puhelu</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Screen sharing</source>
-        <translation>Ruudunjako</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+64"/>
         <source>Screen share frame rate</source>
         <translation>Ruudunjaon kuvataajuus</translation>
     </message>

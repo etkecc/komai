@@ -1371,37 +1371,37 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>靜音</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>取消靜音</translation>
     </message>
     <message>
-        <location line="-277"/>
+        <location line="-281"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>關閉攝影機</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>開啟攝影機</translation>
     </message>
     <message>
-        <location line="-282"/>
+        <location line="-286"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>展開</translation>
@@ -1419,7 +1419,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+9"/>
-        <location line="+266"/>
+        <location line="+270"/>
         <source>End call</source>
         <translation>結束通話</translation>
     </message>

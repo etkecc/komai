@@ -146,6 +146,10 @@ ElementCallWebProfile::ElementCallWebProfile(QObject *parent)
     profile_->setCachePath(cachePath);
     profile_->setHttpCacheType(QQuickWebEngineProfile::DiskHttpCache);
     profile_->setPersistentCookiesPolicy(QQuickWebEngineProfile::AllowPersistentCookies);
+    // We deliberately leave the persistent-permissions policy at its default: the
+    // only permission Element Call needs is camera/microphone capture, which
+    // Chromium treats as transient (re-requested each session), so storing it on
+    // disk would have no effect. The panel auto-grants it on request.
 
     handler_ = new ElementCallSchemeHandler(this);
     profile_->installUrlSchemeHandler(QByteArray(komai::elementcall::kScheme), handler_);

@@ -359,11 +359,15 @@ Item {
 
         // The page is trusted (we serve it ourselves), so auto-grant the
         // camera/microphone permission requests Chromium raises for getUserMedia.
-        onFeaturePermissionRequested: function (securityOrigin, feature) {
-            if (feature === WebEngineView.MediaAudioCapture ||
-                feature === WebEngineView.MediaVideoCapture ||
-                feature === WebEngineView.MediaAudioVideoCapture) {
-                webView.grantFeaturePermission(securityOrigin, feature, true);
+        // Media-capture permissions are transient in Chromium (QWebEnginePermission
+        // isPersistent() is false for them), so this fires once per session; we
+        // grant instantly, so the user never sees a prompt.
+        onPermissionRequested: function (permission) {
+            const type = permission.permissionType;
+            if (type === WebEnginePermission.PermissionType.MediaAudioCapture ||
+                type === WebEnginePermission.PermissionType.MediaVideoCapture ||
+                type === WebEnginePermission.PermissionType.MediaAudioVideoCapture) {
+                permission.grant();
             }
         }
     }

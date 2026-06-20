@@ -1375,37 +1375,37 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>Ztlumit</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>Zrušit ztlumení</translation>
     </message>
     <message>
-        <location line="-277"/>
+        <location line="-281"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>Vypnout kameru</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>Zapnout kameru</translation>
     </message>
     <message>
-        <location line="-282"/>
+        <location line="-286"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>Rozbalit</translation>
@@ -1423,7 +1423,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
     </message>
     <message>
         <location line="+9"/>
-        <location line="+266"/>
+        <location line="+270"/>
         <source>End call</source>
         <translation>Ukončit hovor</translation>
     </message>

@@ -1374,37 +1374,37 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>Silenciar</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>Desilenciar</translation>
     </message>
     <message>
-        <location line="-277"/>
+        <location line="-281"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>Detener cámara</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>Iniciar cámara</translation>
     </message>
     <message>
-        <location line="-282"/>
+        <location line="-286"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>Expandir</translation>
@@ -1422,7 +1422,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
     </message>
     <message>
         <location line="+9"/>
-        <location line="+266"/>
+        <location line="+270"/>
         <source>End call</source>
         <translation>Finalizar llamada</translation>
     </message>

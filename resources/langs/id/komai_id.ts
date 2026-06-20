@@ -1371,37 +1371,37 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>Bisukan</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>Aktifkan suara</translation>
     </message>
     <message>
-        <location line="-277"/>
+        <location line="-281"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>Hentikan kamera</translation>
     </message>
     <message>
-        <location line="-288"/>
+        <location line="-292"/>
         <location line="+1"/>
-        <location line="+286"/>
+        <location line="+290"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>Mulai kamera</translation>
     </message>
     <message>
-        <location line="-282"/>
+        <location line="-286"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>Perluas</translation>
@@ -1419,7 +1419,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+9"/>
-        <location line="+266"/>
+        <location line="+270"/>
         <source>End call</source>
         <translation>Akhiri panggilan</translation>
     </message>

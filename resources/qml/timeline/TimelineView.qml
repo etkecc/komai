@@ -154,12 +154,30 @@ Item {
         _poolLru.unshift(roomId);
     }
 
+    // A room with a live call must never be pruned from the pool: its
+    // TimelineView hosts the call surface (the Element Call webview + widget
+    // session, or the legacy WebRTC call), and destroying it would silently drop
+    // the call. Closing the room's tab stays allowed -- the pooled timeline keeps
+    // the call alive and reachable via the global call bar -- but evicting it is
+    // pinned off for as long as the call is live (Element Call or legacy).
+    function _poolRoomHasActiveCall(roomId) {
+        if (!roomId)
+            return false;
+        if (ElementCall.active && ElementCall.activeRoomId === roomId)
+            return true;
+        if (CallManager.isOnCall && CallManager.callRoomId === roomId)
+            return true;
+        return false;
+    }
+
     function _poolEvictIfNeeded() {
         while (Object.keys(_poolEntries).length >= _poolMaxSize) {
             var evicted = false;
             for (var i = _poolLru.length - 1; i >= 0; i--) {
                 var candidate = _poolLru[i];
                 if (tabController && tabController.findTab(candidate) !== -1)
+                    continue;
+                if (_poolRoomHasActiveCall(candidate))
                     continue;
                 console.info("[timeline-pool] evict room=" + candidate
                              + " poolSize=" + Object.keys(_poolEntries).length);
@@ -193,6 +211,8 @@ Item {
                 if (_poolEntries[candidate] === _activePoolEntry)
                     continue;
                 if (tabController && tabController.findTab(candidate) !== -1)
+                    continue;
+                if (_poolRoomHasActiveCall(candidate))
                     continue;
                 _poolRemove(candidate);
                 evicted = true;

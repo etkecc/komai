@@ -564,4 +564,14 @@ Item {
         else
             console.warn("[EC] panel loaded without an active room");
     }
+
+    // Belt-and-suspenders: if this panel is ever destroyed without a clean
+    // teardown() (e.g. the hosting timeline were pruned from the recently-closed
+    // pool -- which the pool now pins against during a live call), make sure the
+    // controller stops pointing the global call bar at a now-dead session.
+    // teardown() already notifies, so only fire when it did not run.
+    Component.onDestruction: {
+        if (!panel.closing)
+            ElementCall.notifyStopped();
+    }
 }

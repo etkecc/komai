@@ -5,6 +5,7 @@
 #include "ElementCallWebProfile.h"
 
 #include <QByteArray>
+#include <QDir>
 #include <QFile>
 #include <QHash>
 #include <QUrl>
@@ -13,6 +14,8 @@
 #include <QWebEngineUrlScheme>
 
 #include "logging/Logging.h"
+#include "profile/Paths.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
 // The embedded Element Call bundle (bin/element-call, embedded under the qrc
@@ -114,10 +117,36 @@ ElementCallWebProfile::instance()
 ElementCallWebProfile::ElementCallWebProfile(QObject *parent)
   : QObject(parent)
 {
-    // Install on the default QML profile (the one a WebEngineView uses unless
-    // told otherwise), so the komai-ec:// scheme resolves regardless of how the
-    // view is wired. Owned by Qt -- do not reparent it.
-    profile_ = QQuickWebEngineProfile::defaultProfile();
+    // A *persistent*, named profile rather than the default one. The default QML
+    // profile is off-the-record (in-memory only), so Element Call's settings --
+    // all stored in localStorage, including the chosen microphone/camera -- and
+    // Chromium's per-origin media-device-id salt would be wiped on every app
+    // exit, making the saved input device fail to match on the next run.
+    //
+    // The storage and cache paths live under the *active Komai profile's* own
+    // data/cache directories (Komai can run several isolated profiles, each with
+    // its own dirs), so Element Call state never leaks between Komai profiles.
+    // `profile()` is empty for the default profile; the path helpers normalize
+    // that the same way the media cache does.
+    const QString komaiProfile = [] {
+        auto settings = UserSettings::instance();
+        return settings ? settings->profile() : QString{};
+    }();
+    const QString storagePath =
+      app_paths::data::profileDirectory(komaiProfile) + QStringLiteral("/element-call/web");
+    const QString cachePath =
+      app_paths::cache::profileDirectory(komaiProfile) + QStringLiteral("/element-call/web");
+    QDir{}.mkpath(storagePath);
+    QDir{}.mkpath(cachePath);
+
+    // A storage name makes the profile persistent (not off-the-record).
+    profile_ = new QQuickWebEngineProfile(QStringLiteral("element-call"), this);
+    profile_->setOffTheRecord(false);
+    profile_->setPersistentStoragePath(storagePath);
+    profile_->setCachePath(cachePath);
+    profile_->setHttpCacheType(QQuickWebEngineProfile::DiskHttpCache);
+    profile_->setPersistentCookiesPolicy(QQuickWebEngineProfile::AllowPersistentCookies);
+
     handler_ = new ElementCallSchemeHandler(this);
     profile_->installUrlSchemeHandler(QByteArray(komai::elementcall::kScheme), handler_);
 }

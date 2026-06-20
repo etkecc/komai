@@ -5,8 +5,9 @@ This page covers Komai's **legacy 1:1 call** stack: the older Matrix call protoc
 
 For modern group voice/video, use **Element Call** (MatrixRTC), which Komai now
 supports and which is where the Matrix ecosystem is heading. See the
-[Element Call architecture notes](../../architecture/element-call.md) for how it
-works.
+[📹 Element Call guide](element-call.md) for how to use it (or the
+[Element Call architecture notes](../../architecture/element-call.md) for the
+technical design).
 
 
 ## ⚠️ Status at a glance
@@ -61,6 +62,7 @@ in any room's composer offers it. Element Call requires a homeserver with a
 MatrixRTC backend (a LiveKit SFU plus `lk-jwt-service`, advertised via
 `.well-known`); a homeserver without one cannot connect a call.
 
-For the technical design (the embedded web bundle, the native widget driver, the
-call surfaces, ringing, and packaging), see the
+For how to use it, see the [📹 Element Call guide](element-call.md). For the
+technical design (the embedded web bundle, the native widget driver, the call
+surfaces, ringing, and packaging), see the
 [Element Call architecture notes](../../architecture/element-call.md).

@@ -42,8 +42,16 @@ Item {
 
     // True while the call is shown fullscreen: the webview is reparented to the
     // window-level overlay (covering the whole window, room list included) and
-    // the OS window is switched to fullscreen. Both our own fullscreen button and
-    // Element Call's in-page fullscreen button (onFullScreenRequested) drive this.
+    // the OS window is switched to fullscreen.
+    //
+    // Fullscreen is an OS-window concept here, NOT the page's DOM fullscreen: we
+    // never put the web content into document fullscreen. Element Call's own DOM
+    // fullscreen (requestFullscreen on document.body) only enlarges the same web
+    // content while adding Chromium's dark fullscreen backdrop, which looks worse
+    // than simply showing Element Call's normal call view at full window size.
+    // So we disable the page's fullscreen support (settings.fullScreenSupportEnabled)
+    // and hide Element Call's in-page fullscreen button (see ElementCallWebProfile),
+    // leaving our own header button and double-click as the only entry points.
     property bool fullscreen: false
 
     // The OS window visibility before we went fullscreen, so we restore exactly
@@ -340,17 +348,13 @@ Item {
 
         settings.playbackRequiresUserGesture: false
         settings.screenCaptureEnabled: true
-        // Let Element Call's own in-page fullscreen button work: without this
-        // QtWebEngine silently drops the page's requestFullscreen() call.
-        settings.fullScreenSupportEnabled: true
-
-        // Element Call's in-page fullscreen button calls requestFullscreen();
-        // honour it by entering/leaving our own fullscreen (same path as our
-        // header button) so the webview actually fills the screen.
-        onFullScreenRequested: function (request) {
-            request.accept();
-            panel.fullscreen = request.toggleOn;
-        }
+        // Deliberately false: Komai drives fullscreen at the OS-window level (see
+        // the `fullscreen` property above), so we do NOT want the page entering DOM
+        // fullscreen. With this off, Chromium silently drops the page's
+        // requestFullscreen() call, so Element Call's in-page fullscreen button (we
+        // also hide it, see ElementCallWebProfile) can never paint its dark
+        // fullscreen backdrop over the call.
+        settings.fullScreenSupportEnabled: false
 
         onRenderProcessTerminated: function (terminationStatus, exitCode) {
             console.warn("[EC] render process terminated status=" + terminationStatus +

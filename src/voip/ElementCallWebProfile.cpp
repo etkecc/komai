@@ -203,6 +203,29 @@ ElementCallWebProfile::bridgeUserScripts() const
 })();
 )JS");
 
+    // Hide Element Call's own in-page fullscreen button. Komai drives fullscreen
+    // at the OS-window level (the WebEngineView is reparented to a window overlay
+    // and the OS window is made fullscreen -- see ElementCallPanel), deliberately
+    // NOT the page's DOM fullscreen: Element Call's requestFullscreen() only
+    // enlarges the same call view while adding Chromium's dark fullscreen
+    // backdrop, which we (and the user) find worse than the normal call view at
+    // full size. So we offer fullscreen through our own header button and
+    // double-click instead, and remove Element Call's button to avoid a second,
+    // divergent fullscreen affordance.
+    //
+    // Belt and suspenders: settings.fullScreenSupportEnabled is also false (see
+    // ElementCallPanel), so even if a future Element Call relabels this button and
+    // the selector stops matching, the button is an inert no-op (Chromium drops
+    // its requestFullscreen call) -- never a regression to the dark backdrop. The
+    // aria-label is a stable, untranslated literal in the bundle we pin.
+    static const auto kHideFullscreenButtonJs = QStringLiteral(R"JS(
+(function () {
+    var style = document.createElement('style');
+    style.textContent = 'button[aria-label="maximise"] { display: none !important; }';
+    (document.head || document.documentElement).appendChild(style);
+})();
+)JS");
+
     // qwebchannel.js must run before the bridge script (which uses QWebChannel).
     // QtWebEngine resolves this qrc path to the QtWebChannel-shipped library and
     // injects qt.webChannelTransport because the view has a webChannel set. Both
@@ -222,5 +245,17 @@ ElementCallWebProfile::bridgeUserScripts() const
     bridge.setRunsOnSubFrames(false);
     bridge.setSourceCode(kBridgeJs);
 
-    return {qwebchannel, bridge};
+    QWebEngineScript hideFullscreenButton;
+    hideFullscreenButton.setName(QStringLiteral("komai-ec-hide-fullscreen-button"));
+    // DocumentReady, not DocumentCreation: at creation the document is empty
+    // (document.head / document.documentElement are null), so appending a <style>
+    // throws and never lands. By DOM-ready the head exists; the rule then hides the
+    // button whenever Element Call's React app renders it (CSS applies to matching
+    // elements regardless of when they are added).
+    hideFullscreenButton.setInjectionPoint(QWebEngineScript::DocumentReady);
+    hideFullscreenButton.setWorldId(QWebEngineScript::MainWorld);
+    hideFullscreenButton.setRunsOnSubFrames(false);
+    hideFullscreenButton.setSourceCode(kHideFullscreenButtonJs);
+
+    return {qwebchannel, bridge, hideFullscreenButton};
 }

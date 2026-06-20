@@ -1366,44 +1366,44 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+218"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+226"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>നിശബ്ദമാക്കുക</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>ശബ്ദം ഓണാക്കുക</translation>
     </message>
     <message>
-        <location line="-281"/>
+        <location line="-277"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>ക്യാമറ നിർത്തുക</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>ക്യാമറ ആരംഭിക്കുക</translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>വലുതാക്കുക</translation>
@@ -1421,7 +1421,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+9"/>
-        <location line="+270"/>
+        <location line="+266"/>
         <source>End call</source>
         <translation>കോൾ അവസാനിപ്പിക്കുക</translation>
     </message>

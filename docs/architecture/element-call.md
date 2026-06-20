@@ -229,6 +229,10 @@ main world, after `qwebchannel.js`):
   own controls) and `Escape` (leave fullscreen) as fallbacks for when the webview
   holds keyboard focus.
 
+`bridgeUserScripts` also returns one unrelated injection: a small `<style>` that hides
+Element Call's own in-page fullscreen button (see
+[Fullscreen is OS-window, not DOM](#fullscreen-is-os-window-not-dom)).
+
 The host→widget direction is plain `runJavaScript("window.postMessage(...)")`
 driven from the session's `messageToWidget` signal.
 
@@ -395,6 +399,42 @@ and Linux are unaffected (their native paths use forward slashes).
 - **Capabilities auto-approved.** Element Call is a trusted first-party widget, so
   the provider grants the canned set without a consent prompt, matching Element X.
 
+### Fullscreen is OS-window, not DOM
+
+Komai's fullscreen makes the **OS window** borderless and fullscreen and reparents
+the webview to cover it; it never puts the web content into the page's **DOM**
+fullscreen (`element.requestFullscreen()`). DOM fullscreen would not enlarge the call
+any further -- the webview already fills the window -- but it does make Chromium paint
+its opaque-black `::backdrop` plus Element Call's near-black canvas around the call,
+which looks worse than Element Call's normal call view at full size. (This is Element
+Call's own look, reproducible in any Chromium browser embedding it, not a Komai bug.)
+
+This forecloses keeping the two fullscreen notions in sync, and that was a deliberate
+trade, not an oversight:
+
+- **Two-way sync would force the dark backdrop.** Element Call reflects fullscreen
+  *only* through `document.fullscreenElement` (`SpotlightTile.tsx` toggles its button
+  on it). Making Element Call agree we are fullscreen therefore *requires* real DOM
+  fullscreen -- which is exactly the dark backdrop we are avoiding. The clean look and
+  two-way sync are mutually exclusive.
+- **A native button cannot enter DOM fullscreen anyway.** `requestFullscreen()` needs
+  a transient user activation (a real in-page gesture). Element Call's own button, a
+  double-click on the video, or a key press in the page have one; a QML/native button
+  click, `runJavaScript`, and synthetic `.click()` do not. So a header button could
+  not drive DOM fullscreen even if we wanted it to.
+
+Given Komai owns the fullscreen UI (header button + double-click + Escape + OSD), we
+**disable the page's fullscreen support** (`settings.fullScreenSupportEnabled: false`,
+so Chromium drops any `requestFullscreen()`) and **hide Element Call's own in-page
+fullscreen button** with a CSS rule on its `aria-label="maximise"`
+(`ElementCallWebProfile::bridgeUserScripts`), leaving a single, clean fullscreen
+affordance. The two are belt-and-suspenders: if a future Element Call relabels the
+button and the selector stops matching, disabled fullscreen support keeps the button an
+inert no-op rather than a regression to the dark backdrop. The selector's fragility is
+caught at the (already explicit) version bump by a marker check in
+`bin/element-call/fetch.py`, which fails the build if `aria-label="maximise"` is no
+longer present in the bundle.
+
 ## Call UI and UX decisions
 
 Beyond the wiring, a number of choices shape how a call actually feels. They are
@@ -464,12 +504,13 @@ recorded here with the reasoning, since most are not obvious from the code alone
   border to set its height; that height is kept in memory across tab switches but
   deliberately resets on hangup and is **not** a persisted setting (a call is
   transient, so a sticky size would be surprising). Fullscreen is a true borderless OS
-  window (the webview reparents and the window goes fullscreen); the header button, a
-  double-click on the call view, and Element Call's own fullscreen button all drive it,
-  with Escape to exit. In fullscreen, controls collapse into a dark translucent OSD bar
-  pinned to the top of the screen (Mute / Stop camera / End call / Exit fullscreen);
-  Exit fullscreen sits flush in the top-right corner so it is a large, easy pointer
-  target (Fitts's law).
+  window (the webview reparents and the window goes fullscreen); the header button and
+  a double-click on the call view drive it, with Escape to exit. Fullscreen is an
+  OS-window concept only, not the page's DOM fullscreen -- see
+  [Fullscreen is OS-window, not DOM](#fullscreen-is-os-window-not-dom). In fullscreen,
+  controls collapse into a dark translucent OSD bar pinned to the top of the screen
+  (Mute / Stop camera / End call / Exit fullscreen); Exit fullscreen sits flush in the
+  top-right corner so it is a large, easy pointer target (Fitts's law).
 - **Settings → Calls leads with Element Call.** The Calls settings tab lists Element
   Call first, with the legacy sections greyed out (disabled, not hidden) when legacy
   calls are off (which is the default), reflecting that Element Call is the primary

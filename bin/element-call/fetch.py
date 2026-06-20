@@ -107,6 +107,35 @@ def _safe_extract_dist(tarball: pathlib.Path, dist_dir: pathlib.Path) -> None:
                 out.write(src.read())
 
 
+# Element Call's in-call fullscreen button is its only element labelled
+# aria-label="maximise". The regex matches that literal while ignoring the
+# `maximised` / `_maximised_` CSS-class fragments (followed by d/_) that also
+# contain the word.
+_FULLSCREEN_BUTTON_MARKER = re.compile(r"maximise(?![d_])")
+
+
+def _verify_fullscreen_button_marker(dist_dir: pathlib.Path) -> None:
+    """Fail the build if Element Call's fullscreen button can no longer be hidden.
+
+    Komai drives fullscreen at the OS-window level, not the page's DOM fullscreen
+    (which only adds Chromium's dark backdrop), so it hides Element Call's own
+    in-page fullscreen button with a CSS selector on aria-label="maximise" (see
+    src/voip/ElementCallWebProfile.cpp). If a future Element Call relabels that
+    button the selector silently stops matching and a dead fullscreen button would
+    ship. Catch that here, at the (already explicit) version bump, instead.
+    """
+    for js in dist_dir.rglob("*.js"):
+        if _FULLSCREEN_BUTTON_MARKER.search(js.read_text(encoding="utf-8", errors="replace")):
+            return
+    raise SystemExit(
+        'error: Element Call\'s fullscreen-button marker (aria-label "maximise") '
+        "was not found in the bundle.\n"
+        "       Komai hides that button by that selector "
+        "(src/voip/ElementCallWebProfile.cpp); if Element Call renamed it, update\n"
+        "       the CSS selector there AND this check."
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lock", required=True, type=pathlib.Path)
@@ -151,6 +180,10 @@ def main() -> int:
             raise SystemExit(
                 f"error: {_TARBALL_DIST_PREFIX}index.html missing from {tarball.name}"
             )
+        # Runs only on a fresh extract (the fast path above means a previously
+        # extracted, sha-pinned tree was already verified), so this fires exactly
+        # on a version bump -- when the marker is most likely to have moved.
+        _verify_fullscreen_button_marker(tmp_dist)
         if dist_dir.exists():
             import shutil
 

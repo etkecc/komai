@@ -1366,44 +1366,44 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>ElementCallPanel</name>
     <message>
-        <location filename="../../qml/voip/ElementCallPanel.qml" line="+218"/>
+        <location filename="../../qml/voip/ElementCallPanel.qml" line="+226"/>
         <source>Element Call</source>
         <translation>Element Call</translation>
     </message>
     <message>
         <location line="+16"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Mute</source>
         <translation>Vaigista</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Unmute</source>
         <translation>Tühista vaigistus</translation>
     </message>
     <message>
-        <location line="-281"/>
+        <location line="-277"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Stop camera</source>
         <translation>Peata kaamera</translation>
     </message>
     <message>
-        <location line="-292"/>
+        <location line="-288"/>
         <location line="+1"/>
-        <location line="+290"/>
+        <location line="+286"/>
         <location line="+1"/>
         <source>Start camera</source>
         <translation>Käivita kaamera</translation>
     </message>
     <message>
-        <location line="-286"/>
+        <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
         <translation>Laienda</translation>
@@ -1421,7 +1421,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+9"/>
-        <location line="+270"/>
+        <location line="+266"/>
         <source>End call</source>
         <translation>Lõpeta kõne</translation>
     </message>

@@ -37,8 +37,7 @@ bar:
 - **Collapse** / **Expand** -- shrink to just the header bar (the call keeps running),
   or restore.
 - **Fullscreen** -- open the call fullscreen (also via **double-click**; leave with
-  **Escape** or the top-right **Exit fullscreen** button). Element Call buries its own
-  fullscreen behind several clicks.
+  **Escape** or the top-right **Exit fullscreen** button).
 - **End call** -- leave.
 
 ![The call panel's header bar, with mute, camera, collapse, fullscreen, and end-call controls](../screenshots/element-call-in-call-bar.webp)
@@ -115,6 +114,13 @@ include it.
 
 Pick the device in Element Call's in-call settings. Komai remembers them per
 [👥 application profile](application-profiles.md) across restarts.
+
+### Where's the Spotlight → Fullscreen button?
+
+Komai hides Element Call's own in-call fullscreen button and gives you a **Fullscreen**
+button on the call panel's header bar instead (you can also **double-click** the call,
+and leave with **Escape**). Komai's button makes the whole window fullscreen, which
+looks cleaner than Element Call's own fullscreen.
 
 ## Related
 

@@ -2033,35 +2033,35 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
         <source>Close</source>
         <translation>Sluiten</translation>
     </message>
     <message>
-        <location line="-119"/>
-        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation>Doorsturen verstuurt deze inhoud (zonder de afzender te onthullen) naar een andere kamer.</translation>
-    </message>
-    <message>
-        <location line="-9"/>
-        <source>Forward message?</source>
-        <translation>Bericht doorsturen?</translation>
+        <location line="-120"/>
+        <source>Forward message</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Forward %1 of %2 messages?</source>
-        <translation>%1 van %2 berichten doorsturen?</translation>
+        <source>Forward %1 of %2 messages</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+2"/>
-        <source>Forward %n messages?</source>
-        <translation>
-            <numerusform>%n bericht doorsturen?</numerusform>
-            <numerusform>%n berichten doorsturen?</numerusform>
+        <source>Forward %n messages</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
         <translation>Slechts 1 van de %1 geselecteerde berichten kan worden doorgestuurd. Niet-ondersteunde berichten worden overgeslagen.</translation>
     </message>
@@ -2072,46 +2072,58 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation>Doorsturen verstuurt deze berichten (zonder de afzender te onthullen) naar een andere kamer.</translation>
+        <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation>1 van %1 geselecteerde berichten doorsturen naar &lt;b&gt;%2&lt;/b&gt;?</translation>
+        <location line="+5"/>
+        <source>Selected rooms (%1)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation>%1 van %2 geselecteerde berichten doorsturen naar &lt;b&gt;%3&lt;/b&gt;?</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+3"/>
-        <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>
-            <numerusform>%n geselecteerd bericht doorsturen naar &lt;b&gt;%1&lt;/b&gt;?</numerusform>
-            <numerusform>%n geselecteerde berichten doorsturen naar &lt;b&gt;%1&lt;/b&gt;?</numerusform>
-        </translation>
+        <source>Selected rooms</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+216"/>
+        <source>Rooms</source>
+        <translation type="unfinished">Kamers</translation>
+    </message>
+    <message>
+        <location line="+131"/>
+        <source>(Space)</source>
+        <translation type="unfinished">(Ruimte)</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>No matching rooms found.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start typing to find a room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+88"/>
+        <source>Remove</source>
+        <translation type="unfinished">Verwijderen</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Choose one or more rooms to forward the message to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-306"/>
         <source>Room name, address or id...</source>
         <translation>Kamernaam, adres of id…</translation>
     </message>
     <message>
-        <location line="-180"/>
-        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>Doorsturen naar &lt;b&gt;%1&lt;/b&gt;?</translation>
-    </message>
-    <message>
-        <location line="+301"/>
+        <location line="+326"/>
         <source>Forward</source>
         <translation>Doorsturen</translation>
-    </message>
-    <message>
-        <location line="-22"/>
-        <source>Cancel</source>
-        <translation>Annuleren</translation>
     </message>
 </context>
 <context>

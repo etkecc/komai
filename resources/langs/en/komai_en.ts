@@ -2027,35 +2027,35 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
         <source>Close</source>
         <translation type="unfinished">Close</translation>
     </message>
     <message>
-        <location line="-119"/>
-        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="-9"/>
-        <source>Forward message?</source>
+        <location line="-120"/>
+        <source>Forward message</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Forward %1 of %2 messages?</source>
+        <source>Forward %1 of %2 messages</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+2"/>
-        <source>Forward %n messages?</source>
+        <source>Forward %n messages</source>
         <translation type="unfinished">
             <numerusform/>
             <numerusform/>
         </translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
         <translation type="unfinished"/>
     </message>
@@ -2066,46 +2066,58 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+3"/>
-        <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
+        <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
+        <location line="+5"/>
+        <source>Selected rooms (%1)</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
+        <source>Selected rooms</source>
         <translation type="unfinished"/>
     </message>
-    <message numerus="yes">
-        <location line="+3"/>
-        <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-        </translation>
+    <message>
+        <location line="+216"/>
+        <source>Rooms</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+131"/>
+        <source>(Space)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>No matching rooms found.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start typing to find a room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+88"/>
+        <source>Remove</source>
+        <translation type="unfinished">Remove</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Choose one or more rooms to forward the message to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-306"/>
         <source>Room name, address or id...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="-180"/>
-        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+301"/>
+        <location line="+326"/>
         <source>Forward</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="-22"/>
-        <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
     </message>
 </context>
 <context>

@@ -2033,35 +2033,35 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
         <source>Close</source>
         <translation>അടയ്ക്കുക</translation>
     </message>
     <message>
-        <location line="-119"/>
-        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation>കൈമാറൽ ഈ ഉള്ളടക്കം (അയച്ചയാളെ വെളിപ്പെടുത്താതെ) മറ്റൊരു മുറിയിലേക്ക് അയക്കുന്നു.</translation>
-    </message>
-    <message>
-        <location line="-9"/>
-        <source>Forward message?</source>
-        <translation>സന്ദേശം കൈമാറണോ?</translation>
+        <location line="-120"/>
+        <source>Forward message</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Forward %1 of %2 messages?</source>
-        <translation>%2 സന്ദേശങ്ങളിൽ %1 കൈമാറണോ?</translation>
+        <source>Forward %1 of %2 messages</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+2"/>
-        <source>Forward %n messages?</source>
-        <translation>
-            <numerusform>%n സന്ദേശം ഫോർവേഡ് ചെയ്യണോ?</numerusform>
-            <numerusform>%n സന്ദേശങ്ങൾ ഫോർവേഡ് ചെയ്യണോ?</numerusform>
+        <source>Forward %n messages</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
         <translation>തിരഞ്ഞെടുത്ത %1 സന്ദേശങ്ങളിൽ 1 മാത്രമേ കൈമാറാൻ കഴിയൂ. പിന്തുണയ്ക്കാത്ത സന്ദേശങ്ങൾ ഒഴിവാക്കപ്പെടും.</translation>
     </message>
@@ -2072,46 +2072,58 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+3"/>
-        <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation>കൈമാറൽ ഈ സന്ദേശങ്ങൾ (അയച്ചയാളെ വെളിപ്പെടുത്താതെ) മറ്റൊരു മുറിയിലേക്ക് അയക്കുന്നു.</translation>
+        <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation>തിരഞ്ഞെടുത്ത %1 സന്ദേശങ്ങളിൽ 1 &lt;b&gt;%2&lt;/b&gt;-ലേക്ക് കൈമാറണോ?</translation>
+        <location line="+5"/>
+        <source>Selected rooms (%1)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation>തിരഞ്ഞെടുത്ത %2 സന്ദേശങ്ങളിൽ %1 &lt;b&gt;%3&lt;/b&gt;-ലേക്ക് കൈമാറണോ?</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+3"/>
-        <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>
-            <numerusform>%n തിരഞ്ഞെടുത്ത സന്ദേശം &lt;b&gt;%1&lt;/b&gt;-ലേക്ക് ഫോർവേഡ് ചെയ്യണോ?</numerusform>
-            <numerusform>%n തിരഞ്ഞെടുത്ത സന്ദേശങ്ങൾ &lt;b&gt;%1&lt;/b&gt;-ലേക്ക് ഫോർവേഡ് ചെയ്യണോ?</numerusform>
-        </translation>
+        <source>Selected rooms</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+216"/>
+        <source>Rooms</source>
+        <translation type="unfinished">മുറികൾ</translation>
+    </message>
+    <message>
+        <location line="+131"/>
+        <source>(Space)</source>
+        <translation type="unfinished">(സ്പേസ്)</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>No matching rooms found.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start typing to find a room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+88"/>
+        <source>Remove</source>
+        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Choose one or more rooms to forward the message to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-306"/>
         <source>Room name, address or id...</source>
         <translation>മുറിയുടെ പേര്, വിലാസം അല്ലെങ്കിൽ ഐഡി…</translation>
     </message>
     <message>
-        <location line="-180"/>
-        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt;-ലേക്ക് കൈമാറണോ?</translation>
-    </message>
-    <message>
-        <location line="+301"/>
+        <location line="+326"/>
         <source>Forward</source>
         <translation>കൈമാറുക</translation>
-    </message>
-    <message>
-        <location line="-22"/>
-        <source>Cancel</source>
-        <translation>റദ്ദാക്കുക</translation>
     </message>
 </context>
 <context>

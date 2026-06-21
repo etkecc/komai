@@ -2033,35 +2033,35 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>
     <message>
-        <location line="-119"/>
-        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation>Plusendo sendas ĉi tiun enhavon (sen malkaŝi ĝian sendanton) al alia ĉambro.</translation>
-    </message>
-    <message>
-        <location line="-9"/>
-        <source>Forward message?</source>
-        <translation>Plusendi mesaĝon?</translation>
+        <location line="-120"/>
+        <source>Forward message</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Forward %1 of %2 messages?</source>
-        <translation>Plusendi %1 el %2 mesaĝoj?</translation>
+        <source>Forward %1 of %2 messages</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+2"/>
-        <source>Forward %n messages?</source>
-        <translation>
-            <numerusform>Plusendi %n mesaĝon?</numerusform>
-            <numerusform>Plusendi %n mesaĝojn?</numerusform>
+        <source>Forward %n messages</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
         <translation>Nur 1 el %1 elektitaj mesaĝoj povas esti plusenditaj. Nesubtenataj mesaĝoj estos preteratentitaj.</translation>
     </message>
@@ -2072,46 +2072,58 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation>Plusendo sendas ĉi tiujn mesaĝojn (sen malkaŝi ilian sendanton) al alia ĉambro.</translation>
+        <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation>Plusendi 1 el %1 elektitaj mesaĝoj al &lt;b&gt;%2&lt;/b&gt;?</translation>
+        <location line="+5"/>
+        <source>Selected rooms (%1)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation>Plusendi %1 el %2 elektitaj mesaĝoj al &lt;b&gt;%3&lt;/b&gt;?</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+3"/>
-        <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>
-            <numerusform>Plusendi %n elektitan mesaĝon al &lt;b&gt;%1&lt;/b&gt;?</numerusform>
-            <numerusform>Plusendi %n elektitajn mesaĝojn al &lt;b&gt;%1&lt;/b&gt;?</numerusform>
-        </translation>
+        <source>Selected rooms</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+216"/>
+        <source>Rooms</source>
+        <translation type="unfinished">Ĉambroj</translation>
+    </message>
+    <message>
+        <location line="+131"/>
+        <source>(Space)</source>
+        <translation type="unfinished">(Spaco)</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>No matching rooms found.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start typing to find a room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+88"/>
+        <source>Remove</source>
+        <translation type="unfinished">Forigi</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Choose one or more rooms to forward the message to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-306"/>
         <source>Room name, address or id...</source>
         <translation>Nomo, adreso aŭ id de ĉambro…</translation>
     </message>
     <message>
-        <location line="-180"/>
-        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>Plusendi al &lt;b&gt;%1&lt;/b&gt;?</translation>
-    </message>
-    <message>
-        <location line="+301"/>
+        <location line="+326"/>
         <source>Forward</source>
         <translation>Plusendi</translation>
-    </message>
-    <message>
-        <location line="-22"/>
-        <source>Cancel</source>
-        <translation>Nuligi</translation>
     </message>
 </context>
 <context>

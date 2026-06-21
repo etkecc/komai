@@ -2041,39 +2041,39 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
         <source>Close</source>
         <translation>إغلاق</translation>
     </message>
     <message>
-        <location line="-119"/>
-        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation>إعادة التوجيه ترسل هذا المحتوى (دون الكشف عن مرسله) إلى غرفة أخرى.</translation>
-    </message>
-    <message>
-        <location line="-9"/>
-        <source>Forward message?</source>
-        <translation>إعادة توجيه الرسالة؟</translation>
+        <location line="-120"/>
+        <source>Forward message</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Forward %1 of %2 messages?</source>
-        <translation>إعادة توجيه %1 من %2 رسالة؟</translation>
+        <source>Forward %1 of %2 messages</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+2"/>
-        <source>Forward %n messages?</source>
-        <translation>
-            <numerusform>هل تريد إعادة توجيه %n رسائل؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالة؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالتين؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسائل؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالة؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالة؟</numerusform>
+        <source>Forward %n messages</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
         <translation>يمكن إعادة توجيه رسالة واحدة فقط من %1 رسالة محددة. سيتم تخطي الرسائل غير المدعومة.</translation>
     </message>
@@ -2084,50 +2084,58 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+3"/>
-        <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation>إعادة التوجيه ترسل هذه الرسائل (دون الكشف عن مرسلها) إلى غرفة أخرى.</translation>
+        <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation>إعادة توجيه رسالة واحدة من %1 رسالة محددة إلى &lt;b&gt;%2&lt;/b&gt;؟</translation>
+        <location line="+5"/>
+        <source>Selected rooms (%1)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation>إعادة توجيه %1 من %2 رسالة محددة إلى &lt;b&gt;%3&lt;/b&gt;؟</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+3"/>
-        <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>
-            <numerusform>هل تريد إعادة توجيه %n رسائل محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالة محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالتين محددتين إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسائل محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالة محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
-            <numerusform>هل تريد إعادة توجيه %n رسالة محددة إلى &lt;b&gt;%1&lt;/b&gt;؟</numerusform>
-        </translation>
+        <source>Selected rooms</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+216"/>
+        <source>Rooms</source>
+        <translation type="unfinished">الغرف</translation>
+    </message>
+    <message>
+        <location line="+131"/>
+        <source>(Space)</source>
+        <translation type="unfinished">(فضاء)</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>No matching rooms found.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start typing to find a room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+88"/>
+        <source>Remove</source>
+        <translation type="unfinished">إزالة</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Choose one or more rooms to forward the message to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-306"/>
         <source>Room name, address or id...</source>
         <translation>اسم الغرفة أو عنوانها أو معرّفها...</translation>
     </message>
     <message>
-        <location line="-180"/>
-        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>إعادة التوجيه إلى &lt;b&gt;%1&lt;/b&gt;؟</translation>
-    </message>
-    <message>
-        <location line="+301"/>
+        <location line="+326"/>
         <source>Forward</source>
         <translation>إعادة توجيه</translation>
-    </message>
-    <message>
-        <location line="-22"/>
-        <source>Cancel</source>
-        <translation>إلغاء</translation>
     </message>
 </context>
 <context>

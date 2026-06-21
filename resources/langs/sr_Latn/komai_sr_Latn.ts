@@ -2035,36 +2035,36 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+216"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
         <source>Close</source>
         <translation>Zatvori</translation>
     </message>
     <message>
-        <location line="-119"/>
-        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation>Prosleđivanje šalje ovaj sadržaj (bez otkrivanja pošiljaoca) u drugu sobu.</translation>
-    </message>
-    <message>
-        <location line="-9"/>
-        <source>Forward message?</source>
-        <translation>Proslediti poruku?</translation>
+        <location line="-120"/>
+        <source>Forward message</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Forward %1 of %2 messages?</source>
-        <translation>Proslediti %1 od %2 poruka?</translation>
+        <source>Forward %1 of %2 messages</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+2"/>
-        <source>Forward %n messages?</source>
-        <translation>
-            <numerusform>Proslediti %n poruku?</numerusform>
-            <numerusform>Proslediti %n poruke?</numerusform>
-            <numerusform>Proslediti %n poruka?</numerusform>
+        <source>Forward %n messages</source>
+        <translation type="unfinished">
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
+        <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Only 1 of %1 selected messages can be forwarded. Unsupported messages will be skipped.</source>
         <translation>Samo 1 od %1 odabranih poruka može biti prosleđena. Nepodržane poruke biće preskočene.</translation>
     </message>
@@ -2075,47 +2075,58 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     </message>
     <message>
         <location line="+3"/>
-        <source>Forwarding sends these messages (without revealing their sender) to another room.</source>
-        <translation>Prosleđivanje šalje ove poruke (bez otkrivanja pošiljaoca) u drugu sobu.</translation>
+        <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Forward 1 of %1 selected messages to &lt;b&gt;%2&lt;/b&gt;?</source>
-        <translation>Proslediti 1 od %1 odabranih poruka u &lt;b&gt;%2&lt;/b&gt;?</translation>
+        <location line="+5"/>
+        <source>Selected rooms (%1)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Forward %1 of %2 selected messages to &lt;b&gt;%3&lt;/b&gt;?</source>
-        <translation>Proslediti %1 od %2 odabranih poruka u &lt;b&gt;%3&lt;/b&gt;?</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+3"/>
-        <source>Forward %n selected messages to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>
-            <numerusform>Proslediti %n izabranu poruku u &lt;b&gt;%1&lt;/b&gt;?</numerusform>
-            <numerusform>Proslediti %n izabrane poruke u &lt;b&gt;%1&lt;/b&gt;?</numerusform>
-            <numerusform>Proslediti %n izabranih poruka u &lt;b&gt;%1&lt;/b&gt;?</numerusform>
-        </translation>
+        <source>Selected rooms</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+173"/>
+        <location line="+216"/>
+        <source>Rooms</source>
+        <translation type="unfinished">Sobe</translation>
+    </message>
+    <message>
+        <location line="+131"/>
+        <source>(Space)</source>
+        <translation type="unfinished">(Prostor)</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>No matching rooms found.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Start typing to find a room.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+88"/>
+        <source>Remove</source>
+        <translation type="unfinished">Ukloni</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Choose one or more rooms to forward the message to.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="-306"/>
         <source>Room name, address or id...</source>
         <translation>Naziv sobe, adresa ili ID…</translation>
     </message>
     <message>
-        <location line="-180"/>
-        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation>Proslediti u &lt;b&gt;%1&lt;/b&gt;?</translation>
-    </message>
-    <message>
-        <location line="+301"/>
+        <location line="+326"/>
         <source>Forward</source>
         <translation>Prosledi</translation>
-    </message>
-    <message>
-        <location line="-22"/>
-        <source>Cancel</source>
-        <translation>Otkaži</translation>
     </message>
 </context>
 <context>

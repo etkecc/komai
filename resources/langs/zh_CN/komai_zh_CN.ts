@@ -2038,24 +2038,24 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-120"/>
         <source>Forward message</source>
-        <translation type="unfinished"/>
+        <translation>转发消息</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages</source>
-        <translation type="unfinished"/>
+        <translation>转发 %2 条消息中的 %1 条</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>转发 %n 条消息</numerusform>
         </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>转发将此内容（不透露发送者）发送至下方选择的聊天室。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2070,47 +2070,47 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>转发将这些消息（不透露发送者）发送至下方选择的聊天室。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected rooms (%1)</source>
-        <translation type="unfinished"/>
+        <translation>已选聊天室（%1）</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Selected rooms</source>
-        <translation type="unfinished"/>
+        <translation>已选聊天室</translation>
     </message>
     <message>
         <location line="+216"/>
         <source>Rooms</source>
-        <translation type="unfinished">聊天室</translation>
+        <translation>聊天室</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>(Space)</source>
-        <translation type="unfinished">（空间）</translation>
+        <translation>（空间）</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>No matching rooms found.</source>
-        <translation type="unfinished"/>
+        <translation>未找到匹配的聊天室。</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start typing to find a room.</source>
-        <translation type="unfinished"/>
+        <translation>输入以查找聊天室。</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose one or more rooms to forward the message to.</source>
-        <translation type="unfinished"/>
+        <translation>选择一个或多个聊天室以转发消息。</translation>
     </message>
     <message>
         <location line="-306"/>

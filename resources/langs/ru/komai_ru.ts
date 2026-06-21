@@ -2042,26 +2042,26 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="-120"/>
         <source>Forward message</source>
-        <translation type="unfinished"/>
+        <translation>Переслать сообщение</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages</source>
-        <translation type="unfinished"/>
+        <translation>Переслать %1 из %2 сообщений</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>Переслать %n сообщение</numerusform>
+            <numerusform>Переслать %n сообщения</numerusform>
+            <numerusform>Переслать %n сообщений</numerusform>
         </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>Пересылка отправляет этот контент (не раскрывая отправителя) в выбранные ниже комнаты.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2076,47 +2076,47 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>Пересылка отправляет эти сообщения (не раскрывая отправителя) в выбранные ниже комнаты.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected rooms (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Выбранные комнаты (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Selected rooms</source>
-        <translation type="unfinished"/>
+        <translation>Выбранные комнаты</translation>
     </message>
     <message>
         <location line="+216"/>
         <source>Rooms</source>
-        <translation type="unfinished">Комнаты</translation>
+        <translation>Комнаты</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>(Space)</source>
-        <translation type="unfinished">(Пространство)</translation>
+        <translation>(Space)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>No matching rooms found.</source>
-        <translation type="unfinished"/>
+        <translation>Подходящих комнат не найдено.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start typing to find a room.</source>
-        <translation type="unfinished"/>
+        <translation>Начните вводить текст для поиска комнаты.</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Remove</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose one or more rooms to forward the message to.</source>
-        <translation type="unfinished"/>
+        <translation>Выберите одну или несколько комнат для пересылки сообщения.</translation>
     </message>
     <message>
         <location line="-306"/>

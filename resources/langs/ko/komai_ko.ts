@@ -2038,24 +2038,24 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-120"/>
         <source>Forward message</source>
-        <translation type="unfinished"/>
+        <translation>메시지 전달</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages</source>
-        <translation type="unfinished"/>
+        <translation>%2개 메시지 중 %1개 전달</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n개의 메시지 전달</numerusform>
         </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>전달하면 이 콘텐츠가 (발신자를 공개하지 않고) 아래에서 선택한 방으로 전송됩니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2070,47 +2070,47 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>전달하면 이 메시지들이 (발신자를 공개하지 않고) 아래에서 선택한 방으로 전송됩니다.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected rooms (%1)</source>
-        <translation type="unfinished"/>
+        <translation>선택된 방 (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Selected rooms</source>
-        <translation type="unfinished"/>
+        <translation>선택된 방</translation>
     </message>
     <message>
         <location line="+216"/>
         <source>Rooms</source>
-        <translation type="unfinished">방</translation>
+        <translation>방</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>(Space)</source>
-        <translation type="unfinished">(스페이스)</translation>
+        <translation>(스페이스)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>No matching rooms found.</source>
-        <translation type="unfinished"/>
+        <translation>일치하는 방이 없습니다.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start typing to find a room.</source>
-        <translation type="unfinished"/>
+        <translation>방을 찾으려면 입력을 시작하세요.</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Remove</source>
-        <translation type="unfinished">제거</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose one or more rooms to forward the message to.</source>
-        <translation type="unfinished"/>
+        <translation>메시지를 전달할 방을 하나 이상 선택하세요.</translation>
     </message>
     <message>
         <location line="-306"/>

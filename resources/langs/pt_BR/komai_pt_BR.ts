@@ -2040,25 +2040,25 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="-120"/>
         <source>Forward message</source>
-        <translation type="unfinished"/>
+        <translation>Encaminhar mensagem</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages</source>
-        <translation type="unfinished"/>
+        <translation>Encaminhar %1 de %2 mensagens</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n mensagem encaminhada</numerusform>
+            <numerusform>%n mensagens encaminhadas</numerusform>
         </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>Encaminhar envia este conteúdo (sem revelar o remetente) para as salas que você escolher abaixo.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2073,47 +2073,47 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>Encaminhar envia estas mensagens (sem revelar o remetente) para as salas que você escolher abaixo.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected rooms (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Salas selecionadas (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Selected rooms</source>
-        <translation type="unfinished"/>
+        <translation>Salas selecionadas</translation>
     </message>
     <message>
         <location line="+216"/>
         <source>Rooms</source>
-        <translation type="unfinished">Salas</translation>
+        <translation>Salas</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>(Space)</source>
-        <translation type="unfinished">(Espaço)</translation>
+        <translation>(Espaço)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>No matching rooms found.</source>
-        <translation type="unfinished"/>
+        <translation>Nenhuma sala encontrada.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start typing to find a room.</source>
-        <translation type="unfinished"/>
+        <translation>Comece a digitar para encontrar uma sala.</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Remove</source>
-        <translation type="unfinished">Remover</translation>
+        <translation>Remover</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose one or more rooms to forward the message to.</source>
-        <translation type="unfinished"/>
+        <translation>Escolha uma ou mais salas para encaminhar a mensagem.</translation>
     </message>
     <message>
         <location line="-306"/>

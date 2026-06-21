@@ -2038,24 +2038,24 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="-120"/>
         <source>Forward message</source>
-        <translation type="unfinished"/>
+        <translation>Üzenet továbbítása</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages</source>
-        <translation type="unfinished"/>
+        <translation>%1 / %2 üzenet továbbítása</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages</source>
-        <translation type="unfinished">
-            <numerusform/>
+        <translation>
+            <numerusform>%n üzenet továbbítása</numerusform>
         </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>A továbbítás ezt a tartalmat (a feladó feltüntetése nélkül) elküldi az alább kiválasztott szobákba.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2070,47 +2070,47 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>A továbbítás ezeket az üzeneteket (a feladó feltüntetése nélkül) elküldi az alább kiválasztott szobákba.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected rooms (%1)</source>
-        <translation type="unfinished"/>
+        <translation>Kiválasztott szobák (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Selected rooms</source>
-        <translation type="unfinished"/>
+        <translation>Kiválasztott szobák</translation>
     </message>
     <message>
         <location line="+216"/>
         <source>Rooms</source>
-        <translation type="unfinished">Szobák</translation>
+        <translation>Szobák</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>(Space)</source>
-        <translation type="unfinished">(Tér)</translation>
+        <translation>(Tér)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>No matching rooms found.</source>
-        <translation type="unfinished"/>
+        <translation>Nem találhatók egyező szobák.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start typing to find a room.</source>
-        <translation type="unfinished"/>
+        <translation>Kezdjen el gépelni egy szoba kereséséhez.</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Remove</source>
-        <translation type="unfinished">Eltávolítás</translation>
+        <translation>Eltávolítás</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose one or more rooms to forward the message to.</source>
-        <translation type="unfinished"/>
+        <translation>Válasszon egy vagy több szobát, amelybe az üzenetet továbbítja.</translation>
     </message>
     <message>
         <location line="-306"/>

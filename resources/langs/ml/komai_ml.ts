@@ -2040,25 +2040,25 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="-120"/>
         <source>Forward message</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം ഫോർവേഡ് ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages</source>
-        <translation type="unfinished"/>
+        <translation>%2 സന്ദേശങ്ങളിൽ %1 ഫോർവേഡ് ചെയ്യുക</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n സന്ദേശം ഫോർവേഡ് ചെയ്യുക</numerusform>
+            <numerusform>%n സന്ദേശങ്ങൾ ഫോർവേഡ് ചെയ്യുക</numerusform>
         </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർവേഡ് ചെയ്യുന്നത് ഈ ഉള്ളടക്കം (അയച്ചയാളെ വെളിപ്പെടുത്താതെ) നിങ്ങൾ താഴെ തിരഞ്ഞെടുക്കുന്ന മുറികളിലേക്ക് അയക്കും.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2073,47 +2073,47 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>ഫോർവേഡ് ചെയ്യുന്നത് ഈ സന്ദേശങ്ങൾ (അയച്ചയാളെ വെളിപ്പെടുത്താതെ) നിങ്ങൾ താഴെ തിരഞ്ഞെടുക്കുന്ന മുറികളിലേക്ക് അയക്കും.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected rooms (%1)</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത മുറികൾ (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Selected rooms</source>
-        <translation type="unfinished"/>
+        <translation>തിരഞ്ഞെടുത്ത മുറികൾ</translation>
     </message>
     <message>
         <location line="+216"/>
         <source>Rooms</source>
-        <translation type="unfinished">മുറികൾ</translation>
+        <translation>മുറികൾ</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>(Space)</source>
-        <translation type="unfinished">(സ്പേസ്)</translation>
+        <translation>(Space)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>No matching rooms found.</source>
-        <translation type="unfinished"/>
+        <translation>പൊരുത്തമുള്ള മുറികളൊന്നും കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start typing to find a room.</source>
-        <translation type="unfinished"/>
+        <translation>ഒരു മുറി കണ്ടെത്താൻ ടൈപ്പ് ചെയ്യാൻ തുടങ്ങുക.</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Remove</source>
-        <translation type="unfinished">നീക്കം ചെയ്യുക</translation>
+        <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose one or more rooms to forward the message to.</source>
-        <translation type="unfinished"/>
+        <translation>സന്ദേശം ഫോർവേഡ് ചെയ്യാൻ ഒന്നോ അതിലധികമോ മുറികൾ തിരഞ്ഞെടുക്കുക.</translation>
     </message>
     <message>
         <location line="-306"/>

@@ -2040,25 +2040,25 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-120"/>
         <source>Forward message</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය යොමු කරන්න</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Forward %1 of %2 messages</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩ %2 න් %1 ක් යොමු කරන්න</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>Forward %n messages</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
+        <translation>
+            <numerusform>%n පණිවිඩය යොමු කරන්න</numerusform>
+            <numerusform>%n පණිවිඩ යොමු කරන්න</numerusform>
         </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Forwarding sends this content (without revealing its sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>යොමු කිරීමෙන් (යවන්නා හෙළිනොකර) මෙම අන්තර්ගතය ඔබ පහතින් තෝරාගන්නා කාමරවලට යවනු ලැබේ.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2073,47 +2073,47 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+3"/>
         <source>Forwarding sends these messages (without revealing their sender) to the rooms you pick below.</source>
-        <translation type="unfinished"/>
+        <translation>යොමු කිරීමෙන් (යවන්නා හෙළිනොකර) මෙම පණිවිඩ ඔබ පහතින් තෝරාගන්නා කාමරවලට යවනු ලැබේ.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected rooms (%1)</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් කාමර (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Selected rooms</source>
-        <translation type="unfinished"/>
+        <translation>තෝරාගත් කාමර</translation>
     </message>
     <message>
         <location line="+216"/>
         <source>Rooms</source>
-        <translation type="unfinished">කාමර</translation>
+        <translation>කාමර</translation>
     </message>
     <message>
         <location line="+131"/>
         <source>(Space)</source>
-        <translation type="unfinished">(අවකාශය)</translation>
+        <translation>(Space)</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>No matching rooms found.</source>
-        <translation type="unfinished"/>
+        <translation>ගැළපෙන කාමර හමු නොවිය.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start typing to find a room.</source>
-        <translation type="unfinished"/>
+        <translation>කාමරයක් සොයා ගැනීමට ටයිප් කිරීම ආරම්භ කරන්න.</translation>
     </message>
     <message>
         <location line="+88"/>
         <source>Remove</source>
-        <translation type="unfinished">ඉවත් කරන්න</translation>
+        <translation>ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Choose one or more rooms to forward the message to.</source>
-        <translation type="unfinished"/>
+        <translation>පණිවිඩය යොමු කිරීමට එක් හෝ කිහිප කාමරයක් තෝරන්න.</translation>
     </message>
     <message>
         <location line="-306"/>

@@ -2526,7 +2526,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+87"/>
         <source>Selected users (%1)</source>
-        <translation type="unfinished"/>
+        <translation>選択されたユーザー (%1)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2536,7 +2536,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+195"/>
         <source>Users</source>
-        <translation type="unfinished">ユーザー</translation>
+        <translation>ユーザー</translation>
     </message>
     <message>
         <location line="+124"/>
@@ -2577,7 +2577,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+122"/>
         <source>Choose one or more users to invite.</source>
-        <translation type="unfinished"/>
+        <translation>招待するユーザーを1人以上選択してください。</translation>
     </message>
     <message>
         <location line="+10"/>

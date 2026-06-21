@@ -2514,7 +2514,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
         <source>Invite users to %1</source>
         <translation>Undang pengguna ke %1</translation>
     </message>
@@ -2524,43 +2524,43 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Undang pengguna</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+87"/>
+        <source>Selected users (%1)</source>
+        <translation>Pengguna yang dipilih (%1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Selected users</source>
         <translation>Pengguna dipilih</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <location line="+266"/>
+        <location line="+195"/>
+        <source>Users</source>
+        <translation>Pengguna</translation>
+    </message>
+    <message>
+        <location line="+124"/>
+        <location line="+158"/>
         <source>Unknown display name</source>
         <translation>Nama tampilan tidak diketahui</translation>
     </message>
     <message>
-        <location line="-248"/>
+        <location line="+18"/>
         <source>Remove</source>
         <translation>Hapus</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>No one is selected yet.</source>
-        <translation>Belum ada yang dipilih.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Search</source>
-        <translation>Cari</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="-460"/>
         <source>Search by name or @user:example.com</source>
         <translation>Cari berdasarkan nama atau @user:example.com</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+123"/>
         <source>Invite directly</source>
         <translation>Undang langsung</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+205"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Ketik kata kunci pencarian. Hasil akan muncul di sini.</translation>
     </message>
@@ -2575,7 +2575,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Gunakan saran di atas untuk mengundang dengan Matrix ID.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+122"/>
+        <source>Choose one or more users to invite.</source>
+        <translation>Pilih satu atau lebih pengguna untuk diundang.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Invite</source>
         <translation>Undang</translation>
     </message>

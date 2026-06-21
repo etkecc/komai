@@ -2520,7 +2520,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
         <source>Invite users to %1</source>
         <translation>Пригласить пользователей в %1</translation>
     </message>
@@ -2530,43 +2530,43 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Пригласить пользователей</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+87"/>
+        <source>Selected users (%1)</source>
+        <translation>Выбранные пользователи (%1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Selected users</source>
         <translation>Выбранные пользователи</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <location line="+266"/>
+        <location line="+195"/>
+        <source>Users</source>
+        <translation>Пользователи</translation>
+    </message>
+    <message>
+        <location line="+124"/>
+        <location line="+158"/>
         <source>Unknown display name</source>
         <translation>Неизвестное отображаемое имя</translation>
     </message>
     <message>
-        <location line="-248"/>
+        <location line="+18"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>No one is selected yet.</source>
-        <translation>Никто не выбран.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Search</source>
-        <translation>Поиск</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="-460"/>
         <source>Search by name or @user:example.com</source>
         <translation>Поиск по имени или @user:example.com</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+123"/>
         <source>Invite directly</source>
         <translation>Пригласить напрямую</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+205"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Введи поисковый запрос. Результаты появятся здесь.</translation>
     </message>
@@ -2581,7 +2581,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Используй подсказку выше, чтобы пригласить по Matrix ID.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+122"/>
+        <source>Choose one or more users to invite.</source>
+        <translation>Выбери одного или нескольких пользователей для приглашения.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Invite</source>
         <translation>Пригласить</translation>
     </message>

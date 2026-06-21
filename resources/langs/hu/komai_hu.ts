@@ -2514,7 +2514,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
         <source>Invite users to %1</source>
         <translation>Felhasználók meghívása: %1</translation>
     </message>
@@ -2524,43 +2524,43 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Felhasználók meghívása</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+87"/>
+        <source>Selected users (%1)</source>
+        <translation>Kiválasztott felhasználók (%1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Selected users</source>
         <translation>Kiválasztott felhasználók</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <location line="+266"/>
+        <location line="+195"/>
+        <source>Users</source>
+        <translation>Felhasználók</translation>
+    </message>
+    <message>
+        <location line="+124"/>
+        <location line="+158"/>
         <source>Unknown display name</source>
         <translation>Ismeretlen megjelenített név</translation>
     </message>
     <message>
-        <location line="-248"/>
+        <location line="+18"/>
         <source>Remove</source>
         <translation>Eltávolítás</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>No one is selected yet.</source>
-        <translation>Még senki nincs kiválasztva.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Search</source>
-        <translation>Keresés</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="-460"/>
         <source>Search by name or @user:example.com</source>
         <translation>Keresés név vagy @user:example.com alapján</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+123"/>
         <source>Invite directly</source>
         <translation>Közvetlen meghívás</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+205"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Írja be a keresési kifejezést. Az eredmények itt jelennek meg.</translation>
     </message>
@@ -2575,7 +2575,12 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Használja a fenti javaslatot a Matrix-azonosítóval való meghíváshoz.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+122"/>
+        <source>Choose one or more users to invite.</source>
+        <translation>Válasszon egy vagy több felhasználót a meghíváshoz.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Invite</source>
         <translation>Meghívás</translation>
     </message>

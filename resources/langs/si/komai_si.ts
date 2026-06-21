@@ -2517,7 +2517,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
         <source>Invite users to %1</source>
         <translation>%1 වෙත පරිශීලකයන් ආරාධනා කරන්න</translation>
     </message>
@@ -2527,43 +2527,43 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>පරිශීලකයන් ආරාධනා කරන්න</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+87"/>
+        <source>Selected users (%1)</source>
+        <translation>තෝරාගත් පරිශීලකයන් (%1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Selected users</source>
         <translation>තෝරාගත් පරිශීලකයන්</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <location line="+266"/>
+        <location line="+195"/>
+        <source>Users</source>
+        <translation>පරිශීලකයන්</translation>
+    </message>
+    <message>
+        <location line="+124"/>
+        <location line="+158"/>
         <source>Unknown display name</source>
         <translation>නොදන්නා දර්ශන නාමය</translation>
     </message>
     <message>
-        <location line="-248"/>
+        <location line="+18"/>
         <source>Remove</source>
         <translation>ඉවත් කරන්න</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>No one is selected yet.</source>
-        <translation>තවම කිසිවෙකු තෝරා නොගෙන ඇත.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Search</source>
-        <translation>සොයන්න</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="-460"/>
         <source>Search by name or @user:example.com</source>
         <translation>නමින් හෝ @user:example.com මගින් සොයන්න</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+123"/>
         <source>Invite directly</source>
         <translation>සෘජුවම ආරාධනා කරන්න</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+205"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>සෙවුම් ප්‍රශ්නයක් ටයිප් කරන්න. ප්‍රතිඵල මෙහි දිස් වේ.</translation>
     </message>
@@ -2578,7 +2578,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Matrix ID මගින් ආරාධනා කිරීමට ඉහත යෝජනාව භාවිතා කරන්න.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+122"/>
+        <source>Choose one or more users to invite.</source>
+        <translation>ආරාධනා කිරීම සඳහා එක් හෝ කිහිප දෙනෙකු තෝරාගන්න.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Invite</source>
         <translation>ආරාධනා කරන්න</translation>
     </message>

@@ -2517,7 +2517,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
         <source>Invite users to %1</source>
         <translation>Πρόσκληση χρηστών στο %1</translation>
     </message>
@@ -2527,43 +2527,43 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Πρόσκληση χρηστών</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+87"/>
+        <source>Selected users (%1)</source>
+        <translation>Επιλεγμένοι χρήστες (%1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Selected users</source>
         <translation>Επιλεγμένοι χρήστες</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <location line="+266"/>
+        <location line="+195"/>
+        <source>Users</source>
+        <translation>Χρήστες</translation>
+    </message>
+    <message>
+        <location line="+124"/>
+        <location line="+158"/>
         <source>Unknown display name</source>
         <translation>Άγνωστο εμφανιζόμενο όνομα</translation>
     </message>
     <message>
-        <location line="-248"/>
+        <location line="+18"/>
         <source>Remove</source>
         <translation>Αφαίρεση</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>No one is selected yet.</source>
-        <translation>Δεν έχει επιλεγεί κανείς ακόμα.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Search</source>
-        <translation>Αναζήτηση</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="-460"/>
         <source>Search by name or @user:example.com</source>
         <translation>Αναζήτηση με βάση το όνομα ή @user:example.com</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+123"/>
         <source>Invite directly</source>
         <translation>Άμεση πρόσκληση</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+205"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>Πληκτρολογήστε ένα ερώτημα αναζήτησης. Τα αποτελέσματα θα εμφανιστούν εδώ.</translation>
     </message>
@@ -2578,7 +2578,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Χρησιμοποιήστε την παραπάνω πρόταση για πρόσκληση με Matrix ID.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+122"/>
+        <source>Choose one or more users to invite.</source>
+        <translation>Επιλέξτε έναν ή περισσότερους χρήστες για πρόσκληση.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Invite</source>
         <translation>Πρόσκληση</translation>
     </message>

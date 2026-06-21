@@ -2517,7 +2517,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+20"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
         <source>Invite users to %1</source>
         <translation>%1 - ലേക്ക് ഉപയോക്താക്കളെ ക്ഷണിക്കുക</translation>
     </message>
@@ -2527,43 +2527,43 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഉപയോക്താക്കളെ ക്ഷണിക്കുക</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+87"/>
+        <source>Selected users (%1)</source>
+        <translation>തിരഞ്ഞെടുത്ത ഉപയോക്താക്കൾ (%1)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Selected users</source>
         <translation>തിരഞ്ഞെടുത്ത ഉപയോക്താക്കൾ</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <location line="+266"/>
+        <location line="+195"/>
+        <source>Users</source>
+        <translation>ഉപയോക്താക്കൾ</translation>
+    </message>
+    <message>
+        <location line="+124"/>
+        <location line="+158"/>
         <source>Unknown display name</source>
         <translation>അജ്ഞാത ഡിസ്പ്ലേ നാമം</translation>
     </message>
     <message>
-        <location line="-248"/>
+        <location line="+18"/>
         <source>Remove</source>
         <translation>നീക്കം ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>No one is selected yet.</source>
-        <translation>ഇതുവരെ ആരും തിരഞ്ഞെടുത്തിട്ടില്ല.</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Search</source>
-        <translation>തിരയുക</translation>
-    </message>
-    <message>
-        <location line="+30"/>
+        <location line="-460"/>
         <source>Search by name or @user:example.com</source>
         <translation>പേര് അല്ലെങ്കിൽ @user:example.com ഉപയോഗിച്ച് തിരയുക</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+123"/>
         <source>Invite directly</source>
         <translation>നേരിട്ട് ക്ഷണിക്കുക</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+205"/>
         <source>Type a search query. Results will appear here.</source>
         <translation>ഒരു തിരയൽ ക്വറി ടൈപ്പ് ചെയ്യുക. ഫലങ്ങൾ ഇവിടെ ദൃശ്യമാകും.</translation>
     </message>
@@ -2578,7 +2578,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Matrix ID ഉപയോഗിച്ച് ക്ഷണിക്കാൻ മുകളിലെ നിർദ്ദേശം ഉപയോഗിക്കുക.</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+122"/>
+        <source>Choose one or more users to invite.</source>
+        <translation>ക്ഷണിക്കാൻ ഒന്നോ അതിലധികമോ ഉപയോക്താക്കളെ തിരഞ്ഞെടുക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Invite</source>
         <translation>ക്ഷണിക്കുക</translation>
     </message>

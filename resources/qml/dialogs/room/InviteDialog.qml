@@ -16,6 +16,29 @@ OverlayDialog {
     property InviteesModel invitees
     readonly property int selectedCount: invitees ? invitees.count : 0
 
+    // Card row metrics shared by the results and staging panels.
+    readonly property int cardRowHeight: Komai.iconSize + Komai.paddingMedium * 2
+    readonly property int listSpacing: Komai.paddingSmall
+
+    // The dialog parents onto Overlay.overlay, which fills the window; use the
+    // viewport height (never content height) to budget the list panels.
+    readonly property real windowHeight: overlayDialogViewport ? overlayDialogViewport.height : 800
+
+    // Scrollbar handling, honouring the user's tri-state scrollbar policy.
+    readonly property int scrollbarPolicySetting: Settings.uiScrollbarPolicy
+    // Reserve a gutter whenever a scrollbar can appear, so it never paints over
+    // the rows and the row width stays stable when it shows/hides.
+    readonly property bool scrollbarsReserveGutter: scrollbarPolicySetting !== Settings.ScrollbarPolicy.Never
+
+    // Fixed reserved height for a list panel: a function of row count and the
+    // window only, never of the content, so the panels keep a constant size and
+    // nothing shifts under the pointer while picking users.
+    function reservedListHeight(rows) {
+        const rowH = cardRowHeight + listSpacing;
+        const cap = Math.round(windowHeight * 0.28);
+        return Math.max(rowH * 2, Math.min(rowH * rows, cap));
+    }
+
     title: invitees && invitees.roomName.length > 0
         ? qsTr("Invite users to %1").arg(invitees.roomName)
         : qsTr("Invite users")
@@ -24,7 +47,11 @@ OverlayDialog {
     overlayDialogMinWidth: 760
 
     onOpened: {
+        // Full reset every open: fresh directory search, empty query.
+        inviteeEntry.clear();
         userDirectory.setSearchString("");
+        searchResults.currentIndex = searchResults.count > 0 ? 0 : -1;
+        inviteeEntry.forceActiveFocus();
     }
     onClosed: {
         inviteeEntry.clear();
@@ -35,38 +62,60 @@ OverlayDialog {
     {
         inviteeEntry.clear();
         userDirectory.setSearchString("");
+        searchResults.currentIndex = -1;
         inviteeEntry.forceActiveFocus();
     }
 
-    function addInvite(mxid, displayName, avatarUrl)
+    // Stage one user. When keepSearch is true the query and result list stay put
+    // so several people can be staged in a row without re-aiming; the staged rows
+    // remain visible with an "added" treatment. The direct-MXID path resets,
+    // since inviting the typed id consumes the field.
+    function addInvite(mxid, displayName, avatarUrl, keepSearch)
     {
         const trimmedMxid = (mxid || "").trim();
-        if (!trimmedMxid.match("@.+?:.{3,}")) {
-            console.log("invalid mxid: " + trimmedMxid);
+        if (!trimmedMxid.match("@.+?:.{3,}"))
             return false;
-        }
         if (invitees.containsUser(trimmedMxid))
             return false;
 
         invitees.addUser(trimmedMxid, displayName || "", avatarUrl || "");
-        resetSearch();
+        if (!keepSearch)
+            resetSearch();
         return true;
     }
 
+    // Stage the highlighted (or, if none, the first) directory result.
+    function stageHighlightedResult(keepSearch)
+    {
+        if (searchResults.count === 0)
+            return false;
+
+        let index = searchResults.currentIndex;
+        if (index < 0 || index >= searchResults.count)
+            index = 0;
+
+        const item = searchResults.itemAtIndex(index);
+        if (item && item.enabled)
+            return addInvite(item.userIdText, item.displayNameText, item.avatarUrlText, keepSearch);
+
+        return false;
+    }
+
+    // Enter from the search field: invite the typed MXID directly, else stage the
+    // highlighted result (keeping the search so more can be staged).
+    function stageCurrentResult()
+    {
+        if (inviteeEntry.isValidMxid)
+            return addInvite(inviteeEntry.resolvedMxid, directInviteCard.resolvedDisplayName, directInviteCard.resolvedAvatarUrl, false);
+        return stageHighlightedResult(true);
+    }
+
+    // Pull in whatever is pending before committing, then close.
     function addCurrentInvite()
     {
         if (inviteeEntry.isValidMxid)
-            return addInvite(inviteeEntry.resolvedMxid, "", "");
-
-        if (searchResults.count > 0) {
-            const firstResult = searchResults.itemAtIndex(0);
-            if (firstResult && firstResult.enabled)
-                return addInvite(firstResult.userIdText,
-                                 firstResult.displayNameText,
-                                 firstResult.avatarUrlText);
-        }
-
-        return false;
+            return addInvite(inviteeEntry.resolvedMxid, directInviteCard.resolvedDisplayName, directInviteCard.resolvedAvatarUrl, false);
+        return stageHighlightedResult(false);
     }
 
     function cleanUpAndClose() {
@@ -77,120 +126,20 @@ OverlayDialog {
         close();
     }
 
+    function selectedHeadingText() {
+        if (selectedCount > 0)
+            return qsTr("Selected users (%1)").arg(selectedCount);
+        return qsTr("Selected users");
+    }
+
+    // Ctrl+Enter invites everyone staged, from anywhere in the dialog.
     Shortcut {
-        sequence: "Ctrl+Enter"
+        sequences: ["Ctrl+Return", "Ctrl+Enter"]
+        enabled: inviteDialogRoot.visible && inviteDialogRoot.selectedCount > 0
         onActivated: inviteDialogRoot.cleanUpAndClose()
     }
 
-    Label {
-        Layout.fillWidth: true
-        text: qsTr("Selected users")
-        color: palette.text
-        font.bold: true
-        font.pointSize: Settings.uiFontSizePt * 1.1
-    }
-
-    ListView {
-        id: selectedInvitees
-
-        Layout.fillWidth: true
-        Layout.preferredHeight: inviteDialogRoot.selectedCount > 0
-            ? Math.min(220,
-                       Math.max(Komai.iconSize + Komai.paddingMedium * 2,
-                                selectedInvitees.contentHeight + Komai.paddingSmall * 2))
-            : 0
-        visible: inviteDialogRoot.selectedCount > 0
-        clip: true
-        model: inviteDialogRoot.invitees
-        spacing: Komai.paddingSmall
-
-        delegate: Rectangle {
-            width: ListView.view.width
-            implicitHeight: selectedInviteeRow.implicitHeight + Komai.paddingSmall * 2
-            color: palette.window
-            radius: Komai.paddingMedium
-            border.color: Komai.theme.separator
-            border.width: 1
-
-            RowLayout {
-                id: selectedInviteeRow
-
-                anchors.fill: parent
-                anchors.margins: Komai.paddingSmall
-                spacing: Komai.paddingMedium
-
-                AvatarUserFlipButton {
-                    Layout.preferredWidth: Komai.iconSize
-                    Layout.preferredHeight: Komai.iconSize
-                    Layout.alignment: Qt.AlignVCenter
-                    avatarButtonSize: Komai.iconSize
-                    cleanFront: true
-                    avatarDisplayName: model.displayName
-                    avatarUrl: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
-                    avatarUserId: model.mxid
-                    badgeIconSource: ":/icons/icons/ui/person.svg"
-                    onLeftClicked: TimelineManager.openGlobalUserProfile(model.mxid)
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: Komai.paddingSmall
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: model.displayName || qsTr("Unknown display name")
-                        color: model.displayName ? palette.text : palette.buttonText
-                        font.pointSize: Settings.uiFontSizePt
-                        font.italic: !model.displayName
-                        elide: Text.ElideRight
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        text: model.mxid
-                        color: palette.buttonText
-                        font.pointSize: Settings.uiFontSizePt * 0.9
-                        elide: Text.ElideRight
-                    }
-                }
-
-                KomaiButton {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Remove")
-                    icon.source: "qrc:/icons/icons/ui/delete.svg"
-                    onClicked: inviteDialogRoot.invitees.removeUser(model.mxid)
-                }
-            }
-        }
-    }
-
-    Item {
-        Layout.fillWidth: true
-        Layout.preferredHeight: visible ? emptySelectedState.implicitHeight + Komai.paddingSmall * 2 : 0
-        visible: inviteDialogRoot.selectedCount === 0
-
-        Label {
-            id: emptySelectedState
-
-            anchors.centerIn: parent
-            width: parent.width - Komai.paddingLarge * 2
-            text: qsTr("No one is selected yet.")
-            color: palette.buttonText
-            font.pointSize: Settings.uiFontSizePt * 0.95
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.WordWrap
-        }
-    }
-
-    Label {
-        Layout.fillWidth: true
-        Layout.topMargin: Komai.paddingSmall
-        text: qsTr("Search")
-        color: palette.text
-        font.bold: true
-        font.pointSize: Settings.uiFontSizePt * 1.1
-    }
-
+    // --- Search ---
     KomaiTextField {
         id: inviteeEntry
 
@@ -217,11 +166,35 @@ OverlayDialog {
         Layout.fillWidth: true
         placeholderText: qsTr("Search by name or @user:example.com")
         font.pixelSize: Math.ceil(Komai.fontPixelSize * 1.2)
-        onAccepted: inviteDialogRoot.addCurrentInvite()
-        Keys.onShortcutOverride: function(event) { event.accepted = ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier)); }
-        Keys.onPressed: function(event) {
-            if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier))
-                inviteDialogRoot.cleanUpAndClose();
+
+        Keys.onShortcutOverride: (event) => {
+            // Claim navigation / staging keys before the platform turns them
+            // into edit operations (Ctrl+U "clear line", etc.).
+            if (event.key === Qt.Key_Up || event.key === Qt.Key_Down
+                    || ((event.key === Qt.Key_D || event.key === Qt.Key_U)
+                        && (event.modifiers & Qt.ControlModifier))
+                    || (event.matches(StandardKey.InsertParagraphSeparator)
+                        && !(event.modifiers & Qt.ControlModifier)))
+                event.accepted = true;
+        }
+        Keys.onPressed: (event) => {
+            if (event.key === Qt.Key_Up) {
+                searchResults.moveSelection(-1);
+                event.accepted = true;
+            } else if (event.key === Qt.Key_Down) {
+                searchResults.moveSelection(1);
+                event.accepted = true;
+            } else if (event.key === Qt.Key_U && (event.modifiers & Qt.ControlModifier)) {
+                searchResults.moveSelection(-searchResults.pageStep);
+                event.accepted = true;
+            } else if (event.key === Qt.Key_D && (event.modifiers & Qt.ControlModifier)) {
+                searchResults.moveSelection(searchResults.pageStep);
+                event.accepted = true;
+            } else if (event.matches(StandardKey.InsertParagraphSeparator)
+                       && !(event.modifiers & Qt.ControlModifier)) {
+                inviteDialogRoot.stageCurrentResult();
+                event.accepted = true;
+            }
         }
         onTextChanged: {
             if (text.trim().length === 0)
@@ -259,10 +232,11 @@ OverlayDialog {
         }
 
         Layout.fillWidth: true
+        activeFocusOnTab: false
         visible: inviteeEntry.isValidMxid && !alreadyAdded
         implicitHeight: directInviteRow.implicitHeight + Komai.paddingSmall * 2
         onClicked: inviteDialogRoot.addInvite(inviteeEntry.resolvedMxid,
-            directInviteCard.resolvedDisplayName, directInviteCard.resolvedAvatarUrl)
+            directInviteCard.resolvedDisplayName, directInviteCard.resolvedAvatarUrl, false)
 
         Connections {
             target: inviteeEntry
@@ -346,40 +320,110 @@ OverlayDialog {
         }
     }
 
+    // --- Results (directory matches) ---
+    Label {
+        Layout.fillWidth: true
+        Layout.topMargin: Komai.paddingSmall
+        text: qsTr("Users")
+        color: palette.text
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt * 1.1
+    }
+
     ListView {
         id: searchResults
 
+        // How far Ctrl+D / Ctrl+U jump through the result list.
+        readonly property int pageStep: 5
+        // Reserve the scrollbar gutter so rows never sit under the bar.
+        readonly property real scrollGutter: inviteDialogRoot.scrollbarsReserveGutter
+            ? (searchScrollBar.implicitWidth + Komai.paddingSmall)
+            : 0
+
+        function moveSelection(delta) {
+            if (count === 0) {
+                currentIndex = -1;
+                return;
+            }
+            let next = (currentIndex < 0 ? 0 : currentIndex) + delta;
+            next = Math.max(0, Math.min(count - 1, next));
+            currentIndex = next;
+            positionViewAtIndex(next, ListView.Contain);
+        }
+
         Layout.fillWidth: true
-        Layout.preferredHeight: 280
+        Layout.preferredHeight: inviteDialogRoot.reservedListHeight(6)
         model: userDirectory
         clip: true
+        spacing: inviteDialogRoot.listSpacing
+        boundsBehavior: Flickable.StopAtBounds
+        highlightFollowsCurrentItem: true
+        keyNavigationEnabled: false
+
+        onCountChanged: {
+            if (count > 0 && (currentIndex < 0 || currentIndex >= count))
+                currentIndex = 0;
+            else if (count === 0)
+                currentIndex = -1;
+        }
 
         FlickableWheelBooster { flickable: searchResults }
+
+        ScrollBar.vertical: ScrollBar {
+            id: searchScrollBar
+
+            policy: {
+                switch (inviteDialogRoot.scrollbarPolicySetting) {
+                case Settings.ScrollbarPolicy.Always:
+                    return ScrollBar.AlwaysOn;
+                case Settings.ScrollbarPolicy.Never:
+                    return ScrollBar.AlwaysOff;
+                default:
+                    return searchResults.contentHeight > searchResults.height
+                        ? ScrollBar.AlwaysOn
+                        : ScrollBar.AlwaysOff;
+                }
+            }
+        }
 
         delegate: AbstractButton {
             id: resultDelegate
 
-            readonly property bool activeState: hovered || pressed
             readonly property bool alreadySelected: inviteDialogRoot.selectedCount > 0
                 && inviteDialogRoot.invitees.containsUser(model.userid)
+            readonly property bool current: model.index === searchResults.currentIndex
             property string userIdText: model.userid
             property string displayNameText: model.displayName
             property string avatarUrlText: model.avatarUrl
 
-            width: ListView.view.width
+            width: searchResults.width - searchResults.scrollGutter
             implicitHeight: resultRow.implicitHeight + Komai.paddingSmall * 2
-            hoverEnabled: !alreadySelected
+            hoverEnabled: true
             enabled: !alreadySelected
-            opacity: alreadySelected ? 0.7 : 1
-            onClicked: inviteDialogRoot.addInvite(userIdText, displayNameText, avatarUrlText)
+            activeFocusOnTab: false
+            onClicked: {
+                searchResults.currentIndex = model.index;
+                inviteDialogRoot.addInvite(userIdText, displayNameText, avatarUrlText, true);
+            }
+            onHoveredChanged: {
+                if (hovered && enabled)
+                    searchResults.currentIndex = model.index;
+            }
 
             background: Rectangle {
                 radius: Komai.paddingMedium
-                color: resultDelegate.alreadySelected
-                    ? palette.window
-                    : resultDelegate.activeState ? palette.dark : "transparent"
-                border.color: resultDelegate.alreadySelected ? Komai.theme.separator : "transparent"
-                border.width: resultDelegate.alreadySelected ? 1 : 0
+                color: {
+                    if (resultDelegate.current && resultDelegate.enabled)
+                        return palette.highlight;
+                    if (resultDelegate.alreadySelected)
+                        return Qt.tint(palette.window,
+                                       Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.22));
+                    return palette.window;
+                }
+                border.width: 1
+                border.color: resultDelegate.alreadySelected
+                    ? palette.highlight
+                    : Komai.theme.separator
             }
 
             contentItem: RowLayout {
@@ -405,9 +449,11 @@ OverlayDialog {
                     Label {
                         Layout.fillWidth: true
                         text: resultDelegate.displayNameText || qsTr("Unknown display name")
-                        color: resultDelegate.activeState
-                            ? palette.brightText
-                            : resultDelegate.displayNameText ? palette.text : palette.buttonText
+                        color: resultDelegate.current && resultDelegate.enabled
+                            ? palette.highlightedText
+                            : resultDelegate.alreadySelected
+                                ? palette.buttonText
+                                : resultDelegate.displayNameText ? palette.text : palette.buttonText
                         font.pointSize: Settings.uiFontSizePt
                         font.italic: !resultDelegate.displayNameText
                         elide: Text.ElideRight
@@ -416,7 +462,9 @@ OverlayDialog {
                     Label {
                         Layout.fillWidth: true
                         text: resultDelegate.userIdText
-                        color: resultDelegate.activeState ? palette.brightText : palette.buttonText
+                        color: resultDelegate.current && resultDelegate.enabled
+                            ? palette.highlightedText
+                            : palette.buttonText
                         font.pointSize: Settings.uiFontSizePt * 0.9
                         elide: Text.ElideRight
                     }
@@ -425,12 +473,12 @@ OverlayDialog {
                 Image {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.preferredWidth: visible ? 18 : 0
-                    Layout.preferredHeight: visible ? 18 : 0
+                    Layout.preferredHeight: 18
                     Layout.rightMargin: Komai.paddingMedium
                     visible: resultDelegate.alreadySelected
                     fillMode: Image.PreserveAspectFit
                     source: visible
-                        ? "image://colorimage/:/icons/icons/ui/double-checkmark.svg?" + palette.buttonText
+                        ? "image://colorimage/:/icons/icons/ui/double-checkmark.svg?" + palette.highlight
                         : ""
                 }
             }
@@ -446,7 +494,7 @@ OverlayDialog {
             visible: searchResults.count === 0 && inviteeEntry.text.trim().length === 0
             text: qsTr("Type a search query. Results will appear here.")
             color: palette.buttonText
-            font.pointSize: Settings.uiFontSizePt * 0.9
+            font.pointSize: Settings.uiFontSizePt * 0.95
         }
 
         Column {
@@ -483,11 +531,133 @@ OverlayDialog {
         }
     }
 
+    // --- Staging (selected users) ---
+    Label {
+        Layout.fillWidth: true
+        Layout.topMargin: Komai.paddingSmall
+        text: inviteDialogRoot.selectedHeadingText()
+        color: palette.text
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt * 1.1
+    }
+
+    ListView {
+        id: selectedInvitees
+
+        readonly property real scrollGutter: inviteDialogRoot.scrollbarsReserveGutter
+            ? (selectedScrollBar.implicitWidth + Komai.paddingSmall)
+            : 0
+
+        Layout.fillWidth: true
+        Layout.preferredHeight: inviteDialogRoot.reservedListHeight(4)
+        clip: true
+        model: inviteDialogRoot.invitees
+        spacing: inviteDialogRoot.listSpacing
+        boundsBehavior: Flickable.StopAtBounds
+
+        ScrollBar.vertical: ScrollBar {
+            id: selectedScrollBar
+
+            policy: {
+                switch (inviteDialogRoot.scrollbarPolicySetting) {
+                case Settings.ScrollbarPolicy.Always:
+                    return ScrollBar.AlwaysOn;
+                case Settings.ScrollbarPolicy.Never:
+                    return ScrollBar.AlwaysOff;
+                default:
+                    return selectedInvitees.contentHeight > selectedInvitees.height
+                        ? ScrollBar.AlwaysOn
+                        : ScrollBar.AlwaysOff;
+                }
+            }
+        }
+
+        delegate: Rectangle {
+            width: selectedInvitees.width - selectedInvitees.scrollGutter
+            implicitHeight: selectedInviteeRow.implicitHeight + Komai.paddingSmall * 2
+            color: palette.window
+            radius: Komai.paddingMedium
+            border.color: Komai.theme.separator
+            border.width: 1
+
+            RowLayout {
+                id: selectedInviteeRow
+
+                anchors.fill: parent
+                anchors.margins: Komai.paddingSmall
+                spacing: Komai.paddingMedium
+
+                AvatarUserFlipButton {
+                    Layout.preferredWidth: Komai.iconSize
+                    Layout.preferredHeight: Komai.iconSize
+                    Layout.alignment: Qt.AlignVCenter
+                    avatarButtonSize: Komai.iconSize
+                    cleanFront: true
+                    avatarDisplayName: model.displayName
+                    avatarUrl: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
+                    avatarUserId: model.mxid
+                    badgeIconSource: ":/icons/icons/ui/person.svg"
+                    onLeftClicked: TimelineManager.openGlobalUserProfile(model.mxid)
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: model.displayName || qsTr("Unknown display name")
+                        color: model.displayName ? palette.text : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        font.italic: !model.displayName
+                        elide: Text.ElideRight
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: model.mxid
+                        color: palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt * 0.9
+                        elide: Text.ElideRight
+                    }
+                }
+
+                KomaiButton {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Remove")
+                    icon.source: "qrc:/icons/icons/ui/delete.svg"
+                    onClicked: inviteDialogRoot.invitees.removeUser(model.mxid)
+                }
+            }
+        }
+
+        Label {
+            anchors.centerIn: parent
+            width: parent.width - Komai.paddingLarge * 2
+            visible: selectedInvitees.count === 0
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
+            text: qsTr("Choose one or more users to invite.")
+            color: palette.buttonText
+            font.pointSize: Settings.uiFontSizePt * 0.95
+        }
+    }
+
     KomaiButton {
         Layout.alignment: Qt.AlignRight
+        activeFocusOnTab: true
+        focusPolicy: Qt.StrongFocus
         text: qsTr("Invite")
         highlighted: true
         enabled: invitees.count > 0
         onClicked: inviteDialogRoot.cleanUpAndClose()
+        Keys.onEnterPressed: event => {
+            inviteDialogRoot.cleanUpAndClose();
+            event.accepted = true;
+        }
+        Keys.onReturnPressed: event => {
+            inviteDialogRoot.cleanUpAndClose();
+            event.accepted = true;
+        }
     }
 }

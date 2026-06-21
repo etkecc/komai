@@ -25,11 +25,16 @@ FROM docker.io/archlinux:base-devel
 #
 # Use rustup instead of Arch's rolling `rust` package so Corrosion and
 # rust-toolchain.toml honor the repo's pinned toolchain.
+#
+# qt6-webengine + qt6-webchannel back the ELEMENT_CALL build option (Element
+# Call's QtWebEngine webview), which defaults ON, so CMake's
+# find_package(... WebEngineQuick WebChannelQuick REQUIRED) needs both here.
 RUN pacman -Syu --noconfirm --needed \
         git \
         ccache mold \
         cmake just python python-yaml mise reuse rustup \
         qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
+        qt6-webengine qt6-webchannel \
         cmark openssl \
         qtkeychain-qt6 kdsingleapplication \
         curl libsecret kwallet pipewire-jack \

@@ -39,7 +39,7 @@ jobs:
     runs-on: [self-hosted, k150]
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Build AppImage
         run: just appimage-build-docker
@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install just
         run: |
@@ -83,7 +83,7 @@ jobs:
     runs-on: [self-hosted, k150]
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Build Flatpak
         run: just flatpak-build
@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install just, flatpak and flatpak-builder
         run: |
@@ -131,7 +131,7 @@ jobs:
     runs-on: [self-hosted, k150]
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Build Snap
         run: just snap-build-docker
@@ -153,7 +153,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install just
         run: |
@@ -177,7 +177,7 @@ jobs:
     runs-on: macos-26
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Build macOS arm64 DMG
         uses: ./.github/actions/build-macos-dmg
@@ -188,7 +188,7 @@ jobs:
     runs-on: windows-2025-vs2026
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Build Windows no-installer zip
         uses: ./.github/actions/build-windows-zip

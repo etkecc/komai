@@ -405,8 +405,21 @@ Pane {
                 return needsScrolling;
             }
         }
-        readonly property real reservedScrollbarWidth: scrollbarVisible
-            ? Math.max(replyScrollBar.width, replyScrollBar.implicitWidth) + Komai.paddingSmall
+        // Reserve the scrollbar gutter based on whether scrolling is *possible*
+        // (limitHeight on, policy not Never) rather than whether the bar is
+        // currently visible. Tying the reserved width to live visibility makes the
+        // body's available width depend on its own height: content sitting near the
+        // height cap flips the bar on/off, the body reflows, re-crosses the cap, and
+        // the TimelineEvent chooser re-polishes forever (QQuickItem::polish() loop).
+        // A constant gutter keeps the body width height-independent and also avoids
+        // a reflow jump when the bar appears.
+        readonly property bool reservesScrollbarGutter: r.limitHeight
+            && scrollbarPolicy !== Settings.ScrollbarPolicy.Never
+        // Use implicitWidth only (the bar's natural thickness, == its shown
+        // width): replyScrollBar.width is driven by the Flickable whose right
+        // margin is this very value, so referencing it here is a binding loop.
+        readonly property real reservedScrollbarWidth: reservesScrollbarGutter
+            ? replyScrollBar.implicitWidth + Komai.paddingSmall
             : 0
 
         implicitWidth: Math.max(usernameBtn.implicitWidth, previewDelegateWidth + reservedScrollbarWidth)

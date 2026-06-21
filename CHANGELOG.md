@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026.06.21.0
+
+🎉 **[Element Call](https://github.com/element-hq/element-call) comes to Komai!** Modern, encrypted 1:1 and group voice and video calls now work on Linux, Windows, and macOS. See the [guide](https://github.com/etkecc/komai/blob/47cd44713/docs/user-guide/features/element-call.md) to get started ([699263321](https://github.com/etkecc/komai/commit/699263321), [05b207a75](https://github.com/etkecc/komai/commit/05b207a75), [f0866c102](https://github.com/etkecc/komai/commit/f0866c102)).
+
+- ✨ Feature: support for forwarding a message to several rooms at once ([8f9144324](https://github.com/etkecc/komai/commit/8f9144324), [47cd44713](https://github.com/etkecc/komai/commit/47cd44713)).
+- ✨ Feature: resize the message input area by dragging its top edge ([8687b2c18](https://github.com/etkecc/komai/commit/8687b2c18)).
+- 🐛 Fix: failed media thumbnails back off and retry automatically, and retry right away when connectivity returns, instead of staying broken ([3c9e637f5](https://github.com/etkecc/komai/commit/3c9e637f5), [1a29daa35](https://github.com/etkecc/komai/commit/1a29daa35)).
+- 🐛 Fix: timeline tooltips render as plain text, and the avatar sender tooltip is a compact single line ([859a9d0f6](https://github.com/etkecc/komai/commit/859a9d0f6), [e8ecf7da3](https://github.com/etkecc/komai/commit/e8ecf7da3)).
+- 🐛 Fix: the reply preview no longer gets stuck in a layout loop near the height-limit cap ([87c765223](https://github.com/etkecc/komai/commit/87c765223)).
+- 🐛 Fix: Komai probes whether the secure store is writable and explains an unreadable store cipher, instead of failing silently ([4cddd800a](https://github.com/etkecc/komai/commit/4cddd800a)).
+- 🎨 Polish: the Media Viewer action buttons match the app's other control bars ([e39ab0438](https://github.com/etkecc/komai/commit/e39ab0438)).
+- 🎨 Polish: the thread view drops its dashed outline ([b3e2b5311](https://github.com/etkecc/komai/commit/b3e2b5311)).
+
 ## 2026.06.02.0
 
 - 📦 Linux: the AppImage, Flatpak, and Snap bundles are now published for arm64 (`aarch64`) alongside x86-64, so Komai runs on arm64 Linux machines ([4988b678b](https://github.com/etkecc/komai/commit/4988b678b)).

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.06.22.0
+
+- ✨ Feature: the default profile can now have its own desktop launcher, like named profiles, instead of only the profile-switcher entry ([76ee22179](https://github.com/etkecc/komai/commit/76ee22179)).
+- 🎨 Polish: `komai --help` and `--version` show `komai` as the command name instead of the full path it was launched from ([cb5185544](https://github.com/etkecc/komai/commit/cb5185544)).
+- 📦 Packaging: Komai honors a `KOMAI_EXECUTABLE_PATH` override when relaunching itself, so prebuilt AppImage installs route profile switches and generated desktop launchers through the correct entry point ([be86c9537](https://github.com/etkecc/komai/commit/be86c9537)).
+
 ## 2026.06.21.0
 
 🎉 **[Element Call](https://github.com/element-hq/element-call) comes to Komai!** Modern, encrypted 1:1 and group voice and video calls now work on Linux, Windows, and macOS. See the [guide](https://github.com/etkecc/komai/blob/47cd44713/docs/user-guide/features/element-call.md) to get started ([699263321](https://github.com/etkecc/komai/commit/699263321), [05b207a75](https://github.com/etkecc/komai/commit/05b207a75), [f0866c102](https://github.com/etkecc/komai/commit/f0866c102)).

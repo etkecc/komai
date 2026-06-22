@@ -4823,7 +4823,7 @@ Executar '%1 &lt;group&gt; --help' por detalies de subcomandes.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nomine de profil invalid: %1</translation>

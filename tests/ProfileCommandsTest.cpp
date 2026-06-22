@@ -28,10 +28,10 @@ testValidIdIsAccepted()
 }
 
 static void
-testDefaultProfileIsRejected()
+testDefaultProfileIsAccepted()
 {
     const auto error = profile_commands::validateLauncherProfileId(QStringLiteral("default"));
-    expect(error.has_value(), "default profile is rejected");
+    expect(!error.has_value(), "default profile is accepted");
 }
 
 static void
@@ -46,7 +46,7 @@ int
 main()
 {
     testValidIdIsAccepted();
-    testDefaultProfileIsRejected();
+    testDefaultProfileIsAccepted();
     testInvalidProfileIsRejected();
 
     if (failures != 0)

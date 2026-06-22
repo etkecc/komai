@@ -23,11 +23,6 @@ validateLauncherProfileId(const QString &profileId)
     if (const auto validationError = profile_id::validate(normalized); validationError)
         return QStringLiteral("Invalid profile id: %1").arg(*validationError);
 
-    if (normalized == QLatin1String("default"))
-        return QStringLiteral(
-          "The default profile already uses the packaged Komai launcher. Explicit profile "
-          "launchers are only needed for non-default profiles.");
-
     return std::nullopt;
 }
 

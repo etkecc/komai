@@ -4817,7 +4817,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nama profil tidak valid: %1</translation>

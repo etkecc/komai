@@ -205,9 +205,6 @@ ensureProfileDesktopLauncher(QStringView profileId, QString *errorOut)
         return false;
     }
 
-    if (normalized == QLatin1String("default"))
-        return true;
-
     if (!app_paths::desktop::supportsProfileDesktopEntries()) {
         setError(errorOut,
                  QObject::tr("Explicit profile launchers are not supported in this runtime."));

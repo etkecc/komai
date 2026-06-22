@@ -4817,7 +4817,7 @@ Alt komut ayrıntıları için '%1 &lt;grup&gt; --help' çalıştırın.</transl
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Geçersiz profil adı: %1</translation>

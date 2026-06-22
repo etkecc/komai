@@ -344,8 +344,7 @@ app::runMainApplication(int argc, char *argv[])
 #endif
     QString desktopFileName = QString::fromLatin1(komai::desktop_id);
 #if defined(Q_OS_LINUX)
-    if (!showStartupProfileSelector && profileName != QLatin1String("default") &&
-        app_paths::desktop::supportsProfileDesktopEntries()) {
+    if (!showStartupProfileSelector && app_paths::desktop::supportsProfileDesktopEntries()) {
         const auto desktopEntryPath =
           app_paths::desktop::findInstalledProfileDesktopEntry(profileName);
         if (!desktopEntryPath.isEmpty()) {

@@ -4829,7 +4829,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Neplatný název profilu: %1</translation>

@@ -4823,7 +4823,7 @@ Rulu '%1 &lt;grupo&gt; --help' por subkomandaj detaloj.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nevalida profil-nomo: %1</translation>

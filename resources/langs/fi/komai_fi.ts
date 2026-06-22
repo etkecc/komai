@@ -4823,7 +4823,7 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Virheellinen profiilin nimi: %1</translation>

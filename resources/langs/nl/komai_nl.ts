@@ -4823,7 +4823,7 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Ongeldige profielnaam: %1</translation>

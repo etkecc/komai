@@ -4829,7 +4829,7 @@ Rulează '%1 &lt;grup&gt; --help' pentru detalii despre subcomandă.</translatio
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nume de profil invalid: %1</translation>

@@ -4817,7 +4817,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Tên hồ sơ không hợp lệ: %1</translation>

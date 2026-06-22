@@ -4823,7 +4823,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+42"/>
+        <location line="+39"/>
         <location line="+29"/>
         <source>Invalid profile name: %1</source>
         <translation>Nom de perfil no vàlid: %1</translation>

@@ -97,7 +97,7 @@ A [`komai`](https://aur.archlinux.org/packages/komai) package is available on th
 rua install komai
 ```
 
-The AUR package is built from the [PKGBUILD](https://github.com/etkecc/komai/blob/main/etc/packaging/archlinux/PKGBUILD) shipped with the project. For background, see 📄 [Arch Linux packaging](../maintainers/packaging/archlinux.md).
+The AUR package is built from the [PKGBUILD](https://github.com/etkecc/komai/blob/main/etc/packaging/archlinux/komai/PKGBUILD) shipped with the project. For background, see 📄 [Arch Linux packaging](../maintainers/packaging/archlinux.md).
 
 
 ## 🔨 Build from source

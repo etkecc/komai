@@ -2,7 +2,7 @@
 
 PKGBUILD for building Komai from source on Arch Linux. Intended for submission to the [AUR](https://aur.archlinux.org/).
 
-For user-facing install instructions, see [docs/maintainers/packaging/archlinux.md](../../../docs/maintainers/packaging/archlinux.md).
+For user-facing install instructions, see [docs/maintainers/packaging/archlinux.md](../../../../docs/maintainers/packaging/archlinux.md).
 
 ## How it works
 
@@ -23,7 +23,7 @@ That means additional installed binaries, such as `komai-mcp`, are packaged auto
 
 ### Rust toolchain handling
 
-Upstream Komai pins a specific rustup channel via [`rust-toolchain.toml`](../../../rust-toolchain.toml) for development, CI, and Flatpak reproducibility. A distro package should follow the distro's Rust toolchain instead, so `prepare()` removes the file. That single removal covers both surfaces that would otherwise force the pinned version on the user:
+Upstream Komai pins a specific rustup channel via [`rust-toolchain.toml`](../../../../rust-toolchain.toml) for development, CI, and Flatpak reproducibility. A distro package should follow the distro's Rust toolchain instead, so `prepare()` removes the file. That single removal covers both surfaces that would otherwise force the pinned version on the user:
 
 - **CMake.** Komai's CMakeLists.txt only parses `rust-toolchain.toml` (and pins Corrosion to its channel) when the file exists, so removal makes Corrosion fall back to whichever `rustc`/`cargo` the `rust` makedep provides.
 - **`rustup`'s shim.** When the `rust` makedep is satisfied by `rustup` rather than Arch's `rust` package, `rustup`'s shim respects `rust-toolchain.toml` independently of CMake and would auto-install the pinned channel mid-build (~250MB of unwanted downloads). With the file gone the shim has nothing to pin to.

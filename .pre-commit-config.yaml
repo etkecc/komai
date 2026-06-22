@@ -120,7 +120,7 @@ repos:
         name: Verify version-bearing files agree with VERSION.txt
         entry: ./bin/prek/version-drift.sh
         language: system
-        files: '^(VERSION\.txt|CHANGELOG\.md|etc/packaging/archlinux/PKGBUILD|resources/komai\.appdata\.xml\.in|bin/prek/version-drift\.sh|bin/release/prepare\.py)$'
+        files: '^(VERSION\.txt|CHANGELOG\.md|etc/packaging/archlinux/komai/PKGBUILD|resources/komai\.appdata\.xml\.in|bin/prek/version-drift\.sh|bin/release/prepare\.py)$'
         pass_filenames: false
       - id: release-translations-complete
         name: Verify translations have no unfinished entries (release gate)

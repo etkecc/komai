@@ -7,7 +7,7 @@ set -eu
 
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 version_file="$repo_root/VERSION.txt"
-pkgbuild_file="$repo_root/etc/packaging/archlinux/PKGBUILD"
+pkgbuild_file="$repo_root/etc/packaging/archlinux/komai/PKGBUILD"
 appdata_file="$repo_root/resources/komai.appdata.xml.in"
 changelog_file="$repo_root/CHANGELOG.md"
 

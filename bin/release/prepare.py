@@ -9,7 +9,7 @@ Bumps VERSION.txt (CalVer YYYY.MM.DD.N) and propagates the new value to
 every drift surface the ``version-drift`` pre-commit hook validates:
 
     * ``VERSION.txt``
-    * ``etc/packaging/archlinux/PKGBUILD``  (pkgver, pkgrel)
+    * ``etc/packaging/archlinux/komai/PKGBUILD``  (pkgver, pkgrel)
     * ``resources/komai.appdata.xml.in``    (<release> entry)
     * ``CHANGELOG.md``                      (new section)
 
@@ -35,7 +35,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 VERSION_FILE = REPO_ROOT / "VERSION.txt"
-PKGBUILD_FILE = REPO_ROOT / "etc/packaging/archlinux/PKGBUILD"
+PKGBUILD_FILE = REPO_ROOT / "etc/packaging/archlinux/komai/PKGBUILD"
 APPDATA_FILE = REPO_ROOT / "resources/komai.appdata.xml.in"
 CHANGELOG_FILE = REPO_ROOT / "CHANGELOG.md"
 

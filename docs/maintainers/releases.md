@@ -12,7 +12,7 @@ For the CI pipeline shape and cache strategy, see [CI Pipeline](../architecture/
 | File | What must match |
 |---|---|
 | `VERSION.txt` | the version itself (e.g. `2026.05.05.0`) |
-| `etc/packaging/archlinux/PKGBUILD` | `pkgver=<VERSION>` |
+| `etc/packaging/archlinux/komai/PKGBUILD` | `pkgver=<VERSION>` |
 | `resources/komai.appdata.xml.in` | a `<release version="<VERSION>" .../>` entry |
 | `CHANGELOG.md` | a top-level `## <VERSION>` section |
 

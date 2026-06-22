@@ -1,11 +1,11 @@
 # Arch Linux
 
-Build and install Komai as an Arch Linux package using the PKGBUILD at [`etc/packaging/archlinux/`](../../../etc/packaging/archlinux/).
+Build and install Komai as an Arch Linux package using the PKGBUILD at [`etc/packaging/archlinux/komai/`](../../../etc/packaging/archlinux/komai/).
 
 ## Install from the PKGBUILD
 
 ```sh
-cd etc/packaging/archlinux
+cd etc/packaging/archlinux/komai
 makepkg -si
 ```
 
@@ -19,7 +19,7 @@ The PKGBUILD is modeled after the [official nheko PKGBUILD](https://gitlab.archl
 
 | Stage | What happens |
 |-------|-------------|
-| `prepare()` | Removes `rust-toolchain.toml` so the build follows the system Rust toolchain instead of upstream's pinned channel. See the [packaging README](../../../etc/packaging/archlinux/README.md#rust-toolchain-handling) for the rationale. |
+| `prepare()` | Removes `rust-toolchain.toml` so the build follows the system Rust toolchain instead of upstream's pinned channel. See the [packaging README](../../../etc/packaging/archlinux/komai/README.md#rust-toolchain-handling) for the rationale. |
 | `build()` | `cmake -B build -S komai <options> && cmake --build build` |
 | `package()` | `DESTDIR="$pkgdir" cmake --install build` |
 
@@ -33,4 +33,4 @@ The CMake options the PKGBUILD passes are:
 
 ## For maintainers
 
-See the [maintainer notes](../../../etc/packaging/archlinux/README.md) for details on updating the PKGBUILD for new releases and differences from the official nheko package.
+See the [maintainer notes](../../../etc/packaging/archlinux/komai/README.md) for details on updating the PKGBUILD for new releases and differences from the official nheko package.

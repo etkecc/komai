@@ -17,6 +17,15 @@ normalizedProfileId(QStringView profileId);
 QString
 encodedIdComponent(QStringView value);
 
+/// Resolves the executable path to use when re-launching Komai (the profile
+/// switcher's detached relaunch and the generated `.desktop` Exec line). Honours
+/// the `KOMAI_EXECUTABLE_PATH` override when it points at an executable, so
+/// AppImage-wrapped packages can route relaunches through their wrapper entry
+/// point (e.g. /usr/bin/komai) instead of the inner binary, which is not
+/// independently executable. Falls back to the running executable.
+QString
+executablePathForRelaunch();
+
 namespace config {
 QString
 profileConfigFile(QStringView profileId);

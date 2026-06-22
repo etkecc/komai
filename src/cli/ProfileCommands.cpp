@@ -38,6 +38,7 @@ namespace {
 int
 runLauncherAction(const cli_schema::ParsedArgs &parsed, QCoreApplication &app, bool isCreate)
 {
+    Q_UNUSED(app);
     const auto rawProfile = parsed.positionals.value(0);
     const auto profileId  = profile_id::normalized(rawProfile);
 
@@ -52,7 +53,8 @@ runLauncherAction(const cli_schema::ParsedArgs &parsed, QCoreApplication &app, b
         return 1;
     }
 
-    if (app.applicationFilePath().isEmpty()) {
+    const QString executablePath = app_paths::executablePathForRelaunch();
+    if (executablePath.isEmpty()) {
         std::cerr << "Error: could not determine the current komai executable path.\n";
         return 1;
     }
@@ -62,8 +64,7 @@ runLauncherAction(const cli_schema::ParsedArgs &parsed, QCoreApplication &app, b
 
     QString error;
     if (isCreate) {
-        if (!app_paths::desktop::ensureProfileDesktopEntry(
-              profileId, app.applicationFilePath(), &error)) {
+        if (!app_paths::desktop::ensureProfileDesktopEntry(profileId, executablePath, &error)) {
             std::cerr << "Error: " << error.toStdString() << "\n";
             return 1;
         }

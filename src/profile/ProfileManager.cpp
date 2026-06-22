@@ -72,7 +72,7 @@ removeDirectoryRecursively(const QString &path)
 bool
 launchDetached(const QStringList &arguments, QString *errorOut)
 {
-    const QString executablePath = QCoreApplication::applicationFilePath();
+    const QString executablePath = app_paths::executablePathForRelaunch();
     if (executablePath.isEmpty()) {
         setError(errorOut,
                  QObject::tr("Unable to determine current executable path for profile launch."));
@@ -214,7 +214,7 @@ ensureProfileDesktopLauncher(QStringView profileId, QString *errorOut)
         return false;
     }
 
-    const QString executablePath = QCoreApplication::applicationFilePath();
+    const QString executablePath = app_paths::executablePathForRelaunch();
     if (executablePath.isEmpty()) {
         setError(errorOut,
                  QObject::tr("Unable to determine current executable path for launcher creation."));

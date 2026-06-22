@@ -6,6 +6,7 @@
 #include "profile/Paths.h"
 
 #include <QByteArray>
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -121,6 +122,15 @@ encodedIdComponent(QStringView value)
 {
     return QString::fromUtf8(value.toString().toUtf8().toBase64(QByteArray::Base64UrlEncoding |
                                                                 QByteArray::OmitTrailingEquals));
+}
+
+QString
+executablePathForRelaunch()
+{
+    const auto override = qEnvironmentVariable("KOMAI_EXECUTABLE_PATH");
+    if (!override.isEmpty() && QFileInfo(override).isExecutable())
+        return override;
+    return QCoreApplication::applicationFilePath();
 }
 
 namespace config {

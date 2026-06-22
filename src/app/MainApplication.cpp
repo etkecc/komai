@@ -136,6 +136,22 @@ app::runMainApplication(int argc, char *argv[])
     QtWebEngineQuick::initialize();
 #endif
 
+    // Normalize the program name shown in --help/--version so the usage line
+    // reads as the command (`komai`) from the canonical entry point rather than
+    // the raw invocation path. In an AppImage-wrapped install argv[0] is the
+    // inner binary; honour KOMAI_EXECUTABLE_PATH (set by such packages) when
+    // present, then strip to the basename. Rewritten before the QApplication so
+    // QCommandLineParser's "Usage:" line picks it up.
+    static const QByteArray programInvocationName = [argv] {
+        QByteArray path = qgetenv("KOMAI_EXECUTABLE_PATH");
+        if (path.isEmpty())
+            path = QByteArray(argv[0]);
+        const auto slash = path.lastIndexOf('/');
+        return slash >= 0 ? path.mid(slash + 1) : path;
+    }();
+    if (!programInvocationName.isEmpty())
+        argv[0] = const_cast<char *>(programInvocationName.constData());
+
     QApplication app(argc, argv);
 
     QCommandLineParser parser;

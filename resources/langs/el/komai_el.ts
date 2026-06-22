@@ -4700,7 +4700,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+181"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Εκτέλεση με το δεδομένο προφίλ. Ένα νέο προφίλ δημιουργείται αυτόματα εάν δεν υπάρχει ακόμη. Πολλαπλά προφίλ επιτρέπουν ξεχωριστούς λογαριασμούς και ταυτόχρονες παρουσίες. Επιτρεπόμενα μη κενά αναγνωριστικά προφίλ: πρώτος χαρακτήρας A-Z, a-z, ή '_'· υπόλοιποι χαρακτήρες A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

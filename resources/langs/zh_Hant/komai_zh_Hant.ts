@@ -4694,7 +4694,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+181"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>使用指定的設定檔執行。如果設定檔尚不存在，將自動建立。多個設定檔可使用不同帳號並同時執行多個實例。允許的非空設定檔 ID：第一個字元為 A-Z、a-z 或 '_'；其餘字元為 A-Z、a-z、0-9、'_'、'-'。</translation>
     </message>

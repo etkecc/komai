@@ -4700,7 +4700,7 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+181"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Kör med den angivna profilen. En ny profil skapas automatiskt om den inte finns. Flera profiler tillåter separata konton och parallella instanser. Tillåtna icke-tomma profil-ID:n: första tecknet A-Z, a-z eller '_'; återstående tecken A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>

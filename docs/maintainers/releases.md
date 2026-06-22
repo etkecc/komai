@@ -7,16 +7,17 @@ For the CI pipeline shape and cache strategy, see [CI Pipeline](../architecture/
 
 ## Version-bearing files
 
-`VERSION.txt` is the source of truth. Three other files have to agree with it; the `version-drift` pre-commit hook will refuse a commit where any of them disagree.
+`VERSION.txt` is the source of truth. Four other files have to agree with it; the `version-drift` pre-commit hook will refuse a commit where any of them disagree.
 
 | File | What must match |
 |---|---|
 | `VERSION.txt` | the version itself (e.g. `2026.05.05.0`) |
 | `etc/packaging/archlinux/komai/PKGBUILD` | `pkgver=<VERSION>` |
+| `etc/packaging/archlinux/komai-bin/PKGBUILD` | `pkgver=<VERSION>` |
 | `resources/komai.appdata.xml.in` | a `<release version="<VERSION>" .../>` entry |
 | `CHANGELOG.md` | a top-level `## <VERSION>` section |
 
-`just release-prepare` updates all four in one shot — never edit them by hand.
+`just release-prepare` updates all five in one shot — never edit them by hand.
 
 
 ## Cutting a release
@@ -135,6 +136,6 @@ Locally, the equivalent recipes are `just flatpak-build`, `just appimage-build-d
 
 These are not part of `publish.yml` and have to be done by hand:
 
-- **AUR** — the `PKGBUILD` in this repo is the upstream copy; after a release, copy it (and the regenerated `.SRCINFO`) to `aur.archlinux.org:komai.git`.
+- **AUR** — the `PKGBUILD`s in this repo are the upstream copies; after a release, copy each (and its regenerated `.SRCINFO`) to its AUR repo: `etc/packaging/archlinux/komai/` to `aur.archlinux.org:komai.git`, and `etc/packaging/archlinux/komai-bin/` to `aur.archlinux.org:komai-bin.git` (populate real `sha256sums` from the published AppImages first).
 - **Flathub** — Flathub hosts its own per-app manifest repo; submitting/updating Komai there is a separate PR against `flathub/flathub`.
 - **Snap Store** — requires snapcraft login and a configured track.

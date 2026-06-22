@@ -9,7 +9,8 @@ Bumps VERSION.txt (CalVer YYYY.MM.DD.N) and propagates the new value to
 every drift surface the ``version-drift`` pre-commit hook validates:
 
     * ``VERSION.txt``
-    * ``etc/packaging/archlinux/komai/PKGBUILD``  (pkgver, pkgrel)
+    * ``etc/packaging/archlinux/komai/PKGBUILD``      (pkgver, pkgrel)
+    * ``etc/packaging/archlinux/komai-bin/PKGBUILD``  (pkgver, pkgrel)
     * ``resources/komai.appdata.xml.in``    (<release> entry)
     * ``CHANGELOG.md``                      (new section)
 
@@ -36,6 +37,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 VERSION_FILE = REPO_ROOT / "VERSION.txt"
 PKGBUILD_FILE = REPO_ROOT / "etc/packaging/archlinux/komai/PKGBUILD"
+PKGBUILD_BIN_FILE = REPO_ROOT / "etc/packaging/archlinux/komai-bin/PKGBUILD"
 APPDATA_FILE = REPO_ROOT / "resources/komai.appdata.xml.in"
 CHANGELOG_FILE = REPO_ROOT / "CHANGELOG.md"
 
@@ -64,8 +66,8 @@ def edit_version(new: str) -> None:
     VERSION_FILE.write_text(new + "\n", encoding="utf-8")
 
 
-def edit_pkgbuild(new: str) -> None:
-    text = PKGBUILD_FILE.read_text(encoding="utf-8")
+def edit_pkgbuild(path: Path, new: str) -> None:
+    text = path.read_text(encoding="utf-8")
     text, n_ver = re.subn(
         r"^pkgver=.*$", f"pkgver={new}", text, count=1, flags=re.MULTILINE
     )
@@ -74,10 +76,10 @@ def edit_pkgbuild(new: str) -> None:
     )
     if n_ver != 1 or n_rel != 1:
         raise RuntimeError(
-            f"PKGBUILD: failed to update pkgver/pkgrel "
+            f"{path.name}: failed to update pkgver/pkgrel "
             f"(pkgver matches={n_ver}, pkgrel matches={n_rel})"
         )
-    PKGBUILD_FILE.write_text(text, encoding="utf-8")
+    path.write_text(text, encoding="utf-8")
 
 
 def edit_appdata(new: str, release_date: dt.date) -> None:
@@ -159,7 +161,8 @@ def main() -> int:
         return 1
 
     edit_version(new)
-    edit_pkgbuild(new)
+    edit_pkgbuild(PKGBUILD_FILE, new)
+    edit_pkgbuild(PKGBUILD_BIN_FILE, new)
     edit_appdata(new, today_utc)
     edit_changelog(new)
 

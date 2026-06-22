@@ -8,6 +8,7 @@ set -eu
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 version_file="$repo_root/VERSION.txt"
 pkgbuild_file="$repo_root/etc/packaging/archlinux/komai/PKGBUILD"
+pkgbuild_bin_file="$repo_root/etc/packaging/archlinux/komai-bin/PKGBUILD"
 appdata_file="$repo_root/resources/komai.appdata.xml.in"
 changelog_file="$repo_root/CHANGELOG.md"
 
@@ -26,6 +27,11 @@ fail=0
 
 if ! grep -Fxq "pkgver=$version" "$pkgbuild_file"; then
 	echo "ERROR: $pkgbuild_file does not declare pkgver=$version" >&2
+	fail=1
+fi
+
+if ! grep -Fxq "pkgver=$version" "$pkgbuild_bin_file"; then
+	echo "ERROR: $pkgbuild_bin_file does not declare pkgver=$version" >&2
 	fail=1
 fi
 

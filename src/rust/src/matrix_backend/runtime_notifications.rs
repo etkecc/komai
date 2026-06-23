@@ -46,6 +46,16 @@ fn is_rtc_notification_event(
     }
 }
 
+/// Whether a notification item's kind is a content-less state change
+/// (membership join/leave/kick/ban, or a profile display-name/avatar change).
+/// These surface only as bracketed "[Membership change]"/"[Profile updated]"
+/// placeholders and are pure churn noise, so they never raise a desktop
+/// notification. Genuine invites to the user take a separate path
+/// (matrix_notify_notification_item_received, kind "invite") and are unaffected.
+fn is_suppressed_state_notification_kind(kind: &str) -> bool {
+    matches!(kind, "membership_change" | "profile_change")
+}
+
 fn notification_event_id(notification: &matrix_sdk::sync::Notification) -> Option<String> {
     match &notification.event {
         RawAnySyncOrStrippedTimelineEvent::Sync(raw_event) => {
@@ -414,7 +424,17 @@ pub async fn fetch_notification_items(
                     tracing::debug!(handle_id, %event_id, "Skipping RTC call notification in the message pipeline");
                     continue;
                 }
-                items.push(notification_item_from_sdk(&room_id, event_id.as_str(), *notification));
+                let item = notification_item_from_sdk(&room_id, event_id.as_str(), *notification);
+                if is_suppressed_state_notification_kind(&item.notification_kind) {
+                    tracing::debug!(
+                        handle_id,
+                        %event_id,
+                        kind = %item.notification_kind,
+                        "Skipping content-less state-change notification"
+                    );
+                    continue;
+                }
+                items.push(item);
             }
             Ok(NotificationStatus::EventFilteredOut) => {
                 tracing::debug!(handle_id, %event_id, "Skipping filtered-out notification event");
@@ -468,4 +488,26 @@ pub async fn set_account_notifications_enabled(
         .map_err(|error| format!("failed to update matrix-sdk master push rule state: {error}"))?;
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::is_suppressed_state_notification_kind;
+
+    #[test]
+    fn suppresses_membership_and_profile_change_notifications() {
+        assert!(is_suppressed_state_notification_kind("membership_change"));
+        assert!(is_suppressed_state_notification_kind("profile_change"));
+    }
+
+    #[test]
+    fn keeps_invites_and_content_bearing_notifications() {
+        // Invites to the user (kind "invite") and real content must still notify.
+        for kind in ["invite", "text", "image", "emote", "other_state", "unknown_message"] {
+            assert!(
+                !is_suppressed_state_notification_kind(kind),
+                "kind {kind:?} must not be suppressed"
+            );
+        }
+    }
 }

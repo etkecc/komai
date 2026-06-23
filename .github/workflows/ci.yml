@@ -185,7 +185,7 @@ jobs:
       # automatically at end of job on successful completion.
 
       - name: Cache rustup toolchains
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: var/cache/rustup
           key: rustup-${{ hashFiles('rust-toolchain.toml') }}
@@ -193,7 +193,7 @@ jobs:
             rustup-
 
       - name: Cache cargo registry + git db
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             var/cache/cargo-home/registry/index
@@ -211,7 +211,7 @@ jobs:
         # (b) host-mount present but the ccache subdir mkdir
         # failed (perm gap pending an Ansible-side fix).
         if: env.CCACHE_HOST_OK != 'true'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: var/cache/ccache
           # Per-commit save so each run writes its own snapshot; restore
@@ -231,7 +231,7 @@ jobs:
         # save). On any runner without the host-mount the step
         # runs as before — workflow stays portable.
         if: env.HOST_CACHE != 'true'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           # `var/build/native/cargo` is Corrosion's parent target-dir
           # location (CMAKE_BINARY_DIR=var/build/native, Corrosion puts
@@ -293,7 +293,7 @@ jobs:
             cargo-target-v2-
 
       - name: Cache mise + prek
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             var/mise

@@ -34,7 +34,7 @@ runs:
     # job. No host-mount fast path — the runner is GitHub-hosted.
 
     - name: Cache pip wheels (aqtinstall)
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: ~/Library/Caches/pip
         key: pip-aqt-macos-${{ inputs.qt-version }}-v1
@@ -45,7 +45,7 @@ runs:
       # Keying purely on Qt version means a version bump cold-installs
       # the new tree; old entries age out via GitHub's 7-day cache TTL.
       id: qt-cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: ~/Qt/${{ inputs.qt-version }}
         key: qt-macos-${{ inputs.qt-version }}-v1
@@ -53,7 +53,7 @@ runs:
     - name: Cache cargo registry + git db
       # Same shape as ci.yml's Linux cache and build-windows-zip's
       # Windows cache.
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: |
           ~/.cargo/registry/index

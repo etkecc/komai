@@ -800,13 +800,21 @@ Item {
         if (!model)
             return [];
 
+        // Order against the full timeline (rawRowForEventId) rather than the
+        // revealed window (rowForEventId): a selected event scrolled out of (or
+        // re-hidden from) the visible window still exists in the timeline and
+        // must survive into the copy, not be silently dropped. Falls back to the
+        // visible-window lookup for models that don't expose the raw variant
+        // (e.g. the search/collapse filter proxy).
+        const hasRawRow = typeof model.rawRowForEventId === "function";
+
         const entries = [];
         for (let i = 0; i < eventIds.length; i++) {
             const eid = String(eventIds[i] || "");
             if (eid.length === 0)
                 continue;
 
-            const row = model.rowForEventId(eid);
+            const row = hasRawRow ? model.rawRowForEventId(eid) : model.rowForEventId(eid);
             if (row < 0)
                 continue;
 

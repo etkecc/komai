@@ -3309,7 +3309,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+260"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Mensaje eliminado</translation>

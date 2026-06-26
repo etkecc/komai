@@ -3300,7 +3300,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+260"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation type="unfinished"/>

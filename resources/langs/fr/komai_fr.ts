@@ -3306,7 +3306,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+260"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Message effacé</translation>

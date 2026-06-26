@@ -3306,7 +3306,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+260"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Mesage delet</translation>

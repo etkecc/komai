@@ -835,6 +835,12 @@ MatrixTimelineModel::rowForEventId(const QString &eventId) const
 }
 
 int
+MatrixTimelineModel::rawRowForEventId(const QString &eventId) const
+{
+    return rowForEventIdInItems(allItems_, eventId);
+}
+
+int
 MatrixTimelineModel::rowForEventIdInItems(const QVector<MatrixTimelineItem> &items,
                                           const QString &eventId) const
 {

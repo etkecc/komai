@@ -133,6 +133,11 @@ public:
     int idToIndex(const QString &id) const override;
 
     Q_INVOKABLE int rowForEventId(const QString &eventId) const;
+    // Like rowForEventId() but searches the full timeline (allItems_), not just
+    // the currently-revealed window (items_). Used by the copy/selection path so
+    // selected events scrolled out of the visible window keep a stable
+    // chronological key instead of being dropped.
+    Q_INVOKABLE int rawRowForEventId(const QString &eventId) const;
     Q_INVOKABLE QVariantMap itemAt(int row) const;
     Q_INVOKABLE QVariantMap previewDataForEvent(const QString &eventId,
                                                 const QString &relatedTo = QString()) const;

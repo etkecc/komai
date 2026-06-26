@@ -3310,7 +3310,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomEventSupport</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+242"/>
+        <location filename="../../qml/timeline/components/MatrixRoomEventSupport.qml" line="+260"/>
         <location line="+6"/>
         <source>Deleted message</source>
         <translation>Удалённое сообщение</translation>

@@ -132,6 +132,24 @@ QtObject {
         if (oldKey.length === 0 || newKey.length === 0 || oldKey === newKey)
             return;
 
+        // A delegate's eventId changes for two very different reasons:
+        //   1. A local echo gains its real server event ID (same message, same
+        //      delegate, updated in place). The old (temporary) ID stops existing
+        //      as its own timeline row, so selection/focus must follow it across.
+        //   2. The ListView recycles the delegate (reuseItems) onto an unrelated
+        //      message while scrolling. Here BOTH IDs are live, distinct events.
+        // Only case 1 should re-point selection/focus/anchor. If the old ID still
+        // resolves to a live timeline row, this is case 2 (a recycle) and remapping
+        // would hijack the selection onto the recycled message, so bail out.
+        const model = rootItem.activeTimelineModel;
+        if (model) {
+            const oldRow = typeof model.rawRowForEventId === "function"
+                ? model.rawRowForEventId(oldKey)
+                : model.rowForEventId(oldKey);
+            if (oldRow >= 0)
+                return;
+        }
+
         const tracked = rootItem.visibleTimelineDelegates[oldKey];
         if (!tracked)
             return;

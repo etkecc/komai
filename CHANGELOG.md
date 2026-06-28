@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.06.28.0
+
+- 🐛 Fix: messages no longer occasionally wrap a trailing emoji (or clip the last character) onto a new line ([baa5cfebd](https://github.com/etkecc/komai/commit/baa5cfebd)).
+- 🐛 Fix: scrolling no longer occasionally hijacks the message selection onto a different message as timeline rows are recycled ([c714cd94c](https://github.com/etkecc/komai/commit/c714cd94c)).
+- 🐛 Fix: content-less membership and profile-change events no longer raise desktop notifications ([174ab5775](https://github.com/etkecc/komai/commit/174ab5775)).
+- 📦 Calls: the bundled Element Call is updated to v0.20.2 ([a585007f8](https://github.com/etkecc/komai/commit/a585007f8)).
+- 🎨 Polish: refreshed the bundled icon sets (Font Awesome 7.3.0, Fluent UI System Icons v1.1.331) ([a02239c85](https://github.com/etkecc/komai/commit/a02239c85), [711e233d1](https://github.com/etkecc/komai/commit/711e233d1)).
+
 ## 2026.06.22.0
 
 - ✨ Feature: the default profile can now have its own desktop launcher, like named profiles, instead of only the profile-switcher entry ([76ee22179](https://github.com/etkecc/komai/commit/76ee22179)).

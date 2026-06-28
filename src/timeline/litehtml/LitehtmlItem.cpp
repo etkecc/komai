@@ -287,8 +287,14 @@ LitehtmlItem::relayout()
     // so it would size every bubble to the maximum width.
     const litehtml::pixel_t naturalWidth = m_document->render(w);
     const qint64 renderUs                = timer.nsecsElapsed() / 1000;
-    int cw = static_cast<int>(naturalWidth) + static_cast<int>(m_leftPadding) +
-             static_cast<int>(m_rightPadding);
+    // litehtml 0.10's pixel_t is float, so render() can return a fractional
+    // natural width (e.g. 473.4). Truncating to int here would feed an
+    // implicitWidth a hair narrower than the content back through the bubble's
+    // shrink-to-fit binding; litehtml then re-renders at that width and wraps
+    // the last element (e.g. a trailing emoji) onto a new line. Ceil so the
+    // bubble is always at least as wide as the content litehtml measured.
+    int cw =
+      qCeil(naturalWidth) + static_cast<int>(m_leftPadding) + static_cast<int>(m_rightPadding);
     // litehtml's content_width is the sum of glyph advance widths. Italic
     // glyphs slant past their advance, so the last character's ink extends a
     // few pixels past content_width and gets clipped at the bubble edge.

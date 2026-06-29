@@ -9,4 +9,4 @@ element_call_embedded:
   # package and proposes `version` bumps (the sha256 is updated by the bump).
   version: "0.20.3"
   url: "https://registry.npmjs.org/@element-hq/element-call-embedded/-/element-call-embedded-{version}.tgz"
-  sha256: "b8bfc27c626f2d268e635e3a8442602be64e324282682adaa94bc61aa23b18bd"
+  sha256: "57a7f963023ccd4e3fcf8fb1373243580fcb5cc1c9f2cbaa8069b5891e029e99"

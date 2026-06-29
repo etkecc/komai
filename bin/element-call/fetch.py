@@ -25,6 +25,7 @@ import hashlib
 import os
 import pathlib
 import re
+import shutil
 import sys
 import tarfile
 import tempfile
@@ -136,6 +137,89 @@ def _verify_fullscreen_button_marker(dist_dir: pathlib.Path) -> None:
     )
 
 
+def _write_sha(lock_path: pathlib.Path, new_sha: str) -> None:
+    """Rewrite the single sha256 line in the lock file, preserving everything else."""
+    text = lock_path.read_text(encoding="utf-8")
+    # Anchor on the sha line but replace only the quoted value, so the line
+    # ending (and the file's trailing newline) is left untouched.
+    new_text, n = re.subn(
+        r'^(\s*sha256:\s*")[^"]+(")',
+        rf"\g<1>{new_sha}\g<2>",
+        text,
+        flags=re.MULTILINE,
+    )
+    if n != 1:
+        raise SystemExit(
+            f"error: expected exactly one sha256 line in {lock_path}, found {n}"
+        )
+    lock_path.write_text(new_text, encoding="utf-8")
+
+
+def _extract_and_verify(
+    tarball: pathlib.Path, version_dir: pathlib.Path, dist_dir: pathlib.Path
+) -> None:
+    """Extract package/dist/ into dist_dir atomically, verifying the bundle first.
+
+    Extract into a temp dir then swap, so a half-extracted tree is never mistaken
+    for a complete one on the next run. The fullscreen-button marker check runs on
+    the fresh extract -- i.e. exactly on a version bump, when the marker is most
+    likely to have moved.
+    """
+    with tempfile.TemporaryDirectory(dir=version_dir) as tmp:
+        tmp_dist = pathlib.Path(tmp) / "dist"
+        _safe_extract_dist(tarball, tmp_dist)
+        if not (tmp_dist / "index.html").is_file():
+            raise SystemExit(
+                f"error: {_TARBALL_DIST_PREFIX}index.html missing from {tarball.name}"
+            )
+        _verify_fullscreen_button_marker(tmp_dist)
+        if dist_dir.exists():
+            shutil.rmtree(dist_dir)
+        tmp_dist.replace(dist_dir)
+
+
+def _update_lock(
+    lock_path: pathlib.Path,
+    version: str,
+    url: str,
+    expected_sha: str,
+    version_dir: pathlib.Path,
+    dist_dir: pathlib.Path,
+) -> int:
+    """Re-pin the lock's sha256 to the pinned version's real tarball hash.
+
+    For after a Renovate version bump: Renovate updates `version` but cannot
+    update the custom `sha256` field on the free tier, so the build's verify
+    step (the normal path below) would reject the mismatched tarball. This
+    downloads the pinned version, records its real hash, and revalidates the
+    bundle (extract + fullscreen-button marker) so we never lock onto a build
+    that silently broke that selector.
+    """
+    tarball = version_dir / f"element-call-embedded-{version}.tgz"
+    if not tarball.is_file():
+        _download(url, tarball)
+
+    actual_sha = _sha256(tarball)
+    if actual_sha == expected_sha:
+        _log(f"sha256 already up to date for {version} ({actual_sha[:12]})")
+    else:
+        _write_sha(lock_path, actual_sha)
+        _log(f"sha256 {expected_sha[:12]} -> {actual_sha[:12]} for {version}")
+
+    # Force a fresh extract so the bundle is revalidated even if dist/ existed.
+    _extract_and_verify(tarball, version_dir, dist_dir)
+
+    if actual_sha == expected_sha:
+        _log("lock already current; nothing to commit")
+    else:
+        _log(
+            f"updated {lock_path.name}; next:\n"
+            f"       git commit -am 'Update element-call sha256 for v{version} bump'"
+            " && git push"
+        )
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lock", required=True, type=pathlib.Path)
@@ -145,12 +229,21 @@ def main() -> int:
         type=pathlib.Path,
         help="base dir (e.g. var/element-call); the bundle lands in <out-dir>/<version>/",
     )
+    parser.add_argument(
+        "--update-lock",
+        action="store_true",
+        help="re-pin sha256 to the current version's real tarball hash, then "
+        "revalidate the bundle (use after a Renovate version bump)",
+    )
     args = parser.parse_args()
 
     version, url, expected_sha = _parse_lock(args.lock)
     version_dir = args.out_dir / version
     dist_dir = version_dir / "dist"
     index_html = dist_dir / "index.html"
+
+    if args.update_lock:
+        return _update_lock(args.lock, version, url, expected_sha, version_dir, dist_dir)
 
     if index_html.is_file():
         print(dist_dir.resolve())
@@ -171,24 +264,7 @@ def main() -> int:
             f"{args.lock} to the actual hash above."
         )
 
-    # Extract into a temp dir then atomically swap, so a half-extracted tree is
-    # never mistaken for a complete one on the next run.
-    with tempfile.TemporaryDirectory(dir=version_dir) as tmp:
-        tmp_dist = pathlib.Path(tmp) / "dist"
-        _safe_extract_dist(tarball, tmp_dist)
-        if not (tmp_dist / "index.html").is_file():
-            raise SystemExit(
-                f"error: {_TARBALL_DIST_PREFIX}index.html missing from {tarball.name}"
-            )
-        # Runs only on a fresh extract (the fast path above means a previously
-        # extracted, sha-pinned tree was already verified), so this fires exactly
-        # on a version bump -- when the marker is most likely to have moved.
-        _verify_fullscreen_button_marker(tmp_dist)
-        if dist_dir.exists():
-            import shutil
-
-            shutil.rmtree(dist_dir)
-        tmp_dist.replace(dist_dir)
+    _extract_and_verify(tarball, version_dir, dist_dir)
 
     _log(f"unpacked Element Call {version} -> {dist_dir}")
     print(dist_dir.resolve())

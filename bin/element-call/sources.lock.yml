@@ -4,9 +4,10 @@ element_call_embedded:
   # Element Call (relative asset URLs, no standalone/consent UI). Komai serves
   # this bundle to a QtWebEngine view over the secure komai-ec:// scheme.
   #
-  # Bumping `version`: also update `sha256` to the new tarball's hash. fetch.py
-  # verifies it and prints the actual hash on mismatch. Renovate tracks the npm
-  # package and proposes `version` bumps (the sha256 is updated by the bump).
+  # Renovate tracks the npm package and proposes `version` bumps, but cannot
+  # update this custom `sha256` field on the free tier. After merging such a
+  # bump, run `just element-call-lock` to re-pin the hash (fetch.py verifies it
+  # and prints the actual hash on mismatch); then commit the lock change.
   version: "0.20.3"
   url: "https://registry.npmjs.org/@element-hq/element-call-embedded/-/element-call-embedded-{version}.tgz"
   sha256: "57a7f963023ccd4e3fcf8fb1373243580fcb5cc1c9f2cbaa8069b5891e029e99"

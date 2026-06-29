@@ -205,7 +205,7 @@ element-call-fetch:
 
 # Re-pins sources.lock.yml's sha256 to the current version's real tarball hash
 # (run after a Renovate version bump: Renovate updates version but not the hash)
-element-call-lock:
+element-call-update-lock:
 	python3 {{ justfile_directory() }}/bin/element-call/fetch.py --update-lock --lock {{ justfile_directory() }}/bin/element-call/sources.lock.yml --out-dir {{ justfile_directory() }}/var/element-call
 
 # Audits icon references vs resources/res.qrc and files on disk

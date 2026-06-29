@@ -7,6 +7,6 @@ element_call_embedded:
   # Bumping `version`: also update `sha256` to the new tarball's hash. fetch.py
   # verifies it and prints the actual hash on mismatch. Renovate tracks the npm
   # package and proposes `version` bumps (the sha256 is updated by the bump).
-  version: "0.20.2"
+  version: "0.20.3"
   url: "https://registry.npmjs.org/@element-hq/element-call-embedded/-/element-call-embedded-{version}.tgz"
   sha256: "b8bfc27c626f2d268e635e3a8442602be64e324282682adaa94bc61aa23b18bd"

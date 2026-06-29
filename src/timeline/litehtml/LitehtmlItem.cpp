@@ -531,6 +531,7 @@ LitehtmlItem::mousePressEvent(QMouseEvent *event)
     m_selectEndPos            = m_selectStartPos;
     m_selecting               = true;
     m_textSelectionSuppressed = false;
+    m_wordDragExtend          = false;
 
     emit selectionDragBegan(static_cast<int>(event->modifiers()));
 
@@ -577,7 +578,22 @@ LitehtmlItem::mouseMoveEvent(QMouseEvent *event)
     auto pos       = event->position().toPoint();
     m_selectEndPos = pos;
 
-    resolveSelection();
+    if (m_wordDragExtend) {
+        // Extend the double-click selection by whole words: union the anchored
+        // word with the word currently under the cursor.
+        SelectionPoint cursStart;
+        SelectionPoint cursEnd;
+        if (wordRangeAt(hitTestTextRun(pos), cursStart, cursEnd)) {
+            auto before = [](const SelectionPoint &a, const SelectionPoint &b) {
+                return a.runIndex < b.runIndex ||
+                       (a.runIndex == b.runIndex && a.charOffset < b.charOffset);
+            };
+            m_selStart = before(m_wordAnchorStart, cursStart) ? m_wordAnchorStart : cursStart;
+            m_selEnd   = before(m_wordAnchorEnd, cursEnd) ? cursEnd : m_wordAnchorEnd;
+        }
+    } else {
+        resolveSelection();
+    }
 
     auto text = extractSelectedText();
     if (text != m_selectedText) {
@@ -602,6 +618,7 @@ LitehtmlItem::mouseReleaseEvent(QMouseEvent *event)
     auto modifiers            = event->modifiers();
     m_selecting               = false;
     m_textSelectionSuppressed = false;
+    m_wordDragExtend          = false;
     setKeepMouseGrab(false);
 
     int padLeft = static_cast<int>(m_leftPadding);
@@ -645,37 +662,34 @@ LitehtmlItem::mouseDoubleClickEvent(QMouseEvent *event)
         return;
     }
 
-    m_selecting = false;
-
     auto pos = event->position().toPoint();
 
-    auto sp = hitTestTextRun(pos);
-    if (!sp.isValid()) {
+    SelectionPoint wordStart;
+    SelectionPoint wordEnd;
+    if (!wordRangeAt(hitTestTextRun(pos), wordStart, wordEnd)) {
+        m_selecting = false;
         event->accept();
         return;
     }
 
+    m_selStart = wordStart;
+    m_selEnd   = wordEnd;
+
+    // Arm word-granularity drag extension: keep the gesture "selecting" so a
+    // drag following the double-click extends the selection word-by-word,
+    // anchored on the just-selected word. mousePressEvent emitted
+    // selectionDragBegan for this second click already, so the move/release
+    // signals to the QML drag-select controller stay balanced.
+    m_selecting       = true;
+    m_wordDragExtend  = true;
+    m_wordAnchorStart = wordStart;
+    m_wordAnchorEnd   = wordEnd;
+    m_selectStartPos  = pos;
+    m_selectEndPos    = pos;
+
     const auto &runs = m_container->textRuns();
-    const auto &run  = runs[sp.runIndex];
-    const auto &text = run.text;
-
-    // Expand to word boundaries.
-    int wordStart = sp.charOffset;
-    int wordEnd   = sp.charOffset;
-
-    while (wordStart > 0 && !text[wordStart - 1].isSpace()) {
-        // Step back by a whole codepoint (skip low surrogate).
-        wordStart -= (wordStart >= 2 && text[wordStart - 1].isLowSurrogate()) ? 2 : 1;
-    }
-    while (wordEnd < text.length() && !text[wordEnd].isSpace()) {
-        // Step forward by a whole codepoint (skip surrogate pair).
-        wordEnd += text[wordEnd].isHighSurrogate() ? 2 : 1;
-    }
-
-    m_selStart = {sp.runIndex, wordStart};
-    m_selEnd   = {sp.runIndex, wordEnd};
-
-    auto selected = text.mid(wordStart, wordEnd - wordStart);
+    const auto &text = runs[wordStart.runIndex].text;
+    auto selected    = text.mid(wordStart.charOffset, wordEnd.charOffset - wordStart.charOffset);
     if (selected != m_selectedText) {
         m_selectedText = selected;
         emit selectedTextChanged();
@@ -684,6 +698,35 @@ LitehtmlItem::mouseDoubleClickEvent(QMouseEvent *event)
     forceActiveFocus();
     update();
     event->accept();
+}
+
+bool
+LitehtmlItem::wordRangeAt(const SelectionPoint &sp,
+                          SelectionPoint &wordStart,
+                          SelectionPoint &wordEnd) const
+{
+    if (!sp.isValid())
+        return false;
+    const auto &runs = m_container->textRuns();
+    if (sp.runIndex >= runs.size())
+        return false;
+
+    const auto &text = runs[sp.runIndex].text;
+    int ws           = qBound(0, sp.charOffset, static_cast<int>(text.length()));
+    int we           = ws;
+
+    while (ws > 0 && !text[ws - 1].isSpace()) {
+        // Step back by a whole codepoint (skip low surrogate).
+        ws -= (ws >= 2 && text[ws - 1].isLowSurrogate()) ? 2 : 1;
+    }
+    while (we < text.length() && !text[we].isSpace()) {
+        // Step forward by a whole codepoint (skip surrogate pair).
+        we += text[we].isHighSurrogate() ? 2 : 1;
+    }
+
+    wordStart = {sp.runIndex, ws};
+    wordEnd   = {sp.runIndex, we};
+    return true;
 }
 
 bool

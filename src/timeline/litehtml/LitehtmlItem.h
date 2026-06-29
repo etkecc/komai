@@ -157,6 +157,12 @@ private:
     QString generateMasterCss();
 
     SelectionPoint hitTestTextRun(const QPoint &pos) const;
+    // Expand a hit-test point to the boundaries of the word it lands in,
+    // within that point's text run. Returns false if the point is not on a
+    // valid run. Used for double-click word selection and word-granularity
+    // drag extension.
+    bool
+    wordRangeAt(const SelectionPoint &sp, SelectionPoint &wordStart, SelectionPoint &wordEnd) const;
     void resolveSelection();
     QString extractSelectedText() const;
     void drawSelection(QPainter *painter);
@@ -196,6 +202,12 @@ private:
     // resolveSelection() / extractSelectedText() — the QML side has taken
     // over the gesture for message selection. Cleared on press / release.
     bool m_textSelectionSuppressed = false;
+    // Set by a double-click word selection: a subsequent drag extends the
+    // selection by whole words, anchored on the double-clicked word
+    // (m_wordAnchorStart/End). Cleared on press / release.
+    bool m_wordDragExtend = false;
+    SelectionPoint m_wordAnchorStart;
+    SelectionPoint m_wordAnchorEnd;
     QPoint m_selectStartPos;
     QPoint m_selectEndPos;
     SelectionPoint m_selStart;

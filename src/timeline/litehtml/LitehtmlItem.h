@@ -161,9 +161,8 @@ private:
     // within that point's text run. Returns false if the point is not on a
     // valid run. Used for double-click word selection and word-granularity
     // drag extension.
-    bool wordRangeAt(const SelectionPoint &sp,
-                     SelectionPoint &wordStart,
-                     SelectionPoint &wordEnd) const;
+    bool
+    wordRangeAt(const SelectionPoint &sp, SelectionPoint &wordStart, SelectionPoint &wordEnd) const;
     void resolveSelection();
     QString extractSelectedText() const;
     void drawSelection(QPainter *painter);

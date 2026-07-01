@@ -237,8 +237,11 @@ MxcAnimatedImage::startDownload()
                  processData = std::move(processData)]() mutable {
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-          context, handleId, eventId, 0, 0, false, &error);
+        // Full-file fetch with progress reporting, so the media overlay can
+        // show a download percentage for large animated images too.
+        auto bytes =
+          komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContentWithProgress(
+            context, handleId, eventId, &error);
 
         if (!self)
             return;

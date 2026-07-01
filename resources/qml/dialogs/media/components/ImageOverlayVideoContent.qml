@@ -170,110 +170,12 @@ Item {
         z: 10
     }
 
-    Rectangle {
-        id: downloadProgressIndicator
-
-        // Clamped (and, with animations on, smoothed) copy so the ring, label
-        // and logo can't render out of range and advance without visible
-        // 150ms polling steps.
-        property real progress: Math.max(0, Math.min(1, mediaPlayer.downloadProgress))
-        readonly property real ringLineWidth: Math.max(3, width * 0.05)
-        readonly property real ringRadius: width / 2 - ringLineWidth
-
-        visible: mediaPlayer.buffering && mediaPlayer.downloadProgress >= 0
+    DownloadProgressIndicator {
         anchors.centerIn: parent
         width: Math.max(84, Math.min(parent.width, parent.height) * 0.18)
-        height: width
-        radius: width / 2
-        color: Qt.rgba(0, 0, 0, 0.6)
+        visible: mediaPlayer.buffering && mediaPlayer.downloadProgress >= 0
+        progress: mediaPlayer.downloadProgress
         z: 10
-
-        Behavior on progress {
-            enabled: Settings.uiMotionAnimationsEnabled
-            NumberAnimation { duration: 150 }
-        }
-
-        onProgressChanged: progressRing.requestPaint()
-        onVisibleChanged: if (visible) progressRing.requestPaint()
-
-        Canvas {
-            id: progressRing
-
-            anchors.fill: parent
-            onPaint: {
-                const ctx = getContext("2d");
-                ctx.reset();
-                ctx.lineWidth = downloadProgressIndicator.ringLineWidth;
-                ctx.lineCap = "round";
-                ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.25).toString();
-                ctx.beginPath();
-                ctx.arc(width / 2, height / 2, downloadProgressIndicator.ringRadius,
-                        0, 2 * Math.PI);
-                ctx.stroke();
-                ctx.strokeStyle = "white";
-                ctx.beginPath();
-                ctx.arc(width / 2, height / 2, downloadProgressIndicator.ringRadius,
-                        -Math.PI / 2,
-                        -Math.PI / 2 + 2 * Math.PI * downloadProgressIndicator.progress);
-                ctx.stroke();
-            }
-        }
-
-        Text {
-            anchors.centerIn: parent
-            color: "white"
-            font.pixelSize: parent.width * 0.26
-            text: Math.round(downloadProgressIndicator.progress * 100) + "%"
-        }
-
-        // The Komai logo rides the leading edge of the arc, pulsing like the
-        // indeterminate Spinner does, so the percentage owns the center while
-        // the brand mark shows where the ring is filling.
-        Image {
-            id: progressLogo
-
-            readonly property real angle: -Math.PI / 2
-                + 2 * Math.PI * downloadProgressIndicator.progress
-
-            width: parent.width * 0.3
-            height: width
-            x: parent.width / 2
-               + downloadProgressIndicator.ringRadius * Math.cos(angle) - width / 2
-            y: parent.height / 2
-               + downloadProgressIndicator.ringRadius * Math.sin(angle) - height / 2
-            source: "qrc:/logos/komai.svg"
-            sourceSize.width: width * 2
-            sourceSize.height: height * 2
-            fillMode: Image.PreserveAspectFit
-            smooth: true
-
-            SequentialAnimation {
-                loops: Animation.Infinite
-                running: progressLogo.visible && Settings.uiMotionAnimationsEnabled
-
-                NumberAnimation {
-                    target: progressLogo
-                    property: "scale"
-                    from: 1.0
-                    to: 1.2
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-                NumberAnimation {
-                    target: progressLogo
-                    property: "scale"
-                    from: 1.2
-                    to: 1.0
-                    duration: 400
-                    easing.type: Easing.InQuad
-                }
-
-                onRunningChanged: {
-                    if (!running)
-                        progressLogo.scale = 1.0;
-                }
-            }
-        }
     }
 
     MxcMedia {

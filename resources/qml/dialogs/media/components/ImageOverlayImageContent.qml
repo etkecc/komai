@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Effects
 
 import "../../../ui"
+import "../../../ui/media"
 
 import cc.etke.komai 1.0
 
@@ -177,10 +178,31 @@ Item {
         }
     }
 
+    // The image bytes arrive via the MxcImage provider (no player object to
+    // carry progress), so watch the backend's download-progress registry for
+    // this event while the initial load is pending.
+    MediaDownloadProgressWatcher {
+        id: downloadWatcher
+
+        eventId: imageContent.useActiveMatrixTimelineSource ? imageContent.eventId : ""
+        active: imageContent.visible && !imageContent.everReady && !imageContent.mediaFailed
+    }
+
+    // Indeterminate spinner until the download reports a total; the progress
+    // ring takes over once a real percentage is available.
     Spinner {
         anchors.centerIn: parent
         height: Math.max(40, Math.min(parent.width, parent.height) * 0.08)
         visible: !imageContent.everReady && !imageContent.mediaFailed
+                 && downloadWatcher.progress < 0
         running: visible
+    }
+
+    DownloadProgressIndicator {
+        anchors.centerIn: parent
+        width: Math.max(84, Math.min(parent.width, parent.height) * 0.15)
+        visible: !imageContent.everReady && !imageContent.mediaFailed
+                 && downloadWatcher.progress >= 0
+        progress: downloadWatcher.progress
     }
 }

@@ -504,6 +504,8 @@ set(SRC_FILES
     # UI components
     src/ui/HiddenEvents.cpp
     src/ui/HiddenEvents.h
+    src/ui/MediaDownloadProgressWatcher.cpp
+    src/ui/MediaDownloadProgressWatcher.h
     src/ui/MxcAnimatedImage.cpp
     src/ui/MxcAnimatedImage.h
     src/ui/MxcMediaProxy.cpp

@@ -666,6 +666,14 @@ MxcImageProvider::download(const QString &id,
                   if (shouldSimulateMediaFailure())
                       error =
                         QStringLiteral("simulated media failure (KOMAI_DEBUG_MEDIA_FAIL_RATE)");
+                  else if (fetchWidth <= 0 && fetchHeight <= 0)
+                      // Full-file fetch (the overlay's full-quality path):
+                      // fetches the same MediaFormat::File request but reports
+                      // download progress, so the overlay can show a real
+                      // percentage via MediaDownloadProgressWatcher.
+                      data = komai::MatrixBackendRuntimeService::
+                        fetchActiveRoomTimelineMediaContentWithProgress(
+                          context, *handleId, itemId, &error);
                   else
                       data =
                         komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(

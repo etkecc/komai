@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <optional>
+#include <vector>
 
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
@@ -298,6 +299,64 @@ mediaFetchBackoff()
     return instance;
 }
 
+// Coalesces concurrent identical byte-level media fetches. The full-screen media
+// overlay shows two Image elements for the same media at once (imgRest at display
+// size, imgFull at native size); on cold start both request the original before
+// the SDK store cache populates, so without coalescing each spawns its own
+// multi-second download of the same bytes. Requests sharing a fetch key attach to
+// the first (the "leader"); the leader performs the single network fetch and hands
+// the resulting bytes to every waiter, each of which decodes/resizes independently
+// for its own display size.
+class InflightByteFetches
+{
+public:
+    using Waiter = std::function<void(const std::optional<QByteArray> &, const QString &)>;
+
+    // Returns true if the caller is the leader and must perform the fetch (then
+    // call finish()); returns false if an identical fetch is already in flight, in
+    // which case `w` has been queued to receive that fetch's result.
+    bool join(const QString &key, Waiter w)
+    {
+        QMutexLocker locker(&mutex_);
+        auto it = entries_.find(key);
+        if (it != entries_.end()) {
+            it->waiters.push_back(std::move(w));
+            return false;
+        }
+        entries_.insert(key, Entry{});
+        return true;
+    }
+
+    // Called by the leader once its fetch resolves. Removes the in-flight entry and
+    // returns the queued waiters so the leader can deliver the result to each.
+    std::vector<Waiter> finish(const QString &key)
+    {
+        QMutexLocker locker(&mutex_);
+        auto it = entries_.find(key);
+        if (it == entries_.end())
+            return {};
+        auto waiters = std::move(it->waiters);
+        entries_.erase(it);
+        return waiters;
+    }
+
+private:
+    struct Entry
+    {
+        std::vector<Waiter> waiters;
+    };
+
+    QMutex mutex_;
+    QHash<QString, Entry> entries_;
+};
+
+InflightByteFetches &
+inflightByteFetches()
+{
+    static InflightByteFetches instance;
+    return instance;
+}
+
 // Test hook: when KOMAI_DEBUG_MEDIA_FAIL_RATE holds a probability in (0, 1],
 // that fraction of thumbnail/timeline media fetches are treated as failures
 // without touching the network. Lets us exercise the backoff path without a
@@ -511,44 +570,33 @@ MxcImageProvider::download(const QString &id,
             const auto fetchHeight = fullQuality ? 0 : requestedHeight;
             const auto itemId      = providerIdToMatrixTimelineItemId(id);
 
-            QThreadPool::globalInstance()->start([requestedSize,
-                                                  radius,
-                                                  then,
-                                                  id,
-                                                  handleId,
-                                                  fetchWidth,
-                                                  fetchHeight,
-                                                  crop,
-                                                  fullQuality,
-                                                  itemId] {
-                using clk          = std::chrono::steady_clock;
-                const auto tStart  = clk::now();
-                const auto context = komai::matrix_backend::blockingCallContext();
-                QString error;
-                std::optional<QByteArray> data;
-                if (shouldSimulateMediaFailure())
-                    error = QStringLiteral("simulated media failure (KOMAI_DEBUG_MEDIA_FAIL_RATE)");
-                else
-                    data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-                      context, *handleId, itemId, fetchWidth, fetchHeight, crop, &error);
-                const auto tFetched = clk::now();
+            // Byte-fetch coalescing key: identical (handle, item, fetch-size, crop)
+            // fetches share one download. The overlay's imgRest and imgFull both
+            // fetch 0x0 here, so they collapse onto a single network round-trip.
+            const QString fetchKey = QStringLiteral("%1|%2|%3x%4|%5")
+                                       .arg(static_cast<qulonglong>(*handleId))
+                                       .arg(itemId)
+                                       .arg(fetchWidth)
+                                       .arg(fetchHeight)
+                                       .arg(crop ? 1 : 0);
+
+            // Per-request post-fetch processing (decode + colour-manage + optional
+            // Lanczos downscale + optional corner clip), shared by the fetch leader
+            // and every coalesced waiter. `fetchMs` is the network time (0 when the
+            // bytes were coalesced from another request's fetch). Never mutates
+            // backoff state — that is the leader's job.
+            auto deliver = [requestedSize, radius, then, id, itemId, fullQuality](
+                             const std::optional<QByteArray> &data, qint64 fetchMs) {
                 if (!data || data->isEmpty()) {
-                    const auto backoffSeconds = mediaFetchBackoff().recordFailure(id);
-                    komai::logging::net()->warn(
-                      "Failed to fetch matrix-sdk active timeline media {} via backend handle {}: "
-                      "{} — retrying in no less than {}s",
-                      itemId.toStdString(),
-                      *handleId,
-                      error.toStdString(),
-                      backoffSeconds);
                     then(id, QSize(), {}, QLatin1String(""));
                     return;
                 }
-                mediaFetchBackoff().recordSuccess(id);
 
+                using clk         = std::chrono::steady_clock;
+                const auto tStart = clk::now();
                 QImage image;
-                auto tDecoded = tFetched;
-                auto tResized = tFetched;
+                auto tDecoded = tStart;
+                auto tResized = tStart;
                 if (fullQuality) {
                     // Decode + colour-manage the full media, then Lanczos-downscale
                     // to the requested display size for a crisp full-view image.
@@ -575,23 +623,78 @@ MxcImageProvider::download(const QString &id,
                 const auto ms = [](clk::time_point a, clk::time_point b) {
                     return std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count();
                 };
-                const auto totalMs = ms(tStart, tResized);
+                const auto decodeMs = ms(tStart, tDecoded);
+                const auto resizeMs = ms(tDecoded, tResized);
+                const auto totalMs  = fetchMs + decodeMs + resizeMs;
                 if (fullQuality || totalMs > 250)
                     komai::logging::net()->warn(
                       "media timing {}: fetch={}ms decode={}ms resize={}ms total={}ms "
-                      "({} KiB in, {}x{} out{})",
+                      "({} KiB in, {}x{} out{}{})",
                       itemId.toStdString(),
-                      ms(tStart, tFetched),
-                      ms(tFetched, tDecoded),
-                      ms(tDecoded, tResized),
+                      fetchMs,
+                      decodeMs,
+                      resizeMs,
                       totalMs,
                       static_cast<long long>(data->size() / 1024),
                       image.width(),
                       image.height(),
-                      fullQuality ? ", full-quality" : "");
+                      fullQuality ? ", full-quality" : "",
+                      fetchMs == 0 ? ", coalesced" : "");
 
                 then(id, requestedSize, image, QLatin1String(""));
-            });
+            };
+
+            // Attach to an identical in-flight fetch when one exists; otherwise
+            // become the leader and perform the single network fetch below.
+            const bool isLeader = inflightByteFetches().join(
+              fetchKey, [deliver](const std::optional<QByteArray> &data, const QString &) {
+                  // Decode on the waiter's own thread-pool task so a slow decode of
+                  // one display size never blocks the leader or the other waiters.
+                  QThreadPool::globalInstance()->start([deliver, data] { deliver(data, 0); });
+              });
+
+            if (!isLeader)
+                return;
+
+            QThreadPool::globalInstance()->start(
+              [fetchKey, deliver, id, handleId, fetchWidth, fetchHeight, crop, itemId] {
+                  using clk          = std::chrono::steady_clock;
+                  const auto tStart  = clk::now();
+                  const auto context = komai::matrix_backend::blockingCallContext();
+                  QString error;
+                  std::optional<QByteArray> data;
+                  if (shouldSimulateMediaFailure())
+                      error =
+                        QStringLiteral("simulated media failure (KOMAI_DEBUG_MEDIA_FAIL_RATE)");
+                  else
+                      data =
+                        komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
+                          context, *handleId, itemId, fetchWidth, fetchHeight, crop, &error);
+                  const auto fetchMs =
+                    std::chrono::duration_cast<std::chrono::milliseconds>(clk::now() - tStart)
+                      .count();
+
+                  if (!data || data->isEmpty()) {
+                      const auto backoffSeconds = mediaFetchBackoff().recordFailure(id);
+                      komai::logging::net()->warn(
+                        "Failed to fetch matrix-sdk active timeline media {} via backend handle "
+                        "{}: {} — retrying in no less than {}s",
+                        itemId.toStdString(),
+                        *handleId,
+                        error.toStdString(),
+                        backoffSeconds);
+                  } else {
+                      mediaFetchBackoff().recordSuccess(id);
+                  }
+
+                  // Hand the fetched bytes (or the failure) to every coalesced
+                  // waiter — each on its own decode task — then do our own.
+                  const auto waiters = inflightByteFetches().finish(fetchKey);
+                  for (const auto &w : waiters)
+                      w(data, error);
+
+                  deliver(data, fetchMs);
+              });
             return;
         }
 

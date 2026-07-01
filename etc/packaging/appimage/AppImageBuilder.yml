@@ -28,6 +28,16 @@ AppDir:
       QTWEBENGINE_RESOURCES_PATH: $APPDIR/usr/share/qt6/resources
       QTWEBENGINE_LOCALES_PATH: $APPDIR/usr/share/qt6/translations/qtwebengine_locales
       QTWEBENGINE_DISABLE_SANDBOX: '1'
+      # PipeWire (audio capture for speech-to-text and VoIP). The bundled
+      # libpipewire has its SPA plugin and module directories compiled in as
+      # absolute host paths (/usr/lib/x86_64-linux-gnu/spa-0.2 and .../pipewire-0.3).
+      # Those do not resolve inside a relocated AppImage, and on non-Debian hosts
+      # they point at a directory that either does not exist or holds a mismatched
+      # PipeWire version. Without a usable SPA plugin dir, pw_loop_new() fails with
+      # "can't make support.system handle" and Qt aborts the whole process the
+      # moment the microphone is opened. Point both at the bundled copies.
+      SPA_PLUGIN_DIR: $APPDIR/usr/lib/@LIB_TUPLE@/spa-0.2
+      PIPEWIRE_MODULE_DIR: $APPDIR/usr/lib/@LIB_TUPLE@/pipewire-0.3
   apt:
     # The apt arch, mirror, library tuple and AppImage runtime arch below are
     # placeholders filled in per host architecture by

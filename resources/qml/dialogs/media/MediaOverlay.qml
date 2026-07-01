@@ -342,6 +342,7 @@ Window {
             cornerRadius: mediaOverlay.imageCornerRadius
             animateOnHover: Settings.timelineMediaAnimateOnHover
             hovered: mouseArea.hovered
+            zoomScale: imgContainer.scale
         }
 
         ImageOverlayVideoContent {

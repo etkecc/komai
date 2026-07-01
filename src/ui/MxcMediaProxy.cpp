@@ -16,6 +16,7 @@
 #include <QPointer>
 #include <QUrl>
 
+#include <algorithm>
 #include <thread>
 
 #include "chat/ChatPage.h"
@@ -140,6 +141,21 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
     });
     connect(this, &MxcMediaProxy::metaDataChanged, [this]() { emit orientationChanged(); });
 
+    // While the full-file download thread is running, poll the backend's
+    // progress registry and feed the downloadProgress property.  Progress
+    // stays -1 (indeterminate) until the download learns a total.
+    downloadProgressPollTimer_.setInterval(150);
+    connect(&downloadProgressPollTimer_, &QTimer::timeout, this, [this] {
+        const auto handleId = currentMatrixRuntimeHandleId();
+        if (handleId == 0 || eventId_.isEmpty())
+            return;
+        const auto [received, total] =
+          komai::MatrixBackendRuntimeService::activeTimelineMediaDownloadProgress(handleId,
+                                                                                  eventId_);
+        if (total > 0)
+            setDownloadProgress(std::min(static_cast<double>(received) / total, 1.0));
+    });
+
     connect(ChatPage::instance()->timelineManager()->rooms(),
             &RoomlistModel::currentRoomIdChanged,
             this,
@@ -262,6 +278,8 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (filename.isReadable()) {
         QFile f(filename.filePath());
         if (f.open(QIODevice::ReadOnly)) {
+            komai::logging::ui()->info("Serving media for event '{}' from the local disk cache",
+                                       eventId_.toStdString());
             processBuffer(f);
             return;
         }
@@ -297,13 +315,17 @@ MxcMediaProxy::startDownload(bool onlyCached)
     }
 
     // Fetching the full file over the network takes a moment; show a spinner
-    // until playback actually starts.
+    // (or, once the download reports a total, a real percentage) until
+    // playback actually starts.
     setBuffering(true);
+    setDownloadProgress(-1);
+    downloadProgressPollTimer_.start();
     std::thread([filename, eventId = eventId_, processBuffer, self, handleId]() mutable {
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
-        auto bytes = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-          context, handleId, eventId, 0, 0, false, &error);
+        auto bytes =
+          komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContentWithProgress(
+            context, handleId, eventId, &error);
 
         QTimer::singleShot(
           0,
@@ -314,6 +336,8 @@ MxcMediaProxy::startDownload(bool onlyCached)
            self,
            bytes = std::move(bytes),
            error = std::move(error)]() mutable {
+              if (self)
+                  self->stopDownloadProgressPolling();
               if (!bytes || bytes->isEmpty()) {
                   if (self) {
                       self->setRecoveringFromStreamingFallback(false);

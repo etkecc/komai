@@ -838,7 +838,7 @@ fn follower_stream(
 
 /// Reads `KOMAI_DEBUG_MEDIA_THROTTLE_KBPS` once: an optional download rate cap
 /// (in KB/s) used to simulate a slow homeserver.  Unset/invalid → no throttle.
-fn media_throttle_kbps() -> Option<u64> {
+pub(super) fn media_throttle_kbps() -> Option<u64> {
     static THROTTLE: OnceLock<Option<u64>> = OnceLock::new();
     *THROTTLE.get_or_init(|| {
         std::env::var("KOMAI_DEBUG_MEDIA_THROTTLE_KBPS")
@@ -873,7 +873,7 @@ fn parse_media_token(path: &str) -> Option<&str> {
 }
 
 /// Parses `mxc://server_name/media_id` into `(server_name, media_id)`.
-fn parse_mxc_uri(uri: &str) -> Result<(&str, &str), String> {
+pub(super) fn parse_mxc_uri(uri: &str) -> Result<(&str, &str), String> {
     let rest = uri
         .strip_prefix("mxc://")
         .ok_or_else(|| format!("not a valid mxc:// URI: '{uri}'"))?;

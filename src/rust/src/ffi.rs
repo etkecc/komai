@@ -876,6 +876,12 @@ mod bridge {
         status_message: String,
     }
 
+    struct MatrixMediaDownloadProgress {
+        received_bytes: u64,
+        // 0 while the total is unknown (no Content-Length and no event info size).
+        total_bytes: u64,
+    }
+
     struct MatrixTurnServerInfo {
         username: String,
         password: String,
@@ -2277,6 +2283,15 @@ mod bridge {
             height: i32,
             crop: bool,
         ) -> Result<Vec<u8>>;
+        fn matrix_fetch_active_room_timeline_media_content_with_progress(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            item_id: &str,
+        ) -> Result<Vec<u8>>;
+        fn matrix_active_timeline_media_download_progress(
+            handle_id: u64,
+            item_id: &str,
+        ) -> MatrixMediaDownloadProgress;
         fn matrix_send_typing_notice(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

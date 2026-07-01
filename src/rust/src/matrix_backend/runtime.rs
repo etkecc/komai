@@ -108,6 +108,8 @@ mod element_call;
 mod rtc;
 #[path = "runtime_media_proxy.rs"]
 mod media_proxy;
+#[path = "runtime_media_download.rs"]
+mod media_download;
 #[path = "runtime_preloader.rs"]
 mod preloader;
 #[path = "runtime_subscriptions.rs"]
@@ -149,6 +151,10 @@ pub use room_settings::{
     remove_room_avatar, set_room_access_rules,
     set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
     set_user_power_level, upload_room_avatar,
+};
+pub use media_download::{
+    active_timeline_media_download_progress,
+    fetch_active_room_timeline_media_content_with_progress,
 };
 pub use timeline::{
     fetch_active_room_timeline, fetch_active_room_timeline_media_content,
@@ -704,6 +710,10 @@ enum MatrixBackendRoomTimelineCommand {
 struct MatrixTimelineMediaRequest {
     source: MediaSource,
     thumbnail_source: Option<MediaSource>,
+    /// Size advertised in the event's media `info.size`, or 0 when absent.
+    /// Used as the progress-total fallback when the homeserver's download
+    /// response carries no Content-Length (e.g. Synapse's chunked 200).
+    size_bytes: u64,
 }
 
 struct MatrixRoomClassification {

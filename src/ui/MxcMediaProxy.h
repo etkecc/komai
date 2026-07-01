@@ -34,6 +34,10 @@ class MxcMediaProxy : public QMediaPlayer
     // True while a load/download is in flight but playback hasn't started yet,
     // so the UI can show a spinner instead of a dead-looking play button.
     Q_PROPERTY(bool buffering READ buffering NOTIFY bufferingChanged)
+    // Fraction (0..1) of the full-file download completed, or -1 while no
+    // download with a known total is running — so the UI can show a real
+    // percentage instead of an indeterminate spinner during download-then-play.
+    Q_PROPERTY(double downloadProgress READ downloadProgress NOTIFY downloadProgressChanged)
     Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
@@ -54,6 +58,7 @@ public:
     {
         pausedAudioOutputReleaseTimer_.stop();
         streamingWatchdog_.stop();
+        stopDownloadProgressPolling();
         if (auto output = audioOutput())
             output->setMuted(true);
         stop();
@@ -72,6 +77,7 @@ public:
 
     bool loaded() const { return buffer.size() > 0 || streaming_; }
     bool buffering() const { return buffering_; }
+    double downloadProgress() const { return downloadProgress_; }
     bool isEncrypted() const { return encrypted_; }
     bool recoveringFromStreamingFallback() const { return recoveringFromStreamingFallback_; }
     QString eventId() const { return eventId_; }
@@ -137,6 +143,7 @@ signals:
     void encryptedChanged();
     void recoveringFromStreamingFallbackChanged();
     void bufferingChanged();
+    void downloadProgressChanged();
 
     void volumeChanged();
     void mutedChanged();
@@ -167,6 +174,18 @@ private:
         buffering_ = buffering;
         emit bufferingChanged();
     }
+    void setDownloadProgress(double progress)
+    {
+        if (downloadProgress_ == progress)
+            return;
+        downloadProgress_ = progress;
+        emit downloadProgressChanged();
+    }
+    void stopDownloadProgressPolling()
+    {
+        downloadProgressPollTimer_.stop();
+        setDownloadProgress(-1);
+    }
 
     QObject *room_ = nullptr;
     QString eventId_;
@@ -182,7 +201,11 @@ private:
     bool streamingLoadStarted_            = false;
     bool recoveringFromStreamingFallback_ = false;
     bool buffering_                       = false;
+    double downloadProgress_              = -1;
     QTimer pausedAudioOutputReleaseTimer_{this};
+    // Polls the Rust download-progress registry while the full-file download
+    // thread is running; feeds the downloadProgress property.
+    QTimer downloadProgressPollTimer_{this};
     // Fires if a proxy stream never reaches PlayingState in time — the signal
     // that this media can't be streamed forward (e.g. moov-at-end MP4, which
     // FFmpeg loads but silently fails to decode). Triggers the download fallback.

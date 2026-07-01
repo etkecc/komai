@@ -194,12 +194,14 @@ fn timeline_item_to_summary(
             media.source.clone().map(|source| MatrixTimelineMediaRequest {
                 source,
                 thumbnail_source: media.thumbnail_source.clone(),
+                size_bytes: media.media_size_bytes,
             })
         });
         let reply_media_request = reply_media.as_ref().and_then(|media| {
             media.source.clone().map(|source| MatrixTimelineMediaRequest {
                 source,
                 thumbnail_source: media.thumbnail_source.clone(),
+                size_bytes: media.media_size_bytes,
             })
         });
 

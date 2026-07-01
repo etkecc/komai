@@ -255,3 +255,29 @@ pub(crate) fn matrix_fetch_active_room_timeline_media_content(
         ),
     )
 }
+
+pub(crate) fn matrix_fetch_active_room_timeline_media_content_with_progress(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    item_id: &str,
+) -> Result<Vec<u8>, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_active_room_timeline_media_content_with_progress",
+        matrix_backend::runtime::fetch_active_room_timeline_media_content_with_progress(
+            handle_id, item_id,
+        ),
+    )
+}
+
+pub(crate) fn matrix_active_timeline_media_download_progress(
+    handle_id: u64,
+    item_id: &str,
+) -> ffi::MatrixMediaDownloadProgress {
+    let (received_bytes, total_bytes) =
+        matrix_backend::runtime::active_timeline_media_download_progress(handle_id, item_id);
+    ffi::MatrixMediaDownloadProgress {
+        received_bytes,
+        total_bytes,
+    }
+}

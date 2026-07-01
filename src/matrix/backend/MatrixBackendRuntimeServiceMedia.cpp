@@ -166,6 +166,41 @@ MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
 }
 
 std::optional<QByteArray>
+MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContentWithProgress(
+  matrix_backend::BlockingCallContext context,
+  uint64_t handleId,
+  const QString &itemId,
+  QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_active_room_timeline_media_content_with_progress",
+          [context, handleId, &itemId]() {
+              return ::komai::rust::matrix_fetch_active_room_timeline_media_content_with_progress(
+                matrix_backend::toRustBlockingContext(context), handleId, itemId.toStdString());
+          });
+        QByteArray data;
+        data.reserve(static_cast<qsizetype>(result.size()));
+        data.append(reinterpret_cast<const char *>(result.data()),
+                    static_cast<qsizetype>(result.size()));
+        return data;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::pair<uint64_t, uint64_t>
+MatrixBackendRuntimeService::activeTimelineMediaDownloadProgress(uint64_t handleId,
+                                                                 const QString &itemId)
+{
+    const auto progress =
+      ::komai::rust::matrix_active_timeline_media_download_progress(handleId, itemId.toStdString());
+    return {progress.received_bytes, progress.total_bytes};
+}
+
+std::optional<QByteArray>
 MatrixBackendRuntimeService::fetchMediaContent(matrix_backend::BlockingCallContext context,
                                                uint64_t handleId,
                                                const QString &mxcUri,

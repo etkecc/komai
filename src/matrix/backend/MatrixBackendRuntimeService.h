@@ -10,6 +10,7 @@
 #include <QVector>
 #include <cstdint>
 #include <optional>
+#include <utility>
 
 #include "matrix/backend/MatrixBackendRuntimeServiceTypes.h"
 #include "matrix/backend/MatrixBlockingCall.h"
@@ -821,6 +822,20 @@ public:
                                         int height,
                                         bool crop,
                                         QString *errorOut = nullptr);
+
+    // Full-size variant of fetchActiveRoomTimelineMediaContent whose download
+    // publishes (received, total) progress, readable while the call is in
+    // flight via activeTimelineMediaDownloadProgress().
+    static std::optional<QByteArray>
+    fetchActiveRoomTimelineMediaContentWithProgress(matrix_backend::BlockingCallContext context,
+                                                    uint64_t handleId,
+                                                    const QString &itemId,
+                                                    QString *errorOut = nullptr);
+
+    // (receivedBytes, totalBytes) of an in-flight progress-tracked media
+    // download; (0, 0) when none is running or the total is still unknown.
+    static std::pair<uint64_t, uint64_t>
+    activeTimelineMediaDownloadProgress(uint64_t handleId, const QString &itemId);
 
     static std::optional<QByteArray> fetchMediaContent(matrix_backend::BlockingCallContext context,
                                                        uint64_t handleId,

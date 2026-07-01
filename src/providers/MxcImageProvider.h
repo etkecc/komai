@@ -25,12 +25,14 @@ public:
                      bool crop,
                      double radius,
                      const QSize &requestedSize,
-                     const QString &roomId = {})
+                     const QString &roomId = {},
+                     bool fullQuality      = false)
       : m_id(id)
       , m_requestedSize(requestedSize)
       , m_crop(crop)
       , m_radius(radius)
       , m_roomId(roomId)
+      , m_fullQuality(fullQuality)
     {
     }
 
@@ -41,6 +43,7 @@ public:
     bool m_crop;
     double m_radius;
     QString m_roomId;
+    bool m_fullQuality;
 };
 class MxcImageResponse final : public QQuickImageResponse
 {
@@ -49,10 +52,11 @@ public:
                      bool crop,
                      double radius,
                      const QSize &requestedSize,
-                     const QString &roomId = {})
+                     const QString &roomId = {},
+                     bool fullQuality      = false)
 
     {
-        auto runnable = new MxcImageRunnable(id, crop, radius, requestedSize, roomId);
+        auto runnable = new MxcImageRunnable(id, crop, radius, requestedSize, roomId, fullQuality);
         connect(runnable, &MxcImageRunnable::done, this, &MxcImageResponse::handleDone);
         connect(runnable, &MxcImageRunnable::error, this, &MxcImageResponse::handleError);
         runnable->run();
@@ -95,7 +99,8 @@ public slots:
                          std::function<void(QString, QSize, QImage, QString)> then,
                          bool crop             = true,
                          double radius         = 0,
-                         const QString &roomId = {});
+                         const QString &roomId = {},
+                         bool fullQuality      = false);
 
     // Clears the negative cache that throttles retries of failed media fetches,
     // so every broken avatar/thumbnail is retried on the next request. Intended

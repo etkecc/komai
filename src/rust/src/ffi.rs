@@ -58,6 +58,7 @@ pub(crate) fn format_body_html(
         syntax_highlight,
     )
 }
+pub(crate) use crate::image_ops::lanczos_resize_rgba;
 pub(crate) use crate::serverlist::entries as serverlist_entries;
 pub(crate) use crate::theme::base16::parse_base16_yaml as theme_parse_base16_yaml;
 pub(crate) use crate::theme::builtins::builtin_themes as theme_builtin_themes;
@@ -1695,6 +1696,16 @@ mod bridge {
         fn matrix_registration_cancel(registration_id: u64) -> Result<()>;
 
         fn blurhash_decode(hash: &str, width: u32, height: u32) -> Vec<u8>;
+
+        // Lanczos3-downscale a packed RGBA8888 buffer (resample only; the caller
+        // colour-manages to sRGB first). Empty result => caller keeps the source.
+        fn lanczos_resize_rgba(
+            pixels: &[u8],
+            src_w: u32,
+            src_h: u32,
+            dst_w: u32,
+            dst_h: u32,
+        ) -> Vec<u8>;
 
         fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -> String;
         fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String;

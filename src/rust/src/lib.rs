@@ -14,6 +14,7 @@ pub mod composer_mentions;
 pub mod composer_trigger;
 pub mod emoji;
 pub mod html_processor;
+pub mod image_ops;
 pub mod logging;
 pub mod matrix_backend;
 pub mod serverlist;

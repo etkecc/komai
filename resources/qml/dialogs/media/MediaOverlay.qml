@@ -343,6 +343,9 @@ Window {
             animateOnHover: Settings.timelineMediaAnimateOnHover
             hovered: mouseArea.hovered
             zoomScale: imgContainer.scale
+            nativeWidth: mediaOverlay.originalWidth > 100 ? mediaOverlay.originalWidth : 0
+            nativeHeight: (mediaOverlay.originalWidth > 100 && mediaOverlay.proportionalHeight > 0)
+                ? Math.round(mediaOverlay.originalWidth * mediaOverlay.proportionalHeight) : 0
         }
 
         ImageOverlayVideoContent {

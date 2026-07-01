@@ -3392,7 +3392,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+639"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+642"/>
         <source>Forward</source>
         <translation>Chuyển tiếp</translation>
     </message>

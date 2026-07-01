@@ -21,7 +21,9 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <optional>
 
 #include "logging/Logging.h"
@@ -31,6 +33,17 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
+
+#include "rust/cxx.h"
+
+namespace komai::rust {
+::rust::Vec<::std::uint8_t>
+lanczos_resize_rgba(::rust::Slice<const ::std::uint8_t> pixels,
+                    ::std::uint32_t src_w,
+                    ::std::uint32_t src_h,
+                    ::std::uint32_t dst_w,
+                    ::std::uint32_t dst_h);
+}
 
 static QImage
 clipRadius(QImage img, double radius);
@@ -124,6 +137,53 @@ prepareThumbnailImage(QByteArray data,
     if (!isMatrixTimelineProviderId(id))
         image.setText(QStringLiteral("mxc url"), providerIdToMxcUri(id));
     return image;
+}
+
+// Downscale `src` to fit within `box` (aspect-preserving, never upscaling) via a
+// Lanczos3 resample on the Rust side. Qt Quick's GPU minification is soft; a
+// Lanczos downscale recovers noticeably more edge detail for the full-view media
+// overlay. `src` must already be colour-managed to sRGB. Falls back to `src`
+// unchanged when no downscale is needed or the resample fails.
+static QImage
+resizeToFitLanczos(const QImage &src, const QSize &box)
+{
+    if (src.isNull() || !box.isValid() || box.isEmpty())
+        return src;
+
+    // Fit inside the box preserving aspect; never upscale (that only softens).
+    const QSize target = src.size().scaled(box, Qt::KeepAspectRatio);
+    if (target.width() <= 0 || target.height() <= 0)
+        return src;
+    if (target.width() >= src.width() && target.height() >= src.height())
+        return src;
+
+    // Format_RGBA8888 is tightly packed (bytesPerLine == width * 4, no padding),
+    // so constBits() is exactly the buffer Rust expects.
+    const QImage rgba = src.convertToFormat(QImage::Format_RGBA8888);
+    const std::size_t n =
+      static_cast<std::size_t>(target.width()) * static_cast<std::size_t>(target.height()) * 4;
+
+    rust::Vec<std::uint8_t> out;
+    try {
+        out = komai::rust::lanczos_resize_rgba(
+          ::rust::Slice<const std::uint8_t>(
+            reinterpret_cast<const std::uint8_t *>(rgba.constBits()),
+            static_cast<std::size_t>(rgba.sizeInBytes())),
+          static_cast<std::uint32_t>(rgba.width()),
+          static_cast<std::uint32_t>(rgba.height()),
+          static_cast<std::uint32_t>(target.width()),
+          static_cast<std::uint32_t>(target.height()));
+    } catch (const std::exception &e) {
+        komai::logging::ui()->warn("Lanczos resize failed: {}", e.what());
+        return src;
+    }
+
+    if (out.size() != n)
+        return src; // Rust rejected the input; keep the full-resolution image.
+
+    QImage result(target.width(), target.height(), QImage::Format_RGBA8888);
+    std::memcpy(result.bits(), out.data(), n);
+    return result;
 }
 
 // Negative cache with exponential backoff for media fetches that fail (dead
@@ -314,6 +374,7 @@ MxcImageProvider::requestImageResponse(const QString &id, const QSize &requested
     double radius = 0;
     auto size     = requestedSize;
     QString roomId;
+    bool fullQuality = false;
 
     if (requestedSize.width() == 0 && requestedSize.height() == 0)
         size = QSize();
@@ -327,6 +388,12 @@ MxcImageProvider::requestImageResponse(const QString &id, const QSize &requested
         for (auto b : std::as_const(queryBits)) {
             if (b == QStringView(u"scale")) {
                 crop = false;
+            } else if (b == QStringView(u"full")) {
+                // Full-quality mode: fetch the original media and downscale it
+                // locally with Lanczos (crisp), rather than pulling a low-res
+                // server thumbnail. Used by the full-screen media overlay.
+                crop        = false;
+                fullQuality = true;
             } else if (b.startsWith(QStringView(u"radius="))) {
                 radius = b.mid(7).toDouble();
             } else if (b.startsWith(u"avatarSize=")) {
@@ -348,7 +415,7 @@ MxcImageProvider::requestImageResponse(const QString &id, const QSize &requested
         }
     }
 
-    return new MxcImageResponse(id_, crop, radius, size, roomId);
+    return new MxcImageResponse(id_, crop, radius, size, roomId, fullQuality);
 }
 
 void
@@ -367,7 +434,8 @@ MxcImageRunnable::run()
       },
       m_crop,
       m_radius,
-      m_roomId);
+      m_roomId,
+      m_fullQuality);
 }
 
 static QImage
@@ -413,7 +481,8 @@ MxcImageProvider::download(const QString &id,
                            std::function<void(QString, QSize, QImage, QString)> then,
                            bool crop,
                            double radius,
-                           const QString &roomId)
+                           const QString &roomId,
+                           bool fullQuality)
 {
     if (id.isEmpty()) {
         komai::logging::net()->warn("Attempted to download image with empty ID");
@@ -436,16 +505,21 @@ MxcImageProvider::download(const QString &id,
 
             const auto requestedWidth  = requestedSize.width() > 0 ? requestedSize.width() : 0;
             const auto requestedHeight = requestedSize.height() > 0 ? requestedSize.height() : 0;
-            const auto itemId          = providerIdToMatrixTimelineItemId(id);
+            // Full-quality mode fetches the original media (0x0 = no server
+            // thumbnail) and downscales it locally with Lanczos below.
+            const auto fetchWidth  = fullQuality ? 0 : requestedWidth;
+            const auto fetchHeight = fullQuality ? 0 : requestedHeight;
+            const auto itemId      = providerIdToMatrixTimelineItemId(id);
 
             QThreadPool::globalInstance()->start([requestedSize,
                                                   radius,
                                                   then,
                                                   id,
                                                   handleId,
-                                                  requestedWidth,
-                                                  requestedHeight,
+                                                  fetchWidth,
+                                                  fetchHeight,
                                                   crop,
+                                                  fullQuality,
                                                   itemId] {
                 const auto context = komai::matrix_backend::blockingCallContext();
                 QString error;
@@ -454,7 +528,7 @@ MxcImageProvider::download(const QString &id,
                     error = QStringLiteral("simulated media failure (KOMAI_DEBUG_MEDIA_FAIL_RATE)");
                 else
                     data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
-                      context, *handleId, itemId, requestedWidth, requestedHeight, crop, &error);
+                      context, *handleId, itemId, fetchWidth, fetchHeight, crop, &error);
                 if (!data || data->isEmpty()) {
                     const auto backoffSeconds = mediaFetchBackoff().recordFailure(id);
                     komai::logging::net()->warn(
@@ -470,10 +544,19 @@ MxcImageProvider::download(const QString &id,
                 mediaFetchBackoff().recordSuccess(id);
 
                 QImage image;
-                if (requestedSize.isValid())
-                    image = prepareThumbnailImage(*data, requestedSize, false, radius, id);
-                else
+                if (fullQuality) {
+                    // Decode + colour-manage the full media, then Lanczos-downscale
+                    // to the requested display size for a crisp full-view image.
                     image = utils::readImage(*data);
+                    if (requestedSize.isValid() && !image.isNull())
+                        image = resizeToFitLanczos(image, requestedSize);
+                    if (radius != 0 && !image.isNull())
+                        image = clipRadius(std::move(image), radius);
+                } else if (requestedSize.isValid()) {
+                    image = prepareThumbnailImage(*data, requestedSize, false, radius, id);
+                } else {
+                    image = utils::readImage(*data);
+                }
                 then(id, requestedSize, image, QLatin1String(""));
             });
             return;

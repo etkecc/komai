@@ -3399,7 +3399,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+639"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+642"/>
         <source>Forward</source>
         <translation>Reenviar</translation>
     </message>

@@ -3400,7 +3400,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+639"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+642"/>
         <source>Forward</source>
         <translation>Przekaż dalej</translation>
     </message>

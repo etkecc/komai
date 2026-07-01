@@ -49,8 +49,34 @@ Item {
             : (imageContent.url.replace("mxc://", "image://MxcImage/") + "?full" + (imageContent.room ? "&room=" + imageContent.room.roomId : "")))
         : ""
 
+    // Debounced on-screen pixel size for the resting (Lanczos) decode. The
+    // container resizes through many intermediate values on a cold open (starting
+    // sub-pixel), and binding imgRest.sourceSize straight to the live size
+    // re-decodes the media at every step (including a useless 1x1). Sample the size
+    // only once it stops changing; imgFull (native, loaded immediately) covers the
+    // view until the crisp resting decode is ready. Reset on media change.
+    property int restPixelWidth: 0
+    property int restPixelHeight: 0
+    function sampleRestPixelSize() {
+        restPixelWidth = imageContent.hasNativeSize
+            ? Math.min(imageContent.nativeWidth, Math.round(imageContent.width * Screen.devicePixelRatio))
+            : Math.round(imageContent.width * Screen.devicePixelRatio);
+        restPixelHeight = imageContent.hasNativeSize
+            ? Math.min(imageContent.nativeHeight, Math.round(imageContent.height * Screen.devicePixelRatio))
+            : Math.round(imageContent.height * Screen.devicePixelRatio);
+    }
+    onWidthChanged: restSizeDebounce.restart()
+    onHeightChanged: restSizeDebounce.restart()
+
+    Timer {
+        id: restSizeDebounce
+        interval: 80
+        onTriggered: imageContent.sampleRestPixelSize()
+    }
+
     readonly property bool mediaReady: staticImageReady || animatedImageReady
-    readonly property bool mediaFailed: imgRest.status === Image.Error && !animatedImageReady
+    readonly property bool mediaFailed: (imgRest.status === Image.Error || imgFull.status === Image.Error)
+        && !animatedImageReady
     readonly property bool staticImageReady: imgRest.status === Image.Ready || imgFull.status === Image.Ready
     readonly property bool animatedImageReady: mxcimage.loaded
 
@@ -58,7 +84,14 @@ Item {
     // the initial load (and on gallery navigation), never on the instant
     // rest<->zoom texture swap. Reset when the media itself changes.
     property bool everReady: false
-    onEventIdChanged: everReady = false
+    onEventIdChanged: {
+        everReady = false;
+        // Force a fresh size sample for the new media rather than reusing the
+        // previous one before the container re-lays-out.
+        restPixelWidth = 0;
+        restPixelHeight = 0;
+        restSizeDebounce.restart();
+    }
     onMediaReadyChanged: if (mediaReady) everReady = true
 
     // Natural dimensions, used by the overlay to size the container when the
@@ -93,41 +126,44 @@ Item {
             maskSource: imageMask
         }
 
-        // Crisp resting view: the original media Lanczos-downscaled (in the
-        // provider) to the on-screen pixel size. Decoded once; shown when not
-        // zoomed.
-        Image {
-            id: imgRest
-
-            visible: !mxcimage.loaded && !imageContent.zoomedIn
-            anchors.fill: parent
-            source: imageContent.mediaSource
-            asynchronous: true
-            fillMode: Image.PreserveAspectFit
-            smooth: true
-            mipmap: true
-            sourceSize.width: imageContent.hasNativeSize
-                ? Math.min(imageContent.nativeWidth, Math.round(width * Screen.devicePixelRatio))
-                : 0
-            sourceSize.height: imageContent.hasNativeSize
-                ? Math.min(imageContent.nativeHeight, Math.round(height * Screen.devicePixelRatio))
-                : 0
-        }
-
         // Full-resolution view for zooming: decoded once at native size (no
         // sourceSize) and magnified by the GPU, so zoom is instant and seamless
-        // with no re-fetch or re-decode. It preloads while imgRest is shown, so
-        // the rest->zoom swap has no delay.
+        // with no re-fetch or re-decode. Declared first so imgRest paints on top of
+        // it. Also serves as the immediate at-rest placeholder until the crisp
+        // resting decode is ready, so a cold open shows the photo right away.
         Image {
             id: imgFull
 
-            visible: !mxcimage.loaded && imageContent.zoomedIn
+            visible: !mxcimage.loaded && (imageContent.zoomedIn || imgRest.status !== Image.Ready)
             anchors.fill: parent
             source: imageContent.mediaSource
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             smooth: true
             mipmap: true
+        }
+
+        // Crisp resting view: the original media Lanczos-downscaled (in the
+        // provider) to the on-screen pixel size. Decoded once, at the debounced
+        // display size (restPixelWidth/Height), so layout churn on open doesn't
+        // spawn a decode per intermediate size. Shown when not zoomed, on top of
+        // imgFull once ready.
+        Image {
+            id: imgRest
+
+            visible: !mxcimage.loaded && !imageContent.zoomedIn && status === Image.Ready
+            anchors.fill: parent
+            // Only load once the debounced size has settled to a real value; before
+            // that imgFull carries the view.
+            source: (imageContent.restPixelWidth > 0 && imageContent.restPixelHeight > 0)
+                ? imageContent.mediaSource
+                : ""
+            asynchronous: true
+            fillMode: Image.PreserveAspectFit
+            smooth: true
+            mipmap: true
+            sourceSize.width: imageContent.restPixelWidth
+            sourceSize.height: imageContent.restPixelHeight
         }
 
         MxcAnimatedImage {

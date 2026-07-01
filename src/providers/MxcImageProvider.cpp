@@ -712,7 +712,10 @@ MxcImageProvider::download(const QString &id,
         cropLocally = true;
     }
 
-    if (requestedSize.isValid() &&
+    // Full-quality requests (the media overlay) never take the server-thumbnail
+    // shortcut: they fetch the original and Lanczos-downscale it locally in the
+    // full-media branch below, matching the active-timeline path.
+    if (!fullQuality && requestedSize.isValid() &&
         // Protect against synapse not following the spec:
         // https://github.com/matrix-org/synapse/issues/5302
         requestedSize.height() <= 600 && requestedSize.width() <= 800) {
@@ -834,6 +837,11 @@ MxcImageProvider::download(const QString &id,
                 QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
                 if (!image.isNull()) {
                     possiblyUpdateAccessTime(fileInfo);
+                    // Full-quality overlay view: crisp Lanczos downscale of the
+                    // full-res cached original to the on-screen size. The cache file
+                    // stays full-res so other sizes and zoom reuse it.
+                    if (fullQuality && requestedSize.isValid())
+                        image = resizeToFitLanczos(image, requestedSize);
                     if (radius != 0) {
                         image = clipRadius(std::move(image), radius);
                     }
@@ -845,7 +853,7 @@ MxcImageProvider::download(const QString &id,
 
             if (const auto handleId = activeMatrixBackendHandleId()) {
                 QThreadPool::globalInstance()->start(
-                  [fileInfo, requestedSize, then, id, radius, handleId] {
+                  [fileInfo, requestedSize, then, id, radius, handleId, fullQuality] {
                       const auto context = komai::matrix_backend::blockingCallContext();
                       QString error;
                       const auto data = komai::MatrixBackendRuntimeService::fetchMediaContent(
@@ -873,6 +881,10 @@ MxcImageProvider::download(const QString &id,
                       utils::markFileAsFromWeb(fileInfo.absoluteFilePath());
 
                       QImage image = utils::readImageFromFile(fileInfo.absoluteFilePath());
+                      // Full-quality overlay view: Lanczos downscale to the on-screen
+                      // size (the just-written cache file keeps the full original).
+                      if (fullQuality && requestedSize.isValid() && !image.isNull())
+                          image = resizeToFitLanczos(image, requestedSize);
                       if (radius != 0)
                           image = clipRadius(std::move(image), radius);
                       image.setText(QStringLiteral("mxc url"), "mxc://" + id);

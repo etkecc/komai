@@ -57,6 +57,24 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
     pausedAudioOutputReleaseTimer_.setSingleShot(true);
     pausedAudioOutputReleaseTimer_.setInterval(1500);
 
+    // If a proxy stream hasn't started playing within this window, treat it as
+    // un-streamable (e.g. moov-at-end MP4, which FFmpeg loads but can't decode
+    // forward) and fall back to a full download. Content that can stream —
+    // audio, faststart/fragmented video — reaches PlayingState within a second
+    // or two, so it is never aborted.
+    streamingWatchdog_.setSingleShot(true);
+    streamingWatchdog_.setInterval(8000);
+    connect(&streamingWatchdog_, &QTimer::timeout, this, [this] {
+        if (!streaming_ || streamingFallbackAttempted_)
+            return;
+        if (playbackState() == QMediaPlayer::PlayingState)
+            return;
+        komai::logging::ui()->info(
+          "Streaming watchdog fired after {}ms without playback; falling back to full download",
+          streamingWatchdog_.interval());
+        fallBackToFullDownload();
+    });
+
     connect(this,
             &QMediaPlayer::errorOccurred,
             this,
@@ -100,6 +118,8 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
       this, &MxcMediaProxy::playbackStateChanged, this, [this](QMediaPlayer::PlaybackState status) {
           if (status == QMediaPlayer::PlayingState) {
               // Frames are flowing now — the load is done, drop the spinner.
+              // Streaming succeeded, so the un-streamable watchdog can stand down.
+              streamingWatchdog_.stop();
               setBuffering(false);
               pausedAudioOutputReleaseTimer_.stop();
               if (!skipAudioOutput_)
@@ -135,6 +155,7 @@ MxcMediaProxy::fallBackToFullDownload()
         return false;
 
     komai::logging::ui()->info("Streaming failed, falling back to full download");
+    streamingWatchdog_.stop();
     streamingFallbackAttempted_ = true;
     streaming_                  = false;
     streamingLoadStarted_       = false;
@@ -260,6 +281,8 @@ MxcMediaProxy::startDownload(bool onlyCached)
             setBuffering(true);
             streaming_ = true;
             setSource(QUrl(*proxyUrl));
+            // Arm the watchdog: if playback doesn't start in time, fall back.
+            streamingWatchdog_.start();
             emit loadedChanged();
             return;
         }

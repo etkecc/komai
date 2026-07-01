@@ -53,6 +53,7 @@ public:
     Q_INVOKABLE void killPlayback()
     {
         pausedAudioOutputReleaseTimer_.stop();
+        streamingWatchdog_.stop();
         if (auto output = audioOutput())
             output->setMuted(true);
         stop();
@@ -182,4 +183,8 @@ private:
     bool recoveringFromStreamingFallback_ = false;
     bool buffering_                       = false;
     QTimer pausedAudioOutputReleaseTimer_{this};
+    // Fires if a proxy stream never reaches PlayingState in time — the signal
+    // that this media can't be streamed forward (e.g. moov-at-end MP4, which
+    // FFmpeg loads but silently fails to decode). Triggers the download fallback.
+    QTimer streamingWatchdog_{this};
 };

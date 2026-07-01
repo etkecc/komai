@@ -521,6 +521,8 @@ MxcImageProvider::download(const QString &id,
                                                   crop,
                                                   fullQuality,
                                                   itemId] {
+                using clk          = std::chrono::steady_clock;
+                const auto tStart  = clk::now();
                 const auto context = komai::matrix_backend::blockingCallContext();
                 QString error;
                 std::optional<QByteArray> data;
@@ -529,6 +531,7 @@ MxcImageProvider::download(const QString &id,
                 else
                     data = komai::MatrixBackendRuntimeService::fetchActiveRoomTimelineMediaContent(
                       context, *handleId, itemId, fetchWidth, fetchHeight, crop, &error);
+                const auto tFetched = clk::now();
                 if (!data || data->isEmpty()) {
                     const auto backoffSeconds = mediaFetchBackoff().recordFailure(id);
                     komai::logging::net()->warn(
@@ -544,19 +547,49 @@ MxcImageProvider::download(const QString &id,
                 mediaFetchBackoff().recordSuccess(id);
 
                 QImage image;
+                auto tDecoded = tFetched;
+                auto tResized = tFetched;
                 if (fullQuality) {
                     // Decode + colour-manage the full media, then Lanczos-downscale
                     // to the requested display size for a crisp full-view image.
-                    image = utils::readImage(*data);
+                    image    = utils::readImage(*data);
+                    tDecoded = clk::now();
                     if (requestedSize.isValid() && !image.isNull())
                         image = resizeToFitLanczos(image, requestedSize);
+                    tResized = clk::now();
                     if (radius != 0 && !image.isNull())
                         image = clipRadius(std::move(image), radius);
                 } else if (requestedSize.isValid()) {
-                    image = prepareThumbnailImage(*data, requestedSize, false, radius, id);
+                    image    = prepareThumbnailImage(*data, requestedSize, false, radius, id);
+                    tDecoded = clk::now();
+                    tResized = tDecoded;
                 } else {
-                    image = utils::readImage(*data);
+                    image    = utils::readImage(*data);
+                    tDecoded = clk::now();
+                    tResized = tDecoded;
                 }
+
+                // Always-on, low-noise media-load timing: overlay full-quality
+                // loads (infrequent) always log; frequent thumbnails only when
+                // slow. Answers "download vs decode vs resize" without a rebuild.
+                const auto ms = [](clk::time_point a, clk::time_point b) {
+                    return std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count();
+                };
+                const auto totalMs = ms(tStart, tResized);
+                if (fullQuality || totalMs > 250)
+                    komai::logging::net()->warn(
+                      "media timing {}: fetch={}ms decode={}ms resize={}ms total={}ms "
+                      "({} KiB in, {}x{} out{})",
+                      itemId.toStdString(),
+                      ms(tStart, tFetched),
+                      ms(tFetched, tDecoded),
+                      ms(tDecoded, tResized),
+                      totalMs,
+                      static_cast<long long>(data->size() / 1024),
+                      image.width(),
+                      image.height(),
+                      fullQuality ? ", full-quality" : "");
+
                 then(id, requestedSize, image, QLatin1String(""));
             });
             return;

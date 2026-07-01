@@ -583,9 +583,13 @@ pub async fn fetch_active_room_timeline_media_content(
         "Fetching matrix-sdk active timeline media content"
     );
 
+    // use_cache = true: persist the fetched media in the SDK store so repeat
+    // requests for the same item (the media overlay decodes it at several sizes,
+    // plus re-opens and gallery revisits) are served locally instead of
+    // re-downloading the full file from the homeserver every time.
     client
         .media()
-        .get_media_content(&request, false)
+        .get_media_content(&request, true)
         .await
         .map_err(|e| format!("failed to fetch matrix-sdk active timeline media: {e}"))
 }

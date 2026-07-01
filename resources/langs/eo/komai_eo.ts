@@ -3396,7 +3396,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+638"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+639"/>
         <source>Forward</source>
         <translation>Plusendi</translation>
     </message>

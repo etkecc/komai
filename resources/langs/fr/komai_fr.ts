@@ -3396,7 +3396,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+642"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
         <source>Forward</source>
         <translation>Transférer</translation>
     </message>

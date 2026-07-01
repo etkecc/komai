@@ -3396,7 +3396,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+642"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
         <source>Forward</source>
         <translation>Reenvia</translation>
     </message>

@@ -57,6 +57,7 @@ Window {
         Komai.setWindowRole(mediaOverlay, "imageoverlay");
         hintTimer.start();
         ensureGalleryReserve();
+        neighbourPrefetchTimer.restart();
         if (mediaOverlay.isVideo)
             videoContent.startDownload();
     }
@@ -80,6 +81,28 @@ Window {
         target: mediaOverlay.room
         function onFetchedMore() {
             mediaOverlay.ensureGalleryReserve();
+        }
+    }
+
+    // Hidden neighbour prefetch: loading each source through the shared image
+    // provider warms its byte/SDK cache (and a tiny decode) so navigating prev/next
+    // is instant. Tiny sourceSize keeps the decode and texture negligible; the goal
+    // is to prime the fetch, not to hold a full-size image.
+    Item {
+        visible: false
+
+        Repeater {
+            model: mediaOverlay.neighbourPrefetchSources
+
+            delegate: Image {
+                required property string modelData
+
+                source: modelData
+                asynchronous: true
+                cache: true
+                sourceSize.width: 64
+                sourceSize.height: 64
+            }
         }
     }
 
@@ -183,6 +206,50 @@ Window {
             room.requestMore();
         }
     }
+
+    // Full-quality provider URL for a neighbour media descriptor (from
+    // adjacentMediaEvent), or "" when it can't/shouldn't be prewarmed. Images and
+    // stickers only: a video's ?full would pull the whole file. Mirrors the URL
+    // forms in ImageOverlayImageContent.
+    function fullSourceForMedia(data) {
+        if (!data || !data.eventId || String(data.eventId).length === 0)
+            return "";
+        var type = Number(data.type);
+        if (type !== MtxEvent.ImageMessage && type !== MtxEvent.Sticker)
+            return "";
+        if (room && room.isActiveMatrixTimelineRoom === true)
+            return "image://MxcImage/matrix-timeline:" + data.eventId + "?full";
+        if (data.url && String(data.url).length > 0)
+            return data.url.replace("mxc://", "image://MxcImage/") + "?full"
+                + (room ? "&room=" + room.roomId : "");
+        return "";
+    }
+
+    // Provider URLs of the immediate prev/next media, fed to the hidden prefetch
+    // Images below. Recomputed off the UI thread's critical path (via the timer)
+    // so it doesn't compete with the current image's initial load.
+    property var neighbourPrefetchSources: []
+    function refreshNeighbourPrefetch() {
+        if (!galleryMode) {
+            neighbourPrefetchSources = [];
+            return;
+        }
+        var out = [];
+        var prev = fullSourceForMedia(room.adjacentMediaEvent(eventId, -1));
+        var next = fullSourceForMedia(room.adjacentMediaEvent(eventId, +1));
+        if (prev.length > 0) out.push(prev);
+        if (next.length > 0) out.push(next);
+        neighbourPrefetchSources = out;
+    }
+
+    // Debounce so a fast walk through the gallery doesn't fire prefetches for
+    // every intermediate item, and so the current image loads first.
+    Timer {
+        id: neighbourPrefetchTimer
+        interval: 250
+        onTriggered: mediaOverlay.refreshNeighbourPrefetch()
+    }
+    onEventIdChanged: neighbourPrefetchTimer.restart()
 
     function openForwardDialogForCurrentMessage(forwardRoom, forwardEventId, forwardTimeline, forwardTimelineView, forwardPopupParent)
     {

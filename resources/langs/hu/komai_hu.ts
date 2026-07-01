@@ -3392,7 +3392,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+642"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
         <source>Forward</source>
         <translation>Továbbítás</translation>
     </message>

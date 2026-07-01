@@ -6,6 +6,7 @@ import QtQuick
 import QtMultimedia
 import QtQuick.Effects
 
+import "../../../ui"
 import "../../../ui/media"
 
 import cc.etke.komai 1.0
@@ -30,6 +31,10 @@ Item {
     readonly property int playbackState: mediaPlayer.playbackState
 
     function togglePlayback() {
+        // A load/download is already in flight — ignore clicks so we don't kick
+        // off duplicate downloads while the spinner is showing.
+        if (mediaPlayer.buffering)
+            return;
         if (!mediaPlayer.loaded)
             mediaPlayer.startDownload();
         else if (mediaPlayer.playbackState === MediaPlayer.PlayingState)
@@ -130,8 +135,9 @@ Item {
 
         readonly property bool hovered: videoHover.hovered
 
-        visible: !videoOutput.visible
-                 || mediaPlayer.playbackState !== MediaPlayer.PlayingState
+        visible: !mediaPlayer.buffering
+                 && (!videoOutput.visible
+                     || mediaPlayer.playbackState !== MediaPlayer.PlayingState)
         anchors.centerIn: parent
         width: Math.max(56, Math.min(parent.width, parent.height) * 0.15)
         height: width
@@ -150,6 +156,16 @@ Item {
             sourceSize.width: width * Screen.devicePixelRatio
             sourceSize.height: height * Screen.devicePixelRatio
         }
+    }
+
+    // Loading indicator shown while the video is being fetched/buffered, so a
+    // click that triggers a download doesn't look like nothing happened.
+    Spinner {
+        anchors.centerIn: parent
+        height: Math.max(48, Math.min(parent.width, parent.height) * 0.12)
+        visible: mediaPlayer.buffering
+        running: visible
+        z: 10
     }
 
     MxcMedia {
@@ -191,6 +207,8 @@ Item {
         mediaState: mediaPlayer.playbackState
         onPositionChanged: mediaPlayer.position = position
         onPlayPauseActivated: {
+            if (mediaPlayer.buffering)
+                return;
             if (mediaPlayer.playbackState == MediaPlayer.PlayingState) {
                 mediaPlayer.pause();
             } else {
@@ -198,7 +216,10 @@ Item {
                 mediaPlayer.play();
             }
         }
-        onLoadActivated: mediaPlayer.startDownload()
+        onLoadActivated: {
+            if (!mediaPlayer.buffering)
+                mediaPlayer.startDownload();
+        }
     }
 
     // HoverHandler for play button hover effect. Pointer handlers are not

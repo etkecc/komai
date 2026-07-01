@@ -31,6 +31,9 @@ class MxcMediaProxy : public QMediaPlayer
     Q_PROPERTY(bool encrypted READ isEncrypted NOTIFY encryptedChanged)
     Q_PROPERTY(bool recoveringFromStreamingFallback READ recoveringFromStreamingFallback NOTIFY
                  recoveringFromStreamingFallbackChanged)
+    // True while a load/download is in flight but playback hasn't started yet,
+    // so the UI can show a spinner instead of a dead-looking play button.
+    Q_PROPERTY(bool buffering READ buffering NOTIFY bufferingChanged)
     Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
@@ -61,10 +64,13 @@ public:
             buffer.close();
         streaming_                  = false;
         streamingFallbackAttempted_ = false;
+        streamingLoadStarted_       = false;
         setRecoveringFromStreamingFallback(false);
+        setBuffering(false);
     }
 
     bool loaded() const { return buffer.size() > 0 || streaming_; }
+    bool buffering() const { return buffering_; }
     bool isEncrypted() const { return encrypted_; }
     bool recoveringFromStreamingFallback() const { return recoveringFromStreamingFallback_; }
     QString eventId() const { return eventId_; }
@@ -129,6 +135,7 @@ signals:
     void orientationChanged();
     void encryptedChanged();
     void recoveringFromStreamingFallbackChanged();
+    void bufferingChanged();
 
     void volumeChanged();
     void mutedChanged();
@@ -141,12 +148,23 @@ public slots:
 private:
     void createAudioOutputIfNeeded();
     void releaseAudioOutput();
+    // Abandon a failed proxy stream and play from a full local download instead.
+    // Returns true if a fallback download was started; false if there was nothing
+    // to fall back to (not streaming, or already attempted).
+    bool fallBackToFullDownload();
     void setRecoveringFromStreamingFallback(bool recovering)
     {
         if (recoveringFromStreamingFallback_ == recovering)
             return;
         recoveringFromStreamingFallback_ = recovering;
         emit recoveringFromStreamingFallbackChanged();
+    }
+    void setBuffering(bool buffering)
+    {
+        if (buffering_ == buffering)
+            return;
+        buffering_ = buffering;
+        emit bufferingChanged();
     }
 
     QObject *room_ = nullptr;
@@ -160,6 +178,8 @@ private:
     bool encrypted_                       = false;
     bool streaming_                       = false;
     bool streamingFallbackAttempted_      = false;
+    bool streamingLoadStarted_            = false;
     bool recoveringFromStreamingFallback_ = false;
+    bool buffering_                       = false;
     QTimer pausedAudioOutputReleaseTimer_{this};
 };

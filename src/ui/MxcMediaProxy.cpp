@@ -67,26 +67,40 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
 
                 // When streaming via the proxy fails (e.g. upstream doesn't support Range,
                 // proxy returns 416, QMediaPlayer/FFmpeg can't recover), fall back to
-                // downloading the full file and playing from a local buffer.
-                if (streaming_ && !streamingFallbackAttempted_) {
-                    komai::logging::ui()->info("Streaming failed, falling back to full download");
-                    streamingFallbackAttempted_ = true;
-                    streaming_                  = false;
-                    setRecoveringFromStreamingFallback(true);
-                    stop();
-                    setSource(QUrl());
-                    startDownload(false);
-                }
+                // downloading the full file and playing from a local buffer. If there's
+                // no fallback left, the error is terminal — stop the buffering spinner.
+                if (!fallBackToFullDownload())
+                    setBuffering(false);
             });
     connect(
       this, &MxcMediaProxy::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
           komai::logging::ui()->info("Media player status {} and error {}",
                                      static_cast<int>(status),
                                      static_cast<int>(this->error()));
+
+          // The FFmpeg backend does not reliably emit errorOccurred when a streamed
+          // source fails to open — it can silently transition LoadingMedia ->
+          // NoMedia/InvalidMedia with error() still NoError. Treat that as a
+          // streaming failure too so the full-download fallback still kicks in;
+          // otherwise the video stays stuck on its thumbnail forever.
+          if (status == QMediaPlayer::LoadingMedia) {
+              if (streaming_)
+                  streamingLoadStarted_ = true;
+          } else if (status == QMediaPlayer::LoadedMedia || status == QMediaPlayer::BufferedMedia) {
+              // The stream opened successfully; a later NoMedia (end/stop/loop)
+              // is not a load failure and must not trigger the download fallback.
+              streamingLoadStarted_ = false;
+          } else if (streamingLoadStarted_ &&
+                     (status == QMediaPlayer::NoMedia || status == QMediaPlayer::InvalidMedia)) {
+              if (!fallBackToFullDownload())
+                  setBuffering(false);
+          }
       });
     connect(
       this, &MxcMediaProxy::playbackStateChanged, this, [this](QMediaPlayer::PlaybackState status) {
           if (status == QMediaPlayer::PlayingState) {
+              // Frames are flowing now — the load is done, drop the spinner.
+              setBuffering(false);
               pausedAudioOutputReleaseTimer_.stop();
               if (!skipAudioOutput_)
                   createAudioOutputIfNeeded();
@@ -110,6 +124,25 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
             &RoomlistModel::currentRoomIdChanged,
             this,
             &MxcMediaProxy::pause);
+}
+
+bool
+MxcMediaProxy::fallBackToFullDownload()
+{
+    // No-op unless we were actively streaming and haven't already fallen back —
+    // this is safe to call from both errorOccurred and mediaStatusChanged.
+    if (!streaming_ || streamingFallbackAttempted_)
+        return false;
+
+    komai::logging::ui()->info("Streaming failed, falling back to full download");
+    streamingFallbackAttempted_ = true;
+    streaming_                  = false;
+    streamingLoadStarted_       = false;
+    setRecoveringFromStreamingFallback(true);
+    stop();
+    setSource(QUrl());
+    startDownload(false); // keeps buffering active through the download
+    return true;
 }
 
 int
@@ -224,6 +257,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
         if (proxyUrl) {
             komai::logging::ui()->info("Streaming media via proxy for event '{}'",
                                        eventId_.toStdString());
+            setBuffering(true);
             streaming_ = true;
             setSource(QUrl(*proxyUrl));
             emit loadedChanged();
@@ -235,9 +269,13 @@ MxcMediaProxy::startDownload(bool onlyCached)
           "Cannot fetch matrix-sdk timeline media for event '{}' without an "
           "active runtime handle",
           eventId_.toStdString());
+        setBuffering(false);
         return;
     }
 
+    // Fetching the full file over the network takes a moment; show a spinner
+    // until playback actually starts.
+    setBuffering(true);
     std::thread([filename, eventId = eventId_, processBuffer, self, handleId]() mutable {
         const auto context = komai::matrix_backend::blockingCallContext();
         QString error;
@@ -254,8 +292,10 @@ MxcMediaProxy::startDownload(bool onlyCached)
            bytes = std::move(bytes),
            error = std::move(error)]() mutable {
               if (!bytes || bytes->isEmpty()) {
-                  if (self)
+                  if (self) {
                       self->setRecoveringFromStreamingFallback(false);
+                      self->setBuffering(false);
+                  }
                   komai::logging::net()->warn(
                     "failed to retrieve active timeline media {} via matrix-sdk runtime: {}",
                     eventId.toStdString(),
@@ -265,8 +305,11 @@ MxcMediaProxy::startDownload(bool onlyCached)
 
               try {
                   QFile file(filename.filePath());
-                  if (!file.open(QIODevice::WriteOnly))
+                  if (!file.open(QIODevice::WriteOnly)) {
+                      if (self)
+                          self->setBuffering(false);
                       return;
+                  }
 
                   file.write(*bytes);
                   file.close();

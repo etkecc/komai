@@ -1025,7 +1025,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ComposerTranscriptionBanner</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+161"/>
         <source>Voice transcription is enabled but not configured.</source>
         <translation>Transcription vocal es activat ma ne configurat.</translation>
     </message>

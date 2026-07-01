@@ -1026,7 +1026,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>ComposerTranscriptionBanner</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+161"/>
         <source>Voice transcription is enabled but not configured.</source>
         <translation>Transcrierea vocală este activată, dar nu este configurată.</translation>
     </message>

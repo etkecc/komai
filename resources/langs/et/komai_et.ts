@@ -1025,7 +1025,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>ComposerTranscriptionBanner</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+161"/>
         <source>Voice transcription is enabled but not configured.</source>
         <translation>Hääle transkriptsioon on lubatud, kuid konfigureerimata.</translation>
     </message>

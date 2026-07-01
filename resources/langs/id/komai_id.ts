@@ -1024,7 +1024,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>ComposerTranscriptionBanner</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+161"/>
         <source>Voice transcription is enabled but not configured.</source>
         <translation>Transkripsi suara aktif namun belum dikonfigurasi.</translation>
     </message>

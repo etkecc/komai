@@ -1024,7 +1024,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>ComposerTranscriptionBanner</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+161"/>
         <source>Voice transcription is enabled but not configured.</source>
         <translation>Chuyển giọng nói thành văn bản đã được bật nhưng chưa được cấu hình.</translation>
     </message>

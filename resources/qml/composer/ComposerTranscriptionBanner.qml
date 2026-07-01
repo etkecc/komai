@@ -128,12 +128,33 @@ Rectangle {
         }
 
         Label {
+            id: statusLabel
+
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             color: root.transcriptionState === "error" ? Komai.theme.error : palette.text
             font.pixelSize: root.headerFontSize
             font.bold: true
             elide: Text.ElideRight
+
+            // Reveal the full status text on hover when it does not fit. The
+            // error message in particular ("Transcription failed: …") is often
+            // long enough to elide to "…"; the tooltip keeps it readable.
+            HoverHandler {
+                id: statusHover
+            }
+
+            // Full-width label: follow the cursor (like the toolbar-button
+            // tooltips) rather than parking at a fixed corner of the banner.
+            KomaiToolTip {
+                anchorItem: statusLabel
+                followMouse: true
+                delay: 300
+                maxWidth: Math.round(root.width * 0.9)
+                text: statusLabel.truncated ? statusLabel.text : ""
+                requestedVisible: statusHover.hovered && statusLabel.truncated
+            }
+
             text: {
                 switch (root.transcriptionState) {
                 case "not-configured":

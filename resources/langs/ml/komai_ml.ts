@@ -1025,7 +1025,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ComposerTranscriptionBanner</name>
     <message>
-        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+140"/>
+        <location filename="../../qml/composer/ComposerTranscriptionBanner.qml" line="+161"/>
         <source>Voice transcription is enabled but not configured.</source>
         <translation>വോയ്സ് ട്രാൻസ്ക്രിപ്ഷൻ പ്രവർത്തനക്ഷമമാണ് എന്നാൽ കോൺഫിഗർ ചെയ്തിട്ടില്ല.</translation>
     </message>

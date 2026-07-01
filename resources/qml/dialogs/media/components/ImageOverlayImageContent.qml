@@ -23,6 +23,17 @@ Item {
         && room.isActiveMatrixTimelineRoom === true
     property bool animateOnHover: false
     property bool hovered: false
+    // Current zoom factor of the overlay container. Used to decide whether the
+    // rounded-corner mask layer is safe to keep enabled (see roundCorners).
+    property real zoomScale: 1.0
+
+    // The rounded-corner mask renders the image into an offscreen FBO sized to
+    // the on-screen (un-zoomed) item. When the container is magnified, that FBO
+    // texture is scaled up instead of re-sampling the full-resolution source,
+    // which makes zoomed images look blurry. Rounded corners are only visible at
+    // (or below) 1x anyway — once magnified they sit off-screen — so we drop the
+    // mask while zoomed in and let the image re-rasterize crisply from source.
+    readonly property bool roundCorners: zoomScale <= 1.01
 
     readonly property bool mediaReady: staticImageReady || animatedImageReady
     readonly property bool mediaFailed: img.status === Image.Error && !animatedImageReady
@@ -53,7 +64,7 @@ Item {
         id: imageClipper
 
         anchors.fill: parent
-        layer.enabled: true
+        layer.enabled: imageContent.roundCorners
         layer.effect: MultiEffect {
             maskEnabled: true
             maskSource: imageMask

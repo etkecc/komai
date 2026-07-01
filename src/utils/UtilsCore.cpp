@@ -12,6 +12,7 @@
 
 #include <QApplication>
 #include <QBuffer>
+#include <QColorSpace>
 #include <QComboBox>
 #include <QCryptographicHash>
 #include <QFile>
@@ -232,12 +233,35 @@ utils::restoreCombobox(QComboBox *combo, const QString &value)
     }
 }
 
+namespace {
+// Qt Quick's scene graph renders in sRGB but does not colour-manage image
+// textures: it uploads decoded pixels verbatim. Wide-gamut images (iPhone
+// photos are Display P3, plus Adobe RGB screenshots, etc.) carry an embedded
+// ICC profile that QImageReader parses into QImage::colorSpace() but never
+// applies, so their P3 values get shown as-if-sRGB and look desaturated/flat
+// compared with colour-managed apps like Element. Bake the profile into sRGB
+// so the values match what a colour-managed renderer would display.
+void
+normalizeToSRgb(QImage &image)
+{
+    if (image.isNull())
+        return;
+
+    const QColorSpace srgb(QColorSpace::SRgb);
+    const QColorSpace cs = image.colorSpace();
+    if (cs.isValid() && cs != srgb)
+        image.convertToColorSpace(srgb);
+}
+}
+
 QImage
 utils::readImageFromFile(const QString &filename)
 {
     QImageReader reader(filename);
     reader.setAutoTransform(true);
-    return reader.read();
+    QImage image = reader.read();
+    normalizeToSRgb(image);
+    return image;
 }
 QImage
 utils::readImage(const QByteArray &data)
@@ -246,5 +270,7 @@ utils::readImage(const QByteArray &data)
     buf.setData(data);
     QImageReader reader(&buf);
     reader.setAutoTransform(true);
-    return reader.read();
+    QImage image = reader.read();
+    normalizeToSRgb(image);
+    return image;
 }

@@ -52,7 +52,13 @@ Window {
 
     flags: Qt.FramelessWindowHint
 
-    color: modalOverlayColor
+    // A dedicated media viewer wants an opaque backdrop like Element/Eye of
+    // GNOME: the shared modalOverlayColor is a semi-transparent dark veil (it
+    // lets the bright room UI bleed through, which lifts the surround and makes
+    // photos read as less vivid). Keep the veil's hue but force it opaque so the
+    // image gets a true black-ish surround and full perceptual contrast. Child
+    // dialogs still receive the original translucent modalOverlayColor.
+    color: Qt.rgba(modalOverlayColor.r, modalOverlayColor.g, modalOverlayColor.b, 1.0)
     Component.onCompleted: {
         Komai.setWindowRole(mediaOverlay, "imageoverlay");
         hintTimer.start();
@@ -342,6 +348,7 @@ Window {
             cornerRadius: mediaOverlay.imageCornerRadius
             animateOnHover: Settings.timelineMediaAnimateOnHover
             hovered: mouseArea.hovered
+            zoomScale: imgContainer.scale
         }
 
         ImageOverlayVideoContent {

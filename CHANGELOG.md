@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026.07.02.0
+
+- ✨ Feature: double-clicking a word and dragging now extends the message text selection word by word ([2946a34d8](https://github.com/etkecc/komai/commit/2946a34d8)).
+- ✨ Feature: large media downloads in the media viewer show a progress ring with a live percentage instead of an indeterminate spinner ([077a924f1](https://github.com/etkecc/komai/commit/077a924f1), [fa966131e](https://github.com/etkecc/komai/commit/fa966131e)).
+- 🐛 Fix: videos in the media viewer play reliably; on homeservers without HTTP range support (e.g. Synapse) they could previously sit on their thumbnail forever, and audio now starts playing while it downloads ([a249e305d](https://github.com/etkecc/komai/commit/a249e305d), [bb1308457](https://github.com/etkecc/komai/commit/bb1308457)).
+- 🐛 Fix: wide-gamut photos (e.g. iPhone Display P3) no longer look desaturated; embedded color profiles are now applied when decoding ([b8b4c438d](https://github.com/etkecc/komai/commit/b8b4c438d)).
+- 🐛 Fix: saving an attachment via "Save as" no longer crashes the app ([a1a45e504](https://github.com/etkecc/komai/commit/a1a45e504)).
+- 🐛 Fix: the Linux AppImage no longer crashes when opening the microphone for speech-to-text voice input ([4d359399f](https://github.com/etkecc/komai/commit/4d359399f)).
+- 🎨 Polish: media viewer images are crisp now, with high-quality downscaling at rest and sharp zooming ([9373831fd](https://github.com/etkecc/komai/commit/9373831fd), [3846a7d02](https://github.com/etkecc/komai/commit/3846a7d02), [9dc56c91a](https://github.com/etkecc/komai/commit/9dc56c91a)).
+- 🎨 Polish: the media viewer opens images faster, and stepping through a gallery with prev/next is instant thanks to caching and prefetching ([7ecaad4ca](https://github.com/etkecc/komai/commit/7ecaad4ca), [1273ad1d5](https://github.com/etkecc/komai/commit/1273ad1d5), [f7dd0b998](https://github.com/etkecc/komai/commit/f7dd0b998), [78b5d7904](https://github.com/etkecc/komai/commit/78b5d7904)).
+- 🎨 Polish: the transcription status banner reveals its full text on hover when it is clipped ([37b0b677a](https://github.com/etkecc/komai/commit/37b0b677a)).
+- 📦 Calls: the bundled Element Call is updated to v0.20.3 ([7f2b0b5d9](https://github.com/etkecc/komai/commit/7f2b0b5d9)).
+
 ## 2026.06.28.0
 
 - 🐛 Fix: messages no longer occasionally wrap a trailing emoji (or clip the last character) onto a new line ([baa5cfebd](https://github.com/etkecc/komai/commit/baa5cfebd)).

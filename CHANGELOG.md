@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026.07.02.0
+## 2026.07.02.1
 
 - ✨ Feature: double-clicking a word and dragging now extends the message text selection word by word ([2946a34d8](https://github.com/etkecc/komai/commit/2946a34d8)).
 - ✨ Feature: large media downloads in the media viewer show a progress ring with a live percentage instead of an indeterminate spinner ([077a924f1](https://github.com/etkecc/komai/commit/077a924f1), [fa966131e](https://github.com/etkecc/komai/commit/fa966131e)).
@@ -12,6 +12,8 @@
 - 🎨 Polish: the media viewer opens images faster, and stepping through a gallery with prev/next is instant thanks to caching and prefetching ([7ecaad4ca](https://github.com/etkecc/komai/commit/7ecaad4ca), [1273ad1d5](https://github.com/etkecc/komai/commit/1273ad1d5), [f7dd0b998](https://github.com/etkecc/komai/commit/f7dd0b998), [78b5d7904](https://github.com/etkecc/komai/commit/78b5d7904)).
 - 🎨 Polish: the transcription status banner reveals its full text on hover when it is clipped ([37b0b677a](https://github.com/etkecc/komai/commit/37b0b677a)).
 - 📦 Calls: the bundled Element Call is updated to v0.20.3 ([7f2b0b5d9](https://github.com/etkecc/komai/commit/7f2b0b5d9)).
+
+_(Re-cut of v2026.07.02.0, whose publish failed building the Flatpak bundle's GStreamer; fixed by moving the bundled GStreamer to the stable 1.28 series and enabling its check feature ([8b92301c4](https://github.com/etkecc/komai/commit/8b92301c4), [92dc6f5d2](https://github.com/etkecc/komai/commit/92dc6f5d2)). No other application changes from that tag.)_
 
 ## 2026.06.28.0
 

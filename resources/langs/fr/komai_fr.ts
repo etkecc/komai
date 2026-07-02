@@ -9291,12 +9291,12 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
 (%1)</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+132"/>
         <source>Save attachment</source>
         <translation>Enregistrer la pièce jointe</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+62"/>
         <source>Failed to copy attachment: %1</source>
         <translation>Échec de la copie de la pièce jointe : %1</translation>
     </message>
@@ -9327,7 +9327,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+194"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>

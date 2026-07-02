@@ -128,21 +128,36 @@ TimelineViewManager::openImagePackSettings(QString roomid)
 void
 TimelineViewManager::saveMedia(QString mxcUrl)
 {
-    const QString downloadsFolder =
-      QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-    const QString openLocation = downloadsFolder + "/" + mxcUrl.split(u'/').constLast();
-
-    const QString filename = QFileDialog::getSaveFileName(nullptr, {}, openLocation);
-
-    if (filename.isEmpty())
-        return;
-
     if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
         komai::logging::ui()->warn("Saving non-mxc media is not supported here: {}",
                                    mxcUrl.toStdString());
         return;
     }
 
+    const QString downloadsFolder =
+      QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+
+    // The dialog must stay non-blocking: a static getSaveFileName() spins a
+    // nested event loop while the invoking QML signal handler is still on the
+    // stack, and message dialogs delete themselves shortly after closing —
+    // destroying an object mid-handler aborts the application.
+    auto *dialog = new QFileDialog(nullptr, {}, downloadsFolder);
+    dialog->setAcceptMode(QFileDialog::AcceptSave);
+    dialog->selectFile(mxcUrl.split(u'/').constLast());
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setWindowModality(Qt::ApplicationModal);
+    connect(dialog, &QFileDialog::fileSelected, this, [mxcUrl](const QString &filename) {
+        if (filename.isEmpty())
+            return;
+
+        saveMxcMediaToFile(mxcUrl, filename);
+    });
+    dialog->show();
+}
+
+void
+TimelineViewManager::saveMxcMediaToFile(const QString &mxcUrl, const QString &filename)
+{
     const auto id = QString(mxcUrl).remove(QStringLiteral("mxc://"));
     MxcImageProvider::download(
       id,

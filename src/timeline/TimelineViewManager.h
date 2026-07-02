@@ -484,6 +484,7 @@ public slots:
     void markRoomSwitchPhaseCpp(const QString &roomId, const QString &phase);
 
 private:
+    static void saveMxcMediaToFile(const QString &mxcUrl, const QString &filename);
     void scheduleMatrixSidebarRefresh();
     // Emit isConnectedChanged only when the value actually changes, with a log line
     // so connectivity transitions are observable. Every source funnels through here.

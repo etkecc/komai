@@ -9291,12 +9291,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 (%1)</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+132"/>
         <source>Save attachment</source>
         <translation>Tallenna liite</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+62"/>
         <source>Failed to copy attachment: %1</source>
         <translation>Liitteen kopiointi epäonnistui: %1</translation>
     </message>
@@ -9327,7 +9327,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+194"/>
         <source>Open</source>
         <translation>Avaa</translation>
     </message>

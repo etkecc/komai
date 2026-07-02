@@ -388,12 +388,25 @@ TimelineViewManager::saveActiveMatrixTimelineMedia(const QString &itemId,
 
     const auto downloadsFolder = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
     const auto fileName        = matrixTimelineAttachmentFileName(suggestedFileName, trimmedItemId);
-    const auto outputPath      = QFileDialog::getSaveFileName(
-      nullptr, tr("Save attachment"), downloadsFolder + u'/' + fileName);
-    if (outputPath.isEmpty())
-        return false;
 
-    fetchActiveMatrixTimelineMediaToFile(trimmedItemId, outputPath, fileName, false);
+    // The dialog must stay non-blocking: a static getSaveFileName() spins a
+    // nested event loop while the invoking QML signal handler is still on the
+    // stack, and message dialogs delete themselves shortly after closing —
+    // destroying an object mid-handler aborts the application.
+    auto *dialog = new QFileDialog(nullptr, tr("Save attachment"), downloadsFolder);
+    dialog->setAcceptMode(QFileDialog::AcceptSave);
+    dialog->selectFile(fileName);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setWindowModality(Qt::ApplicationModal);
+    connect(dialog,
+            &QFileDialog::fileSelected,
+            this,
+            [this, trimmedItemId, fileName](const QString &outputPath) {
+                if (!outputPath.isEmpty())
+                    fetchActiveMatrixTimelineMediaToFile(
+                      trimmedItemId, outputPath, fileName, false);
+            });
+    dialog->show();
     return true;
 }
 bool

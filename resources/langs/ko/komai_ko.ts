@@ -9279,12 +9279,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 (%1)</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+132"/>
         <source>Save attachment</source>
         <translation>첨부 파일 저장</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+62"/>
         <source>Failed to copy attachment: %1</source>
         <translation>첨부 파일을 복사하지 못했습니다: %1</translation>
     </message>
@@ -9315,7 +9315,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+194"/>
         <source>Open</source>
         <translation>열기</translation>
     </message>

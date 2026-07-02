@@ -9291,12 +9291,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 (%1)</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+128"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineAttachments.cpp" line="+132"/>
         <source>Save attachment</source>
         <translation>අමුණුම සුරකින්න</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+62"/>
         <source>Failed to copy attachment: %1</source>
         <translation>ඇමුණුම පිටපත් කිරීමට අසමත් විය: %1</translation>
     </message>
@@ -9327,7 +9327,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+179"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+194"/>
         <source>Open</source>
         <translation>විවෘත කරන්න</translation>
     </message>

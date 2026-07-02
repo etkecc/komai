@@ -38,12 +38,15 @@
 #include "rust/cxx.h"
 
 namespace komai::rust {
+// Must match the cxx-generated declaration exactly, including noexcept:
+// this TU also sees the generated header, and MSVC/clang reject the
+// mismatch as a redefinition.
 ::rust::Vec<::std::uint8_t>
 lanczos_resize_rgba(::rust::Slice<const ::std::uint8_t> pixels,
                     ::std::uint32_t src_w,
                     ::std::uint32_t src_h,
                     ::std::uint32_t dst_w,
-                    ::std::uint32_t dst_h);
+                    ::std::uint32_t dst_h) noexcept;
 }
 
 static QImage

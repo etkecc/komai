@@ -10,8 +10,10 @@
 #include "rust/cxx.h"
 
 namespace komai::rust {
+// Must match the cxx-generated declaration exactly, including noexcept;
+// toolchains reject the mismatch when a TU sees both declarations.
 ::rust::Vec<::std::uint8_t>
-blurhash_decode(::rust::Str hash, ::std::uint32_t width, ::std::uint32_t height);
+blurhash_decode(::rust::Str hash, ::std::uint32_t width, ::std::uint32_t height) noexcept;
 }
 
 void

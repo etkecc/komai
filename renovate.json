@@ -120,6 +120,11 @@
       "description": "Group all Rust crate updates",
       "matchManagers": ["cargo"],
       "groupName": "rust dependencies"
+    },
+    {
+      "description": "GStreamer — stable (even-minor) series only; odd-minor development snapshots can fail to build and get no bug-fix releases",
+      "matchPackageNames": ["https://gitlab.freedesktop.org/gstreamer/gstreamer.git"],
+      "allowedVersions": "/^1\\.\\d*[02468]\\.\\d+$/"
     }
   ]
 }

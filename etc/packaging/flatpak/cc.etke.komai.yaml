@@ -82,12 +82,15 @@ modules:
   # notably libgstpipewire.so from PipeWire (used as pipewiresrc for Wayland
   # screen-share via xdg-desktop-portal), which is loaded from
   # /usr/lib/.../gstreamer-1.0/ at runtime under 1.x plugin ABI compat.
+  # Pinned to the stable (even-minor) series; renovate.json constrains
+  # updates accordingly. Development (odd-minor) snapshots can fail to
+  # build (1.29.2 broke at meson configure) and get no bug-fix releases.
   - name: gstreamer
     buildsystem: meson
     sources:
       - disable-lfs: true
         disable-submodules: true
-        tag: 1.29.2
+        tag: 1.28.4
         type: git
         url: https://gitlab.freedesktop.org/gstreamer/gstreamer.git
     config-opts:

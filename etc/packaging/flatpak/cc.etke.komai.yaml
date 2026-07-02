@@ -95,6 +95,11 @@ modules:
         url: https://gitlab.freedesktop.org/gstreamer/gstreamer.git
     config-opts:
       - --auto-features=disabled
+      # The docs dirs are always processed even with doc disabled, and the
+      # plugin-cache generator they share is only defined when core's check
+      # feature is on; without it, configure fails in gst-plugins-good with
+      # 'Requested variable "plugins_cache_generator" not found'.
+      -  -Dgstreamer:check=enabled
       -  -Dgood=enabled
       -  -Dgst-plugins-good:qt6=enabled
       -  -Dgst-plugins-good:qt-egl=enabled

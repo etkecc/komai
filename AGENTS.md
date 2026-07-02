@@ -50,6 +50,8 @@ See [docs/maintainers/packaging/native.md](docs/maintainers/packaging/native.md)
 
 To cut a release, follow [docs/maintainers/releases.md](docs/maintainers/releases.md). The CHANGELOG entry shape (categories, voice, commit-linking) is documented separately in [docs/maintainers/changelog-style.md](docs/maintainers/changelog-style.md) -- read it before drafting the entry.
 
+**Pause for approval before tagging.** After drafting the CHANGELOG entry, show it to the maintainer and wait for their sign-off before committing, tagging, or pushing anything. The entry becomes the public GitHub Release body, and the tag push triggers the publish pipeline -- neither is easy to walk back.
+
 **Do NOT invoke the `release-manual-*` recipes** (`release-manual-validate`, `release-manual-build`, `release-manual-publish`, `release-manual-all`) unless the user explicitly asks for a local publish. They reproduce `publish.yml`'s pipeline sequentially on one machine, take ~1h to complete, and exist only as a fallback for when CI is unavailable.
 
 

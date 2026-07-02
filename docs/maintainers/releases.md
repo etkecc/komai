@@ -50,6 +50,8 @@ Open `CHANGELOG.md` and replace the TODO placeholder with the actual user-facing
 
 See [Changelog style](changelog-style.md) for the entry shape (categories, voice, commit-linking conventions) every section follows.
 
+When an AI agent is driving the release, it must stop here: show the drafted entry to the maintainer and wait for approval before moving on to step 4. The entry becomes the public GitHub Release body, and the tag push triggers the publish pipeline.
+
 ### 4. Review, commit, tag, push
 
 ```sh

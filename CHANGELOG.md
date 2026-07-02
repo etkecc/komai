@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026.07.02.1
+## 2026.07.02.2
 
 - ✨ Feature: double-clicking a word and dragging now extends the message text selection word by word ([2946a34d8](https://github.com/etkecc/komai/commit/2946a34d8)).
 - ✨ Feature: large media downloads in the media viewer show a progress ring with a live percentage instead of an indeterminate spinner ([077a924f1](https://github.com/etkecc/komai/commit/077a924f1), [fa966131e](https://github.com/etkecc/komai/commit/fa966131e)).
@@ -13,7 +13,7 @@
 - 🎨 Polish: the transcription status banner reveals its full text on hover when it is clipped ([37b0b677a](https://github.com/etkecc/komai/commit/37b0b677a)).
 - 📦 Calls: the bundled Element Call is updated to v0.20.3 ([7f2b0b5d9](https://github.com/etkecc/komai/commit/7f2b0b5d9)).
 
-_(Re-cut of v2026.07.02.0, whose publish failed building the Flatpak bundle's GStreamer; fixed by moving the bundled GStreamer to the stable 1.28 series and enabling its check feature ([8b92301c4](https://github.com/etkecc/komai/commit/8b92301c4), [92dc6f5d2](https://github.com/etkecc/komai/commit/92dc6f5d2)). No other application changes from that tag.)_
+_(Re-cut of v2026.07.02.0 and v2026.07.02.1, whose publishes failed on packaging issues; fixed by moving the Flatpak's bundled GStreamer to the stable 1.28 series ([8b92301c4](https://github.com/etkecc/komai/commit/8b92301c4), [92dc6f5d2](https://github.com/etkecc/komai/commit/92dc6f5d2)) and correcting a Rust-bridge declaration mismatch that broke the Windows, macOS, and Snap builds ([40f6bbc98](https://github.com/etkecc/komai/commit/40f6bbc98)). No other application changes from those tags.)_
 
 ## 2026.06.28.0
 

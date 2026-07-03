@@ -60,12 +60,15 @@ TimelineFilter::startFiltering()
     waitingForData_         = false;
     emit isFilteringChanged();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-    endFilterChange();
-#else
-    invalidateFilter();
-#endif
-
+    // Use a full model reset instead of invalidateFilter() /
+    // endFilterChange(). The granular re-filter pass streams
+    // rowsRemoved/rowsInserted diffs into the live ListView while delegate
+    // bindings (previousMessageUserId etc.) re-enter the proxy via
+    // dataByIndex(), rebuilding lazy mappings mid-binding and corrupting
+    // row geometry (visual message overlap, #181). The reset rebuilds the
+    // mapping atomically (endResetModel() triggers resetInternalData())
+    // before any delegate binding evaluates - same rationale as
+    // setCollapseThreadReplies().
     beginResetModel();
     endResetModel();
 
@@ -119,10 +122,6 @@ void
 TimelineFilter::setThreadId(const QString &t)
 {
     if (this->threadId != t) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-        beginFilterChange();
-#endif
-
         this->threadId = t;
 
         emit threadIdChanged();
@@ -159,9 +158,6 @@ void
 TimelineFilter::setContentFilter(const QString &c)
 {
     if (this->contentFilter != c) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-        beginFilterChange();
-#endif
         this->contentFilter = c;
 
         emit contentFilterChanged();

@@ -3383,7 +3383,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+513"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+530"/>
         <source>Settings...</source>
         <translation>Configuración...</translation>
     </message>

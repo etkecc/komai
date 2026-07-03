@@ -3384,7 +3384,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+513"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+530"/>
         <source>Settings...</source>
         <translation>Настройки…</translation>
     </message>

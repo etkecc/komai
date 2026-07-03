@@ -248,6 +248,23 @@ ColumnLayout {
                 }
             });
         }
+
+        // The proxy resets itself on every committed query change
+        // (startFiltering) and on thread-collapse toggles. When the
+        // ListView is bound to the proxy at that moment (query edits, or
+        // any search while collapseThreadReplies keeps the proxy bound),
+        // the reset releases every visible delegate into the reuse pool
+        // and rebuilds from it, and Qt 6 can hand back a pooled delegate
+        // still bound to its previous row (see flushDelegateReusePool),
+        // which surfaces as overlapping messages (#181). Flush before the
+        // reset so the rebuild starts from a clean pool. Also covers
+        // source-model resets propagating through the proxy, which the
+        // perRoomModel-targeted flush hooks don't reach while the proxy is
+        // the bound model.
+        onModelAboutToBeReset: {
+            if (matrixTimelineList.model === filteredTimeline)
+                listShellSupport.flushDelegateReusePool();
+        }
     }
 
     // When thread collapse is active, paginated items may all be thread

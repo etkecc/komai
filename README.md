@@ -62,9 +62,9 @@ More screenshots are inlined on individual feature pages — see the [👤 User 
 
 **🐧 Linux** (`x86_64` and `arm64`): Komai ships as **AppImage**, **Flatpak**, and **Snap** packages on the [GitHub Releases](https://github.com/etkecc/komai/releases) page, plus a [`komai`](https://aur.archlinux.org/packages/komai) package on the Arch Linux AUR.
 
-**🪟 Windows** (`x64`): a portable **ZIP** for Windows 10 (22H2+) and later is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build excludes VOIP (no voice or video calls) and isn't code-signed, so the first launch shows a SmartScreen warning that needs **More info** -> **Run anyway**.
+**🪟 Windows** (`x64`): a portable **ZIP** for Windows 10 (22H2+) and later is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build includes [Element Call](docs/user-guide/features/element-call.md) voice/video but excludes the [legacy 1:1 call](docs/user-guide/features/legacy-calls.md) stack (`-DVOIP=OFF`). It isn't code-signed, so the first launch shows a SmartScreen warning that needs **More info** -> **Run anyway**.
 
-**🍏 macOS** (`arm64`): a portable **DMG** for macOS 13.3+ on Apple Silicon is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build excludes VOIP and isn't code-signed or notarized, so the first launch shows a Gatekeeper warning. On macOS 13/14, right-click `komai.app` -> **Open**; on macOS 15+, open the app once, then go to **System Settings -> Privacy & Security -> Open Anyway**.
+**🍏 macOS** (`arm64`): a portable **DMG** for macOS 13.3+ on Apple Silicon is attached to each [GitHub release](https://github.com/etkecc/komai/releases). Like the Windows build, it ships [Element Call](docs/user-guide/features/element-call.md) but not the [legacy 1:1 call](docs/user-guide/features/legacy-calls.md) stack (`-DVOIP=OFF`). It isn't code-signed or notarized, so the first launch shows a Gatekeeper warning. On macOS 13/14, right-click `komai.app` -> **Open**; on macOS 15+, open the app once, then go to **System Settings -> Privacy & Security -> Open Anyway**.
 
 See 📄 [Installation](docs/user-guide/installation.md) for download links and install commands. To build Komai yourself, see 📄 [Native build](docs/maintainers/packaging/native.md).
 

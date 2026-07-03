@@ -56,7 +56,7 @@ The first launch shows a **"Windows protected your PC"** SmartScreen warning bec
 
 What's not in the Windows build:
 
-- **VOIP.** No voice or video calls (`-DVOIP=OFF`).
+- **Legacy 1:1 calls.** The GStreamer-based [legacy call](features/legacy-calls.md) stack is excluded (`-DVOIP=OFF`). [Element Call](features/element-call.md) voice/video is included.
 - **Auto-update.** Each release is a fresh ZIP download from [GitHub Releases](https://github.com/etkecc/komai/releases).
 - **Windows on ARM.** Only `x64` is available as a pre-built binary right now. Building on ARM has not yet been tested.
 
@@ -77,7 +77,7 @@ Subsequent launches open normally.
 
 What's not in the macOS build:
 
-- **VOIP.** No voice or video calls (`-DVOIP=OFF`).
+- **Legacy 1:1 calls.** The GStreamer-based [legacy call](features/legacy-calls.md) stack is excluded (`-DVOIP=OFF`). [Element Call](features/element-call.md) voice/video is included.
 - **Auto-update.** Each release is a fresh DMG download from [GitHub Releases](https://github.com/etkecc/komai/releases).
 - **Intel Macs.** Only `arm64` is available as a pre-built binary. Building on Intel from source still works; see 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
 - **Code-signing / notarization.** Komai is shipped unsigned, hence the first-launch dance.

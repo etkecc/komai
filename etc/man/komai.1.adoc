@@ -379,7 +379,7 @@ Change your display name in the current room only.
 === Emoticons
 
 */shrug* [_<message>_]::
-Insert +¯\_(ツ)_/¯+ followed by an optional trailing _<message>_.
+Insert `¯\_(ツ)_/¯` followed by an optional trailing _<message>_.
 
 === User management
 

@@ -219,7 +219,7 @@ endif()
 CPMAddPackage(
     NAME qt6keychain
     GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
-    GIT_TAG 0.16.0
+    GIT_TAG 0.17.0
     # The system QtKeychain config file is installed as Qt6KeychainConfig.cmake,
     # so the lowercase package name we use here doesn't match find_package's
     # default lookup. NAMES forces find_package into Config mode and points at

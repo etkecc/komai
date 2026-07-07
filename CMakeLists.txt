@@ -215,6 +215,13 @@ if(APPLE)
         "${KOMAI_LOGO_ASSET_DIR}/komai-dmg-background@2x.png")
     list(APPEND KOMAI_LOGO_GENERATOR_ARGS --with-icns --with-dmg-background)
 endif()
+# Windows builds keep qtkeychain's legacy bare-key Credential Manager naming.
+# The service-qualified default ("<key>@<service>") cannot read entries stored
+# by existing installs, which would sign every Windows user out and strand
+# their encrypted local store. Komai keys are fully namespaced on their own
+# ("komai.<tag>.<profile>..."), so the legacy scheme loses nothing. Only flip
+# this together with a migration for already-stored credentials.
+set(USE_COMPAT_NAMING_SCHEME ON CACHE BOOL INTERNAL)
 CPMAddPackage(
     NAME qt6keychain
     GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
@@ -225,12 +232,6 @@ CPMAddPackage(
     # the correct file, letting distro packagers reuse the system package via
     # -DCPM_USE_LOCAL_PACKAGES=ON. EXCLUDE_FROM_ALL keeps the bundled fallback
     # (when CPM does fetch + build) out of `cmake --install`.
-    #
-    # On Windows, qtkeychain 0.17+ names Credential Manager entries
-    # "<key>@<service>" by default. We deliberately leave the
-    # USE_COMPAT_NAMING_SCHEME escape hatch off: Komai keys are fully
-    # namespaced on their own, and opting into the legacy bare-key naming
-    # would be a permanent commitment.
     FIND_PACKAGE_ARGUMENTS "NAMES Qt6Keychain"
     EXCLUDE_FROM_ALL YES
 )

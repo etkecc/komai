@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026.07.07.0
+
+- 🐛 Fix: filtering the timeline with a search query no longer leaves messages overlapping each other ([d377973c8](https://github.com/etkecc/komai/commit/d377973c8)).
+- 📦 Calls: the bundled Element Call is updated to v0.21.0 ([09b76071b](https://github.com/etkecc/komai/commit/09b76071b)).
+- 🔧 Build: the bundled qtkeychain is updated to v0.17.0, keeping Komai's existing Windows credential naming so stored sign-ins keep working ([317f1a3d3](https://github.com/etkecc/komai/commit/317f1a3d3), [0f72f7daf](https://github.com/etkecc/komai/commit/0f72f7daf), [80636f66f](https://github.com/etkecc/komai/commit/80636f66f)).
+
 ## 2026.07.02.2
 
 - ✨ Feature: double-clicking a word and dragging now extends the message text selection word by word ([2946a34d8](https://github.com/etkecc/komai/commit/2946a34d8)).

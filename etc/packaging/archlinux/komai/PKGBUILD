@@ -62,15 +62,6 @@ prepare() {
 	# CMake glue and rustup's shim auto-install); see README.md for why
 	# both matter.
 	rm -f "$pkgname/rust-toolchain.toml"
-
-	# Work around a broken AsciiDoc escape in the /shrug man page entry:
-	# the unescaped underscore after "(ツ)" pairs with the underscore
-	# opening "_<message>_" later in the same line, producing mismatched
-	# <emphasis>/<literal> tags that make xsltproc fail. Switches the
-	# +...+ monospace span to backtick quoting (no substitutions applied
-	# inside), matching upstream nheko. Fixed upstream post-v${pkgver};
-	# drop this once a release tag includes the fix.
-	sed -i 's/+¯\\_(ツ)_\/¯+/`¯\\_(ツ)_\/¯`/' "$pkgname/etc/man/komai.1.adoc"
 }
 
 build() {

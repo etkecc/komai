@@ -187,7 +187,6 @@ endif()
 find_package(Qt6DBus)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
-set(BUILD_WITH_QT6 ON)
 set(BUILD_TEST_APPLICATION OFF CACHE INTERNAL "")
 
 set(KOMAI_LOGO_GENERATED_FILES
@@ -226,6 +225,12 @@ CPMAddPackage(
     # the correct file, letting distro packagers reuse the system package via
     # -DCPM_USE_LOCAL_PACKAGES=ON. EXCLUDE_FROM_ALL keeps the bundled fallback
     # (when CPM does fetch + build) out of `cmake --install`.
+    #
+    # On Windows, qtkeychain 0.17+ names Credential Manager entries
+    # "<key>@<service>" by default. We deliberately leave the
+    # USE_COMPAT_NAMING_SCHEME escape hatch off: Komai keys are fully
+    # namespaced on their own, and opting into the legacy bare-key naming
+    # would be a permanent commitment.
     FIND_PACKAGE_ARGUMENTS "NAMES Qt6Keychain"
     EXCLUDE_FROM_ALL YES
 )

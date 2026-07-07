@@ -5,7 +5,16 @@ unicode:
     url: "https://unicode.org/Public/emoji/latest/emoji-test.txt"
     sha256: "1d8a944f88d7952f7ef7c5167fef3c67995bcae24543949710231b03a201acda"
 cldr:
-  # Pinned to latest CLDR JSON release tag (48.1.0 as of 2026-03-07).
-  ref: "48.2.0"
-  annotations_url: "https://raw.githubusercontent.com/unicode-org/cldr-json/{ref}/cldr-json/cldr-annotations-full/annotations/{locale}/annotations.json"
-  derived_url: "https://raw.githubusercontent.com/unicode-org/cldr-json/{ref}/cldr-json/cldr-annotations-derived-full/annotationsDerived/{locale}/annotations.json"
+  # Pinned cldr-json npm release. Annotations come from the two npm tarballs
+  # below (2 requests total) instead of ~200 per-locale files from
+  # raw.githubusercontent.com, which rate-limits hard enough to break builds.
+  #
+  # Renovate proposes `version` bumps but cannot update the sha256 pins. After
+  # merging a bump, run `just emoji-update-lock` to re-pin them (the pipeline
+  # verifies the pins and prints the actual hash on mismatch); then commit the
+  # lock change.
+  version: "48.2.0"
+  annotations_url: "https://registry.npmjs.org/cldr-annotations-full/-/cldr-annotations-full-{version}.tgz"
+  annotations_sha256: "28576e51225deb51e3ddd734b0f824a0079682cb5d8c27faa9f68149317a14d1"
+  derived_url: "https://registry.npmjs.org/cldr-annotations-derived-full/-/cldr-annotations-derived-full-{version}.tgz"
+  derived_sha256: "4be946ff5815f806ec78b50363d577a769f2fbfb90c6380a44e161a92436996e"

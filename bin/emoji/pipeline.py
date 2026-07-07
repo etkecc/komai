@@ -14,10 +14,13 @@ import hashlib
 import json
 import os
 import pathlib
+import random
 import re
 import shutil
 import sys
+import tarfile
 import tempfile
+import time
 import typing as t
 import urllib.error
 import urllib.request
@@ -518,6 +521,20 @@ def locale_candidates(locale: str) -> list[str]:
     return candidates
 
 
+# HTTP statuses worth retrying: rate limiting and transient server errors.
+RETRIABLE_HTTP_CODES = {429, 500, 502, 503, 504}
+FETCH_ATTEMPTS = 5
+
+
+def retry_delay_seconds(retry_after: str | None, attempt: int) -> float:
+    if retry_after:
+        try:
+            return min(120.0, max(1.0, float(retry_after)))
+        except ValueError:
+            pass  # HTTP-date form; fall back to the exponential schedule.
+    return min(60.0, 2.0**attempt) + random.uniform(0.0, 1.0)
+
+
 def fetch_url_bytes(url: str) -> bytes:
     req = urllib.request.Request(
         url,
@@ -526,8 +543,31 @@ def fetch_url_bytes(url: str) -> bytes:
             "Accept": "application/json, text/plain, */*",
         },
     )
-    with urllib.request.urlopen(req, timeout=45) as resp:
-        return resp.read()
+
+    for attempt in range(1, FETCH_ATTEMPTS + 1):
+        retry_after: str | None = None
+        try:
+            with urllib.request.urlopen(req, timeout=45) as resp:
+                return resp.read()
+        except urllib.error.HTTPError as e:
+            if e.code not in RETRIABLE_HTTP_CODES or attempt == FETCH_ATTEMPTS:
+                raise
+            retry_after = e.headers.get("Retry-After")
+            last_error: Exception = e
+        except urllib.error.URLError as e:
+            if attempt == FETCH_ATTEMPTS:
+                raise
+            last_error = e
+
+        delay = retry_delay_seconds(retry_after, attempt)
+        print(
+            f"[emoji-pipeline] fetch of {url} failed ({last_error}); "
+            f"retrying in {delay:.1f}s (attempt {attempt}/{FETCH_ATTEMPTS})",
+            file=sys.stderr,
+        )
+        time.sleep(delay)
+
+    raise AssertionError("unreachable")
 
 
 def split_cldr_tokens(raw: str) -> list[str]:
@@ -599,56 +639,139 @@ def ensure_unicode_data(
     return target
 
 
-def ensure_cldr_locale_data(
+def cldr_tarball_url_and_sha(lock: dict[str, t.Any], kind: str) -> tuple[str, str]:
+    cldr = lock["cldr"]
+    version = str(cldr["version"])
+    url = str(cldr[f"{kind}_url"]).format(version=version)
+    expected_sha = str(cldr.get(f"{kind}_sha256", "")).strip().lower()
+    return url, expected_sha
+
+
+def ensure_cldr_tarball(
     *,
     lock: dict[str, t.Any],
     cache_dir: pathlib.Path,
+    kind: str,
+    force: bool,
+) -> pathlib.Path:
+    """Download (or reuse) one pinned CLDR annotations npm tarball."""
+    url, expected_sha = cldr_tarball_url_and_sha(lock, kind)
+    target = cache_dir / "npm" / url.rsplit("/", 1)[-1]
+
+    if target.is_file() and not force:
+        return target
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        payload = fetch_url_bytes(url)
+    except urllib.error.URLError as e:
+        raise RuntimeError(
+            f"Failed to fetch CLDR annotations tarball from {url}: {e}. "
+            f"Populate cache first with `just emoji-fetch` (cache dir: {cache_dir})."
+        ) from e
+
+    actual_sha = sha256_bytes(payload)
+    if expected_sha and actual_sha != expected_sha:
+        raise RuntimeError(
+            f"CLDR annotations tarball checksum mismatch for {url}: "
+            f"expected {expected_sha}, got {actual_sha}. "
+            "If you intentionally bumped the version, run `just emoji-update-lock` "
+            "to re-pin the sha256 fields in bin/emoji/sources.lock.yml."
+        )
+
+    tmp = target.with_suffix(".tmp")
+    tmp.write_bytes(payload)
+    tmp.replace(target)
+    return target
+
+
+class CldrAnnotationsArchive:
+    """Per-locale annotation JSON lookups inside the two pinned npm tarballs.
+
+    cldr-annotations-full ships ``package/annotations/<locale>/annotations.json``
+    and cldr-annotations-derived-full ships
+    ``package/annotationsDerived/<locale>/annotations.json``.
+    """
+
+    def __init__(self, annotations_tar: pathlib.Path, derived_tar: pathlib.Path):
+        self._ann_tar = tarfile.open(annotations_tar, "r:gz")
+        self._der_tar = tarfile.open(derived_tar, "r:gz")
+        self._ann_members = {m.name: m for m in self._ann_tar.getmembers() if m.isfile()}
+        self._der_members = {m.name: m for m in self._der_tar.getmembers() if m.isfile()}
+
+    def close(self) -> None:
+        self._ann_tar.close()
+        self._der_tar.close()
+
+    def _read(self, tar: tarfile.TarFile, members: dict[str, tarfile.TarInfo], name: str) -> bytes | None:
+        member = members.get(name)
+        if member is None:
+            return None
+        extracted = tar.extractfile(member)
+        if extracted is None:
+            return None
+        with extracted:
+            return extracted.read()
+
+    def annotations(self, candidate: str) -> bytes | None:
+        return self._read(
+            self._ann_tar, self._ann_members, f"package/annotations/{candidate}/annotations.json"
+        )
+
+    def derived(self, candidate: str) -> bytes | None:
+        return self._read(
+            self._der_tar,
+            self._der_members,
+            f"package/annotationsDerived/{candidate}/annotations.json",
+        )
+
+
+def cldr_locale_cache_complete(cache_dir: pathlib.Path, locale: str) -> bool:
+    locale_dir = cache_dir / "cldr" / locale
+    return all(
+        (locale_dir / name).is_file()
+        for name in ("annotations.json", "annotationsDerived.json", "meta.json")
+    )
+
+
+def ensure_cldr_locale_data(
+    *,
+    cache_dir: pathlib.Path,
     locale: str,
     force: bool,
+    archive: CldrAnnotationsArchive | None,
 ) -> tuple[pathlib.Path, pathlib.Path, str | None]:
     locale_dir = cache_dir / "cldr" / locale
     ann_path = locale_dir / "annotations.json"
     der_path = locale_dir / "annotationsDerived.json"
     meta_path = locale_dir / "meta.json"
 
-    if ann_path.is_file() and der_path.is_file() and meta_path.is_file() and not force:
+    if cldr_locale_cache_complete(cache_dir, locale) and not force:
         source_locale = json.loads(meta_path.read_text(encoding="utf-8")).get("source_locale")
         return ann_path, der_path, source_locale
 
+    if archive is None:
+        raise RuntimeError(
+            f"CLDR cache for locale '{locale}' is incomplete and no annotations "
+            "archive is available to rebuild it (internal error)."
+        )
+
     locale_dir.mkdir(parents=True, exist_ok=True)
 
-    ref = str(lock["cldr"]["ref"])
-    ann_tpl = str(lock["cldr"]["annotations_url"])
-    der_tpl = str(lock["cldr"]["derived_url"])
-
-    errors: list[str] = []
-    not_found: list[str] = []
     for candidate in locale_candidates(locale):
-        ann_url = ann_tpl.format(ref=ref, locale=candidate)
-        der_url = der_tpl.format(ref=ref, locale=candidate)
-
-        try:
-            ann_payload = fetch_url_bytes(ann_url)
-        except urllib.error.HTTPError as e:
-            if e.code == 404:
-                not_found.append(f"{candidate}: annotations not found (404)")
-            else:
-                errors.append(f"{candidate}: annotations fetch failed (HTTP {e.code})")
-            continue
-        except urllib.error.URLError as e:
-            errors.append(f"{candidate}: annotations fetch failed ({e})")
+        ann_payload = archive.annotations(candidate)
+        if ann_payload is None:
             continue
         if not payload_is_json(ann_payload):
-            errors.append(f"{candidate}: annotations payload is not valid JSON")
-            continue
+            raise RuntimeError(
+                f"CLDR annotations for locale candidate '{candidate}' in the pinned "
+                "tarball are not valid JSON."
+            )
 
-        try:
-            der_payload = fetch_url_bytes(der_url)
-        except (urllib.error.HTTPError, urllib.error.URLError):
+        der_payload = archive.derived(candidate)
+        if der_payload is None or not payload_is_json(der_payload):
             # derived annotations are optional; keep empty object when unavailable
-            der_payload = b"{}\n"
-        if not payload_is_json(der_payload):
-            # derived annotations are optional; ignore invalid payloads.
             der_payload = b"{}\n"
 
         ann_path.write_bytes(ann_payload)
@@ -658,8 +781,6 @@ def ensure_cldr_locale_data(
                 {
                     "locale": locale,
                     "source_locale": candidate,
-                    "annotations_url": ann_url,
-                    "derived_url": der_url,
                 },
                 ensure_ascii=False,
                 indent=2,
@@ -669,32 +790,60 @@ def ensure_cldr_locale_data(
         )
         return ann_path, der_path, candidate
 
-    if not errors:
-        ann_path.write_text("{}\n", encoding="utf-8")
-        der_path.write_text("{}\n", encoding="utf-8")
-        meta_path.write_text(
-            json.dumps(
-                {
-                    "locale": locale,
-                    "source_locale": None,
-                    "status": "not_found",
-                    "details": not_found,
-                },
-                ensure_ascii=False,
-                indent=2,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
-        return ann_path, der_path, None
-
     tried = ", ".join(locale_candidates(locale))
-    details = "; ".join(errors) if errors else "no matching locale payload found"
-    raise RuntimeError(
-        f"Failed to fetch CLDR annotation data for locale '{locale}' "
-        f"(candidates: {tried}): {details}. "
-        f"Run `just emoji-fetch` with network access to populate cache first."
+    ann_path.write_text("{}\n", encoding="utf-8")
+    der_path.write_text("{}\n", encoding="utf-8")
+    meta_path.write_text(
+        json.dumps(
+            {
+                "locale": locale,
+                "source_locale": None,
+                "status": "not_found",
+                "details": f"no annotations for candidates: {tried}",
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
     )
+    return ann_path, der_path, None
+
+
+def ensure_all_cldr_locale_data(
+    *,
+    lock: dict[str, t.Any],
+    cache_dir: pathlib.Path,
+    locales: list[str],
+    force: bool,
+) -> dict[str, tuple[pathlib.Path, pathlib.Path, str | None]]:
+    """Extract per-locale annotation data, downloading the tarballs only on a cache miss."""
+    needs_archive = force or any(
+        not cldr_locale_cache_complete(cache_dir, locale) for locale in locales
+    )
+
+    archive: CldrAnnotationsArchive | None = None
+    if needs_archive:
+        ann_tar = ensure_cldr_tarball(
+            lock=lock, cache_dir=cache_dir, kind="annotations", force=force
+        )
+        der_tar = ensure_cldr_tarball(lock=lock, cache_dir=cache_dir, kind="derived", force=force)
+        archive = CldrAnnotationsArchive(ann_tar, der_tar)
+
+    results: dict[str, tuple[pathlib.Path, pathlib.Path, str | None]] = {}
+    try:
+        for locale in locales:
+            results[locale] = ensure_cldr_locale_data(
+                cache_dir=cache_dir,
+                locale=locale,
+                force=force,
+                archive=archive,
+            )
+    finally:
+        if archive is not None:
+            archive.close()
+
+    return results
 
 
 def supported_komai_locales(repo_root: pathlib.Path) -> list[str]:
@@ -1158,13 +1307,13 @@ def generate_runtime_data(
     cldr_meta: dict[str, str | None] = {}
     locale_ann_paths: dict[str, tuple[pathlib.Path, pathlib.Path]] = {}
 
-    for locale in locales:
-        ann, der, source_locale = ensure_cldr_locale_data(
-            lock=lock,
-            cache_dir=cache_root,
-            locale=locale,
-            force=force_fetch,
-        )
+    locale_data = ensure_all_cldr_locale_data(
+        lock=lock,
+        cache_dir=cache_root,
+        locales=locales,
+        force=force_fetch,
+    )
+    for locale, (ann, der, source_locale) in locale_data.items():
         locale_ann_paths[locale] = (ann, der)
         cldr_meta[locale] = source_locale
 
@@ -1242,13 +1391,12 @@ def cmd_fetch(args: argparse.Namespace) -> int:
         force=args.force,
     )
 
-    for locale in supported_komai_locales(repo_root):
-        ensure_cldr_locale_data(
-            lock=lock,
-            cache_dir=cache_root,
-            locale=locale,
-            force=args.force,
-        )
+    ensure_all_cldr_locale_data(
+        lock=lock,
+        cache_dir=cache_root,
+        locales=supported_komai_locales(repo_root),
+        force=args.force,
+    )
 
     print(f"Fetched/validated emoji upstream cache: {cache_root}")
     return 0
@@ -1312,6 +1460,59 @@ def cmd_check(args: argparse.Namespace) -> int:
             return rc
 
     print("Emoji check passed.")
+    return 0
+
+
+def rewrite_lock_sha(lock_path: pathlib.Path, key: str, new_sha: str) -> None:
+    """Rewrite one '<key>: "<sha>"' line in the lock file, preserving everything else."""
+    text = lock_path.read_text(encoding="utf-8")
+    new_text, n = re.subn(
+        rf'^(\s*{re.escape(key)}:\s*")[^"]+(")',
+        rf"\g<1>{new_sha}\g<2>",
+        text,
+        flags=re.MULTILINE,
+    )
+    if n != 1:
+        raise SystemExit(f"error: expected exactly one '{key}' line in {lock_path}, found {n}")
+    lock_path.write_text(new_text, encoding="utf-8")
+
+
+def cmd_update_lock(args: argparse.Namespace) -> int:
+    """Re-pin the CLDR tarball sha256 fields to the pinned version's real hashes.
+
+    For after a Renovate version bump: Renovate updates `version` but cannot
+    update the sha256 fields, so fetches would reject the mismatched tarballs.
+    This downloads the pinned tarballs, records their real hashes, and then
+    runs a full fetch against the updated lock as validation.
+    """
+    repo_root = repo_root_from_arg(args.repo_root)
+    lock_path = repo_root / "bin" / "emoji" / "sources.lock.yml"
+    lock = load_yaml(lock_path)
+
+    changed = False
+    for kind in ("annotations", "derived"):
+        url, expected_sha = cldr_tarball_url_and_sha(lock, kind)
+        actual_sha = sha256_bytes(fetch_url_bytes(url))
+        if actual_sha == expected_sha:
+            print(f"{kind}_sha256 already up to date ({actual_sha[:12]})")
+            continue
+        rewrite_lock_sha(lock_path, f"{kind}_sha256", actual_sha)
+        print(f"{kind}_sha256 {expected_sha[:12] or '(unset)'} -> {actual_sha[:12]}")
+        changed = True
+
+    # Validate the (possibly rewritten) lock end to end: fetch into the new
+    # lock-hash cache dir and extract every supported locale.
+    rc = cmd_fetch(argparse.Namespace(repo_root=str(repo_root), force=False))
+    if rc != 0:
+        return rc
+
+    if changed:
+        print(
+            "updated sources.lock.yml; next:\n"
+            "  git commit -am 'Update emoji CLDR sha256 pins' && git push"
+        )
+    else:
+        print("lock already current; nothing to commit")
     return 0
 
 
@@ -1390,6 +1591,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
     check.add_argument("--repo-root", help="Repository root")
     check.add_argument("--strict", action="store_true", help="Fail when cache missing")
     check.set_defaults(func=cmd_check)
+
+    update_lock = sub.add_parser(
+        "update-lock",
+        help="Re-pin the CLDR tarball sha256 fields (use after a Renovate version bump)",
+    )
+    update_lock.add_argument("--repo-root", help="Repository root")
+    update_lock.set_defaults(func=cmd_update_lock)
 
     add_token = sub.add_parser("add-token", help="Add one search token override for locale")
     add_token.add_argument("emoji", help="Emoji glyph (e.g. 🥃) or emoji id (e.g. 1F943)")

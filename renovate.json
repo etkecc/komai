@@ -82,13 +82,13 @@
     },
     {
       "customType": "regex",
-      "description": "CLDR JSON version for emoji pipeline",
+      "description": "CLDR annotations npm tarball version pin for emoji pipeline (sha256 pins in the lock must be updated on bump; `just emoji-update-lock` re-pins them)",
       "managerFilePatterns": [
         "/^bin/emoji/sources\\.lock\\.yml$/"
       ],
-      "matchStrings": ["ref:\\s+\"(?<currentValue>[^\"]+)\""],
-      "depNameTemplate": "unicode-org/cldr-json",
-      "datasourceTemplate": "github-tags"
+      "matchStrings": ["version:\\s+\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "cldr-annotations-full",
+      "datasourceTemplate": "npm"
     },
     {
       "customType": "regex",

@@ -190,6 +190,10 @@ emoji-build:
 emoji-check:
 	python3 {{ justfile_directory() }}/bin/emoji/pipeline.py check --repo-root {{ justfile_directory() }}
 
+# Re-pins the CLDR tarball sha256s in bin/emoji/sources.lock.yml (use after a Renovate version bump)
+emoji-update-lock:
+	python3 {{ justfile_directory() }}/bin/emoji/pipeline.py update-lock --repo-root {{ justfile_directory() }}
+
 # Adds one locale-specific emoji search token override entry
 emoji-add-token emoji locale token:
 	python3 {{ justfile_directory() }}/bin/emoji/pipeline.py add-token "{{ emoji }}" "{{ locale }}" "{{ token }}" --repo-root {{ justfile_directory() }}

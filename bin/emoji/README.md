@@ -11,6 +11,7 @@ JSON embedded into the app binary via Qt resources.
 - `just emoji-fetch` -> fetch/refresh upstream cache in `var/emoji/cache/<lock-hash>/`
 - `just emoji-build` -> generate runtime emoji JSON files in `var/emoji/generated/<lock-hash>/`
 - `just emoji-check` -> validate lock + overrides and run an offline cache-based build check
+- `just emoji-update-lock` -> re-pin the CLDR tarball sha256s after a version bump
 - `just emoji-add-token "<emoji>" <locale> "<token>"` -> append a token override entry
 
 ## Files
@@ -23,8 +24,9 @@ JSON embedded into the app binary via Qt resources.
 
 - Unicode emoji test data:
   - https://unicode.org/Public/emoji/
-- CLDR annotations:
-  - https://github.com/unicode-org/cldr-json
+- CLDR annotations (sha256-pinned npm tarballs of https://github.com/unicode-org/cldr-json):
+  - https://www.npmjs.com/package/cldr-annotations-full
+  - https://www.npmjs.com/package/cldr-annotations-derived-full
 
 Related docs:
 

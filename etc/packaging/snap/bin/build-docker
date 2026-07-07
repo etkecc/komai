@@ -36,6 +36,15 @@ tar -cf - -C "$src_dir" \
 mkdir -p "$build_dir/snap"
 cp "$snap_dir/snap/snapcraft.yaml" "$build_dir/snap/snapcraft.yaml"
 
+# The tar above excludes var/, so re-inject the host-side emoji cache
+# (populated by the emoji-fetch dependency of the snap-build-docker recipe).
+# The emoji fetch step in snapcraft.yaml then cache-hits instead of
+# re-downloading, keeping the containerized build off the network for it.
+if [ -d "$src_dir/var/emoji/cache" ]; then
+    mkdir -p "$build_dir/var/emoji"
+    cp -a "$src_dir/var/emoji/cache" "$build_dir/var/emoji/"
+fi
+
 echo "=== Building snap (snapcraft rocks image) ==="
 mkdir -p "$out_dir"
 

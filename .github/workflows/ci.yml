@@ -326,6 +326,14 @@ jobs:
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_LINKER_TYPE=MOLD
 
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
+
       # Build explicitly so it gets its own step with visible output.
       # The prek tests hook would trigger a build anyway, but buried
       # inside "Lint & test" with no progress indication.

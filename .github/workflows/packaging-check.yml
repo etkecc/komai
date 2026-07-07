@@ -41,6 +41,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
+
       - name: Build AppImage
         run: just appimage-build-docker
 
@@ -68,6 +76,14 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
             | sudo bash -s -- --to /usr/local/bin
 
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
+
       - name: Build AppImage
         run: just appimage-build-docker
 
@@ -84,6 +100,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
 
       - name: Build Flatpak
         run: just flatpak-build
@@ -116,6 +140,14 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
             | sudo bash -s -- --to /usr/local/bin
 
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
+
       - name: Build Flatpak
         run: just flatpak-build
 
@@ -132,6 +164,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
 
       - name: Build Snap
         run: just snap-build-docker
@@ -160,6 +200,14 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh \
             | sudo bash -s -- --to /usr/local/bin
 
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
+
       - name: Build Snap
         run: just snap-build-docker
 
@@ -179,6 +227,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
+
       - name: Build macOS arm64 DMG
         uses: ./.github/actions/build-macos-dmg
 
@@ -189,6 +245,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Cache emoji upstream data
+        # Exact-key only: the key is the lock-file hash, so any lock change
+        # misses and re-fetches from the sha256-pinned sources.
+        uses: actions/cache@v6
+        with:
+          path: var/emoji/cache
+          key: emoji-cache-${{ hashFiles('bin/emoji/sources.lock.yml') }}
 
       - name: Build Windows no-installer zip
         uses: ./.github/actions/build-windows-zip

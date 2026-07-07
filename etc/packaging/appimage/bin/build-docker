@@ -113,6 +113,15 @@ docker run --rm \
         echo "=== Copying source tree ==="
         # Exclude heavy build artifacts that would be rebuilt from scratch anyway.
         tar -cf - -C / --exclude="src/rust/target" --exclude="src/var" src | tar -xf - -C /tmp
+
+        # var/ is excluded above, so re-inject the host-side emoji cache
+        # (populated by the emoji-fetch dependency of the appimage-build-docker
+        # recipe). The CMake emoji step then cache-hits instead of re-downloading.
+        if [ -d /src/var/emoji/cache ]; then
+            mkdir -p /tmp/src/var/emoji
+            cp -a /src/var/emoji/cache /tmp/src/var/emoji/
+        fi
+
         echo "=== Installing Rust toolchain ==="
         # Trigger rustup auto-install of the toolchain pinned in rust-toolchain.toml.
         (cd /tmp/src && cargo --version)

@@ -90,7 +90,7 @@ modules:
     sources:
       - disable-lfs: true
         disable-submodules: true
-        tag: 1.28.4
+        tag: 1.28.5
         type: git
         url: https://gitlab.freedesktop.org/gstreamer/gstreamer.git
     config-opts:

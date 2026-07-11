@@ -19,7 +19,7 @@ crate-type = ["staticlib", "rlib"]
 cxx = "1"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time"] }
 tokio-util = { version = "0.7", default-features = false }
-tokio-tungstenite = { version = "0.29", default-features = false, features = ["connect", "handshake", "rustls-tls-webpki-roots"] }
+tokio-tungstenite = { version = "0.30", default-features = false, features = ["connect", "handshake", "rustls-tls-webpki-roots"] }
 # Parse the UI locale into the BCP-47 language tag Element Call's ClientProperties
 # expects. Pinned to the exact version matrix-sdk uses so the `LanguageTag` type
 # matches across the boundary (no extra crate is built — it is already in the lock).

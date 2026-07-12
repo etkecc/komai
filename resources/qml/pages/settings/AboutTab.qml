@@ -10,6 +10,7 @@ import cc.etke.komai
 SettingsContent {
     id: aboutTab
     tabFilter: UserSettingsModel.TabAbout
+    readonly property string homepageUrl: "https://komai.chat/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/about"
     readonly property string matrixUrl: "https://matrix.org/"
     readonly property string komaiMeaningUrl: "https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84"
 
@@ -59,6 +60,25 @@ SettingsContent {
                 font.pointSize: Settings.uiFontSizePt * 1.2
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
+                onLinkActivated: function(link) {
+                    Qt.openUrlExternally(link);
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                }
+            }
+
+            Text {
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: Komai.paddingSmall
+                textFormat: Text.RichText
+                text: "<style>a { color: " + palette.highlight + "; }</style>" +
+                      "<a href=\"" + aboutTab.homepageUrl + "\">komai.chat</a>"
+                color: palette.text
+                font.pointSize: Settings.uiFontSizePt * 1.1
                 onLinkActivated: function(link) {
                     Qt.openUrlExternally(link);
                 }

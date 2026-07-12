@@ -10,7 +10,7 @@ import "welcome" as Welcome
 
 Item {
     id: root
-    readonly property string komaiProjectUrl: "https://github.com/etkecc/komai/"
+    readonly property string komaiProjectUrl: "https://komai.chat/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=profile-switcher"
     readonly property string matrixUrl: "https://matrix.org/"
 
     ColumnLayout {

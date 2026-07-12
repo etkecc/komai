@@ -25,7 +25,7 @@ Item {
     readonly property int previewFrameDesiredHeight: Math.ceil(previewHeaderHeight + previewFooterHeight + chat.contentHeight + chat.topMargin + chat.bottomMargin + previewFrameVerticalPadding + previewTypingIndicatorHeight)
     implicitHeight: timelinePreviewFrame.implicitHeight
     implicitWidth: parent ? parent.width : 700
-    readonly property string previewKomaiUrl: "https://github.com/etkecc/komai"
+    readonly property string previewKomaiUrl: "https://komai.chat/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=settings/timeline-preview"
     readonly property string previewMatrixUrl: "https://matrix.org/"
     readonly property string previewKomaiLabel: "Komai"
     readonly property string previewMatrixLabel: "Matrix"

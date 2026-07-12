@@ -27,6 +27,10 @@ grade: stable
 confinement: strict
 license: GPL-3.0-or-later
 icon: resources/komai.svg
+website: https://komai.chat
+source-code: https://github.com/etkecc/komai
+issues: https://github.com/etkecc/komai/issues
+contact: "https://matrix.to/#/%23komai:etke.cc"
 
 adopt-info: komai
 

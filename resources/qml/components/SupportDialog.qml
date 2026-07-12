@@ -10,7 +10,7 @@ import cc.etke.komai 1.0
 OverlayDialog {
     id: root
 
-    readonly property string komaiUrl: "https://github.com/etkecc/komai?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=support"
+    readonly property string komaiUrl: "https://komai.chat/?utm_source=komai&amp;utm_medium=app&amp;utm_campaign=support"
     readonly property string freeSoftwareUrl: "https://www.gnu.org/philosophy/free-sw.html"
     readonly property string licenseUrl: "https://github.com/etkecc/komai/blob/main/LICENSES/GPL-3.0-or-later.txt"
     readonly property string claUrl: "https://en.wikipedia.org/wiki/Contributor_License_Agreement"

@@ -6,7 +6,7 @@
 static QVariant
 aboutAppNameValue()
 {
-    return QStringLiteral("<a href=\"https://github.com/etkecc/komai\">Komai</a> @ ") +
+    return QStringLiteral("<a href=\"https://komai.chat/?utm_source=komai&utm_medium=app&utm_campaign=settings/about\">Komai</a> @ ") +
            QString::fromStdString(komai::version) +
            QStringLiteral(" (<a href=\"https://github.com/etkecc/komai/commit/") +
            QString::fromStdString(komai::commit_hash) + QStringLiteral("\">") +

@@ -11,7 +11,7 @@ Rectangle {
     id: root
 
     property bool showSponsor: true
-    readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
+    readonly property string komaiProjectLink: "<a href=\"https://komai.chat/?utm_source=komai&utm_medium=app&utm_campaign=attribution\">Komai</a>"
     readonly property string etkeProjectLink: "<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=attribution\">etke.cc</a>"
     // Single source of truth so the rendered HTML and the screen-reader name
     // can't drift apart.
@@ -87,7 +87,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: Qt.openUrlExternally("https://github.com/etkecc/komai")
+                    onClicked: Qt.openUrlExternally("https://komai.chat/?utm_source=komai&utm_medium=app&utm_campaign=attribution")
                 }
             }
 

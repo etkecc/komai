@@ -105,8 +105,9 @@
       <image>https://raw.githubusercontent.com/etkecc/komai/main/docs/user-guide/screenshots/themes-dark-matrix.webp</image>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://github.com/etkecc/komai</url>
+  <url type="homepage">https://komai.chat/?utm_source=komai&amp;utm_medium=appstream&amp;utm_campaign=homepage</url>
   <url type="bugtracker">https://github.com/etkecc/komai/issues</url>
+  <url type="contact">https://matrix.to/#/%23komai:etke.cc</url>
   <url type="help">https://github.com/etkecc/komai/blob/main/docs/user-guide/README.md</url>
   <url type="translate">https://github.com/etkecc/komai/blob/main/docs/maintainers/translations.md</url>
   <update_contact>slavi_AT_devture.com</update_contact>

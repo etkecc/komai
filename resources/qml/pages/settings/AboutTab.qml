@@ -10,7 +10,6 @@ import cc.etke.komai
 SettingsContent {
     id: aboutTab
     tabFilter: UserSettingsModel.TabAbout
-    readonly property string projectUrl: "https://github.com/etkecc/komai"
     readonly property string matrixUrl: "https://matrix.org/"
     readonly property string komaiMeaningUrl: "https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84"
 

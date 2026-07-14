@@ -47,7 +47,7 @@ pub use tokens::{
     ConfigTimelineMessagesSenderUsernameToken, ConfigTimelineMessagesStyleToken,
     ConfigTimelineRoomHeaderButtonLabelsToken,
     ConfigTimelineUserColorCodingPolicyToken, ConfigUiDefaultAvatarStyleToken,
-    ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
+    ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken, ConfigUiThemeModeToken,
 };
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];

@@ -10568,7 +10568,7 @@ Podrás dejar de ignorarle más tarde desde el perfil de este usuario o en Ajust
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+52"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controla tu estado de &lt;a href="%1"&gt;Presencia&lt;/a&gt; en la red Matrix.

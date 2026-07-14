@@ -10565,7 +10565,7 @@ Du kannst das Ignorieren später über das Profil dieses Nutzers oder über Eins
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+52"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Steuert deinen &lt;a href="%1"&gt;Präsenz&lt;/a&gt;-Status im Matrix-Netzwerk.

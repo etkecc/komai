@@ -8,6 +8,8 @@ ui:
     factor: 1.0
   theme:
     slug: light-komai
+    # Supported values: light | dark | auto
+    mode: auto
   font:
     size_pt: 13.0
     family: ""

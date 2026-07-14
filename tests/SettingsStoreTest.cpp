@@ -26,6 +26,7 @@ expect(bool condition, const char *message)
 }
 
 constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
+  settings::core::SettingId::UiThemeMode,
   settings::core::SettingId::UiScrollbarPolicy,
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
   settings::core::SettingId::UiLayoutDensity,
@@ -265,7 +266,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 107;
+    constexpr std::size_t expectedPersistedDefinitionCount = 108;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

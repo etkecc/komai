@@ -16,6 +16,7 @@
 #include "settings/SettingKeys.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/core/StartupConfig.h"
+#include "ui/ThemeRegistry.h"
 
 namespace cfg = settings::serializer::config;
 namespace settings::serializer {
@@ -37,6 +38,23 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
                                  SettingKey::UiThemeSlug,
                                  settings.uiThemeSlug().toStdString());
     }
+
+    // Theme mode default is fresh-vs-existing, not a flat default: a brand-new
+    // profile follows the OS (Auto), but a profile predating this key derives
+    // its mode from the slug it already has, so upgrading never yanks a user
+    // who chose dark into a light morning. An explicit stored value wins.
+    const auto rawThemeMode =
+      QString::fromStdString(static_cast<std::string>(snapshot.ui.theme_mode)).trimmed();
+    UserSettings::ThemeMode themeMode;
+    if (!rawThemeMode.isEmpty())
+        themeMode = cfg::themeModeFromStorage(rawThemeMode, UserSettings::ThemeMode::Auto);
+    else if (!snapshot.source_exists)
+        themeMode = UserSettings::ThemeMode::Auto;
+    else
+        themeMode = ThemeRegistry::instance().themeVariant(settings.uiThemeSlug()) == u"dark"
+                      ? UserSettings::ThemeMode::Dark
+                      : UserSettings::ThemeMode::Light;
+    settings.setUiThemeMode(themeMode);
 
     settings.setUiFontSizePt(snapshot.ui.font_size_pt);
     settings.setUiFontFamily(

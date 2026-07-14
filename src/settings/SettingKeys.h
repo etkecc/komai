@@ -16,6 +16,7 @@ constexpr auto DesktopSystemTrayEnabled    = "desktop.system_tray.enabled";
 constexpr auto DesktopSystemTrayAutostart  = "desktop.system_tray.autostart";
 constexpr auto DesktopSystemTrayIconStyle  = "desktop.system_tray.icon_style";
 constexpr auto UiThemeSlug                 = "ui.theme.slug";
+constexpr auto UiThemeMode                 = "ui.theme.mode";
 constexpr auto UiFontFamily                = "ui.font.family";
 constexpr auto UiFontEmojiFamily           = "ui.font.emoji_family";
 constexpr auto UiFontSizePt                = "ui.font.size_pt";

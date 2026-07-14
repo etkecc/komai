@@ -4700,7 +4700,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>දී ඇති ප්‍රොෆයිල් සමඟ ධාවනය කරන්න. ප්‍රොෆයිල් තවම නොතිබේ නම් ස්වයංක්‍රීයව නව ප්‍රොෆයිල් නිර්මාණය කෙරේ. බහු ප්‍රොෆයිල් මඟින් වෙනම ගිණුම් සහ සමගාමී අවස්ථා ඉඩ දෙයි. අවසර ලත් හිස් නොවන ප්‍රොෆයිල් හැඳුනුම්: පළමු අකුර A-Z, a-z, හෝ '_'; ඉතිරි අකුරු A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10504,7 +10504,7 @@ You can unignore later via this user's profile or via Settings → Account → I
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>ආලෝකිත</translation>
     </message>
@@ -10512,6 +10512,11 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+1"/>
         <source>Dark</source>
         <translation>අඳුරු</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>ස්වයංක්‍රීය</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10560,7 +10565,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ජාලයේ ඔබේ &lt;a href="%1"&gt;Presence&lt;/a&gt; තත්ත්වය පාලනය කරයි.

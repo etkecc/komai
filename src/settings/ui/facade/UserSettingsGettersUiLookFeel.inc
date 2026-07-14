@@ -7,6 +7,16 @@ UserSettings::uiThemeSlug() const
     return !uiThemeSlug_.isEmpty() ? uiThemeSlug_ : uiThemeSlugDefault_;
 }
 
+UserSettings::ThemeMode
+UserSettings::uiThemeMode() const
+{
+    if (const auto value = coreStore_.valueAs<int>(settings::core::SettingId::UiThemeMode);
+        value.has_value() && *value >= static_cast<int>(UserSettings::ThemeMode::Light) &&
+        *value <= static_cast<int>(UserSettings::ThemeMode::Auto))
+        return static_cast<UserSettings::ThemeMode>(*value);
+    return uiThemeMode_;
+}
+
 bool
 UserSettings::uiAvatarsCircular() const
 {

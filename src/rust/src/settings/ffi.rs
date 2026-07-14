@@ -150,6 +150,7 @@ pub(crate) fn ffi_config_ui_section(config: &settings::config::Config) -> ffi::S
     ffi::SettingsConfigUiSection {
         scale_factor: config.ui.scale.factor.unwrap_or(defaults::SCALE_FACTOR),
         theme_slug: config.ui.theme.slug.clone(),
+        theme_mode: config.ui.theme.mode.as_ref().map(|mode| mode.to_storage_string()).unwrap_or_default(),
         font_size_pt: config.ui.font.size_pt.unwrap_or(defaults::FONT_SIZE_PT),
         font_family: config.ui.font.family.clone(),
         font_emoji_family: config.ui.font.emoji_family.clone(),
@@ -664,6 +665,7 @@ fn clone_config_ui_section(section: &ffi::SettingsConfigUiSection) -> ffi::Setti
     ffi::SettingsConfigUiSection {
         scale_factor: section.scale_factor,
         theme_slug: section.theme_slug.clone(),
+        theme_mode: section.theme_mode.clone(),
         font_size_pt: section.font_size_pt,
         font_family: section.font_family.clone(),
         font_emoji_family: section.font_emoji_family.clone(),

@@ -4694,7 +4694,7 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Jalankan dengan profil yang diberikan. Profil baru dibuat secara otomatis jika belum ada. Beberapa profil memungkinkan akun terpisah dan instans bersamaan. ID profil non-kosong yang diizinkan: karakter pertama A-Z, a-z, atau '_'; karakter berikutnya A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10489,7 +10489,7 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Terang</translation>
     </message>
@@ -10497,6 +10497,11 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
         <location line="+1"/>
         <source>Dark</source>
         <translation>Gelap</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Otomatis</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10545,7 +10550,7 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Mengatur status &lt;a href="%1"&gt;Kehadiran&lt;/a&gt; Anda di jaringan Matrix.

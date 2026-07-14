@@ -121,3 +121,14 @@ UserSettings::setUiScrollbarPolicy(ScrollbarPolicy s)
     emit uiScrollbarPolicyChanged(s);
     save();
 }
+void
+UserSettings::setUiThemeMode(ThemeMode s)
+{
+    if (uiThemeMode_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::UiThemeMode, static_cast<int>(s), "ui.theme.mode"))
+        return;
+    uiThemeMode_ = s;
+    emit uiThemeModeChanged(s);
+    save();
+}

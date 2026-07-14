@@ -10,12 +10,26 @@ Komai ships with several built-in themes (see [`resources/themes/`](../../../res
 See a [🖼️ Screenshot of the dark-matrix built-in theme](../screenshots/themes-dark-matrix.webp).
 
 
+## 🌗 Follow the system theme
+
+Set the theme toggle to **Auto** and Komai follows your desktop's light/dark preference: pick a theme family and Komai paints its light member by day and its dark member by night, flipping live the moment the OS switches. No restart, no second dropdown. Auto is the default for a fresh profile, so a first launch already matches your desktop instead of flashing light at someone who runs dark.
+
+The toggle has three positions:
+
+- **Light** / **Dark**: pin the variant yourself; the OS preference is ignored.
+- **Auto**: follow the OS, staying inside the current theme family (`light-nord` ⇄ `dark-nord`). Mixing families across variants (light-komai by day, dark-dracula by night) is not supported; the single dropdown tracks one family at a time.
+
+**Linux needs a desktop that speaks up.** Auto reads the freedesktop light/dark preference through your desktop portal. On a full desktop (GNOME, KDE, most others) it just works. On a bare window manager with no portal, the OS says nothing, so Auto has nothing to follow: rather than guess, Komai leaves your theme exactly as you set it. If Auto never flips, that's the missing portal, not a bug.
+
+In Auto, an OS flip repaints straight away and triggers **no save of its own**. Your saved theme stays the family you picked; the light-or-dark half is re-derived from the OS at every launch.
+
+
 ## ⚙️ Where Your Current Theme Choice Is Stored
 
-Komai stores the selected theme per profile in:
+Komai stores the theme per profile in `~/.config/komai/profiles/<profile-id>/config.yml`:
 
-- `~/.config/komai/profiles/<profile-id>/config.yml`
-- key: `ui.theme.slug`
+- `ui.theme.slug`: the selected theme (under Auto, the family Komai follows)
+- `ui.theme.mode`: `light`, `dark`, or `auto`
 
 Example:
 
@@ -23,7 +37,10 @@ Example:
 ui:
   theme:
     slug: dark-komai
+    mode: auto
 ```
+
+Under `auto`, `slug` records the family you chose; the light-or-dark member is resolved from the OS at launch and on each flip, and is not written back on a flip. A profile from before this key existed keeps its look: Komai derives the mode from the slug's variant on first load, so upgrading never changes what you already see.
 
 See [Settings: What Goes Where](../settings/README.md#what-goes-where) for config semantics and
 [Settings: Profile Location](../settings/README.md#profile-location) for profile paths.

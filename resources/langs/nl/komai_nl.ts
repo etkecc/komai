@@ -4700,7 +4700,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Uitvoeren met het opgegeven profiel. Een nieuw profiel wordt automatisch aangemaakt als het nog niet bestaat. Meerdere profielen maken aparte accounts en gelijktijdige instanties mogelijk. Toegestane niet-lege profiel-id's: eerste teken A-Z, a-z of '_'; overige tekens A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10504,7 +10504,7 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Licht</translation>
     </message>
@@ -10512,6 +10512,11 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
         <location line="+1"/>
         <source>Dark</source>
         <translation>Donker</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Automatisch</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10560,7 +10565,7 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Beheert je &lt;a href="%1"&gt;Aanwezigheid&lt;/a&gt;-status op het Matrix-netwerk.

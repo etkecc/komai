@@ -121,6 +121,11 @@ notificationsMessageContentPolicyFromStorage(
   UserSettings::NotificationMessageContentPolicy fallback);
 
 QString
+toStorageValue(UserSettings::ThemeMode value);
+UserSettings::ThemeMode
+themeModeFromStorage(const QString &value, UserSettings::ThemeMode fallback);
+
+QString
 toStorageValue(UserSettings::ScrollbarPolicy value);
 UserSettings::ScrollbarPolicy
 scrollbarPolicyFromStorage(const QString &value, UserSettings::ScrollbarPolicy fallback);

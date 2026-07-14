@@ -1,5 +1,6 @@
     // Look & Feel
     CONNECT_SETTING_ID(UiThemeSlug, uiThemeSlugChanged, Value, Values, ThemeVariantValue);
+    CONNECT_SETTING_ID(UiThemeSlug, uiThemeModeChanged, ThemeVariantValue);
     CONNECT_SETTING_ID(UiFontFamily, uiFontFamilyChanged, Value);
     CONNECT_SETTING_ID(UiFontSizePt, uiFontSizePtChanged, Value);
     CONNECT_SETTING_ID(UiFontEmojiFamily, uiFontEmojiFamilyChanged, Value);

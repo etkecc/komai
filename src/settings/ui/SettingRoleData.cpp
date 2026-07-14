@@ -26,6 +26,8 @@ themeRoleData(int role)
         return {};
 
     if (role == UserSettingsModel::ThemeVariantValue) {
+        if (i->uiThemeMode() == UserSettings::ThemeMode::Auto)
+            return 2;
         return ThemeRegistry::instance().themeVariant(i->uiThemeSlug()) == u"dark" ? 1 : 0;
     }
 
@@ -33,6 +35,7 @@ themeRoleData(int role)
         return QStringList{
           QCoreApplication::translate("UserSettingsModel", "Light"),
           QCoreApplication::translate("UserSettingsModel", "Dark"),
+          QCoreApplication::translate("UserSettingsModel", "Auto"),
         };
     }
 
@@ -52,13 +55,27 @@ setThemeRoleData(int role, const QVariant &value)
     int variantIdx = 0;
     if (!readSettingValue(value, variantIdx))
         return false;
-    if (variantIdx < 0 || variantIdx > 1)
+    if (variantIdx < 0 || variantIdx > 2)
         return false;
 
+    // Auto: only the mode changes; applyOsColorScheme resolves the effective
+    // slug at runtime without persisting it.
+    if (variantIdx == 2) {
+        if (i->uiThemeMode() == UserSettings::ThemeMode::Auto)
+            return false;
+        i->setUiThemeMode(UserSettings::ThemeMode::Auto);
+        i->applyOsColorScheme();
+        return true;
+    }
+
+    // Light/Dark: an explicit choice pins both the mode and the slug's variant.
+    const auto mode = variantIdx == 0 ? UserSettings::ThemeMode::Light : UserSettings::ThemeMode::Dark;
     const QString newVariant = variantIdx == 0 ? QStringLiteral("light") : QStringLiteral("dark");
-    if (ThemeRegistry::instance().themeVariant(i->uiThemeSlug()) == newVariant)
+    if (i->uiThemeMode() == mode &&
+        ThemeRegistry::instance().themeVariant(i->uiThemeSlug()) == newVariant)
         return false;
 
+    i->setUiThemeMode(mode);
     i->setThemeVariantByIndex(variantIdx);
     return true;
 }

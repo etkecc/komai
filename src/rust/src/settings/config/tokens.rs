@@ -50,6 +50,12 @@ macro_rules! storage_token_enum {
     };
 }
 
+storage_token_enum!(ConfigUiThemeModeToken, Auto {
+    Light => "light",
+    Dark => "dark",
+    Auto => "auto",
+});
+
 storage_token_enum!(ConfigUiScrollbarPolicyToken, WhenNeeded {
     WhenNeeded => "when_needed",
     Never => "never",

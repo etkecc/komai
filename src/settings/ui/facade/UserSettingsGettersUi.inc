@@ -1,4 +1,5 @@
     QString uiThemeSlug() const;
+    ThemeMode uiThemeMode() const;
     bool timelineMessagesHoverHighlight() const;
     bool timelineMessagesDragSelect() const;
     bool timelineMessagesEmojiOnlyEnlarge() const;

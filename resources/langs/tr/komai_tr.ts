@@ -4694,7 +4694,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Verilen profille çalıştır. Henüz mevcut değilse yeni bir profil otomatik olarak oluşturulur. Birden fazla profil, ayrı hesaplara ve eş zamanlı örneklere olanak tanır. İzin verilen boş olmayan profil kimlikleri: ilk karakter A-Z, a-z veya '_'; kalan karakterler A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10489,7 +10489,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Açık</translation>
     </message>
@@ -10497,6 +10497,11 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <location line="+1"/>
         <source>Dark</source>
         <translation>Koyu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Otomatik</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10545,7 +10550,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ağındaki &lt;a href="%1"&gt;Varlık&lt;/a&gt; durumunuzu kontrol eder.

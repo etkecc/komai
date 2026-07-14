@@ -4706,7 +4706,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Spustit se zadaným profilem. Nový profil je automaticky vytvořen, pokud ještě neexistuje. Více profilů umožňuje oddělené účty a souběžné instance. Povolená neprázdná ID profilů: první znak A–Z, a–z nebo '_'; zbývající znaky A–Z, a–z, 0–9, '_', '-'.</translation>
     </message>
@@ -10519,7 +10519,7 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Světlý</translation>
     </message>
@@ -10527,6 +10527,11 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
         <location line="+1"/>
         <source>Dark</source>
         <translation>Tmavý</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Automatický</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10575,7 +10580,7 @@ Ignorování lze zrušit přes profil tohoto uživatele nebo v Nastavení → Ú
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ovládá tvůj stav &lt;a href="%1"&gt;Přítomnosti&lt;/a&gt; v síti Matrix.

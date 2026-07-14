@@ -4706,7 +4706,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Rulează cu profilul specificat. Un profil nou este creat automat dacă nu există încă. Profilurile multiple permit conturi separate și instanțe simultane. ID-uri de profil valide (non-vide): primul caracter A-Z, a-z sau '_'; caracterele rămase A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10519,7 +10519,7 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Luminos</translation>
     </message>
@@ -10527,6 +10527,11 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
         <location line="+1"/>
         <source>Dark</source>
         <translation>Întunecat</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Automat</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10575,7 +10580,7 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controlează starea de &lt;a href="%1"&gt;Prezență&lt;/a&gt; pe rețeaua Matrix.

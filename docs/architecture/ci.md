@@ -214,6 +214,19 @@ types (e.g., flatpak/appimage/snap state on `publish.yml`) can be
 added entirely from the workflow side without coordinating runner-
 host changes.
 
+Because the host mount never expires, it can outlive the weekly CI
+image refresh while holding artifacts the new image's toolchain can
+no longer safely link. Cargo does not track the system C toolchain
+as a rebuild input: `cc`-crate build scripts cache `.o` files
+compiled by the previous image's gcc, and cargo reuses them verbatim
+under the new one. The `Invalidate host-mounted cargo target on
+toolchain change` step in `ci.yml` guards this by fingerprinting the
+toolchain packages (`pacman -Q gcc glibc binutils mold`) into
+`.toolchain-stamp` inside the cargo-target dir and wiping the tree
+on mismatch, at the cost of one cold Rust build after each toolchain
+bump. ccache needs no such guard: it keys on the compiler binary
+itself.
+
 ## Why mold
 
 The Rust toolchain, Corrosion, and the C++ build all use

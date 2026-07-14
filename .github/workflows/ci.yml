@@ -180,6 +180,32 @@ jobs:
             echo "to actions/cache for ccache; cargo-target stays host-mounted."
           fi
 
+      - name: Invalidate host-mounted cargo target on toolchain change
+        # The persistent cargo target dir outlives the weekly CI image
+        # refresh, but cargo does not track the system C toolchain as a
+        # rebuild input: `cc`-crate build scripts (ring, zstd-sys, ...)
+        # cache .o files compiled by whatever gcc the *previous* image
+        # shipped, and cargo reuses them verbatim under the new one.
+        # Linking those stale objects with a newer gcc/glibc produced a
+        # binary that segfaulted at startup (completions-check, exit 139)
+        # after the 2026-07-13 image refresh bumped gcc. Fingerprint the
+        # toolchain packages and wipe the cargo tree when it changes; the
+        # next build repopulates it in one cold run. ccache needs no such
+        # guard — it keys on the compiler binary itself.
+        if: env.HOST_CACHE == 'true'
+        run: |
+          STAMP=/var/lib/komai-ci/cargo-target/.toolchain-stamp
+          CURRENT=$(pacman -Q gcc glibc binutils mold)
+          if [ -f "$STAMP" ] && [ "$(cat "$STAMP")" = "$CURRENT" ]; then
+            echo "Toolchain unchanged; keeping persistent cargo target"
+          else
+            echo "Toolchain changed or stamp missing; wiping persistent cargo target"
+            [ -f "$STAMP" ] && { echo "--- was:"; cat "$STAMP"; }
+            echo "--- now:"; echo "$CURRENT"
+            find /var/lib/komai-ci/cargo-target -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+            printf '%s\n' "$CURRENT" > "$STAMP"
+          fi
+
       # ---------- Caches --------------------------------------------------
       # Each cache is restored before its consumer step. Saves happen
       # automatically at end of job on successful completion.

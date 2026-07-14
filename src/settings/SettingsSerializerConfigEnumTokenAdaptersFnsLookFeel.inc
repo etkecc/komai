@@ -3,6 +3,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 QString
+themeModeToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.uiThemeMode());
+}
+
+void
+applyThemeModeFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setUiThemeMode(themeModeFromStorage(rawToken, UserSettings::ThemeMode::Auto));
+}
+
+QString
 scrollbarPolicyToStorage(const UserSettings &settings)
 {
     return toStorageValue(settings.uiScrollbarPolicy());

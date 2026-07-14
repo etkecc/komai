@@ -4700,7 +4700,7 @@ Vahvista avataksesi salatut viestit.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Käynnistä annetulla profiililla. Uusi profiili luodaan automaattisesti, jos sitä ei vielä ole. Useat profiilit mahdollistavat erilliset tilit ja samanaikaiset instanssit. Sallitut ei-tyhjät profiilin tunnisteet: ensimmäinen merkki A-Z, a-z tai '_'; loput merkit A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10504,7 +10504,7 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Vaalea</translation>
     </message>
@@ -10512,6 +10512,11 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
         <location line="+1"/>
         <source>Dark</source>
         <translation>Tumma</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Automaattinen</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10560,7 +10565,7 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Hallinnoi &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilaasi Matrix-verkossa.

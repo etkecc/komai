@@ -24,6 +24,7 @@
 #include <QMessageBox>
 #include <QQuickView>
 #include <QSystemTrayIcon>
+#include <QStyleHints>
 #include <QTimer>
 #include <QTranslator>
 
@@ -417,12 +418,37 @@ app::runMainApplication(int argc, char *argv[])
                      &app,
                      applyApplicationFont);
 
+    // Follow the OS colour scheme live while the theme mode is Auto. Some
+    // desktops fire colorSchemeChanged repeatedly during a fade, so coalesce
+    // through a single-shot timer and apply once the storm settles. The timer
+    // is parented to app (torn down with it); the shutdown guard stops a
+    // late event from touching a half-destroyed settings singleton.
+    auto *osColorSchemeDebounce = new QTimer(&app);
+    osColorSchemeDebounce->setSingleShot(true);
+    osColorSchemeDebounce->setInterval(50);
+    QObject::connect(osColorSchemeDebounce, &QTimer::timeout, &app, []() {
+        if (QCoreApplication::closingDown())
+            return;
+        // instance() is cleared on aboutToQuit, which fires before closingDown()
+        // flips true, so null-check before deref (mirrors applyApplicationFont).
+        if (const auto settings = UserSettings::instance())
+            settings->applyOsColorScheme();
+    });
+    QObject::connect(QGuiApplication::styleHints(),
+                     &QStyleHints::colorSchemeChanged,
+                     osColorSchemeDebounce,
+                     [osColorSchemeDebounce](Qt::ColorScheme) { osColorSchemeDebounce->start(); });
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
     if (auto emojiFont = settings.lock()->uiFontEmojiFamily(); !emojiFont.isEmpty()) {
         QFontDatabase::addApplicationEmojiFontFamily(emojiFont);
     }
 #endif
 
+    // When the mode is Auto, resolve the OS colour scheme into the effective
+    // slug before the first paint, so launch matches the desktop with no
+    // light->dark flash on startup.
+    settings.lock()->applyOsColorScheme();
     settings.lock()->applyTheme();
 
     if (QLocale().language() == QLocale::C)

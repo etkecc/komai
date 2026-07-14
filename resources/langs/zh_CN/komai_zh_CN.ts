@@ -4694,7 +4694,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>使用指定的配置文件运行。如果配置文件不存在，将自动创建。多个配置文件允许使用独立账户和同时运行多个实例。允许的非空配置文件 ID：第一个字符为 A-Z、a-z 或 '_'；其余字符为 A-Z、a-z、0-9、'_' 或 '-'。</translation>
     </message>
@@ -10489,7 +10489,7 @@ You can unignore later via this user's profile or via Settings → Account → I
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>浅色</translation>
     </message>
@@ -10497,6 +10497,11 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+1"/>
         <source>Dark</source>
         <translation>深色</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>自动</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10545,7 +10550,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>控制你在 Matrix 网络上的&lt;a href="%1"&gt;在线状态&lt;/a&gt;。

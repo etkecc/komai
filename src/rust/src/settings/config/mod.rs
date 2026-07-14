@@ -52,6 +52,7 @@ pub use tokens::{
 
 const UI_SCALE_FACTOR_PATH: [&str; 3] = ["ui", "scale", "factor"];
 const UI_THEME_SLUG_PATH: [&str; 3] = ["ui", "theme", "slug"];
+const UI_THEME_MODE_PATH: [&str; 3] = ["ui", "theme", "mode"];
 const UI_FONT_FAMILY_PATH: [&str; 3] = ["ui", "font", "family"];
 const UI_FONT_EMOJI_FAMILY_PATH: [&str; 3] = ["ui", "font", "emoji_family"];
 const UI_FONT_SIZE_PT_PATH: [&str; 3] = ["ui", "font", "size_pt"];
@@ -286,6 +287,8 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
             },
             theme: ConfigUiTheme {
                 slug: parse_string(yaml::value_at_path(root, &UI_THEME_SLUG_PATH)),
+                mode: yaml::value_at_path(root, &UI_THEME_MODE_PATH)
+                    .and_then(parse_optional_storage_token),
             },
             font: ConfigUiFont {
                 family: parse_string(yaml::value_at_path(root, &UI_FONT_FAMILY_PATH)),

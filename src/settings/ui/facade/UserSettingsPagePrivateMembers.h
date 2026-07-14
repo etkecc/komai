@@ -20,6 +20,7 @@ bool navigationCommunitiesFilterGroups_                     = true;
 bool navigationCommunitiesFilterServerNotices_              = true;
 bool navigationCommunitiesFilterLowPriority_                = true;
 ScrollbarPolicy uiScrollbarPolicy_                          = ScrollbarPolicy::WhenNeeded;
+ThemeMode uiThemeMode_                                      = ThemeMode::Auto;
 bool composerInputMarkdownToHtmlEnabled_                    = true;
 SendMessageKey composerInputSendKey_                        = SendMessageKey::Enter;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_             = AutoReplaceEmoji::Always;

@@ -4706,7 +4706,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Pokrenuti sa zadatim profilom. Novi profil se automatski kreira ako još ne postoji. Više profila omogućava odvojena naloga i istovremene instance. Dozvoljeni ID-ovi profila (ne smeju biti prazni): prvi karakter A-Z, a-z ili '_'; preostali karakteri A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10519,7 +10519,7 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Svetla</translation>
     </message>
@@ -10527,6 +10527,11 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
         <location line="+1"/>
         <source>Dark</source>
         <translation>Tamna</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Automatska</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10575,7 +10580,7 @@ Možeš prestati sa ignorisanjem putem profila korisnika ili u Podešavanja → 
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Kontroliše tvoj status &lt;a href="%1"&gt;prisustva&lt;/a&gt; na Matrix mreži.

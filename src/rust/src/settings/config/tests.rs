@@ -5,7 +5,7 @@
 use super::{
     encode_config_yaml, load_config_snapshot, parse_config_text,
     ConfigSecretsProviderToken, ConfigUiDefaultAvatarStyleToken, ConfigUiLayoutDensityToken,
-    ConfigUiScrollbarPolicyToken,
+    ConfigUiScrollbarPolicyToken, ConfigUiThemeModeToken,
     ConfigNavigationRoomListLastMessagePreviewToken, ConfigNavigationRoomListSortToken,
     ConfigNavigationRoomListOpeningPolicyToken,
     ConfigTimelineMediaImageDisplayToken,
@@ -89,6 +89,30 @@ secrets:
 
     assert_eq!(config.ui.theme.slug, "dark-komai");
     assert_eq!(config.secrets.provider, ConfigSecretsProviderToken::File);
+}
+
+#[test]
+fn parses_optional_theme_mode() {
+    let config = parse_config_text(
+        r#"
+ui:
+  theme:
+    slug: dark-nord
+    mode: dark
+"#,
+    );
+    assert_eq!(config.ui.theme.mode, Some(ConfigUiThemeModeToken::Dark));
+
+    // Absent is None, not a default. Load-bearing: the C++ migration reads None
+    // as "profile predates the mode key" and derives the mode from the slug.
+    let config = parse_config_text(
+        r#"
+ui:
+  theme:
+    slug: light-komai
+"#,
+    );
+    assert_eq!(config.ui.theme.mode, None);
 }
 
 #[test]
@@ -477,6 +501,7 @@ fn encodes_generic_config_values() {
         ui: SettingsConfigUiSection {
             scale_factor: 0.0,
             theme_slug: "dark-komai".to_owned(),
+            theme_mode: String::new(),
             font_size_pt: 14.0,
             font_family: "Iosevka".to_owned(),
             font_emoji_family: "Noto Color Emoji".to_owned(),
@@ -1308,6 +1333,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
         ui: SettingsConfigUiSection {
             scale_factor: 1.0,
             theme_slug: String::new(),
+            theme_mode: String::new(),
             font_size_pt: 11.0,
             font_family: String::new(),
             font_emoji_family: String::new(),
@@ -1567,6 +1593,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
         ui: SettingsConfigUiSection {
             scale_factor: 1.0,
             theme_slug: String::new(),
+            theme_mode: String::new(),
             font_size_pt: 11.0,
             font_family: String::new(),
             font_emoji_family: String::new(),

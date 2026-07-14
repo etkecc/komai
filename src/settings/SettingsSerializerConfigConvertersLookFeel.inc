@@ -2,6 +2,25 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+constexpr std::array<std::pair<UserSettings::ThemeMode, const char *>, 3>
+  kThemeModeTokens{{
+    {UserSettings::ThemeMode::Light, "light"},
+    {UserSettings::ThemeMode::Dark, "dark"},
+    {UserSettings::ThemeMode::Auto, "auto"},
+  }};
+
+QString
+toStorageValue(UserSettings::ThemeMode value)
+{
+    return valueToStorageToken(value, kThemeModeTokens, "auto");
+}
+
+UserSettings::ThemeMode
+themeModeFromStorage(const QString &value, UserSettings::ThemeMode fallback)
+{
+    return valueFromStorageToken(value, fallback, kThemeModeTokens);
+}
+
 constexpr std::array<std::pair<UserSettings::ScrollbarPolicy, const char *>, 3>
   kScrollbarPolicyTokens{{
     {UserSettings::ScrollbarPolicy::WhenNeeded, "when_needed"},

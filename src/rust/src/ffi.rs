@@ -261,6 +261,7 @@ mod bridge {
     struct SettingsConfigUiSection {
         scale_factor: f32,
         theme_slug: String,
+        theme_mode: String,
         font_size_pt: f64,
         font_family: String,
         font_emoji_family: String,

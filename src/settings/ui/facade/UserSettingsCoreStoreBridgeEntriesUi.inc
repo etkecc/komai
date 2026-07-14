@@ -1,4 +1,5 @@
 X(UiThemeSlug, settings.uiThemeSlug().toStdString())
+X(UiThemeMode, static_cast<int>(settings.uiThemeMode()))
 X(UiScaleFactor, settings.uiScaleFactor())
 X(UiFontFamily, settings.uiFontFamily().toStdString())
 X(UiFontSizePt, settings.uiFontSizePt())

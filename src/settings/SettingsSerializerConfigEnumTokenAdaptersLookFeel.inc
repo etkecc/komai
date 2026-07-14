@@ -1,3 +1,8 @@
+  {settings::core::SettingId::UiThemeMode,
+   SettingKey::UiThemeMode,
+   "auto",
+   &themeModeToStorage,
+   &applyThemeModeFromStorage},
   {settings::core::SettingId::UiScrollbarPolicy,
    SettingKey::UiScrollbarPolicy,
    "when_needed",

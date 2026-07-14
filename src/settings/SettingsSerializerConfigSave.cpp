@@ -26,6 +26,7 @@ stageConfig(const UserSettings &settings,
         {
           .scale_factor              = static_cast<float>(settings.uiScaleFactor()),
           .theme_slug                = settings.uiThemeSlug().toStdString(),
+          .theme_mode                = cfg::toStorageValue(settings.uiThemeMode()).toStdString(),
           .font_size_pt              = settings.uiFontSizePt(),
           .font_family               = settings.uiFontFamily().toStdString(),
           .font_emoji_family         = settings.uiFontEmojiFamilyStorageValue().toStdString(),

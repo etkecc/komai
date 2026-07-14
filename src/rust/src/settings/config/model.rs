@@ -20,6 +20,7 @@ use super::tokens::{
     ConfigTimelineMessagesStyleToken, ConfigTimelineRoomHeaderButtonLabelsToken,
     ConfigTimelineUserColorCodingPolicyToken,
     ConfigUiDefaultAvatarStyleToken, ConfigUiLayoutDensityToken, ConfigUiScrollbarPolicyToken,
+    ConfigUiThemeModeToken,
 };
 
 pub(crate) const CURRENT_CONFIG_SCHEMA_VERSION: i32 = 3;
@@ -58,6 +59,7 @@ pub struct ConfigUiScale {
 #[derive(Clone, Debug, Default)]
 pub struct ConfigUiTheme {
     pub slug: String,
+    pub mode: Option<ConfigUiThemeModeToken>,
 }
 
 #[derive(Clone, Debug, Default)]

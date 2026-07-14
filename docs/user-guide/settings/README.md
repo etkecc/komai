@@ -95,7 +95,7 @@ Development/testing override:
 - `secrets.yml`: `secrets` map (only when `secrets.provider=file`)
 - Full example files: [settings/examples/profile/](examples/profile/)
 
-Theme note: the currently selected theme is stored as `ui.theme.slug` in `config.yml`.
+Theme note: the selected theme is stored as `ui.theme.slug`, and the light/dark/auto mode as `ui.theme.mode`, in `config.yml`.
 See [Themes](../features/themes.md#-where-your-current-theme-choice-is-stored).
 
 ## Configuration Management

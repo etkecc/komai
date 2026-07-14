@@ -41,6 +41,8 @@ class UserSettings final : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(QString uiThemeSlug READ uiThemeSlug WRITE setUiThemeSlug NOTIFY uiThemeSlugChanged)
+    Q_PROPERTY(
+      ThemeMode uiThemeMode READ uiThemeMode WRITE setUiThemeMode NOTIFY uiThemeModeChanged)
     Q_PROPERTY(bool timelineMessagesHoverHighlight READ timelineMessagesHoverHighlight WRITE
                  setTimelineMessagesHoverHighlight NOTIFY timelineMessagesHoverHighlightChanged)
     Q_PROPERTY(bool timelineMessagesDragSelect READ timelineMessagesDragSelect WRITE
@@ -537,6 +539,14 @@ public:
     };
     Q_ENUM(ScrollbarPolicy)
 
+    enum class ThemeMode
+    {
+        Light, // Force the light member of the current theme family
+        Dark,  // Force the dark member
+        Auto,  // Follow the OS colour scheme, repaint live when it flips
+    };
+    Q_ENUM(ThemeMode)
+
     enum class RoomListOpeningPolicy
     {
         ReuseActiveTab, // Navigate in the current active tab
@@ -608,6 +618,7 @@ public:
     void setNavigationCommunitiesFilterServerNotices(bool state);
     void setNavigationCommunitiesFilterLowPriority(bool state);
     void setUiScrollbarPolicy(ScrollbarPolicy policy);
+    void setUiThemeMode(ThemeMode mode);
     void setComposerInputMarkdownToHtmlEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
@@ -817,6 +828,7 @@ public:
     Q_INVOKABLE QStringList themeNamesForCurrentVariant() const;
     Q_INVOKABLE int themeIndexInCurrentVariant() const;
     Q_INVOKABLE void setThemeByVariantIndex(int index);
+    void applyOsColorScheme();
 
     // Language helpers for QML (used on the Welcome page).
     // Index 0 in the dropdown is the translated "Use system" entry; subsequent
@@ -844,6 +856,7 @@ signals:
     void uiScrollbarPolicyChanged(ScrollbarPolicy policy);
     void navigationRoomListSortChanged(RoomSortOrder order);
     void uiThemeSlugChanged(QString state);
+    void uiThemeModeChanged(ThemeMode mode);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesDragSelectChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
@@ -985,6 +998,8 @@ private:
     bool setCoreValue(settings::core::SettingId id,
                       settings::core::SettingsStore::Value value,
                       const char *settingName);
+    bool applyEffectiveSlug(const QString &slug);
+    QString counterpartSlugForVariant(const QString &newVariant) const;
     void emitSessionAuthStateChangedIfNeeded(bool hadPersistedSessionIdentity,
                                              bool hadActiveSessionState);
 

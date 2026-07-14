@@ -28,6 +28,14 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
         &["ui", "theme", "slug"],
         Value::String(snapshot.ui.theme_slug.clone()),
     );
+    // skip when empty: a blank mode round-trips to "absent", so don't persist the noise.
+    if !snapshot.ui.theme_mode.is_empty() {
+        yaml::set_value(
+            &mut root,
+            &["ui", "theme", "mode"],
+            Value::String(snapshot.ui.theme_mode.clone()),
+        );
+    }
     yaml::set_value(
         &mut root,
         &["ui", "font", "size_pt"],

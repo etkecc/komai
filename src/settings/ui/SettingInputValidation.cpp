@@ -130,7 +130,7 @@ validateRoleInput(settings::core::SettingId settingId, int role, const QVariant 
         if (!readSettingValue(value, variantIndex))
             return false;
 
-        return variantIndex >= 0 && variantIndex <= 1;
+        return variantIndex >= 0 && variantIndex <= 2;
     }
     default:
         return true;

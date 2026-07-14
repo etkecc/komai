@@ -4694,7 +4694,7 @@ Verify to unlock encrypted messages.</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>지정된 프로필로 실행합니다. 프로필이 아직 없으면 자동으로 생성됩니다. 여러 프로필을 사용하면 별도의 계정과 동시 인스턴스를 사용할 수 있습니다. 허용되는 비어 있지 않은 프로필 ID: 첫 번째 문자는 A-Z, a-z 또는 '_'; 나머지 문자는 A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10489,7 +10489,7 @@ You can unignore later via this user's profile or via Settings → Account → I
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>라이트</translation>
     </message>
@@ -10497,6 +10497,11 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+1"/>
         <source>Dark</source>
         <translation>다크</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>자동</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10545,7 +10550,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix 네트워크에서 내 &lt;a href="%1"&gt;현재 상태&lt;/a&gt;를 제어합니다.

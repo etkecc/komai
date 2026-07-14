@@ -4694,7 +4694,7 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../../src/app/MainApplication.cpp" line="+197"/>
+        <location filename="../../../src/app/MainApplication.cpp" line="+198"/>
         <source>Run with the given profile. A new profile is created automatically if it does not exist yet. Multiple profiles allow separate accounts and concurrent instances. Allowed non-empty profile ids: first character A-Z, a-z, or '_'; remaining characters A-Z, a-z, 0-9, '_', '-'.</source>
         <translation>Chạy với hồ sơ đã cho. Hồ sơ mới được tạo tự động nếu chưa tồn tại. Nhiều hồ sơ cho phép các tài khoản riêng biệt và các phiên bản đồng thời. ID hồ sơ hợp lệ (không được trống): ký tự đầu là A-Z, a-z hoặc '_'; các ký tự còn lại là A-Z, a-z, 0-9, '_', '-'.</translation>
     </message>
@@ -10489,7 +10489,7 @@ Bạn có thể bỏ bỏ qua sau qua hồ sơ người dùng này hoặc qua C�
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+34"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+36"/>
         <source>Light</source>
         <translation>Sáng</translation>
     </message>
@@ -10497,6 +10497,11 @@ Bạn có thể bỏ bỏ qua sau qua hồ sơ người dùng này hoặc qua C�
         <location line="+1"/>
         <source>Dark</source>
         <translation>Tối</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Auto</source>
+        <translation>Tự động</translation>
     </message>
     <message>
         <location filename="../../../src/settings/ui/rows/UserSettingsModelNetwork.inc" line="+4"/>
@@ -10545,7 +10550,7 @@ Bạn có thể bỏ bỏ qua sau qua hồ sơ người dùng này hoặc qua C�
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+37"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Kiểm soát trạng thái &lt;a href="%1"&gt;Hiện diện&lt;/a&gt; của bạn trên mạng Matrix.

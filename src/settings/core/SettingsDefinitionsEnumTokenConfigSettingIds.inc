@@ -1,4 +1,5 @@
   // ui
+  SettingId::UiThemeMode,
   SettingId::UiScrollbarPolicy,
   SettingId::UiAvatarsDefaultAvatarStyle,
   SettingId::UiLayoutDensity,

@@ -9282,7 +9282,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Alleen bestaande lokale bestanden kunnen worden bijgevoegd via slepen en neerzetten.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Kan kamer niet upgraden: backend niet gereed.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Gebruiker %1 negeren mislukt: %2</translation>
     </message>

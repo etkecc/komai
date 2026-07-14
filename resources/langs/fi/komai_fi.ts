@@ -9282,7 +9282,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Vain olemassa olevia paikallisia tiedostoja voi liittää vetämällä ja pudottamalla.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Huonetta ei voi päivittää: taustajärjestelmä ei ole valmis.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Käyttäjän %1 ohittaminen epäonnistui: %2</translation>
     </message>

@@ -9282,7 +9282,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ඇදගෙන හෙළීමෙන් අමුණිය හැක්කේ ස්ථානීයව පවතින ගොනු පමණි.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>කාමරය උත්ශ්‍රේණිගත කළ නොහැක: backend සූදානම් නැත.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>පරිශීලකයා %1 නොසලකා හැරීම අසාර්ථක විය: %2</translation>
     </message>

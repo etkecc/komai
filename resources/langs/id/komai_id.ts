@@ -9270,7 +9270,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Hanya file lokal yang ada yang dapat dilampirkan dengan seret dan lepas.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9336,7 +9336,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Tidak dapat meningkatkan ruangan: backend belum siap.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Gagal mengabaikan pengguna %1: %2</translation>
     </message>

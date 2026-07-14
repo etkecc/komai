@@ -9282,7 +9282,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Només es poden adjuntar fitxers locals existents arrossegant i deixant anar.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No es pot actualitzar la sala: el backend no està a punt.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>No s'ha pogut ignorar l'usuari %1: %2</translation>
     </message>

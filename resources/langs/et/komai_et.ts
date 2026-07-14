@@ -9282,7 +9282,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Lohistades saab lisada ainult olemasolevaid kohalikke faile.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Jututuba ei saa uuendada: taustasüsteem pole valmis.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Kasutaja %1 ignoreerimine ebaõnnestus: %2</translation>
     </message>

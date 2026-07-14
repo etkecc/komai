@@ -9282,7 +9282,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Само съществуващи локални файлове могат да бъдат прикачени чрез влачене и пускане.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9363,7 +9363,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Стаята не може да се надгради: бекендът не е готов.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Неуспешно игнориране на потребител %1: %2</translation>
     </message>

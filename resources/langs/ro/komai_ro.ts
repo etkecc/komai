@@ -9294,7 +9294,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Prin glisare și plasare pot fi atașate doar fișiere locale existente.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9360,7 +9360,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu se poate actualiza camera: backend-ul nu este pregătit.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Nu s-a putut ignora utilizatorul %1: %2</translation>
     </message>

@@ -69,6 +69,12 @@ QtObject {
             return false;
 
         rootItem.highlightedEventId = "";
+        // Jumping away from the live edge must release the bottom pin,
+        // or the pin machinery (and the pinned-restore path of the next
+        // model reset) snaps the view straight back to the bottom.
+        // Mirrors walk-mode's unpin-on-move.
+        timelineList.keepPinnedToBottom = false;
+        timelineList.userUnpinned = true;
         timelineList.positionViewAtIndex(listRow, ListView.Center);
         rootItem.highlightedEventId = targetEventId;
         return true;
@@ -400,6 +406,11 @@ QtObject {
                                                               transactionId);
     }
 
+    // The pending jump we last opened a thread view for. Opening is a
+    // one-shot per jump: retrying on every state change would fight the
+    // user if they close the thread while the jump is still pending.
+    property string pendingJumpThreadOpenedFor: ""
+
     function resolvePendingMatrixEventJump() {
         const pendingEventId = String(TimelineManager.matrixTimelinePendingJumpEventId || "").trim();
         if (pendingEventId.length === 0)
@@ -408,11 +419,29 @@ QtObject {
         if (!TimelineManager.resolveActiveMatrixPendingJump())
             return false;
 
-        if (!support.jumpToLoadedMatrixEvent(pendingEventId))
+        if (support.jumpToLoadedMatrixEvent(pendingEventId)) {
+            TimelineManager.clearActiveMatrixPendingJump(pendingEventId);
+            support.pendingJumpThreadOpenedFor = "";
+            return true;
+        }
+
+        // The event is loaded in the room timeline but the bound view can't
+        // show it: a thread reply while replies are collapsed (or while a
+        // different thread view is open). Open its thread and finish the
+        // jump when the thread timeline snapshot includes the event.
+        const roomModel = rootItem.perRoomModel;
+        const row = roomModel ? roomModel.rowForEventId(pendingEventId) : -1;
+        const item = row >= 0 ? roomModel.itemAt(row) : null;
+        const threadId = item ? String(item.threadId || "") : "";
+        if (threadId.length === 0)
             return false;
 
-        TimelineManager.clearActiveMatrixPendingJump(pendingEventId);
-        return true;
+        if (support.pendingJumpThreadOpenedFor === pendingEventId)
+            return false;
+
+        support.pendingJumpThreadOpenedFor = pendingEventId;
+        TimelineManager.queueActiveMatrixThread(threadId);
+        return false;
     }
 
     property var timelineConnections: Connections {
@@ -435,6 +464,13 @@ QtObject {
             rootItem.draftBeforeEdit = "";
             rootItem.restoringEditDraft = false;
             support.focusTextInput();
+            support.resolvePendingMatrixEventJump();
+        }
+
+        function onMatrixThreadTimelineChanged() {
+            // A pending jump into a thread reply waits for the thread
+            // timeline to load the event; thread snapshots don't fire
+            // matrixTimelineStateChanged, so retry on this signal too.
             support.resolvePendingMatrixEventJump();
         }
 

@@ -9270,7 +9270,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>只能通过拖放附加已存在的本地文件。</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9336,7 +9336,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>无法升级聊天室：后端未就绪。</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>忽略用户 %1 失败：%2</translation>
     </message>

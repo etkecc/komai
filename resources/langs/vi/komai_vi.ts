@@ -9270,7 +9270,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Chỉ có thể kéo và thả các tệp cục bộ đã tồn tại để đính kèm.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9336,7 +9336,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể nâng cấp phòng: backend chưa sẵn sàng.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Không thể bỏ qua người dùng %1: %2</translation>
     </message>

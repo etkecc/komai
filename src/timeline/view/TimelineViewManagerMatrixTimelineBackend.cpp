@@ -80,8 +80,11 @@ TimelineViewManager::handleMatrixBackendRoomTimelineSnapshotUpdated(std::uint64_
     if (!perRoomModels_.contains(roomId))
         return;
 
-    if (matrixTimelinePendingJumpRoomId_ == roomId)
-        matrixTimelinePendingJumpAwaitingSnapshot_ = false;
+    // A pending event jump waiting on this snapshot is woken when the
+    // snapshot is *applied* to the model (refreshCurrentMatrixTimeline),
+    // not here: the apply is async, and re-running the jump resolver
+    // against the not-yet-updated model burns its pagination attempts
+    // without making progress.
 
     if (roomId == activeMatrixTimelineRoomId_)
         markRoomSwitchPhaseCpp(roomId, "cpp.matrix_timeline_snapshot_signal");
@@ -124,6 +127,27 @@ TimelineViewManager::handleMatrixBackendRoomTimelinePaginationStateChanged(std::
         return;
 
     model->setPaginationInProgress(inProgress);
+
+    // A pagination that produces no new events (e.g. the timeline start was
+    // already reached) yields no snapshot update, which would leave a
+    // pending event jump waiting forever. Wake it on a delay: if a snapshot
+    // did result from this pagination, its application clears the awaiting
+    // flag first and this timer becomes a no-op. Waking immediately would
+    // race the async snapshot apply and burn the jump's pagination attempts
+    // against a stale model.
+    if (!inProgress && matrixTimelinePendingJumpRoomId_ == roomId &&
+        matrixTimelinePendingJumpAwaitingSnapshot_) {
+        const auto pendingEventId = matrixTimelinePendingJumpEventId_;
+        QTimer::singleShot(600, this, [this, roomId, pendingEventId]() {
+            if (matrixTimelinePendingJumpRoomId_ != roomId ||
+                matrixTimelinePendingJumpEventId_ != pendingEventId ||
+                !matrixTimelinePendingJumpAwaitingSnapshot_) {
+                return;
+            }
+            matrixTimelinePendingJumpAwaitingSnapshot_ = false;
+            emit matrixTimelineStateChanged();
+        });
+    }
 }
 void
 TimelineViewManager::handleMatrixBackendRoomPinnedEventsChanged(std::uint64_t handleId,

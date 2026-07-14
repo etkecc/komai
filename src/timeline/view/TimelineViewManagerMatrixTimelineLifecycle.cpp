@@ -731,6 +731,21 @@ TimelineViewManager::refreshCurrentMatrixTimeline(const QString &roomId)
                   }
               }
 
+              // A pending event jump paginates and then waits for this
+              // refresh; the QML resolver only re-runs on
+              // matrixTimelineStateChanged, so a snapshot applied to an
+              // already-loaded room must still notify it or the jump stalls
+              // after its first pagination request. The awaiting flag is
+              // cleared here — at apply time, when the model reflects the
+              // paginated events — rather than when the snapshot
+              // notification arrives, so the resolver never re-checks a
+              // stale model.
+              if (guard->matrixTimelinePendingJumpRoomId_ == roomId &&
+                  !guard->matrixTimelinePendingJumpEventId_.isEmpty()) {
+                  guard->matrixTimelinePendingJumpAwaitingSnapshot_ = false;
+                  stateChanged                                      = true;
+              }
+
               if (stateChanged)
                   emit guard->matrixTimelineStateChanged();
 

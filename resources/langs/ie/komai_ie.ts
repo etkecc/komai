@@ -9282,7 +9282,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Solmen files local existente posse esser annexat per drag e drop.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Impossibil actualizar li chambre: backend non preste.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Insuccesse ignorar usator %1: %2</translation>
     </message>

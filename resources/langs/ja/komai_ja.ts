@@ -9270,7 +9270,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ドラッグ＆ドロップで添付できるのは既存のローカルファイルのみです。</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9336,7 +9336,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ルームをアップグレードできません: バックエンドの準備ができていません。</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>ユーザー %1 の無視に失敗しました: %2</translation>
     </message>

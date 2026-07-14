@@ -9282,7 +9282,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>Somente arquivos locais existentes podem ser anexados por arrastar e soltar.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>Não é possível atualizar a sala: backend não está pronto.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Falha ao ignorar usuário %1: %2</translation>
     </message>

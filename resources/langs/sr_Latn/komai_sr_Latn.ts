@@ -9294,7 +9294,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Prevlačenjem i ispuštanjem mogu se dodati samo postojeći lokalni fajlovi.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9360,7 +9360,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije moguće nadograditi sobu: backend nije spreman.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Nije uspelo ignorisanje korisnika %1: %2</translation>
     </message>

@@ -9282,7 +9282,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Endast befintliga lokala filer kan bifogas med drag och släpp.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Kan inte uppgradera rum: backend inte redo.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Kunde inte ignorera användare %1: %2</translation>
     </message>

@@ -9270,7 +9270,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Húzással és ejtéssel csak meglévő helyi fájlok csatolhatók.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9336,7 +9336,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>A szoba nem frissíthető: a háttérrendszer nem áll készen.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Nem sikerült figyelmen kívül hagyni a(z) %1 felhasználót: %2</translation>
     </message>

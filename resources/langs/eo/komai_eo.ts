@@ -9285,7 +9285,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Nur ekzistantaj lokaj dosieroj povas esti aldonataj per treni kaj faligi.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9351,7 +9351,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Ne eblas ĝisdatigi ĉambron: dorsa servo ne preta.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Malsukcesis ignori uzanton %1: %2</translation>
     </message>

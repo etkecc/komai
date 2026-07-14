@@ -9282,7 +9282,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Seuls les fichiers locaux existants peuvent être joints par glisser-déposer.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9348,7 +9348,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Impossible de mettre à niveau le salon : le backend n'est pas prêt.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Impossible d'ignorer l'utilisateur %1 : %2</translation>
     </message>

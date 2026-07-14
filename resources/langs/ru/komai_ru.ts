@@ -9294,7 +9294,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Перетаскиванием можно прикреплять только существующие локальные файлы.</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+168"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineBackend.cpp" line="+192"/>
         <source>Your session has expired. Please sign in again.
 
 (%1)</source>
@@ -9360,7 +9360,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не удалось обновить комнату: бэкенд не готов.</translation>
     </message>
     <message>
-        <location line="+318"/>
+        <location line="+322"/>
         <source>Failed to ignore user %1: %2</source>
         <translation>Не удалось игнорировать пользователя %1: %2</translation>
     </message>

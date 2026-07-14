@@ -23,7 +23,7 @@
 
 namespace {
 constexpr auto kMatrixPendingJumpPageSize        = 50;
-constexpr auto kMatrixPendingJumpMaxPageRequests = 8;
+constexpr auto kMatrixPendingJumpMaxPageRequests = 20;
 
 }
 
@@ -259,6 +259,10 @@ TimelineViewManager::resolveActiveMatrixPendingJump()
           pendingRoomId.toStdString(),
           pendingEventId.toStdString());
         matrixTimelineModel_->revealOlderItems(revealCount);
+        // Revealing is model-local — no backend snapshot follows to re-run
+        // the QML resolver, so queue the state-change notification ourselves.
+        QMetaObject::invokeMethod(
+          this, [this]() { emit matrixTimelineStateChanged(); }, Qt::QueuedConnection);
         return false;
     }
 

@@ -224,8 +224,16 @@ toolchain change` step in `ci.yml` guards this by fingerprinting the
 toolchain packages (`pacman -Q gcc glibc binutils mold`) into
 `.toolchain-stamp` inside the cargo-target dir and wiping the tree
 on mismatch, at the cost of one cold Rust build after each toolchain
-bump. ccache needs no such guard: it keys on the compiler binary
-itself.
+bump.
+
+The persistent ccache is exposed to the same staleness, and ccache's
+default compiler check (compiler mtime+size) proved unreliable across
+image refreshes: after the 2026-07-13 gcc bump it kept serving
+100%-hit objects compiled by the previous gcc. `ci.yml` therefore
+sets `CCACHE_COMPILER_CHECK=content`, which hashes the compiler
+binary itself — a compiler change misses by construction, and the
+old entries age out via the size cap. No wipe step is needed for
+ccache.
 
 ## Why mold
 

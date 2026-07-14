@@ -70,6 +70,15 @@ jobs:
       # macros, and header mtimes/ctimes can vary without changing the
       # actual output. Standard ccache-with-PCH configuration.
       CCACHE_SLOPPINESS: "pch_defines,time_macros,include_file_mtime,include_file_ctime"
+      # Hash the compiler binary's content, not its mtime+size (the
+      # default). Inside the weekly-rebuilt CI image the default proved
+      # unreliable: after the 2026-07-13 image refresh bumped gcc, the
+      # persistent ccache kept serving 100%-hit objects compiled by the
+      # previous gcc, and linking them under the new toolchain produced
+      # a komai binary that segfaulted at startup (completions-check,
+      # exit 139). Content hashing costs a few ms per compile and makes
+      # a compiler change miss by construction.
+      CCACHE_COMPILER_CHECK: "content"
       # Route Rust/Corrosion link steps through mold. Target-scoped
       # rustflags only apply to the actual target triple builds; host
       # build-deps (proc-macros, build.rs) are left alone, which avoids

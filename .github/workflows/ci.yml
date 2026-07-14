@@ -71,22 +71,22 @@ jobs:
       # actual output. Standard ccache-with-PCH configuration.
       CCACHE_SLOPPINESS: "pch_defines,time_macros,include_file_mtime,include_file_ctime"
       # Hash the compiler binary's content, not its mtime+size (the
-      # default). Inside the weekly-rebuilt CI image the default proved
-      # unreliable: after the 2026-07-13 image refresh bumped gcc, the
-      # persistent ccache kept serving 100%-hit objects compiled by the
-      # previous gcc, and linking them under the new toolchain produced
-      # a komai binary that segfaulted at startup (completions-check,
-      # exit 139). Content hashing costs a few ms per compile and makes
-      # a compiler change miss by construction.
+      # default). The ccache outlives the weekly image refresh, and
+      # inside a rebuilt image the compiler's mtime is package metadata
+      # rather than a reliable change signal; content hashing costs a
+      # few ms per compile and makes a compiler change miss by
+      # construction.
       CCACHE_COMPILER_CHECK: "content"
-      # Route Rust/Corrosion link steps through mold. Target-scoped
-      # rustflags only apply to the actual target triple builds; host
-      # build-deps (proc-macros, build.rs) are left alone, which avoids
-      # churn for small/fast links where mold's setup cost is wasted.
-      # Local A/B on this workstation: Rust incremental rebuild 3.37s ->
-      # 2.93s (-13%) and peak RSS 3.3 GB -> 1.0 GB. Cold full Rust test
-      # build wall-time delta is smaller (~5%) because compile dominates.
-      CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=mold"
+      # Rust/Corrosion links ran through mold (target-scoped rustflags,
+      # so host build-deps were left alone; incremental rebuild -13%,
+      # peak link RSS 3.3 GB -> 1.0 GB). Disabled for now: mold 2.41.0
+      # with Arch's gcc 16.1.1-3 pulls libstdc++.a members into the PIE
+      # to satisfy versioned DSO undefineds, and the resulting binary
+      # segfaults in std::ios_base init before main()
+      # (https://github.com/rui314/mold/issues/1619). Re-enable
+      # (also -DCMAKE_LINKER_TYPE=MOLD on Configure) once the CI image
+      # ships a mold with that fix:
+      # CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=mold"
 
     steps:
       - name: Checkout
@@ -195,12 +195,9 @@ jobs:
         # rebuild input: `cc`-crate build scripts (ring, zstd-sys, ...)
         # cache .o files compiled by whatever gcc the *previous* image
         # shipped, and cargo reuses them verbatim under the new one.
-        # Linking those stale objects with a newer gcc/glibc produced a
-        # binary that segfaulted at startup (completions-check, exit 139)
-        # after the 2026-07-13 image refresh bumped gcc. Fingerprint the
-        # toolchain packages and wipe the cargo tree when it changes; the
-        # next build repopulates it in one cold run. ccache needs no such
-        # guard — it keys on the compiler binary itself.
+        # Fingerprint the toolchain packages and wipe the cargo tree
+        # when they change; the next build repopulates it in one cold
+        # run. ccache is guarded separately via CCACHE_COMPILER_CHECK.
         if: env.HOST_CACHE == 'true'
         run: |
           STAMP=/var/lib/komai-ci/cargo-target/.toolchain-stamp
@@ -352,14 +349,15 @@ jobs:
         run: |
           # Use system packages where available (same approach as PKGBUILD).
           # ccache accelerates re-compiles of unchanged C/C++ sources.
-          # CMAKE_LINKER_TYPE=MOLD routes the C++ link (komai binary +
-          # each komai_*_test) through mold. Local A/B for the komai
-          # binary link: 4.90s -> 1.73s (-65%), peak RSS 1.2 GB -> 108 MB.
+          # C++ links used to add -DCMAKE_LINKER_TYPE=MOLD (komai binary
+          # link: 4.90s -> 1.73s, peak RSS 1.2 GB -> 108 MB), disabled
+          # for now due to a mold-linked-PIE startup segfault with the
+          # image's toolchain — see the rustflags comment in `env:` above
+          # (https://github.com/rui314/mold/issues/1619).
           just configure \
             -DCPM_USE_LOCAL_PACKAGES=ON \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-            -DCMAKE_LINKER_TYPE=MOLD
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 
       - name: Cache emoji upstream data
         # Exact-key only: the key is the lock-file hash, so any lock change

@@ -215,8 +215,8 @@ added entirely from the workflow side without coordinating runner-
 host changes.
 
 Because the host mount never expires, it can outlive the weekly CI
-image refresh while holding artifacts the new image's toolchain can
-no longer safely link. Cargo does not track the system C toolchain
+image refresh while holding artifacts compiled by a toolchain the
+image no longer ships. Cargo does not track the system C toolchain
 as a rebuild input: `cc`-crate build scripts cache `.o` files
 compiled by the previous image's gcc, and cargo reuses them verbatim
 under the new one. The `Invalidate host-mounted cargo target on
@@ -226,14 +226,12 @@ toolchain packages (`pacman -Q gcc glibc binutils mold`) into
 on mismatch, at the cost of one cold Rust build after each toolchain
 bump.
 
-The persistent ccache is exposed to the same staleness, and ccache's
-default compiler check (compiler mtime+size) proved unreliable across
-image refreshes: after the 2026-07-13 gcc bump it kept serving
-100%-hit objects compiled by the previous gcc. `ci.yml` therefore
+The persistent ccache is exposed to the same staleness. Its default
+compiler check (compiler mtime+size) is a weak change signal inside
+a rebuilt image, where file mtimes are package metadata; `ci.yml`
 sets `CCACHE_COMPILER_CHECK=content`, which hashes the compiler
-binary itself — a compiler change misses by construction, and the
-old entries age out via the size cap. No wipe step is needed for
-ccache.
+binary itself — a compiler change misses by construction, and old
+entries age out via the size cap. No wipe step is needed for ccache.
 
 ## Why mold
 
@@ -251,6 +249,17 @@ The Rust toolchain, Corrosion, and the C++ build all use
 The rustflags are scoped to the target triple (not the host triple)
 deliberately: host-build deps (proc-macros, build.rs scripts) are
 many small/fast links where mold's setup cost is wasted.
+
+**Currently disabled.** mold 2.41.0 with Arch's gcc 16.1.1-3 resolves
+versioned undefined symbols from linked DSOs against `libstdc++.a`
+instead of the shared library, pulling static libstdc++ members into
+the PIE; the resulting binary then carries a static and a dynamic
+libstdc++ copy whose initializers corrupt each other, and it
+segfaults in `std::ios_base` init before `main()`
+([mold#1619](https://github.com/rui314/mold/issues/1619), fix pending
+in [mold#1620](https://github.com/rui314/mold/pull/1620)). Both mold
+hooks (the rustflags and `-DCMAKE_LINKER_TYPE=MOLD`) are commented
+out in `ci.yml` until the CI image ships a fixed mold.
 
 ## Why ccache PCH sloppiness
 

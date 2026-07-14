@@ -10580,7 +10580,7 @@ Poți anula ignorarea ulterior din profilul acestui utilizator sau din Setări �
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+51"/>
+        <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+52"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Controlează starea de &lt;a href="%1"&gt;Prezență&lt;/a&gt; pe rețeaua Matrix.

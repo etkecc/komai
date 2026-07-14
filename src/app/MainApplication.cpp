@@ -23,8 +23,8 @@
 #include <QLibraryInfo>
 #include <QMessageBox>
 #include <QQuickView>
-#include <QSystemTrayIcon>
 #include <QStyleHints>
+#include <QSystemTrayIcon>
 #include <QTimer>
 #include <QTranslator>
 
@@ -418,7 +418,7 @@ app::runMainApplication(int argc, char *argv[])
                      &app,
                      applyApplicationFont);
 
-    // Follow the OS colour scheme live while the theme mode is Auto. Some
+    // Follow the OS color scheme live while the theme mode is Auto. Some
     // desktops fire colorSchemeChanged repeatedly during a fade, so coalesce
     // through a single-shot timer and apply once the storm settles. The timer
     // is parented to app (torn down with it); the shutdown guard stops a
@@ -445,7 +445,7 @@ app::runMainApplication(int argc, char *argv[])
     }
 #endif
 
-    // When the mode is Auto, resolve the OS colour scheme into the effective
+    // When the mode is Auto, resolve the OS color scheme into the effective
     // slug before the first paint, so launch matches the desktop with no
     // light->dark flash on startup.
     settings.lock()->applyOsColorScheme();

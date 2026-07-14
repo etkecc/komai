@@ -127,10 +127,15 @@ testRoleValidation()
                     UserSettingsModel::ThemeVariantValue,
                     QVariant{-1}),
                   "theme role rejects negative variant index") &&
-           expect(!settings::ui::validateRoleInput(
+           expect(settings::ui::validateRoleInput(
                     settings::core::SettingId::UiThemeSlug,
                     UserSettingsModel::ThemeVariantValue,
                     QVariant{2}),
+                  "theme role accepts the Auto variant index") &&
+           expect(!settings::ui::validateRoleInput(
+                    settings::core::SettingId::UiThemeSlug,
+                    UserSettingsModel::ThemeVariantValue,
+                    QVariant{3}),
                   "theme role rejects out-of-range variant index") &&
            expect(!settings::ui::validateRoleInput(
                     settings::core::SettingId::UiThemeSlug,

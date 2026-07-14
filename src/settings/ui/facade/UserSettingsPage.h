@@ -543,7 +543,7 @@ public:
     {
         Light, // Force the light member of the current theme family
         Dark,  // Force the dark member
-        Auto,  // Follow the OS colour scheme, repaint live when it flips
+        Auto,  // Follow the OS color scheme, repaint live when it flips
     };
     Q_ENUM(ThemeMode)
 

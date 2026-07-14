@@ -2162,6 +2162,9 @@ testEnumConstraintsMatchEnumKeyCount()
     };
 
     static const EnumCheck checks[] = {
+        {settings::core::SettingId::UiThemeMode,
+         +[] { return QMetaEnum::fromType<UserSettings::ThemeMode>(); },
+         "ThemeMode"},
         {settings::core::SettingId::UiScrollbarPolicy,
          +[] { return QMetaEnum::fromType<UserSettings::ScrollbarPolicy>(); },
          "ScrollbarPolicy"},

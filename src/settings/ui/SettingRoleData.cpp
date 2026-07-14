@@ -69,7 +69,8 @@ setThemeRoleData(int role, const QVariant &value)
     }
 
     // Light/Dark: an explicit choice pins both the mode and the slug's variant.
-    const auto mode = variantIdx == 0 ? UserSettings::ThemeMode::Light : UserSettings::ThemeMode::Dark;
+    const auto mode =
+      variantIdx == 0 ? UserSettings::ThemeMode::Light : UserSettings::ThemeMode::Dark;
     const QString newVariant = variantIdx == 0 ? QStringLiteral("light") : QStringLiteral("dark");
     if (i->uiThemeMode() == mode &&
         ThemeRegistry::instance().themeVariant(i->uiThemeSlug()) == newVariant)

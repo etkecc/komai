@@ -3384,7 +3384,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+530"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+535"/>
         <source>Settings...</source>
         <translation>Ustawienia…</translation>
     </message>

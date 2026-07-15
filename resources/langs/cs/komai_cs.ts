@@ -3384,7 +3384,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+530"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+535"/>
         <source>Settings...</source>
         <translation>Nastavení…</translation>
     </message>

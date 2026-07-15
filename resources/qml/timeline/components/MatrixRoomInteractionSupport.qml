@@ -39,6 +39,32 @@ QtObject {
                                                       messageModel.transactionId || "");
     }
 
+    // One-shot re-center shortly after a jump: delegates created by
+    // positionViewAtIndex can change height once their async content
+    // (images, avatars) sizes itself, sliding the target partially out
+    // of view. Model resets re-anchor via jumpAnchorEventId, but a quiet
+    // timeline gets no reset to correct the drift.
+    property string _jumpSettleTarget: ""
+    property var _jumpSettleTimer: Timer {
+        interval: 450
+        onTriggered: {
+            const target = support._jumpSettleTarget;
+            support._jumpSettleTarget = "";
+            if (target.length === 0 || !support.timelineList
+                    || support.rootItem.jumpAnchorEventId !== target) {
+                return;
+            }
+            const listModel = support.timelineList.model;
+            const row = (listModel && typeof listModel.rowForEventId === "function")
+                ? listModel.rowForEventId(target)
+                : -1;
+            if (row < 0 || row >= support.timelineList.count)
+                return;
+            support.timelineList.positionViewAtIndex(row, ListView.Center);
+            support.timelineList.returnToBounds();
+        }
+    }
+
     function jumpToLoadedMatrixEvent(eventId) {
         const trimmedEventId = String(eventId || "").trim();
         // Selectability is decided on `activeTimelineModel` (the model the
@@ -75,7 +101,10 @@ QtObject {
         // Mirrors walk-mode's unpin-on-move.
         timelineList.keepPinnedToBottom = false;
         timelineList.userUnpinned = true;
+        rootItem.jumpAnchorEventId = targetEventId;
         timelineList.positionViewAtIndex(listRow, ListView.Center);
+        support._jumpSettleTarget = targetEventId;
+        support._jumpSettleTimer.restart();
         // Set the highlight a frame later: on a cold jump the target's
         // delegate is only instantiated after positionViewAtIndex, and a
         // scrolledToThis state that is already active when the delegate

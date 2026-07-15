@@ -128,6 +128,9 @@ Item {
         }
 
         rootItem.focusedEventId = normalizedEventId;
+        // Walk mode owns the scroll position now; stop re-anchoring
+        // resets on a previous event-jump target.
+        rootItem.jumpAnchorEventId = "";
         if (!rootItem.walkModeActive && timelineList) {
             timelineList.keepPinnedToBottom = false;
             timelineList.userUnpinned = true;

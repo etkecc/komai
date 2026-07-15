@@ -28,6 +28,11 @@ ColumnLayout {
     property bool roomSwitchInProgress: false
     property string focusedEventId: ""
     property string highlightedEventId: ""
+    // The last event-jump target. Outlives the transient highlight flash:
+    // model resets from trailing pagination/receipt snapshots keep
+    // re-anchoring the viewport on this event until the user takes over
+    // scrolling (wheel, scrollbar drag, walk mode) or switches rooms.
+    property string jumpAnchorEventId: ""
     property var selectedEventIds: []
     property string selectionAnchorEventId: ""
     property var visibleTimelineDelegates: ({})

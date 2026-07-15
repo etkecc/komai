@@ -118,6 +118,10 @@ QtObject {
         timelineList.returnToBounds();
         support.updateLastScroll();
 
+        // The user is scrolling; stop re-anchoring resets on a previous
+        // event-jump target.
+        rootItem.jumpAnchorEventId = "";
+
         // Track unpinned state during a scrollbar thumb drag.  Mirrors
         // handleWheelRotation: without this, keepPinnedToBottom stays
         // true (its initial value) and the next contentHeight change
@@ -182,6 +186,10 @@ QtObject {
         const idx = timelineList.indexAt(halfW, timelineList.contentY + 2);
         if (idx >= 0)
             timelineList.savedTopIndex = idx;
+
+        // The user is scrolling; stop re-anchoring resets on a previous
+        // event-jump target.
+        rootItem.jumpAnchorEventId = "";
 
         if (!timelineList.isNearLiveEdge()) {
             timelineList.keepPinnedToBottom = false;
@@ -513,13 +521,13 @@ QtObject {
             return;
         }
 
-        // An event-jump target still flashing its highlight takes over as
-        // the restore anchor: trailing pagination/receipt snapshots reset
-        // the model moments after a jump lands, and the nearest-center
-        // anchor drifts once newly loaded items with different heights
-        // land around the viewport. Re-centering on the target keeps the
-        // jump visually stable.
-        var jumpTarget = String(rootItem.highlightedEventId || "");
+        // An event-jump target takes over as the restore anchor: trailing
+        // pagination/receipt snapshots keep resetting the model for a
+        // while after a jump lands, and the nearest-center anchor drifts
+        // once newly loaded items with different heights land around the
+        // viewport. Re-centering on the target keeps the jump visually
+        // stable until the user takes over scrolling.
+        var jumpTarget = String(rootItem.jumpAnchorEventId || "");
 
         if (savedResetEventId.length === 0 && jumpTarget.length === 0)
             return;
@@ -569,6 +577,7 @@ QtObject {
         wheelSettleTimer.stop();
         savedResetEventId = "";
         savedResetWasPinnedToBottom = true;
+        rootItem.jumpAnchorEventId = "";
         if (!timelineList)
             return;
 

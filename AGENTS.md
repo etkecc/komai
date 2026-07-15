@@ -116,6 +116,7 @@ Access via `Komai.theme.*`:
 - [docs/README.md](docs/README.md) -- User/docs index
 - [docs/architecture/README.md](docs/architecture/README.md) -- Technical docs index (start here, then open only task-relevant pages)
 - [docs/user-guide/differences-from-nheko.md](docs/user-guide/differences-from-nheko.md) -- What makes Komai different
+- [docs/maintainers/live-verification.md](docs/maintainers/live-verification.md) -- Driving a real running Komai from a shell (headless launch, CLI/IPC, seeded test homeserver) to verify changes end-to-end
 
 ## Translatable Strings Checklist
 

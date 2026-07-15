@@ -513,7 +513,15 @@ QtObject {
             return;
         }
 
-        if (savedResetEventId.length === 0)
+        // An event-jump target still flashing its highlight takes over as
+        // the restore anchor: trailing pagination/receipt snapshots reset
+        // the model moments after a jump lands, and the nearest-center
+        // anchor drifts once newly loaded items with different heights
+        // land around the viewport. Re-centering on the target keeps the
+        // jump visually stable.
+        var jumpTarget = String(rootItem.highlightedEventId || "");
+
+        if (savedResetEventId.length === 0 && jumpTarget.length === 0)
             return;
 
         var eid = savedResetEventId;
@@ -529,13 +537,30 @@ QtObject {
             if (typeof model.rowForEventId !== "function")
                 return;
 
-            var row = model.rowForEventId(eid);
+            var anchor = jumpTarget.length > 0 ? jumpTarget : eid;
+            var row = model.rowForEventId(anchor);
+            if (row < 0 && anchor !== eid && eid.length > 0) {
+                anchor = eid;
+                row = model.rowForEventId(anchor);
+            }
             if (row < 0 || row >= timelineList.count)
                 return;
 
             timelineList.positionViewAtIndex(row, ListView.Center);
             timelineList.returnToBounds();
             updateLastScroll();
+
+            // The reset recreated the target's delegate, which swallows
+            // the one-shot highlight-flash transition mid-run. Re-trigger
+            // it so the flash the user actually sees is the one that
+            // completes (and clears highlightedEventId via eventShown).
+            if (anchor === jumpTarget && rootItem.highlightedEventId === jumpTarget) {
+                rootItem.highlightedEventId = "";
+                Qt.callLater(function () {
+                    if (rootItem.highlightedEventId.length === 0)
+                        rootItem.highlightedEventId = jumpTarget;
+                });
+            }
         });
     }
 

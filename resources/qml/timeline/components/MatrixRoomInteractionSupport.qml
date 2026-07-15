@@ -76,7 +76,15 @@ QtObject {
         timelineList.keepPinnedToBottom = false;
         timelineList.userUnpinned = true;
         timelineList.positionViewAtIndex(listRow, ListView.Center);
-        rootItem.highlightedEventId = targetEventId;
+        // Set the highlight a frame later: on a cold jump the target's
+        // delegate is only instantiated after positionViewAtIndex, and a
+        // scrolledToThis state that is already active when the delegate
+        // is created skips the highlight-flash transition entirely.
+        const highlightTarget = targetEventId;
+        Qt.callLater(function () {
+            if (rootItem.highlightedEventId.length === 0)
+                rootItem.highlightedEventId = highlightTarget;
+        });
         return true;
     }
 

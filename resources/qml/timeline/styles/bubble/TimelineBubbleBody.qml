@@ -220,36 +220,46 @@ Item {
         visible: true
         z: 1
 
-        states: State {
-            name: "revealed"
-            when: root.wrapper.scrolledToThis
-        }
-        transitions: Transition {
-            from: ""
-            to: "revealed"
+        // Explicitly triggered rather than a `when`-state transition: a
+        // delegate can be created with scrolledToThis already active (a
+        // cold event jump instantiates the target's delegate only after
+        // the highlight is set, and model resets recreate it mid-flash),
+        // and a state that is active at creation applies without ever
+        // running its transition — the flash silently never showed.
+        property bool flashRequested: root.wrapper.scrolledToThis
 
-            SequentialAnimation {
-                PropertyAnimation {
-                    duration: 200
-                    easing.type: Easing.InOutQuad
-                    from: 0
-                    properties: "opacity"
-                    target: scrollHighlight
-                    to: 0.5
-                }
-                PropertyAnimation {
-                    duration: 400
-                    easing.type: Easing.InOutQuad
-                    from: 0.5
-                    properties: "opacity"
-                    target: scrollHighlight
-                    to: 0
-                }
-                ScriptAction {
-                    script: {
-                        if (root.wrapper.effectiveRoomContext)
-                            root.wrapper.effectiveRoomContext.eventShown()
-                    }
+        onFlashRequestedChanged: {
+            if (flashRequested)
+                scrollHighlightAnimation.restart();
+        }
+        Component.onCompleted: {
+            if (flashRequested)
+                scrollHighlightAnimation.restart();
+        }
+
+        SequentialAnimation {
+            id: scrollHighlightAnimation
+
+            PropertyAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+                from: 0
+                properties: "opacity"
+                target: scrollHighlight
+                to: 0.5
+            }
+            PropertyAnimation {
+                duration: 400
+                easing.type: Easing.InOutQuad
+                from: 0.5
+                properties: "opacity"
+                target: scrollHighlight
+                to: 0
+            }
+            ScriptAction {
+                script: {
+                    if (root.wrapper.effectiveRoomContext)
+                        root.wrapper.effectiveRoomContext.eventShown()
                 }
             }
         }

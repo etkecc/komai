@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026.07.15.0
+
+- ✨ Feature: a new **Auto** [theme mode](https://github.com/etkecc/komai/blob/77d271ec9b5e85f36728d043affb40989058237b/docs/user-guide/features/themes.md) follows your desktop's light/dark preference, flipping live within your chosen theme family; new profiles default to it ([58c7299ef](https://github.com/etkecc/komai/commit/58c7299ef), [84b639560](https://github.com/etkecc/komai/commit/84b639560)).
+- 🐛 Fix: clicking a `matrix:` message permalink now jumps to the linked message, loading older history as needed; previously it silently did nothing ([93f5a322d](https://github.com/etkecc/komai/commit/93f5a322d)).
+- 🐛 Fix: a `matrix:` permalink to a reply in a collapsed thread opens the thread view on that reply ([93f5a322d](https://github.com/etkecc/komai/commit/93f5a322d)).
+- 🐛 Fix: the message a permalink jumps to is highlighted and stays in view while the timeline settles, instead of drifting off screen ([2b6cfaac6](https://github.com/etkecc/komai/commit/2b6cfaac6), [5873bd4f4](https://github.com/etkecc/komai/commit/5873bd4f4)).
+- 🐛 Fix: a Matrix library error that dumped the entire timeline into one log line no longer floods the terminal; a single log event is capped at 16 KiB (`KOMAI_LOG_MAX_EVENT_BYTES` overrides, `0` disables) ([77d271ec9](https://github.com/etkecc/komai/commit/77d271ec9)).
+- 🎨 Polish: Komai's homepage is now [komai.chat](https://komai.chat); the About tab shows it in its header, and homepage links across the app, docs, and packaging metadata point there ([ef4e2dc33](https://github.com/etkecc/komai/commit/ef4e2dc33), [e7bbbf069](https://github.com/etkecc/komai/commit/e7bbbf069)).
+- 📦 Flatpak: the bundled GStreamer is updated to v1.28.5 ([34f77eb25](https://github.com/etkecc/komai/commit/34f77eb25)).
+- 📦 AUR: the PKGBUILD drops its `/shrug` man-page workaround, obsolete since the upstream fix shipped in v2026.07.07.1 ([844119ce5](https://github.com/etkecc/komai/commit/844119ce5)).
+
 ## 2026.07.07.1
 
 - 🐛 Fix: filtering the timeline with a search query no longer leaves messages overlapping each other ([d377973c8](https://github.com/etkecc/komai/commit/d377973c8)).

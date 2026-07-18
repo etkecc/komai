@@ -7008,7 +7008,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+177"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+203"/>
         <source>Open a new tab [Ctrl+T]</source>
         <translation>Отвори нов раздел [Ctrl+T]</translation>
     </message>

@@ -7008,7 +7008,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+178"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+204"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>

@@ -78,17 +78,43 @@ Rectangle {
     property int _stableTabWidth: _liveTabWidth
     readonly property bool _mouseInTabBar: tabBarHover.hovered
 
-    on_LiveTabWidthChanged: {
-        if (!_mouseInTabBar) {
-            _stableTabWidth = _liveTabWidth;
-            tabListView.forceLayout();
-        }
+    readonly property int _displacedAnimDuration: 150
+
+    // Applying a new tab width while a displaced transition is running is
+    // unsafe: ListView skips transitioning items during layout, so they
+    // finish sliding to positions computed with the old width and end up
+    // permanently overlapping their re-laid-out neighbors (clipped tabs).
+    // A late forceLayout() cannot repair this (it is a no-op without dirty
+    // geometry or pending model changes), so the width change itself must
+    // wait until the transitions have settled.
+    function _applyStableTabWidth() {
+        if (_mouseInTabBar)
+            return; // frozen while hovering (stable-close)
+        if (displacedSettleTimer.running)
+            return; // displaced transitions in flight; retried on timeout
+        if (_stableTabWidth === _liveTabWidth)
+            return;
+        _stableTabWidth = _liveTabWidth;
+        tabListView.forceLayout();
     }
-    on_MouseInTabBarChanged: {
-        if (!_mouseInTabBar) {
-            _stableTabWidth = _liveTabWidth;
-            tabListView.forceLayout();
-        }
+
+    on_LiveTabWidthChanged: _applyStableTabWidth()
+    on_MouseInTabBarChanged: _applyStableTabWidth()
+
+    Timer {
+        id: displacedSettleTimer
+
+        interval: tabBar._displacedAnimDuration + 100
+        onTriggered: tabBar._applyStableTabWidth()
+    }
+
+    // Tab removals and reorders start displaced transitions on the ListView;
+    // hold off width changes until those have settled.
+    Connections {
+        target: tabBar.tabController.tabs
+
+        function onRowsRemoved() { displacedSettleTimer.restart(); }
+        function onRowsMoved() { displacedSettleTimer.restart(); }
     }
 
     readonly property int effectiveTabWidth: _stableTabWidth
@@ -157,7 +183,7 @@ Rectangle {
 
             // Animate non-dragged tabs sliding into place.
             displaced: Transition {
-                NumberAnimation { properties: "x"; duration: 150; easing.type: Easing.OutQuad }
+                NumberAnimation { properties: "x"; duration: tabBar._displacedAnimDuration; easing.type: Easing.OutQuad }
             }
         }
 

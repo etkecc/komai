@@ -6978,7 +6978,7 @@ Please take note that it can't be disabled afterwards.</source>
 <context>
     <name>RoomTabBar</name>
     <message>
-        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+178"/>
+        <location filename="../../qml/timeline/components/RoomTabBar.qml" line="+204"/>
         <source>New</source>
         <translation type="unfinished"/>
     </message>

@@ -476,13 +476,14 @@ testMatrixSessionSecretsRoundtripWithFileProvider()
       true);
     ok &= expect(savedSecrets, "matrix session secrets test saves initial secrets payload");
 
-    komai::matrix_backend::savePersistedMatrixSessionSecrets(
+    const bool savedSessionSecrets = komai::matrix_backend::savePersistedMatrixSessionSecrets(
       profile,
       {
         .storePassphrase = QStringLiteral("store-passphrase"),
         .homeserverUrl = QStringLiteral("https://matrix.example.com"),
         .serializedSession = QStringLiteral("serialized-session"),
       });
+    ok &= expect(savedSessionSecrets, "matrix session secrets save reports success");
 
     const auto persisted = komai::matrix_backend::loadPersistedMatrixSessionSecrets(profile);
     ok &= expect(persisted.storePassphrase == QStringLiteral("store-passphrase"),

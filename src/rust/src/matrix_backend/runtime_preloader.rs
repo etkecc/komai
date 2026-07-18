@@ -64,7 +64,7 @@ struct RoomPreviewData {
 }
 
 pub fn start_preload(handle_id: u64) -> Result<(), String> {
-    let (client, room_list_snapshot, preloaded_timelines) = {
+    let (client, room_list_snapshot, preloaded_timelines, auth_failed) = {
         let handles = backend_handles()
             .lock()
             .expect("poisoned matrix backend handle registry mutex");
@@ -77,6 +77,7 @@ pub fn start_preload(handle_id: u64) -> Result<(), String> {
             handle.client.clone(),
             Arc::clone(&handle.room_list_snapshot),
             Arc::clone(&handle.preloaded_timelines),
+            Arc::clone(&handle.auth_failed),
         )
     };
 
@@ -86,6 +87,7 @@ pub fn start_preload(handle_id: u64) -> Result<(), String> {
             client,
             room_list_snapshot,
             preloaded_timelines,
+            auth_failed,
         ));
     });
 
@@ -98,9 +100,18 @@ async fn run_preload(
     client: Client,
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
     preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
+    auth_failed: Arc<AtomicBool>,
 ) {
     // Wait for things to settle after initial sync.
     tokio::time::sleep(PRELOAD_SETTLE_DELAY).await;
+
+    if auth_failed.load(Ordering::Relaxed) {
+        tracing::info!(
+            handle_id,
+            "Background preloader: aborting, the session's access token is no longer valid"
+        );
+        return;
+    }
 
     let (rooms_to_preload, rooms_to_warm) = {
         let snapshot = room_list_snapshot
@@ -144,6 +155,14 @@ async fn run_preload(
     let mut previews: Vec<RoomPreviewData> = Vec::new();
 
     for chunk in rooms_to_preload.chunks(PRELOAD_CONCURRENCY) {
+        if auth_failed.load(Ordering::Relaxed) {
+            tracing::info!(
+                handle_id,
+                "Background preloader: aborting, the session's access token is no longer valid"
+            );
+            return;
+        }
+
         let mut tasks: Vec<(String, _)> = Vec::with_capacity(chunk.len());
 
         for room_id_str in chunk {
@@ -247,6 +266,17 @@ async fn run_preload(
         let warm_started_at = Instant::now();
 
         for chunk in rooms_to_warm.chunks(WARM_CONCURRENCY) {
+            // Warming itself is local, but empty rooms fall back to server
+            // pagination in `warm_single_room` — stop on a dead session too.
+            if auth_failed.load(Ordering::Relaxed) {
+                tracing::info!(
+                    handle_id,
+                    "Background preloader: aborting cache warm, the session's access token is \
+                     no longer valid"
+                );
+                return;
+            }
+
             let mut tasks: Vec<(String, _)> = Vec::with_capacity(chunk.len());
 
             for room_id_str in chunk {

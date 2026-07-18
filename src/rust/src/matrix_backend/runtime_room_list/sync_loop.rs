@@ -79,6 +79,17 @@ pub(super) async fn run_sync_loop(
     let mut entries_stream = Box::pin(entries_stream);
     let mut ignored_user_list_changes = Some(Box::pin(client.subscribe_to_ignore_user_list_changes()));
 
+    // The SDK broadcasts `SessionChange::UnknownToken` when a request got a
+    // 401 and the token could not be refreshed (e.g. the OAuth refresh token
+    // was rejected with invalid_grant). This is the authoritative "the session
+    // is dead, sign the user out" signal: with `with_offline_mode()` enabled
+    // above, an auth failure never surfaces as `SyncServiceState::Error` —
+    // the sync service treats it like lost connectivity and ping-pongs
+    // between Offline and Running forever, re-hitting the homeserver and the
+    // token endpoint on every cycle. Reacting here stops that loop and drops
+    // the user to the login page instead.
+    let mut session_changes = Some(client.subscribe_to_session_changes());
+
     // Held for the lifetime of the loop so its `PushRulesEvent` handler stays
     // registered and we don't churn handlers on each per-room mode lookup.
     let notification_settings = client.notification_settings().await;
@@ -280,6 +291,39 @@ pub(super) async fn run_sync_loop(
                     None => {
                         tracing::info!(handle_id, "Matrix-sdk-ui sync service state stream ended");
                         break;
+                    }
+                }
+            }
+
+            maybe_session_change = async {
+                match session_changes.as_mut() {
+                    Some(changes) => changes.recv().await,
+                    None => std::future::pending().await,
+                }
+            } => {
+                match maybe_session_change {
+                    Ok(SessionChange::UnknownToken(unknown_token_data)) => {
+                        tracing::warn!(
+                            handle_id,
+                            soft_logout = unknown_token_data.soft_logout,
+                            "Matrix-sdk session token is no longer valid and could not be \
+                             refreshed; stopping sync"
+                        );
+                        super::mark_handle_auth_failed(handle_id);
+                        crate::ffi::matrix_notify_sync_stopped(
+                            handle_id,
+                            "the access token is no longer valid and could not be refreshed",
+                            true,
+                        );
+                        break;
+                    }
+                    Ok(SessionChange::TokensRefreshed) => {
+                        tracing::debug!(handle_id, "Matrix-sdk session tokens were refreshed");
+                    }
+                    Err(BroadcastRecvError::Lagged(_)) => {}
+                    Err(BroadcastRecvError::Closed) => {
+                        tracing::info!(handle_id, "Matrix-sdk session change stream ended");
+                        session_changes = None;
                     }
                 }
             }

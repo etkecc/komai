@@ -18,7 +18,7 @@ struct PersistedMatrixSessionSecrets
 PersistedMatrixSessionSecrets
 loadPersistedMatrixSessionSecrets(const QString &profileId);
 
-void
+bool
 savePersistedMatrixSessionSecrets(const QString &profileId,
                                   const PersistedMatrixSessionSecrets &secrets);
 

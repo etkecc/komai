@@ -55,10 +55,23 @@ settings_write_secure_value(::rust::Str key, ::rust::Str value)
                                         QString::fromStdString(std::string(value)));
 }
 
+bool
+settings_write_secure_value_blocking(::rust::Str key, ::rust::Str value)
+{
+    return settings::storage::writeSecureValueBlocking(QString::fromStdString(std::string(key)),
+                                                       QString::fromStdString(std::string(value)));
+}
+
 void
 settings_delete_secure_value(::rust::Str key)
 {
     settings::storage::deleteSecureValue(QString::fromStdString(std::string(key)));
+}
+
+bool
+settings_delete_secure_value_blocking(::rust::Str key)
+{
+    return settings::storage::deleteSecureValueBlocking(QString::fromStdString(std::string(key)));
 }
 
 ::rust::String
@@ -103,9 +116,11 @@ matrix_load_session_secrets(::rust::Str)
     return {};
 }
 
-void
+bool
 matrix_save_session_secrets(::rust::Str, ::rust::Str, ::rust::Str, ::rust::Str)
-{}
+{
+    return true;
+}
 
 void
 matrix_clear_session_secrets(::rust::Str)

@@ -132,10 +132,22 @@ settings_write_secure_value(::rust::Str key, ::rust::Str value)
     settings::storage::writeSecureValue(toQString(key), toQString(value));
 }
 
+bool
+settings_write_secure_value_blocking(::rust::Str key, ::rust::Str value)
+{
+    return settings::storage::writeSecureValueBlocking(toQString(key), toQString(value));
+}
+
 void
 settings_delete_secure_value(::rust::Str key)
 {
     settings::storage::deleteSecureValue(toQString(key));
+}
+
+bool
+settings_delete_secure_value_blocking(::rust::Str key)
+{
+    return settings::storage::deleteSecureValueBlocking(toQString(key));
 }
 
 ::rust::String
@@ -184,7 +196,7 @@ matrix_load_session_secrets(::rust::Str profile_id)
     };
 }
 
-void
+bool
 matrix_save_session_secrets(::rust::Str profile_id,
                             ::rust::Str store_passphrase,
                             ::rust::Str homeserver_url,
@@ -193,7 +205,7 @@ matrix_save_session_secrets(::rust::Str profile_id,
     // Session refresh callbacks may run while the UI thread is already inside a
     // synchronous runtime().block_on(...) call. Do not bounce persistence back
     // to the app thread here or we can deadlock the refresh path.
-    matrix_backend::savePersistedMatrixSessionSecrets(
+    return matrix_backend::savePersistedMatrixSessionSecrets(
       toQString(profile_id),
       {
         .storePassphrase   = toQString(store_passphrase),

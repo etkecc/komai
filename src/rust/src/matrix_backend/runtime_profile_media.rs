@@ -394,6 +394,7 @@ pub async fn fetch_media_content(
     height: i32,
     crop: bool,
 ) -> Result<Vec<u8>, String> {
+    ensure_handle_auth_usable(handle_id)?;
     let client = client_for_handle(handle_id)?;
     let normalized_mxc_uri = normalize_mxc_uri(mxc_uri.trim().to_owned());
     let uri_ref = <&MxcUri>::from(normalized_mxc_uri.as_str());

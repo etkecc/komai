@@ -1445,7 +1445,11 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn settings_write_secure_value(key: &str, value: &str);
         #[namespace = "komai::rust_bridge"]
+        fn settings_write_secure_value_blocking(key: &str, value: &str) -> bool;
+        #[namespace = "komai::rust_bridge"]
         fn settings_delete_secure_value(key: &str);
+        #[namespace = "komai::rust_bridge"]
+        fn settings_delete_secure_value_blocking(key: &str) -> bool;
         #[namespace = "komai::rust_bridge"]
         fn settings_read_text_file(path: &str, label: &str) -> String;
         #[namespace = "komai::rust_bridge"]
@@ -1471,7 +1475,7 @@ mod bridge {
             store_passphrase: &str,
             homeserver_url: &str,
             serialized_session: &str,
-        );
+        ) -> bool;
         #[namespace = "komai::rust_bridge"]
         fn matrix_clear_session_secrets(profile_id: &str);
         #[namespace = "komai::rust_bridge"]

@@ -276,18 +276,21 @@ fn load_matrix_sdk_secrets_from_secure_store(profile_id: &str) -> Vec<SettingsSt
     decode_string_map_yaml(&serialized)
 }
 
+// Blocking, result-checked writes: the serialized session carries the OAuth
+// refresh token, which the server rotates on every refresh. A fire-and-forget
+// write that fails (or is dropped because the process exits before the queued
+// keyring job runs) leaves a stale refresh token behind, and the next refresh
+// attempt with it permanently invalidates the whole session (invalid_grant).
 fn save_matrix_sdk_secrets_to_secure_store(
     profile_id: &str,
     entries: &[SettingsStringMapEntry],
 ) -> bool {
     let secure_store_key = storage::secure_store_key(profile_id, MATRIX_SDK_SECURE_STORE_KEY_NAME);
     if entries.is_empty() {
-        storage::delete_secure_value(&secure_store_key);
-        return true;
+        return storage::delete_secure_value_blocking(&secure_store_key);
     }
 
-    storage::write_secure_value(&secure_store_key, &encode_string_map_yaml(entries));
-    true
+    storage::write_secure_value_blocking(&secure_store_key, &encode_string_map_yaml(entries))
 }
 
 pub fn load_persisted_matrix_session_secrets(profile_id: &str) -> MatrixPersistedSessionSecrets {

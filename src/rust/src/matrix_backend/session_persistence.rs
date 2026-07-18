@@ -32,13 +32,17 @@ pub fn load_persisted_session_secrets(profile_id: &str) -> MatrixPersistedSessio
     ffi::matrix_load_session_secrets(profile_id)
 }
 
-pub fn save_persisted_session_secrets(profile_id: &str, secrets: &MatrixPersistedSessionSecrets) {
+#[must_use]
+pub fn save_persisted_session_secrets(
+    profile_id: &str,
+    secrets: &MatrixPersistedSessionSecrets,
+) -> bool {
     ffi::matrix_save_session_secrets(
         profile_id,
         &secrets.store_passphrase,
         &secrets.homeserver_url,
         &secrets.serialized_session,
-    );
+    )
 }
 
 pub fn clear_persisted_session_secrets(profile_id: &str) {

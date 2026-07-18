@@ -23,11 +23,11 @@ loadPersistedMatrixSessionSecrets(const QString &profileId)
     };
 }
 
-void
+bool
 savePersistedMatrixSessionSecrets(const QString &profileId,
                                   const PersistedMatrixSessionSecrets &secrets)
 {
-    (void)::komai::rust::settings_save_persisted_matrix_session_secrets_for_profile(
+    return ::komai::rust::settings_save_persisted_matrix_session_secrets_for_profile(
       profileId.toStdString(),
       secrets.storePassphrase.toStdString(),
       secrets.homeserverUrl.toStdString(),

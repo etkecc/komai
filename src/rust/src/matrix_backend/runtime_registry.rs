@@ -40,6 +40,7 @@ pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHan
             handle_id,
             MatrixBackendHandle {
                 client: restored.client,
+                auth_failed: Arc::new(AtomicBool::new(false)),
                 sync_task: None,
                 media_proxy: None,
                 room_list_snapshot: Arc::new(Mutex::new(Vec::new())),

@@ -593,6 +593,12 @@ pub(super) const THREAD_SUBSCRIPTION_CACHE_CAP: usize = 3;
 
 struct MatrixBackendHandle {
     client: Client,
+    /// Set when the session's access token was rejected and could not be
+    /// refreshed (`SessionChange::UnknownToken`). Background workers (the
+    /// preloader, media fetches) consult this to stop issuing network
+    /// requests that can only fail with further 401s while the UI walks the
+    /// user through signing in again.
+    auth_failed: Arc<AtomicBool>,
     sync_task: Option<MatrixBackendSyncTask>,
     media_proxy: Option<media_proxy::MediaProxyInstance>,
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
@@ -789,6 +795,34 @@ pub(super) fn subscribed_rooms_for_handle(
         .get(&handle_id)
         .map(|handle| Arc::clone(&handle.subscribed_rooms))
         .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+pub(super) fn auth_failed_flag_for_handle(handle_id: u64) -> Result<Arc<AtomicBool>, String> {
+    backend_handles()
+        .lock()
+        .expect("poisoned matrix backend handle registry mutex")
+        .get(&handle_id)
+        .map(|handle| Arc::clone(&handle.auth_failed))
+        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} is not active"))
+}
+
+pub(super) fn mark_handle_auth_failed(handle_id: u64) {
+    if let Ok(flag) = auth_failed_flag_for_handle(handle_id) {
+        flag.store(true, Ordering::Relaxed);
+    }
+}
+
+/// Guards network entry points that background/UI retries keep hitting: once
+/// the session is known-dead every request would just produce another
+/// 401 + failed-refresh pair against the homeserver.
+pub(super) fn ensure_handle_auth_usable(handle_id: u64) -> Result<(), String> {
+    let auth_failed = auth_failed_flag_for_handle(handle_id)?.load(Ordering::Relaxed);
+    if auth_failed {
+        return Err(
+            "the session's access token is no longer valid and could not be refreshed".to_owned(),
+        );
+    }
+    Ok(())
 }
 
 fn room_for_handle(handle_id: u64, room_id: &str) -> Result<Room, String> {

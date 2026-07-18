@@ -63,6 +63,7 @@ pub async fn fetch_active_room_timeline_media_content_with_progress(
     handle_id: u64,
     item_id: &str,
 ) -> Result<Vec<u8>, String> {
+    ensure_handle_auth_usable(handle_id)?;
     let client = client_for_handle(handle_id)?;
     let item_id = item_id.trim();
     if item_id.is_empty() {

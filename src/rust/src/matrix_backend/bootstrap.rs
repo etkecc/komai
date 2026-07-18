@@ -264,14 +264,20 @@ fn ensure_store_passphrase_from(
         .map(char::from)
         .collect();
 
-    save_persisted_session_secrets(
+    if !save_persisted_session_secrets(
         profile_id,
         &MatrixPersistedSessionSecrets {
             store_passphrase: store_passphrase.clone(),
             homeserver_url: persisted.homeserver_url,
             serialized_session: persisted.serialized_session,
         },
-    );
+    ) {
+        tracing::error!(
+            profile_id,
+            "Failed to persist the freshly generated matrix-sdk store passphrase; the local \
+             store created with it will not be decryptable on the next launch"
+        );
+    }
 
     store_passphrase
 }
@@ -286,14 +292,23 @@ pub(crate) fn persist_current_session(
         client.session().ok_or_else(|| "matrix-sdk client has no authenticated session to persist".to_owned())?;
     let serialized_session = serialize_auth_session(&session)?;
 
-    save_persisted_session_secrets(
+    if !save_persisted_session_secrets(
         profile_id,
         &MatrixPersistedSessionSecrets {
             store_passphrase: store_passphrase.to_owned(),
             homeserver_url: homeserver_url.to_owned(),
             serialized_session,
         },
-    );
+    ) {
+        // Losing this write after an OAuth token refresh strands a rotated
+        // refresh token: the persisted session keeps the pre-rotation token
+        // and the server rejects it with invalid_grant on the next launch.
+        tracing::error!(
+            profile_id,
+            "Failed to persist the matrix-sdk auth session to the secure store"
+        );
+        return Err("failed to persist the matrix-sdk auth session to the secure store".to_owned());
+    }
 
     Ok(())
 }

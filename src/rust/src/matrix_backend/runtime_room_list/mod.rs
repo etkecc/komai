@@ -11,6 +11,7 @@ pub(super) use std::collections::{HashMap, HashSet};
 pub(super) use super::*;
 pub(super) use super::event_summary::summarize_sync_timeline_event;
 pub(super) use matrix_sdk::{
+    SessionChange,
     deserialized_responses::SyncOrStrippedState,
     event_handler::EventHandlerDropGuard,
     notification_settings::{NotificationSettings, RoomNotificationMode},

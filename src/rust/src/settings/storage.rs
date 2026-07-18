@@ -49,8 +49,20 @@ pub fn write_secure_value(key: &str, value: &str) {
     ffi::settings_write_secure_value(key, value)
 }
 
+/// Waits for the secure-store write to complete and reports whether it
+/// succeeded. Use for secrets that must be durable before the caller can
+/// proceed (e.g. rotated OAuth refresh tokens, where losing the write
+/// invalidates the whole session).
+pub fn write_secure_value_blocking(key: &str, value: &str) -> bool {
+    ffi::settings_write_secure_value_blocking(key, value)
+}
+
 pub fn delete_secure_value(key: &str) {
     ffi::settings_delete_secure_value(key)
+}
+
+pub fn delete_secure_value_blocking(key: &str) -> bool {
+    ffi::settings_delete_secure_value_blocking(key)
 }
 
 pub fn read_text_file(path: &str, label: &str) -> String {

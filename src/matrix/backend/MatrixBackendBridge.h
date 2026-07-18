@@ -45,8 +45,14 @@ settings_read_secure_value(::rust::Str key);
 void
 settings_write_secure_value(::rust::Str key, ::rust::Str value);
 
+bool
+settings_write_secure_value_blocking(::rust::Str key, ::rust::Str value);
+
 void
 settings_delete_secure_value(::rust::Str key);
+
+bool
+settings_delete_secure_value_blocking(::rust::Str key);
 
 ::rust::String
 settings_read_text_file(::rust::Str path, ::rust::Str label);
@@ -67,7 +73,7 @@ settings_delete_all_profile_secrets_from_store(::rust::Str profile_id,
 ::komai::rust::MatrixPersistedSessionSecrets
 matrix_load_session_secrets(::rust::Str profile_id);
 
-void
+bool
 matrix_save_session_secrets(::rust::Str profile_id,
                             ::rust::Str store_passphrase,
                             ::rust::Str homeserver_url,

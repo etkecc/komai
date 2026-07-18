@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026.07.18.0
+
+- 🐛 Fix: OAuth logins no longer lose their session between launches; rotated tokens are now saved durably before sync continues, instead of best-effort in the background ([4768c77c6](https://github.com/etkecc/komai/commit/4768c77c6)).
+- 🐛 Fix: if the server does revoke an OAuth session, Komai signs you out to the login page instead of endlessly retrying against the homeserver ([4768c77c6](https://github.com/etkecc/komai/commit/4768c77c6)).
+- 🐛 Fix: closing a room tab no longer leaves a nearby tab clipped with its close button hidden ([550930918](https://github.com/etkecc/komai/commit/550930918)).
+- 🔧 Build: the Rust toolchain is updated to 1.97.1 ([324ff0b9e](https://github.com/etkecc/komai/commit/324ff0b9e)).
+- 🔧 Build: the FontAwesome icon set is updated to 7.3.1 ([2a3ca862e](https://github.com/etkecc/komai/commit/2a3ca862e), [455e03c39](https://github.com/etkecc/komai/commit/455e03c39)).
 ## 2026.07.15.0
 
 - ✨ Feature: a new **Auto** [theme mode](https://github.com/etkecc/komai/blob/77d271ec9b5e85f36728d043affb40989058237b/docs/user-guide/features/themes.md) follows your desktop's light/dark preference, flipping live within your chosen theme family; new profiles default to it ([58c7299ef](https://github.com/etkecc/komai/commit/58c7299ef), [84b639560](https://github.com/etkecc/komai/commit/84b639560)).

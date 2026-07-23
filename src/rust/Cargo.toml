@@ -24,7 +24,7 @@ tokio-tungstenite = { version = "0.30", default-features = false, features = ["c
 # expects. Pinned to the exact version matrix-sdk uses so the `LanguageTag` type
 # matches across the boundary (no extra crate is built — it is already in the lock).
 language-tags = "0.3.2"
-base64 = "0.22"
+base64 = "0.23"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_yaml_ng = "0"

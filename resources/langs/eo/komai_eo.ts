@@ -7118,7 +7118,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Vi</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Invitita de %1</translation>

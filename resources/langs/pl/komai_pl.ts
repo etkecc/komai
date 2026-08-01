@@ -7125,7 +7125,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <translation>Ty</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Zaproszono przez %1</translation>

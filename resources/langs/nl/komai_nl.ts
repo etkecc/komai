@@ -7116,7 +7116,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Jij</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Uitgenodigd door %1</translation>

@@ -7116,7 +7116,7 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Sina</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Kutsuja: %1</translation>

@@ -7124,7 +7124,7 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Ti</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Poziv od %1</translation>

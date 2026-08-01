@@ -7124,7 +7124,7 @@ Rețineți că nu poate fi dezactivată ulterior.</translation>
         <translation>Tu</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Invitat de %1</translation>

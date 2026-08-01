@@ -7116,7 +7116,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>നിങ്ങൾ</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>%1 ക്ഷണിച്ചു</translation>

@@ -7116,7 +7116,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Vous</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Invité par %1</translation>

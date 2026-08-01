@@ -7124,7 +7124,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Ты</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Приглашение от %1</translation>

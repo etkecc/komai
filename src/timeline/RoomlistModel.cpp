@@ -5,6 +5,7 @@
 
 #include "RoomlistModel.h"
 
+#include <QDateTime>
 #include <QTimer>
 #include <algorithm>
 
@@ -33,6 +34,12 @@ struct MatrixNotificationFetchBatchResult
     QVector<komai::MatrixNotificationItem> items;
     QString error;
 };
+
+// A freshly-typed draft doesn't count toward the attention indicators (window
+// title, tray icon, app badge) until it has sat unsent for this long -- a
+// draft is the user's own in-progress text, not something demanding
+// attention like an incoming message.
+constexpr qint64 kDraftAttentionDelayMs = 60'000;
 
 bool
 matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::MatrixRoomSummary &right)
@@ -114,9 +121,9 @@ RoomlistModel::attentionStateForRow(const QAbstractItemModel *model, const QMode
     if (!model || !idx.isValid())
         return state;
 
-    state.hasUnread    = model->data(idx, RoomlistModel::HasUnreadMessages).toBool();
-    state.hasDraft     = model->data(idx, RoomlistModel::HasDraft).toBool();
-    state.hasHighlight = model->data(idx, RoomlistModel::HasLoudNotification).toBool();
+    state.hasUnread     = model->data(idx, RoomlistModel::HasUnreadMessages).toBool();
+    state.hasStaleDraft = model->data(idx, RoomlistModel::HasStaleDraft).toBool();
+    state.hasHighlight  = model->data(idx, RoomlistModel::HasLoudNotification).toBool();
 
     if (state.hasUnread && !state.hasHighlight) {
         const auto tags     = model->data(idx, RoomlistModel::Tags).toStringList();
@@ -342,6 +349,7 @@ RoomlistModel::roleNames() const
       {UnreadCount, "unreadCount"},
       {HasDraft, "hasDraft"},
       {DraftPreview, "draftPreview"},
+      {HasStaleDraft, "hasStaleDraft"},
       {IsInvite, "isInvite"},
       {IsSpace, "isSpace"},
       {Tags, "tags"},
@@ -394,6 +402,7 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     if (clearAllDrafts) {
         if (const auto settings = UserSettings::instance())
             settings->clearAllComposerDrafts();
+        draftStartedAtMs_.clear();
     }
 }
 
@@ -452,6 +461,7 @@ RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
     if (clearDraftForRoom) {
         if (const auto settings = UserSettings::instance())
             settings->clearComposerDraftForRoom(room_id);
+        draftStartedAtMs_.remove(room_id);
     }
 
     if (pendingCurrentRoomId_ == room_id)
@@ -820,6 +830,19 @@ RoomlistModel::hasDraft(const QString &room_id) const
     return settings && settings->hasComposerDraftForRoom(room_id);
 }
 
+bool
+RoomlistModel::hasStaleDraft(const QString &room_id) const
+{
+    if (!hasDraft(room_id))
+        return false;
+
+    const auto it = draftStartedAtMs_.constFind(room_id);
+    if (it == draftStartedAtMs_.constEnd())
+        return false;
+
+    return QDateTime::currentMSecsSinceEpoch() - it.value() >= kDraftAttentionDelayMs;
+}
+
 QString
 RoomlistModel::draftPreviewText(const QString &room_id) const
 {
@@ -846,10 +869,24 @@ RoomlistModel::persistDraftForRoom(const QString &room_id, const QString &draftT
     if (!settings)
         return;
 
-    if (draftText.trimmed().isEmpty())
+    if (draftText.trimmed().isEmpty()) {
         settings->clearComposerDraftForRoom(room_id);
-    else
+        draftStartedAtMs_.remove(room_id);
+    } else {
         settings->setComposerDraftForRoom(room_id, draftText);
+        if (!draftStartedAtMs_.contains(room_id)) {
+            draftStartedAtMs_.insert(room_id, QDateTime::currentMSecsSinceEpoch());
+            QTimer::singleShot(kDraftAttentionDelayMs, this, [this, room_id]() {
+                if (!hasStaleDraft(room_id))
+                    return;
+
+                const auto staleIdx = roomidToIndex(room_id);
+                if (staleIdx != -1)
+                    emit dataChanged(index(staleIdx), index(staleIdx), {Roles::HasStaleDraft});
+                emitAttentionCount();
+            });
+        }
+    }
 
     const auto idx = roomidToIndex(room_id);
     if (idx == -1)

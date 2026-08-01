@@ -111,6 +111,7 @@ public:
         UnreadCount,
         HasDraft,
         DraftPreview,
+        HasStaleDraft,
         IsInvite,
         IsSpace,
         IsPreview,
@@ -212,17 +213,17 @@ private:
     struct AttentionState
     {
         bool hasUnread     = false;
-        bool hasDraft      = false;
+        bool hasStaleDraft = false;
         bool hasHighlight  = false;
         bool isLowPriority = false;
 
-        bool hasAnyAttention() const { return hasUnread || hasDraft || hasHighlight; }
+        bool hasAnyAttention() const { return hasUnread || hasStaleDraft || hasHighlight; }
         bool countAsActive(bool includeLowPriorityUnread) const
         {
             if (includeLowPriorityUnread)
-                return hasUnread || hasDraft;
+                return hasUnread || hasStaleDraft;
 
-            return isLowPriority ? (hasDraft || hasHighlight) : (hasUnread || hasDraft);
+            return isLowPriority ? (hasStaleDraft || hasHighlight) : (hasUnread || hasStaleDraft);
         }
     };
 
@@ -257,6 +258,7 @@ private:
     void deferCurrentRoomSelection(const QString &roomid);
     QString draftPreviewText(const QString &room_id) const;
     bool hasDraft(const QString &room_id) const;
+    bool hasStaleDraft(const QString &room_id) const;
     void persistDraftForRoom(const QString &room_id, const QString &draftText);
     void fetchPreviews(QString roomid, const std::string &from = "");
     void startMatrixBackendRoomsRefresh(uint64_t handleId);
@@ -281,6 +283,12 @@ private:
     QHash<QString, komai::MatrixRoomSummary> matrixJoinedRooms_;
     std::map<QString, bool> roomReadStatus;
     QHash<QString, std::optional<RoomInfo>> previewedRooms;
+    // Timestamp (epoch ms) of when a room's draft first became non-empty.
+    // Used to delay counting an unsent draft toward the attention indicators
+    // (window title, tray icon, app badge) until it has sat unsent for a
+    // while -- typing a message shouldn't immediately look like a new
+    // incoming message demanding attention.
+    QHash<QString, qint64> draftStartedAtMs_;
 
     std::optional<RoomPreview> currentRoomPreview_;
     quint64 currentRoomVisualStateGeneration_ = 0;

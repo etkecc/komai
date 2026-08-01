@@ -7116,7 +7116,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Vu</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Invitat par %1</translation>

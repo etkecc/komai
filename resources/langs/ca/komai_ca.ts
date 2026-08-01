@@ -7116,7 +7116,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Tu</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Convidat per %1</translation>

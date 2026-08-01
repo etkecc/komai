@@ -7108,7 +7108,7 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Bạn</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Được mời bởi %1</translation>

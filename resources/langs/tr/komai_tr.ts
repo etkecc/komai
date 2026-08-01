@@ -7108,7 +7108,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Siz</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>%1 tarafından davet edildi</translation>

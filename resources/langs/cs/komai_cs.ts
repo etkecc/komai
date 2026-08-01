@@ -7124,7 +7124,7 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Vy</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Pozváno od %1</translation>

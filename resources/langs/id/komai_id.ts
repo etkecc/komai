@@ -7108,7 +7108,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Anda</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Diundang oleh %1</translation>

@@ -146,6 +146,8 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
         return QVariant{hasDraft(room_id)};
     case Roles::DraftPreview:
         return QVariant{draftPreviewText(room_id)};
+    case Roles::HasStaleDraft:
+        return QVariant{hasStaleDraft(room_id)};
     default:
         return std::nullopt;
     }

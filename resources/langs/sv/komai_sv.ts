@@ -7116,7 +7116,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Du</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>Inbjuden av %1</translation>

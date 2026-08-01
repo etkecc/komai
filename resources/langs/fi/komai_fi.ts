@@ -7116,7 +7116,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Sinä</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+111"/>
         <location line="+2"/>
         <source>Invited by %1</source>
         <translation>%1 kutsui</translation>

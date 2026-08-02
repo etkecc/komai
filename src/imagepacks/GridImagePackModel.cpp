@@ -315,6 +315,21 @@ GridImagePackModel::rebuildCustomPacks(const QVector<komai::MatrixImagePack> &ru
 
     if (!stickers_) {
         const auto &allEmoji = emoji::Provider::emoji();
+        // Same skin-tone/gender preference applied to the inline composer
+        // completer (Settings -> Composer -> Emoji): without it, every
+        // skin-tone variant of every emoji (e.g. 6 separate thumbs-up
+        // entries) would clutter this grid too. No keyword override here --
+        // this is the plain browse/search-source list, not a live search.
+        // With no explicit skin-tone preference, default to the plain emoji
+        // rather than showing every variant.
+        const auto preferredSkinToneClass = emoji::Provider::preferredSkinToneClass();
+        const emoji::Provider::Query preferenceQuery{
+          .keyword                 = {},
+          .preferredSkinToneClass  = preferredSkinToneClass,
+          .preferredGender         = emoji::Provider::preferredGender(),
+          .includeSkinToneVariants = !preferredSkinToneClass.isEmpty(),
+          .applyKeywordMatch       = false,
+        };
         for (const auto &category : {
                emoji::Emoji::Category::People,
                emoji::Emoji::Category::Nature,
@@ -331,6 +346,8 @@ GridImagePackModel::rebuildCustomPacks(const QVector<komai::MatrixImagePack> &ru
             for (std::size_t i = 0; i < allEmoji.size(); ++i) {
                 const auto &e = allEmoji[i];
                 if (e.category != category)
+                    continue;
+                if (!emoji::Provider::matchesQuery(i, preferenceQuery))
                     continue;
                 newPack.emojis.push_back(TextEmoji{.unicode     = e.unicode(),
                                                    .unicodeName = e.unicodeName(),

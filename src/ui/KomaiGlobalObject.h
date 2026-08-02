@@ -142,6 +142,14 @@ public:
     //! once the user has typed a complete emoticon that auto-conversion will
     //! turn into an emoji on send.
     Q_INVOKABLE static bool isEmoticonShortcut(const QString &text);
+    //! If `token` begins with a known text emoticon shortcut (case-
+    //! insensitive), returns `token` with that leading shortcut replaced by
+    //! its emoji, preserving any trailing characters (e.g. `:)?` -> `🙂?`).
+    //! Returns an empty string if no shortcut prefixes `token`, or if the
+    //! character right after the shortcut is a letter/digit (so `:Dog` is
+    //! left alone). Used by the composer to live-convert a shortcut to its
+    //! emoji right after the user types the space that completes it.
+    Q_INVOKABLE static QString emoticonReplacementFor(const QString &token);
     //! Walk grapheme cluster boundaries in `text`. Used by the composer so
     //! Backspace/Delete remove a whole cluster (e.g. base + VS16, ZWJ
     //! sequence, or skin-tone modifier) rather than a single UTF-16 code unit.

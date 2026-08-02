@@ -1116,6 +1116,15 @@ Rectangle {
                 // token so it's no longer an emoticon (`:D` → `:Dog`), we
                 // reopen the picker at this position.
                 property int emoticonSuppressedTriggerAt: -1
+                // Position of the `:` whose emoji picker we explicitly closed
+                // because the user pressed Space (Keys.onPressed, before the
+                // space is inserted) while it was open, win or lose (`:thin`
+                // or `:thin` with zero results alike). Kept separate from
+                // emoticonSuppressedTriggerAt: that one resets as soon as its
+                // tracked token contains any whitespace, which would discard
+                // this immediately -- here the whitespace IS the closing
+                // trigger, so backspacing it back out must still reopen.
+                property int emojiSpaceClosedAt: -1
                 readonly property int horizontalTextPadding: inputBar.showAllButtons ? Komai.paddingSmall : 8
                 property string lastChar
                 property string placeholderLabelText: qsTr("Write a message, or press ↑ to select messages.")
@@ -1149,6 +1158,23 @@ Rectangle {
                         return false;
                     }
                 }
+                function looksLikeAbandonedEmojiSearch(query) {
+                    // True once a character other than a letter/digit or
+                    // whitespace follows the `:` trigger (e.g. `:)?`, `:D!`)
+                    // -- the user has moved on to punctuation in their
+                    // sentence, not continuing an emoji-name search, so
+                    // showing the picker would just flash empty results.
+                    // Whitespace is deliberately excluded: a trailing space
+                    // just ends the search with no matches (normal, and
+                    // already handled by the empty-results state) -- it must
+                    // NOT engage this same suppress/remember-to-reopen
+                    // tracking, which is for punctuation specifically and
+                    // doesn't reliably recover on backspace for a plain
+                    // space (e.g. `:thin` + space then backspace must still
+                    // show the picker again for `:thin`). An empty query
+                    // (just typed `:`) is not considered abandoned yet.
+                    return query.length > 0 && /[^A-Za-z0-9\s]$/.test(query);
+                }
                 function refreshCompleterSearchString() {
                     // Gate on completerType (set synchronously by openCompleter)
                     // rather than popup.opened. The popup's 100ms enter
@@ -1166,14 +1192,18 @@ Rectangle {
                     }
 
                     // Once the typed token is itself a complete emoticon
-                    // shortcut (e.g. `:)` or `:D`), the picker's lookup for
-                    // that string is noise — auto-conversion will turn it
-                    // into an emoji on send anyway. Remember the trigger so
-                    // we can reopen if the user extends the token past the
-                    // shortcut (`:D` → `:Dog`).
+                    // shortcut (e.g. `:)` or `:D`), or once it's been
+                    // extended with punctuation instead of more letters
+                    // (`:)?`, `:D!`), the picker's lookup for that string is
+                    // noise — auto-conversion will turn a real shortcut into
+                    // an emoji on send anyway, and punctuation isn't a name
+                    // search. Remember the trigger so we can reopen if the
+                    // user extends the token with more letters instead
+                    // (`:D` → `:Dog`).
                     if (completer.completerType === "emoji"
                             && Settings.composerInputAutoReplaceEmoji !== Settings.AutoReplaceEmoji.Never
-                            && Komai.isEmoticonShortcut(searchString)) {
+                            && (Komai.isEmoticonShortcut(searchString)
+                                || messageInput.looksLikeAbandonedEmojiSearch(searchString.slice(1)))) {
                         emoticonSuppressedTriggerAt = completerTriggeredAt;
                         completer.completerType = "";
                         popup.close();
@@ -1200,6 +1230,26 @@ Rectangle {
                     }
                     if (Komai.isEmoticonShortcut(token))
                         return; // still a shortcut — keep the picker dismissed
+                    if (messageInput.looksLikeAbandonedEmojiSearch(token.slice(1)))
+                        return; // extended with punctuation, not more letters — stay dismissed
+                    messageInput.openCompleter(trigger, "emoji");
+                }
+                function maybeReopenAfterSpaceClose() {
+                    if (completer.completerType !== "" || emojiSpaceClosedAt < 0)
+                        return;
+                    const trigger = emojiSpaceClosedAt;
+                    if (cursorPosition <= trigger || cursorPosition > text.length) {
+                        emojiSpaceClosedAt = -1;
+                        return;
+                    }
+                    const token = text.substring(trigger, cursorPosition) + messageInput.preeditText;
+                    if (token.length === 0) {
+                        emojiSpaceClosedAt = -1;
+                        return;
+                    }
+                    if (/\s/.test(token))
+                        return; // the space (or more) is still there — wait for it to be removed, keep tracking
+                    emojiSpaceClosedAt = -1;
                     messageInput.openCompleter(trigger, "emoji");
                 }
                 function insertCompletion(completion, activeType, activeUserid) {
@@ -1419,6 +1469,16 @@ Rectangle {
                             popup.close();
                         if (popup.opened && completer.count <= 0)
                             popup.close();
+                        // A space always ends an emoji-name search, matched
+                        // results or not (unlike other completer types,
+                        // which stay open here) -- remember the trigger so
+                        // backspacing the space back out reopens it right
+                        // where it was, via maybeReopenAfterSpaceClose().
+                        if (popup.opened && completer.completerType === "emoji") {
+                            emojiSpaceClosedAt = completerTriggeredAt;
+                            completer.completerType = "";
+                            popup.close();
+                        }
                         // Long-press Space → voice transcription. Initial
                         // keydown arms the gesture and captures the cursor
                         // position so we can pull the space back if the
@@ -1713,6 +1773,41 @@ Rectangle {
                 }
                 onTextChanged: {
                     const insertedLength = text.length - previousTextLength;
+                    // Live emoticon replacement: convert a completed shortcut
+                    // (e.g. `:)`, `:D`) to its emoji the moment the user types
+                    // the space that follows it -- so what's shown is what
+                    // will be sent, instead of only converting at send time.
+                    // Gated to exactly one typed space character (not paste,
+                    // not IME composition) so it never fires mid-word or on
+                    // bulk-inserted text; pasted shortcuts still convert at
+                    // send time via the existing replaceEmoticons() fallback.
+                    if (insertedLength === 1 && cursorPosition > 0
+                            && !messageInput.inputMethodComposing
+                            && Settings.composerInputAutoReplaceEmoji !== Settings.AutoReplaceEmoji.Never
+                            && text.charAt(cursorPosition - 1) === " ") {
+                        const spacePos = cursorPosition - 1;
+                        let tokenStart = spacePos;
+                        while (tokenStart > 0 && !/\s/.test(text.charAt(tokenStart - 1)))
+                            tokenStart--;
+                        const token = text.substring(tokenStart, spacePos);
+                        if (token.length > 0) {
+                            const replacement = Komai.emoticonReplacementFor(token);
+                            if (replacement.length > 0) {
+                                messageInput.remove(tokenStart, spacePos);
+                                messageInput.insert(tokenStart, replacement);
+                                messageInput.cursorPosition = tokenStart + replacement.length + 1;
+                                // The token just consumed may have reopened the
+                                // emoji picker along the way (e.g. typing the
+                                // "?" in ":)?" no longer matches an exact
+                                // shortcut, so maybeReopenAfterEmoticonSuppression()
+                                // reopens it) -- now that we've converted it,
+                                // any picker tracking that span is stale.
+                                completer.completerType = "";
+                                popup.close();
+                                emoticonSuppressedTriggerAt = -1;
+                            }
+                        }
+                    }
                     if (inputBar.inputController)
                         inputBar.inputController.updateState(selectionStart, selectionEnd, cursorPosition, text);
                     // A bulk insertion (paste, drag-drop) can carry matrix links
@@ -1743,6 +1838,7 @@ Rectangle {
                         messageInput.maybeOpenCompleterForTrailingTokenAfterBulkInsert();
                     } else {
                         messageInput.maybeReopenAfterEmoticonSuppression();
+                        messageInput.maybeReopenAfterSpaceClose();
                     }
                     previousTextLength = text.length;
                     inputBar._draftText = text;
@@ -1961,6 +2057,11 @@ Rectangle {
                     contentItem: Completer {
                         id: completer
 
+                        // The emoji picker's best match should read top-down
+                        // like a normal dropdown, not bottom-anchored -- the
+                        // other completer types (mentions, rooms, commands)
+                        // keep the default bottomToTop behavior, unchanged.
+                        bottomToTop: completerType !== "emoji"
                         commandValidationMessage: inputBar.inputController ? inputBar.inputController.commandValidationMessage : ""
                         commandValidationState: inputBar.inputController ? inputBar.inputController.commandValidationState : "none"
                         rowMargin: 2

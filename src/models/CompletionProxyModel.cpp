@@ -46,20 +46,18 @@ effectiveMaxEditDistance(const QVector<uint> &key, std::size_t configured)
 emoji::Provider::Query
 providerQueryFromPreferences(const QString &keyword)
 {
+    const auto preferredSkinToneClass = emoji::Provider::preferredSkinToneClass();
     emoji::Provider::Query query{
-      .keyword                 = keyword,
-      .preferredSkinToneClass  = emoji::Provider::preferredSkinToneClass(),
-      .preferredGender         = emoji::Provider::preferredGender(),
-      .includeSkinToneVariants = true,
+      .keyword                = keyword,
+      .preferredSkinToneClass = preferredSkinToneClass,
+      .preferredGender        = emoji::Provider::preferredGender(),
+      // With no explicit skin-tone preference, default to the plain emoji
+      // rather than showing every skin-tone variant (e.g. all 6 thumbs-up)
+      // -- only an explicit preference should bring the other variants in.
+      .includeSkinToneVariants = !preferredSkinToneClass.isEmpty(),
       .applyKeywordMatch       = false,
     };
     return query;
-}
-
-bool
-hasActiveEmojiPreference(const emoji::Provider::Query &query)
-{
-    return !query.preferredGender.isEmpty() || !query.preferredSkinToneClass.isEmpty();
 }
 
 bool
@@ -85,9 +83,9 @@ filterRowsByEmojiPreferences(QAbstractItemModel *source,
                              std::vector<int> &rows,
                              const emoji::Provider::Query &query)
 {
-    if (!hasActiveEmojiPreference(query))
-        return;
-
+    // Always runs now: even with no explicit preference, matchesQuery()
+    // still hides non-base skin-tone variants by default (see
+    // providerQueryFromPreferences).
     rows.erase(std::remove_if(rows.begin(),
                               rows.end(),
                               [source, &query](int sourceRow) {
@@ -95,6 +93,56 @@ filterRowsByEmojiPreferences(QAbstractItemModel *source,
                                     source, sourceRow, query);
                               }),
                rows.end());
+}
+
+// The trie's traversal order has no notion of relevance -- it's whatever
+// order character-map iteration happens to visit matching subtrees in, so
+// results matched only through a keyword (SearchRole3) can end up ahead of
+// a match on the emoji's own shortcode (SearchRole, the `:thinking:` name
+// the user actually sees). Re-sort the survivors so an exact/prefix match
+// on the shortcode itself always ranks first, shortest shortcode first
+// within that (closer to the typed query), and anything that only matched
+// through a secondary/tertiary field sinks to the bottom.
+void
+sortRowsByEmojiRelevance(QAbstractItemModel *source,
+                         std::vector<int> &rows,
+                         const QString &foldedQuery)
+{
+    if (foldedQuery.isEmpty() || rows.size() < 2)
+        return;
+
+    struct Scored
+    {
+        int row;
+        int rank; // 0 = exact shortcode match, 1 = shortcode prefix match, 2 = other
+        int shortCodeLength;
+    };
+
+    std::vector<Scored> scored;
+    scored.reserve(rows.size());
+    for (int row : rows) {
+        const auto shortCode = source->data(source->index(row, 0), CompletionModel::SearchRole)
+                                 .toString()
+                                 .normalized(QString::NormalizationForm_KD)
+                                 .toCaseFolded();
+
+        int rank = 2;
+        if (shortCode == foldedQuery)
+            rank = 0;
+        else if (shortCode.startsWith(foldedQuery))
+            rank = 1;
+
+        scored.push_back({row, rank, static_cast<int>(shortCode.length())});
+    }
+
+    std::stable_sort(scored.begin(), scored.end(), [](const Scored &a, const Scored &b) {
+        if (a.rank != b.rank)
+            return a.rank < b.rank;
+        return a.shortCodeLength < b.shortCodeLength;
+    });
+
+    for (std::size_t i = 0; i < rows.size(); ++i)
+        rows[i] = scored[i].row;
 }
 } // namespace
 
@@ -223,6 +271,7 @@ CompletionProxyModel::invalidate()
         if (hasEmojiProviderIndexRole_ && !mapping.empty()) {
             auto query = providerQueryFromPreferences(searchString_);
             filterRowsByEmojiPreferences(sourceModel(), mapping, query);
+            sortRowsByEmojiRelevance(sourceModel(), mapping, searchString_);
         }
 
         if (mapping.size() > max_completions_)

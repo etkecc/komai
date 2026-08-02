@@ -936,7 +936,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Lihat Pengaturan Ruangan -&gt; Pengaturan Stiker &amp; Emote.</translation>
     </message>
     <message>
-        <location line="+178"/>
+        <location line="+187"/>
         <source>Notify the whole room</source>
         <translation>Beri tahu seluruh ruangan</translation>
     </message>
@@ -2667,7 +2667,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Nama profil diperlukan.</translation>
@@ -3744,17 +3744,17 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1130"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Tulis pesan, atau tekan ↑ untuk memilih pesan.</translation>
     </message>
     <message>
-        <location line="+238"/>
+        <location line="+279"/>
         <source>Message</source>
         <translation>Pesan</translation>
     </message>
     <message>
-        <location line="+711"/>
+        <location line="+762"/>
         <source>Stickers</source>
         <translation>Stiker</translation>
     </message>

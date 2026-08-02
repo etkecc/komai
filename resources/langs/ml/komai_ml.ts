@@ -937,7 +937,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>മുറി ക്രമീകരണങ്ങൾ -&gt; സ്റ്റിക്കർ &amp; ഇമോട്ട് ക്രമീകരണങ്ങൾ കാണുക.</translation>
     </message>
     <message>
-        <location line="+178"/>
+        <location line="+187"/>
         <source>Notify the whole room</source>
         <translation>മുഴുവൻ മുറിയെയും അറിയിക്കുക</translation>
     </message>
@@ -2670,7 +2670,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
@@ -3748,17 +3748,17 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1130"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>ഒരു സന്ദേശം എഴുതുക, അല്ലെങ്കിൽ സന്ദേശങ്ങൾ തിരഞ്ഞെടുക്കാൻ ↑ അമർത്തുക.</translation>
     </message>
     <message>
-        <location line="+238"/>
+        <location line="+279"/>
         <source>Message</source>
         <translation>സന്ദേശം</translation>
     </message>
     <message>
-        <location line="+711"/>
+        <location line="+762"/>
         <source>Stickers</source>
         <translation>സ്റ്റിക്കറുകൾ</translation>
     </message>

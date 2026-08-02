@@ -92,17 +92,43 @@ replaceEmoticons(const QString &input, UserSettings::AutoReplaceEmoji mode)
     return result;
 }
 
-bool
-isEmoticonShortcut(const QString &input)
+QString
+emoticonForShortcut(const QString &input)
 {
     if (input.isEmpty())
-        return false;
+        return {};
 
     for (const auto &e : kTable) {
         if (input.compare(QLatin1String(e.pattern), Qt::CaseInsensitive) == 0)
-            return true;
+            return QString::fromUtf8(e.emoji);
     }
-    return false;
+    return {};
+}
+
+QString
+replaceLeadingEmoticon(const QString &input)
+{
+    if (input.isEmpty())
+        return {};
+
+    for (const auto &e : kTable) {
+        const QString pat = QString::fromUtf8(e.pattern);
+        if (!input.startsWith(pat, Qt::CaseInsensitive))
+            continue;
+
+        const QString remainder = input.mid(pat.length());
+        if (!remainder.isEmpty() && remainder.at(0).isLetterOrNumber())
+            continue; // e.g. ":Dog" -- part of a longer word, not a standalone shortcut
+
+        return QString::fromUtf8(e.emoji) + remainder;
+    }
+    return {};
+}
+
+bool
+isEmoticonShortcut(const QString &input)
+{
+    return !emoticonForShortcut(input).isEmpty();
 }
 
 } // namespace emoji

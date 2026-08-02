@@ -938,7 +938,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Перейди в Настройки комнаты → Настройки стикеров и эмодзи.</translation>
     </message>
     <message>
-        <location line="+178"/>
+        <location line="+187"/>
         <source>Notify the whole room</source>
         <translation>Уведомить всю комнату</translation>
     </message>
@@ -2673,7 +2673,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Требуется имя профиля.</translation>
@@ -3752,17 +3752,17 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1130"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Напиши сообщение или нажми ↑, чтобы выбрать сообщения.</translation>
     </message>
     <message>
-        <location line="+238"/>
+        <location line="+279"/>
         <source>Message</source>
         <translation>Сообщение</translation>
     </message>
     <message>
-        <location line="+711"/>
+        <location line="+762"/>
         <source>Stickers</source>
         <translation>Стикеры</translation>
     </message>

@@ -442,6 +442,12 @@ Komai::isEmoticonShortcut(const QString &text)
     return emoji::isEmoticonShortcut(text);
 }
 
+QString
+Komai::emoticonReplacementFor(const QString &token)
+{
+    return emoji::replaceLeadingEmoticon(token);
+}
+
 int
 Komai::previousGraphemeBoundary(const QString &text, int position)
 {

@@ -938,7 +938,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Accesează Setările camerei -&gt; Setări stickere și emote-uri.</translation>
     </message>
     <message>
-        <location line="+178"/>
+        <location line="+187"/>
         <source>Notify the whole room</source>
         <translation>Notifică întreaga cameră</translation>
     </message>
@@ -2673,7 +2673,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Numele profilului este obligatoriu.</translation>
@@ -3752,17 +3752,17 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1130"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Scrie un mesaj sau apasă ↑ pentru a selecta mesaje.</translation>
     </message>
     <message>
-        <location line="+238"/>
+        <location line="+279"/>
         <source>Message</source>
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+711"/>
+        <location line="+762"/>
         <source>Stickers</source>
         <translation>Stickere</translation>
     </message>

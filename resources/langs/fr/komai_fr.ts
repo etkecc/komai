@@ -937,7 +937,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Voir Paramètres du salon -&gt; Paramètres des autocollants et émoticônes.</translation>
     </message>
     <message>
-        <location line="+178"/>
+        <location line="+187"/>
         <source>Notify the whole room</source>
         <translation>Notifier tout le salon</translation>
     </message>
@@ -2670,7 +2670,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+666"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Le nom du profil est obligatoire.</translation>
@@ -3748,17 +3748,17 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MessageInput</name>
     <message>
-        <location filename="../../qml/composer/MessageInput.qml" line="+1121"/>
+        <location filename="../../qml/composer/MessageInput.qml" line="+1130"/>
         <source>Write a message, or press ↑ to select messages.</source>
         <translation>Écrivez un message, ou appuyez sur ↑ pour sélectionner des messages.</translation>
     </message>
     <message>
-        <location line="+238"/>
+        <location line="+279"/>
         <source>Message</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location line="+711"/>
+        <location line="+762"/>
         <source>Stickers</source>
         <translation>Autocollants</translation>
     </message>

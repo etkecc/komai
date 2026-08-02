@@ -1496,6 +1496,29 @@ if(BUILD_TESTING)
     add_test(NAME komai_emoji_normalization_test COMMAND komai_emoji_normalization_test)
     komai_configure_test(komai_emoji_normalization_test "unit;emoji")
 
+    add_executable(komai_emoticon_replace_test
+        tests/EmoticonReplaceTest.cpp
+        src/emoji/EmoticonReplace.cpp
+    )
+    target_include_directories(komai_emoticon_replace_test PRIVATE src)
+    # EmoticonReplace.h pulls in UserSettingsPage.h (for the AutoReplaceEmoji
+    # enum used by the existing replaceEmoticons()), which needs the
+    # generated cxxbridge headers to resolve at compile time. Nothing in
+    # this test calls into Rust FFI, so only the include path is borrowed
+    # from the cxxbridge target -- it is not linked.
+    target_include_directories(komai_emoticon_replace_test PRIVATE
+        $<TARGET_PROPERTY:komai-rust-cxxbridge,INTERFACE_INCLUDE_DIRECTORIES>
+    )
+    target_link_libraries(komai_emoticon_replace_test PRIVATE
+        Qt::Core
+        Qt::Qml
+    )
+    # Not linked (see above), but the generated headers must still exist
+    # before this target compiles.
+    add_dependencies(komai_emoticon_replace_test komai-rust-cxxbridge)
+    add_test(NAME komai_emoticon_replace_test COMMAND komai_emoticon_replace_test)
+    komai_configure_test(komai_emoticon_replace_test "unit;emoji")
+
     add_executable(komai_navigation_history_test
         tests/NavigationHistoryTest.cpp
         tests/LoggingStub.cpp
@@ -1551,6 +1574,7 @@ if(BUILD_TESTING)
         komai_bot_detection_test
         komai_emoji_completion_search_test
         komai_emoji_normalization_test
+        komai_emoticon_replace_test
         komai_navigation_history_test
         komai_slash_commands_test
         komai_layout_agnostic_keys_test

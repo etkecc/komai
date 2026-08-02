@@ -363,6 +363,15 @@ Control {
                 if (!moving)
                     syncHoverIndex();
             }
+            onCountChanged: {
+                // Preselect the top emoji match so Enter inserts it right
+                // away, without an extra arrow-key press first. Scoped to
+                // "emoji" -- the mention/room/command pickers intentionally
+                // require an explicit selection so a partially typed name
+                // doesn't autocomplete to the wrong person/room/command.
+                if (popup.completerType === "emoji")
+                    popup.currentIndex = count > 0 ? 0 : -1;
+            }
 
             ScrollBar.vertical: ScrollBar {
                 id: scrollBar

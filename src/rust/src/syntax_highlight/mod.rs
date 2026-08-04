@@ -9,7 +9,6 @@
 
 use std::sync::LazyLock;
 
-use syntect::highlighting::ThemeSet;
 use syntect::html::highlighted_html_for_string;
 use syntect::parsing::{SyntaxReference, SyntaxSet};
 
@@ -31,7 +30,6 @@ const MAX_LANGUAGE_TOKEN_CHARS: usize = 64;
 // ---------------------------------------------------------------------------
 
 static SYNTAX_SET: LazyLock<SyntaxSet> = LazyLock::new(SyntaxSet::load_defaults_newlines);
-static THEME_SET: LazyLock<ThemeSet> = LazyLock::new(ThemeSet::load_defaults);
 
 // ---------------------------------------------------------------------------
 // Public entry point (called from C++ via CXX)
@@ -39,19 +37,16 @@ static THEME_SET: LazyLock<ThemeSet> = LazyLock::new(ThemeSet::load_defaults);
 
 /// Process an HTML fragment, highlighting every eligible `<pre><code>` block.
 ///
-/// * `is_dark_theme` – whether the current UI palette is dark (controls theme
-///   selection).
-pub(crate) fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -> String {
+/// * `code_background` – the `#rrggbb` color the rendered code block sits on.
+///   Token colors are picked to stay legible against it, so callers must pass
+///   the surface they will actually paint.
+pub(crate) fn highlight_formatted_code_blocks(html: &str, code_background: &str) -> String {
     if html.is_empty() || html.len() > MAX_HTML_CHARS {
         return html.to_owned();
     }
 
-    let theme_name = if is_dark_theme {
-        "base16-ocean.dark"
-    } else {
-        "base16-ocean.light"
-    };
-    let theme = &THEME_SET.themes[theme_name];
+    let theme = palette::theme_for_background(palette::parse_background(code_background));
+    let theme = &theme;
     let ss = &*SYNTAX_SET;
 
     let mut out = String::with_capacity(html.len());
@@ -206,12 +201,12 @@ pub(crate) fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -
 }
 
 /// Convenience wrapper: highlight raw JSON for the "View source" dialog.
-pub(crate) fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String {
+pub(crate) fn highlight_raw_json(raw_json: &str, code_background: &str) -> String {
     let escaped = html_escape(raw_json);
     let wrapped = format!(
         "<pre><code class=\"language-json\">{escaped}</code></pre>"
     );
-    highlight_formatted_code_blocks(&wrapped, is_dark_theme)
+    highlight_formatted_code_blocks(&wrapped, code_background)
 }
 
 // ---------------------------------------------------------------------------
@@ -220,6 +215,7 @@ pub(crate) fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String 
 
 
 mod language;
+mod palette;
 mod parser;
 
 use language::{detect_syntax_from_content, extract_language_token, resolve_syntax};

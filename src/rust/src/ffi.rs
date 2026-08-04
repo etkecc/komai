@@ -46,7 +46,7 @@ pub(crate) fn format_body_html(
     formatted_body: &str,
     pill_avatars: &Vec<HtmlPillAvatar>,
     pill_avatar_size: u32,
-    is_dark_theme: bool,
+    code_background: &str,
     syntax_highlight: bool,
 ) -> String {
     crate::html_processor::format_body_html(
@@ -54,7 +54,7 @@ pub(crate) fn format_body_html(
         formatted_body,
         pill_avatars,
         pill_avatar_size,
-        is_dark_theme,
+        code_background,
         syntax_highlight,
     )
 }
@@ -1718,8 +1718,8 @@ mod bridge {
             dst_h: u32,
         ) -> Vec<u8>;
 
-        fn highlight_formatted_code_blocks(html: &str, is_dark_theme: bool) -> String;
-        fn highlight_raw_json(raw_json: &str, is_dark_theme: bool) -> String;
+        fn highlight_formatted_code_blocks(html: &str, code_background: &str) -> String;
+        fn highlight_raw_json(raw_json: &str, code_background: &str) -> String;
 
         // ----- Spell checking (crate::spellcheck) -----------------------
         fn spellcheck_register_builtin_dictionary(code: &str, aff: &str, dic: &str);
@@ -1771,7 +1771,7 @@ mod bridge {
             formatted_body: &str,
             pill_avatars: &Vec<HtmlPillAvatar>,
             pill_avatar_size: u32,
-            is_dark_theme: bool,
+            code_background: &str,
             syntax_highlight: bool,
         ) -> String;
 

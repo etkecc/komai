@@ -51,7 +51,7 @@ src/rust/
     ├── logging.rs          # Tracing/logging bridge
     ├── matrix_backend/     # matrix-sdk runtime, room list, timeline, auth
     ├── settings/           # config/state/session/secrets codecs
-    ├── syntax_highlight.rs # syntect-based code highlighting
+    ├── syntax_highlight/    # syntect-based code highlighting + contrast-aware palettes
     └── theme/              # built-in theme embedding
 
 src/matrix/

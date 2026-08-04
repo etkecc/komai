@@ -148,10 +148,20 @@ Since the two shipped optimizations (conditional text run collection and hover d
 ## Code Highlighting: What Uses Which Library
 
 - All syntax highlighting logic lives in Rust:
-  - `src/rust/src/syntax_highlight.rs`
+  - `src/rust/src/syntax_highlight/`
 - HTML parsing, language detection, and highlighting are powered by [syntect](https://github.com/trishume/syntect) (Sublime Text syntax definitions, pure Rust).
 - The C++ side calls `komai::rust::highlight_formatted_code_blocks()` via CXX bridge.
 - Raw JSON formatting for dialogs goes through `komai::rust::highlight_raw_json()`, with a thin C++ wrapper in `src/timeline/formattedcode/RawJsonFormatter.cpp`.
+
+## Code Colors and the Code Background
+
+Token colors are baked into the message HTML as inline styles, so they are chosen when the HTML is generated rather than when it is painted. Both entry points therefore take the `#rrggbb` surface the code block will sit on.
+
+- `timeline::litehtml::codeBackgroundColor()` is the single answer to "what do `code` and `pre` sit on". The stylesheet paints it, and the HTML producers pass it to Rust; they have to agree or the colors are picked against the wrong surface.
+- That surface is the theme's own alternate-base, not the message's. In bubble layout the message palette's alternate-base carries the sender's bubble tint, which would otherwise vary the code background per speaker.
+- `syntax_highlight/palette.rs` builds a syntect theme per background: a curated palette is picked for the background's polarity, then each color's lightness is pushed until it clears `MIN_CONTRAST_RATIO` (4.5:1, WCAG AA) against that background. Hue and saturation are preserved, so token kinds stay distinguishable. Themes are cached per background.
+- syntect's bundled themes are not used. They are authored against one fixed background, and `base16-ocean.light` in particular reuses the dark variant's pastel accents, which land near 1.2:1 on light themes.
+- Because the colors are baked in, `MatrixTimelineModel` regenerates message HTML when the theme or the syntax-highlighting setting changes; otherwise loaded messages keep the previous theme's colors.
 
 ## Language Resolution Behavior
 
@@ -170,7 +180,7 @@ For `<pre><code>...</code></pre>` blocks:
 
 ## Safety and Performance Guardrails
 
-Current guardrails in `syntax_highlight.rs` include:
+Current guardrails in `syntax_highlight/mod.rs` include:
 
 - Total HTML size cap.
 - Parsed-tag count cap.

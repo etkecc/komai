@@ -39,7 +39,7 @@ pub(crate) fn format_body_html(
     formatted_body: &str,
     pill_avatars: &[HtmlPillAvatar],
     pill_avatar_size: u32,
-    is_dark_theme: bool,
+    code_background: &str,
     syntax_highlight: bool,
 ) -> String {
     if body.is_empty() && formatted_body.is_empty() {
@@ -50,7 +50,7 @@ pub(crate) fn format_body_html(
         let html = sanitize_html(formatted_body);
 
         let html = if syntax_highlight {
-            crate::syntax_highlight::highlight_formatted_code_blocks(&html, is_dark_theme)
+            crate::syntax_highlight::highlight_formatted_code_blocks(&html, code_background)
         } else {
             html
         };

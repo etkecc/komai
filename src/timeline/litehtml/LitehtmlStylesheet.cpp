@@ -7,6 +7,12 @@
 namespace timeline::litehtml {
 
 QString
+codeBackgroundColor(const QPalette &palette)
+{
+    return palette.color(QPalette::AlternateBase).name();
+}
+
+QString
 generateMasterStylesheet(const QPalette &palette,
                          const QFont &font,
                          bool compact,

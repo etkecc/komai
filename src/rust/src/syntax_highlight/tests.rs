@@ -4,11 +4,29 @@
 
 use super::*;
 
+/// A dark code surface (Catppuccin Mocha's alternate base), standing in for the
+/// palette the timeline passes at runtime.
+const DARK_BG: &str = "#313244";
+
+/// Collect the `#rrggbb` values from every `style="color:…"` the highlighter
+/// emitted, so a test can check them against the background they'll sit on.
+fn inline_colors(html: &str) -> Vec<syntect::highlighting::Color> {
+    let mut colors = Vec::new();
+    let mut rest = html;
+    while let Some(offset) = rest.find("color:#") {
+        rest = &rest[offset + "color:#".len()..];
+        if rest.len() >= 6 {
+            colors.push(palette::parse_background(&rest[..6]));
+        }
+    }
+    colors
+}
+
 #[test]
 fn highlights_recognized_language() {
     let input = r#"<pre><code class="language-diff">+ line
 - line</code></pre>"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert!(
         output.contains("<span style=\""),
         "expected highlighted spans in output: {output}"
@@ -28,7 +46,7 @@ fn no_nested_pre_after_highlighting() {
     // one) because `strip_syntect_wrapper` looked for an inner `<code>`
     // tag that syntect never emits.
     let input = "<pre><code class=\"language-yaml\">a\nb\n</code></pre>";
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     let pre_opens = output.matches("<pre").count();
     let pre_closes = output.matches("</pre>").count();
     assert_eq!(
@@ -60,7 +78,7 @@ fn strip_syntect_wrapper_returns_original_when_no_pre() {
 #[test]
 fn unknown_language_leaves_block_unchanged() {
     let input = r#"<pre><code class="language-komai-unknown">hello()</code></pre>"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert_eq!(output, input);
 }
 
@@ -71,7 +89,7 @@ fn disabled_returns_original_html() {
     // the setting.  For the Rust function, absence of the call *is* the
     // disabled path.  Still, verify passthrough for oversized input.
     let large = "x".repeat(MAX_HTML_CHARS + 1);
-    let output = highlight_formatted_code_blocks(&large, true);
+    let output = highlight_formatted_code_blocks(&large, DARK_BG);
     assert_eq!(output, large);
 }
 
@@ -80,7 +98,7 @@ fn parses_language_class_case_insensitively() {
     let input = r#"<pre><code CLASS='LANGUAGE-PHP'>&lt;?php
 echo "Hello, world!";
 </code></pre>"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert!(output.contains("<span style=\""));
 }
 
@@ -89,7 +107,7 @@ fn auto_detects_php() {
     let input = r#"<pre><code>&lt;?php
 echo "Hello, world!";
 </code></pre>"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert!(
         output.contains("<span style=\""),
         "should auto-detect PHP from content"
@@ -100,7 +118,7 @@ echo "Hello, world!";
 fn allows_whitespace_between_pre_and_code() {
     let input =
         "<pre>\n  <code class=\"language-json\">{\"hello\": \"world\"}</code>\n</pre>";
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert!(
         output.contains("<span style=\""),
         "whitespace between pre/code should still allow highlighting"
@@ -110,21 +128,21 @@ fn allows_whitespace_between_pre_and_code() {
 #[test]
 fn ignores_non_whitespace_between_pre_and_code() {
     let input = r#"<pre><span>prefix</span><code class="language-json">{"hello": "world"}</code></pre>"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert_eq!(output, input);
 }
 
 #[test]
 fn no_language_plain_text_unchanged() {
     let input = "<pre><code>plain text</code></pre>";
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert_eq!(output, input);
 }
 
 #[test]
 fn malformed_code_block_unchanged() {
     let input = r#"<pre><code class="language-cpp">int x = 1;"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert_eq!(output, input);
 }
 
@@ -134,7 +152,7 @@ fn large_code_block_unchanged() {
     let input = format!(
         r#"<pre><code class="language-cpp">{large_payload}</code></pre>"#
     );
-    let output = highlight_formatted_code_blocks(&input, true);
+    let output = highlight_formatted_code_blocks(&input, DARK_BG);
     assert_eq!(output, input);
 }
 
@@ -144,7 +162,7 @@ fn oversized_html_unchanged() {
     let input = format!(
         r#"{prefix}<pre><code class="language-cpp">int x = 1;</code></pre>"#
     );
-    let output = highlight_formatted_code_blocks(&input, true);
+    let output = highlight_formatted_code_blocks(&input, DARK_BG);
     assert_eq!(output, input);
 }
 
@@ -152,7 +170,7 @@ fn oversized_html_unchanged() {
 fn highlighted_code_escapes_html_special_chars() {
     let input =
         r#"<pre><code class="language-html">&lt;img src=x onerror=alert(1)&gt;</code></pre>"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert!(
         !output.contains("<img"),
         "output must not contain unescaped HTML tags from code: {output}"
@@ -162,7 +180,7 @@ fn highlighted_code_escapes_html_special_chars() {
 #[test]
 fn highlight_raw_json_works() {
     let json = r#"{"hello": "world"}"#;
-    let output = highlight_raw_json(json, true);
+    let output = highlight_raw_json(json, DARK_BG);
     assert!(output.contains("<span style=\""));
     assert!(output.contains("<pre><code class=\"language-json\">"));
 }
@@ -170,7 +188,7 @@ fn highlight_raw_json_works() {
 #[test]
 fn highlight_raw_json_preserves_emoji() {
     let json = r#"{"body": "🤷‍♂️"}"#;
-    let output = highlight_raw_json(json, true);
+    let output = highlight_raw_json(json, DARK_BG);
     assert!(
         output.contains("🤷‍♂️"),
         "emoji should be preserved in highlighted output: {output}"
@@ -193,7 +211,7 @@ public function hello(): string {
 }
 }
 </code></pre><p>Hey!</p>"#;
-    let output = highlight_formatted_code_blocks(input, true);
+    let output = highlight_formatted_code_blocks(input, DARK_BG);
     assert!(output.contains("<span style=\""));
     // Verify the trailing <p>Hey!</p> is preserved.
     assert!(output.contains("<p>Hey!</p>"));
@@ -227,7 +245,7 @@ fn caps_at_block_limit() {
             r#"<pre><code class="language-json">{{"k": {i}}}</code></pre>"#
         ));
     }
-    let output = highlight_formatted_code_blocks(&input, true);
+    let output = highlight_formatted_code_blocks(&input, DARK_BG);
     let highlighted_count = output.matches("<span style=\"").count();
     // Each highlighted JSON block gets at least one span. With 64-block limit,
     // we should not exceed that.
@@ -259,4 +277,39 @@ fn strip_syntect_wrapper_works() {
         strip_syntect_wrapper(input),
         "<span style=\"color:#a3be8c;\">hello</span>"
     );
+}
+
+#[test]
+fn highlighted_tokens_stay_legible_on_theme_backgrounds() {
+    // The JSON from issue #258, where syntect's light theme rendered keys in a
+    // pastel green that all but vanished into the message bubble.
+    let input = "<pre><code class=\"language-json\">{\n  \
+                 &quot;cc.etke.ketesa&quot;: {\n    \
+                 &quot;externalAuthProvider&quot;: true\n  }\n}</code></pre>";
+
+    // Alternate-base slots of the shipped themes, light and dark.
+    for background in [
+        "#e8e8e8", // Komai Light
+        "#ccd0da", // Catppuccin Latte
+        "#e6e8eb", // Nheko Light
+        "#b8c5db", // Nord Light
+        "#e8dccd", // Rosé Pine Dawn
+        "#313244", // Catppuccin Mocha
+        "#44475a", // Dracula
+    ] {
+        let output = highlight_formatted_code_blocks(input, background);
+        let surface = palette::parse_background(background);
+        let colors = inline_colors(&output);
+        assert!(
+            !colors.is_empty(),
+            "{background}: expected highlighted spans in {output}"
+        );
+        for color in colors {
+            let ratio = palette::contrast_ratio(color, surface);
+            assert!(
+                ratio >= palette::MIN_CONTRAST_RATIO - 0.01,
+                "{background}: {color:?} reached only {ratio:.2}"
+            );
+        }
+    }
 }

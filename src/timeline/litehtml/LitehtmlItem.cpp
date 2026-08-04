@@ -65,7 +65,7 @@ LitehtmlItem::generateMasterCss()
     const Theme theme(UserSettings::instance()->uiThemeSlug());
     // Captured before the surface override below, so code blocks keep the theme's
     // own alternate-base instead of the per-sender bubble tint.
-    const auto codeBackground = palette.color(QPalette::AlternateBase).name();
+    const auto codeBackground = timeline::litehtml::codeBackgroundColor(palette);
     if (m_color.isValid())
         palette.setColor(QPalette::Text, m_color);
     if (m_linkColor.isValid())

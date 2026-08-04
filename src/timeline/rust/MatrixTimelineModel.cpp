@@ -10,6 +10,7 @@
 #include "timeline/StateEventText.h"
 #include "timeline/TimelineEventTypes.h"
 #include "timeline/TimelineViewManager.h"
+#include "timeline/litehtml/LitehtmlStylesheet.h"
 #include "ui/KomaiGlobalObject.h"
 #include "utils/MediaIcons.h"
 #include "utils/Utils.h"
@@ -216,15 +217,18 @@ formatBodyHtml(const QString &body,
 
     const auto settings        = UserSettings::instance();
     const bool syntaxHighlight = settings && settings->timelineFormattedCodeSyntaxHighlighting();
-    const bool isDark          = QGuiApplication::palette().color(QPalette::Base).lightness() < 128;
     const int pillAvatarSize   = Komai::iconLogicalSize();
+    // Token colors are chosen against the surface the block will be painted on,
+    // so this has to be the same color the litehtml stylesheet gives `pre`.
+    const auto codeBackground = timeline::litehtml::codeBackgroundColor(QGuiApplication::palette());
+    const auto codeBackgroundStd = codeBackground.toStdString();
 
     auto html = QString::fromStdString(std::string(
       komai::rust::format_body_html(::rust::Str(bodyStd.data(), bodyStd.size()),
                                     ::rust::Str(formattedBodyStd.data(), formattedBodyStd.size()),
                                     pillAvatars,
                                     static_cast<uint32_t>(pillAvatarSize),
-                                    isDark,
+                                    ::rust::Str(codeBackgroundStd.data(), codeBackgroundStd.size()),
                                     syntaxHighlight)));
 
     return utils::replaceEmoji(html);

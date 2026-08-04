@@ -37,9 +37,10 @@ testExactMatchesReturnEmoji()
     // 😀 = U+1F600 grinning face
     expect(emoji::emoticonForShortcut(QStringLiteral(":D")) == QStringLiteral("\U0001F600"),
            ":D -> U+1F600");
-    // ❤ = U+2764 red heart
-    expect(emoji::emoticonForShortcut(QStringLiteral("<3")) == QStringLiteral("❤"),
-           "<3 -> U+2764");
+    // ❤️ = U+2764 U+FE0F red heart. The variation selector is required: bare
+    // U+2764 defaults to text presentation and renders as a monochrome glyph.
+    expect(emoji::emoticonForShortcut(QStringLiteral("<3")) == QStringLiteral("❤️"),
+           "<3 -> U+2764 U+FE0F");
     // 💔 = U+1F494 broken heart
     expect(emoji::emoticonForShortcut(QStringLiteral("</3")) == QStringLiteral("\U0001F494"),
            "</3 -> U+1F494 (not confused with <3)");
@@ -91,8 +92,8 @@ testReplaceLeadingEmoticonPreservesTrailingPunctuation()
     // shortcut even though a "?" sits between it and the space.
     expect(emoji::replaceLeadingEmoticon(QStringLiteral(":)?")) == QStringLiteral("\U0001F642?"),
            ":)? -> U+1F642 + ?  (trailing punctuation preserved)");
-    expect(emoji::replaceLeadingEmoticon(QStringLiteral("<3!!!")) == QStringLiteral("❤!!!"),
-           "<3!!! -> U+2764 + !!!  (trailing punctuation preserved)");
+    expect(emoji::replaceLeadingEmoticon(QStringLiteral("<3!!!")) == QStringLiteral("❤️!!!"),
+           "<3!!! -> U+2764 U+FE0F + !!!  (trailing punctuation preserved)");
     expect(emoji::replaceLeadingEmoticon(QStringLiteral(":D,")) == QStringLiteral("\U0001F600,"),
            ":D, -> U+1F600 + ,");
 }

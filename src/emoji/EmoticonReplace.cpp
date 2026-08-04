@@ -32,8 +32,10 @@ static constexpr Emoticon kTable[] = {
   {";)", "\xF0\x9F\x98\x89"}, // U+1F609 winking face
   {":P", "\xF0\x9F\x98\x9B"}, // U+1F61B tongue face
   {":O", "\xF0\x9F\x98\xAE"}, // U+1F62E open mouth
-  {"<3", "\xE2\x9D\xA4"},     // U+2764 red heart
-  {":/", "\xF0\x9F\x98\x95"}, // U+1F615 confused face
+  // U+2764 defaults to text presentation, so it needs U+FE0F to render as
+  // the red heart emoji rather than a monochrome glyph.
+  {"<3", "\xE2\x9D\xA4\xEF\xB8\x8F"}, // U+2764 U+FE0F red heart
+  {":/", "\xF0\x9F\x98\x95"},         // U+1F615 confused face
 };
 
 QString

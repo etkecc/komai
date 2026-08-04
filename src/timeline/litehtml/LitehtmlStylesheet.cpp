@@ -14,7 +14,8 @@ generateMasterStylesheet(const QPalette &palette,
                          const QString &attentionColor,
                          const QString &successColor,
                          const QString &searchHighlightBgColor,
-                         const QString &searchHighlightTextColor)
+                         const QString &searchHighlightTextColor,
+                         const QString &codeBackgroundColor)
 {
     const auto text           = palette.color(QPalette::Text).name();
     const auto link           = palette.color(QPalette::Link).name();
@@ -53,13 +54,17 @@ generateMasterStylesheet(const QPalette &palette,
                           "  padding-left: 8px;"
                           "  margin: 4px 0;"
                           "}"
+                          // Code surfaces use their own background rather than the
+                          // message's alternate-base. In bubble layout that slot carries
+                          // the sender's bubble tint, which varies per speaker and drags
+                          // the contrast of syntax-highlighted tokens around with it.
                           "code {"
-                          "  background-color: %5;"
+                          "  background-color: %15;"
                           "  white-space: pre-wrap;"
                           "  border-radius: 4px;"
                           "}"
                           "pre {"
-                          "  background-color: %5;"
+                          "  background-color: %15;"
                           "  white-space: pre-wrap;"
                           "  text-align: left;"
                           "  padding: 4px;"
@@ -148,7 +153,8 @@ generateMasterStylesheet(const QPalette &palette,
       .arg(errorColor, attentionColor, successColor)
       .arg(emojiScaleFactor)
       .arg(pillBackground)
-      .arg(searchHighlightBgColor, searchHighlightTextColor);
+      .arg(searchHighlightBgColor, searchHighlightTextColor)
+      .arg(codeBackgroundColor);
 }
 
 } // namespace timeline::litehtml

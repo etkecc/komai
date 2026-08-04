@@ -22,6 +22,7 @@ generateMasterStylesheet(const QPalette &palette,
                          const QString &attentionColor,
                          const QString &successColor,
                          const QString &searchHighlightBgColor,
-                         const QString &searchHighlightTextColor);
+                         const QString &searchHighlightTextColor,
+                         const QString &codeBackgroundColor);
 
 } // namespace timeline::litehtml

@@ -477,6 +477,19 @@ MatrixTimelineModel::MatrixTimelineModel(QObject *parent)
                 &UserSettings::uiAvatarsDefaultAvatarStyleChanged,
                 this,
                 &MatrixTimelineModel::refreshDerivedFields);
+        // Syntax highlighting bakes token colors into cachedFormattedBody as
+        // inline styles, chosen from the palette in effect at generation time.
+        // Without these, already-loaded messages keep the previous theme's
+        // colors until their rows happen to be rebuilt. uiThemeSlugChanged also
+        // covers Auto mode's light/dark flips, which route through the slug.
+        connect(settings.get(),
+                &UserSettings::uiThemeSlugChanged,
+                this,
+                &MatrixTimelineModel::refreshDerivedFields);
+        connect(settings.get(),
+                &UserSettings::timelineFormattedCodeSyntaxHighlightingChanged,
+                this,
+                &MatrixTimelineModel::refreshDerivedFields);
     }
 }
 

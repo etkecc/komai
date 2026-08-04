@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.08.04.0
+
+- ✨ Feature: text emoticons turn into emoji as you type. Typing a space after `:)` or `<3` converts it right in the composer, so what you see is what gets sent ([cd73fb183](https://github.com/etkecc/komai/commit/cd73fb183)).
+- 🐛 Fix: [😀 emoji picker](https://github.com/etkecc/komai/blob/5bdc73364/docs/user-guide/features/emojis.md) results are sorted by relevance, and the inline picker now reads top-to-bottom with its best match preselected ([cd73fb183](https://github.com/etkecc/komai/commit/cd73fb183)).
+- 🐛 Fix: the "Preferred skin tone" preference now applies to the toolbar emoji picker too, which previously showed every skin-tone variant regardless ([cd73fb183](https://github.com/etkecc/komai/commit/cd73fb183)).
+- 🐛 Fix: code snippets are readable on light themes, where syntax highlighting used to wash out against the message background ([37adced35](https://github.com/etkecc/komai/commit/37adced35), [8eb4ef666](https://github.com/etkecc/komai/commit/8eb4ef666), [a09c1e98d](https://github.com/etkecc/komai/commit/a09c1e98d)).
+- 🐛 Fix: a draft you are still typing no longer counts toward the window title counter, tray icon, and app badge; it only does so after sitting unsent for 60 seconds ([68763997b](https://github.com/etkecc/komai/commit/68763997b)).
+- 📦 Calls: the bundled Element Call is updated to v0.23.0 ([5476b7eb2](https://github.com/etkecc/komai/commit/5476b7eb2), [5537c065f](https://github.com/etkecc/komai/commit/5537c065f)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.334 ([37d5b4c8c](https://github.com/etkecc/komai/commit/37d5b4c8c)).
+
 ## 2026.07.18.0
 
 - 🐛 Fix: OAuth logins no longer lose their session between launches; rotated tokens are now saved durably before sync continues, instead of best-effort in the background ([4768c77c6](https://github.com/etkecc/komai/commit/4768c77c6)).

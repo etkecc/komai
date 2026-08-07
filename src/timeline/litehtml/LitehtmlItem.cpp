@@ -9,10 +9,13 @@
 #include <QFontMetrics>
 #include <QGuiApplication>
 #include <QPalette>
+#include <QPixmap>
 #include <QQuickWindow>
+#include <QSvgRenderer>
 #include <QtMath>
 
 #include <climits>
+#include <cstring>
 
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -216,6 +219,8 @@ void
 LitehtmlItem::rebuildDocument()
 {
     clearSelection();
+    // The empty-html branch below returns before relayout() would clear this.
+    clearCodeButton();
 
     m_container->clearImageCache();
 
@@ -268,6 +273,9 @@ LitehtmlItem::rebuildDocument()
 void
 LitehtmlItem::relayout()
 {
+    // A reflow moves the <pre> but reuses the element, so the throttle keeps a stale rect.
+    clearCodeButton();
+
     if (!m_document)
         return;
 
@@ -398,6 +406,36 @@ LitehtmlItem::paint(QPainter *painter)
     if (m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd)
         drawSelection(painter);
 
+    // Painted last so a selection dragged across the corner can't tint the icon.
+    if (m_codeButtonRect.isValid()) {
+        painter->save();
+        painter->setRenderHint(QPainter::Antialiasing, true);
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(m_surfaceColor);
+        painter->drawRoundedRect(m_codeButtonRect, 4, 4);
+
+        const QString iconPath = m_codeCopied
+                                   ? QStringLiteral(":/icons/icons/ui/checkmark.svg")
+                                   : QStringLiteral(":/icons/icons/ui/copy.svg");
+        const QRect iconRect = m_codeButtonRect.adjusted(4, 4, -4, -4);
+        // Rasterize at device pixels so the icon stays crisp on a HiDPI panel.
+        const qreal dpr = painter->device()->devicePixelRatioF();
+        QPixmap icon(iconRect.size() * dpr);
+        icon.setDevicePixelRatio(dpr);
+        icon.fill(Qt::transparent);
+        {
+            QPainter ip(&icon);
+            ip.setRenderHint(QPainter::Antialiasing, true);
+            const QRectF logical(QPointF(0, 0), QSizeF(iconRect.size()));
+            QSvgRenderer(iconPath).render(&ip, logical);
+            // SourceIn recolors the icon ink to the text color so it tracks the theme.
+            ip.setCompositionMode(QPainter::CompositionMode_SourceIn);
+            ip.fillRect(logical, m_color);
+        }
+        painter->drawPixmap(iconRect, icon);
+        painter->restore();
+    }
+
     m_container->setPainter(nullptr);
     ++m_paintCount;
     if (roomSwitchPerfEnabled() && m_paintCount <= 2) {
@@ -493,6 +531,33 @@ LitehtmlItem::handleHoverMove(qreal x, qreal y)
         emit hoveredLinkChanged();
     }
 
+    // Walk up to the enclosing <pre>; throttle recompute on block identity.
+    litehtml::element::const_ptr node = m_document->get_over_element();
+    while (node && std::strcmp(node->get_tagName(), "pre") != 0)
+        node = node->parent();
+
+    if (node != m_codeBlock) {
+        // Left the old block: forget its copied state so a new block never shows its checkmark.
+        m_codeCopied = false;
+        if (m_codeRevertTimer)
+            m_codeRevertTimer->stop();
+        const litehtml::position pl = node ? node->get_placement() : litehtml::position();
+        if (node && pl.width > 0 && pl.height > 0) {
+            // doc -> item space adds (padLeft, m_topInset).
+            const int box    = 24;
+            const int gap    = 6;
+            const int right  = static_cast<int>(pl.right()) + padLeft;
+            const int top    = static_cast<int>(pl.top()) + m_topInset;
+            m_codeBlock      = node;
+            m_codeButtonRect = QRect(right - box - gap, top + gap, box, box);
+        } else {
+            // No usable placement yet: stay null so the next frame retries.
+            clearCodeButton();
+        }
+        update();
+        return;
+    }
+
     if (!redraw.empty())
         update();
 }
@@ -505,6 +570,10 @@ LitehtmlItem::handleHoverLeave()
 
     m_lastHoverDocPos = QPoint(-1, -1);
 
+    // No hover-move signal arrives once the cursor leaves the item, so clear here.
+    const bool hadButton = m_codeButtonRect.isValid();
+    clearCodeButton();
+
     litehtml::position::vector redraw;
     m_document->on_mouse_leave(redraw);
 
@@ -513,8 +582,18 @@ LitehtmlItem::handleHoverLeave()
         emit hoveredLinkChanged();
     }
 
-    if (!redraw.empty())
+    if (hadButton || !redraw.empty())
         update();
+}
+
+void
+LitehtmlItem::clearCodeButton()
+{
+    m_codeBlock      = nullptr;
+    m_codeButtonRect = QRect();
+    m_codeCopied     = false;
+    if (m_codeRevertTimer)
+        m_codeRevertTimer->stop();
 }
 
 void
@@ -526,6 +605,32 @@ LitehtmlItem::mousePressEvent(QMouseEvent *event)
     }
 
     auto pos = event->position().toPoint();
+
+    // Above clearSelection()/on_lbutton_down on purpose: caught any later, the copy click starts a text-drag.
+    if (m_codeButtonRect.isValid() && m_codeButtonRect.contains(pos)) {
+        Q_ASSERT(m_codeBlock); // a valid rect always carries a resolved block
+        litehtml::string txt;
+        m_codeBlock->get_text(txt);
+        // Drop one trailing newline; a pasted block otherwise auto-runs its last line in a terminal.
+        if (!txt.empty() && txt.back() == '\n')
+            txt.pop_back();
+        QGuiApplication::clipboard()->setText(QString::fromStdString(txt));
+
+        m_codeCopied = true;
+        if (!m_codeRevertTimer) {
+            m_codeRevertTimer = new QTimer(this);
+            m_codeRevertTimer->setSingleShot(true);
+            connect(m_codeRevertTimer, &QTimer::timeout, this, [this] {
+                m_codeCopied = false;
+                update();
+            });
+        }
+        m_codeRevertTimer->start(1000);
+
+        update();
+        event->accept();
+        return;
+    }
 
     bool hadSelection = m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd;
     clearSelection();

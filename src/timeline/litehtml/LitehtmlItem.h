@@ -9,7 +9,9 @@
 #include <QPoint>
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
+#include <QRect>
 #include <QString>
+#include <QTimer>
 #include <memory>
 
 #include <litehtml.h>
@@ -167,6 +169,8 @@ private:
     QString extractSelectedText() const;
     void drawSelection(QPainter *painter);
     void clearSelection();
+    // Drop cached copy-button state: hover left the <pre>, the item, or a rebuild.
+    void clearCodeButton();
 
     bool roomSwitchPerfEnabled() const;
     void logPerfPhase(const char *phase, qint64 elapsedUs, const QString &extra = {}) const;
@@ -215,4 +219,11 @@ private:
 
     // Hover throttling: last document-space position passed to on_mouse_over.
     QPoint m_lastHoverDocPos{-1, -1};
+
+    // Hovered <pre> or null; const_ptr so the all-const hover walk can hold it.
+    litehtml::element::const_ptr m_codeBlock;
+    // Item-space; one rect for draw and hit-test. isValid() == "has a button".
+    QRect m_codeButtonRect;
+    bool m_codeCopied         = false;
+    QTimer *m_codeRevertTimer = nullptr;
 };

@@ -13,6 +13,7 @@
 #include <QtMath>
 
 #include <climits>
+#include <cstring>
 
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -216,6 +217,8 @@ void
 LitehtmlItem::rebuildDocument()
 {
     clearSelection();
+    // The empty-html branch below returns before relayout() would clear this.
+    clearCodeBlock();
 
     m_container->clearImageCache();
 
@@ -268,6 +271,10 @@ LitehtmlItem::rebuildDocument()
 void
 LitehtmlItem::relayout()
 {
+    // A reflow moves the <pre> but reuses the element, so the identity
+    // throttle in handleHoverMove would keep a stale rect.
+    clearCodeBlock();
+
     if (!m_document)
         return;
 
@@ -493,6 +500,28 @@ LitehtmlItem::handleHoverMove(qreal x, qreal y)
         emit hoveredLinkChanged();
     }
 
+    // Walk up to the enclosing <pre>; recompute the rect only when the
+    // hovered block's identity changes.
+    litehtml::element::const_ptr node = m_document->get_over_element();
+    while (node && std::strcmp(node->get_tagName(), "pre") != 0)
+        node = node->parent();
+
+    if (node && node != m_codeBlock) {
+        const litehtml::position pl = node->get_placement();
+        if (pl.width > 0 && pl.height > 0) {
+            m_codeBlock = node;
+            // doc -> item space adds (padLeft, m_topInset).
+            m_codeBlockRect =
+              QRectF(pl.left() + padLeft, pl.top() + m_topInset, pl.width, pl.height);
+            emit codeBlockRectChanged();
+        } else {
+            // No usable placement yet: treat as not hovered so the next
+            // hover move retries.
+            node = nullptr;
+        }
+    }
+    setCodeBlockHovered(node && node == m_codeBlock);
+
     if (!redraw.empty())
         update();
 }
@@ -505,6 +534,11 @@ LitehtmlItem::handleHoverLeave()
 
     m_lastHoverDocPos = QPoint(-1, -1);
 
+    // No hover-move signal arrives once the cursor leaves the item. Keep the
+    // block and its rect: the pointer may be on the QML copy button overlay,
+    // which needs both to stay actionable.
+    setCodeBlockHovered(false);
+
     litehtml::position::vector redraw;
     m_document->on_mouse_leave(redraw);
 
@@ -515,6 +549,45 @@ LitehtmlItem::handleHoverLeave()
 
     if (!redraw.empty())
         update();
+}
+
+void
+LitehtmlItem::clearCodeBlock()
+{
+    setCodeBlockHovered(false);
+    m_codeBlock = nullptr;
+    if (!m_codeBlockRect.isNull()) {
+        m_codeBlockRect = QRectF();
+        emit codeBlockRectChanged();
+    }
+}
+
+void
+LitehtmlItem::setCodeBlockHovered(bool hovered)
+{
+    if (m_codeBlockHovered == hovered)
+        return;
+    m_codeBlockHovered = hovered;
+    emit codeBlockHoveredChanged();
+}
+
+bool
+LitehtmlItem::copyCodeBlockText()
+{
+    if (!m_codeBlock)
+        return false;
+
+    litehtml::string txt;
+    m_codeBlock->get_text(txt);
+    if (txt.empty())
+        return false;
+
+    // Drop one trailing newline; a pasted block otherwise auto-runs its last
+    // line in a terminal.
+    if (txt.back() == '\n')
+        txt.pop_back();
+    QGuiApplication::clipboard()->setText(QString::fromStdString(txt));
+    return true;
 }
 
 void

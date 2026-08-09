@@ -143,17 +143,23 @@ LitehtmlItem {
         // The C++ side keeps reporting the last block after the pointer moves
         // onto this button (or just past a short block's bottom edge), so our
         // own `hovered` has to participate in visibility to avoid flicker.
-        visible: !litehtmlRoot.perfDisableTimelineInteraction
-                 && blockRect.width > 0
-                 && (litehtmlRoot.codeBlockHovered || hovered)
+        readonly property bool shown: !litehtmlRoot.perfDisableTimelineInteraction
+                                      && blockRect.width > 0
+                                      && (litehtmlRoot.codeBlockHovered || hovered)
         x: blockRect.x + blockRect.width - width - Komai.paddingSmall
         y: blockRect.y + Komai.paddingSmall
-        width: 24
-        height: 24
-        padding: Komai.paddingSmall
+        width: 32
+        height: 32
+        padding: 6
         hoverEnabled: true
         image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
         toolTipText: copied ? qsTr("Copied") : qsTr("Copy code")
+        opacity: shown ? 1 : 0
+        visible: opacity > 0
+
+        Behavior on opacity {
+            NumberAnimation { duration: 100 }
+        }
 
         onBlockRectChanged: copied = false
         onClicked: {

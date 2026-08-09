@@ -8860,7 +8860,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Copia el codi</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Mostra'n més</translation>
     </message>

@@ -8860,7 +8860,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>කේතය පිටපත් කරන්න</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>වැඩිපුර පෙන්වන්න</translation>
     </message>

@@ -8860,7 +8860,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Copiar code</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Monstrar plus</translation>
     </message>

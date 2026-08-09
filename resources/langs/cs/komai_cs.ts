@@ -8868,7 +8868,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Kopírovat kód</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Zobrazit více</translation>
     </message>

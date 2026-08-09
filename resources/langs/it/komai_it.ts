@@ -8860,7 +8860,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Copia codice</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Mostra altro</translation>
     </message>

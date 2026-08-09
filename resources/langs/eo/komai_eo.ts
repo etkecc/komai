@@ -8863,7 +8863,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Kopii kodon</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Montri pli</translation>
     </message>

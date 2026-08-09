@@ -8852,7 +8852,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>코드 복사</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>더 보기</translation>
     </message>

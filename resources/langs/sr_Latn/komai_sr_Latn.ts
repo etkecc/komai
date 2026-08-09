@@ -8868,7 +8868,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Kopiraj kôd</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Prikaži više</translation>
     </message>

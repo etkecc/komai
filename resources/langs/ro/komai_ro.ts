@@ -8868,7 +8868,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Copiază codul</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Arată mai mult</translation>
     </message>

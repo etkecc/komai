@@ -8852,7 +8852,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Kodu kopyala</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Daha fazla göster</translation>
     </message>

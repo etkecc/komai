@@ -8852,7 +8852,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Salin kode</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Tampilkan lebih banyak</translation>
     </message>

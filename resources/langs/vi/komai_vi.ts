@@ -8852,7 +8852,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Sao chép mã</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+91"/>
         <source>Show more</source>
         <translation>Hiển thị thêm</translation>
     </message>

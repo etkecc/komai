@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+185"/>
         <source>Profile</source>
         <translation>Profilo</translation>
     </message>
@@ -54,13 +54,13 @@
         <location line="+70"/>
         <location line="+128"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copied!</source>
         <translation>Copiato!</translation>
     </message>
     <message>
-        <location line="-858"/>
+        <location line="-914"/>
         <source>Copy user ID</source>
         <translation>Copia ID utente</translation>
     </message>
@@ -81,32 +81,32 @@
     </message>
     <message>
         <location line="+83"/>
-        <location line="+447"/>
+        <location line="+503"/>
         <source>This device</source>
         <translation>Questo dispositivo</translation>
     </message>
     <message>
-        <location line="-421"/>
+        <location line="-477"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>Copia negli appunti</translation>
     </message>
     <message>
-        <location line="-644"/>
-        <location line="+514"/>
+        <location line="-700"/>
+        <location line="+570"/>
         <source>Sign out</source>
         <translation>Disconnetti</translation>
     </message>
     <message>
-        <location line="-487"/>
-        <location line="+515"/>
+        <location line="-543"/>
+        <location line="+571"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location line="-451"/>
+        <location line="-507"/>
         <source>Access token</source>
         <translation>Token di accesso</translation>
     </message>
@@ -116,9 +116,29 @@
         <translation>Clicca per rivelare</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+45"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>I token di accesso concedono accesso completo all'account. Mantenerli privati!</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Encryption keys</source>
+        <translation>Chiavi di crittografia</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Export…</source>
+        <translation>Esporta…</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Import…</source>
+        <translation>Importa…</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Manual export/import of message decryption keys. Usually not needed when online key backup is enabled.</source>
+        <translation>Esportazione/importazione manuale delle chiavi di decrittazione dei messaggi. Di solito non necessaria quando il backup online delle chiavi è abilitato.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -1932,6 +1952,87 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
     </message>
 </context>
 <context>
+    <name>ExportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ExportEncryptionKeysDialog.qml" line="+23"/>
+        <source>Export encryption keys</source>
+        <translation>Esporta chiavi di crittografia</translation>
+    </message>
+    <message>
+        <location line="+66"/>
+        <source>Passphrase</source>
+        <translation>Passphrase</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Confirm passphrase</source>
+        <translation>Conferma passphrase</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Passphrases do not match.</source>
+        <translation>Le passphrase non corrispondono.</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Export failed: %1</source>
+        <translation>Esportazione non riuscita: %1</translation>
+    </message>
+    <message>
+        <location line="-50"/>
+        <source>Saves the keys for reading your encrypted message history into a passphrase-protected file.</source>
+        <translation>Salva le chiavi per leggere la cronologia dei messaggi crittati in un file protetto da passphrase.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Keep the file and its passphrase private, like your account credentials.</source>
+        <translation>Mantieni privati il file e la sua passphrase, come le credenziali del tuo account.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Works with Komai, Element, Nheko and other Matrix clients.</source>
+        <translation>Funziona con Komai, Element, Nheko e altri client Matrix.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+32"/>
+        <source>Exported %n encryption key(s).</source>
+        <translation>
+            <numerusform>Esportata %n chiave di crittografia.</numerusform>
+            <numerusform>Esportate %n chiavi di crittografia.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Export to file</source>
+        <translation>Esporta su file</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>Fatto</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>All files (*)</source>
+        <translation>Tutti i file (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>File di testo (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Export encryption keys to file</source>
+        <translation>Esporta le chiavi di crittografia su file</translation>
+    </message>
+</context>
+<context>
     <name>Failed</name>
     <message>
         <location filename="../../qml/device-verification/Failed.qml" line="+26"/>
@@ -2491,6 +2592,79 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <location line="+11"/>
         <source>Remove</source>
         <translation>Rimuovi</translation>
+    </message>
+</context>
+<context>
+    <name>ImportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ImportEncryptionKeysDialog.qml" line="+27"/>
+        <source>Import encryption keys</source>
+        <translation>Importa chiavi di crittografia</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>No file selected</source>
+        <translation>Nessun file selezionato</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Choose file</source>
+        <translation>Scegli file</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Passphrase</source>
+        <translation>Passphrase</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Import failed: %1</source>
+        <translation>Importazione non riuscita: %1</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Imported %1 of %2 keys.</source>
+        <translation>Importate %1 di %2 chiavi.</translation>
+    </message>
+    <message>
+        <location line="-46"/>
+        <source>Loads keys from a previously exported key file, so this device can decrypt older encrypted messages. You'll need the passphrase the file was exported with.</source>
+        <translation>Carica le chiavi da un file di chiavi esportato in precedenza, così questo dispositivo può decrittare i messaggi crittati più vecchi. Sarà necessaria la passphrase con cui è stato esportato il file.</translation>
+    </message>
+    <message>
+        <location line="+48"/>
+        <source>Keys this device already has are skipped.</source>
+        <translation>Le chiavi già presenti su questo dispositivo vengono saltate.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Import</source>
+        <translation>Importa</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>Fatto</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Tutti i file (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>File di testo (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Select encryption key file</source>
+        <translation>Seleziona il file delle chiavi di crittografia</translation>
     </message>
 </context>
 <context>
@@ -11802,7 +11976,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+171"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+175"/>
         <source>Voice transcription</source>
         <translation>Trascrizione vocale</translation>
     </message>
@@ -12233,7 +12407,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-82"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-86"/>
         <source>User ID</source>
         <translation>ID utente</translation>
     </message>
@@ -12270,8 +12444,18 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Il token di accesso consente l'accesso completo al tuo account. Non condividerlo con nessuno.</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+4"/>
+        <source>Export encryption keys</source>
+        <translation>Esporta chiavi di crittografia</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Import encryption keys</source>
+        <translation>Importa chiavi di crittografia</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+5"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+19"/>
         <source>Users</source>
         <translation>Utenti</translation>
     </message>
@@ -12352,7 +12536,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Motore webview (Qt WebEngine)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-39"/>
         <source>Profile</source>
         <translation>Profilo</translation>
     </message>
@@ -12367,12 +12551,12 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Nome visualizzato</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+25"/>
         <source>Sessions</source>
         <translation>Sessioni</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-12"/>
         <source>Sign out</source>
         <translation>Disconnetti</translation>
     </message>
@@ -12407,7 +12591,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Esci</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+9"/>
         <source>Other devices</source>
         <translation>Altri dispositivi</translation>
     </message>
@@ -12432,12 +12616,18 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Verificata</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-13"/>
+        <location line="+14"/>
         <source>Encryption keys</source>
         <translation>Chiavi di crittografia</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <source>Key backup file</source>
+        <translation>File di backup delle chiavi</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Refresh devices</source>
         <translation>Aggiorna dispositivi</translation>
     </message>
@@ -12682,7 +12872,7 @@ Automatico è 'online' o 'non disponibile' (dopo 5 minuti di inattività).</tran
         <translation>Eventi rumorosi</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1406"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>

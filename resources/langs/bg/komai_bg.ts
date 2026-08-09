@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+185"/>
         <source>Profile</source>
         <translation>Профил</translation>
     </message>
@@ -54,13 +54,13 @@
         <location line="+70"/>
         <location line="+128"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copied!</source>
         <translation>Копирано!</translation>
     </message>
     <message>
-        <location line="-858"/>
+        <location line="-914"/>
         <source>Copy user ID</source>
         <translation>Копирай потребителски ID</translation>
     </message>
@@ -81,32 +81,32 @@
     </message>
     <message>
         <location line="+83"/>
-        <location line="+447"/>
+        <location line="+503"/>
         <source>This device</source>
         <translation>Това устройство</translation>
     </message>
     <message>
-        <location line="-421"/>
+        <location line="-477"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>Копирай в клипборда</translation>
     </message>
     <message>
-        <location line="-644"/>
-        <location line="+514"/>
+        <location line="-700"/>
+        <location line="+570"/>
         <source>Sign out</source>
         <translation>Излез</translation>
     </message>
     <message>
-        <location line="-487"/>
-        <location line="+515"/>
+        <location line="-543"/>
+        <location line="+571"/>
         <source>Name</source>
         <translation>Име</translation>
     </message>
     <message>
-        <location line="-451"/>
+        <location line="-507"/>
         <source>Access token</source>
         <translation>Токен за достъп</translation>
     </message>
@@ -116,9 +116,29 @@
         <translation>Кликни за разкриване</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+45"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>Токените за достъп дават пълен достъп до акаунта. Пази в тайна!</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Encryption keys</source>
+        <translation>Ключове за шифроване</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Export…</source>
+        <translation>Експортиране…</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Import…</source>
+        <translation>Импортиране…</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Manual export/import of message decryption keys. Usually not needed when online key backup is enabled.</source>
+        <translation>Ръчен експорт/импорт на ключове за дешифроване на съобщения. Обикновено не е необходимо, когато е активирано онлайн резервно копие на ключовете.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -1932,6 +1952,87 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
 </context>
 <context>
+    <name>ExportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ExportEncryptionKeysDialog.qml" line="+23"/>
+        <source>Export encryption keys</source>
+        <translation>Експортиране на ключове за шифроване</translation>
+    </message>
+    <message>
+        <location line="+66"/>
+        <source>Passphrase</source>
+        <translation>Паролна фраза</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Confirm passphrase</source>
+        <translation>Потвърди паролната фраза</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Passphrases do not match.</source>
+        <translation>Паролните фрази не съвпадат.</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Export failed: %1</source>
+        <translation>Експортирането е неуспешно: %1</translation>
+    </message>
+    <message>
+        <location line="-50"/>
+        <source>Saves the keys for reading your encrypted message history into a passphrase-protected file.</source>
+        <translation>Запазва ключовете за четене на историята на шифрованите ти съобщения във файл, защитен с паролна фраза.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Keep the file and its passphrase private, like your account credentials.</source>
+        <translation>Пази в тайна файла и паролната му фраза, както и данните за акаунта си.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Works with Komai, Element, Nheko and other Matrix clients.</source>
+        <translation>Работи с Komai, Element, Nheko и други Matrix клиенти.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+32"/>
+        <source>Exported %n encryption key(s).</source>
+        <translation>
+            <numerusform>Експортиран %n ключ за шифроване.</numerusform>
+            <numerusform>Експортирани %n ключа за шифроване.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>Отказ</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Export to file</source>
+        <translation>Експортирай във файл</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>Готово</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>All files (*)</source>
+        <translation>Всички файлове (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>Текстови файлове (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Export encryption keys to file</source>
+        <translation>Експортиране на ключове за шифроване във файл</translation>
+    </message>
+</context>
+<context>
     <name>Failed</name>
     <message>
         <location filename="../../qml/device-verification/Failed.qml" line="+13"/>
@@ -2491,6 +2592,79 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+11"/>
         <source>Remove</source>
         <translation>Премахни</translation>
+    </message>
+</context>
+<context>
+    <name>ImportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ImportEncryptionKeysDialog.qml" line="+27"/>
+        <source>Import encryption keys</source>
+        <translation>Импортиране на ключове за шифроване</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>No file selected</source>
+        <translation>Няма избран файл</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Choose file</source>
+        <translation>Избери файл</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Passphrase</source>
+        <translation>Паролна фраза</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Import failed: %1</source>
+        <translation>Импортирането е неуспешно: %1</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Imported %1 of %2 keys.</source>
+        <translation>Импортирани %1 от %2 ключа.</translation>
+    </message>
+    <message>
+        <location line="-46"/>
+        <source>Loads keys from a previously exported key file, so this device can decrypt older encrypted messages. You'll need the passphrase the file was exported with.</source>
+        <translation>Зарежда ключове от предварително експортиран файл с ключове, за да може това устройство да дешифрира по-стари шифровани съобщения. Ще ти трябва паролната фраза, с която е бил експортиран файлът.</translation>
+    </message>
+    <message>
+        <location line="+48"/>
+        <source>Keys this device already has are skipped.</source>
+        <translation>Ключовете, които това устройство вече има, се пропускат.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>Отказ</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Import</source>
+        <translation>Импортирай</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>Готово</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Всички файлове (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>Текстови файлове (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Select encryption key file</source>
+        <translation>Избери файл с ключове за шифроване</translation>
     </message>
 </context>
 <context>
@@ -11802,7 +11976,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+171"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+175"/>
         <source>Voice transcription</source>
         <translation>Гласова транскрипция</translation>
     </message>
@@ -12233,7 +12407,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-82"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-86"/>
         <source>User ID</source>
         <translation>Потребителски ID</translation>
     </message>
@@ -12270,8 +12444,18 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Токенът ти за достъп дава пълен достъп до акаунта ти. Не го споделяй с никого.</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+4"/>
+        <source>Export encryption keys</source>
+        <translation>Експортиране на ключове за шифроване</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Import encryption keys</source>
+        <translation>Импортиране на ключове за шифроване</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+5"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+19"/>
         <source>Users</source>
         <translation>Потребители</translation>
     </message>
@@ -12352,7 +12536,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Webview двигател (Qt WebEngine)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-39"/>
         <source>Profile</source>
         <translation>Профил</translation>
     </message>
@@ -12367,12 +12551,12 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Показвано име</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+25"/>
         <source>Sessions</source>
         <translation>Сесии</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-12"/>
         <source>Sign out</source>
         <translation>Излез</translation>
     </message>
@@ -12407,7 +12591,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Изход</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+9"/>
         <source>Other devices</source>
         <translation>Други устройства</translation>
     </message>
@@ -12432,12 +12616,18 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Верифициран</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-13"/>
+        <location line="+14"/>
         <source>Encryption keys</source>
         <translation>Ключове за шифроване</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <source>Key backup file</source>
+        <translation>Файл за резервно копие на ключове</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Refresh devices</source>
         <translation>Обнови устройствата</translation>
     </message>
@@ -12682,7 +12872,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <translation>Шумни събития</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1406"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>

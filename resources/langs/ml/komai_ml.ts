@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+185"/>
         <source>Profile</source>
         <translation>പ്രൊഫൈൽ</translation>
     </message>
@@ -54,13 +54,13 @@
         <location line="+70"/>
         <location line="+128"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copied!</source>
         <translation>പകർത്തി!</translation>
     </message>
     <message>
-        <location line="-858"/>
+        <location line="-914"/>
         <source>Copy user ID</source>
         <translation>ഉപയോക്തൃ ID പകർത്തുക</translation>
     </message>
@@ -81,32 +81,32 @@
     </message>
     <message>
         <location line="+83"/>
-        <location line="+447"/>
+        <location line="+503"/>
         <source>This device</source>
         <translation>ഈ ഉപകരണം</translation>
     </message>
     <message>
-        <location line="-421"/>
+        <location line="-477"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക</translation>
     </message>
     <message>
-        <location line="-644"/>
-        <location line="+514"/>
+        <location line="-700"/>
+        <location line="+570"/>
         <source>Sign out</source>
         <translation>സൈൻ ഔട്ട്</translation>
     </message>
     <message>
-        <location line="-487"/>
-        <location line="+515"/>
+        <location line="-543"/>
+        <location line="+571"/>
         <source>Name</source>
         <translation>പേര്</translation>
     </message>
     <message>
-        <location line="-451"/>
+        <location line="-507"/>
         <source>Access token</source>
         <translation>ആക്സസ് ടോക്കൺ</translation>
     </message>
@@ -116,9 +116,29 @@
         <translation>കാണാൻ ക്ലിക്ക് ചെയ്യുക</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+45"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>ആക്സസ് ടോക്കണുകൾ അക്കൗണ്ടിലേക്ക് പൂർണ്ണ ആക്സസ് നൽകുന്നു. സ്വകാര്യമായി സൂക്ഷിക്കുക!</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Encryption keys</source>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Export…</source>
+        <translation>എക്സ്പോർട്ട്…</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Import…</source>
+        <translation>ഇംപോർട്ട്…</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Manual export/import of message decryption keys. Usually not needed when online key backup is enabled.</source>
+        <translation>സന്ദേശം ഡീക്രിപ്ഷൻ കീകളുടെ മാനുവൽ എക്സ്പോർട്ട്/ഇംപോർട്ട്. ഓൺലൈൻ കീ ബാക്കപ്പ് പ്രവർത്തനക്ഷമമാക്കിയിട്ടുണ്ടെങ്കിൽ സാധാരണയായി ഇത് ആവശ്യമില്ല.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -1932,6 +1952,87 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
 </context>
 <context>
+    <name>ExportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ExportEncryptionKeysDialog.qml" line="+23"/>
+        <source>Export encryption keys</source>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ എക്സ്പോർട്ട് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+66"/>
+        <source>Passphrase</source>
+        <translation>പാസ്‌ഫ്രെയ്സ്</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Confirm passphrase</source>
+        <translation>പാസ്‌ഫ്രെയ്സ് സ്ഥിരീകരിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Passphrases do not match.</source>
+        <translation>പാസ്‌ഫ്രെയ്സുകൾ പൊരുത്തപ്പെടുന്നില്ല.</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Export failed: %1</source>
+        <translation>എക്സ്പോർട്ട് പരാജയപ്പെട്ടു: %1</translation>
+    </message>
+    <message>
+        <location line="-50"/>
+        <source>Saves the keys for reading your encrypted message history into a passphrase-protected file.</source>
+        <translation>നിങ്ങളുടെ എൻക്രിപ്റ്റഡ് സന്ദേശ ചരിത്രം വായിക്കാനുള്ള കീകൾ പാസ്‌ഫ്രെയ്സ് സംരക്ഷിതമായ ഒരു ഫയലിലേക്ക് സേവ് ചെയ്യുന്നു.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Keep the file and its passphrase private, like your account credentials.</source>
+        <translation>നിങ്ങളുടെ അക്കൗണ്ട് വിവരങ്ങൾ പോലെ, ഈ ഫയലും അതിന്റെ പാസ്‌ഫ്രെയ്സും സ്വകാര്യമായി സൂക്ഷിക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Works with Komai, Element, Nheko and other Matrix clients.</source>
+        <translation>Komai, Element, Nheko, കൂടാതെ മറ്റ് Matrix ക്ലയന്റുകൾക്കൊപ്പം പ്രവർത്തിക്കുന്നു.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+32"/>
+        <source>Exported %n encryption key(s).</source>
+        <translation>
+            <numerusform>%n എൻക്രിപ്ഷൻ കീ കയറ്റുമതി ചെയ്തു.</numerusform>
+            <numerusform>%n എൻക്രിപ്ഷൻ കീകൾ കയറ്റുമതി ചെയ്തു.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>റദ്ദാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Export to file</source>
+        <translation>ഫയലിലേക്ക് എക്സ്പോർട്ട് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>പൂർത്തിയായി</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>All files (*)</source>
+        <translation>എല്ലാ ഫയലുകളും (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>ടെക്സ്റ്റ് ഫയലുകൾ (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Export encryption keys to file</source>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ ഫയലിലേക്ക് എക്സ്പോർട്ട് ചെയ്യുക</translation>
+    </message>
+</context>
+<context>
     <name>Failed</name>
     <message>
         <location filename="../../qml/device-verification/Failed.qml" line="+26"/>
@@ -2491,6 +2592,79 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+11"/>
         <source>Remove</source>
         <translation>നീക്കം ചെയ്യുക</translation>
+    </message>
+</context>
+<context>
+    <name>ImportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ImportEncryptionKeysDialog.qml" line="+27"/>
+        <source>Import encryption keys</source>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ ഇംപോർട്ട് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>No file selected</source>
+        <translation>ഒരു ഫയലും തിരഞ്ഞെടുത്തിട്ടില്ല</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Choose file</source>
+        <translation>ഫയൽ തിരഞ്ഞെടുക്കുക</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Passphrase</source>
+        <translation>പാസ്‌ഫ്രെയ്സ്</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Import failed: %1</source>
+        <translation>ഇംപോർട്ട് പരാജയപ്പെട്ടു: %1</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Imported %1 of %2 keys.</source>
+        <translation>%2 കീകളിൽ %1 എണ്ണം ഇംപോർട്ട് ചെയ്തു.</translation>
+    </message>
+    <message>
+        <location line="-46"/>
+        <source>Loads keys from a previously exported key file, so this device can decrypt older encrypted messages. You'll need the passphrase the file was exported with.</source>
+        <translation>മുമ്പ് എക്സ്പോർട്ട് ചെയ്ത ഒരു കീ ഫയലിൽ നിന്ന് കീകൾ ലോഡ് ചെയ്യുന്നു, അതിനാൽ ഈ ഉപകരണത്തിന് പഴയ എൻക്രിപ്റ്റഡ് സന്ദേശങ്ങൾ ഡീക്രിപ്റ്റ് ചെയ്യാൻ കഴിയും. ഫയൽ എക്സ്പോർട്ട് ചെയ്തപ്പോൾ ഉപയോഗിച്ച പാസ്‌ഫ്രെയ്സ് നിങ്ങൾക്ക് വേണ്ടിവരും.</translation>
+    </message>
+    <message>
+        <location line="+48"/>
+        <source>Keys this device already has are skipped.</source>
+        <translation>ഈ ഉപകരണത്തിൽ ഇതിനകം ഉള്ള കീകൾ ഒഴിവാക്കപ്പെടും.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>റദ്ദാക്കുക</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Import</source>
+        <translation>ഇംപോർട്ട് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>പൂർത്തിയായി</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>എല്ലാ ഫയലുകളും (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>ടെക്സ്റ്റ് ഫയലുകൾ (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Select encryption key file</source>
+        <translation>എൻക്രിപ്ഷൻ കീ ഫയൽ തിരഞ്ഞെടുക്കുക</translation>
     </message>
 </context>
 <context>
@@ -11802,7 +11976,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+171"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+175"/>
         <source>Voice transcription</source>
         <translation>ശബ്ദ ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
@@ -12233,7 +12407,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-82"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-86"/>
         <source>User ID</source>
         <translation>ഉപയോക്തൃ ID</translation>
     </message>
@@ -12270,8 +12444,18 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>നിങ്ങളുടെ ആക്സസ് ടോക്കൺ നിങ്ങളുടെ അക്കൗണ്ടിലേക്ക് പൂർണ്ണ ആക്സസ് നൽകുന്നു. ഇത് ആരോടും പങ്കിടരുത്.</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+4"/>
+        <source>Export encryption keys</source>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ എക്സ്പോർട്ട് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Import encryption keys</source>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ ഇംപോർട്ട് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+5"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+19"/>
         <source>Users</source>
         <translation>ഉപയോക്താക്കൾ</translation>
     </message>
@@ -12352,7 +12536,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>വെബ്‌വ്യൂ എൻജിൻ (Qt WebEngine)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-39"/>
         <source>Profile</source>
         <translation>പ്രൊഫൈൽ</translation>
     </message>
@@ -12367,12 +12551,12 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ഡിസ്‌പ്ലേ നാമം</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+25"/>
         <source>Sessions</source>
         <translation>സെഷനുകൾ</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-12"/>
         <source>Sign out</source>
         <translation>സൈൻ ഔട്ട്</translation>
     </message>
@@ -12407,7 +12591,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ലോഗൗട്ട്</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+9"/>
         <source>Other devices</source>
         <translation>മറ്റ് ഉപകരണങ്ങൾ</translation>
     </message>
@@ -12432,12 +12616,18 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>പരിശോധിക്കപ്പെട്ടത്</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-13"/>
+        <location line="+14"/>
         <source>Encryption keys</source>
         <translation>എൻക്രിപ്ഷൻ കീകൾ</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <source>Key backup file</source>
+        <translation>കീ ബാക്കപ്പ് ഫയൽ</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Refresh devices</source>
         <translation>ഉപകരണങ്ങൾ പുതുക്കുക</translation>
     </message>
@@ -12682,7 +12872,7 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
         <translation>ശബ്ദകോലാഹലമുള്ള ഇവന്റുകൾ</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1406"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>

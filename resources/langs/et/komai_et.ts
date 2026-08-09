@@ -4,7 +4,7 @@
 <context>
     <name>AccountTab</name>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="+184"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="+185"/>
         <source>Profile</source>
         <translation>Profiil</translation>
     </message>
@@ -54,13 +54,13 @@
         <location line="+70"/>
         <location line="+128"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copied!</source>
         <translation>Kopeeritud!</translation>
     </message>
     <message>
-        <location line="-858"/>
+        <location line="-914"/>
         <source>Copy user ID</source>
         <translation>Kopeeri kasutaja ID</translation>
     </message>
@@ -81,32 +81,32 @@
     </message>
     <message>
         <location line="+83"/>
-        <location line="+447"/>
+        <location line="+503"/>
         <source>This device</source>
         <translation>See seade</translation>
     </message>
     <message>
-        <location line="-421"/>
+        <location line="-477"/>
         <location line="+164"/>
-        <location line="+299"/>
+        <location line="+355"/>
         <location line="+197"/>
         <source>Copy to clipboard</source>
         <translation>Kopeeri lõikelauale</translation>
     </message>
     <message>
-        <location line="-644"/>
-        <location line="+514"/>
+        <location line="-700"/>
+        <location line="+570"/>
         <source>Sign out</source>
         <translation>Logi välja</translation>
     </message>
     <message>
-        <location line="-487"/>
-        <location line="+515"/>
+        <location line="-543"/>
+        <location line="+571"/>
         <source>Name</source>
         <translation>Nimi</translation>
     </message>
     <message>
-        <location line="-451"/>
+        <location line="-507"/>
         <source>Access token</source>
         <translation>Juurdepääsuluba</translation>
     </message>
@@ -116,9 +116,29 @@
         <translation>Klõpsa kuvamiseks</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+45"/>
         <source>Access tokens grant full account access. Keep private!</source>
         <translation>Juurdepääsuload annavad täieliku ligipääsu kontole. Hoia privaatsena!</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Encryption keys</source>
+        <translation>Krüptimisvõtmed</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Export…</source>
+        <translation>Ekspordi…</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Import…</source>
+        <translation>Impordi…</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Manual export/import of message decryption keys. Usually not needed when online key backup is enabled.</source>
+        <translation>Sõnumite dekrüptimisvõtmete käsitsi eksportimine/importimine. Tavaliselt pole vajalik, kui võrgupõhine võtmevarundus on sisse lülitatud.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -1932,6 +1952,87 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
 </context>
 <context>
+    <name>ExportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ExportEncryptionKeysDialog.qml" line="+23"/>
+        <source>Export encryption keys</source>
+        <translation>Ekspordi krüptimisvõtmed</translation>
+    </message>
+    <message>
+        <location line="+66"/>
+        <source>Passphrase</source>
+        <translation>Salafraas</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Confirm passphrase</source>
+        <translation>Kinnita salafraas</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Passphrases do not match.</source>
+        <translation>Salafraasid ei kattu.</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>Export failed: %1</source>
+        <translation>Eksportimine ebaõnnestus: %1</translation>
+    </message>
+    <message>
+        <location line="-50"/>
+        <source>Saves the keys for reading your encrypted message history into a passphrase-protected file.</source>
+        <translation>Salvestab sinu krüptitud sõnumiajaloo lugemiseks vajalikud võtmed salafraasiga kaitstud faili.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Keep the file and its passphrase private, like your account credentials.</source>
+        <translation>Hoia fail ja selle salafraas privaatsena, nagu oma konto andmeid.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Works with Komai, Element, Nheko and other Matrix clients.</source>
+        <translation>Töötab Komai, Element, Nheko ja teiste Matrixi klientidega.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+32"/>
+        <source>Exported %n encryption key(s).</source>
+        <translation>
+            <numerusform>Eksporditud %n krüptimisvõti.</numerusform>
+            <numerusform>Eksporditud %n krüptimisvõtit.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>Tühista</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Export to file</source>
+        <translation>Ekspordi faili</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>Valmis</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>All files (*)</source>
+        <translation>Kõik failid (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>Tekstifailid (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Export encryption keys to file</source>
+        <translation>Ekspordi krüptimisvõtmed faili</translation>
+    </message>
+</context>
+<context>
     <name>Failed</name>
     <message>
         <location filename="../../qml/device-verification/Failed.qml" line="+26"/>
@@ -2491,6 +2592,79 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <location line="+11"/>
         <source>Remove</source>
         <translation>Eemalda</translation>
+    </message>
+</context>
+<context>
+    <name>ImportEncryptionKeysDialog</name>
+    <message>
+        <location filename="../../qml/components/encryption/ImportEncryptionKeysDialog.qml" line="+27"/>
+        <source>Import encryption keys</source>
+        <translation>Impordi krüptimisvõtmed</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>No file selected</source>
+        <translation>Faili pole valitud</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Choose file</source>
+        <translation>Vali fail</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Passphrase</source>
+        <translation>Salafraas</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Import failed: %1</source>
+        <translation>Importimine ebaõnnestus: %1</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Imported %1 of %2 keys.</source>
+        <translation>Imporditud %1 võtit %2-st.</translation>
+    </message>
+    <message>
+        <location line="-46"/>
+        <source>Loads keys from a previously exported key file, so this device can decrypt older encrypted messages. You'll need the passphrase the file was exported with.</source>
+        <translation>Laadib võtmed varem eksporditud võtmefailist, et see seade saaks vanemaid krüptitud sõnumeid dekrüptida. Sul on vaja salafraasi, millega fail eksporditi.</translation>
+    </message>
+    <message>
+        <location line="+48"/>
+        <source>Keys this device already has are skipped.</source>
+        <translation>Võtmed, mis sellel seadmel juba on, jäetakse vahele.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Cancel</source>
+        <translation>Tühista</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Import</source>
+        <translation>Impordi</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Done</source>
+        <translation>Valmis</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Kõik failid (*)</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Text files (*.txt)</source>
+        <translation>Tekstifailid (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Select encryption key file</source>
+        <translation>Vali krüptimisvõtme fail</translation>
     </message>
 </context>
 <context>
@@ -11802,7 +11976,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+171"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+175"/>
         <source>Voice transcription</source>
         <translation>Hääle transkriptsioon</translation>
     </message>
@@ -12233,7 +12407,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-82"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-86"/>
         <source>User ID</source>
         <translation>Kasutaja ID</translation>
     </message>
@@ -12270,8 +12444,18 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Juurdepääsuluba annab täieliku ligipääsu kontole. Ärge jagage seda kellegagi.</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+20"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+4"/>
+        <source>Export encryption keys</source>
+        <translation>Ekspordi krüptimisvõtmed</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Import encryption keys</source>
+        <translation>Impordi krüptimisvõtmed</translation>
+    </message>
+    <message>
+        <location filename="../../../src/settings/ui/rows/UserSettingsModelAccount.inc" line="+5"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="+19"/>
         <source>Users</source>
         <translation>Kasutajad</translation>
     </message>
@@ -12352,7 +12536,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Webview-mootor (Qt WebEngine)</translation>
     </message>
     <message>
-        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-35"/>
+        <location filename="../../../src/settings/ui/SettingDescriptorTable.cpp" line="-39"/>
         <source>Profile</source>
         <translation>Profiil</translation>
     </message>
@@ -12367,12 +12551,12 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Kuvatav nimi</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+25"/>
         <source>Sessions</source>
         <translation>Seansid</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-12"/>
         <source>Sign out</source>
         <translation>Logi välja</translation>
     </message>
@@ -12407,7 +12591,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Logi välja</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+9"/>
         <source>Other devices</source>
         <translation>Teised seadmed</translation>
     </message>
@@ -12432,12 +12616,18 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Verifitseeritud</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-13"/>
+        <location line="+14"/>
         <source>Encryption keys</source>
         <translation>Krüptimise võtmed</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-11"/>
+        <source>Key backup file</source>
+        <translation>Võtmete varukoopiafail</translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Refresh devices</source>
         <translation>Uuenda seadmeid</translation>
     </message>
@@ -12682,7 +12872,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <translation>Mürarikkad sündmused</translation>
     </message>
     <message>
-        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1350"/>
+        <location filename="../../qml/pages/settings/AccountTab.qml" line="-1406"/>
         <location filename="../../qml/pages/settings/ApplicationProfilesTab.qml" line="+47"/>
         <location filename="../../qml/pages/settings/SettingsContent.qml" line="+404"/>
         <source>No settings in this tab match your search.</source>

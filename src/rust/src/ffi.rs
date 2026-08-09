@@ -901,6 +901,11 @@ mod bridge {
         recovery_key: String,
     }
 
+    struct MatrixRoomKeyImportCounts {
+        imported: u64,
+        total: u64,
+    }
+
     struct MatrixResetEncryptionIdentityResult {
         completed: bool,
         auth_type: String,
@@ -1911,6 +1916,18 @@ mod bridge {
             handle_id: u64,
             key_or_passphrase: &str,
         ) -> Result<()>;
+        fn matrix_export_room_keys(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            path: &str,
+            passphrase: &str,
+        ) -> Result<u64>;
+        fn matrix_import_room_keys(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            path: &str,
+            passphrase: &str,
+        ) -> Result<MatrixRoomKeyImportCounts>;
         fn matrix_start_reset_encryption_identity(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

@@ -100,6 +100,10 @@ static const char *const accountThisDeviceKeywordsEnglish[] = {
   QT_TRANSLATE_NOOP("UserSettingsModel", "Access token"),
   QT_TRANSLATE_NOOP("UserSettingsModel", "Sign out"),
   QT_TRANSLATE_NOOP("UserSettingsModel", "Logout"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Encryption keys"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Export encryption keys"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Import encryption keys"),
+  QT_TRANSLATE_NOOP("UserSettingsModel", "Key backup file"),
   nullptr,
 };
 

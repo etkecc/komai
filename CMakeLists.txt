@@ -577,6 +577,8 @@ set(SRC_FILES
     src/encryption/DeviceVerificationFlowProtocol.cpp
     src/encryption/CryptoTrust.h
     src/encryption/DeviceVerificationFlow.h
+    src/encryption/EncryptionKeyExport.cpp
+    src/encryption/EncryptionKeyExport.h
     src/encryption/SelfVerificationStatus.cpp
     src/encryption/SelfVerificationStatus.h
     src/encryption/VerificationManager.cpp

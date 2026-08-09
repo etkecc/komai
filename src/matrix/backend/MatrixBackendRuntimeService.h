@@ -159,6 +159,20 @@ public:
                                          const QString &keyOrPassphrase,
                                          QString *errorOut = nullptr);
 
+    // Returns the number of exported keys.
+    static std::optional<uint64_t> exportRoomKeys(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
+                                                  const QString &path,
+                                                  const QString &passphrase,
+                                                  QString *errorOut = nullptr);
+
+    static std::optional<MatrixRoomKeyImportCounts>
+    importRoomKeys(matrix_backend::BlockingCallContext context,
+                   uint64_t handleId,
+                   const QString &path,
+                   const QString &passphrase,
+                   QString *errorOut = nullptr);
+
     static std::optional<MatrixResetEncryptionIdentityResult>
     startResetEncryptionIdentity(matrix_backend::BlockingCallContext context,
                                  uint64_t handleId,

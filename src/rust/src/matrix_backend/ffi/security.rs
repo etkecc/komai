@@ -24,6 +24,37 @@ pub(crate) fn matrix_fetch_recovery_status(
     })
 }
 
+pub(crate) fn matrix_export_room_keys(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    path: &str,
+    passphrase: &str,
+) -> Result<u64, String> {
+    ffi_block_on(
+        context,
+        "matrix_export_room_keys",
+        matrix_backend::runtime::export_room_keys(handle_id, path, passphrase),
+    )
+}
+
+pub(crate) fn matrix_import_room_keys(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    path: &str,
+    passphrase: &str,
+) -> Result<ffi::MatrixRoomKeyImportCounts, String> {
+    let result = ffi_block_on(
+        context,
+        "matrix_import_room_keys",
+        matrix_backend::runtime::import_room_keys(handle_id, path, passphrase),
+    )?;
+
+    Ok(ffi::MatrixRoomKeyImportCounts {
+        imported: result.imported,
+        total: result.total,
+    })
+}
+
 pub(crate) fn matrix_setup_recovery(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

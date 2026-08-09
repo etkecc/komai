@@ -57,6 +57,12 @@ struct MatrixSetupRecoveryResult
     QString recoveryKey;
 };
 
+struct MatrixRoomKeyImportCounts
+{
+    uint64_t imported = 0;
+    uint64_t total    = 0;
+};
+
 struct MatrixResetEncryptionIdentityResult
 {
     bool completed = false;

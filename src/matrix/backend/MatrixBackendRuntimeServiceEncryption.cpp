@@ -122,6 +122,54 @@ MatrixBackendRuntimeService::fetchRecoveryStatus(matrix_backend::BlockingCallCon
     }
 }
 
+std::optional<uint64_t>
+MatrixBackendRuntimeService::exportRoomKeys(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &path,
+                                            const QString &passphrase,
+                                            QString *errorOut)
+{
+    try {
+        const auto count = invokeRuntimeWorkerCall(
+          "matrix_export_room_keys", [context, handleId, path, passphrase]() {
+              return ::komai::rust::matrix_export_room_keys(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                path.toStdString(),
+                passphrase.toStdString());
+          });
+        return count;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<MatrixRoomKeyImportCounts>
+MatrixBackendRuntimeService::importRoomKeys(matrix_backend::BlockingCallContext context,
+                                            uint64_t handleId,
+                                            const QString &path,
+                                            const QString &passphrase,
+                                            QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_import_room_keys", [context, handleId, path, passphrase]() {
+              return ::komai::rust::matrix_import_room_keys(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                path.toStdString(),
+                passphrase.toStdString());
+          });
+        return MatrixRoomKeyImportCounts{result.imported, result.total};
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 std::optional<MatrixSetupRecoveryResult>
 MatrixBackendRuntimeService::setupRecovery(matrix_backend::BlockingCallContext context,
                                            uint64_t handleId,

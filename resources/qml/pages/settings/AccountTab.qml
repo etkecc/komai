@@ -8,6 +8,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import "../../components" as Components
 import "../../components/SettingsRows"
+import "../../components/encryption" as Encryption
 import "../../ui" as UI
 import cc.etke.komai
 
@@ -808,9 +809,65 @@ Item {
                                     Layout.leftMargin: Komai.paddingMedium
                                     Layout.rightMargin: Komai.paddingMedium
                                     Layout.topMargin: 2
-                                    Layout.bottomMargin: Komai.paddingMedium
                                     text: qsTr("Access tokens grant full account access. Keep private!")
                                     color: Komai.theme.attention
+                                    font.pointSize: Settings.uiFontSizePt
+                                    wrapMode: Text.Wrap
+                                    horizontalAlignment: currentDeviceCardContent.useStackedLayout
+                                        ? Text.AlignLeft
+                                        : Text.AlignRight
+                                }
+
+                                // Body: Encryption keys export/import
+                                GridLayout {
+                                    Layout.fillWidth: true
+                                    Layout.topMargin: Komai.paddingMedium
+                                    Layout.leftMargin: Komai.paddingMedium
+                                    Layout.rightMargin: Komai.paddingMedium
+                                    columns: currentDeviceCardContent.useStackedLayout ? 1 : 2
+                                    rowSpacing: Komai.paddingSmall
+                                    columnSpacing: Komai.paddingSmall
+
+                                    Label {
+                                        Layout.row: 0
+                                        Layout.column: 0
+                                        text: qsTr("Encryption keys")
+                                        color: palette.text
+                                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                                        Layout.fillWidth: !currentDeviceCardContent.useStackedLayout
+                                    }
+
+                                    RowLayout {
+                                        Layout.row: currentDeviceCardContent.useStackedLayout ? 1 : 0
+                                        Layout.column: currentDeviceCardContent.useStackedLayout ? 0 : 1
+                                        Layout.alignment: currentDeviceCardContent.useStackedLayout
+                                            ? Qt.AlignLeft
+                                            : Qt.AlignRight
+                                        spacing: Komai.paddingSmall
+
+                                        Components.KomaiButton {
+                                            text: qsTr("Export…")
+                                            icon.source: "qrc:/icons/icons/ui/download.svg"
+                                            onClicked: exportEncryptionKeysDialog.open()
+                                        }
+
+                                        Components.KomaiButton {
+                                            text: qsTr("Import…")
+                                            icon.source: "qrc:/icons/icons/ui/upload.svg"
+                                            onClicked: importEncryptionKeysDialog.open()
+                                        }
+                                    }
+                                }
+
+                                // Encryption keys hint
+                                Text {
+                                    Layout.fillWidth: true
+                                    Layout.leftMargin: Komai.paddingMedium
+                                    Layout.rightMargin: Komai.paddingMedium
+                                    Layout.topMargin: 2
+                                    Layout.bottomMargin: Komai.paddingMedium
+                                    text: qsTr("Manual export/import of message decryption keys. Usually not needed when online key backup is enabled.")
+                                    color: palette.buttonText
                                     font.pointSize: Settings.uiFontSizePt
                                     wrapMode: Text.Wrap
                                     horizontalAlignment: currentDeviceCardContent.useStackedLayout
@@ -1437,5 +1494,13 @@ Item {
                 }
             }
         }
+    }
+
+    Encryption.ExportEncryptionKeysDialog {
+        id: exportEncryptionKeysDialog
+    }
+
+    Encryption.ImportEncryptionKeysDialog {
+        id: importEncryptionKeysDialog
     }
 }

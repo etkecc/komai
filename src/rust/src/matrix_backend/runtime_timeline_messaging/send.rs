@@ -100,10 +100,9 @@ pub(super) fn formatted_html_from_markdown(body: &str, use_markdown_formatting: 
         return None;
     }
 
-    let mut content = TextMessageEventContent::markdown(body.to_owned());
-    let formatted = content.formatted.as_mut()?;
+    let mut formatted = FormattedBody::html(markdown_to_html_treating_raw_html_as_text(body)?);
     formatted.sanitize_html(HtmlSanitizerMode::Strict, RemoveReplyFallback::No);
-    let html = formatted.body.clone();
+    let html = formatted.body;
     if html_uses_only_plain_text_wrappers(&html) {
         return None;
     }
@@ -119,13 +118,138 @@ pub(super) fn formatted_html_from_markdown(body: &str, use_markdown_formatting: 
     Some(html)
 }
 
+/// Markdown-to-HTML mirroring ruma's `FormattedBody::markdown`, except raw
+/// HTML in the input is demoted to literal text instead of passing through as
+/// markup. CommonMark treats a typed `<pre>` as the start of a real HTML
+/// block that swallows the rest of the message for every recipient; in a chat
+/// composer, tag-like tokens are almost always meant literally. Backtick and
+/// fenced code plus `<https://...>` autolinks are unaffected (they never
+/// parse as raw HTML). Returns `None` when the input contains no markdown
+/// formatting, matching ruma (and Element, which sends no `formatted_body`
+/// for raw-HTML-only input).
+fn markdown_to_html_treating_raw_html_as_text(text: &str) -> Option<String> {
+    use pulldown_cmark::{CowStr, Event, Options, Parser, Tag, TagEnd};
+
+    const OPTIONS: Options = Options::ENABLE_TABLES.union(Options::ENABLE_STRIKETHROUGH);
+
+    // Emits raw HTML as escaped-later Text events, converting embedded
+    // newlines to hard breaks so multi-line raw blocks don't collapse into
+    // one rendered line.
+    fn push_literal_text<'a>(events: &mut Vec<Event<'a>>, raw: CowStr<'a>) {
+        let mut first = true;
+        for line in raw.split('\n') {
+            if !first {
+                events.push(Event::HardBreak);
+            }
+            first = false;
+            let line = line.strip_suffix('\r').unwrap_or(line);
+            if !line.is_empty() {
+                events.push(Event::Text(line.to_owned().into()));
+            }
+        }
+    }
+
+    fn is_block_tag(tag: &Tag<'_>) -> bool {
+        matches!(
+            tag,
+            Tag::Paragraph
+                | Tag::Heading { .. }
+                | Tag::BlockQuote(_)
+                | Tag::CodeBlock(_)
+                | Tag::HtmlBlock
+                | Tag::List(_)
+                | Tag::FootnoteDefinition(_)
+                | Tag::Table(_)
+        )
+    }
+
+    let mut parser_events: Vec<Event<'_>> = Vec::new();
+    for event in Parser::new_ext(text, OPTIONS) {
+        match event {
+            Event::SoftBreak => parser_events.push(Event::HardBreak),
+            Event::Html(raw) | Event::InlineHtml(raw) => {
+                push_literal_text(&mut parser_events, raw);
+            }
+            // With their contents demoted to text these wrappers carry no
+            // information, and keeping them would make the plain-text walk
+            // below see phantom block structure.
+            Event::Start(Tag::HtmlBlock) | Event::End(TagEnd::HtmlBlock) => {}
+            other => parser_events.push(other),
+        }
+    }
+
+    // The rest mirrors ruma's `parse_markdown`: figure out whether the events
+    // amount to more than the original text plus newlines, bail out when they
+    // don't, and unwrap the single wrapping paragraph of inline-only content.
+    let first_event_is_paragraph_start = parser_events
+        .first()
+        .is_some_and(|event| matches!(event, Event::Start(Tag::Paragraph)));
+    let last_event_is_paragraph_end = parser_events
+        .last()
+        .is_some_and(|event| matches!(event, Event::End(TagEnd::Paragraph)));
+    let mut is_inline = first_event_is_paragraph_start && last_event_is_paragraph_end;
+    let mut has_markdown = !is_inline;
+
+    if !has_markdown {
+        // If the string contains no markdown, the only change should be
+        // newlines becoming hard breaks: check that by finding all other
+        // characters of the original string in the text events.
+        let mut pos = 0;
+        for event in parser_events.iter().skip(1) {
+            match event {
+                Event::Text(s) if text[pos..].starts_with(s.as_ref()) => {
+                    pos += s.len();
+                    continue;
+                }
+                Event::HardBreak => {
+                    if text[pos..].starts_with("\r\n") {
+                        pos += 2;
+                        continue;
+                    } else if text[pos..].starts_with(['\r', '\n']) {
+                        pos += 1;
+                        continue;
+                    }
+                }
+                Event::End(TagEnd::Paragraph) => continue,
+                Event::Start(tag) => {
+                    is_inline &= !is_block_tag(tag);
+                }
+                _ => {}
+            }
+
+            has_markdown = true;
+            if !is_inline {
+                break;
+            }
+        }
+        has_markdown |= pos != text.len();
+    }
+
+    if !has_markdown {
+        return None;
+    }
+
+    let mut events_iter = parser_events.into_iter();
+    if is_inline {
+        events_iter.next();
+        events_iter.next_back();
+    }
+
+    let mut html_body = String::new();
+    pulldown_cmark::html::push_html(&mut html_body, events_iter);
+    Some(html_body)
+}
+
 pub(super) fn html_uses_only_plain_text_wrappers(html: &str) -> bool {
     let stripped = html
         .replace("<p>", "")
         .replace("</p>\n", "")
         .replace("</p>", "")
         .replace("<br />\n", "")
-        .replace("<br />", "");
+        .replace("<br />", "")
+        // The ruma sanitizer serializes hard breaks as `<br>`.
+        .replace("<br>\n", "")
+        .replace("<br>", "");
 
     !stripped.contains('<')
 }

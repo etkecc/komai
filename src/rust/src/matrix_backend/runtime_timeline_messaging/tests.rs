@@ -60,6 +60,49 @@ fn formatted_html_disabled_when_markdown_off() {
 }
 
 #[test]
+fn raw_html_alone_is_not_formatting() {
+    // CommonMark would pass a typed `<pre>` through as a real HTML block
+    // that swallows the rest of the message for every recipient. Tag-like
+    // tokens in chat are almost always meant literally, so raw HTML is
+    // demoted to text; with no other markdown present, the message sends
+    // plain, matching Element.
+    assert_eq!(
+        formatted_html_from_markdown("Text with <pre> inside it.\nLet's see what happens!", true),
+        None
+    );
+    assert_eq!(formatted_html_from_markdown("<pre>\nhello\n</pre>", true), None);
+    assert_eq!(formatted_html_from_markdown("<b>bold?</b>", true), None);
+}
+
+#[test]
+fn raw_html_is_escaped_when_markdown_is_present() {
+    let html = formatted_html_from_markdown("**bold** and a <pre> tag", true).unwrap();
+    assert!(html.contains("&lt;pre&gt;"), "tag should be escaped: {html}");
+    assert!(!html.contains("<pre"), "tag must not become markup: {html}");
+}
+
+#[test]
+fn raw_html_demotion_leaves_code_and_autolinks_alone() {
+    let html = formatted_html_from_markdown("`a < b`", true).unwrap();
+    assert!(html.contains("<code>a &lt; b</code>"), "unexpected: {html}");
+
+    let html = formatted_html_from_markdown("see <https://example.com> now", true).unwrap();
+    assert!(html.contains("<a "), "autolink should stay a link: {html}");
+    assert!(html.contains("https://example.com"), "unexpected: {html}");
+}
+
+#[test]
+fn multi_line_raw_html_keeps_line_breaks_as_hard_breaks() {
+    // When raw HTML is demoted next to real markdown, its newlines must
+    // survive as <br> so the literal lines don't collapse when rendered.
+    let html =
+        formatted_html_from_markdown("**bold**\n\n<pre>\nline two\n</pre>", true).unwrap();
+    assert!(html.contains("&lt;pre&gt;"), "unexpected: {html}");
+    assert!(html.contains("line two"), "unexpected: {html}");
+    assert!(html.contains("<br"), "newlines should become breaks: {html}");
+}
+
+#[test]
 fn caption_carries_formatted_body_for_real_markdown() {
     let content = caption_text_content("**bold** [link](https://example.com)", true);
     assert_eq!(content.body, "**bold** [link](https://example.com)");

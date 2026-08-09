@@ -38,6 +38,10 @@ img-parts = "0.4"
 bytes = "1"
 blurhash = "0.2"
 linkify = "0.11"
+# Markdown-to-HTML for outgoing messages: mirrors ruma's conversion but demotes
+# raw HTML to literal text. Same version/features as ruma-events' own dependency,
+# so no extra crate is built.
+pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
 spellbook = "0.4.0"
 unicode-script = "0.5.8"
 syntect = { version = "5", default-features = false, features = ["default-fancy"] }

@@ -2132,6 +2132,7 @@ dependencies = [
  "matrix-sdk-base",
  "matrix-sdk-ui",
  "mime",
+ "pulldown-cmark",
  "rand 0.10.2",
  "reqwest",
  "resolvematrix",

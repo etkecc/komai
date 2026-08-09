@@ -8858,7 +8858,17 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+156"/>
+        <source>Copied</source>
+        <translation>Zkopírováno</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Copy code</source>
+        <translation>Kopírovat kód</translation>
+    </message>
+    <message>
+        <location line="+85"/>
         <source>Show more</source>
         <translation>Zobrazit více</translation>
     </message>

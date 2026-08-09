@@ -9,9 +9,8 @@
 #include <QPoint>
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
-#include <QRect>
+#include <QRectF>
 #include <QString>
-#include <QTimer>
 #include <memory>
 
 #include <litehtml.h>
@@ -50,6 +49,14 @@ class LitehtmlItem : public QQuickPaintedItem
     Q_PROPERTY(
       qreal rightPadding READ rightPadding WRITE setRightPadding NOTIFY rightPaddingChanged)
     Q_PROPERTY(bool compact READ compact WRITE setCompact NOTIFY compactChanged)
+    // Item-space rect of the current (or last) hovered <pre> code block. Stays
+    // valid after the pointer leaves the block so the QML copy button overlay
+    // doesn't lose its anchor mid-interaction; null until a block is hovered
+    // and after every rebuild/relayout.
+    Q_PROPERTY(QRectF codeBlockRect READ codeBlockRect NOTIFY codeBlockRectChanged)
+    // Whether the pointer is currently over that code block. The QML overlay
+    // combines this with its own hover state to decide visibility.
+    Q_PROPERTY(bool codeBlockHovered READ codeBlockHovered NOTIFY codeBlockHoveredChanged)
 
 public:
     explicit LitehtmlItem(QQuickItem *parent = nullptr);
@@ -88,6 +95,12 @@ public:
     bool compact() const { return m_compact; }
     void setCompact(bool compact);
 
+    QRectF codeBlockRect() const { return m_codeBlockRect; }
+    bool codeBlockHovered() const { return m_codeBlockHovered; }
+    // Copies the hovered code block's text to the clipboard (minus one
+    // trailing newline). Returns false when no block is tracked.
+    Q_INVOKABLE bool copyCodeBlockText();
+
     void paint(QPainter *painter) override;
 
     Q_INVOKABLE void handleHoverMove(qreal x, qreal y);
@@ -110,6 +123,8 @@ signals:
     void leftPaddingChanged();
     void rightPaddingChanged();
     void compactChanged();
+    void codeBlockRectChanged();
+    void codeBlockHoveredChanged();
     void linkActivated(const QString &link);
     // Emitted when the focused item should release focus to whatever the
     // surrounding view considers the natural fallback target. We can't
@@ -169,8 +184,10 @@ private:
     QString extractSelectedText() const;
     void drawSelection(QPainter *painter);
     void clearSelection();
-    // Drop cached copy-button state: hover left the <pre>, the item, or a rebuild.
-    void clearCodeButton();
+    // Forget the tracked code block entirely: layout changed, so both the
+    // rect and the element pointer are stale.
+    void clearCodeBlock();
+    void setCodeBlockHovered(bool hovered);
 
     bool roomSwitchPerfEnabled() const;
     void logPerfPhase(const char *phase, qint64 elapsedUs, const QString &extra = {}) const;
@@ -220,10 +237,9 @@ private:
     // Hover throttling: last document-space position passed to on_mouse_over.
     QPoint m_lastHoverDocPos{-1, -1};
 
-    // Hovered <pre> or null; const_ptr so the all-const hover walk can hold it.
+    // Current/last hovered <pre> or null; const_ptr so the all-const hover
+    // walk can hold it. Kept in sync with m_codeBlockRect.
     litehtml::element::const_ptr m_codeBlock;
-    // Item-space; one rect for draw and hit-test. isValid() == "has a button".
-    QRect m_codeButtonRect;
-    bool m_codeCopied         = false;
-    QTimer *m_codeRevertTimer = nullptr;
+    QRectF m_codeBlockRect;
+    bool m_codeBlockHovered = false;
 };

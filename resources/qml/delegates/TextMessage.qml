@@ -131,6 +131,52 @@ LitehtmlItem {
         onHoveredChanged: if (!hovered) litehtmlRoot.handleHoverLeave()
     }
 
+    // Copy button for the hovered <pre> code block, anchored to the block's
+    // top-right corner. A real control on top of the paint item, so tooltip,
+    // cursor, hover state and Accessible.name come from ImageButton.
+    ImageButton {
+        id: codeCopyButton
+
+        property bool copied: false
+
+        readonly property rect blockRect: litehtmlRoot.codeBlockRect
+        // The C++ side keeps reporting the last block after the pointer moves
+        // onto this button (or just past a short block's bottom edge), so our
+        // own `hovered` has to participate in visibility to avoid flicker.
+        visible: !litehtmlRoot.perfDisableTimelineInteraction
+                 && blockRect.width > 0
+                 && (litehtmlRoot.codeBlockHovered || hovered)
+        x: blockRect.x + blockRect.width - width - Komai.paddingSmall
+        y: blockRect.y + Komai.paddingSmall
+        width: 24
+        height: 24
+        padding: Komai.paddingSmall
+        hoverEnabled: true
+        image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+        toolTipText: copied ? qsTr("Copied") : qsTr("Copy code")
+
+        onBlockRectChanged: copied = false
+        onClicked: {
+            if (litehtmlRoot.copyCodeBlockText()) {
+                copied = true;
+                copiedRevertTimer.restart();
+            }
+        }
+
+        background: Rectangle {
+            radius: Komai.paddingSmall
+            color: codeCopyButton.hovered ? palette.dark : palette.alternateBase
+            border.color: Komai.theme.separator
+            border.width: 1
+        }
+
+        Timer {
+            id: copiedRevertTimer
+            interval: 2000
+            onTriggered: codeCopyButton.copied = false
+        }
+    }
+
     // Gradient fade overlay when collapsed
     Rectangle {
         visible: litehtmlRoot.collapsible && litehtmlRoot.collapsed

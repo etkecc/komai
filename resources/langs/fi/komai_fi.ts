@@ -8850,7 +8850,17 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+156"/>
+        <source>Copied</source>
+        <translation>Kopioitu</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Copy code</source>
+        <translation>Kopioi koodi</translation>
+    </message>
+    <message>
+        <location line="+85"/>
         <source>Show more</source>
         <translation>Näytä enemmän</translation>
     </message>

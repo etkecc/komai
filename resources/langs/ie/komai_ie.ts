@@ -8850,7 +8850,17 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+156"/>
+        <source>Copied</source>
+        <translation>Copiat</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Copy code</source>
+        <translation>Copiar code</translation>
+    </message>
+    <message>
+        <location line="+85"/>
         <source>Show more</source>
         <translation>Monstrar plus</translation>
     </message>

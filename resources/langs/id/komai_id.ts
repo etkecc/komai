@@ -8842,7 +8842,17 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>TextMessage</name>
     <message>
-        <location filename="../../qml/delegates/TextMessage.qml" line="+195"/>
+        <location filename="../../qml/delegates/TextMessage.qml" line="+156"/>
+        <source>Copied</source>
+        <translation>Disalin</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Copy code</source>
+        <translation>Salin kode</translation>
+    </message>
+    <message>
+        <location line="+85"/>
         <source>Show more</source>
         <translation>Tampilkan lebih banyak</translation>
     </message>

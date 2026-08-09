@@ -126,9 +126,8 @@ EncryptionKeyExport::importKeys(const QUrl &file, const QString &passphrase)
               emit self->importFailed(taskResult.error);
               return;
           }
-          komai::logging::crypto()->info("Imported {} of {} room keys",
-                                         taskResult.counts->imported,
-                                         taskResult.counts->total);
+          komai::logging::crypto()->info(
+            "Imported {} of {} room keys", taskResult.counts->imported, taskResult.counts->total);
           emit self->importCompleted(static_cast<int>(taskResult.counts->imported),
                                      static_cast<int>(taskResult.counts->total));
       });

@@ -568,6 +568,168 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>Malfermi</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>Montri en dosierujo</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>Konversacia eksporto de '%1' konservita al '%2'</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>vi ne estis en la ĉambro kiam ĉi tiu mesaĝo estis sendita</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>la identeco de la sendinto ne plu estas kontrolita</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>la mesaĝo estis sendita de aparato ne subskribita de sia posedanto</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>la mesaĝo estis sendita de aparato, kiun ni ne povis sekure identigi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>historio ne disponeblas sur ĉi tiu aparato ĉar savkopio de ŝlosiloj estas malŝaltita</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>ĉi tiu aparato ne estas kontrolita</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>la sekurecaj agordoj de la sendinto malebligis kunhavigon de la ĉifroŝlosiloj</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>la sendinto ne kunhavigis la ĉifroŝlosilojn kun ĉi tiu aparato</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>la ĉifroŝlosiloj mankas</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>bildo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>voĉa mesaĝo</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>sono</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>glumarko</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>dosiero</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[Ne eblas malĉifri: %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[Mesaĝo forigita]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; responde al %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; responde al pli frua mesaĝo</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(redaktita)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[reagoj: %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>responde al %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>responde al pli frua mesaĝo</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - eksporto de babilado</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>Eksportita de %1 la %2 per Komai. %n mesaĝo.</numerusform>
+            <numerusform>Eksportita de %1 la %2 per Komai. %n mesaĝoj.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>Eksporto de babilado: %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>Eksportita de %1 la %2 per Komai.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
@@ -6179,6 +6341,11 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>Eksporti</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>Pri ĉi tiu ĉambro</translation>
     </message>
@@ -6188,7 +6355,7 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
         <translation>Membroj</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>Informoj pri spaco</translation>
     </message>
@@ -6196,6 +6363,142 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
         <location line="+0"/>
         <source>Room Info</source>
         <translation>Informoj pri ĉambro</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>Eksporti historion de babilado</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>Konservas la tutan mesaĝhistorion de ĉi tiu ĉambro, inkluzive de malĉifritaj mesaĝoj, en unu dosiero sur ĉi tiu komputilo. Aŭdvidaĵoj estas inkluzivitaj kiel ligiloj, ne elŝutitaj. Depende de la grandeco de la ĉambro, tio povas daŭri iom da tempo.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>Formato</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>Simpla teksto (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>Retpaĝo (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>Inkluzivi eksportajn detalojn</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>Eksporto malsukcesis: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>Eksportita %n mesaĝo.</numerusform>
+            <numerusform>Eksportitaj %n mesaĝoj.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>%n mesaĝo ne povis esti malĉifrita.</numerusform>
+            <numerusform>%n mesaĝoj ne povis esti malĉifritaj.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>Eksporto nuligita.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>Nuligi eksporton</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>Unuopa memstara retpaĝo, legebla en ajna retumilo.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>Unu JSON-objekto po linio (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), por skriptoj kaj iloj kiel &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Tempindikoj estas en UTC, kaj valoroj de kampoj estas lingve sendependaj.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>Simpla transskribo kun unu mesaĝo po linio, legebla en ajna tekstoredaktilo.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>Eksporti…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>Retpaĝoj (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>JSON Lines-dosieroj (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Ĉiuj dosieroj (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>Maŝinlegebla (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>Komencas la dosieron per mallonga kapo, kiu diras kiu ĉambro tio estas, kiam la eksporto estis farita, kaj de kiu.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>Eksportado… ĝis nun ricevita %n mesaĝo.</numerusform>
+            <numerusform>Eksportado… ĝis nun ricevitaj %n mesaĝoj.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>La eksporto daŭre funkcias, se vi fermas ĉi tiun dialogon.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>Tekstaj dosieroj (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>Eksporti historion de babilado al dosiero</translation>
     </message>
 </context>
 <context>

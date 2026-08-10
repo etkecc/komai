@@ -568,6 +568,168 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>Ouvrir</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>Afficher dans le dossier</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>Export de discussion de '%1' enregistré dans '%2'</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>vous n'étiez pas dans le salon lorsque ce message a été envoyé</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>l'identité de l'expéditeur n'est plus vérifiée</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>le message a été envoyé depuis un appareil qui n'est pas signé par son propriétaire</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>le message a été envoyé depuis un appareil que nous n'avons pas pu identifier de manière sécurisée</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>l'historique n'est pas disponible sur cet appareil, car la sauvegarde des clés est désactivée</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>cet appareil n'est pas vérifié</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>les paramètres de sécurité de l'expéditeur ont empêché le partage des clés de chiffrement</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>l'expéditeur n'a pas partagé les clés de chiffrement avec cet appareil</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>les clés de chiffrement sont manquantes</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>image</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>vidéo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>message vocal</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>audio</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>autocollant</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>fichier</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[Impossible de déchiffrer : %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[Message supprimé]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; en réponse à %1 : "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; en réponse à un message précédent</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(modifié)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[réactions : %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>en réponse à %1 : "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>en réponse à un message précédent</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - export de discussion</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>Exporté par %1 le %2 avec Komai. %n message.</numerusform>
+            <numerusform>Exporté par %1 le %2 avec Komai. %n messages.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>Export de discussion : %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>Exporté par %1 le %2 avec Komai.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
@@ -6177,6 +6339,11 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>Exporter</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>À propos de ce salon</translation>
     </message>
@@ -6186,7 +6353,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <translation>Membres</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>Informations sur l'espace</translation>
     </message>
@@ -6194,6 +6361,142 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
         <location line="+0"/>
         <source>Room Info</source>
         <translation>Informations sur le salon</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>Exporter l'historique de discussion</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>Enregistre l'intégralité de l'historique des messages de ce salon, y compris les messages déchiffrés, dans un seul fichier sur cet ordinateur. Les médias sont inclus sous forme de liens, sans être téléchargés. Selon la taille du salon, cela peut prendre du temps.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>Format</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>Texte brut (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>Page web (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>Inclure les détails de l'export</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>Échec de l'export : %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>%n message exporté.</numerusform>
+            <numerusform>%n messages exportés.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>%n message n'a pas pu être déchiffré.</numerusform>
+            <numerusform>%n messages n'ont pas pu être déchiffrés.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>Export annulé.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>Annuler l'export</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>Une seule page web autonome, lisible dans n'importe quel navigateur.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>Un objet JSON par ligne (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), pour les scripts et outils comme &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Les horodatages sont en UTC et les valeurs des champs sont indépendantes de la langue.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>Une simple transcription avec un message par ligne, lisible dans n'importe quel éditeur de texte.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>Exporter…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>Pages web (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>Fichiers JSON Lines (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Tous les fichiers (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>Lisible par machine (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>Ajoute au début du fichier un court en-tête indiquant de quel salon il s'agit, à quel moment l'export a été fait, et par qui.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>Exportation… %n message récupéré pour le moment.</numerusform>
+            <numerusform>Exportation… %n messages récupérés pour le moment.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>L'export continue même si vous fermez cette fenêtre.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>Fichiers texte (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>Exporter l'historique de discussion dans un fichier</translation>
     </message>
 </context>
 <context>

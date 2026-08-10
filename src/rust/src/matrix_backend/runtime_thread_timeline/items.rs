@@ -6,14 +6,14 @@
 //! that extract relation metadata and request reply previews on demand.
 
 use super::super::*;
-use super::super::event_summary::summarize_sync_timeline_event;
+use super::super::event_summary::{summarize_sync_timeline_event, utd_reason_tag};
 use super::super::timeline_snapshot::collect_unavailable_reply_event_ids;
 
 use std::collections::HashSet;
 use std::sync::Arc;
 
 use matrix_sdk::Room;
-use matrix_sdk::deserialized_responses::TimelineEvent;
+use matrix_sdk::deserialized_responses::{TimelineEvent, TimelineEventKind};
 use matrix_sdk::ruma::OwnedEventId;
 use matrix_sdk_ui::eyeball_im::Vector;
 use matrix_sdk_ui::timeline::{Timeline, TimelineItem};
@@ -22,7 +22,7 @@ use matrix_sdk_ui::timeline::{Timeline, TimelineItem};
 /// Convert a raw `TimelineEvent` into a basic `MatrixTimelineItem`.
 /// Produces a functional item with text, sender, media, and timestamps,
 /// but without SDK-processed aggregations like reactions or reply previews.
-pub(super) async fn raw_event_to_timeline_item(
+pub(in crate::matrix_backend) async fn raw_event_to_timeline_item(
     event: &TimelineEvent,
     room: &Room,
     own_user_id: &matrix_sdk::ruma::UserId,
@@ -34,7 +34,18 @@ pub(super) async fn raw_event_to_timeline_item(
     let deserialized = raw.deserialize().ok()?;
 
     let sender_id = deserialized.sender().to_string();
-    let summary = summarize_sync_timeline_event(&deserialized)?;
+    let mut summary = summarize_sync_timeline_event(&deserialized)?;
+
+    // Undecryptable events reach the raw path still encrypted: `raw()`
+    // yields the `m.room.encrypted` JSON, which the summarizer can only
+    // classify as an unsupported message. The decryption verdict lives on
+    // the `TimelineEvent` wrapper, so overlay it here.
+    if let TimelineEventKind::UnableToDecrypt { utd_info, .. } = &event.kind {
+        summary.kind = "unable_to_decrypt".to_owned();
+        summary.matrix_event_type = "m.room.encrypted".to_owned();
+        summary.body = "[Unable to decrypt message]".to_owned();
+        summary.utd_cause = utd_reason_tag(&utd_info.reason, raw).to_owned();
+    }
 
     let (sender_display_name, sender_avatar_url) =
         resolve_member_profile(room, deserialized.sender()).await;

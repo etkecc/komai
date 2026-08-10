@@ -5,6 +5,7 @@
 mod auth;
 mod backend;
 mod blocking;
+mod chat_export;
 mod directory;
 mod element_call;
 mod profile;
@@ -22,6 +23,7 @@ pub(crate) use auth::*;
 pub(crate) use backend::*;
 pub(crate) use registration::*;
 pub(crate) use blocking::*;
+pub(crate) use chat_export::*;
 pub(crate) use directory::*;
 pub(crate) use element_call::*;
 pub(crate) use profile::*;

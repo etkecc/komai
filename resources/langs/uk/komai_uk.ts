@@ -568,6 +568,169 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>Відкрити</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>Показати в теці</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>Експорт чату '%1' збережено до '%2'</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>тебе не було в кімнаті, коли було надіслано це повідомлення</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>особу відправника більше не перевірено</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>повідомлення надіслано з пристрою, не підписаного його власником</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>повідомлення надіслано з пристрою, який не вдалося безпечно ідентифікувати</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>історія недоступна на цьому пристрої, оскільки резервне копіювання ключів вимкнено</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>цей пристрій не перевірено</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>налаштування безпеки відправника завадили поділитися ключами шифрування</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>відправник не поділився ключами шифрування з цим пристроєм</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>відсутні ключі шифрування</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>зображення</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>відео</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>голосове повідомлення</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>аудіо</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>стікер</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>файл</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[Не вдалося розшифрувати: %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[Повідомлення видалено]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; у відповідь %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; у відповідь на попереднє повідомлення</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(редаговано)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[реакції: %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>у відповідь %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>у відповідь на попереднє повідомлення</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - експорт чату</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>Експортовано %1 %2 за допомогою Komai. %n повідомлення.</numerusform>
+            <numerusform>Експортовано %1 %2 за допомогою Komai. %n повідомлення.</numerusform>
+            <numerusform>Експортовано %1 %2 за допомогою Komai. %n повідомлень.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>Експорт чату: %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>Експортовано %1 %2 за допомогою Komai.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
@@ -6184,6 +6347,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>Експорт</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>Про цю кімнату</translation>
     </message>
@@ -6193,7 +6361,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Учасники</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>Інформація про простір</translation>
     </message>
@@ -6201,6 +6369,145 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+0"/>
         <source>Room Info</source>
         <translation>Інформація про кімнату</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>Експортувати історію чату</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>Зберігає всю історію повідомлень цієї кімнати, включно з розшифрованими повідомленнями, в один файл на цьому комп'ютері. Медіа включено як посилання, без завантаження. Залежно від розміру кімнати, це може тривати деякий час.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>Формат</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>Звичайний текст (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>Веб-сторінка (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>Додати відомості про експорт</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>Не вдалося експортувати: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>Експортовано %n повідомлення.</numerusform>
+            <numerusform>Експортовано %n повідомлення.</numerusform>
+            <numerusform>Експортовано %n повідомлень.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>%n повідомлення не вдалося розшифрувати.</numerusform>
+            <numerusform>%n повідомлення не вдалося розшифрувати.</numerusform>
+            <numerusform>%n повідомлень не вдалося розшифрувати.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>Експорт скасовано.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>Скасувати експорт</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>Одна автономна веб-сторінка, яку можна відкрити в будь-якому браузері.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>По одному обʼєкту JSON на рядок (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), для скриптів та інструментів на кшталт &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Часові мітки вказано в UTC, а значення полів не залежать від мови.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>Простий текстовий запис, по одному повідомленню на рядок, який можна відкрити в будь-якому текстовому редакторі.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>Експорт…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>Веб-сторінки (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>Файли JSON Lines (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Усі файли (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>Машиночитаний (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>Додає на початок файлу короткий заголовок із назвою кімнати, часом експортування та автором.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>Експортування… наразі отримано %n повідомлення.</numerusform>
+            <numerusform>Експортування… наразі отримано %n повідомлення.</numerusform>
+            <numerusform>Експортування… наразі отримано %n повідомлень.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>Експорт продовжується, навіть якщо закрити це вікно.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>Текстові файли (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>Експортувати історію чату у файл</translation>
     </message>
 </context>
 <context>

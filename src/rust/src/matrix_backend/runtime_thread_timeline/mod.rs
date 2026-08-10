@@ -56,6 +56,7 @@ mod snapshot;
 mod task_loop;
 
 pub(super) use items::extract_relations_from_raw;
+pub(in crate::matrix_backend) use items::raw_event_to_timeline_item;
 
 use std::sync::atomic::Ordering;
 

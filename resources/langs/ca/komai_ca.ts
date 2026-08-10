@@ -568,6 +568,168 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>Obre</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>Mostra a la carpeta</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>Exportació del xat de '%1' desada a '%2'</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>no eres a la sala quan es va enviar aquest missatge</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>la identitat del remitent ja no està verificada</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>el missatge es va enviar des d'un dispositiu que no està signat pel seu propietari</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>el missatge es va enviar des d'un dispositiu que no s'ha pogut identificar de manera segura</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>l'historial no està disponible en aquest dispositiu perquè la còpia de seguretat de claus està desactivada</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>aquest dispositiu no està verificat</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>la configuració de seguretat del remitent ha impedit compartir les claus de xifratge</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>el remitent no ha compartit les claus de xifratge amb aquest dispositiu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>falten les claus de xifratge</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>imatge</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>vídeo</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>missatge de veu</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>àudio</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>adhesiu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>fitxer</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[No s'ha pogut desxifrar: %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[Missatge suprimit]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; en resposta a %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; en resposta a un missatge anterior</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(editat)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[reaccions: %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>en resposta a %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>en resposta a un missatge anterior</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - exportació de xat</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>Exportat per %1 el %2 amb Komai. %n missatge.</numerusform>
+            <numerusform>Exportat per %1 el %2 amb Komai. %n missatges.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>Exportació de xat: %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>Exportat per %1 el %2 amb Komai.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
@@ -6177,6 +6339,11 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>Exporta</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>Sobre aquesta sala</translation>
     </message>
@@ -6186,7 +6353,7 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
         <translation>Membres</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>Informació de l'espai</translation>
     </message>
@@ -6194,6 +6361,142 @@ Les còpies de seguretat de claus del servidor anteriors no s'eliminen automàti
         <location line="+0"/>
         <source>Room Info</source>
         <translation>Informació de la sala</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>Exporta l'historial del xat</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>Desa tot l'historial de missatges d'aquesta sala, incloent-hi els missatges desxifrats, en un únic fitxer en aquest ordinador. Els fitxers multimèdia s'inclouen com a enllaços, no es descarreguen. Depenent de la mida de la sala, això pot trigar una estona.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>Format</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>Text sense format (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>Pàgina web (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>Inclou els detalls de l'exportació</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>L'exportació ha fallat: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>S'ha exportat %n missatge.</numerusform>
+            <numerusform>S'han exportat %n missatges.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>No s'ha pogut desxifrar %n missatge.</numerusform>
+            <numerusform>No s'han pogut desxifrar %n missatges.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>Exportació cancel·lada.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>Cancel·la l'exportació</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>Una única pàgina web autònoma, llegible amb qualsevol navegador.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>Un objecte JSON per línia (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), per a scripts i eines com &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Les marques horàries són en UTC i els valors dels camps són independents de l'idioma.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>Una transcripció senzilla amb un missatge per línia, llegible amb qualsevol editor de text.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>Exporta…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>Pàgines web (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>Fitxers JSON Lines (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Tots els fitxers (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>Llegible per màquina (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>Comença el fitxer amb una capçalera breu que indica quina sala és, quan es va fer l'exportació i per qui.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>S'està exportant… s'ha obtingut %n missatge fins ara.</numerusform>
+            <numerusform>S'està exportant… s'han obtingut %n missatges fins ara.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>L'exportació continua encara que tanquis aquest diàleg.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>Fitxers de text (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>Exporta l'historial del xat a un fitxer</translation>
     </message>
 </context>
 <context>

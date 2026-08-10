@@ -568,6 +568,168 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>Openen</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>Tonen in map</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>Chatexport van '%1' opgeslagen naar '%2'</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>je was niet in de kamer toen dit bericht werd verzonden</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>de identiteit van de afzender is niet langer geverifieerd</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>het bericht is verzonden vanaf een apparaat dat niet is ondertekend door de eigenaar</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>het bericht is verzonden vanaf een apparaat dat we niet veilig konden identificeren</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>geschiedenis is niet beschikbaar op dit apparaat omdat back-up van sleutels is uitgeschakeld</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>dit apparaat is niet geverifieerd</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>de beveiligingsinstellingen van de afzender verhinderden het delen van de versleutelingssleutels</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>de afzender heeft de versleutelingssleutels niet gedeeld met dit apparaat</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>de versleutelingssleutels ontbreken</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>afbeelding</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>video</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>spraakbericht</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>audio</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>sticker</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>bestand</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[Kan niet ontsleutelen: %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[Bericht verwijderd]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; in antwoord op %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; in antwoord op een eerder bericht</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(bewerkt)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[reacties: %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>in antwoord op %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>in antwoord op een eerder bericht</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - chatexport</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>Geëxporteerd door %1 op %2 met Komai. %n bericht.</numerusform>
+            <numerusform>Geëxporteerd door %1 op %2 met Komai. %n berichten.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>Chatexport: %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>Geëxporteerd door %1 op %2 met Komai.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
@@ -6177,6 +6339,11 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>Exporteren</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>Over deze kamer</translation>
     </message>
@@ -6186,7 +6353,7 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
         <translation>Leden</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>Ruimte-info</translation>
     </message>
@@ -6194,6 +6361,142 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
         <location line="+0"/>
         <source>Room Info</source>
         <translation>Kamerinfo</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>Chatgeschiedenis exporteren</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>Slaat de volledige berichtengeschiedenis van deze kamer op in één bestand op deze computer, inclusief ontsleutelde berichten. Media wordt opgenomen als links, niet gedownload. Afhankelijk van de grootte van de kamer kan dit even duren.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>Formaat</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>Platte tekst (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>Webpagina (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>Exportdetails opnemen</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>Export mislukt: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>%n bericht geëxporteerd.</numerusform>
+            <numerusform>%n berichten geëxporteerd.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>%n bericht kon niet worden ontsleuteld.</numerusform>
+            <numerusform>%n berichten konden niet worden ontsleuteld.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>Export geannuleerd.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>Export annuleren</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>Eén zelfstandige webpagina, leesbaar in elke browser.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>Eén JSON-object per regel (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), voor scripts en tools zoals &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Tijdstempels zijn UTC en veldwaarden zijn taalonafhankelijk.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>Een eenvoudig transcript met één bericht per regel, leesbaar in elke teksteditor.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>Exporteren…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>Webpagina's (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>JSON Lines-bestanden (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Alle bestanden (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>Machineleesbaar (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>Begint het bestand met een korte koptekst die aangeeft om welke kamer het gaat, wanneer de export is gemaakt en door wie.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>Exporteren… %n bericht tot nu toe opgehaald.</numerusform>
+            <numerusform>Exporteren… %n berichten tot nu toe opgehaald.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>De export blijft doorlopen als je dit venster sluit.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>Tekstbestanden (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>Chatgeschiedenis naar bestand exporteren</translation>
     </message>
 </context>
 <context>

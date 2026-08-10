@@ -377,6 +377,45 @@ MatrixBackendRuntimeService::fetchRoomTimeline(matrix_backend::BlockingCallConte
     }
 }
 
+std::optional<MatrixChatExportBatch>
+MatrixBackendRuntimeService::fetchChatExportBatch(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
+                                                  const QString &roomId,
+                                                  const QString &fromToken,
+                                                  uint32_t limit,
+                                                  QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_chat_export_batch", [context, handleId, roomId, fromToken, limit]() {
+              return ::komai::rust::matrix_fetch_chat_export_batch(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                fromToken.toStdString(),
+                limit);
+          });
+
+        MatrixChatExportBatch batch;
+        batch.nextToken    = QString::fromStdString(std::string(result.next_token));
+        batch.reachedStart = result.reached_start;
+        batch.events.reserve(static_cast<int>(result.events.size()));
+        for (const auto &event : result.events) {
+            batch.events.push_back(MatrixChatExportEvent{
+              .item             = fromRustTimelineItem(event.item),
+              .relationKind     = QString::fromStdString(std::string(event.relation_kind)),
+              .relatesToEventId = QString::fromStdString(std::string(event.relates_to_event_id)),
+              .annotationKey    = QString::fromStdString(std::string(event.annotation_key)),
+            });
+        }
+        return batch;
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 bool
 MatrixBackendRuntimeService::paginateActiveRoomTimelineBackwards(uint64_t handleId,
                                                                  uint16_t pageSize,

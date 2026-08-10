@@ -568,6 +568,168 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>തുറക്കുക</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>ഫോൾഡറിൽ കാണിക്കുക</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>'%1' എന്നതിന്റെ ചാറ്റ് എക്സ്പോർട്ട് '%2' എന്നതിലേക്ക് സംരക്ഷിച്ചു</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>ഈ സന്ദേശം അയച്ചപ്പോൾ നിങ്ങൾ മുറിയിൽ ഉണ്ടായിരുന്നില്ല</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>അയക്കുന്നയാളുടെ ഐഡന്റിറ്റി ഇനി പരിശോധിക്കപ്പെട്ടിട്ടില്ല</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>സന്ദേശം അതിന്റെ ഉടമ ഒപ്പിടാത്ത ഒരു ഉപകരണത്തിൽ നിന്ന് അയച്ചതാണ്</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>സന്ദേശം ഞങ്ങൾക്ക് സുരക്ഷിതമായി തിരിച്ചറിയാൻ കഴിയാത്ത ഒരു ഉപകരണത്തിൽ നിന്ന് അയച്ചതാണ്</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>കീ ബാക്കപ്പ് ഓഫ് ആയതിനാൽ ഈ ഉപകരണത്തിൽ ചരിത്രം ലഭ്യമല്ല</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>ഈ ഉപകരണം പരിശോധിക്കപ്പെട്ടിട്ടില്ല</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>അയക്കുന്നയാളുടെ സുരക്ഷാ ക്രമീകരണങ്ങൾ എൻക്രിപ്ഷൻ കീകൾ പങ്കിടുന്നത് തടഞ്ഞു</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>അയക്കുന്നയാൾ ഈ ഉപകരണവുമായി എൻക്രിപ്ഷൻ കീകൾ പങ്കിട്ടിട്ടില്ല</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>എൻക്രിപ്ഷൻ കീകൾ കാണുന്നില്ല</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>ചിത്രം</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>വീഡിയോ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>വോയ്സ് സന്ദേശം</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>ഓഡിയോ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>സ്റ്റിക്കർ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>ഫയൽ</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[ഡീക്രിപ്റ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല: %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[സന്ദേശം നീക്കം ചെയ്തു]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; %1-നുള്ള മറുപടി: "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; മുൻപത്തെ ഒരു സന്ദേശത്തിനുള്ള മറുപടി</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(തിരുത്തിയത്)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[പ്രതികരണങ്ങൾ: %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>%1-നുള്ള മറുപടി: "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>മുൻപത്തെ ഒരു സന്ദേശത്തിനുള്ള മറുപടി</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - ചാറ്റ് എക്സ്പോർട്ട്</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>%1 %2-ന് Komai ഉപയോഗിച്ച് കയറ്റുമതി ചെയ്തു. %n സന്ദേശം.</numerusform>
+            <numerusform>%1 %2-ന് Komai ഉപയോഗിച്ച് കയറ്റുമതി ചെയ്തു. %n സന്ദേശങ്ങൾ.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>ചാറ്റ് എക്സ്പോർട്ട്: %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>%1, %2-ന് Komai ഉപയോഗിച്ച് എക്സ്പോർട്ട് ചെയ്തു.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageRoomActions.cpp" line="+39"/>
@@ -6177,6 +6339,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>എക്സ്പോർട്ട്</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>ഈ മുറിയെ കുറിച്ച്</translation>
     </message>
@@ -6186,7 +6353,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>അംഗങ്ങൾ</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>സ്പേസ് വിവരങ്ങൾ</translation>
     </message>
@@ -6194,6 +6361,142 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+0"/>
         <source>Room Info</source>
         <translation>മുറി വിവരങ്ങൾ</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യുക</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>ഈ മുറിയുടെ മുഴുവൻ സന്ദേശ ചരിത്രവും, ഡീക്രിപ്റ്റ് ചെയ്ത സന്ദേശങ്ങൾ ഉൾപ്പെടെ, ഈ കമ്പ്യൂട്ടറിലെ ഒരൊറ്റ ഫയലിലേക്ക് സേവ് ചെയ്യുന്നു. മീഡിയ ലിങ്കുകളായി ഉൾപ്പെടുത്തിയിട്ടുണ്ട്, ഡൗൺലോഡ് ചെയ്യുന്നില്ല. മുറിയുടെ വലുപ്പം അനുസരിച്ച്, ഇതിന് കുറച്ച് സമയം എടുത്തേക്കാം.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>ഫോർമാറ്റ്</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>പ്ലെയിൻ ടെക്സ്റ്റ് (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>വെബ് പേജ് (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>എക്സ്പോർട്ട് വിവരങ്ങൾ ഉൾപ്പെടുത്തുക</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>എക്സ്പോർട്ട് പരാജയപ്പെട്ടു: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>%n സന്ദേശം കയറ്റുമതി ചെയ്തു.</numerusform>
+            <numerusform>%n സന്ദേശങ്ങൾ കയറ്റുമതി ചെയ്തു.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>%n സന്ദേശം ഡീക്രിപ്റ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</numerusform>
+            <numerusform>%n സന്ദേശങ്ങൾ ഡീക്രിപ്റ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>എക്സ്പോർട്ട് റദ്ദാക്കി.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>എക്സ്പോർട്ട് റദ്ദാക്കുക</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>ഏത് ബ്രൗസറിലും വായിക്കാവുന്ന, സ്വയം-സമ്പൂർണ്ണമായ ഒരൊറ്റ വെബ് പേജ്.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>ഓരോ വരിയിലും ഒരു JSON ഒബ്ജക്റ്റ് (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), സ്ക്രിപ്റ്റുകൾക്കും &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt; പോലുള്ള ടൂളുകൾക്കും വേണ്ടി. ടൈംസ്റ്റാമ്പുകൾ UTC ആണ്, ഫീൽഡ് മൂല്യങ്ങൾ ഭാഷയെ ആശ്രയിക്കാത്തതുമാണ്.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>ഓരോ വരിയിലും ഒരു സന്ദേശം വീതമുള്ള ലളിതമായ ട്രാൻസ്ക്രിപ്റ്റ്, ഏത് ടെക്സ്റ്റ് എഡിറ്ററിലും വായിക്കാവുന്നത്.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>എക്സ്പോർട്ട്…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>വെബ് പേജുകൾ (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>JSON Lines ഫയലുകൾ (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>എല്ലാ ഫയലുകളും (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>മെഷീൻ വായിക്കാവുന്നത് (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>ഇത് ഏത് മുറിയാണെന്നും, എപ്പോൾ, ആരാണ് എക്സ്പോർട്ട് ചെയ്തതെന്നും പറയുന്ന ഒരു ചെറിയ ഹെഡറോടെ ഫയൽ ആരംഭിക്കുന്നു.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>കയറ്റുമതി ചെയ്യുന്നു… ഇതുവരെ %n സന്ദേശം ലഭിച്ചു.</numerusform>
+            <numerusform>കയറ്റുമതി ചെയ്യുന്നു… ഇതുവരെ %n സന്ദേശങ്ങൾ ലഭിച്ചു.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>ഈ ഡയലോഗ് അടച്ചാലും എക്സ്പോർട്ട് തുടർന്ന് പ്രവർത്തിക്കും.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>ടെക്സ്റ്റ് ഫയലുകൾ (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>ചാറ്റ് ചരിത്രം ഫയലിലേക്ക് എക്സ്പോർട്ട് ചെയ്യുക</translation>
     </message>
 </context>
 <context>

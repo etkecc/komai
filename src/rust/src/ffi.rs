@@ -1367,6 +1367,22 @@ mod bridge {
         count: u64,
     }
 
+    struct MatrixChatExportEvent {
+        item: MatrixTimelineItem,
+        /// "" | "annotation" | "replacement"
+        relation_kind: String,
+        relates_to_event_id: String,
+        annotation_key: String,
+    }
+
+    struct MatrixChatExportBatch {
+        /// Newest → oldest within the batch.
+        events: Vec<MatrixChatExportEvent>,
+        /// Pagination token for the next call; empty when done.
+        next_token: String,
+        reached_start: bool,
+    }
+
     struct MatrixJoinRoomResult {
         ok: bool,
         room_id: String,
@@ -1928,6 +1944,13 @@ mod bridge {
             path: &str,
             passphrase: &str,
         ) -> Result<MatrixRoomKeyImportCounts>;
+        fn matrix_fetch_chat_export_batch(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            from_token: &str,
+            limit: u32,
+        ) -> Result<MatrixChatExportBatch>;
         fn matrix_start_reset_encryption_identity(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

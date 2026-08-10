@@ -544,6 +544,14 @@ public:
                       uint16_t limit,
                       QString *errorOut = nullptr);
 
+    static std::optional<MatrixChatExportBatch>
+    fetchChatExportBatch(matrix_backend::BlockingCallContext context,
+                         uint64_t handleId,
+                         const QString &roomId,
+                         const QString &fromToken,
+                         uint32_t limit,
+                         QString *errorOut = nullptr);
+
     static bool paginateActiveRoomTimelineBackwards(uint64_t handleId,
                                                     uint16_t pageSize,
                                                     QString *errorOut = nullptr);

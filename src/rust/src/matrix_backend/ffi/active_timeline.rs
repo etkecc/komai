@@ -16,7 +16,7 @@ fn runtime_to_ffi_timeline_items(
         .collect()
 }
 
-fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimelineItem {
+pub(super) fn runtime_to_ffi_timeline_item(item: MatrixTimelineItem) -> ffi::MatrixTimelineItem {
     ffi::MatrixTimelineItem {
         item_id: item.item_id,
         event_id: item.event_id,

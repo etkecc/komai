@@ -422,6 +422,24 @@ struct MatrixTimelineItem
     bool operator==(const MatrixTimelineItem &) const = default;
 };
 
+struct MatrixChatExportEvent
+{
+    MatrixTimelineItem item;
+    // "" | "annotation" | "replacement"
+    QString relationKind;
+    QString relatesToEventId;
+    QString annotationKey;
+};
+
+struct MatrixChatExportBatch
+{
+    // Newest → oldest within the batch.
+    QVector<MatrixChatExportEvent> events;
+    // Pagination token for the next call; empty when done.
+    QString nextToken;
+    bool reachedStart = false;
+};
+
 struct MatrixJoinRoomResult
 {
     bool ok = false;

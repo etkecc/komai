@@ -113,6 +113,49 @@ pub(super) fn utd_cause_tag(encrypted_message: &EncryptedMessage) -> &'static st
     }
 }
 
+/// Map a raw-path decryption failure (`UnableToDecryptReason`) to the same
+/// snake_case tags as [`utd_cause_tag`]. Without a `CryptoContextInfo` the
+/// historical-message causes cannot be distinguished, so those collapse to
+/// `"unknown"`; the mapping otherwise mirrors matrix-sdk's
+/// `UtdCause::determine`.
+pub fn utd_reason_tag(
+    reason: &matrix_sdk::deserialized_responses::UnableToDecryptReason,
+    raw: &matrix_sdk::ruma::serde::Raw<AnySyncTimelineEvent>,
+) -> &'static str {
+    use matrix_sdk::deserialized_responses::{
+        UnableToDecryptReason::*, VerificationLevel, WithheldCode,
+    };
+
+    match reason {
+        MissingMegolmSession { withheld_code: Some(WithheldCode::Unverified) } => {
+            "withheld_for_unverified_or_insecure_device"
+        }
+        MissingMegolmSession { withheld_code: Some(WithheldCode::HistoryNotShared) } => {
+            if sent_while_not_joined(raw) { "sent_before_we_joined" } else { "unknown" }
+        }
+        MissingMegolmSession { withheld_code: Some(_) } => "withheld_by_sender",
+        MissingMegolmSession { withheld_code: None } | UnknownMegolmMessageIndex => {
+            if sent_while_not_joined(raw) { "sent_before_we_joined" } else { "unknown" }
+        }
+        SenderIdentityNotTrusted(VerificationLevel::VerificationViolation) => {
+            "verification_violation"
+        }
+        SenderIdentityNotTrusted(VerificationLevel::UnsignedDevice) => "unsigned_device",
+        SenderIdentityNotTrusted(VerificationLevel::None(_)) => "unknown_device",
+        _ => "unknown",
+    }
+}
+
+/// Whether the server flagged (via `unsigned.membership`, MSC4115) that we
+/// were not in the room when this event was sent.
+fn sent_while_not_joined(raw: &matrix_sdk::ruma::serde::Raw<AnySyncTimelineEvent>) -> bool {
+    raw.get_field::<serde_json::Value>("unsigned")
+        .ok()
+        .flatten()
+        .and_then(|u| u.get("membership").and_then(|m| m.as_str().map(str::to_owned)))
+        .is_some_and(|m| m == "leave")
+}
+
 pub(super) fn summarize_room_message_event(message: &SyncRoomMessageEvent) -> MatrixEventSummary {
     match message {
         SyncRoomMessageEvent::Original(event) => {

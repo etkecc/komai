@@ -101,6 +101,8 @@ mod state;
 
 use messages::{summarize_msg_like_content, summarize_room_message_event};
 use state::{summarize_membership_change, summarize_other_state, summarize_profile_change};
+pub use messages::utd_reason_tag;
+pub use state::summarize_sync_state_event;
 
 /// Summarize a timeline event into structured data for the C++ UI layer.
 ///

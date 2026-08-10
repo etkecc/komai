@@ -64,6 +64,8 @@ mod profile_media;
 mod event_detail;
 #[path = "runtime_event_summary/mod.rs"]
 mod event_summary;
+#[path = "runtime_chat_export.rs"]
+mod chat_export;
 #[path = "runtime_key_export.rs"]
 mod key_export;
 #[path = "runtime_recovery.rs"]
@@ -122,6 +124,7 @@ pub use profile_media::{
     fetch_user_profile, ignore_user, remove_own_avatar, remove_own_room_avatar, set_own_display_name,
     set_own_presence, unignore_user, upload_own_avatar, upload_own_room_avatar,
 };
+pub use chat_export::{ChatExportBatch, ChatExportEvent, fetch_chat_export_batch};
 pub use key_export::{RoomKeyImportCounts, export_room_keys, import_room_keys};
 pub use recovery::{
     cancel_reset_encryption_identity, continue_reset_encryption_identity_after_approval,

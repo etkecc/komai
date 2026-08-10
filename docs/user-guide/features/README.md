@@ -8,7 +8,9 @@ User-facing capabilities of Komai. Each page covers one feature in depth.
 - 📹 [Element Call](element-call.md) -- modern voice/video (MatrixRTC); start/join from any room, the call panel, indicators, ringing, and the homeserver backend it needs
 - 📞 [Legacy Calls](legacy-calls.md) -- the legacy 1:1 voice/video stack (voice works; video/screen-share buggy), disabled by default; modern calls use Element Call
 - 🏘️ [Communities Sidebar](communities-sidebar.md) -- filter your Matrix rooms by various builtin filters and Matrix Spaces
+- 📤 [Chat Export](chat-export.md) -- save a room's full decrypted history to plain text, a web page, or machine-readable JSON Lines
 - 😀 [Emoji Search and Picker](emojis.md) -- localized emoji discovery, aliases, and trigger behavior
+- 🔐 [Encryption Key Export and Import](encryption-keys.md) -- passphrase-protected key files interchangeable with Element and Nheko
 - ⌨️ [Keyboard Shortcuts](keyboard-shortcuts.md) -- app-wide, timeline, composer, sidebar, media, and dialog shortcuts
 - 🎬 [Media Playback](media-playback.md) -- inline GIF video auto-play and media handling
 - ✨ [Message Effects](message-effects.md) -- confetti, sunshine, rain, storms, and other timeline flourishes

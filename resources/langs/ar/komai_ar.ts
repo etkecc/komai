@@ -568,6 +568,172 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>فتح</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>إظهار في المجلد</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>تم حفظ تصدير الدردشة '%1' إلى '%2'</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>لم تكن في الغرفة عند إرسال هذه الرسالة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>لم تعد هوية المُرسل موثّقة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>أُرسلت الرسالة من جهاز غير موقَّع من قبل مالكه</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>أُرسلت الرسالة من جهاز تعذر التحقق من هويته بأمان</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>السجل غير متاح على هذا الجهاز لأن النسخ الاحتياطي للمفاتيح معطل</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>هذا الجهاز غير موثّق</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>منعت إعدادات أمان المُرسل مشاركة مفاتيح التشفير</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>لم يشارك المُرسل مفاتيح التشفير مع هذا الجهاز</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>مفاتيح التشفير مفقودة</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>صورة</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>فيديو</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>رسالة صوتية</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>صوت</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>ملصق</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>ملف</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[تعذر فك التشفير: %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[تم حذف الرسالة]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; ردًا على %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; ردًا على رسالة سابقة</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(تم التعديل)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[التفاعلات: %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>ردًا على %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>ردًا على رسالة سابقة</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - تصدير محادثة</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>تم التصدير بواسطة %1 في %2 باستخدام Komai. %n رسالة.</numerusform>
+            <numerusform>تم التصدير بواسطة %1 في %2 باستخدام Komai. %n رسالة واحدة.</numerusform>
+            <numerusform>تم التصدير بواسطة %1 في %2 باستخدام Komai. %n رسالتان.</numerusform>
+            <numerusform>تم التصدير بواسطة %1 في %2 باستخدام Komai. %n رسائل.</numerusform>
+            <numerusform>تم التصدير بواسطة %1 في %2 باستخدام Komai. %n رسالة.</numerusform>
+            <numerusform>تم التصدير بواسطة %1 في %2 باستخدام Komai. %n رسالة.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>تصدير المحادثة: %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>تم التصدير بواسطة %1 في %2 باستخدام Komai.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
@@ -6205,6 +6371,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>تصدير</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>حول هذه الغرفة</translation>
     </message>
@@ -6214,7 +6385,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>الأعضاء</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>معلومات الفضاء</translation>
     </message>
@@ -6222,6 +6393,154 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+0"/>
         <source>Room Info</source>
         <translation>معلومات الغرفة</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>تصدير سجل المحادثة</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>يحفظ سجل رسائل هذه الغرفة بالكامل، بما في ذلك الرسائل المفكوكة التشفير، في ملف واحد على هذا الجهاز. تُدرج الوسائط كروابط ولا تُنزَّل. قد يستغرق ذلك بعض الوقت حسب حجم الغرفة.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>التنسيق</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>نص عادي (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>صفحة ويب (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>تضمين تفاصيل التصدير</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>فشل التصدير: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>تم تصدير %n رسالة.</numerusform>
+            <numerusform>تم تصدير %n رسالة واحدة.</numerusform>
+            <numerusform>تم تصدير %n رسالتين.</numerusform>
+            <numerusform>تم تصدير %n رسائل.</numerusform>
+            <numerusform>تم تصدير %n رسالة.</numerusform>
+            <numerusform>تم تصدير %n رسالة.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>تعذر فك تشفير %n رسالة.</numerusform>
+            <numerusform>تعذر فك تشفير %n رسالة واحدة.</numerusform>
+            <numerusform>تعذر فك تشفير %n رسالتين.</numerusform>
+            <numerusform>تعذر فك تشفير %n رسائل.</numerusform>
+            <numerusform>تعذر فك تشفير %n رسالة.</numerusform>
+            <numerusform>تعذر فك تشفير %n رسالة.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>تم إلغاء التصدير.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>إلغاء التصدير</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>صفحة ويب واحدة مستقلة بذاتها، يمكن قراءتها في أي متصفح.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>كائن JSON واحد في كل سطر (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;)، للنصوص البرمجية والأدوات مثل &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. الطوابع الزمنية بتوقيت UTC وقيم الحقول مستقلة عن اللغة.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>نص مبسط يحتوي على رسالة واحدة في كل سطر، يمكن قراءته في أي محرر نصوص.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>تصدير…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>صفحات ويب (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>ملفات JSON Lines (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>كل الملفات (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>قابل للقراءة آليًا (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>يبدأ الملف برأس قصير يوضح ما هي هذه الغرفة، ومتى تم التصدير، ومن قام به.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>جارٍ التصدير… تم جلب %n رسالة حتى الآن.</numerusform>
+            <numerusform>جارٍ التصدير… تم جلب %n رسالة واحدة حتى الآن.</numerusform>
+            <numerusform>جارٍ التصدير… تم جلب %n رسالتين حتى الآن.</numerusform>
+            <numerusform>جارٍ التصدير… تم جلب %n رسائل حتى الآن.</numerusform>
+            <numerusform>جارٍ التصدير… تم جلب %n رسالة حتى الآن.</numerusform>
+            <numerusform>جارٍ التصدير… تم جلب %n رسالة حتى الآن.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>يستمر التصدير في العمل حتى لو أغلقت هذا الحوار.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>ملفات نصية (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>تصدير سجل المحادثة إلى ملف</translation>
     </message>
 </context>
 <context>

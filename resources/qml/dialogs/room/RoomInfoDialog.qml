@@ -60,6 +60,7 @@ Components.OverlayDialog {
             { text: qsTr("Settings"), icon: ":/icons/icons/ui/settings.svg", tab: "settings" },
             { text: qsTr("Notifications"), icon: ":/icons/icons/ui/alert.svg", tab: "notifications" },
             { text: qsTr("Preferences"), icon: ":/icons/icons/ui/toggles.svg", tab: "preferences" },
+            { text: qsTr("Export"), icon: ":/icons/icons/ui/download.svg", tab: "export" },
             { text: qsTr("About this room"), icon: ":/icons/icons/ui/options-circle.svg", tab: "about" }
         ];
         if (membersTabAvailable) {
@@ -78,6 +79,7 @@ Components.OverlayDialog {
         case "members":
         case "preferences":
         case "notifications":
+        case "export":
         case "about":
             return tab;
         default:
@@ -276,6 +278,8 @@ Components.OverlayDialog {
                             return "tabs/RoomInfoPreferencesTab.qml";
                         case "notifications":
                             return "tabs/RoomInfoNotificationsTab.qml";
+                        case "export":
+                            return "tabs/RoomInfoExportTab.qml";
                         case "about":
                             return "tabs/RoomInfoAboutTab.qml";
                         default:

@@ -584,6 +584,11 @@ set(SRC_FILES
     src/encryption/VerificationManager.cpp
     src/encryption/VerificationManager.h
 
+    src/export/ChatExport.cpp
+    src/export/ChatExport.h
+    src/export/ChatExportFormatter.cpp
+    src/export/ChatExportFormatter.h
+
     # Generic notification stuff
     src/notifications/Manager.cpp
     src/notifications/Manager.h
@@ -1235,7 +1240,7 @@ else()
     target_link_libraries(komai PRIVATE Qt6::DBus)
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/timeline/rust/ src/ui/ src/encryption/ src/voip/ src/spellcheck/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/timeline/rust/ src/ui/ src/encryption/ src/export/ src/voip/ src/spellcheck/)
 
 # Fixup bundled kdsingleapplication include dirs
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
@@ -1384,6 +1389,18 @@ if(BUILD_TESTING)
     )
     add_test(NAME komai_notification_payload_test COMMAND komai_notification_payload_test)
     komai_configure_test(komai_notification_payload_test "unit;timeline")
+
+    add_executable(komai_chat_export_formatter_test
+        tests/ChatExportFormatterTest.cpp
+        src/export/ChatExportFormatter.cpp
+        src/timeline/StateEventText.cpp
+    )
+    target_include_directories(komai_chat_export_formatter_test PRIVATE src)
+    target_link_libraries(komai_chat_export_formatter_test PRIVATE
+        Qt::Core
+    )
+    add_test(NAME komai_chat_export_formatter_test COMMAND komai_chat_export_formatter_test)
+    komai_configure_test(komai_chat_export_formatter_test "unit;timeline")
 
     add_executable(komai_roomlist_preview_selection_test
         tests/RoomlistPreviewSelectionTest.cpp
@@ -1568,6 +1585,7 @@ if(BUILD_TESTING)
         komai_settings_store_test
         komai_setting_input_validation_test
         komai_notification_payload_test
+        komai_chat_export_formatter_test
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
         komai_mcp_commands_test

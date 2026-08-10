@@ -568,6 +568,168 @@
     </message>
 </context>
 <context>
+    <name>ChatExport</name>
+    <message>
+        <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
+        <source>Open</source>
+        <translation>Άνοιγμα</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Show in folder</source>
+        <translation>Εμφάνιση στον φάκελο</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Chat export of '%1' saved to '%2'</source>
+        <translation>Η εξαγωγή συνομιλίας '%1' αποθηκεύτηκε στο '%2'</translation>
+    </message>
+</context>
+<context>
+    <name>ChatExportFormatter</name>
+    <message>
+        <location filename="../../../src/export/ChatExportFormatter.cpp" line="+112"/>
+        <source>you weren't in the room when this message was sent</source>
+        <translation>δεν ήσασταν στο δωμάτιο όταν στάλθηκε αυτό το μήνυμα</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's identity is no longer verified</source>
+        <translation>η ταυτότητα του αποστολέα δεν είναι πλέον επαληθευμένη</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device that isn't signed by its owner</source>
+        <translation>το μήνυμα στάλθηκε από συσκευή που δεν έχει υπογραφεί από τον κάτοχό της</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the message was sent from a device we couldn't securely identify</source>
+        <translation>το μήνυμα στάλθηκε από συσκευή που δεν ήταν δυνατό να αναγνωριστεί με ασφάλεια</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>history isn't available on this device because key backup is off</source>
+        <translation>το ιστορικό δεν είναι διαθέσιμο σε αυτή τη συσκευή επειδή το αντίγραφο ασφαλείας κλειδιών είναι απενεργοποιημένο</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>this device is not verified</source>
+        <translation>αυτή η συσκευή δεν είναι επαληθευμένη</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender's security settings prevented sharing the encryption keys</source>
+        <translation>οι ρυθμίσεις ασφαλείας του αποστολέα απέτρεψαν την κοινοποίηση των κλειδιών κρυπτογράφησης</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>the sender didn't share the encryption keys with this device</source>
+        <translation>ο αποστολέας δεν κοινοποίησε τα κλειδιά κρυπτογράφησης σε αυτή τη συσκευή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>the encryption keys are missing</source>
+        <translation>λείπουν τα κλειδιά κρυπτογράφησης</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>image</source>
+        <translation>εικόνα</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>video</source>
+        <translation>βίντεο</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>voice message</source>
+        <translation>φωνητικό μήνυμα</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>audio</source>
+        <translation>ήχος</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>sticker</source>
+        <translation>αυτοκόλλητο</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>file</source>
+        <translation>αρχείο</translation>
+    </message>
+    <message>
+        <location line="+68"/>
+        <location line="+276"/>
+        <source>[Unable to decrypt: %1]</source>
+        <translation>[Αδυναμία αποκρυπτογράφησης: %1]</translation>
+    </message>
+    <message>
+        <location line="-273"/>
+        <location line="+275"/>
+        <source>[Message deleted]</source>
+        <translation>[Το μήνυμα διαγράφηκε]</translation>
+    </message>
+    <message>
+        <location line="-225"/>
+        <source>&gt; in reply to %1: "%2"</source>
+        <translation>&gt; σε απάντηση σε %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&gt; in reply to an earlier message</source>
+        <translation>&gt; σε απάντηση σε προγενέστερο μήνυμα</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <location line="+243"/>
+        <source>(edited)</source>
+        <translation>(επεξεργάστηκε)</translation>
+    </message>
+    <message>
+        <location line="-239"/>
+        <source>[reactions: %1]</source>
+        <translation>[αντιδράσεις: %1]</translation>
+    </message>
+    <message>
+        <location line="+200"/>
+        <source>in reply to %1: "%2"</source>
+        <translation>σε απάντηση σε %1: "%2"</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>in reply to an earlier message</source>
+        <translation>σε απάντηση σε προγενέστερο μήνυμα</translation>
+    </message>
+    <message>
+        <location line="+178"/>
+        <source>%1 - chat export</source>
+        <translation>%1 - εξαγωγή συνομιλίας</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+6"/>
+        <source>Exported by %1 on %2 with Komai. %n message(s).</source>
+        <translation>
+            <numerusform>Εξήχθη από %1 στις %2 με το Komai. %n μήνυμα.</numerusform>
+            <numerusform>Εξήχθη από %1 στις %2 με το Komai. %n μηνύματα.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Chat export: %1 (%2)</source>
+        <translation>Εξαγωγή συνομιλίας: %1 (%2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Exported by %1 on %2 with Komai.</source>
+        <translation>Η εξαγωγή έγινε από %1 στις %2 με το Komai.</translation>
+    </message>
+</context>
+<context>
     <name>ChatPage</name>
     <message>
         <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
@@ -6177,6 +6339,11 @@ Previous server-side key backups are not removed automatically.</source>
     </message>
     <message>
         <location line="+1"/>
+        <source>Export</source>
+        <translation>Εξαγωγή</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>About this room</source>
         <translation>Σχετικά με αυτό το δωμάτιο</translation>
     </message>
@@ -6186,7 +6353,7 @@ Previous server-side key backups are not removed automatically.</source>
         <translation>Μέλη</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Space Info</source>
         <translation>Πληροφορίες χώρου</translation>
     </message>
@@ -6194,6 +6361,142 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+0"/>
         <source>Room Info</source>
         <translation>Πληροφορίες δωματίου</translation>
+    </message>
+</context>
+<context>
+    <name>RoomInfoExportTab</name>
+    <message>
+        <location filename="../../qml/dialogs/room/tabs/RoomInfoExportTab.qml" line="+159"/>
+        <source>Export chat history</source>
+        <translation>Εξαγωγή ιστορικού συνομιλίας</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Saves this room's entire message history, including decrypted messages, into a single file on this computer. Media is included as links, not downloaded. Depending on the room's size, this can take a while.</source>
+        <translation>Αποθηκεύει ολόκληρο το ιστορικό μηνυμάτων αυτού του δωματίου, συμπεριλαμβανομένων των αποκρυπτογραφημένων μηνυμάτων, σε ένα ενιαίο αρχείο σε αυτόν τον υπολογιστή. Τα πολυμέσα περιλαμβάνονται ως σύνδεσμοι, όχι ως λήψεις. Ανάλογα με το μέγεθος του δωματίου, αυτό ενδέχεται να διαρκέσει αρκετή ώρα.</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Format</source>
+        <translation>Μορφή</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Plain text (.txt)</source>
+        <translation>Απλό κείμενο (.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Web page (.html)</source>
+        <translation>Ιστοσελίδα (.html)</translation>
+    </message>
+    <message>
+        <location line="+47"/>
+        <source>Include export details</source>
+        <translation>Συμπερίληψη στοιχείων εξαγωγής</translation>
+    </message>
+    <message>
+        <location line="+86"/>
+        <source>Export failed: %1</source>
+        <translation>Η εξαγωγή απέτυχε: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>Exported %n message(s).</source>
+        <translation>
+            <numerusform>Εξήχθη %n μήνυμα.</numerusform>
+            <numerusform>Εξήχθησαν %n μηνύματα.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n message(s) could not be decrypted.</source>
+        <translation>
+            <numerusform>%n μήνυμα δεν ήταν δυνατό να αποκρυπτογραφηθεί.</numerusform>
+            <numerusform>%n μηνύματα δεν ήταν δυνατό να αποκρυπτογραφηθούν.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Export cancelled.</source>
+        <translation>Η εξαγωγή ακυρώθηκε.</translation>
+    </message>
+    <message>
+        <location line="-29"/>
+        <source>Cancel export</source>
+        <translation>Ακύρωση εξαγωγής</translation>
+    </message>
+    <message>
+        <location line="-96"/>
+        <source>A single self-contained web page, readable in any browser.</source>
+        <translation>Μία αυτοτελής ιστοσελίδα, αναγνώσιμη από οποιοδήποτε πρόγραμμα περιήγησης.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>One JSON object per line (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), for scripts and tools like &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Timestamps are UTC and field values are language-independent.</source>
+        <translation>Ένα αντικείμενο JSON ανά γραμμή (&lt;a href="https://jsonlines.org/"&gt;JSON Lines&lt;/a&gt;), για σενάρια και εργαλεία όπως το &lt;a href="https://jqlang.org/"&gt;jq&lt;/a&gt;. Οι χρονικές σημάνσεις είναι σε UTC και οι τιμές πεδίων είναι ανεξάρτητες από τη γλώσσα.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>A simple transcript with one message per line, readable in any text editor.</source>
+        <translation>Μια απλή μεταγραφή με ένα μήνυμα ανά γραμμή, αναγνώσιμη από οποιονδήποτε επεξεργαστή κειμένου.</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Export…</source>
+        <translation>Εξαγωγή…</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <source>Web pages (*.html)</source>
+        <translation>Ιστοσελίδες (*.html)</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>JSON Lines files (*.jsonl)</source>
+        <translation>Αρχεία JSON Lines (*.jsonl)</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>All files (*)</source>
+        <translation>Όλα τα αρχεία (*)</translation>
+    </message>
+    <message>
+        <location line="-201"/>
+        <source>Machine-readable (.jsonl)</source>
+        <translation>Αναγνώσιμο από μηχανή (.jsonl)</translation>
+    </message>
+    <message>
+        <location line="+61"/>
+        <source>Starts the file with a short header saying which room this is, when the export was made, and by whom.</source>
+        <translation>Ξεκινά το αρχείο με μια σύντομη επικεφαλίδα που αναφέρει σε ποιο δωμάτιο ανήκει, πότε έγινε η εξαγωγή και από ποιον.</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+30"/>
+        <source>Exporting… fetched %n message(s) so far.</source>
+        <translation>
+            <numerusform>Εξαγωγή… ανακτήθηκε %n μήνυμα μέχρι στιγμής.</numerusform>
+            <numerusform>Εξαγωγή… ανακτήθηκαν %n μηνύματα μέχρι στιγμής.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>The export keeps running if you close this dialog.</source>
+        <translation>Η εξαγωγή συνεχίζεται αν κλείσετε αυτόν τον διάλογο.</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Text files (*.txt)</source>
+        <translation>Αρχεία κειμένου (*.txt)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+11"/>
+        <location line="+11"/>
+        <source>Export chat history to file</source>
+        <translation>Εξαγωγή ιστορικού συνομιλίας σε αρχείο</translation>
     </message>
 </context>
 <context>

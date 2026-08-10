@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.08.10.0
+
+- ✨ Feature: [📤 Chat export](https://github.com/etkecc/komai/blob/70392503e/docs/user-guide/features/chat-export.md): save a room's entire message history to plain text, HTML, or JSON Lines, from the new Export tab in Room Info ([3af9e502a](https://github.com/etkecc/komai/commit/3af9e502a)).
+- ✨ Feature: [🔐 Encryption key export and import](https://github.com/etkecc/komai/blob/70392503e/docs/user-guide/features/encryption-keys.md): passphrase-protected key files, interchangeable with Element and Nheko, in Settings → Account ([6d1b48e37](https://github.com/etkecc/komai/commit/6d1b48e37)).
+- ✨ Feature: hovering a code block in the timeline reveals a copy button ([1e819e195](https://github.com/etkecc/komai/commit/1e819e195)).
+- 🐛 Fix: HTML tags typed into an outgoing message are sent as literal text; previously a tag-like token could swallow the rest of the message for every recipient ([81dbdac97](https://github.com/etkecc/komai/commit/81dbdac97)).
+- 📦 Flatpak: the bundled GStreamer is updated to v1.28.6 ([aa721cf99](https://github.com/etkecc/komai/commit/aa721cf99)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.335 ([597540309](https://github.com/etkecc/komai/commit/597540309), [70392503e](https://github.com/etkecc/komai/commit/70392503e)).
+- 🔧 Build: Rust dependencies are updated ([da328ba92](https://github.com/etkecc/komai/commit/da328ba92), [448a3aa2d](https://github.com/etkecc/komai/commit/448a3aa2d), [dcc13336b](https://github.com/etkecc/komai/commit/dcc13336b)).
+
 ## 2026.08.04.1
 
 - ✨ Feature: text emoticons turn into emoji as you type. Typing a space after `:)` or `<3` converts it right in the composer, so what you see is what gets sent ([cd73fb183](https://github.com/etkecc/komai/commit/cd73fb183), [daf9132a4](https://github.com/etkecc/komai/commit/daf9132a4)).

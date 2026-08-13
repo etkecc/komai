@@ -152,6 +152,20 @@ generateMasterStylesheet(const QPalette &palette,
                           "  vertical-align: top;"
                           "  margin-left: -4px;"
                           "  margin-right: 4px;"
+                          "}"
+                          // Spoiler contents must stay hidden no matter what is nested
+                          // inside. Elements with their own background (code, pre, pills,
+                          // search matches) would otherwise paint a visible box on top of
+                          // the spoiler cover, and elements with their own color rule
+                          // (links, font colors) would override the inherited transparent
+                          // text color and leak through. These rules sit last so they win
+                          // specificity ties against the rules above on source order.
+                          "span[data-mx-spoiler] * {"
+                          "  color: transparent;"
+                          "  background-color: transparent;"
+                          "}"
+                          "span[data-mx-spoiler] img {"
+                          "  display: none;"
                           "}")
       .arg(font.family())
       .arg(font.pointSizeF())

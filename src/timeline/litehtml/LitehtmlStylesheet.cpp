@@ -106,10 +106,9 @@ generateMasterStylesheet(const QPalette &palette,
                           "  border-radius: 2px;"
                           "  padding: 0 1px;"
                           "}"
-                          "span[data-mx-spoiler] {"
-                          "  color: transparent;"
-                          "  background-color: %3;"
-                          "}"
+                          // No spoiler rules: span[data-mx-spoiler] content renders
+                          // normally; LitehtmlItem paints a click-to-reveal blur over
+                          // hidden spoiler regions after the document is drawn.
                           "font[color=\"red\"], font[color=\"error\"],"
                           "span[data-mx-color=\"red\"], span[data-mx-color=\"error\"] {"
                           "  color: %8;"
@@ -152,20 +151,6 @@ generateMasterStylesheet(const QPalette &palette,
                           "  vertical-align: top;"
                           "  margin-left: -4px;"
                           "  margin-right: 4px;"
-                          "}"
-                          // Spoiler contents must stay hidden no matter what is nested
-                          // inside. Elements with their own background (code, pre, pills,
-                          // search matches) would otherwise paint a visible box on top of
-                          // the spoiler cover, and elements with their own color rule
-                          // (links, font colors) would override the inherited transparent
-                          // text color and leak through. These rules sit last so they win
-                          // specificity ties against the rules above on source order.
-                          "span[data-mx-spoiler] * {"
-                          "  color: transparent;"
-                          "  background-color: transparent;"
-                          "}"
-                          "span[data-mx-spoiler] img {"
-                          "  display: none;"
                           "}")
       .arg(font.family())
       .arg(font.pointSizeF())

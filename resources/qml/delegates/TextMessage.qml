@@ -122,7 +122,7 @@ LitehtmlItem {
 
     HoverHandler {
         enabled: !perfDisableTimelineInteraction
-        cursorShape: hoveredLink.length > 0 ? Qt.PointingHandCursor
+        cursorShape: (hoveredLink.length > 0 || litehtmlRoot.hoveredSpoiler) ? Qt.PointingHandCursor
                    : (isReply ? Qt.PointingHandCursor : Qt.IBeamCursor)
         onPointChanged: if (hovered) {
             hoverPoint = Qt.point(point.position.x, point.position.y);

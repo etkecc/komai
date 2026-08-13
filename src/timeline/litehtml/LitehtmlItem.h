@@ -10,7 +10,9 @@
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
 #include <QRectF>
+#include <QSet>
 #include <QString>
+#include <QVector>
 #include <memory>
 
 #include <litehtml.h>
@@ -57,6 +59,10 @@ class LitehtmlItem : public QQuickPaintedItem
     // Whether the pointer is currently over that code block. The QML overlay
     // combines this with its own hover state to decide visibility.
     Q_PROPERTY(bool codeBlockHovered READ codeBlockHovered NOTIFY codeBlockHoveredChanged)
+    // Whether the pointer is over a hidden (not yet revealed) spoiler. The QML
+    // hover handler switches to a pointing-hand cursor so the blur reads as
+    // clickable.
+    Q_PROPERTY(bool hoveredSpoiler READ hoveredSpoiler NOTIFY hoveredSpoilerChanged)
 
 public:
     explicit LitehtmlItem(QQuickItem *parent = nullptr);
@@ -97,6 +103,7 @@ public:
 
     QRectF codeBlockRect() const { return m_codeBlockRect; }
     bool codeBlockHovered() const { return m_codeBlockHovered; }
+    bool hoveredSpoiler() const { return m_hoveredSpoiler; }
     // Copies the hovered code block's text to the clipboard (minus one
     // trailing newline). Returns false when no block is tracked.
     Q_INVOKABLE bool copyCodeBlockText();
@@ -125,6 +132,7 @@ signals:
     void compactChanged();
     void codeBlockRectChanged();
     void codeBlockHoveredChanged();
+    void hoveredSpoilerChanged();
     void linkActivated(const QString &link);
     // Emitted when the focused item should release focus to whatever the
     // surrounding view considers the natural fallback target. We can't
@@ -189,6 +197,18 @@ private:
     void clearCodeBlock();
     void setCodeBlockHovered(bool hovered);
 
+    // One spoiler span's painted line boxes, in document coordinates. Indexed
+    // by document order, which is stable across relayouts/rebuilds of the same
+    // HTML, so reveal state keys on the index rather than element pointers.
+    struct SpoilerRegion
+    {
+        QVector<QRect> boxes;
+    };
+    void collectSpoilerRegions();
+    int spoilerIndexAt(const QPoint &itemPos) const;
+    bool hasHiddenSpoilers() const;
+    void setHoveredSpoiler(bool hovered);
+
     bool roomSwitchPerfEnabled() const;
     void logPerfPhase(const char *phase, qint64 elapsedUs, const QString &extra = {}) const;
 
@@ -242,4 +262,10 @@ private:
     litehtml::element::const_ptr m_codeBlock;
     QRectF m_codeBlockRect;
     bool m_codeBlockHovered = false;
+
+    // Spoiler regions collected after every (re)layout; reveal state keyed by
+    // spoiler index, cleared when the HTML changes (delegate recycling).
+    QVector<SpoilerRegion> m_spoilerRegions;
+    QSet<int> m_revealedSpoilers;
+    bool m_hoveredSpoiler = false;
 };

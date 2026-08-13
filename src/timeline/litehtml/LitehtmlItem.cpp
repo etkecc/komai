@@ -8,12 +8,16 @@
 #include <QElapsedTimer>
 #include <QFontMetrics>
 #include <QGuiApplication>
+#include <QImage>
+#include <QPainterPath>
 #include <QPalette>
 #include <QQuickWindow>
 #include <QtMath>
 
 #include <climits>
 #include <cstring>
+
+#include <litehtml/render_item.h>
 
 #include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -30,6 +34,43 @@ churnPerfEnabled()
         return val == "1" || val == "true" || val == "yes" || val == "on";
     }();
     return enabled;
+}
+
+// Blur one hidden-spoiler line box in place. `itemBox` is in item
+// coordinates; `buffer` holds device pixels at `dpr` scale. Heavy downscale +
+// smooth upscale is cheap and leaves text unreadable at any font size, while
+// the smear still hints at the hidden content's shape and colors.
+void
+blurSpoilerBox(QImage &buffer, const QRect &itemBox, qreal dpr)
+{
+    const QRect deviceBox(qFloor(itemBox.x() * dpr),
+                          qFloor(itemBox.y() * dpr),
+                          qCeil(itemBox.width() * dpr),
+                          qCeil(itemBox.height() * dpr));
+    const QRect r = deviceBox.intersected(QRect(QPoint(0, 0), buffer.size()));
+    if (r.isEmpty())
+        return;
+
+    QImage patch = buffer.copy(r);
+    patch.setDevicePixelRatio(1.0);
+    constexpr int kBlurFactor = 8;
+    const QSize small(qMax(1, patch.width() / kBlurFactor), qMax(1, patch.height() / kBlurFactor));
+    const QImage blurred = patch.scaled(small, Qt::IgnoreAspectRatio, Qt::SmoothTransformation)
+                             .scaled(patch.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+    QPainter p(&buffer);
+    p.resetTransform(); // operate in device pixels regardless of buffer DPR
+    // The sharp original pixels must be fully removed first: the blurred
+    // patch is partially transparent around glyph edges, so merely painting
+    // it over the original would leave the text readable underneath.
+    p.setCompositionMode(QPainter::CompositionMode_Clear);
+    p.fillRect(r, Qt::black);
+    p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    p.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath clipPath;
+    clipPath.addRoundedRect(QRectF(r), 4.0 * dpr, 4.0 * dpr);
+    p.setClipPath(clipPath);
+    p.drawImage(r.topLeft(), blurred);
 }
 } // namespace
 
@@ -102,6 +143,10 @@ LitehtmlItem::setHtml(const QString &html)
     if (m_html == html)
         return;
     m_html = html;
+    // New message content (also on delegate recycling): spoilers start hidden.
+    m_revealedSpoilers.clear();
+    m_spoilerRegions.clear();
+    setHoveredSpoiler(false);
     emit htmlChanged();
     requestDocumentRebuild();
 }
@@ -340,6 +385,8 @@ LitehtmlItem::relayout()
     m_topInset = qMax(0, ascentOvershoot);
     setImplicitHeight(m_document->height() + m_topInset);
 
+    collectSpoilerRegions();
+
     updateTextureSize();
     ++m_relayoutCount;
     if (roomSwitchPerfEnabled() && m_relayoutCount <= 3) {
@@ -362,6 +409,97 @@ LitehtmlItem::relayout()
     }
 }
 
+namespace {
+// Document-absolute painted boxes of one element: per-line fragments for
+// inline elements, the border box for blocks (get_rendering_boxes handles the
+// ancestor-offset accumulation for both).
+void
+appendElementBoxes(const litehtml::element::ptr &el, QVector<QRect> &out)
+{
+    el->run_on_renderers([&out](const std::shared_ptr<litehtml::render_item> &ri) {
+        litehtml::position::vector boxes;
+        ri->get_rendering_boxes(boxes);
+        for (const auto &b : boxes) {
+            const QRect rect(qFloor(b.x), qFloor(b.y), qCeil(b.width), qCeil(b.height));
+            if (!rect.isEmpty())
+                out.append(rect);
+        }
+        return true; // visit every render item of this element
+    });
+}
+
+// Fallback for spoiler spans whose own render items report no boxes — an
+// inline span wrapping block content (e.g. <pre>) lays out with empty inline
+// boxes. Descend until each subtree contributes boxes of its own.
+void
+appendDescendantBoxes(const litehtml::element::ptr &el, QVector<QRect> &out)
+{
+    for (const auto &child : el->children()) {
+        const auto before = out.size();
+        appendElementBoxes(child, out);
+        if (out.size() == before)
+            appendDescendantBoxes(child, out);
+    }
+}
+} // namespace
+
+void
+LitehtmlItem::collectSpoilerRegions()
+{
+    m_spoilerRegions.clear();
+    if (!m_document || !m_html.contains(QLatin1String("data-mx-spoiler")))
+        return;
+    auto root = m_document->root();
+    if (!root)
+        return;
+
+    // Spoiler content is laid out and painted normally; hiding happens in
+    // paint(), which blurs these boxes. Collected after every layout because
+    // the boxes are per-line fragments that move with wrapping.
+    const auto spoilers = root->select_all("span[data-mx-spoiler]");
+    for (const auto &el : spoilers) {
+        SpoilerRegion region;
+        appendElementBoxes(el, region.boxes);
+        if (region.boxes.isEmpty())
+            appendDescendantBoxes(el, region.boxes);
+        // Append even when still empty so indices keep tracking document
+        // order; an empty region is simply never hit-tested or blurred.
+        m_spoilerRegions.append(region);
+    }
+}
+
+int
+LitehtmlItem::spoilerIndexAt(const QPoint &itemPos) const
+{
+    const QPoint docPos(itemPos.x() - static_cast<int>(m_leftPadding), itemPos.y() - m_topInset);
+    for (int i = 0; i < m_spoilerRegions.size(); ++i) {
+        for (const QRect &box : m_spoilerRegions[i].boxes) {
+            if (box.contains(docPos))
+                return i;
+        }
+    }
+    return -1;
+}
+
+bool
+LitehtmlItem::hasHiddenSpoilers() const
+{
+    for (int i = 0; i < m_spoilerRegions.size(); ++i) {
+        if (!m_spoilerRegions[i].boxes.isEmpty() && !m_revealedSpoilers.contains(i))
+            return true;
+    }
+    return false;
+}
+
+void
+LitehtmlItem::setHoveredSpoiler(bool hovered)
+{
+    if (m_hoveredSpoiler == hovered)
+        return;
+    m_hoveredSpoiler = hovered;
+    emit hoveredSpoilerChanged();
+}
+
 void
 LitehtmlItem::updateTextureSize()
 {
@@ -380,7 +518,6 @@ LitehtmlItem::paint(QPainter *painter)
         return;
 
     int padLeft = static_cast<int>(m_leftPadding);
-    m_container->setPainter(painter);
     m_container->setViewportSize(static_cast<int>(width()) - padLeft, static_cast<int>(height()));
 
     litehtml::position clip;
@@ -398,9 +535,39 @@ LitehtmlItem::paint(QPainter *painter)
     // working without further coord translation.
     QElapsedTimer timer;
     timer.start();
-    m_container->beginTextRunCollection();
-    m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, m_topInset, &clip);
-    m_container->endTextRunCollection();
+    if (!hasHiddenSpoilers()) {
+        m_container->setPainter(painter);
+        m_container->beginTextRunCollection();
+        m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, m_topInset, &clip);
+        m_container->endTextRunCollection();
+    } else {
+        // Hidden spoilers are blurred from the actual painted pixels, so the
+        // document goes through an intermediate image first. Text runs are
+        // still recorded in item coordinates — litehtml passes logical
+        // positions regardless of the painter's DPR transform.
+        const qreal dpr = window() ? window()->devicePixelRatio() : 1.0;
+        QImage buffer(qMax(1, qCeil(width() * dpr)),
+                      qMax(1, qCeil(height() * dpr)),
+                      QImage::Format_ARGB32_Premultiplied);
+        buffer.setDevicePixelRatio(dpr);
+        buffer.fill(Qt::transparent);
+        {
+            QPainter bufferPainter(&buffer);
+            m_container->setPainter(&bufferPainter);
+            m_container->beginTextRunCollection();
+            m_document->draw(
+              reinterpret_cast<litehtml::uint_ptr>(&bufferPainter), padLeft, m_topInset, &clip);
+            m_container->endTextRunCollection();
+        }
+        for (int i = 0; i < m_spoilerRegions.size(); ++i) {
+            if (m_revealedSpoilers.contains(i))
+                continue;
+            for (const QRect &box : m_spoilerRegions[i].boxes)
+                blurSpoilerBox(buffer, box.translated(padLeft, m_topInset), dpr);
+        }
+        painter->drawImage(QPointF(0, 0), buffer);
+        m_container->setPainter(painter);
+    }
 
     if (m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd)
         drawSelection(painter);
@@ -483,10 +650,14 @@ LitehtmlItem::handleHoverMove(qreal x, qreal y)
     m_container->resetCursorState();
     m_document->on_mouse_over(docX, docY, docX, docY, redraw);
 
+    const int spoilerIdx         = spoilerIndexAt(QPoint(static_cast<int>(x), static_cast<int>(y)));
+    const bool overHiddenSpoiler = spoilerIdx >= 0 && !m_revealedSpoilers.contains(spoilerIdx);
+    setHoveredSpoiler(overHiddenSpoiler);
+
     // If litehtml reported a pointer cursor, we're over a link.
     // Simulate a click in hover mode to capture the URL via on_anchor_click.
     QString url;
-    if (m_container->isPointerCursor()) {
+    if (m_container->isPointerCursor() && !overHiddenSpoiler) {
         m_container->setHoverMode(true);
         litehtml::position::vector dummy;
         m_document->on_lbutton_down(docX, docY, docX, docY, dummy);
@@ -495,6 +666,8 @@ LitehtmlItem::handleHoverMove(qreal x, qreal y)
         m_container->setHoverMode(false);
     }
 
+    // A link under a hidden spoiler's blur must not leak its URL through the
+    // hover tooltip (hence the !overHiddenSpoiler guard above).
     if (m_hoveredLink != url) {
         m_hoveredLink = url;
         emit hoveredLinkChanged();
@@ -538,6 +711,7 @@ LitehtmlItem::handleHoverLeave()
     // block and its rect: the pointer may be on the QML copy button overlay,
     // which needs both to stay actionable.
     setCodeBlockHovered(false);
+    setHoveredSpoiler(false);
 
     litehtml::position::vector redraw;
     m_document->on_mouse_leave(redraw);
@@ -718,6 +892,23 @@ LitehtmlItem::mouseReleaseEvent(QMouseEvent *event)
             emit clickedWithCtrlOrMeta();
         } else if (modifiers.testFlag(Qt::ShiftModifier)) {
             emit clickedWithShift();
+        } else if (const int spoilerIdx = spoilerIndexAt(pos);
+                   spoilerIdx >= 0 && !m_revealedSpoilers.contains(spoilerIdx)) {
+            // Click on a hidden spoiler reveals it — and never falls through
+            // to litehtml, so a link under the blur can't be activated blind.
+            m_revealedSpoilers.insert(spoilerIdx);
+            // Re-evaluate hover state (cursor, link tooltip) for the now
+            // visible content without waiting for the pointer to move.
+            m_lastHoverDocPos = QPoint(-1, -1);
+            handleHoverMove(pos.x(), pos.y());
+            update();
+        } else if (spoilerIdx >= 0 && m_hoveredLink.isEmpty()) {
+            // Click on a revealed spoiler hides it again, unless the click is
+            // on a link inside it — then the link wins (handled below).
+            m_revealedSpoilers.remove(spoilerIdx);
+            m_lastHoverDocPos = QPoint(-1, -1);
+            handleHoverMove(pos.x(), pos.y());
+            update();
         } else {
             // Forward to litehtml only for plain clicks — link activation
             // under a modifier-click would be incidental, not intended.

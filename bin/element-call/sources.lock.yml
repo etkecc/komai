@@ -8,6 +8,6 @@ element_call_embedded:
   # update this custom `sha256` field on the free tier. After merging such a
   # bump, run `just element-call-update-lock` to re-pin the hash (fetch.py verifies it
   # and prints the actual hash on mismatch); then commit the lock change.
-  version: "0.23.0"
+  version: "0.24.0"
   url: "https://registry.npmjs.org/@element-hq/element-call-embedded/-/element-call-embedded-{version}.tgz"
   sha256: "9ae972d38ee4479a1e1cdec7ddc4421945cf94d3d509be6230a3d2c30a6b84cf"

@@ -377,7 +377,7 @@ async fn run_session(
                 _ = recv_cancel.cancelled() => break,
                 message = recv_handle.recv() => match message {
                     Some(message) => {
-                        let message = advertise_msc4515(message);
+                        let message = advertise_msc4515(session_id, message);
                         crate::ffi::matrix_notify_element_call_widget_message(session_id, &message);
                     }
                     // `None` => the driver is gone; stop the session.
@@ -432,7 +432,7 @@ async fn run_session(
 /// answering the action ourselves so the rest of the list keeps tracking
 /// whatever matrix-sdk supports. Any message we cannot parse or that is not the
 /// versions response passes through untouched.
-fn advertise_msc4515(message: String) -> String {
+fn advertise_msc4515(session_id: u64, message: String) -> String {
     let Ok(mut value) = serde_json::from_str::<serde_json::Value>(&message) else {
         return message;
     };
@@ -444,12 +444,19 @@ fn advertise_msc4515(message: String) -> String {
         .and_then(|response| response.get_mut("supported_versions"))
         .and_then(|versions| versions.as_array_mut())
     else {
+        // Only reachable if matrix-sdk changes the shape of its answer. Element
+        // Call would then silently never ask for transports, so say so loudly.
+        tracing::warn!(
+            session_id,
+            "Could not advertise MSC4515: unexpected supported_api_versions response from the widget driver"
+        );
         return message;
     };
     if versions.iter().any(|version| version.as_str() == Some(MSC4515_API_VERSION)) {
         return message;
     }
     versions.push(serde_json::Value::String(MSC4515_API_VERSION.to_owned()));
+    tracing::info!(session_id, "Advertised MSC4515 RTC transport discovery to Element Call");
     serde_json::to_string(&value).unwrap_or(message)
 }
 
@@ -479,14 +486,26 @@ fn parse_rtc_transports_request(message: &str) -> Option<serde_json::Value> {
 /// a failure has to come back as a widget error response, or Element Call waits
 /// forever on the lobby.
 async fn answer_rtc_transports(session_id: u64, client: Client, mut request: serde_json::Value) {
-    let response = match resolve_rtc_transports(&client).await {
+    tracing::info!(session_id, "Element Call asked for the MatrixRTC transports");
+
+    let response = match resolve_rtc_transports(session_id, &client).await {
         Ok(transports) => {
-            tracing::info!(
-                session_id,
-                transports = ?transports.iter().map(RtcTransport::transport_type).collect::<Vec<_>>(),
-                "Answering Element Call MatrixRTC transport discovery"
-            );
-            serde_json::json!({ "rtc_transports": transports })
+            // The full payload, SFU URLs included: this is the one line that
+            // says whether Element Call got something it can actually dial.
+            let payload = serde_json::json!({ "rtc_transports": transports });
+            if transports.is_empty() {
+                tracing::warn!(
+                    session_id,
+                    "Answering Element Call with no MatrixRTC transports; it cannot connect a call"
+                );
+            } else {
+                tracing::info!(
+                    session_id,
+                    transports = %payload["rtc_transports"],
+                    "Answering Element Call MatrixRTC transport discovery"
+                );
+            }
+            payload
         }
         Err(error) => {
             tracing::warn!(session_id, error, "Failed to resolve MatrixRTC transports");
@@ -514,21 +533,43 @@ async fn answer_rtc_transports(session_id: u64, client: Client, mut request: ser
 /// but few homeservers implement it yet, so we fall back to the `.well-known`
 /// `rtc_foci` list Element Call used to read for itself before it dropped that
 /// discovery path.
-async fn resolve_rtc_transports(client: &Client) -> Result<Vec<RtcTransport>, String> {
+async fn resolve_rtc_transports(
+    session_id: u64,
+    client: &Client,
+) -> Result<Vec<RtcTransport>, String> {
     match client.send(rtc_transports::Request::new()).await {
-        Ok(response) if !response.rtc_transports.is_empty() => return Ok(response.rtc_transports),
+        Ok(response) if !response.rtc_transports.is_empty() => {
+            tracing::info!(
+                session_id,
+                count = response.rtc_transports.len(),
+                "Resolved MatrixRTC transports from the homeserver's MSC4519 rtc/transports endpoint"
+            );
+            return Ok(response.rtc_transports);
+        }
         Ok(_) => {
-            tracing::info!("Homeserver advertised no MatrixRTC transports; trying .well-known");
+            tracing::info!(
+                session_id,
+                "MSC4519 rtc/transports endpoint returned no transports; falling back to .well-known"
+            );
         }
         Err(e) => {
-            tracing::info!("MatrixRTC transports endpoint unavailable ({e}); trying .well-known");
+            tracing::info!(
+                session_id,
+                "MSC4519 rtc/transports endpoint unavailable ({e}); falling back to .well-known"
+            );
         }
     }
 
     let well_known = client.fetch_client_well_known().await.ok_or_else(|| {
-        "the homeserver has neither a MatrixRTC transports endpoint nor a client .well-known"
+        "no MatrixRTC transports from the rtc/transports endpoint, and the homeserver \
+         publishes no client .well-known to fall back to"
             .to_owned()
     })?;
+    tracing::info!(
+        session_id,
+        count = well_known.rtc_foci.len(),
+        "Resolved MatrixRTC transports from the .well-known rtc_foci list"
+    );
     Ok(well_known.rtc_foci)
 }
 
@@ -576,7 +617,7 @@ mod tests {
 
     #[test]
     fn versions_response_gains_msc4515_without_losing_the_driver_list() {
-        let amended = advertise_msc4515(driver_versions_response());
+        let amended = advertise_msc4515(1, driver_versions_response());
         assert_eq!(
             supported_versions(&amended),
             ["0.0.1", "0.0.2", "org.matrix.msc4039", MSC4515_API_VERSION]
@@ -585,7 +626,7 @@ mod tests {
 
     #[test]
     fn versions_response_is_not_amended_twice() {
-        let amended = advertise_msc4515(advertise_msc4515(driver_versions_response()));
+        let amended = advertise_msc4515(1, advertise_msc4515(1, driver_versions_response()));
         assert_eq!(
             supported_versions(&amended).iter().filter(|v| *v == MSC4515_API_VERSION).count(),
             1
@@ -600,7 +641,7 @@ mod tests {
             // A malformed versions response must not be "repaired" into one.
             serde_json::json!({"action": "supported_api_versions"}).to_string(),
         ] {
-            assert_eq!(advertise_msc4515(message.clone()), message);
+            assert_eq!(advertise_msc4515(1, message.clone()), message);
         }
     }
 

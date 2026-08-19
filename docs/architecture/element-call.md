@@ -24,8 +24,8 @@ legacy stack see the [legacy calls user guide](../user-guide/features/legacy-cal
   Rust widget driver and back. The driver does all the Matrix work (events,
   to-device, OpenID, delayed events, capability negotiation).
 - Media never touches Komai's networking. Element Call connects directly to a
-  LiveKit SFU discovered through the homeserver's `.well-known`. Komai only proxies
-  Matrix signaling.
+  LiveKit SFU, which Komai discovers on its behalf and hands over the Widget API.
+  Komai only proxies Matrix signaling.
 - The call surface is an in-room collapsible panel that reflows above the timeline,
   with a global "back to call" bar, room-list/tab indicators, an incoming-call ring
   bar, and a true-fullscreen mode.
@@ -35,10 +35,16 @@ legacy stack see the [legacy calls user guide](../user-guide/features/legacy-cal
 ## Hard requirements
 
 Element Call only works against a homeserver with a MatrixRTC backend: a LiveKit
-SFU plus an `lk-jwt-service`, advertised via `.well-known`
-(`org.matrix.msc4143.rtc_foci`), with the relevant MSCs (delayed events / MSC4140,
-MSC4222) enabled. There is no SFU-less mesh fallback in current Element Call. A
-homeserver without this backend will load the lobby but cannot connect a call.
+SFU plus an `lk-jwt-service`, advertised either through the MSC4519 endpoint
+(`GET /_matrix/client/unstable/org.matrix.msc4143/rtc/transports`) or the
+`.well-known` `org.matrix.msc4143.rtc_foci` list, with the relevant MSCs (delayed
+events / MSC4140, MSC4222) enabled. There is no SFU-less mesh fallback in current
+Element Call. A homeserver without this backend will load the lobby but cannot
+connect a call.
+
+Element Call 0.24.0 dropped its own `.well-known` lookup and asks the host for
+the transports over the Widget API instead (MSC4515), so the discovery above is
+Komai's job now: see the MSC4515 intercept in `runtime_element_call.rs`.
 
 ## Architecture
 
@@ -165,6 +171,18 @@ notification) via `room.send_raw`.
   - `io.element.device_mute` → Element Call reports its current mic/camera state
     here (on join and after each toggle); the session mirrors it onto Q_PROPERTYs so
     the native header toggles reflect reality, then acks.
+
+  A second intercept lives on the Rust side, in `runtime_element_call.rs`, because
+  it needs the logged-in `Client`:
+  - `org.matrix.msc4515.get_rtc_transports` → Element Call asks where the
+    MatrixRTC backend is. `resolve_rtc_transports()` tries the MSC4519
+    `rtc/transports` endpoint and falls back to the `.well-known` `rtc_foci` list,
+    which is still all most homeservers publish, then replies directly into the
+    webview.
+  - `supported_api_versions` → the driver's own answer is amended on its way out
+    to add `org.matrix.msc4515`, since Element Call will not send the action above
+    unless the host advertises it. Splicing rather than replacing keeps the rest
+    of the list tracking whatever matrix-sdk supports.
 
   Native mic/camera toggles send `io.element.device_mute` *to* the widget with only
   the changed field; the resulting fromWidget report is what actually flips the

@@ -26,6 +26,7 @@
 use super::*;
 
 use language_tags::LanguageTag;
+use matrix_sdk::ruma::api::client::rtc::{RtcTransport, transports::v1 as rtc_transports};
 use matrix_sdk::widget::{
     Capabilities, CapabilitiesProvider, ClientProperties, EncryptionSystem, Filter,
     MessageLikeEventFilter, StateEventFilter, ToDeviceEventFilter, VirtualElementCallWidgetConfig,
@@ -35,6 +36,14 @@ use tokio_util::sync::CancellationToken;
 
 /// Client identifier handed to Element Call so it can adapt to the host.
 const CLIENT_ID: &str = "cc.etke.komai";
+
+/// Widget API version string that advertises MSC4515 support (RTC transport
+/// discovery over the widget API).
+const MSC4515_API_VERSION: &str = "org.matrix.msc4515";
+
+/// The MSC4515 widget action Element Call uses to ask its host where the
+/// MatrixRTC backend lives.
+const MSC4515_GET_RTC_TRANSPORTS: &str = "org.matrix.msc4515.get_rtc_transports";
 
 /// The canonical Element Call capability set, ported from matrix-sdk-ffi's
 /// `get_element_call_required_permissions`. Our `CapabilitiesProvider` returns
@@ -368,6 +377,7 @@ async fn run_session(
                 _ = recv_cancel.cancelled() => break,
                 message = recv_handle.recv() => match message {
                     Some(message) => {
+                        let message = advertise_msc4515(message);
                         crate::ffi::matrix_notify_element_call_widget_message(session_id, &message);
                     }
                     // `None` => the driver is gone; stop the session.
@@ -388,7 +398,17 @@ async fn run_session(
             _ = cancel.cancelled() => break,
             message = to_driver_rx.recv() => match message {
                 Some(message) => {
-                    if !handle.send(message).await {
+                    // MSC4515 is ours to answer: the driver has no handler and
+                    // would reject it (see `answer_rtc_transports`). Resolving
+                    // the transports hits the network, so it runs off to the
+                    // side rather than stalling this forwarding loop.
+                    if let Some(request) = parse_rtc_transports_request(&message) {
+                        crate::matrix_backend::ffi::runtime().spawn(answer_rtc_transports(
+                            session_id,
+                            client.clone(),
+                            request,
+                        ));
+                    } else if !handle.send(message).await {
                         break;
                     }
                 }
@@ -404,6 +424,114 @@ async fn run_session(
     finish_stopped(session_id);
 }
 
+/// Splices MSC4515 into the driver's `supported_api_versions` answer.
+///
+/// Element Call only sends `get_rtc_transports` once the host has advertised
+/// `org.matrix.msc4515`, and matrix-sdk's driver answers that handshake from a
+/// hardcoded list that predates the MSC. We amend its response instead of
+/// answering the action ourselves so the rest of the list keeps tracking
+/// whatever matrix-sdk supports. Any message we cannot parse or that is not the
+/// versions response passes through untouched.
+fn advertise_msc4515(message: String) -> String {
+    let Ok(mut value) = serde_json::from_str::<serde_json::Value>(&message) else {
+        return message;
+    };
+    if value.get("action").and_then(|action| action.as_str()) != Some("supported_api_versions") {
+        return message;
+    }
+    let Some(versions) = value
+        .get_mut("response")
+        .and_then(|response| response.get_mut("supported_versions"))
+        .and_then(|versions| versions.as_array_mut())
+    else {
+        return message;
+    };
+    if versions.iter().any(|version| version.as_str() == Some(MSC4515_API_VERSION)) {
+        return message;
+    }
+    versions.push(serde_json::Value::String(MSC4515_API_VERSION.to_owned()));
+    serde_json::to_string(&value).unwrap_or(message)
+}
+
+/// Recognises Element Call's MSC4515 `get_rtc_transports` request.
+///
+/// Returns the request envelope, which the reply echoes back with a `response`
+/// field appended (matrix-widget-api's reply shape). Messages that already carry
+/// a `response` are replies, not requests, and are left alone.
+fn parse_rtc_transports_request(message: &str) -> Option<serde_json::Value> {
+    let value = serde_json::from_str::<serde_json::Value>(message).ok()?;
+    let object = value.as_object()?;
+    if object.get("api").and_then(|api| api.as_str()) != Some("fromWidget") {
+        return None;
+    }
+    if object.contains_key("response") {
+        return None;
+    }
+    if object.get("action").and_then(|action| action.as_str()) != Some(MSC4515_GET_RTC_TRANSPORTS) {
+        return None;
+    }
+    Some(value)
+}
+
+/// Answers one `get_rtc_transports` request straight back into the webview.
+///
+/// The driver never sees the request, so nothing else is going to reply to it:
+/// a failure has to come back as a widget error response, or Element Call waits
+/// forever on the lobby.
+async fn answer_rtc_transports(session_id: u64, client: Client, mut request: serde_json::Value) {
+    let response = match resolve_rtc_transports(&client).await {
+        Ok(transports) => {
+            tracing::info!(
+                session_id,
+                transports = ?transports.iter().map(RtcTransport::transport_type).collect::<Vec<_>>(),
+                "Answering Element Call MatrixRTC transport discovery"
+            );
+            serde_json::json!({ "rtc_transports": transports })
+        }
+        Err(error) => {
+            tracing::warn!(session_id, error, "Failed to resolve MatrixRTC transports");
+            serde_json::json!({ "error": { "message": error } })
+        }
+    };
+
+    let Some(object) = request.as_object_mut() else { return };
+    object.insert("response".to_owned(), response);
+
+    match serde_json::to_string(&request) {
+        Ok(message) => {
+            crate::ffi::matrix_notify_element_call_widget_message(session_id, &message)
+        }
+        Err(e) => {
+            tracing::warn!(session_id, "Failed to serialize MatrixRTC transports reply: {e}")
+        }
+    }
+}
+
+/// Resolves the homeserver's MatrixRTC transports (the LiveKit SFU Element Call
+/// connects its media to).
+///
+/// MSC4519's `rtc/transports` endpoint is the method Element Call 0.24+ expects,
+/// but few homeservers implement it yet, so we fall back to the `.well-known`
+/// `rtc_foci` list Element Call used to read for itself before it dropped that
+/// discovery path.
+async fn resolve_rtc_transports(client: &Client) -> Result<Vec<RtcTransport>, String> {
+    match client.send(rtc_transports::Request::new()).await {
+        Ok(response) if !response.rtc_transports.is_empty() => return Ok(response.rtc_transports),
+        Ok(_) => {
+            tracing::info!("Homeserver advertised no MatrixRTC transports; trying .well-known");
+        }
+        Err(e) => {
+            tracing::info!("MatrixRTC transports endpoint unavailable ({e}); trying .well-known");
+        }
+    }
+
+    let well_known = client.fetch_client_well_known().await.ok_or_else(|| {
+        "the homeserver has neither a MatrixRTC transports endpoint nor a client .well-known"
+            .to_owned()
+    })?;
+    Ok(well_known.rtc_foci)
+}
+
 fn finish_failed(session_id: u64, reason: String) {
     tracing::warn!(session_id, reason, "Element Call widget session failed");
     remove_session(session_id);
@@ -414,4 +542,119 @@ fn finish_stopped(session_id: u64) {
     remove_session(session_id);
     crate::ffi::matrix_notify_element_call_widget_stopped(session_id, "");
     tracing::info!(session_id, "Element Call widget session stopped");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The exact envelope matrix-sdk's widget driver emits for the handshake
+    /// (mirrors its own `test_get_supported_api_versions`).
+    fn driver_versions_response() -> String {
+        serde_json::json!({
+            "api": "fromWidget",
+            "widgetId": "komai-ec-1",
+            "requestId": "S2ixNhjaC0kd0jJn",
+            "action": "supported_api_versions",
+            "data": {},
+            "response": {
+                "supported_versions": ["0.0.1", "0.0.2", "org.matrix.msc4039"],
+            },
+        })
+        .to_string()
+    }
+
+    fn supported_versions(message: &str) -> Vec<String> {
+        serde_json::from_str::<serde_json::Value>(message).unwrap()["response"]
+            ["supported_versions"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|version| version.as_str().unwrap().to_owned())
+            .collect()
+    }
+
+    #[test]
+    fn versions_response_gains_msc4515_without_losing_the_driver_list() {
+        let amended = advertise_msc4515(driver_versions_response());
+        assert_eq!(
+            supported_versions(&amended),
+            ["0.0.1", "0.0.2", "org.matrix.msc4039", MSC4515_API_VERSION]
+        );
+    }
+
+    #[test]
+    fn versions_response_is_not_amended_twice() {
+        let amended = advertise_msc4515(advertise_msc4515(driver_versions_response()));
+        assert_eq!(
+            supported_versions(&amended).iter().filter(|v| *v == MSC4515_API_VERSION).count(),
+            1
+        );
+    }
+
+    #[test]
+    fn unrelated_messages_pass_through_untouched() {
+        for message in [
+            "not json at all".to_owned(),
+            serde_json::json!({"api": "toWidget", "action": "im.vector.hangup"}).to_string(),
+            // A malformed versions response must not be "repaired" into one.
+            serde_json::json!({"action": "supported_api_versions"}).to_string(),
+        ] {
+            assert_eq!(advertise_msc4515(message.clone()), message);
+        }
+    }
+
+    #[test]
+    fn livekit_transports_round_trip_into_the_shape_element_call_reads() {
+        // What a homeserver publishes, in `rtc/transports` and in the
+        // `.well-known` `rtc_foci` list alike.
+        let advertised = serde_json::json!([
+            {"type": "livekit", "livekit_service_url": "https://livekit.example.com"},
+            {"type": "future.transport", "some_field": 1},
+        ]);
+        let transports: Vec<RtcTransport> = serde_json::from_value(advertised.clone()).unwrap();
+        assert_eq!(transports[0].transport_type(), "livekit");
+        // Element Call picks the first entry whose `type` is `livekit` and dials
+        // its `livekit_service_url`, so the reply has to carry both through
+        // untouched — including transport types this ruma build has no variant for.
+        assert_eq!(
+            serde_json::json!({ "rtc_transports": transports }),
+            serde_json::json!({ "rtc_transports": advertised })
+        );
+    }
+
+    #[test]
+    fn rtc_transports_request_is_recognised() {
+        let request = serde_json::json!({
+            "api": "fromWidget",
+            "widgetId": "komai-ec-1",
+            "requestId": "abc",
+            "action": MSC4515_GET_RTC_TRANSPORTS,
+            "data": {},
+        })
+        .to_string();
+        assert_eq!(
+            parse_rtc_transports_request(&request),
+            Some(serde_json::from_str(&request).unwrap())
+        );
+    }
+
+    #[test]
+    fn other_widget_traffic_is_left_to_the_driver() {
+        let cases = [
+            // The widget's own reply to a host request, not a request.
+            serde_json::json!({
+                "api": "fromWidget",
+                "action": MSC4515_GET_RTC_TRANSPORTS,
+                "response": {"rtc_transports": []},
+            }),
+            // Host→widget direction.
+            serde_json::json!({"api": "toWidget", "action": MSC4515_GET_RTC_TRANSPORTS}),
+            // A different action.
+            serde_json::json!({"api": "fromWidget", "action": "supported_api_versions"}),
+        ];
+        for case in cases {
+            assert_eq!(parse_rtc_transports_request(&case.to_string()), None);
+        }
+    }
 }

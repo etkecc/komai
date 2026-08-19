@@ -47,13 +47,16 @@ unicode-script = "0.5.8"
 syntect = { version = "5", default-features = false, features = ["default-fancy"] }
 # ruma is pinned to the same version matrix-rust-sdk uses at this release to avoid
 # duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.  The
-# direct ruma dep only exists to enable the `unstable-msc2545` feature (image
-# packs / sticker packs) that matrix-sdk doesn't enable on its own; the
-# `markdown` feature comes through matrix-sdk's own `markdown` feature below,
-# and `html` is pulled transitively by matrix-sdk-ui.  Code should import ruma
-# types through `matrix_sdk::ruma::*` rather than `ruma::*` directly so we
-# don't build in a hard coupling to the direct ruma version.
-ruma = { version = "0.16.0", features = ["unstable-msc2545"] }
+# direct ruma dep only exists to enable features that matrix-sdk doesn't enable
+# on its own: `unstable-msc2545` (image packs / sticker packs) and
+# `unstable-msc4143` (MatrixRTC transport discovery — the `rtc/transports`
+# endpoint and the `.well-known` `rtc_foci` list Element Call needs, see
+# `runtime_element_call.rs`).  The `markdown` feature comes through matrix-sdk's
+# own `markdown` feature below, and `html` is pulled transitively by
+# matrix-sdk-ui.  Code should import ruma types through `matrix_sdk::ruma::*`
+# rather than `ruma::*` directly so we don't build in a hard coupling to the
+# direct ruma version.
+ruma = { version = "0.16.0", features = ["unstable-msc2545", "unstable-msc4143"] }
 # `experimental-widgets` provides the native Matrix Widget API driver
 # (`matrix_sdk::widget`) that powers Element Call: capability negotiation, event
 # relay, encrypted to-device, OpenID and MSC4157 delayed events, plus the EC

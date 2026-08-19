@@ -14,6 +14,7 @@
 #include <QQuickWindow>
 #include <QtMath>
 
+#include <algorithm>
 #include <climits>
 #include <cstring>
 
@@ -41,13 +42,20 @@ churnPerfEnabled()
 // smooth upscale is cheap and leaves text unreadable at any font size, while
 // the smear still hints at the hidden content's shape and colors.
 void
-blurSpoilerBox(QImage &buffer, const QRect &itemBox, qreal dpr)
+blurSpoilerRegion(QImage &buffer, const QVector<QRect> &itemBoxes, qreal dpr)
 {
-    const QRect deviceBox(qFloor(itemBox.x() * dpr),
-                          qFloor(itemBox.y() * dpr),
-                          qCeil(itemBox.width() * dpr),
-                          qCeil(itemBox.height() * dpr));
-    const QRect r = deviceBox.intersected(QRect(QPoint(0, 0), buffer.size()));
+    // One region's line boxes are blurred together rather than one at a time:
+    // a wrapped spoiler's lines abut, and clearing/redrawing each separately
+    // left the rounded corners notched out along every seam.
+    QRegion region;
+    for (const QRect &itemBox : itemBoxes) {
+        const QRect deviceBox(qFloor(itemBox.x() * dpr),
+                              qFloor(itemBox.y() * dpr),
+                              qCeil(itemBox.width() * dpr),
+                              qCeil(itemBox.height() * dpr));
+        region += deviceBox.intersected(QRect(QPoint(0, 0), buffer.size()));
+    }
+    const QRect r = region.boundingRect();
     if (r.isEmpty())
         return;
 
@@ -60,16 +68,22 @@ blurSpoilerBox(QImage &buffer, const QRect &itemBox, qreal dpr)
 
     QPainter p(&buffer);
     p.resetTransform(); // operate in device pixels regardless of buffer DPR
+    p.setRenderHint(QPainter::Antialiasing, true);
+    // Clip to the region first so the clear and the repaint cover exactly the
+    // same pixels. Clearing a larger area than gets repainted is what punched
+    // transparent bites out of the rounded corners.
+    QPainterPath clipPath;
+    if (region.rectCount() == 1)
+        clipPath.addRoundedRect(QRectF(r), 4.0 * dpr, 4.0 * dpr);
+    else
+        clipPath.addRegion(region);
+    p.setClipPath(clipPath);
     // The sharp original pixels must be fully removed first: the blurred
     // patch is partially transparent around glyph edges, so merely painting
     // it over the original would leave the text readable underneath.
     p.setCompositionMode(QPainter::CompositionMode_Clear);
     p.fillRect(r, Qt::black);
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    p.setRenderHint(QPainter::Antialiasing, true);
-    QPainterPath clipPath;
-    clipPath.addRoundedRect(QRectF(r), 4.0 * dpr, 4.0 * dpr);
-    p.setClipPath(clipPath);
     p.drawImage(r.topLeft(), blurred);
 }
 } // namespace
@@ -428,17 +442,69 @@ appendElementBoxes(const litehtml::element::ptr &el, QVector<QRect> &out)
     });
 }
 
-// Fallback for spoiler spans whose own render items report no boxes — an
-// inline span wrapping block content (e.g. <pre>) lays out with empty inline
-// boxes. Descend until each subtree contributes boxes of its own.
+// Every painted box in an element's subtree, at every nesting level. Needed
+// because an inline element's own boxes are sized to *its* font metrics, so
+// taller descendants (scaled emoji, a padded <code> chip, a larger nested
+// font, images) paint outside them.
 void
-appendDescendantBoxes(const litehtml::element::ptr &el, QVector<QRect> &out)
+appendSubtreeBoxes(const litehtml::element::ptr &el, QVector<QRect> &out)
 {
     for (const auto &child : el->children()) {
-        const auto before = out.size();
         appendElementBoxes(child, out);
-        if (out.size() == before)
-            appendDescendantBoxes(child, out);
+        appendSubtreeBoxes(child, out);
+    }
+}
+
+// Groups boxes into one rect per visual line, unioning everything that
+// overlaps vertically. Used when a spoiler has no line boxes of its own to
+// anchor to (an inline span wrapping block content, e.g. <pre>).
+QVector<QRect>
+mergeOverlappingRows(QVector<QRect> boxes)
+{
+    std::sort(boxes.begin(), boxes.end(), [](const QRect &a, const QRect &b) {
+        return a.top() != b.top() ? a.top() < b.top() : a.left() < b.left();
+    });
+    QVector<QRect> rows;
+    for (const QRect &box : boxes) {
+        auto row = std::find_if(rows.begin(), rows.end(), [&box](const QRect &r) {
+            return box.top() < r.bottom() && r.top() < box.bottom();
+        });
+        if (row != rows.end())
+            *row = row->united(box);
+        else
+            rows.append(box);
+    }
+    return rows;
+}
+
+// Grows each of a spoiler's own line boxes to cover what actually painted on
+// that line.
+//
+// Each subtree box is folded into the single line it overlaps most (nearest
+// centre breaks ties), never into every line it touches: a glyph that
+// overflows its line must not drag the neighbouring line's rect sideways, or
+// the blur would spill onto text outside the spoiler.
+void
+growLineBoxesToPaintedExtent(QVector<QRect> &lineBoxes, const QVector<QRect> &subtree)
+{
+    for (const QRect &box : subtree) {
+        int best        = -1;
+        int bestOverlap = INT_MIN;
+        for (int i = 0; i < lineBoxes.size(); ++i) {
+            const QRect &line = lineBoxes[i];
+            const int overlap = qMin(box.bottom(), line.bottom()) - qMax(box.top(), line.top());
+            // Prefer real overlap; for a box that clears every line (rare, but
+            // possible with large negative offsets) fall back to proximity,
+            // which `overlap` already expresses as a negative distance.
+            const int score =
+              overlap != bestOverlap ? overlap : -qAbs(box.center().y() - line.center().y());
+            if (score > bestOverlap) {
+                bestOverlap = score;
+                best        = i;
+            }
+        }
+        if (best >= 0)
+            lineBoxes[best] = lineBoxes[best].united(box);
     }
 }
 } // namespace
@@ -460,8 +526,17 @@ LitehtmlItem::collectSpoilerRegions()
     for (const auto &el : spoilers) {
         SpoilerRegion region;
         appendElementBoxes(el, region.boxes);
-        if (region.boxes.isEmpty())
-            appendDescendantBoxes(el, region.boxes);
+
+        QVector<QRect> subtree;
+        appendSubtreeBoxes(el, subtree);
+
+        if (region.boxes.isEmpty()) {
+            // No line boxes of our own to anchor to (an inline span wrapping
+            // block content); derive the rows from what painted instead.
+            region.boxes = mergeOverlappingRows(subtree);
+        } else {
+            growLineBoxesToPaintedExtent(region.boxes, subtree);
+        }
         // Append even when still empty so indices keep tracking document
         // order; an empty region is simply never hit-tested or blurred.
         m_spoilerRegions.append(region);
@@ -562,8 +637,11 @@ LitehtmlItem::paint(QPainter *painter)
         for (int i = 0; i < m_spoilerRegions.size(); ++i) {
             if (m_revealedSpoilers.contains(i))
                 continue;
+            QVector<QRect> boxes;
+            boxes.reserve(m_spoilerRegions[i].boxes.size());
             for (const QRect &box : m_spoilerRegions[i].boxes)
-                blurSpoilerBox(buffer, box.translated(padLeft, m_topInset), dpr);
+                boxes.append(box.translated(padLeft, m_topInset));
+            blurSpoilerRegion(buffer, boxes, dpr);
         }
         painter->drawImage(QPointF(0, 0), buffer);
         m_container->setPainter(painter);

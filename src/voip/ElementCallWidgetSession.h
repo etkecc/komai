@@ -92,8 +92,9 @@ public:
 
     // QWebChannel-exposed slot the injected page bridge calls for every
     // widget->host Widget API message. Element Call-specific host actions
-    // (io.element.close, set_always_on_screen, io.element.device_mute) are
-    // answered locally; everything else is forwarded to the Rust driver.
+    // (io.element.close, io.element.join, set_always_on_screen,
+    // io.element.device_mute) are answered locally; everything else is
+    // forwarded to the Rust driver.
     Q_INVOKABLE void postMessageFromWidget(const QString &json);
 
     // Entry points used by the Matrix backend bridge to route driver callbacks

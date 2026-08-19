@@ -167,6 +167,9 @@ notification) via `room.send_raw`.
   implement are answered locally instead of forwarded:
   - `io.element.close` → reply `{}` and emit `closeRequested()` so the surface
     tears down (this is how Element Call's own hangup dismisses the panel);
+  - `io.element.join` → Element Call reports that it joined the call; acknowledged
+    (the driver rejects it as an unknown variant, which the page logs as "Failed
+    to send join action");
   - `set_always_on_screen` → acknowledged;
   - `io.element.device_mute` → Element Call reports its current mic/camera state
     here (on join and after each toggle); the session mirrors it onto Q_PROPERTYs so

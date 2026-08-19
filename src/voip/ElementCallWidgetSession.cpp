@@ -234,6 +234,16 @@ ElementCallWidgetSession::interceptHostAction(const QString &json)
         emit closeRequested();
         return true;
     }
+    if (action == QLatin1String("io.element.join")) {
+        // Element Call reports that it has joined the call. The widget driver
+        // rejects the action as an unknown variant, which surfaces in the page
+        // as a "Failed to send join action" error, so ack it here. The call
+        // surface is already up by this point (we started the session), so there
+        // is nothing further to do with it.
+        reply(QJsonObject{});
+        komai::logging::ui()->warn("[EC] widget joined the call for session {}", sessionId_);
+        return true;
+    }
     if (action == QLatin1String("set_always_on_screen")) {
         // Picture-in-picture stickiness. We acknowledge success; honouring it
         // (a floating call overlay) is a later UX milestone.

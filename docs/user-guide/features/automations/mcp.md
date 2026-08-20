@@ -89,10 +89,13 @@ Matrix `content` object and selected envelope fields such as `event_id`, `type`,
 Arguments:
 
 - `roomIdOrAlias` -- required room ID or alias
-- `limit` -- optional, default `50`, max `500`
+- `limit` -- optional, default `10`, max `500`
 - `beforeEventId` -- optional exclusive pagination anchor
 - `includeUnsignedFields` -- optional, default `false`
-- `fetchMode` -- optional, `cached_only` or `server_fetch_if_needed`
+- `fetchMode` -- optional, `cached_only` (the default) or `server_fetch_if_needed`.
+  `cached_only` reads only what the running Komai profile already holds, so a room it has
+  not opened this session can come back with no events at all. Pass `server_fetch_if_needed`
+  to let it reach the homeserver for history it does not have
 
 Structured result fields:
 

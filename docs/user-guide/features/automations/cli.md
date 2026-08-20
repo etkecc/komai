@@ -95,7 +95,7 @@ AND, and `--fields` trims each room down to the keys you asked for:
 
 | Flag | Effect |
 |---|---|
-| `--ids <ids>` | Restrict to these room IDs or aliases, comma-separated |
+| `--ids <id,...>` | Restrict to these room IDs or aliases |
 | `--query <text>` | Case-insensitive substring on room name and alias |
 | `--is-dm true\|false` | Keep only direct chats, or only non-direct chats |
 | `--encrypted true\|false` | Keep only encrypted, or only unencrypted, rooms |
@@ -103,7 +103,7 @@ AND, and `--fields` trims each room down to the keys you asked for:
 | `--parent-space <room-id>` | Keep only children of a space |
 | `--min-member-count <n>` | Keep only rooms with at least this many members |
 | `--limit <n>`, `--offset <n>` | Paging; all rooms if `--limit` is unset |
-| `--fields <keys>` | Comma-separated keys to keep on each room |
+| `--fields <key,...>` | Keys to keep on each room |
 
 Rooms come back in the room list's own order, which is by recent activity. A paged walk is
 therefore a snapshot rather than a stable cursor: a room that sees traffic mid-walk can move

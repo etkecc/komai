@@ -427,7 +427,7 @@ roomsGroupDef()
         bool boolEnum;
     };
     static constexpr ListFlag listFlags[] = {
-      {"--ids", "<ids>", "Comma-separated room IDs or aliases to restrict the result to.", false},
+      {"--ids", "<id,...>", "Room IDs or aliases to restrict the result to.", false},
       {"--query", "<text>", "Case-insensitive substring matched on room name and alias.", false},
       {"--is-dm", "<bool>", "Keep only direct chats, or only non-direct chats.", true},
       {"--encrypted", "<bool>", "Keep only encrypted rooms, or only unencrypted ones.", true},
@@ -436,7 +436,7 @@ roomsGroupDef()
       {"--min-member-count", "<n>", "Keep only rooms with at least this many members.", false},
       {"--limit", "<n>", "Maximum rooms to return; all of them if unset.", false},
       {"--offset", "<n>", "Skip this many matching rooms before the page.", false},
-      {"--fields", "<keys>", "Comma-separated keys to keep on each room.", false},
+      {"--fields", "<key,...>", "Keys to keep on each room.", false},
     };
     for (const auto &definition : listFlags) {
         cli_schema::FlagDef flag;
@@ -529,7 +529,7 @@ roomsGroupDef()
       {"--topic", true, "<text>", "Room topic."},
       {"--alias-localpart", true, "<text>", "Local part of the room alias, without '#' or ':'."},
       {"--preset", true, "<preset>", "Matrix createRoom preset."},
-      {"--invite", true, "<user-ids>", "Comma-separated Matrix user IDs to invite."},
+      {"--invite", true, "<user-id,...>", "Matrix user IDs to invite."},
       {"--room-version", true, "<version>", "Room version to request; server default if unset."},
       {"--power-levels", true, "<json>", "m.room.power_levels content override, as JSON."},
       {"--initial-state", true, "<json>", "JSON array of state events to set at creation."},

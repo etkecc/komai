@@ -150,6 +150,14 @@ the IPC server (no access gating — socket filesystem permissions suffice) and
 the D-Bus adaptors (which wrap calls with `dbusReadAccessEnabled()` /
 `dbusWriteAccessEnabled()` checks).
 
+D-Bus mirrors the *capabilities* of the other surfaces, not their signatures.
+`rooms.list` gained filtering and field projection for the CLI and MCP, but
+D-Bus `list()` returns a fixed struct that cannot omit members, so it keeps the
+no-argument `roomList()` overload and returns everything. Open-ended option sets
+(`create`) and structured results (`getState`, `readReceipts`) travel as JSON
+strings, following `timeline()`, because a typed signature could not grow
+without a major API bump.
+
 
 ## IPC-backed commands
 

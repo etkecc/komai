@@ -62,7 +62,7 @@ komai app version
 
 ```bash
 komai app api-version
-# {"apiVersion":"1.0.0"}
+# {"apiVersion":"1.1.0"}
 ```
 
 ## 🚪 Rooms

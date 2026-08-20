@@ -54,6 +54,64 @@ dbusWriteAccessEnabled()
     return settings && settings->integrationsDbusApiAccess() >= IntegrationsDbusAccessReadWrite;
 }
 
+/// Sends a D-Bus error reply. Unlike returning an empty string, this lets a
+/// caller tell failure from a legitimately empty result.
+void
+replyWithDbusError(const QDBusMessage &message, const QString &error)
+{
+    QDBusConnection::sessionBus().send(
+      message.createErrorReply(QStringLiteral("cc.etke.komai.Error.Failed"), error));
+}
+
+void
+replyWithDbusAccessDenied(const QDBusMessage &message)
+{
+    QDBusConnection::sessionBus().send(
+      message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
+                               QStringLiteral("D-Bus write access is disabled.")));
+}
+
+/// Relays a room action that carries no payload beyond success.
+komai::ipc::RoomActionCallback
+dbusActionResponder(const QDBusMessage &message)
+{
+    return [message](const QString &error) {
+        if (!error.isEmpty()) {
+            replyWithDbusError(message, error);
+            return;
+        }
+        QDBusConnection::sessionBus().send(message.createReply());
+    };
+}
+
+/// Relays a result that is a single event ID.
+komai::ipc::SendMessageCallback
+dbusEventIdResponder(const QDBusMessage &message)
+{
+    return [message](const QString &eventId, const QString &error) {
+        if (!error.isEmpty()) {
+            replyWithDbusError(message, error);
+            return;
+        }
+        auto reply = message.createReply();
+        reply << eventId;
+        QDBusConnection::sessionBus().send(reply);
+    };
+}
+
+/// Begins a delayed write reply, or refuses when write access is off.
+bool
+beginDbusWrite(const QDBusMessage &message)
+{
+    if (!dbusWriteAccessEnabled()) {
+        replyWithDbusAccessDenied(message);
+        return false;
+    }
+
+    message.setDelayedReply(true);
+    return true;
+}
+
 DbusBackendLoggers
 defaultLoggers()
 {
@@ -296,6 +354,332 @@ DbusRoomsInterface::sendImage(const QString &roomIdOrAlias,
                               reply << (error.isEmpty() ? eventId : QString{});
                               QDBusConnection::sessionBus().send(reply);
                           });
+    return {};
+}
+
+// -- membership --
+
+namespace {
+
+/// The four user-targeting membership methods differ only in the SharedLogic
+/// call, so the adaptor keeps one body and a small dispatch.
+using MembershipFn = void (*)(const QString &,
+                              const QString &,
+                              const QString &,
+                              komai::ipc::RoomActionCallback);
+
+void
+runDbusMembership(const QString &roomIdOrAlias,
+                  const QString &userId,
+                  const QString &reason,
+                  const QDBusMessage &message,
+                  MembershipFn membershipFn)
+{
+    if (!beginDbusWrite(message))
+        return;
+
+    membershipFn(stripDbusTypePrefix(roomIdOrAlias),
+                 stripDbusTypePrefix(userId),
+                 stripDbusTypePrefix(reason),
+                 dbusActionResponder(message));
+}
+
+} // namespace
+
+void
+DbusRoomsInterface::invite(const QString &roomIdOrAlias,
+                           const QString &userId,
+                           const QString &reason,
+                           const QDBusMessage &message) const
+{
+    runDbusMembership(roomIdOrAlias, userId, reason, message, &komai::ipc::inviteUser);
+}
+
+void
+DbusRoomsInterface::kick(const QString &roomIdOrAlias,
+                         const QString &userId,
+                         const QString &reason,
+                         const QDBusMessage &message) const
+{
+    runDbusMembership(roomIdOrAlias, userId, reason, message, &komai::ipc::kickUser);
+}
+
+void
+DbusRoomsInterface::ban(const QString &roomIdOrAlias,
+                        const QString &userId,
+                        const QString &reason,
+                        const QDBusMessage &message) const
+{
+    runDbusMembership(roomIdOrAlias, userId, reason, message, &komai::ipc::banUser);
+}
+
+void
+DbusRoomsInterface::unban(const QString &roomIdOrAlias,
+                          const QString &userId,
+                          const QString &reason,
+                          const QDBusMessage &message) const
+{
+    runDbusMembership(roomIdOrAlias, userId, reason, message, &komai::ipc::unbanUser);
+}
+
+void
+DbusRoomsInterface::leave(const QString &roomIdOrAlias,
+                          const QString &reason,
+                          const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return;
+
+    komai::ipc::leaveRoom(stripDbusTypePrefix(roomIdOrAlias),
+                          stripDbusTypePrefix(reason),
+                          dbusActionResponder(message));
+}
+
+QString
+DbusRoomsInterface::create(const QString &optionsJson, const QDBusMessage &message) const
+{
+    if (!dbusWriteAccessEnabled()) {
+        replyWithDbusAccessDenied(message);
+        return {};
+    }
+
+    const auto normalized = stripDbusTypePrefix(optionsJson).trimmed();
+    QJsonObject options;
+    if (!normalized.isEmpty()) {
+        QJsonParseError parseError;
+        const auto doc = QJsonDocument::fromJson(normalized.toUtf8(), &parseError);
+        if (parseError.error != QJsonParseError::NoError) {
+            replyWithDbusError(
+              message, QStringLiteral("options is not valid JSON: ") + parseError.errorString());
+            return {};
+        }
+        if (!doc.isObject()) {
+            replyWithDbusError(message, QStringLiteral("options must be a JSON object"));
+            return {};
+        }
+        options = doc.object();
+    }
+
+    komai::ipc::CreateRoomRequest request;
+    request.name           = options.value(QStringLiteral("name")).toString();
+    request.topic          = options.value(QStringLiteral("topic")).toString();
+    request.aliasLocalpart = options.value(QStringLiteral("aliasLocalpart")).toString();
+    request.preset         = options.value(QStringLiteral("preset")).toString();
+    request.roomVersion    = options.value(QStringLiteral("roomVersion")).toString();
+    request.isDirect       = options.value(QStringLiteral("isDirect")).toBool();
+    request.isEncrypted    = options.value(QStringLiteral("isEncrypted")).toBool();
+    request.isSpace        = options.value(QStringLiteral("isSpace")).toBool();
+    request.isPublic       = options.value(QStringLiteral("isPublic")).toBool();
+    request.powerLevelContentOverride =
+      options.value(QStringLiteral("powerLevelContentOverride")).toObject();
+    request.initialState    = options.value(QStringLiteral("initialState")).toArray();
+    request.creationContent = options.value(QStringLiteral("creationContent")).toObject();
+    for (const auto invitee : options.value(QStringLiteral("invite")).toArray())
+        request.inviteUserIds.append(invitee.toString());
+
+    message.setDelayedReply(true);
+    komai::ipc::createRoom(request, [message](const QString &roomId, const QString &error) {
+        if (!error.isEmpty()) {
+            replyWithDbusError(message, error);
+            return;
+        }
+        auto reply = message.createReply();
+        reply << roomId;
+        QDBusConnection::sessionBus().send(reply);
+    });
+    return {};
+}
+
+// -- state --
+
+QString
+DbusRoomsInterface::getState(const QString &roomIdOrAlias,
+                             const QString &eventType,
+                             const QString &stateKey,
+                             const QDBusMessage &message) const
+{
+    if (!dbusReadAccessEnabled()) {
+        QDBusConnection::sessionBus().send(
+          message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
+                                   QStringLiteral("D-Bus read access is disabled.")));
+        return {};
+    }
+
+    message.setDelayedReply(true);
+    komai::ipc::readStateEvent(
+      stripDbusTypePrefix(roomIdOrAlias),
+      stripDbusTypePrefix(eventType),
+      stripDbusTypePrefix(stateKey),
+      [message](const komai::ipc::StateEventResult &result, const QString &error) {
+          if (!error.isEmpty()) {
+              replyWithDbusError(message, error);
+              return;
+          }
+
+          const QJsonObject payload{
+            {QStringLiteral("exists"), result.exists},
+            {QStringLiteral("content"), result.content},
+          };
+          auto reply = message.createReply();
+          reply << QString::fromUtf8(QJsonDocument(payload).toJson(QJsonDocument::Compact));
+          QDBusConnection::sessionBus().send(reply);
+      });
+    return {};
+}
+
+QString
+DbusRoomsInterface::setState(const QString &roomIdOrAlias,
+                             const QString &eventType,
+                             const QString &stateKey,
+                             const QString &contentJson,
+                             const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return {};
+
+    const auto doc = QJsonDocument::fromJson(stripDbusTypePrefix(contentJson).toUtf8());
+    if (!doc.isObject()) {
+        replyWithDbusError(message, QStringLiteral("content must be a JSON object"));
+        return {};
+    }
+
+    komai::ipc::sendStateEvent(stripDbusTypePrefix(roomIdOrAlias),
+                               stripDbusTypePrefix(eventType),
+                               stripDbusTypePrefix(stateKey),
+                               doc.object(),
+                               dbusEventIdResponder(message));
+    return {};
+}
+
+void
+DbusRoomsInterface::setName(const QString &roomIdOrAlias,
+                            const QString &name,
+                            const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return;
+
+    komai::ipc::setRoomName(
+      stripDbusTypePrefix(roomIdOrAlias), stripDbusTypePrefix(name), dbusActionResponder(message));
+}
+
+void
+DbusRoomsInterface::setTopic(const QString &roomIdOrAlias,
+                             const QString &topic,
+                             const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return;
+
+    komai::ipc::setRoomTopic(
+      stripDbusTypePrefix(roomIdOrAlias), stripDbusTypePrefix(topic), dbusActionResponder(message));
+}
+
+void
+DbusRoomsInterface::setPowerLevel(const QString &roomIdOrAlias,
+                                  const QString &userId,
+                                  const int powerLevel,
+                                  const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return;
+
+    komai::ipc::setUserPowerLevel(stripDbusTypePrefix(roomIdOrAlias),
+                                  stripDbusTypePrefix(userId),
+                                  powerLevel,
+                                  dbusActionResponder(message));
+}
+
+// -- moderation and read state --
+
+QString
+DbusRoomsInterface::redact(const QString &roomIdOrAlias,
+                           const QString &eventId,
+                           const QString &reason,
+                           const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return {};
+
+    komai::ipc::redactEvent(stripDbusTypePrefix(roomIdOrAlias),
+                            stripDbusTypePrefix(eventId),
+                            stripDbusTypePrefix(reason),
+                            dbusEventIdResponder(message));
+    return {};
+}
+
+void
+DbusRoomsInterface::markRead(const QString &roomIdOrAlias,
+                             const QString &eventId,
+                             const QString &receipt,
+                             const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return;
+
+    // D-Bus has no optional argument, so an empty string is how a caller says
+    // "follow the user's own setting for this room".
+    const auto normalizedReceipt = stripDbusTypePrefix(receipt).trimmed();
+    std::optional<bool> publicReceipt;
+    if (normalizedReceipt == QLatin1String("public"))
+        publicReceipt = true;
+    else if (normalizedReceipt == QLatin1String("private"))
+        publicReceipt = false;
+    else if (!normalizedReceipt.isEmpty()) {
+        replyWithDbusError(message,
+                           QStringLiteral("receipt must be 'public', 'private', or empty"));
+        return;
+    }
+
+    komai::ipc::markRoomRead(stripDbusTypePrefix(roomIdOrAlias),
+                             stripDbusTypePrefix(eventId),
+                             publicReceipt,
+                             dbusActionResponder(message));
+}
+
+void
+DbusRoomsInterface::markUnread(const QString &roomIdOrAlias,
+                               const bool unread,
+                               const QDBusMessage &message) const
+{
+    if (!beginDbusWrite(message))
+        return;
+
+    komai::ipc::markRoomUnread(
+      stripDbusTypePrefix(roomIdOrAlias), unread, dbusActionResponder(message));
+}
+
+QString
+DbusRoomsInterface::readReceipts(const QString &roomIdOrAlias,
+                                 const QString &eventId,
+                                 const QDBusMessage &message) const
+{
+    if (!dbusReadAccessEnabled()) {
+        QDBusConnection::sessionBus().send(
+          message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
+                                   QStringLiteral("D-Bus read access is disabled.")));
+        return {};
+    }
+
+    message.setDelayedReply(true);
+    komai::ipc::readReceipts(
+      stripDbusTypePrefix(roomIdOrAlias),
+      stripDbusTypePrefix(eventId),
+      [message](const QVector<komai::ipc::ReadReceipt> &receipts, const QString &error) {
+          if (!error.isEmpty()) {
+              replyWithDbusError(message, error);
+              return;
+          }
+
+          QJsonArray arr;
+          for (const auto &receipt : receipts)
+              arr.append(receipt.toJson());
+
+          auto reply = message.createReply();
+          reply << QString::fromUtf8(QJsonDocument(QJsonObject{{QStringLiteral("receipts"), arr}})
+                                       .toJson(QJsonDocument::Compact));
+          QDBusConnection::sessionBus().send(reply);
+      });
     return {};
 }
 

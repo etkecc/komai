@@ -93,6 +93,12 @@ Room discovery and navigation.
 
 ### list
 
+> **Note:** unlike the [CLI](cli.md) and [MCP](mcp.md) room listings, this returns every joined
+> room with every field. The filtering added there relies on projecting away struct members, which
+> a fixed D-Bus signature cannot express -- and a D-Bus client can filter the typed array locally
+> at no cost. Nothing is unreachable here; there is just no server-side narrowing.
+
+
 Returns all joined rooms with explicit local read state, notification/highlight state, derived categories, Matrix tags, parent-space IDs, DM partner metadata, and encryption state. Draft state is intentionally not exposed.
 
 Returned struct fields are ordered as:
@@ -207,6 +213,115 @@ busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms sendImage
 | `mxcUri` | string | *(required)* | The `mxc://` URI from `media.upload` |
 | `body` | string | *(auto)* | Caption (defaults to filename) |
 | `filename` | string | | Original filename |
+
+### invite / kick / ban / unban
+
+Membership operations targeting another user. All four take the same arguments; `reason` may be
+empty. `kick` and `ban` are, obviously, not reversible by re-running them -- use `unban` to lift a
+ban, which does not re-invite the user.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms invite sss '!abc:example.org' '@alice:example.org' 'joining the review'
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `roomIdOrAlias` | string | *(required)* | Room ID or alias |
+| `userId` | string | *(required)* | Matrix user ID to act on |
+| `reason` | string | | Recorded on the membership event |
+
+### leave
+
+Leaves a room, or rejects a pending invite to it. The room is not forgotten.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms leave ss '!abc:example.org' ''
+```
+
+### create
+
+Creates a room or space and returns its room ID.
+
+The options arrive as a **JSON object string** rather than a dozen typed arguments. Matrix keeps
+adding fields to `createRoom`, and a typed signature could not grow without a breaking API bump.
+Every key is optional; the accepted set is the same as the
+[`rooms_create` MCP tool](mcp.md#rooms_create).
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms create s \
+  '{"name":"Review","preset":"trusted_private_chat","invite":["@alice:example.org"]}'
+```
+
+### getState / setState
+
+Reads or writes one room state event, including custom event types. `getState` returns
+`{"exists": bool, "content": {...}}` as a JSON string; `setState` returns the event ID it sent.
+`stateKey` is usually empty.
+
+> Required D-Bus access level: 👀 read for `getState`, ✏️ write for `setState`
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms getState sss '!abc:example.org' 'm.room.topic' ''
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms setState ssss '!abc:example.org' 'm.room.topic' '' '{"topic":"Hello"}'
+```
+
+> **`setState` replaces the state event, it does not merge into it.** For `m.room.power_levels`
+> that means an object naming one user drops every other level in the room. Use `setPowerLevel`.
+
+### setName / setTopic / setPowerLevel
+
+Named wrappers for the three most common changes. An empty `name` or `topic` clears the field.
+`setPowerLevel` reads the current levels, changes the one user, and writes them all back.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms setTopic ss '!abc:example.org' 'Release planning'
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms setPowerLevel ssi '!abc:example.org' '@alice:example.org' 50
+```
+
+### redact
+
+Redacts an event. Returns the **redaction's own event ID**, which is a different event from the
+one being redacted.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms redact sss '!abc:example.org' '$event:example.org' 'spam'
+```
+
+### markRead / markUnread
+
+`markRead` marks a room read up to `eventId`, or up to its latest event when `eventId` is empty.
+`receipt` is `public`, `private`, or empty to follow your own read-receipt setting for that room.
+
+`markUnread` sets or clears the manual "leave this for later" flag, which is separate from having
+unread messages.
+
+> Required D-Bus access level: ✏️ write
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms markRead sss '!abc:example.org' '' ''
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms markUnread sb '!abc:example.org' true
+```
+
+### readReceipts
+
+Lists who has read at or past an event, as a JSON string. Your own receipt is never included, so
+an empty list means nobody else has read that far.
+
+> Required D-Bus access level: 👀 read
+
+```bash
+busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms readReceipts ss '!abc:example.org' '$event:example.org'
+```
 
 ## 👤 User
 

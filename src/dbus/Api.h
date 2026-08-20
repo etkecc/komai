@@ -19,7 +19,7 @@ init();
 
 //! The Komai D-Bus API version provided by this file. The API version number follows semantic
 //! versioning as defined by https://semver.org.
-inline const QVersionNumber dbusApiVersion{1, 0, 0};
+inline const QVersionNumber dbusApiVersion{1, 1, 0};
 
 //! Compare the installed API version to the version that your client app targets to see if they
 //! are compatible.

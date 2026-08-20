@@ -96,6 +96,76 @@ public slots:
                       const QString &body,
                       const QString &filename,
                       const QDBusMessage &message) const;
+
+    // -- membership --
+
+    void invite(const QString &roomIdOrAlias,
+                const QString &userId,
+                const QString &reason,
+                const QDBusMessage &message) const;
+    void kick(const QString &roomIdOrAlias,
+              const QString &userId,
+              const QString &reason,
+              const QDBusMessage &message) const;
+    void ban(const QString &roomIdOrAlias,
+             const QString &userId,
+             const QString &reason,
+             const QDBusMessage &message) const;
+    void unban(const QString &roomIdOrAlias,
+               const QString &userId,
+               const QString &reason,
+               const QDBusMessage &message) const;
+    void
+    leave(const QString &roomIdOrAlias, const QString &reason, const QDBusMessage &message) const;
+
+    /// Takes the createRoom options as a JSON object string and returns the new
+    /// room's ID.
+    ///
+    /// A JSON string rather than a dozen typed arguments: the option set is
+    /// open-ended (Matrix keeps adding to it), and a typed signature could not
+    /// grow without a major API bump. `timeline` already returns JSON this way.
+    QString create(const QString &optionsJson, const QDBusMessage &message) const;
+
+    // -- state --
+
+    /// Returns {"exists": bool, "content": {...}} as a JSON string.
+    QString getState(const QString &roomIdOrAlias,
+                     const QString &eventType,
+                     const QString &stateKey,
+                     const QDBusMessage &message) const;
+    /// Returns the event ID of the state event that was sent.
+    QString setState(const QString &roomIdOrAlias,
+                     const QString &eventType,
+                     const QString &stateKey,
+                     const QString &contentJson,
+                     const QDBusMessage &message) const;
+    void
+    setName(const QString &roomIdOrAlias, const QString &name, const QDBusMessage &message) const;
+    void
+    setTopic(const QString &roomIdOrAlias, const QString &topic, const QDBusMessage &message) const;
+    void setPowerLevel(const QString &roomIdOrAlias,
+                       const QString &userId,
+                       int powerLevel,
+                       const QDBusMessage &message) const;
+
+    // -- moderation and read state --
+
+    /// Returns the redaction's own event ID.
+    QString redact(const QString &roomIdOrAlias,
+                   const QString &eventId,
+                   const QString &reason,
+                   const QDBusMessage &message) const;
+    /// `eventId` may be empty to mark the whole room read. `receipt` is one of
+    /// "public", "private", or empty to follow the user's setting for the room.
+    void markRead(const QString &roomIdOrAlias,
+                  const QString &eventId,
+                  const QString &receipt,
+                  const QDBusMessage &message) const;
+    void markUnread(const QString &roomIdOrAlias, bool unread, const QDBusMessage &message) const;
+    /// Returns {"receipts": [...]} as a JSON string.
+    QString readReceipts(const QString &roomIdOrAlias,
+                         const QString &eventId,
+                         const QDBusMessage &message) const;
 };
 
 // ---------------------------------------------------------------------------

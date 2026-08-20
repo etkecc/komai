@@ -19,7 +19,7 @@
 namespace komai::ipc {
 
 /// The IPC API version. Kept in sync with komai::dbus::dbusApiVersion in Api.h.
-inline const QVersionNumber apiVersionNumber{1, 0, 0};
+inline const QVersionNumber apiVersionNumber{1, 1, 0};
 
 /// Shared business logic called by both D-Bus adaptors and IPC server.
 /// These functions do NOT perform access checks -- callers are responsible.

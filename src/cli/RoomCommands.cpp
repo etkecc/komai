@@ -112,6 +112,51 @@ handleNewDirectChat(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*a
     return 0;
 }
 
+/// The four user-targeting membership subcommands differ only in the IPC
+/// method they call, so they share one handler.
+int
+handleMembershipAction(const cli_schema::ParsedArgs &parsed, const QString &method)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+
+    const auto userId = parsed.positionals.value(1);
+    if (!requireNonEmptyValue(userId, "user-id"))
+        return 1;
+
+    QJsonObject params{
+      {QStringLiteral("roomIdOrAlias"), room},
+      {QStringLiteral("userId"), userId},
+    };
+
+    const auto reason = parsed.flagOr(QStringLiteral("--reason"));
+    if (!reason.isEmpty())
+        params.insert(QStringLiteral("reason"), reason);
+
+    if (handleIpcError(cli_ipc::call(parsed.profileId, method, params)))
+        return 1;
+    return 0;
+}
+
+int
+handleLeave(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+
+    QJsonObject params{{QStringLiteral("roomIdOrAlias"), room}};
+
+    const auto reason = parsed.flagOr(QStringLiteral("--reason"));
+    if (!reason.isEmpty())
+        params.insert(QStringLiteral("reason"), reason);
+
+    if (handleIpcError(cli_ipc::call(parsed.profileId, QStringLiteral("rooms.leave"), params)))
+        return 1;
+    return 0;
+}
+
 int
 handleSend(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
@@ -257,6 +302,65 @@ roomsGroupDef()
     ndc.positionals.append(userId);
     ndc.handler = handleNewDirectChat;
     group.subcommands.append(ndc);
+
+    // invite / kick / ban / unban <room> <user> [--reason]
+    struct MembershipSubcommand
+    {
+        const char *name;
+        const char *help;
+        const char *method;
+        const char *reasonHelp;
+    };
+    static constexpr MembershipSubcommand membershipSubcommands[] = {
+      {"invite", "Invite a user to a room", "rooms.invite", "Reason shown to the invitee."},
+      {"kick", "Remove a user from a room", "rooms.kick", "Reason recorded on the kick."},
+      {"ban", "Ban a user from a room", "rooms.ban", "Reason recorded on the ban."},
+      {"unban", "Lift a user's ban from a room", "rooms.unban", "Reason recorded on the unban."},
+    };
+
+    for (const auto &definition : membershipSubcommands) {
+        cli_schema::SubcommandDef membership;
+        membership.name = QString::fromLatin1(definition.name);
+        membership.help = QString::fromLatin1(definition.help);
+
+        cli_schema::PositionalDef membershipRoom;
+        membershipRoom.name = QStringLiteral("room-id-or-alias");
+        membership.positionals.append(membershipRoom);
+
+        cli_schema::PositionalDef membershipUser;
+        membershipUser.name = QStringLiteral("user-id");
+        membership.positionals.append(membershipUser);
+
+        cli_schema::FlagDef reason;
+        reason.longName         = QStringLiteral("--reason");
+        reason.takesValue       = true;
+        reason.valuePlaceholder = QStringLiteral("<text>");
+        reason.help             = QString::fromLatin1(definition.reasonHelp);
+        membership.flags.append(reason);
+
+        const auto method  = QString::fromLatin1(definition.method);
+        membership.handler = [method](const cli_schema::ParsedArgs &parsed,
+                                      QCoreApplication & /*app*/) {
+            return handleMembershipAction(parsed, method);
+        };
+        group.subcommands.append(membership);
+    }
+
+    // leave <room> [--reason]
+    cli_schema::SubcommandDef leave;
+    leave.name = QStringLiteral("leave");
+    leave.help = QStringLiteral("Leave a room, or reject a pending invite");
+    cli_schema::PositionalDef leaveRoom;
+    leaveRoom.name = QStringLiteral("room-id-or-alias");
+    leave.positionals.append(leaveRoom);
+    cli_schema::FlagDef leaveReason;
+    leaveReason.longName         = QStringLiteral("--reason");
+    leaveReason.takesValue       = true;
+    leaveReason.valuePlaceholder = QStringLiteral("<text>");
+    leaveReason.help             = QStringLiteral("Reason recorded on the leave.");
+    leave.flags.append(leaveReason);
+    leave.handler = handleLeave;
+    group.subcommands.append(leave);
 
     // send <room> <message>...
     cli_schema::SubcommandDef send;

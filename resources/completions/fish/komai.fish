@@ -1,7 +1,7 @@
 # fish completion for komai (auto-generated; do not edit)
 
 function __komai_positionals
-    set -l value_flags --access --before-event-id --caption --content-type --fetch-mode --filename --format --limit --log-level --log-type --msgtype --profile --variant -L -l -p
+    set -l value_flags --access --before-event-id --caption --content-type --fetch-mode --filename --format --limit --log-level --log-type --msgtype --profile --reason --variant -L -l -p
     set -l tokens (commandline -opc)
     set -l skip_next 0
     set -l first 1
@@ -128,12 +128,17 @@ complete -c komai -n '__komai_within profiles launcher remove' -l help
 complete -c komai -n '__komai_within profiles launcher remove' -s h
 complete -c komai -n '__komai_at_path rooms' -l help
 complete -c komai -n '__komai_at_path rooms' -s h
+complete -c komai -n '__komai_at_path rooms' -a 'ban'
+complete -c komai -n '__komai_at_path rooms' -a 'invite'
 complete -c komai -n '__komai_at_path rooms' -a 'join'
+complete -c komai -n '__komai_at_path rooms' -a 'kick'
+complete -c komai -n '__komai_at_path rooms' -a 'leave'
 complete -c komai -n '__komai_at_path rooms' -a 'list'
 complete -c komai -n '__komai_at_path rooms' -a 'new-direct-chat'
 complete -c komai -n '__komai_at_path rooms' -a 'send'
 complete -c komai -n '__komai_at_path rooms' -a 'send-image'
 complete -c komai -n '__komai_at_path rooms' -a 'timeline'
+complete -c komai -n '__komai_at_path rooms' -a 'unban'
 complete -c komai -n '__komai_within rooms list' -l help
 complete -c komai -n '__komai_within rooms list' -s h
 complete -c komai -n '__komai_within rooms timeline' -l before-event-id
@@ -146,6 +151,21 @@ complete -c komai -n '__komai_within rooms join' -l help
 complete -c komai -n '__komai_within rooms join' -s h
 complete -c komai -n '__komai_within rooms new-direct-chat' -l help
 complete -c komai -n '__komai_within rooms new-direct-chat' -s h
+complete -c komai -n '__komai_within rooms invite' -l help
+complete -c komai -n '__komai_within rooms invite' -l reason
+complete -c komai -n '__komai_within rooms invite' -s h
+complete -c komai -n '__komai_within rooms kick' -l help
+complete -c komai -n '__komai_within rooms kick' -l reason
+complete -c komai -n '__komai_within rooms kick' -s h
+complete -c komai -n '__komai_within rooms ban' -l help
+complete -c komai -n '__komai_within rooms ban' -l reason
+complete -c komai -n '__komai_within rooms ban' -s h
+complete -c komai -n '__komai_within rooms unban' -l help
+complete -c komai -n '__komai_within rooms unban' -l reason
+complete -c komai -n '__komai_within rooms unban' -s h
+complete -c komai -n '__komai_within rooms leave' -l help
+complete -c komai -n '__komai_within rooms leave' -l reason
+complete -c komai -n '__komai_within rooms leave' -s h
 complete -c komai -n '__komai_within rooms send' -l format -xa 'auto plain html'
 complete -c komai -n '__komai_within rooms send' -l help
 complete -c komai -n '__komai_within rooms send' -l msgtype -xa 'text notice'

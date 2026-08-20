@@ -29,7 +29,7 @@ main()
   │         │
   │         ├─ runAppCommand()          ← IPC: version, api-version
   │         ├─ runMcpCommand()          ← wrapper: launches komai-mcp
-  │         ├─ runRoomsCommand()        ← IPC: list, timeline, activate, join, new-direct-chat
+  │         ├─ runRoomsCommand()        ← IPC: list, timeline, activate, join, membership
   │         ├─ runUserCommand()         ← IPC: status, set-status
   │         ├─ runSettingsCommand()     ← IPC: ui theme, ui set-theme
   │         ├─ runMediaCommand()        ← IPC: fetch
@@ -93,6 +93,11 @@ Simple JSON-lines over the transport — one request line, one response line:
 | `rooms.timeline`             | `roomIdOrAlias`, `limit`?, `beforeEventId`?, `includeUnsignedFields`?, `fetchMode`? | `object` |
 | `rooms.join`                 | `roomIdOrAlias`               | `true`          |
 | `rooms.newDirectChat`        | `userId`                      | `true`          |
+| `rooms.invite`               | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
+| `rooms.kick`                 | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
+| `rooms.ban`                  | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
+| `rooms.unban`                | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
+| `rooms.leave`                | `roomIdOrAlias`, `reason`?    | `true`          |
 | `rooms.send`                 | `roomIdOrAlias`, `body`, `msgtype`?, `format`? | `object` |
 | `rooms.sendImageFile`        | `roomIdOrAlias`, `path`, `body`? | `object`  |
 | `rooms.sendImage`            | `roomIdOrAlias`, `mxcUri`, `body`?, `filename`?, `info`? | `object` |
@@ -148,7 +153,8 @@ The `settings` group uses nested dispatch:
 `settings` → subgroup (`ui`) → subcommand (`theme`, `set-theme`).
 
 The `rooms` group currently exposes read subcommands `list` and `timeline`, plus write
-subcommands such as `activate`, `join`, `new-direct-chat`, `send`, and image sending.
+subcommands such as `activate`, `join`, `new-direct-chat`, `send`, image sending, and the
+membership operations `invite`, `kick`, `ban`, `unban` and `leave`.
 
 ## MCP wrapper command
 

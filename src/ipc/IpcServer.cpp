@@ -116,6 +116,15 @@ sendResultResponder(const QPointer<QLocalSocket> &socket)
     };
 }
 
+/// Relays an async room action that carries no payload beyond success.
+static RoomActionCallback
+roomActionResponder(const QPointer<QLocalSocket> &socket)
+{
+    return [socket](const QString &error) {
+        writeResponseFromCallback(socket, resultOrErrorResponse(true, error));
+    };
+}
+
 static bool
 requireNonEmptyString(QLocalSocket *socket,
                       const QJsonObject &params,
@@ -247,6 +256,56 @@ IpcServer::handleRequest(QLocalSocket *socket)
         writeResponse(socket, {{QStringLiteral("result"), true}});
         return;
     }
+
+    // -- rooms (membership) --
+    //
+    // The four user-targeting operations share a parameter shape, so they
+    // share a dispatch block; only the SharedLogic call differs.
+    if (method == QLatin1String("rooms.invite") || method == QLatin1String("rooms.kick") ||
+        method == QLatin1String("rooms.ban") || method == QLatin1String("rooms.unban")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        QString userId;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("userId"), &userId))
+            return;
+
+        QString reason;
+        if (!optionalStringParam(socket, params, QStringLiteral("reason"), &reason))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        auto responder                    = roomActionResponder(safeSocket);
+        if (method == QLatin1String("rooms.invite"))
+            inviteUser(roomIdOrAlias, userId, reason, std::move(responder));
+        else if (method == QLatin1String("rooms.kick"))
+            kickUser(roomIdOrAlias, userId, reason, std::move(responder));
+        else if (method == QLatin1String("rooms.ban"))
+            banUser(roomIdOrAlias, userId, reason, std::move(responder));
+        else
+            unbanUser(roomIdOrAlias, userId, reason, std::move(responder));
+        return;
+    }
+
+    if (method == QLatin1String("rooms.leave")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        QString reason;
+        if (!optionalStringParam(socket, params, QStringLiteral("reason"), &reason))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        leaveRoom(roomIdOrAlias, reason, roomActionResponder(safeSocket));
+        return;
+    }
+
     if (method == QLatin1String("rooms.newDirectChat")) {
         QString userId;
         if (!requireNonEmptyString(socket, params, QStringLiteral("userId"), &userId)) {

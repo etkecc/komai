@@ -131,6 +131,45 @@ sendImage(const QString &roomIdOrAlias,
           const QJsonObject &info,
           SendMessageCallback callback);
 
+// -- rooms (membership) --
+
+/// Callback for async room actions that carry no payload.
+/// On success: error is empty.
+/// On failure: error describes what went wrong.
+using RoomActionCallback = std::function<void(const QString &error)>;
+
+/// Invites a user to a room.
+void
+inviteUser(const QString &roomIdOrAlias,
+           const QString &userId,
+           const QString &reason,
+           RoomActionCallback callback);
+
+/// Removes a user from a room. The user may rejoin unless they are also banned.
+void
+kickUser(const QString &roomIdOrAlias,
+         const QString &userId,
+         const QString &reason,
+         RoomActionCallback callback);
+
+/// Bans a user from a room, removing them if they are currently joined.
+void
+banUser(const QString &roomIdOrAlias,
+        const QString &userId,
+        const QString &reason,
+        RoomActionCallback callback);
+
+/// Lifts a ban, allowing the user to rejoin. Does not re-invite them.
+void
+unbanUser(const QString &roomIdOrAlias,
+          const QString &userId,
+          const QString &reason,
+          RoomActionCallback callback);
+
+/// Leaves a room, or rejects a pending invite. Does not forget the room.
+void
+leaveRoom(const QString &roomIdOrAlias, const QString &reason, RoomActionCallback callback);
+
 // -- media --
 
 using MediaFetchCallback = std::function<void(const QImage &)>;

@@ -2,7 +2,7 @@
 # zsh completion for komai (auto-generated; do not edit)
 
 _komai() {
-    local -a _komai_value_flags=(--access --before-event-id --caption --content-type --fetch-mode --filename --format --limit --log-level --log-type --msgtype --profile --variant -L -l -p)
+    local -a _komai_value_flags=(--access --before-event-id --caption --content-type --fetch-mode --filename --format --limit --log-level --log-type --msgtype --profile --reason --variant -L -l -p)
     local cur prev
     cur="${words[CURRENT]}"
     prev="${words[CURRENT-1]}"
@@ -33,15 +33,17 @@ _komai() {
     case "${_key}" in
         'profiles launcher remove' | 'profiles launcher remove *') compadd -- --help -h ;;
         'profiles launcher create' | 'profiles launcher create *') compadd -- --help -h ;;
-        'settings ui theme' | 'settings ui theme *') compadd -- --help -h ;;
         'settings ui set-theme' | 'settings ui set-theme *') compadd -- --help -h ;;
-        'theme list' | 'theme list *') compadd -- --help -h ;;
-        'rooms join' | 'rooms join *') compadd -- --help -h ;;
-        'rooms new-direct-chat' | 'rooms new-direct-chat *') compadd -- --help -h ;;
+        'settings ui theme' | 'settings ui theme *') compadd -- --help -h ;;
+        'rooms kick' | 'rooms kick *') compadd -- --help --reason -h ;;
+        'rooms invite' | 'rooms invite *') compadd -- --help --reason -h ;;
+        'rooms ban' | 'rooms ban *') compadd -- --help --reason -h ;;
+        'rooms unban' | 'rooms unban *') compadd -- --help --reason -h ;;
+        'rooms leave' | 'rooms leave *') compadd -- --help --reason -h ;;
         'rooms send' | 'rooms send *') compadd -- --format --help --msgtype -h ;;
         'rooms send-image' | 'rooms send-image *') compadd -- --caption --filename --help -h ;;
         'settings ui' | 'settings ui *') compadd -- --help -h set-theme theme ;;
-        'rooms timeline' | 'rooms timeline *') compadd -- --before-event-id --fetch-mode --help --include-unsigned-fields --limit -h ;;
+        'theme list' | 'theme list *') compadd -- --help -h ;;
         'theme tinted-search' | 'theme tinted-search *') compadd -- --help -h ;;
         'theme tinted-import' | 'theme tinted-import *') compadd -- --force --help --variant -h ;;
         'theme create-sample' | 'theme create-sample *') compadd -- --force --help -h ;;
@@ -50,25 +52,28 @@ _komai() {
         'user device-id' | 'user device-id *') compadd -- --help -h ;;
         'user status' | 'user status *') compadd -- --help -h ;;
         'user set-status' | 'user set-status *') compadd -- --help -h ;;
+        'rooms new-direct-chat' | 'rooms new-direct-chat *') compadd -- --help -h ;;
+        'rooms join' | 'rooms join *') compadd -- --help -h ;;
+        'rooms timeline' | 'rooms timeline *') compadd -- --before-event-id --fetch-mode --help --include-unsigned-fields --limit -h ;;
         'rooms list' | 'rooms list *') compadd -- --help -h ;;
         'app version' | 'app version *') compadd -- --help -h ;;
+        'profiles launcher' | 'profiles launcher *') compadd -- --help -h create remove ;;
         'app api-version' | 'app api-version *') compadd -- --help -h ;;
+        'mcp serve' | 'mcp serve *') compadd -- --access --help -h ;;
         'completions bash' | 'completions bash *') compadd -- --help -h ;;
+        'media upload' | 'media upload *') compadd -- --content-type --filename --help --stdin -h ;;
+        'media fetch' | 'media fetch *') compadd -- --help -h ;;
         'completions zsh' | 'completions zsh *') compadd -- --help -h ;;
         'completions fish' | 'completions fish *') compadd -- --help -h ;;
-        'media fetch' | 'media fetch *') compadd -- --help -h ;;
-        'media upload' | 'media upload *') compadd -- --content-type --filename --help --stdin -h ;;
-        'mcp serve' | 'mcp serve *') compadd -- --access --help -h ;;
-        'profiles launcher' | 'profiles launcher *') compadd -- --help -h create remove ;;
-        'mcp' | 'mcp *') compadd -- --help -h serve ;;
-        'theme' | 'theme *') compadd -- --help -h create-sample list tinted-import tinted-search ;;
+        'app' | 'app *') compadd -- --help -h api-version version ;;
+        'completions' | 'completions *') compadd -- --help -h bash fish zsh ;;
+        'user' | 'user *') compadd -- --help -h device-id homeserver-url id set-status status ;;
         'media' | 'media *') compadd -- --help -h fetch upload ;;
+        'theme' | 'theme *') compadd -- --help -h create-sample list tinted-import tinted-search ;;
+        'mcp' | 'mcp *') compadd -- --help -h serve ;;
         'settings' | 'settings *') compadd -- --help -h ui ;;
         'profiles' | 'profiles *') compadd -- --help -h launcher ;;
-        'user' | 'user *') compadd -- --help -h device-id homeserver-url id set-status status ;;
-        'completions' | 'completions *') compadd -- --help -h bash fish zsh ;;
-        'rooms' | 'rooms *') compadd -- --help -h join list new-direct-chat send send-image timeline ;;
-        'app' | 'app *') compadd -- --help -h api-version version ;;
+        'rooms' | 'rooms *') compadd -- --help -h ban invite join kick leave list new-direct-chat send send-image timeline unban ;;
         '') compadd -- --debug --help --log-level --log-type --profile --version -L -h -l -p -v app completions mcp media profiles rooms settings theme user ;;
     esac
 }

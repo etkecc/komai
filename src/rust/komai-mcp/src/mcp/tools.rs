@@ -357,6 +357,28 @@ fn string_array_schema(description: &'static str) -> Value {
     })
 }
 
+fn membership_input_schema(reason_description: &'static str) -> Value {
+    object_schema(
+        vec![
+            ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+            ("userId", string_schema("Matrix user ID to act on.")),
+            ("reason", string_schema(reason_description)),
+        ],
+        &["roomIdOrAlias", "userId"],
+    )
+}
+
+fn membership_output_schema() -> Value {
+    object_schema(
+        vec![
+            ("ok", json!({"type": "boolean"})),
+            ("roomIdOrAlias", string_schema("Room ID or alias that was acted on.")),
+            ("userId", string_schema("Matrix user ID that was acted on.")),
+        ],
+        &["ok", "roomIdOrAlias", "userId"],
+    )
+}
+
 fn room_info_schema() -> Value {
     object_schema(
         vec![
@@ -753,6 +775,105 @@ fn handle_rooms_send_image(
     )
 }
 
+/// The four user-targeting membership tools differ only in the IPC method they
+/// call and the sentence they report, so they share one handler body.
+fn handle_membership_action(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+    method: &str,
+    summary: fn(&str, &str) -> String,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "userId", "reason"])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let user_id = require_non_empty_string(arguments, "userId")?;
+    let reason = optional_string(arguments, "reason")?;
+
+    let mut params = Map::new();
+    params.insert(
+        "roomIdOrAlias".to_owned(),
+        Value::String(room_id_or_alias.clone()),
+    );
+    params.insert("userId".to_owned(), Value::String(user_id.clone()));
+    if let Some(reason) = reason {
+        params.insert("reason".to_owned(), Value::String(reason));
+    }
+
+    backend_bool_true(backend, method, Value::Object(params))?;
+
+    success(
+        json!({
+            "ok": true,
+            "roomIdOrAlias": room_id_or_alias,
+            "userId": user_id,
+        }),
+        vec![results::text_content(summary(&user_id, &room_id_or_alias))],
+    )
+}
+
+fn handle_rooms_invite(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    handle_membership_action(backend, arguments, "rooms.invite", |user, room| {
+        format!("Invited {user} to {room}.")
+    })
+}
+
+fn handle_rooms_kick(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    handle_membership_action(backend, arguments, "rooms.kick", |user, room| {
+        format!("Removed {user} from {room}.")
+    })
+}
+
+fn handle_rooms_ban(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    handle_membership_action(backend, arguments, "rooms.ban", |user, room| {
+        format!("Banned {user} from {room}.")
+    })
+}
+
+fn handle_rooms_unban(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    handle_membership_action(backend, arguments, "rooms.unban", |user, room| {
+        format!("Lifted the ban on {user} in {room}.")
+    })
+}
+
+fn handle_rooms_leave(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "reason"])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let reason = optional_string(arguments, "reason")?;
+
+    let mut params = Map::new();
+    params.insert(
+        "roomIdOrAlias".to_owned(),
+        Value::String(room_id_or_alias.clone()),
+    );
+    if let Some(reason) = reason {
+        params.insert("reason".to_owned(), Value::String(reason));
+    }
+
+    backend_bool_true(backend, "rooms.leave", Value::Object(params))?;
+
+    success(
+        json!({
+            "ok": true,
+            "roomIdOrAlias": room_id_or_alias,
+        }),
+        vec![results::text_content(format!("Left {room_id_or_alias}."))],
+    )
+}
+
 fn handle_user_get_id(
     backend: &dyn Backend,
     arguments: &Map<String, Value>,
@@ -1059,6 +1180,74 @@ const TOOLS: &[ToolDefinition] = &[
         },
         output_schema: || ok_with_key_output_schema("userId", "Matrix user ID."),
         handler: handle_rooms_new_direct_chat,
+    },
+    ToolDefinition {
+        name: "rooms_invite",
+        title: "Invite User To Room",
+        description: "Invite a Matrix user to a room. The user has to accept before they join.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || membership_input_schema("Optional reason shown to the invitee."),
+        output_schema: membership_output_schema,
+        handler: handle_rooms_invite,
+    },
+    ToolDefinition {
+        name: "rooms_kick",
+        title: "Remove User From Room",
+        description: "Remove a Matrix user from a room. They can rejoin unless they are also banned.",
+        access: ToolAccess::Write,
+        destructive: true,
+        idempotent: false,
+        open_world: true,
+        input_schema: || membership_input_schema("Optional reason recorded on the kick."),
+        output_schema: membership_output_schema,
+        handler: handle_rooms_kick,
+    },
+    ToolDefinition {
+        name: "rooms_ban",
+        title: "Ban User From Room",
+        description: "Ban a Matrix user from a room, removing them if they are currently joined.",
+        access: ToolAccess::Write,
+        destructive: true,
+        idempotent: true,
+        open_world: true,
+        input_schema: || membership_input_schema("Optional reason recorded on the ban."),
+        output_schema: membership_output_schema,
+        handler: handle_rooms_ban,
+    },
+    ToolDefinition {
+        name: "rooms_unban",
+        title: "Unban User From Room",
+        description: "Lift a Matrix user's ban from a room. This does not re-invite or rejoin them.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || membership_input_schema("Optional reason recorded on the unban."),
+        output_schema: membership_output_schema,
+        handler: handle_rooms_unban,
+    },
+    ToolDefinition {
+        name: "rooms_leave",
+        title: "Leave Room",
+        description: "Leave a room with the active account, or reject a pending invite to it. The room is not forgotten.",
+        access: ToolAccess::Write,
+        destructive: true,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    ("reason", string_schema("Optional reason recorded on the leave.")),
+                ],
+                &["roomIdOrAlias"],
+            )
+        },
+        output_schema: || ok_with_key_output_schema("roomIdOrAlias", "Room ID or alias that was left."),
+        handler: handle_rooms_leave,
     },
     ToolDefinition {
         name: "rooms_send",
@@ -1622,6 +1811,135 @@ mod tests {
         assert_eq!(
             error,
             CallToolError::InvalidParams("Argument 'mxcUri' must not be empty.".to_owned())
+        );
+    }
+
+    #[test]
+    fn membership_tools_are_write_gated() {
+        let read_only: Vec<String> = list_tools(AccessMode::ReadOnly)
+            .into_iter()
+            .map(|tool| tool["name"].as_str().unwrap().to_owned())
+            .collect();
+        let read_write: Vec<String> = list_tools(AccessMode::ReadWrite)
+            .into_iter()
+            .map(|tool| tool["name"].as_str().unwrap().to_owned())
+            .collect();
+
+        for name in [
+            "rooms_invite",
+            "rooms_kick",
+            "rooms_ban",
+            "rooms_unban",
+            "rooms_leave",
+        ] {
+            assert!(!read_only.contains(&name.to_owned()), "{name} in read_only");
+            assert!(read_write.contains(&name.to_owned()), "{name} missing");
+        }
+    }
+
+    #[test]
+    fn destructive_membership_tools_are_annotated_as_such() {
+        let tools = list_tools(AccessMode::ReadWrite);
+        let destructive = |name: &str| -> bool {
+            tools
+                .iter()
+                .find(|tool| tool["name"].as_str() == Some(name))
+                .expect("tool present")["annotations"]["destructiveHint"]
+                .as_bool()
+                .expect("destructiveHint present")
+        };
+
+        assert!(destructive("rooms_kick"));
+        assert!(destructive("rooms_ban"));
+        assert!(destructive("rooms_leave"));
+        assert!(!destructive("rooms_invite"));
+        assert!(!destructive("rooms_unban"));
+    }
+
+    #[test]
+    fn rooms_ban_maps_arguments_to_the_ipc_protocol() {
+        let backend = MockBackend::with_response("rooms.ban", Ok(Value::Bool(true)));
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_ban",
+            Some(json!({
+                "roomIdOrAlias": "#example:example.org",
+                "userId": "@spammer:example.org",
+                "reason": "spam"
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (method, params) = &calls[0];
+        assert_eq!(method, "rooms.ban");
+        assert_eq!(params["roomIdOrAlias"].as_str(), Some("#example:example.org"));
+        assert_eq!(params["userId"].as_str(), Some("@spammer:example.org"));
+        assert_eq!(params["reason"].as_str(), Some("spam"));
+        assert_eq!(
+            result["structuredContent"]["userId"].as_str(),
+            Some("@spammer:example.org")
+        );
+    }
+
+    #[test]
+    fn membership_reason_is_omitted_when_not_given() {
+        let backend = MockBackend::with_response("rooms.invite", Ok(Value::Bool(true)));
+
+        call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_invite",
+            Some(json!({
+                "roomIdOrAlias": "!room:example.org",
+                "userId": "@alice:example.org"
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (_, params) = &calls[0];
+        assert!(params.get("reason").is_none());
+    }
+
+    #[test]
+    fn membership_tools_require_a_user_id() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_kick",
+            Some(json!({ "roomIdOrAlias": "!room:example.org" })),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams("Missing required argument 'userId'.".to_owned())
+        );
+    }
+
+    #[test]
+    fn rooms_leave_does_not_accept_a_user_id() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_leave",
+            Some(json!({
+                "roomIdOrAlias": "!room:example.org",
+                "userId": "@alice:example.org"
+            })),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams("Unexpected arguments: userId.".to_owned())
         );
     }
 

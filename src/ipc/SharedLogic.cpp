@@ -782,6 +782,166 @@ sendMessage(const QString &roomIdOrAlias,
       });
 }
 
+// -- rooms (membership) --
+
+namespace {
+
+using MembershipServiceFn = bool (*)(komai::matrix_backend::BlockingCallContext,
+                                     uint64_t,
+                                     const QString &,
+                                     const QString &,
+                                     const QString &,
+                                     QString *);
+
+/// Shared plumbing for the four user-targeting membership operations, which
+/// differ only in which matrix-sdk call they dispatch to.
+void
+runMembershipAction(const QString &roomIdOrAlias,
+                    const QString &userId,
+                    const QString &reason,
+                    const char *actionName,
+                    MembershipServiceFn serviceFn,
+                    komai::ipc::RoomActionCallback callback)
+{
+    const auto roomId = komai::ipc::resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback(QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto trimmedUserId = userId.trimmed();
+    if (!trimmedUserId.startsWith(QLatin1Char('@'))) {
+        if (callback) {
+            callback(QStringLiteral("user ID must be a fully-qualified Matrix ID: ") +
+                     trimmedUserId);
+        }
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback(QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    runIpcTask(
+      [handleId = *handleId,
+       roomId,
+       trimmedUserId,
+       trimmedReason = reason.trimmed(),
+       actionName,
+       serviceFn]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          if (serviceFn(context, handleId, roomId, trimmedUserId, trimmedReason, &error))
+              return QString{};
+
+          if (!error.isEmpty())
+              return error;
+
+          return QStringLiteral("failed to %1 %2 in %3")
+            .arg(QString::fromLatin1(actionName), trimmedUserId, roomId);
+      },
+      [callback = std::move(callback)](QString error) mutable {
+          if (callback)
+              callback(error);
+      });
+}
+
+} // namespace
+
+void
+inviteUser(const QString &roomIdOrAlias,
+           const QString &userId,
+           const QString &reason,
+           RoomActionCallback callback)
+{
+    runMembershipAction(roomIdOrAlias,
+                        userId,
+                        reason,
+                        "invite",
+                        &komai::MatrixBackendRuntimeService::inviteUser,
+                        std::move(callback));
+}
+
+void
+kickUser(const QString &roomIdOrAlias,
+         const QString &userId,
+         const QString &reason,
+         RoomActionCallback callback)
+{
+    runMembershipAction(roomIdOrAlias,
+                        userId,
+                        reason,
+                        "kick",
+                        &komai::MatrixBackendRuntimeService::kickUser,
+                        std::move(callback));
+}
+
+void
+banUser(const QString &roomIdOrAlias,
+        const QString &userId,
+        const QString &reason,
+        RoomActionCallback callback)
+{
+    runMembershipAction(roomIdOrAlias,
+                        userId,
+                        reason,
+                        "ban",
+                        &komai::MatrixBackendRuntimeService::banUser,
+                        std::move(callback));
+}
+
+void
+unbanUser(const QString &roomIdOrAlias,
+          const QString &userId,
+          const QString &reason,
+          RoomActionCallback callback)
+{
+    runMembershipAction(roomIdOrAlias,
+                        userId,
+                        reason,
+                        "unban",
+                        &komai::MatrixBackendRuntimeService::unbanUser,
+                        std::move(callback));
+}
+
+void
+leaveRoom(const QString &roomIdOrAlias, const QString &reason, RoomActionCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback(QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback(QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    runIpcTask(
+      [handleId = *handleId, roomId, trimmedReason = reason.trimmed()]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          if (komai::MatrixBackendRuntimeService::leaveRoom(
+                context, handleId, roomId, trimmedReason, &error)) {
+              return QString{};
+          }
+
+          return error.isEmpty() ? QStringLiteral("failed to leave ") + roomId : error;
+      },
+      [callback = std::move(callback)](QString error) mutable {
+          if (callback)
+              callback(error);
+      });
+}
+
 // -- media --
 
 void

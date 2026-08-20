@@ -59,7 +59,12 @@ Both read and write tools are advertised.
 Examples of additional write tools:
 
 - `rooms_join`
+- `rooms_leave`
 - `rooms_new_direct_chat`
+- `rooms_invite`
+- `rooms_kick`
+- `rooms_ban`
+- `rooms_unban`
 - `rooms_send`
 - `rooms_send_image_file`
 - `rooms_send_image`
@@ -95,6 +100,25 @@ Structured result fields:
 - `events`
 - `hasMore`
 - `nextBeforeEventId`
+
+### Membership tools
+
+`rooms_invite`, `rooms_kick`, `rooms_ban` and `rooms_unban` act on another user in a room.
+Each takes a required `roomIdOrAlias` and `userId`, plus an optional `reason` that is recorded
+on the resulting membership event (and shown to the invitee, for an invite).
+
+`rooms_leave` acts on your own account instead, so it only takes `roomIdOrAlias` and an optional
+`reason`. It also rejects a pending invite to the room. The room is not forgotten, so it stays
+visible in your left-rooms history.
+
+All five need `read_write` access, and they succeed only if your account has enough power in the
+room. `rooms_kick`, `rooms_ban` and `rooms_leave` are marked destructive, so a host that asks for
+confirmation before destructive tools will prompt on those three.
+
+Two behaviors worth knowing:
+
+- `rooms_kick` removes a user but does not stop them rejoining. Use `rooms_ban` for that.
+- `rooms_unban` lifts a ban but does not re-invite the user or bring them back into the room.
 
 ### Claude Code
 

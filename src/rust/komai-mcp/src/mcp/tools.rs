@@ -559,7 +559,12 @@ fn parse_timeline_limit(arguments: &Map<String, Value>) -> Result<i64, ToolFailu
 
 fn parse_timeline_fetch_mode(arguments: &Map<String, Value>) -> Result<String, ToolFailure> {
     match optional_string(arguments, "fetchMode")?.as_deref() {
-        None | Some(TIMELINE_FETCH_MODE_CACHED_ONLY) => {
+        // The IPC layer defaults to cached_only, which suits the app. A tool
+        // caller usually wants the room it just asked about, including one the
+        // running profile has not opened this session, so the default flips
+        // here rather than there.
+        None => Ok(TIMELINE_FETCH_MODE_SERVER_IF_NEEDED.to_owned()),
+        Some(TIMELINE_FETCH_MODE_CACHED_ONLY) => {
             Ok(TIMELINE_FETCH_MODE_CACHED_ONLY.to_owned())
         }
         Some(TIMELINE_FETCH_MODE_SERVER_IF_NEEDED) => {
@@ -1533,7 +1538,9 @@ a subset. Prefer 'ids' or 'query' plus 'fields' over listing everything.",
     ToolDefinition {
         name: "rooms_get_timeline",
         title: "Get Room Timeline",
-        description: "Read visible timeline events from a room, newest first.",
+        description: "Read visible timeline events from a room, newest first. Reaches the \
+homeserver for history the running Komai profile does not already hold, unless fetchMode says \
+otherwise.",
         access: ToolAccess::Read,
         destructive: false,
         idempotent: true,
@@ -1562,13 +1569,15 @@ a subset. Prefer 'ids' or 'query' plus 'fields' over listing everything.",
                     ),
                     (
                         "fetchMode",
-                        enum_string_schema(
-                            "Whether to read only from the local cache or fetch older history from the server when needed.",
-                            &[
+                        json!({
+                            "type": "string",
+                            "description": "Where events may come from. server_fetch_if_needed (the default) reaches the homeserver for history the running profile does not already hold; cached_only stays local and returns nothing for a room Komai has not opened this session.",
+                            "enum": [
                                 TIMELINE_FETCH_MODE_CACHED_ONLY,
                                 TIMELINE_FETCH_MODE_SERVER_IF_NEEDED,
                             ],
-                        ),
+                            "default": TIMELINE_FETCH_MODE_SERVER_IF_NEEDED,
+                        }),
                     ),
                 ],
                 &["roomIdOrAlias"],
@@ -2349,6 +2358,49 @@ mod tests {
             error,
             CallToolError::InvalidParams("Argument 'offset' must not be negative.".to_owned())
         );
+    }
+
+    #[test]
+    fn rooms_get_timeline_defaults_to_fetching_from_the_server() {
+        let backend = MockBackend::with_response(
+            "rooms.timeline",
+            Ok(json!({"roomId": "!r:example.org", "events": [], "hasMore": false,
+                      "nextBeforeEventId": null})),
+        );
+
+        call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_timeline",
+            Some(json!({ "roomIdOrAlias": "!r:example.org" })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        assert_eq!(
+            calls[0].1["fetchMode"].as_str(),
+            Some("server_fetch_if_needed")
+        );
+    }
+
+    #[test]
+    fn rooms_get_timeline_still_honours_an_explicit_cached_only() {
+        let backend = MockBackend::with_response(
+            "rooms.timeline",
+            Ok(json!({"roomId": "!r:example.org", "events": [], "hasMore": false,
+                      "nextBeforeEventId": null})),
+        );
+
+        call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_timeline",
+            Some(json!({ "roomIdOrAlias": "!r:example.org", "fetchMode": "cached_only" })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        assert_eq!(calls[0].1["fetchMode"].as_str(), Some("cached_only"));
     }
 
     #[test]

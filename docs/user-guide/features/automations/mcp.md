@@ -98,10 +98,10 @@ Arguments:
 - `limit` -- optional, default `10`, max `500`
 - `beforeEventId` -- optional exclusive pagination anchor
 - `includeUnsignedFields` -- optional, default `false`
-- `fetchMode` -- optional, `cached_only` (the default) or `server_fetch_if_needed`.
-  `cached_only` reads only what the running Komai profile already holds, so a room it has
-  not opened this session can come back with no events at all. Pass `server_fetch_if_needed`
-  to let it reach the homeserver for history it does not have
+- `fetchMode` -- optional, `server_fetch_if_needed` (the default) or `cached_only`.
+  The default reaches the homeserver for history the running profile does not already hold.
+  `cached_only` stays local, which is faster but returns nothing at all for a room Komai has not
+  opened this session -- including, often, a room you just sent to
 
 Structured result fields:
 

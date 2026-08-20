@@ -3722,7 +3722,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>MatrixRoomView</name>
     <message>
-        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+535"/>
+        <location filename="../../qml/timeline/components/MatrixRoomView.qml" line="+536"/>
         <source>Settings...</source>
         <translation>Setări…</translation>
     </message>

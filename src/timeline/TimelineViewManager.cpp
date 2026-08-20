@@ -399,6 +399,12 @@ TimelineViewManager::perfUiFlagEnabled(const QString &flag) const
     if (flag == QLatin1String("disable_timeline_avatars"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_AVATARS"));
 
+    // Diagnostic: turns the timeline ListView's delegate reuse off, to tell
+    // recycling bugs apart from rendering ones. `flushDelegateReusePool()` only
+    // toggles reuse when it is already on, so this stays off once set.
+    if (flag == QLatin1String("disable_delegate_reuse"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_DELEGATE_REUSE"));
+
     if (flag == QLatin1String("disable_timeline_reactions"))
         return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_REACTIONS"));
 

@@ -67,6 +67,7 @@ ColumnLayout {
     readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
     readonly property bool perfDisableTimelineBubbles: TimelineManager.perfUiFlagEnabled("disable_timeline_bubbles")
     readonly property bool perfMinimalTextBubbles: TimelineManager.perfUiFlagEnabled("minimal_text_bubbles")
+    readonly property bool perfDisableDelegateReuse: TimelineManager.perfUiFlagEnabled("disable_delegate_reuse")
     readonly property int composerBaselineHeight: Math.max(48, Komai.navigationRowHeight)
     readonly property var composerShell: externalComposerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
@@ -678,7 +679,7 @@ ColumnLayout {
                     KeyNavigation.priority: KeyNavigation.BeforeItem
                     Keys.priority: Keys.BeforeItem
                     clip: true
-                    reuseItems: true
+                    reuseItems: !root.perfDisableDelegateReuse
                     // Index 0 = newest (model is reversed in Rust).
                     // BottomToTop places index 0 at the visual bottom, matching
                     // chat convention (newest at bottom). This also makes

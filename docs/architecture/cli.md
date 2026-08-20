@@ -92,6 +92,7 @@ Simple JSON-lines over the transport — one request line, one response line:
 | `rooms.list`                 | —                             | `array`         |
 | `rooms.timeline`             | `roomIdOrAlias`, `limit`?, `beforeEventId`?, `includeUnsignedFields`?, `fetchMode`? | `object` |
 | `rooms.join`                 | `roomIdOrAlias`               | `true`          |
+| `rooms.create`               | all optional: `name`, `topic`, `aliasLocalpart`, `preset`, `invite`, `isDirect`, `isEncrypted`, `isSpace`, `isPublic`, `roomVersion`, `powerLevelContentOverride`, `initialState`, `creationContent` | `object` |
 | `rooms.newDirectChat`        | `userId`                      | `true`          |
 | `rooms.invite`               | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
 | `rooms.kick`                 | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
@@ -154,7 +155,7 @@ The `settings` group uses nested dispatch:
 
 The `rooms` group currently exposes read subcommands `list` and `timeline`, plus write
 subcommands such as `activate`, `join`, `new-direct-chat`, `send`, image sending, and the
-membership operations `invite`, `kick`, `ban`, `unban` and `leave`.
+membership operations `invite`, `kick`, `ban`, `unban` and `leave`, and `create`.
 
 ## MCP wrapper command
 

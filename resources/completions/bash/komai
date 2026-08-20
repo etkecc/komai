@@ -9,25 +9,34 @@ _komai() {
         --fetch-mode) COMPREPLY=($(compgen -W "cached_only server_fetch_if_needed" -- "${cur}")); return ;;
         --format) COMPREPLY=($(compgen -W "auto plain html" -- "${cur}")); return ;;
         --msgtype) COMPREPLY=($(compgen -W "text notice" -- "${cur}")); return ;;
+        --preset) COMPREPLY=($(compgen -W "private_chat public_chat trusted_private_chat" -- "${cur}")); return ;;
         --variant) COMPREPLY=($(compgen -W "light dark" -- "${cur}")); return ;;
     esac
 
     case "${prev}" in
+        --alias-localpart) return ;;
         --before-event-id) return ;;
         --caption) return ;;
         --content-type) return ;;
+        --creation-content) return ;;
         --filename) return ;;
+        --initial-state) return ;;
+        --invite) return ;;
         --limit) return ;;
         --log-level) return ;;
         --log-type) return ;;
+        --name) return ;;
+        --power-levels) return ;;
         --profile) return ;;
         --reason) return ;;
+        --room-version) return ;;
+        --topic) return ;;
         -L) return ;;
         -l) return ;;
         -p) return ;;
     esac
 
-    local -a _komai_value_flags=(--access --before-event-id --caption --content-type --fetch-mode --filename --format --limit --log-level --log-type --msgtype --profile --reason --variant -L -l -p)
+    local -a _komai_value_flags=(--access --alias-localpart --before-event-id --caption --content-type --creation-content --fetch-mode --filename --format --initial-state --invite --limit --log-level --log-type --msgtype --name --power-levels --preset --profile --reason --room-version --topic --variant -L -l -p)
     local -a _komai_path=()
     local _skip=0 _i
     for ((_i=1; _i<COMP_CWORD; _i++)); do
@@ -48,8 +57,9 @@ _komai() {
         "profiles launcher create"|"profiles launcher create "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "settings ui set-theme"|"settings ui set-theme "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "settings ui theme"|"settings ui theme "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
-        "rooms kick"|"rooms kick "*) COMPREPLY=($(compgen -W "--help --reason -h" -- "${cur}")) ;;
         "rooms invite"|"rooms invite "*) COMPREPLY=($(compgen -W "--help --reason -h" -- "${cur}")) ;;
+        "rooms create"|"rooms create "*) COMPREPLY=($(compgen -W "--alias-localpart --creation-content --direct --encrypted --help --initial-state --invite --name --power-levels --preset --public --room-version --space --topic -h" -- "${cur}")) ;;
+        "rooms kick"|"rooms kick "*) COMPREPLY=($(compgen -W "--help --reason -h" -- "${cur}")) ;;
         "rooms ban"|"rooms ban "*) COMPREPLY=($(compgen -W "--help --reason -h" -- "${cur}")) ;;
         "rooms unban"|"rooms unban "*) COMPREPLY=($(compgen -W "--help --reason -h" -- "${cur}")) ;;
         "rooms leave"|"rooms leave "*) COMPREPLY=($(compgen -W "--help --reason -h" -- "${cur}")) ;;
@@ -66,27 +76,27 @@ _komai() {
         "user status"|"user status "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "user set-status"|"user set-status "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "rooms new-direct-chat"|"rooms new-direct-chat "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
-        "rooms join"|"rooms join "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
-        "rooms timeline"|"rooms timeline "*) COMPREPLY=($(compgen -W "--before-event-id --fetch-mode --help --include-unsigned-fields --limit -h" -- "${cur}")) ;;
-        "rooms list"|"rooms list "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "app version"|"app version "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
-        "profiles launcher"|"profiles launcher "*) COMPREPLY=($(compgen -W "--help -h create remove" -- "${cur}")) ;;
         "app api-version"|"app api-version "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
-        "mcp serve"|"mcp serve "*) COMPREPLY=($(compgen -W "--access --help -h" -- "${cur}")) ;;
         "completions bash"|"completions bash "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
-        "media upload"|"media upload "*) COMPREPLY=($(compgen -W "--content-type --filename --help --stdin -h" -- "${cur}")) ;;
-        "media fetch"|"media fetch "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "completions zsh"|"completions zsh "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "completions fish"|"completions fish "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
-        "app"|"app "*) COMPREPLY=($(compgen -W "--help -h api-version version" -- "${cur}")) ;;
-        "completions"|"completions "*) COMPREPLY=($(compgen -W "--help -h bash fish zsh" -- "${cur}")) ;;
-        "user"|"user "*) COMPREPLY=($(compgen -W "--help -h device-id homeserver-url id set-status status" -- "${cur}")) ;;
-        "media"|"media "*) COMPREPLY=($(compgen -W "--help -h fetch upload" -- "${cur}")) ;;
-        "theme"|"theme "*) COMPREPLY=($(compgen -W "--help -h create-sample list tinted-import tinted-search" -- "${cur}")) ;;
-        "mcp"|"mcp "*) COMPREPLY=($(compgen -W "--help -h serve" -- "${cur}")) ;;
+        "media fetch"|"media fetch "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
+        "media upload"|"media upload "*) COMPREPLY=($(compgen -W "--content-type --filename --help --stdin -h" -- "${cur}")) ;;
+        "mcp serve"|"mcp serve "*) COMPREPLY=($(compgen -W "--access --help -h" -- "${cur}")) ;;
+        "profiles launcher"|"profiles launcher "*) COMPREPLY=($(compgen -W "--help -h create remove" -- "${cur}")) ;;
+        "rooms list"|"rooms list "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
+        "rooms timeline"|"rooms timeline "*) COMPREPLY=($(compgen -W "--before-event-id --fetch-mode --help --include-unsigned-fields --limit -h" -- "${cur}")) ;;
+        "rooms join"|"rooms join "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "settings"|"settings "*) COMPREPLY=($(compgen -W "--help -h ui" -- "${cur}")) ;;
+        "mcp"|"mcp "*) COMPREPLY=($(compgen -W "--help -h serve" -- "${cur}")) ;;
         "profiles"|"profiles "*) COMPREPLY=($(compgen -W "--help -h launcher" -- "${cur}")) ;;
-        "rooms"|"rooms "*) COMPREPLY=($(compgen -W "--help -h ban invite join kick leave list new-direct-chat send send-image timeline unban" -- "${cur}")) ;;
+        "theme"|"theme "*) COMPREPLY=($(compgen -W "--help -h create-sample list tinted-import tinted-search" -- "${cur}")) ;;
+        "media"|"media "*) COMPREPLY=($(compgen -W "--help -h fetch upload" -- "${cur}")) ;;
+        "rooms"|"rooms "*) COMPREPLY=($(compgen -W "--help -h ban create invite join kick leave list new-direct-chat send send-image timeline unban" -- "${cur}")) ;;
+        "user"|"user "*) COMPREPLY=($(compgen -W "--help -h device-id homeserver-url id set-status status" -- "${cur}")) ;;
+        "completions"|"completions "*) COMPREPLY=($(compgen -W "--help -h bash fish zsh" -- "${cur}")) ;;
+        "app"|"app "*) COMPREPLY=($(compgen -W "--help -h api-version version" -- "${cur}")) ;;
         "") COMPREPLY=($(compgen -W "--debug --help --log-level --log-type --profile --version -L -h -l -p -v app completions mcp media profiles rooms settings theme user" -- "${cur}")) ;;
     esac
 }

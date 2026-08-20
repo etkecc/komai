@@ -466,6 +466,16 @@ struct MatrixCreateRoomRequest
     bool isEncrypted              = false;
     bool isSpace                  = false;
     bool isPublic                 = false;
+
+    /// Optional room version to request, e.g. "12". Empty means the server's
+    /// default.
+    QString roomVersion;
+
+    /// Raw JSON passed through to the homeserver untouched. Komai does not
+    /// model these schemas; the server validates them. Empty means unset.
+    QString powerLevelContentOverrideJson;
+    QString initialStateJson;
+    QString creationContentJson;
 };
 
 } // namespace komai

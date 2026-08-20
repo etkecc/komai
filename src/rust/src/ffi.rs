@@ -1846,6 +1846,10 @@ mod bridge {
             is_encrypted: bool,
             is_space: bool,
             is_public: bool,
+            room_version: &str,
+            power_level_content_override_json: &str,
+            initial_state_json: &str,
+            creation_content_json: &str,
         ) -> Result<String>;
         fn matrix_leave_room(
             context: MatrixFfiBlockingContext,

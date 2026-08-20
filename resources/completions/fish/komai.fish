@@ -1,7 +1,7 @@
 # fish completion for komai (auto-generated; do not edit)
 
 function __komai_positionals
-    set -l value_flags --access --before-event-id --caption --content-type --fetch-mode --filename --format --limit --log-level --log-type --msgtype --profile --reason --variant -L -l -p
+    set -l value_flags --access --alias-localpart --before-event-id --caption --content-type --creation-content --fetch-mode --filename --format --initial-state --invite --limit --log-level --log-type --msgtype --name --power-levels --preset --profile --reason --room-version --topic --variant -L -l -p
     set -l tokens (commandline -opc)
     set -l skip_next 0
     set -l first 1
@@ -129,6 +129,7 @@ complete -c komai -n '__komai_within profiles launcher remove' -s h
 complete -c komai -n '__komai_at_path rooms' -l help
 complete -c komai -n '__komai_at_path rooms' -s h
 complete -c komai -n '__komai_at_path rooms' -a 'ban'
+complete -c komai -n '__komai_at_path rooms' -a 'create'
 complete -c komai -n '__komai_at_path rooms' -a 'invite'
 complete -c komai -n '__komai_at_path rooms' -a 'join'
 complete -c komai -n '__komai_at_path rooms' -a 'kick'
@@ -151,6 +152,21 @@ complete -c komai -n '__komai_within rooms join' -l help
 complete -c komai -n '__komai_within rooms join' -s h
 complete -c komai -n '__komai_within rooms new-direct-chat' -l help
 complete -c komai -n '__komai_within rooms new-direct-chat' -s h
+complete -c komai -n '__komai_within rooms create' -l alias-localpart
+complete -c komai -n '__komai_within rooms create' -l creation-content
+complete -c komai -n '__komai_within rooms create' -l direct
+complete -c komai -n '__komai_within rooms create' -l encrypted
+complete -c komai -n '__komai_within rooms create' -l help
+complete -c komai -n '__komai_within rooms create' -l initial-state
+complete -c komai -n '__komai_within rooms create' -l invite
+complete -c komai -n '__komai_within rooms create' -l name
+complete -c komai -n '__komai_within rooms create' -l power-levels
+complete -c komai -n '__komai_within rooms create' -l preset -xa 'private_chat public_chat trusted_private_chat'
+complete -c komai -n '__komai_within rooms create' -l public
+complete -c komai -n '__komai_within rooms create' -l room-version
+complete -c komai -n '__komai_within rooms create' -l space
+complete -c komai -n '__komai_within rooms create' -l topic
+complete -c komai -n '__komai_within rooms create' -s h
 complete -c komai -n '__komai_within rooms invite' -l help
 complete -c komai -n '__komai_within rooms invite' -l reason
 complete -c komai -n '__komai_within rooms invite' -s h

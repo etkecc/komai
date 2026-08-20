@@ -237,6 +237,40 @@ fn optional_integer(arguments: &Map<String, Value>, key: &str) -> Result<Option<
     }
 }
 
+fn optional_string_array(
+    arguments: &Map<String, Value>,
+    key: &str,
+) -> Result<Option<Vec<String>>, ToolFailure> {
+    match arguments.get(key) {
+        Some(Value::Array(values)) => values
+            .iter()
+            .map(|value| match value {
+                Value::String(value) => Ok(value.clone()),
+                _ => Err(ToolFailure::InvalidParams(format!(
+                    "Argument '{key}' must contain only strings."
+                ))),
+            })
+            .collect::<Result<Vec<String>, ToolFailure>>()
+            .map(Some),
+        Some(Value::Null) => Ok(None),
+        Some(_) => Err(ToolFailure::InvalidParams(format!(
+            "Argument '{key}' must be an array when provided."
+        ))),
+        None => Ok(None),
+    }
+}
+
+fn optional_array(arguments: &Map<String, Value>, key: &str) -> Result<Option<Vec<Value>>, ToolFailure> {
+    match arguments.get(key) {
+        Some(Value::Array(values)) => Ok(Some(values.clone())),
+        Some(Value::Null) => Ok(None),
+        Some(_) => Err(ToolFailure::InvalidParams(format!(
+            "Argument '{key}' must be an array when provided."
+        ))),
+        None => Ok(None),
+    }
+}
+
 fn optional_object(arguments: &Map<String, Value>, key: &str) -> Result<Option<Map<String, Value>>, ToolFailure> {
     match arguments.get(key) {
         Some(Value::Object(value)) => Ok(Some(value.clone())),
@@ -527,6 +561,19 @@ fn parse_timeline_fetch_mode(arguments: &Map<String, Value>) -> Result<String, T
     }
 }
 
+const CREATE_ROOM_PRESETS: &[&str] = &["private_chat", "public_chat", "trusted_private_chat"];
+
+fn parse_create_room_preset(arguments: &Map<String, Value>) -> Result<String, ToolFailure> {
+    match optional_string(arguments, "preset")?.as_deref() {
+        None => Ok("private_chat".to_owned()),
+        Some(preset) if CREATE_ROOM_PRESETS.contains(&preset) => Ok(preset.to_owned()),
+        Some(_) => Err(ToolFailure::InvalidParams(format!(
+            "Argument 'preset' must be one of: {}.",
+            CREATE_ROOM_PRESETS.join(", ")
+        ))),
+    }
+}
+
 fn parse_msgtype(arguments: &Map<String, Value>) -> Result<String, ToolFailure> {
     match optional_string(arguments, "msgtype")?.as_deref() {
         None | Some("text") | Some("m.text") => Ok("m.text".to_owned()),
@@ -663,6 +710,74 @@ fn handle_rooms_join(
             "Requested a room join for {room_id_or_alias}."
         ))],
     )
+}
+
+fn handle_rooms_create(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(
+        arguments,
+        &[
+            "name",
+            "topic",
+            "aliasLocalpart",
+            "preset",
+            "invite",
+            "isDirect",
+            "isEncrypted",
+            "isSpace",
+            "isPublic",
+            "roomVersion",
+            "powerLevelContentOverride",
+            "initialState",
+            "creationContent",
+        ],
+    )?;
+
+    let mut params = Map::new();
+    params.insert(
+        "preset".to_owned(),
+        Value::String(parse_create_room_preset(arguments)?),
+    );
+
+    for key in ["name", "topic", "aliasLocalpart", "roomVersion"] {
+        if let Some(value) = optional_string(arguments, key)? {
+            params.insert(key.to_owned(), Value::String(value));
+        }
+    }
+
+    for key in ["isDirect", "isEncrypted", "isSpace", "isPublic"] {
+        if let Some(value) = optional_bool(arguments, key)? {
+            params.insert(key.to_owned(), Value::Bool(value));
+        }
+    }
+
+    if let Some(invite) = optional_string_array(arguments, "invite")? {
+        params.insert(
+            "invite".to_owned(),
+            Value::Array(invite.into_iter().map(Value::String).collect()),
+        );
+    }
+
+    for key in ["powerLevelContentOverride", "creationContent"] {
+        if let Some(value) = optional_object(arguments, key)? {
+            params.insert(key.to_owned(), Value::Object(value));
+        }
+    }
+
+    if let Some(initial_state) = optional_array(arguments, "initialState")? {
+        params.insert("initialState".to_owned(), Value::Array(initial_state));
+    }
+
+    let result = backend_object(backend, "rooms.create", Value::Object(params))?;
+    let summary = result
+        .get("roomId")
+        .and_then(Value::as_str)
+        .map(|room_id| format!("Created {room_id}."))
+        .unwrap_or_else(|| "Created the room.".to_owned());
+
+    success(Value::Object(result), vec![results::text_content(summary)])
 }
 
 fn handle_rooms_new_direct_chat(
@@ -1180,6 +1295,78 @@ const TOOLS: &[ToolDefinition] = &[
         },
         output_schema: || ok_with_key_output_schema("userId", "Matrix user ID."),
         handler: handle_rooms_new_direct_chat,
+    },
+    ToolDefinition {
+        name: "rooms_create",
+        title: "Create Room",
+        description: "Create a Matrix room or space and return its room ID. \
+powerLevelContentOverride, initialState and creationContent are passed to the homeserver \
+untouched, so any Matrix-defined field works; the homeserver validates them.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: false,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("name", string_schema("Room name.")),
+                    ("topic", string_schema("Room topic.")),
+                    (
+                        "aliasLocalpart",
+                        string_schema("Local part of the room alias, without a leading '#' or a server name."),
+                    ),
+                    (
+                        "preset",
+                        json!({
+                            "type": "string",
+                            "description": "Matrix createRoom preset. trusted_private_chat grants invitees the creator's power level.",
+                            "enum": CREATE_ROOM_PRESETS,
+                            "default": "private_chat",
+                        }),
+                    ),
+                    ("invite", string_array_schema("Matrix user IDs to invite on creation.")),
+                    ("isDirect", boolean_schema("Whether to mark the room as a direct chat.")),
+                    (
+                        "isEncrypted",
+                        boolean_schema("Whether to enable end-to-end encryption at creation."),
+                    ),
+                    ("isSpace", boolean_schema("Whether to create a space instead of a room.")),
+                    (
+                        "isPublic",
+                        boolean_schema("Whether to publish the room in the server's room directory."),
+                    ),
+                    (
+                        "roomVersion",
+                        string_schema("Room version to request. Omit to accept the server's default."),
+                    ),
+                    (
+                        "powerLevelContentOverride",
+                        generic_object_schema(
+                            "m.room.power_levels content to apply at creation. The only way to grant a co-moderator a power level atomically with the room.",
+                        ),
+                    ),
+                    (
+                        "initialState",
+                        json!({
+                            "type": "array",
+                            "description": "State events to set at creation, each an object with 'type', optional 'state_key' and 'content'. Use this for state that must be right before anyone joins, such as history visibility.",
+                            "items": {
+                                "type": "object",
+                            },
+                        }),
+                    ),
+                    (
+                        "creationContent",
+                        generic_object_schema(
+                            "Additional m.room.create content, such as {\"m.federate\": false}, which cannot be changed after creation.",
+                        ),
+                    ),
+                ],
+                &[],
+            )
+        },
+        output_schema: || getter_output_schema("roomId", "Matrix room ID of the created room."),
+        handler: handle_rooms_create,
     },
     ToolDefinition {
         name: "rooms_invite",
@@ -1812,6 +1999,135 @@ mod tests {
             error,
             CallToolError::InvalidParams("Argument 'mxcUri' must not be empty.".to_owned())
         );
+    }
+
+    #[test]
+    fn rooms_create_defaults_the_preset_and_omits_unset_fields() {
+        let backend = MockBackend::with_response(
+            "rooms.create",
+            Ok(json!({ "roomId": "!new:example.org" })),
+        );
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_create",
+            Some(json!({ "name": "Moderators" })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (method, params) = &calls[0];
+        assert_eq!(method, "rooms.create");
+        assert_eq!(params["name"].as_str(), Some("Moderators"));
+        assert_eq!(params["preset"].as_str(), Some("private_chat"));
+        for absent in [
+            "topic",
+            "invite",
+            "isSpace",
+            "roomVersion",
+            "powerLevelContentOverride",
+            "initialState",
+            "creationContent",
+        ] {
+            assert!(params.get(absent).is_none(), "{absent} should be omitted");
+        }
+        assert_eq!(
+            result["structuredContent"]["roomId"].as_str(),
+            Some("!new:example.org")
+        );
+    }
+
+    #[test]
+    fn rooms_create_passes_raw_json_fields_through_untouched() {
+        let backend = MockBackend::with_response(
+            "rooms.create",
+            Ok(json!({ "roomId": "!new:example.org" })),
+        );
+
+        let power_levels = json!({"users": {"@mod:example.org": 100}, "events_default": 0});
+        let initial_state = json!([
+            {"type": "m.room.history_visibility", "content": {"history_visibility": "invited"}}
+        ]);
+        let creation_content = json!({"m.federate": false});
+
+        call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_create",
+            Some(json!({
+                "preset": "trusted_private_chat",
+                "invite": ["@mod:example.org"],
+                "roomVersion": "12",
+                "powerLevelContentOverride": power_levels,
+                "initialState": initial_state,
+                "creationContent": creation_content
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (_, params) = &calls[0];
+        assert_eq!(params["preset"].as_str(), Some("trusted_private_chat"));
+        assert_eq!(params["invite"], json!(["@mod:example.org"]));
+        assert_eq!(params["roomVersion"].as_str(), Some("12"));
+        assert_eq!(params["powerLevelContentOverride"], power_levels);
+        assert_eq!(params["initialState"], initial_state);
+        assert_eq!(params["creationContent"], creation_content);
+    }
+
+    #[test]
+    fn rooms_create_rejects_an_unknown_preset() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_create",
+            Some(json!({ "preset": "secret_chat" })),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams(
+                "Argument 'preset' must be one of: private_chat, public_chat, trusted_private_chat."
+                    .to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn rooms_create_rejects_a_non_string_invite_entry() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_create",
+            Some(json!({ "invite": ["@alice:example.org", 7] })),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams(
+                "Argument 'invite' must contain only strings.".to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn rooms_create_takes_no_arguments_at_all() {
+        let backend = MockBackend::with_response(
+            "rooms.create",
+            Ok(json!({ "roomId": "!new:example.org" })),
+        );
+
+        call_tool(&backend, AccessMode::ReadWrite, "rooms_create", None).unwrap();
+
+        let calls = backend.calls.borrow();
+        assert_eq!(calls[0].1["preset"].as_str(), Some("private_chat"));
     }
 
     #[test]

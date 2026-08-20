@@ -307,7 +307,11 @@ MatrixBackendRuntimeService::createRoom(matrix_backend::BlockingCallContext cont
                 request.isDirect,
                 request.isEncrypted,
                 request.isSpace,
-                request.isPublic);
+                request.isPublic,
+                request.roomVersion.toStdString(),
+                request.powerLevelContentOverrideJson.toStdString(),
+                request.initialStateJson.toStdString(),
+                request.creationContentJson.toStdString());
           });
         return QString::fromStdString(std::string(result));
     } catch (const std::exception &e) {

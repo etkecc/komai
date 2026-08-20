@@ -4,6 +4,7 @@
 
 use super::*;
 use matrix_sdk::ruma::serde::Raw;
+use serde_json::{Map as JsonMap, Value as JsonValue};
 use std::str::FromStr;
 
 pub async fn send_typing_notice(handle_id: u64, room_id: &str, typing: bool) -> Result<(), String> {
@@ -80,6 +81,21 @@ pub async fn knock_room(
 }
 
 #[allow(clippy::too_many_arguments)]
+/// Parses a JSON object string into a `Raw<T>` for a createRoom field that the
+/// server interprets, so Komai does not need to model its schema.
+fn raw_json_object<T>(field: &str, json: &str) -> Result<Raw<T>, String> {
+    let parsed: JsonValue = serde_json::from_str(json)
+        .map_err(|e| format!("invalid json for createRoom '{field}': {e}"))?;
+    if !parsed.is_object() {
+        return Err(format!("createRoom '{field}' must be a json object"));
+    }
+
+    let raw = serde_json::value::to_raw_value(&parsed)
+        .map_err(|e| format!("failed to re-encode createRoom '{field}': {e}"))?;
+    Ok(Raw::from_json(raw))
+}
+
+#[allow(clippy::too_many_arguments)]
 pub async fn create_room(
     handle_id: u64,
     name: &str,
@@ -91,6 +107,10 @@ pub async fn create_room(
     is_encrypted: bool,
     is_space: bool,
     is_public: bool,
+    room_version: &str,
+    power_level_content_override_json: &str,
+    initial_state_json: &str,
+    creation_content_json: &str,
 ) -> Result<String, String> {
     let client = client_for_handle(handle_id)?;
     let invite = invite_user_ids
@@ -117,11 +137,47 @@ pub async fn create_room(
         Visibility::Private
     };
 
-    if is_space {
-        let mut creation_content = create_room::v3::CreationContent::new();
-        creation_content.room_type = Some(RoomType::Space);
-        request.creation_content =
-            Some(Raw::new(&creation_content).expect("ruma creation content should serialize"));
+    let room_version = room_version.trim();
+    if !room_version.is_empty() {
+        request.room_version = Some(RoomVersionId::try_from(room_version).map_err(|e| {
+            format!("invalid createRoom room version '{room_version}': {e}")
+        })?);
+    }
+
+    let power_level_content_override_json = power_level_content_override_json.trim();
+    if !power_level_content_override_json.is_empty() {
+        request.power_level_content_override = Some(raw_json_object(
+            "powerLevelContentOverride",
+            power_level_content_override_json,
+        )?);
+    }
+
+    // The room type is what makes a room a space, and it lives in
+    // creation_content. Merge rather than choose, so `isSpace` and a
+    // caller-supplied creation content can be used together.
+    let creation_content_json = creation_content_json.trim();
+    if is_space || !creation_content_json.is_empty() {
+        let mut content = if creation_content_json.is_empty() {
+            JsonMap::new()
+        } else {
+            match serde_json::from_str::<JsonValue>(creation_content_json) {
+                Ok(JsonValue::Object(map)) => map,
+                Ok(_) => return Err("createRoom 'creationContent' must be a json object".to_owned()),
+                Err(e) => return Err(format!("invalid json for createRoom 'creationContent': {e}")),
+            }
+        };
+
+        if is_space {
+            content.insert(
+                "type".to_owned(),
+                serde_json::to_value(RoomType::Space)
+                    .map_err(|e| format!("failed to encode the space room type: {e}"))?,
+            );
+        }
+
+        let raw = serde_json::value::to_raw_value(&JsonValue::Object(content))
+            .map_err(|e| format!("failed to re-encode createRoom 'creationContent': {e}"))?;
+        request.creation_content = Some(Raw::from_json(raw));
     }
 
     if is_encrypted {
@@ -131,6 +187,31 @@ pub async fn create_room(
             )
             .to_raw_any(),
         );
+    }
+
+    // Caller-supplied initial state is appended after the encryption event, so
+    // a caller that wants different encryption settings can override them.
+    let initial_state_json = initial_state_json.trim();
+    if !initial_state_json.is_empty() {
+        let entries: Vec<JsonValue> = serde_json::from_str(initial_state_json)
+            .map_err(|e| format!("invalid json for createRoom 'initialState': {e}"))?;
+        for (index, entry) in entries.into_iter().enumerate() {
+            if !entry.is_object() {
+                return Err(format!(
+                    "createRoom 'initialState' entry {index} must be a json object"
+                ));
+            }
+            if !entry.get("type").is_some_and(JsonValue::is_string) {
+                return Err(format!(
+                    "createRoom 'initialState' entry {index} needs a string 'type'"
+                ));
+            }
+
+            let raw = serde_json::value::to_raw_value(&entry).map_err(|e| {
+                format!("failed to re-encode createRoom 'initialState' entry {index}: {e}")
+            })?;
+            request.initial_state.push(Raw::from_json(raw));
+        }
     }
 
     tracing::info!(
@@ -143,6 +224,9 @@ pub async fn create_room(
         has_name = request.name.is_some(),
         has_topic = request.topic.is_some(),
         has_alias = request.room_alias_name.is_some(),
+        has_room_version = request.room_version.is_some(),
+        has_power_level_override = request.power_level_content_override.is_some(),
+        initial_state_count = request.initial_state.len(),
         "Creating room via matrix-sdk backend runtime"
     );
 

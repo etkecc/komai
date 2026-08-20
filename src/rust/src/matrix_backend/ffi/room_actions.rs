@@ -60,6 +60,10 @@ pub(crate) fn matrix_create_room(
     is_encrypted: bool,
     is_space: bool,
     is_public: bool,
+    room_version: &str,
+    power_level_content_override_json: &str,
+    initial_state_json: &str,
+    creation_content_json: &str,
 ) -> Result<String, String> {
     ffi_block_on(
         context,
@@ -75,6 +79,10 @@ pub(crate) fn matrix_create_room(
             is_encrypted,
             is_space,
             is_public,
+            room_version,
+            power_level_content_override_json,
+            initial_state_json,
+            creation_content_json,
         ),
     )
 }

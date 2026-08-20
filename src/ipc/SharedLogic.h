@@ -7,6 +7,7 @@
 #include <functional>
 
 #include <QImage>
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QString>
 #include <QStringList>
@@ -130,6 +131,40 @@ sendImage(const QString &roomIdOrAlias,
           const QString &filename,
           const QJsonObject &info,
           SendMessageCallback callback);
+
+// -- rooms (creation) --
+
+/// Inputs for a Matrix createRoom call.
+///
+/// The three JSON members are passed to the homeserver untouched: Komai does
+/// not model their schemas, so anything Matrix defines for them now or later
+/// works without a change here. Empty means "not sent".
+struct CreateRoomRequest
+{
+    QString name;
+    QString topic;
+    QString aliasLocalpart;
+    QStringList inviteUserIds;
+    /// One of: private_chat, public_chat, trusted_private_chat.
+    QString preset;
+    bool isDirect    = false;
+    bool isEncrypted = false;
+    bool isSpace     = false;
+    bool isPublic    = false;
+    QString roomVersion;
+    QJsonObject powerLevelContentOverride;
+    QJsonArray initialState;
+    QJsonObject creationContent;
+};
+
+/// Callback for async room creation.
+/// On success: roomId is set, error is empty.
+/// On failure: roomId is empty, error describes what went wrong.
+using CreateRoomCallback = std::function<void(const QString &roomId, const QString &error)>;
+
+/// Creates a room. Unlike the GUI path, this does not switch the active room.
+void
+createRoom(const CreateRoomRequest &request, CreateRoomCallback callback);
 
 // -- rooms (membership) --
 

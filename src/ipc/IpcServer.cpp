@@ -211,6 +211,77 @@ optionalIntParam(QLocalSocket *socket,
     return true;
 }
 
+static bool
+optionalObjectParam(QLocalSocket *socket,
+                    const QJsonObject &params,
+                    const QString &key,
+                    QJsonObject *value)
+{
+    if (!params.contains(key)) {
+        *value = {};
+        return true;
+    }
+
+    if (!params.value(key).isObject()) {
+        writeResponse(
+          socket,
+          {{QStringLiteral("error"),
+            QStringLiteral("Argument '") + key + QStringLiteral("' must be an object.")}});
+        return false;
+    }
+
+    *value = params.value(key).toObject();
+    return true;
+}
+
+static bool
+optionalArrayParam(QLocalSocket *socket,
+                   const QJsonObject &params,
+                   const QString &key,
+                   QJsonArray *value)
+{
+    if (!params.contains(key)) {
+        *value = {};
+        return true;
+    }
+
+    if (!params.value(key).isArray()) {
+        writeResponse(
+          socket,
+          {{QStringLiteral("error"),
+            QStringLiteral("Argument '") + key + QStringLiteral("' must be an array.")}});
+        return false;
+    }
+
+    *value = params.value(key).toArray();
+    return true;
+}
+
+static bool
+optionalStringListParam(QLocalSocket *socket,
+                        const QJsonObject &params,
+                        const QString &key,
+                        QStringList *value)
+{
+    QJsonArray array;
+    if (!optionalArrayParam(socket, params, key, &array))
+        return false;
+
+    value->clear();
+    for (const auto entry : array) {
+        if (!entry.isString()) {
+            writeResponse(socket,
+                          {{QStringLiteral("error"),
+                            QStringLiteral("Argument '") + key +
+                              QStringLiteral("' must contain only strings.")}});
+            return false;
+        }
+        value->append(entry.toString());
+    }
+
+    return true;
+}
+
 void
 IpcServer::handleRequest(QLocalSocket *socket)
 {
@@ -303,6 +374,52 @@ IpcServer::handleRequest(QLocalSocket *socket)
 
         QPointer<QLocalSocket> safeSocket = socket;
         leaveRoom(roomIdOrAlias, reason, roomActionResponder(safeSocket));
+        return;
+    }
+
+    if (method == QLatin1String("rooms.create")) {
+        CreateRoomRequest request;
+
+        if (!optionalStringParam(socket, params, QStringLiteral("name"), &request.name) ||
+            !optionalStringParam(socket, params, QStringLiteral("topic"), &request.topic) ||
+            !optionalStringParam(
+              socket, params, QStringLiteral("aliasLocalpart"), &request.aliasLocalpart) ||
+            !optionalStringParam(
+              socket, params, QStringLiteral("roomVersion"), &request.roomVersion) ||
+            !optionalStringParam(socket, params, QStringLiteral("preset"), &request.preset)) {
+            return;
+        }
+
+        if (!optionalStringListParam(
+              socket, params, QStringLiteral("invite"), &request.inviteUserIds)) {
+            return;
+        }
+
+        if (!optionalBoolParam(socket, params, QStringLiteral("isDirect"), &request.isDirect) ||
+            !optionalBoolParam(
+              socket, params, QStringLiteral("isEncrypted"), &request.isEncrypted) ||
+            !optionalBoolParam(socket, params, QStringLiteral("isSpace"), &request.isSpace) ||
+            !optionalBoolParam(socket, params, QStringLiteral("isPublic"), &request.isPublic)) {
+            return;
+        }
+
+        if (!optionalObjectParam(socket,
+                                 params,
+                                 QStringLiteral("powerLevelContentOverride"),
+                                 &request.powerLevelContentOverride) ||
+            !optionalObjectParam(
+              socket, params, QStringLiteral("creationContent"), &request.creationContent) ||
+            !optionalArrayParam(
+              socket, params, QStringLiteral("initialState"), &request.initialState)) {
+            return;
+        }
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        createRoom(request, [safeSocket](const QString &roomId, const QString &error) {
+            writeResponseFromCallback(
+              safeSocket,
+              resultOrErrorResponse(QJsonObject{{QStringLiteral("roomId"), roomId}}, error));
+        });
         return;
     }
 

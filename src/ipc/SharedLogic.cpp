@@ -782,6 +782,124 @@ sendMessage(const QString &roomIdOrAlias,
       });
 }
 
+// -- rooms (creation) --
+
+namespace {
+
+struct AsyncCreateRoomResult
+{
+    QString roomId;
+    QString error;
+};
+
+std::optional<MatrixCreateRoomPreset>
+parseCreateRoomPreset(const QString &value)
+{
+    const auto normalized = value.trimmed();
+    if (normalized.isEmpty() || normalized == QLatin1String("private_chat"))
+        return MatrixCreateRoomPreset::PrivateChat;
+    if (normalized == QLatin1String("public_chat"))
+        return MatrixCreateRoomPreset::PublicChat;
+    if (normalized == QLatin1String("trusted_private_chat"))
+        return MatrixCreateRoomPreset::TrustedPrivateChat;
+    return std::nullopt;
+}
+
+/// Serializes a pass-through JSON value, or returns an empty string when there
+/// is nothing to send.
+template<typename JsonT>
+QString
+compactJsonOrEmpty(const JsonT &value)
+{
+    if (value.isEmpty())
+        return {};
+
+    return QString::fromUtf8(QJsonDocument(value).toJson(QJsonDocument::Compact));
+}
+
+} // namespace
+
+void
+createRoom(const CreateRoomRequest &request, CreateRoomCallback callback)
+{
+    const auto preset = parseCreateRoomPreset(request.preset);
+    if (!preset.has_value()) {
+        if (callback) {
+            callback({},
+                     QStringLiteral("preset must be one of: private_chat, public_chat, "
+                                    "trusted_private_chat"));
+        }
+        return;
+    }
+
+    const auto aliasLocalpart = request.aliasLocalpart.trimmed();
+    if (aliasLocalpart.contains(QLatin1Char(':')) || aliasLocalpart.contains(QLatin1Char('#'))) {
+        if (callback) {
+            callback({},
+                     QStringLiteral("aliasLocalpart must be the local part only, without '#' or "
+                                    "':': ") +
+                       aliasLocalpart);
+        }
+        return;
+    }
+
+    for (const auto &userId : request.inviteUserIds) {
+        if (!userId.trimmed().startsWith(QLatin1Char('@'))) {
+            if (callback) {
+                callback({},
+                         QStringLiteral("invite entries must be fully-qualified Matrix IDs: ") +
+                           userId);
+            }
+            return;
+        }
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback({}, QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    MatrixCreateRoomRequest serviceRequest;
+    serviceRequest.name               = request.name.trimmed();
+    serviceRequest.topic              = request.topic.trimmed();
+    serviceRequest.roomAliasLocalpart = aliasLocalpart;
+    serviceRequest.preset             = *preset;
+    serviceRequest.isDirect           = request.isDirect;
+    serviceRequest.isEncrypted        = request.isEncrypted;
+    serviceRequest.isSpace            = request.isSpace;
+    serviceRequest.isPublic           = request.isPublic;
+    serviceRequest.roomVersion        = request.roomVersion.trimmed();
+    serviceRequest.powerLevelContentOverrideJson =
+      compactJsonOrEmpty(request.powerLevelContentOverride);
+    serviceRequest.initialStateJson    = compactJsonOrEmpty(request.initialState);
+    serviceRequest.creationContentJson = compactJsonOrEmpty(request.creationContent);
+
+    serviceRequest.inviteUserIds.reserve(request.inviteUserIds.size());
+    for (const auto &userId : request.inviteUserIds)
+        serviceRequest.inviteUserIds.push_back(userId.trimmed());
+
+    runIpcTask(
+      [handleId = *handleId, serviceRequest]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          AsyncCreateRoomResult result;
+          QString error;
+          const auto roomId = komai::MatrixBackendRuntimeService::createRoom(
+            context, handleId, serviceRequest, &error);
+          if (roomId.has_value())
+              result.roomId = *roomId;
+          else
+              result.error = error.isEmpty() ? QStringLiteral("failed to create room") : error;
+
+          return result;
+      },
+      [callback = std::move(callback)](AsyncCreateRoomResult result) mutable {
+          if (callback)
+              callback(result.roomId, result.error);
+      });
+}
+
 // -- rooms (membership) --
 
 namespace {

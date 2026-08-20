@@ -58,6 +58,7 @@ Both read and write tools are advertised.
 
 Examples of additional write tools:
 
+- `rooms_create`
 - `rooms_join`
 - `rooms_leave`
 - `rooms_new_direct_chat`
@@ -103,6 +104,33 @@ Structured result fields:
 - `events`
 - `hasMore`
 - `nextBeforeEventId`
+
+### `rooms_create`
+
+Creates a room or a space and returns its room ID. Every argument is optional -- calling it with
+none creates a private, unencrypted room with no name.
+
+The straightforward ones are `name`, `topic`, `aliasLocalpart` (the local part only, so `team`,
+not `#team:example.org`), `invite` (a list of user IDs), and the `isDirect` / `isEncrypted` /
+`isSpace` / `isPublic` switches. `preset` accepts `private_chat` (the default), `public_chat` or
+`trusted_private_chat`; the last grants invitees the creator's power level, which is how you give
+someone co-equal standing in a room.
+
+Three arguments are passed to the homeserver untouched, so any field Matrix defines for them
+works without waiting on Komai:
+
+- `powerLevelContentOverride` -- an `m.room.power_levels` content object. This is the only way to
+  give a co-moderator a power level atomically with the room, rather than in a follow-up event.
+- `initialState` -- a list of state events, each with a `type`, an optional `state_key` and a
+  `content`. Use it for state that has to be right *before* anyone joins; history visibility is
+  the usual example, since setting it afterwards has already exposed the earlier events.
+- `creationContent` -- additions to `m.room.create`, such as `{"m.federate": false}`. This one
+  cannot be changed after creation at all.
+
+`roomVersion` requests a specific room version; omit it to take the server's default.
+
+Komai does not validate the contents of the three raw fields beyond checking that they are the
+right JSON shape. The homeserver rejects anything malformed, and the error comes back verbatim.
 
 ### Membership tools
 

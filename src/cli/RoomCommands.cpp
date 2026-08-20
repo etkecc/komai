@@ -112,6 +112,108 @@ handleNewDirectChat(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*a
     return 0;
 }
 
+/// Parses a --flag that carries raw JSON straight through to the homeserver.
+/// `expectArray` picks which of the two shapes is acceptable.
+bool
+jsonFlagValue(const cli_schema::ParsedArgs &parsed,
+              const QString &flag,
+              bool expectArray,
+              QJsonObject *params,
+              const QString &paramKey)
+{
+    const auto raw = parsed.flagOr(flag);
+    if (raw.isEmpty())
+        return true;
+
+    QJsonParseError parseError;
+    const auto doc = QJsonDocument::fromJson(raw.toUtf8(), &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+        std::cerr << "Error: " << flag.toStdString()
+                  << " is not valid JSON: " << parseError.errorString().toStdString() << "\n";
+        return false;
+    }
+
+    if (expectArray) {
+        if (!doc.isArray()) {
+            std::cerr << "Error: " << flag.toStdString() << " must be a JSON array\n";
+            return false;
+        }
+        params->insert(paramKey, doc.array());
+    } else {
+        if (!doc.isObject()) {
+            std::cerr << "Error: " << flag.toStdString() << " must be a JSON object\n";
+            return false;
+        }
+        params->insert(paramKey, doc.object());
+    }
+
+    return true;
+}
+
+int
+handleCreate(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    QJsonObject params;
+
+    const std::pair<const char *, const char *> stringFlags[] = {
+      {"--name", "name"},
+      {"--topic", "topic"},
+      {"--alias-localpart", "aliasLocalpart"},
+      {"--preset", "preset"},
+      {"--room-version", "roomVersion"},
+    };
+    for (const auto &[flag, key] : stringFlags) {
+        const auto value = parsed.flagOr(QString::fromLatin1(flag));
+        if (!value.isEmpty())
+            params.insert(QString::fromLatin1(key), value);
+    }
+
+    const std::pair<const char *, const char *> boolFlags[] = {
+      {"--direct", "isDirect"},
+      {"--encrypted", "isEncrypted"},
+      {"--space", "isSpace"},
+      {"--public", "isPublic"},
+    };
+    for (const auto &[flag, key] : boolFlags) {
+        if (parsed.hasFlag(QString::fromLatin1(flag)))
+            params.insert(QString::fromLatin1(key), true);
+    }
+
+    const auto invite = parsed.flagOr(QStringLiteral("--invite"));
+    if (!invite.isEmpty()) {
+        QJsonArray inviteArray;
+        for (const auto &userId : invite.split(QLatin1Char(','), Qt::SkipEmptyParts))
+            inviteArray.append(userId.trimmed());
+        params.insert(QStringLiteral("invite"), inviteArray);
+    }
+
+    if (!jsonFlagValue(parsed,
+                       QStringLiteral("--power-levels"),
+                       false,
+                       &params,
+                       QStringLiteral("powerLevelContentOverride")) ||
+        !jsonFlagValue(parsed,
+                       QStringLiteral("--creation-content"),
+                       false,
+                       &params,
+                       QStringLiteral("creationContent")) ||
+        !jsonFlagValue(parsed,
+                       QStringLiteral("--initial-state"),
+                       true,
+                       &params,
+                       QStringLiteral("initialState"))) {
+        return 1;
+    }
+
+    const auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.create"), params);
+    if (handleIpcError(response))
+        return 1;
+
+    const auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
+
 /// The four user-targeting membership subcommands differ only in the IPC
 /// method they call, so they share one handler.
 int
@@ -302,6 +404,55 @@ roomsGroupDef()
     ndc.positionals.append(userId);
     ndc.handler = handleNewDirectChat;
     group.subcommands.append(ndc);
+
+    // create [flags]
+    cli_schema::SubcommandDef create;
+    create.name     = QStringLiteral("create");
+    create.help     = QStringLiteral("Create a room or space (JSON)");
+    create.longHelp = QStringLiteral(
+      "Creates a room and prints its room ID.\n\n"
+      "--power-levels, --creation-content and --initial-state take raw JSON that is passed\n"
+      "to the homeserver untouched, so anything Matrix defines for them is accepted.");
+
+    struct CreateFlag
+    {
+        const char *longName;
+        bool takesValue;
+        const char *placeholder;
+        const char *help;
+    };
+    static constexpr CreateFlag createFlags[] = {
+      {"--name", true, "<text>", "Room name."},
+      {"--topic", true, "<text>", "Room topic."},
+      {"--alias-localpart", true, "<text>", "Local part of the room alias, without '#' or ':'."},
+      {"--preset", true, "<preset>", "Matrix createRoom preset."},
+      {"--invite", true, "<user-ids>", "Comma-separated Matrix user IDs to invite."},
+      {"--room-version", true, "<version>", "Room version to request; server default if unset."},
+      {"--power-levels", true, "<json>", "m.room.power_levels content override, as JSON."},
+      {"--initial-state", true, "<json>", "JSON array of state events to set at creation."},
+      {"--creation-content", true, "<json>", "m.room.create content additions, as JSON."},
+      {"--direct", false, nullptr, "Mark the room as a direct chat."},
+      {"--encrypted", false, nullptr, "Enable end-to-end encryption at creation."},
+      {"--space", false, nullptr, "Create a space instead of a room."},
+      {"--public", false, nullptr, "Publish the room in the server's room directory."},
+    };
+    for (const auto &definition : createFlags) {
+        cli_schema::FlagDef flag;
+        flag.longName   = QString::fromLatin1(definition.longName);
+        flag.takesValue = definition.takesValue;
+        if (definition.placeholder)
+            flag.valuePlaceholder = QString::fromLatin1(definition.placeholder);
+        flag.help = QString::fromLatin1(definition.help);
+        if (flag.longName == QLatin1String("--preset")) {
+            flag.valueEnum    = {QStringLiteral("private_chat"),
+                                 QStringLiteral("public_chat"),
+                                 QStringLiteral("trusted_private_chat")};
+            flag.defaultValue = QStringLiteral("private_chat");
+        }
+        create.flags.append(flag);
+    }
+    create.handler = handleCreate;
+    group.subcommands.append(create);
 
     // invite / kick / ban / unban <room> <user> [--reason]
     struct MembershipSubcommand

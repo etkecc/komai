@@ -99,17 +99,41 @@ dbusEventIdResponder(const QDBusMessage &message)
     };
 }
 
-/// Begins a delayed write reply, or refuses when write access is off.
+/// Takes over replying to `message`, so the caller answers exactly once.
+///
+/// Qt sends the slot's return value as a reply unless the message is marked
+/// delayed. Sending an error without marking it first therefore puts two
+/// replies on the bus for one call, so the mark comes before any early exit.
+void
+beginDbusReply(const QDBusMessage &message)
+{
+    message.setDelayedReply(true);
+}
+
+/// Begins a reply and refuses when read access is off.
+bool
+beginDbusRead(const QDBusMessage &message)
+{
+    beginDbusReply(message);
+    if (dbusReadAccessEnabled())
+        return true;
+
+    QDBusConnection::sessionBus().send(
+      message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
+                               QStringLiteral("D-Bus read access is disabled.")));
+    return false;
+}
+
+/// Begins a reply and refuses when write access is off.
 bool
 beginDbusWrite(const QDBusMessage &message)
 {
-    if (!dbusWriteAccessEnabled()) {
-        replyWithDbusAccessDenied(message);
-        return false;
-    }
+    beginDbusReply(message);
+    if (dbusWriteAccessEnabled())
+        return true;
 
-    message.setDelayedReply(true);
-    return true;
+    replyWithDbusAccessDenied(message);
+    return false;
 }
 
 DbusBackendLoggers
@@ -235,58 +259,61 @@ DbusRoomsInterface::timeline(const QString &roomIdOrAlias,
                              const QString &fetchMode,
                              const QDBusMessage &message) const
 {
-    if (!dbusReadAccessEnabled()) {
-        QDBusConnection::sessionBus().send(
-          message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
-                                   QStringLiteral("D-Bus read access is disabled.")));
+    if (!beginDbusRead(message))
         return {};
-    }
 
-    message.setDelayedReply(true);
-    komai::ipc::readTimeline(
-      stripDbusTypePrefix(roomIdOrAlias),
-      limit,
-      stripDbusTypePrefix(beforeEventId),
-      includeUnsignedFields,
-      stripDbusTypePrefix(fetchMode),
-      [message](const QJsonObject &result, const QString &error) {
-          if (!error.isEmpty()) {
-              QDBusConnection::sessionBus().send(
-                message.createErrorReply(QStringLiteral("cc.etke.komai.Error.Failed"), error));
-              return;
-          }
+    komai::ipc::readTimeline(stripDbusTypePrefix(roomIdOrAlias),
+                             limit,
+                             stripDbusTypePrefix(beforeEventId),
+                             includeUnsignedFields,
+                             stripDbusTypePrefix(fetchMode),
+                             [message](const QJsonObject &result, const QString &error) {
+                                 if (!error.isEmpty()) {
+                                     replyWithDbusError(message, error);
+                                     return;
+                                 }
 
-          auto reply = message.createReply();
-          reply << QString::fromUtf8(QJsonDocument(result).toJson(QJsonDocument::Compact));
-          QDBusConnection::sessionBus().send(reply);
-      });
+                                 auto reply = message.createReply();
+                                 reply << QString::fromUtf8(
+                                   QJsonDocument(result).toJson(QJsonDocument::Compact));
+                                 QDBusConnection::sessionBus().send(reply);
+                             });
     return {};
 }
 
 void
-DbusRoomsInterface::join(const QString &roomIdOrAlias) const
+DbusRoomsInterface::join(const QString &roomIdOrAlias, const QDBusMessage &message) const
 {
-    if (!dbusWriteAccessEnabled())
+    if (!beginDbusWrite(message))
         return;
 
     const auto normalized = stripDbusTypePrefix(roomIdOrAlias);
-    if (normalized.isEmpty())
+    if (normalized.isEmpty()) {
+        replyWithDbusError(message, QStringLiteral("roomIdOrAlias must not be empty"));
         return;
+    }
 
+    // joinRoom() hands off to the UI and does not report back, so this can
+    // confirm the request was accepted but not that the join succeeded.
     komai::ipc::joinRoom(normalized);
+    QDBusConnection::sessionBus().send(message.createReply());
 }
 
 void
-DbusRoomsInterface::newDirectChat(const QString &userId) const
+DbusRoomsInterface::newDirectChat(const QString &userId, const QDBusMessage &message) const
 {
-    if (!dbusWriteAccessEnabled())
+    if (!beginDbusWrite(message))
         return;
 
     const auto normalized = stripDbusTypePrefix(userId);
-    if (normalized.isEmpty())
+    if (normalized.isEmpty()) {
+        replyWithDbusError(message, QStringLiteral("userId must not be empty"));
         return;
+    }
 
+    // As with join(), this confirms the request rather than the outcome.
     komai::ipc::newDirectChat(normalized);
+    QDBusConnection::sessionBus().send(message.createReply());
 }
 
 QString
@@ -296,19 +323,14 @@ DbusRoomsInterface::send(const QString &roomIdOrAlias,
                          const QString &format,
                          const QDBusMessage &message) const
 {
-    if (!dbusWriteAccessEnabled())
+    if (!beginDbusWrite(message))
         return {};
 
-    message.setDelayedReply(true);
     komai::ipc::sendMessage(stripDbusTypePrefix(roomIdOrAlias),
                             stripDbusTypePrefix(body),
                             stripDbusTypePrefix(msgtype),
                             stripDbusTypePrefix(format),
-                            [message](const QString &eventId, const QString &error) {
-                                auto reply = message.createReply();
-                                reply << (error.isEmpty() ? eventId : QString{});
-                                QDBusConnection::sessionBus().send(reply);
-                            });
+                            dbusEventIdResponder(message));
     return {};
 }
 
@@ -318,18 +340,13 @@ DbusRoomsInterface::sendImageFile(const QString &roomIdOrAlias,
                                   const QString &body,
                                   const QDBusMessage &message) const
 {
-    if (!dbusWriteAccessEnabled())
+    if (!beginDbusWrite(message))
         return {};
 
-    message.setDelayedReply(true);
     komai::ipc::sendImageFromFile(stripDbusTypePrefix(roomIdOrAlias),
                                   stripDbusTypePrefix(filePath),
                                   stripDbusTypePrefix(body),
-                                  [message](const QString &eventId, const QString &error) {
-                                      auto reply = message.createReply();
-                                      reply << (error.isEmpty() ? eventId : QString{});
-                                      QDBusConnection::sessionBus().send(reply);
-                                  });
+                                  dbusEventIdResponder(message));
     return {};
 }
 
@@ -340,20 +357,15 @@ DbusRoomsInterface::sendImage(const QString &roomIdOrAlias,
                               const QString &filename,
                               const QDBusMessage &message) const
 {
-    if (!dbusWriteAccessEnabled())
+    if (!beginDbusWrite(message))
         return {};
 
-    message.setDelayedReply(true);
     komai::ipc::sendImage(stripDbusTypePrefix(roomIdOrAlias),
                           stripDbusTypePrefix(mxcUri),
                           stripDbusTypePrefix(body),
                           stripDbusTypePrefix(filename),
                           {},
-                          [message](const QString &eventId, const QString &error) {
-                              auto reply = message.createReply();
-                              reply << (error.isEmpty() ? eventId : QString{});
-                              QDBusConnection::sessionBus().send(reply);
-                          });
+                          dbusEventIdResponder(message));
     return {};
 }
 
@@ -438,10 +450,8 @@ DbusRoomsInterface::leave(const QString &roomIdOrAlias,
 QString
 DbusRoomsInterface::create(const QString &optionsJson, const QDBusMessage &message) const
 {
-    if (!dbusWriteAccessEnabled()) {
-        replyWithDbusAccessDenied(message);
+    if (!beginDbusWrite(message))
         return {};
-    }
 
     const auto normalized = stripDbusTypePrefix(optionsJson).trimmed();
     QJsonObject options;
@@ -477,7 +487,6 @@ DbusRoomsInterface::create(const QString &optionsJson, const QDBusMessage &messa
     for (const auto invitee : options.value(QStringLiteral("invite")).toArray())
         request.inviteUserIds.append(invitee.toString());
 
-    message.setDelayedReply(true);
     komai::ipc::createRoom(request, [message](const QString &roomId, const QString &error) {
         if (!error.isEmpty()) {
             replyWithDbusError(message, error);
@@ -498,14 +507,9 @@ DbusRoomsInterface::getState(const QString &roomIdOrAlias,
                              const QString &stateKey,
                              const QDBusMessage &message) const
 {
-    if (!dbusReadAccessEnabled()) {
-        QDBusConnection::sessionBus().send(
-          message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
-                                   QStringLiteral("D-Bus read access is disabled.")));
+    if (!beginDbusRead(message))
         return {};
-    }
 
-    message.setDelayedReply(true);
     komai::ipc::readStateEvent(
       stripDbusTypePrefix(roomIdOrAlias),
       stripDbusTypePrefix(eventType),
@@ -654,14 +658,9 @@ DbusRoomsInterface::readReceipts(const QString &roomIdOrAlias,
                                  const QString &eventId,
                                  const QDBusMessage &message) const
 {
-    if (!dbusReadAccessEnabled()) {
-        QDBusConnection::sessionBus().send(
-          message.createErrorReply(QStringLiteral("cc.etke.komai.Error.AccessDenied"),
-                                   QStringLiteral("D-Bus read access is disabled.")));
+    if (!beginDbusRead(message))
         return {};
-    }
 
-    message.setDelayedReply(true);
     komai::ipc::readReceipts(
       stripDbusTypePrefix(roomIdOrAlias),
       stripDbusTypePrefix(eventId),

@@ -59,6 +59,23 @@ Replace `default` with the profile name:
 busctl --user call cc.etke.komai.profile.work / cc.etke.komai.Rooms list
 ```
 
+## ⚠️ Errors
+
+Every method reports failure as a D-Bus error rather than as an empty or default return value.
+`busctl` prints these as `Call failed: <reason>`; language bindings raise or return them the way
+they do for any D-Bus error.
+
+Two error names are used:
+
+| Name | Meaning |
+|---|---|
+| `cc.etke.komai.Error.AccessDenied` | The required access level is not enabled for this profile |
+| `cc.etke.komai.Error.Failed` | The operation was attempted and did not succeed |
+
+`join` and `newDirectChat` are the exception to the second row: they hand the request to the UI
+and do not learn the outcome, so a successful reply from them means the request was accepted, not
+that the room was joined.
+
 ## 🔧 How to use
 
 The `busctl` examples below are for **quick testing from a terminal**. For actual scripting and automation, use a D-Bus library in your language of choice -- for example [dbus-python](https://dbus.freedesktop.org/doc/dbus-python/), [zbus](https://docs.rs/zbus/) (Rust), [godbus](https://github.com/godbus/dbus) (Go), or [dbus-next](https://github.com/altdesktop/python-dbus-next) (Python, asyncio).
@@ -166,7 +183,8 @@ busctl --user call cc.etke.komai.profile.default / cc.etke.komai.Rooms newDirect
 
 ### send
 
-Sends a text or notice message to a room. Returns the event ID string.
+Sends a text or notice message to a room. Returns the event ID string, or a D-Bus error if the
+send failed.
 
 > Required D-Bus access level: ✏️ write
 

@@ -80,8 +80,10 @@ public slots:
                      bool includeUnsignedFields,
                      const QString &fetchMode,
                      const QDBusMessage &message) const;
-    void join(const QString &roomIdOrAlias) const;
-    void newDirectChat(const QString &userId) const;
+    /// The trailing QDBusMessage is stripped from the D-Bus signature by Qt,
+    /// so these stay `s` on the bus while gaining a way to report refusal.
+    void join(const QString &roomIdOrAlias, const QDBusMessage &message) const;
+    void newDirectChat(const QString &userId, const QDBusMessage &message) const;
     QString send(const QString &roomIdOrAlias,
                  const QString &body,
                  const QString &msgtype,

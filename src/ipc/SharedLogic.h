@@ -5,6 +5,8 @@
 #pragma once
 
 #include <functional>
+#include <optional>
+#include <variant>
 
 #include <QImage>
 #include <QJsonArray>
@@ -48,11 +50,52 @@ struct RoomInfo
     QString directUserId;
     bool encrypted = false;
 
-    QJsonObject toJson() const;
+    /// Serializes the room. `fields` projects the result down to the named
+    /// keys; empty means every key.
+    QJsonObject toJson(const QStringList &fields = {}) const;
+
+    /// Every key toJson() can emit, which is also the set `fields` accepts.
+    static QStringList fieldNames();
+};
+
+/// Filters and paging for roomList(). Every member is optional; a default
+/// constructed query returns every room, unprojected.
+struct RoomListQuery
+{
+    /// Room IDs or aliases to restrict the result to.
+    QStringList ids;
+    /// Case-insensitive substring matched against the room name and alias.
+    QString query;
+    std::optional<bool> isDm;
+    std::optional<bool> encrypted;
+    /// Room ID of a space the room must be a child of.
+    QString parentSpace;
+    /// Matrix room tag the room must carry.
+    QString tag;
+    std::optional<int> minMemberCount;
+    /// Page size. Negative means no limit.
+    int limit  = -1;
+    int offset = 0;
+    /// Keys to keep in the serialized rooms; empty means all of them.
+    QStringList fields;
+};
+
+struct RoomListPage
+{
+    QVector<RoomInfo> rooms;
+    /// Rooms matching the filters, counted before `limit` and `offset` are
+    /// applied, so a caller can tell it is looking at a subset. Not the total
+    /// number of joined rooms unless the query has no filters.
+    int matchCount = 0;
 };
 
 QVector<RoomInfo>
 roomList();
+
+/// Filtered, paged room list. Returns an error string for an unknown field
+/// name or a negative offset, otherwise the page.
+std::variant<RoomListPage, QString>
+roomList(const RoomListQuery &query);
 void
 joinRoom(const QString &roomIdOrAlias);
 void

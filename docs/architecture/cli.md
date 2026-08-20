@@ -70,8 +70,8 @@ CLI commands communicate with the running Komai instance via a per-profile
 Simple JSON-lines over the transport — one request line, one response line:
 
 ```
-→  {"method":"rooms.list"}
-←  {"result":[...]}
+→  {"method":"rooms.list","params":{"limit":2,"fields":["id","name"]}}
+←  {"result":{"rooms":[...],"matchCount":37}}
 
 →  {"method":"user.setStatusMessage","params":{"message":"brb"}}
 ←  {"result":true}
@@ -89,7 +89,7 @@ Simple JSON-lines over the transport — one request line, one response line:
 |------------------------------|-------------------------------|-----------------|
 | `app.version`                | —                             | `string`        |
 | `app.apiVersion`             | —                             | `string`        |
-| `rooms.list`                 | —                             | `array`         |
+| `rooms.list`                 | all optional: `ids`, `query`, `isDm`, `encrypted`, `tag`, `parentSpace`, `minMemberCount`, `limit`, `offset`, `fields` | `object` |
 | `rooms.timeline`             | `roomIdOrAlias`, `limit`?, `beforeEventId`?, `includeUnsignedFields`?, `fetchMode`? | `object` |
 | `rooms.join`                 | `roomIdOrAlias`               | `true`          |
 | `rooms.create`               | all optional: `name`, `topic`, `aliasLocalpart`, `preset`, `invite`, `isDirect`, `isEncrypted`, `isSpace`, `isPublic`, `roomVersion`, `powerLevelContentOverride`, `initialState`, `creationContent` | `object` |

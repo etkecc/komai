@@ -22,7 +22,7 @@ komai app version | jq -r '.version'
 komai rooms list | jq .
 
 # Filter
-komai rooms list | jq '[.[] | select(.read == false)]'
+komai rooms list | jq '[.rooms[] | select(.read == false)]'
 ```
 
 ## 👥 Profile targeting
@@ -71,7 +71,11 @@ Room discovery and navigation.
 
 ### list
 
-Returns a JSON array of joined rooms. Each room summary includes:
+Returns joined rooms as `{"rooms": [...], "matchCount": n}`, where `matchCount` is how many
+rooms matched the filters, counted before `--limit` and `--offset` were applied. With no filters
+that is every joined room; with filters it is the size of the match, not of your account.
+
+Each room summary includes:
 
 - `read` -- Komai's local room-list read state
 - `unreadCount` -- locally-tracked unread message count
@@ -86,33 +90,55 @@ Returns a JSON array of joined rooms. Each room summary includes:
 
 Draft state is intentionally not exposed here.
 
+Several filters are built in, so common questions do not need `jq` at all. They combine with
+AND, and `--fields` trims each room down to the keys you asked for:
+
+| Flag | Effect |
+|---|---|
+| `--ids <ids>` | Restrict to these room IDs or aliases, comma-separated |
+| `--query <text>` | Case-insensitive substring on room name and alias |
+| `--is-dm true\|false` | Keep only direct chats, or only non-direct chats |
+| `--encrypted true\|false` | Keep only encrypted, or only unencrypted, rooms |
+| `--tag <tag>` | Keep only rooms carrying a room tag |
+| `--parent-space <room-id>` | Keep only children of a space |
+| `--min-member-count <n>` | Keep only rooms with at least this many members |
+| `--limit <n>`, `--offset <n>` | Paging; all rooms if `--limit` is unset |
+| `--fields <keys>` | Comma-separated keys to keep on each room |
+
+Rooms come back in the room list's own order, which is by recent activity. A paged walk is
+therefore a snapshot rather than a stable cursor: a room that sees traffic mid-walk can move
+between pages.
+
 See also: [join](#join).
 
 ```bash
-komai rooms list
-# [{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","read":false,"unreadCount":3,"memberCount":42,"mostRecentEventTimestampMs":1742810400000,"highlighted":false,"categories":["group","encrypted"],"tags":["m.favourite"],"parentSpaces":["!space:example.org"],"dmUserId":"","encrypted":true},...]
+komai rooms list --limit 1
+# {"rooms":[{"id":"!abc:example.org","alias":"#room:example.org","name":"My Room","avatarUrl":"mxc://example.org/abc","read":false,"unreadCount":3,"memberCount":42,"mostRecentEventTimestampMs":1742810400000,"highlighted":false,"categories":["group","encrypted"],"tags":["m.favourite"],"parentSpaces":["!space:example.org"],"dmUserId":"","encrypted":true}],"matchCount":37}
 ```
 
 Scripting examples:
 
 ```bash
 # Room names only
-komai rooms list | jq -r '.[].name'
+komai rooms list --fields name | jq -r '.rooms[].name'
 
-# Rooms with unread timeline activity
-komai rooms list | jq '[.[] | select(.read == false)]'
-
-# Small group rooms
-komai rooms list | jq '[.[] | select(.memberCount <= 5 and (.categories | index("group")))]'
-
-# Rooms quiet since before 2025-01-01 UTC
-komai rooms list | jq '[.[] | select(.mostRecentEventTimestampMs < 1735689600000)]'
-
-# Favourite bot rooms
-komai rooms list | jq '[.[] | select((.categories | index("bot")) and (.tags | index("m.favourite")))]'
+# Look up names for room IDs you already have
+komai rooms list --ids '!abc:example.org,!def:example.org' --fields id,name
 
 # Find a room by alias
-komai rooms list | jq -r '.[] | select(.alias == "#komai:example.org") | .id'
+komai rooms list --ids '#komai:example.org' --fields id | jq -r '.rooms[].id'
+
+# Small group rooms
+komai rooms list --is-dm false | jq '[.rooms[] | select(.memberCount <= 5)]'
+
+# Favourite bot rooms
+komai rooms list --tag m.favourite | jq '[.rooms[] | select(.categories | index("bot"))]'
+
+# Rooms with unread timeline activity
+komai rooms list | jq '[.rooms[] | select(.read == false)]'
+
+# Rooms quiet since before 2025-01-01 UTC
+komai rooms list | jq '[.rooms[] | select(.mostRecentEventTimestampMs < 1735689600000)]'
 ```
 
 ### timeline

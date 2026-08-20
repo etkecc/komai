@@ -1,7 +1,7 @@
 # fish completion for komai (auto-generated; do not edit)
 
 function __komai_positionals
-    set -l value_flags --access --alias-localpart --before-event-id --caption --content-type --creation-content --fetch-mode --filename --format --initial-state --invite --limit --log-level --log-type --msgtype --name --power-levels --preset --profile --reason --room-version --topic --variant -L -l -p
+    set -l value_flags --access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --room-version --tag --topic --variant -L -l -p
     set -l tokens (commandline -opc)
     set -l skip_next 0
     set -l first 1
@@ -140,7 +140,17 @@ complete -c komai -n '__komai_at_path rooms' -a 'send'
 complete -c komai -n '__komai_at_path rooms' -a 'send-image'
 complete -c komai -n '__komai_at_path rooms' -a 'timeline'
 complete -c komai -n '__komai_at_path rooms' -a 'unban'
+complete -c komai -n '__komai_within rooms list' -l encrypted -xa 'true false'
+complete -c komai -n '__komai_within rooms list' -l fields
 complete -c komai -n '__komai_within rooms list' -l help
+complete -c komai -n '__komai_within rooms list' -l ids
+complete -c komai -n '__komai_within rooms list' -l is-dm -xa 'true false'
+complete -c komai -n '__komai_within rooms list' -l limit
+complete -c komai -n '__komai_within rooms list' -l min-member-count
+complete -c komai -n '__komai_within rooms list' -l offset
+complete -c komai -n '__komai_within rooms list' -l parent-space
+complete -c komai -n '__komai_within rooms list' -l query
+complete -c komai -n '__komai_within rooms list' -l tag
 complete -c komai -n '__komai_within rooms list' -s h
 complete -c komai -n '__komai_within rooms timeline' -l before-event-id
 complete -c komai -n '__komai_within rooms timeline' -l fetch-mode -xa 'cached_only server_fetch_if_needed'
@@ -155,7 +165,7 @@ complete -c komai -n '__komai_within rooms new-direct-chat' -s h
 complete -c komai -n '__komai_within rooms create' -l alias-localpart
 complete -c komai -n '__komai_within rooms create' -l creation-content
 complete -c komai -n '__komai_within rooms create' -l direct
-complete -c komai -n '__komai_within rooms create' -l encrypted
+complete -c komai -n '__komai_within rooms create' -l encrypted -xa 'true false'
 complete -c komai -n '__komai_within rooms create' -l help
 complete -c komai -n '__komai_within rooms create' -l initial-state
 complete -c komai -n '__komai_within rooms create' -l invite

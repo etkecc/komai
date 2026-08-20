@@ -105,6 +105,33 @@ Structured result fields:
 - `hasMore`
 - `nextBeforeEventId`
 
+### `rooms_list`
+
+Lists joined rooms. Every argument is optional, and filters combine with AND.
+
+- `ids` -- room IDs or aliases to restrict the result to. The cheapest way to turn a handful of
+  known room IDs into names.
+- `query` -- case-insensitive substring matched against the room name and alias
+- `isDm`, `encrypted` -- keep only rooms that are, or are not, each of those
+- `tag` -- keep only rooms carrying a Matrix room tag, such as `m.favourite`
+- `parentSpace` -- keep only children of a given space room ID
+- `minMemberCount` -- keep only rooms with at least this many joined members
+- `limit` (default `50`, max `1000`) and `offset` -- paging
+- `fields` -- the keys to keep on each room. A room has 14 keys; most callers want `id` and
+  `name`. An unknown key is rejected rather than silently ignored, so typos surface.
+
+The result carries `matchCount` alongside `rooms`: how many rooms matched the filters, counted
+*before* `limit` and `offset` were applied. It is the joined-room total only when you pass no
+filters. When it exceeds the rooms returned you are looking at a subset, and the tool says so in
+its text response.
+
+Unlike the [CLI](cli.md), the tool applies a default `limit`. An unbounded list is large enough
+on a real account to overflow an MCP host's tool-result cap.
+
+Rooms come back in the room list's own order, which is by recent activity. Paging a busy account
+is therefore a snapshot, not a stable cursor: a room can move between pages if it sees traffic
+mid-walk. Filter with `ids` or `query` when you need exactness.
+
 ### `rooms_create`
 
 Creates a room or a space and returns its room ID. Every argument is optional -- calling it with

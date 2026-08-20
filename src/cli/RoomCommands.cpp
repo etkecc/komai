@@ -36,12 +36,79 @@ handleIpcError(const QJsonObject &response)
     return true;
 }
 
+/// Splits a comma-separated flag into a JSON array, skipping empty entries.
+QJsonArray
+commaSeparatedArray(const QString &value)
+{
+    QJsonArray array;
+    for (const auto &entry : value.split(QLatin1Char(','), Qt::SkipEmptyParts))
+        array.append(entry.trimmed());
+    return array;
+}
+
 int
 handleList(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
-    auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.list"));
-    auto arr      = response.value(QStringLiteral("result")).toArray();
-    std::cout << QJsonDocument(arr).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    QJsonObject params;
+
+    const std::pair<const char *, const char *> stringFlags[] = {
+      {"--query", "query"},
+      {"--parent-space", "parentSpace"},
+      {"--tag", "tag"},
+    };
+    for (const auto &[flag, key] : stringFlags) {
+        const auto value = parsed.flagOr(QString::fromLatin1(flag));
+        if (!value.isEmpty())
+            params.insert(QString::fromLatin1(key), value);
+    }
+
+    const std::pair<const char *, const char *> listFlags[] = {
+      {"--ids", "ids"},
+      {"--fields", "fields"},
+    };
+    for (const auto &[flag, key] : listFlags) {
+        const auto value = parsed.flagOr(QString::fromLatin1(flag));
+        if (!value.isEmpty())
+            params.insert(QString::fromLatin1(key), commaSeparatedArray(value));
+    }
+
+    // Absent means "do not filter on this", which a bare boolean flag could
+    // not express, so these take an explicit true/false.
+    const std::pair<const char *, const char *> tristateFlags[] = {
+      {"--is-dm", "isDm"},
+      {"--encrypted", "encrypted"},
+    };
+    for (const auto &[flag, key] : tristateFlags) {
+        const auto value = parsed.flagOr(QString::fromLatin1(flag));
+        if (!value.isEmpty())
+            params.insert(QString::fromLatin1(key), value == QLatin1String("true"));
+    }
+
+    const std::pair<const char *, const char *> intFlags[] = {
+      {"--min-member-count", "minMemberCount"},
+      {"--limit", "limit"},
+      {"--offset", "offset"},
+    };
+    for (const auto &[flag, key] : intFlags) {
+        const auto value = parsed.flagOr(QString::fromLatin1(flag));
+        if (value.isEmpty())
+            continue;
+
+        bool ok     = false;
+        const int n = value.toInt(&ok);
+        if (!ok) {
+            std::cerr << "Error: " << flag << " must be an integer\n";
+            return 1;
+        }
+        params.insert(QString::fromLatin1(key), n);
+    }
+
+    const auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.list"), params);
+    if (handleIpcError(response))
+        return 1;
+
+    const auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
     return 0;
 }
 
@@ -341,10 +408,46 @@ roomsGroupDef()
     group.name = QStringLiteral("rooms");
     group.help = QStringLiteral("Room discovery and navigation (JSON)");
 
-    // list
+    // list [filters]
     cli_schema::SubcommandDef list;
-    list.name    = QStringLiteral("list");
-    list.help    = QStringLiteral("List all joined rooms (JSON)");
+    list.name     = QStringLiteral("list");
+    list.help     = QStringLiteral("List joined rooms, with filters (JSON)");
+    list.longHelp = QStringLiteral(
+      "Prints {\"rooms\": [...], \"matchCount\": n}, where matchCount is how many rooms\n"
+      "matched the filters before --limit and --offset were applied -- not how many rooms\n"
+      "you are joined to, unless you passed no filters.\n\n"
+      "Rooms come back in the room list's own order, which is by recent activity, so a\n"
+      "paged walk over a busy account is a snapshot rather than a stable cursor.");
+
+    struct ListFlag
+    {
+        const char *longName;
+        const char *placeholder;
+        const char *help;
+        bool boolEnum;
+    };
+    static constexpr ListFlag listFlags[] = {
+      {"--ids", "<ids>", "Comma-separated room IDs or aliases to restrict the result to.", false},
+      {"--query", "<text>", "Case-insensitive substring matched on room name and alias.", false},
+      {"--is-dm", "<bool>", "Keep only direct chats, or only non-direct chats.", true},
+      {"--encrypted", "<bool>", "Keep only encrypted rooms, or only unencrypted ones.", true},
+      {"--tag", "<tag>", "Keep only rooms carrying this Matrix room tag.", false},
+      {"--parent-space", "<room-id>", "Keep only children of this space.", false},
+      {"--min-member-count", "<n>", "Keep only rooms with at least this many members.", false},
+      {"--limit", "<n>", "Maximum rooms to return; all of them if unset.", false},
+      {"--offset", "<n>", "Skip this many matching rooms before the page.", false},
+      {"--fields", "<keys>", "Comma-separated keys to keep on each room.", false},
+    };
+    for (const auto &definition : listFlags) {
+        cli_schema::FlagDef flag;
+        flag.longName         = QString::fromLatin1(definition.longName);
+        flag.takesValue       = true;
+        flag.valuePlaceholder = QString::fromLatin1(definition.placeholder);
+        flag.help             = QString::fromLatin1(definition.help);
+        if (definition.boolEnum)
+            flag.valueEnum = {QStringLiteral("true"), QStringLiteral("false")};
+        list.flags.append(flag);
+    }
     list.handler = handleList;
     group.subcommands.append(list);
 

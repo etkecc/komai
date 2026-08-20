@@ -6,8 +6,10 @@ _komai() {
 
     case "${prev}" in
         --access) COMPREPLY=($(compgen -W "read_only read_write" -- "${cur}")); return ;;
+        --encrypted) COMPREPLY=($(compgen -W "true false" -- "${cur}")); return ;;
         --fetch-mode) COMPREPLY=($(compgen -W "cached_only server_fetch_if_needed" -- "${cur}")); return ;;
         --format) COMPREPLY=($(compgen -W "auto plain html" -- "${cur}")); return ;;
+        --is-dm) COMPREPLY=($(compgen -W "true false" -- "${cur}")); return ;;
         --msgtype) COMPREPLY=($(compgen -W "text notice" -- "${cur}")); return ;;
         --preset) COMPREPLY=($(compgen -W "private_chat public_chat trusted_private_chat" -- "${cur}")); return ;;
         --variant) COMPREPLY=($(compgen -W "light dark" -- "${cur}")); return ;;
@@ -19,24 +21,31 @@ _komai() {
         --caption) return ;;
         --content-type) return ;;
         --creation-content) return ;;
+        --fields) return ;;
         --filename) return ;;
+        --ids) return ;;
         --initial-state) return ;;
         --invite) return ;;
         --limit) return ;;
         --log-level) return ;;
         --log-type) return ;;
+        --min-member-count) return ;;
         --name) return ;;
+        --offset) return ;;
+        --parent-space) return ;;
         --power-levels) return ;;
         --profile) return ;;
+        --query) return ;;
         --reason) return ;;
         --room-version) return ;;
+        --tag) return ;;
         --topic) return ;;
         -L) return ;;
         -l) return ;;
         -p) return ;;
     esac
 
-    local -a _komai_value_flags=(--access --alias-localpart --before-event-id --caption --content-type --creation-content --fetch-mode --filename --format --initial-state --invite --limit --log-level --log-type --msgtype --name --power-levels --preset --profile --reason --room-version --topic --variant -L -l -p)
+    local -a _komai_value_flags=(--access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --room-version --tag --topic --variant -L -l -p)
     local -a _komai_path=()
     local _skip=0 _i
     for ((_i=1; _i<COMP_CWORD; _i++)); do
@@ -85,7 +94,7 @@ _komai() {
         "media upload"|"media upload "*) COMPREPLY=($(compgen -W "--content-type --filename --help --stdin -h" -- "${cur}")) ;;
         "mcp serve"|"mcp serve "*) COMPREPLY=($(compgen -W "--access --help -h" -- "${cur}")) ;;
         "profiles launcher"|"profiles launcher "*) COMPREPLY=($(compgen -W "--help -h create remove" -- "${cur}")) ;;
-        "rooms list"|"rooms list "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
+        "rooms list"|"rooms list "*) COMPREPLY=($(compgen -W "--encrypted --fields --help --ids --is-dm --limit --min-member-count --offset --parent-space --query --tag -h" -- "${cur}")) ;;
         "rooms timeline"|"rooms timeline "*) COMPREPLY=($(compgen -W "--before-event-id --fetch-mode --help --include-unsigned-fields --limit -h" -- "${cur}")) ;;
         "rooms join"|"rooms join "*) COMPREPLY=($(compgen -W "--help -h" -- "${cur}")) ;;
         "settings"|"settings "*) COMPREPLY=($(compgen -W "--help -h ui" -- "${cur}")) ;;

@@ -491,9 +491,9 @@ appVersion()
 // -- rooms --
 
 QJsonObject
-RoomInfo::toJson() const
+RoomInfo::toJson(const QStringList &fields) const
 {
-    return {
+    const QJsonObject all{
       {QStringLiteral("id"), roomId},
       {QStringLiteral("alias"), alias},
       {QStringLiteral("name"), name},
@@ -510,6 +510,23 @@ RoomInfo::toJson() const
       {QStringLiteral("dmUserId"), directUserId},
       {QStringLiteral("encrypted"), encrypted},
     };
+
+    if (fields.isEmpty())
+        return all;
+
+    QJsonObject projected;
+    for (const auto &field : fields) {
+        const auto it = all.find(field);
+        if (it != all.end())
+            projected.insert(field, it.value());
+    }
+    return projected;
+}
+
+QStringList
+RoomInfo::fieldNames()
+{
+    return RoomInfo{}.toJson().keys();
 }
 
 QVector<RoomInfo>
@@ -557,6 +574,77 @@ roomList()
     }
 
     return result;
+}
+
+namespace {
+
+/// Whether `info` survives every filter set on `query`.
+bool
+roomMatchesQuery(const RoomInfo &info, const RoomListQuery &query)
+{
+    if (!query.ids.isEmpty() && !query.ids.contains(info.roomId) &&
+        (info.alias.isEmpty() || !query.ids.contains(info.alias))) {
+        return false;
+    }
+
+    if (!query.query.isEmpty() && !info.name.contains(query.query, Qt::CaseInsensitive) &&
+        !info.alias.contains(query.query, Qt::CaseInsensitive)) {
+        return false;
+    }
+
+    // "direct" is derived alongside the other categories, and is the same
+    // signal the room list itself uses.
+    if (query.isDm.has_value() &&
+        info.categories.contains(QStringLiteral("direct")) != *query.isDm) {
+        return false;
+    }
+
+    if (query.encrypted.has_value() && info.encrypted != *query.encrypted)
+        return false;
+
+    if (!query.parentSpace.isEmpty() && !info.parentSpaces.contains(query.parentSpace))
+        return false;
+
+    if (!query.tag.isEmpty() && !info.tags.contains(query.tag))
+        return false;
+
+    if (query.minMemberCount.has_value() && info.memberCount < *query.minMemberCount)
+        return false;
+
+    return true;
+}
+
+} // namespace
+
+std::variant<RoomListPage, QString>
+roomList(const RoomListQuery &query)
+{
+    for (const auto &field : query.fields) {
+        if (!RoomInfo::fieldNames().contains(field)) {
+            return QStringLiteral("unknown field '%1'; known fields are: %2")
+              .arg(field, RoomInfo::fieldNames().join(QStringLiteral(", ")));
+        }
+    }
+
+    if (query.offset < 0)
+        return QStringLiteral("offset must not be negative");
+
+    RoomListPage page;
+    for (const auto &info : roomList()) {
+        if (!roomMatchesQuery(info, query))
+            continue;
+
+        // matchCount counts every match; the page skips and stops around it.
+        const int matchIndex = page.matchCount++;
+        if (matchIndex < query.offset)
+            continue;
+        if (query.limit >= 0 && page.rooms.size() >= query.limit)
+            continue;
+
+        page.rooms.push_back(info);
+    }
+
+    return page;
 }
 
 void

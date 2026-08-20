@@ -315,15 +315,6 @@ fn backend_object(backend: &dyn Backend, method: &str, params: Value) -> Result<
     })
 }
 
-fn backend_array(backend: &dyn Backend, method: &str, params: Value) -> Result<Vec<Value>, ToolFailure> {
-    let result = backend_call(backend, method, params)?;
-    result.as_array().cloned().ok_or_else(|| {
-        ToolFailure::ToolError(format!(
-            "Komai IPC returned an invalid array result for '{method}'."
-        ))
-    })
-}
-
 fn object_schema(properties: Vec<(&str, Value)>, required: &[&str]) -> Value {
     let mut property_map = Map::new();
     for (name, schema) in properties {
@@ -476,6 +467,25 @@ fn room_info_schema() -> Value {
     )
 }
 
+const ROOM_FIELDS: &[&str] = &[
+    "id",
+    "alias",
+    "name",
+    "avatarUrl",
+    "read",
+    "unreadCount",
+    "memberCount",
+    "mostRecentEventTimestampMs",
+    "highlighted",
+    "categories",
+    "tags",
+    "parentSpaces",
+    "dmUserId",
+    "encrypted",
+];
+const DEFAULT_ROOM_LIST_LIMIT: i64 = 50;
+const MAX_ROOM_LIST_LIMIT: i64 = 1000;
+
 const TIMELINE_FETCH_MODE_CACHED_ONLY: &str = "cached_only";
 const TIMELINE_FETCH_MODE_SERVER_IF_NEEDED: &str = "server_fetch_if_needed";
 const DEFAULT_TIMELINE_LIMIT: i64 = 10;
@@ -622,19 +632,114 @@ fn handle_app_get_api_version(
     )
 }
 
+fn parse_room_list_fields(arguments: &Map<String, Value>) -> Result<Option<Vec<String>>, ToolFailure> {
+    let Some(fields) = optional_string_array(arguments, "fields")? else {
+        return Ok(None);
+    };
+
+    for field in &fields {
+        if !ROOM_FIELDS.contains(&field.as_str()) {
+            return Err(ToolFailure::InvalidParams(format!(
+                "Argument 'fields' has an unknown key '{field}'. Known keys: {}.",
+                ROOM_FIELDS.join(", ")
+            )));
+        }
+    }
+
+    Ok(Some(fields))
+}
+
 fn handle_rooms_list(
     backend: &dyn Backend,
     arguments: &Map<String, Value>,
 ) -> Result<ToolSuccess, ToolFailure> {
-    reject_unknown_keys(arguments, &[])?;
-    let rooms = backend_array(backend, "rooms.list", Value::Null)?;
-    success(
-        json!({ "rooms": rooms }),
-        vec![results::text_content(format!(
-            "Listed {} rooms.",
-            rooms.len()
-        ))],
-    )
+    reject_unknown_keys(
+        arguments,
+        &[
+            "ids",
+            "query",
+            "isDm",
+            "encrypted",
+            "tag",
+            "parentSpace",
+            "minMemberCount",
+            "limit",
+            "offset",
+            "fields",
+        ],
+    )?;
+
+    let mut params = Map::new();
+
+    for key in ["query", "tag", "parentSpace"] {
+        if let Some(value) = optional_string(arguments, key)? {
+            params.insert(key.to_owned(), Value::String(value));
+        }
+    }
+
+    for key in ["isDm", "encrypted"] {
+        if let Some(value) = optional_bool(arguments, key)? {
+            params.insert(key.to_owned(), Value::Bool(value));
+        }
+    }
+
+    if let Some(ids) = optional_string_array(arguments, "ids")? {
+        params.insert(
+            "ids".to_owned(),
+            Value::Array(ids.into_iter().map(Value::String).collect()),
+        );
+    }
+
+    if let Some(fields) = parse_room_list_fields(arguments)? {
+        params.insert(
+            "fields".to_owned(),
+            Value::Array(fields.into_iter().map(Value::String).collect()),
+        );
+    }
+
+    for key in ["minMemberCount", "offset"] {
+        if let Some(value) = optional_integer(arguments, key)? {
+            if value < 0 {
+                return Err(ToolFailure::InvalidParams(format!(
+                    "Argument '{key}' must not be negative."
+                )));
+            }
+            params.insert(key.to_owned(), Value::Number(value.into()));
+        }
+    }
+
+    // Unlike the IPC layer, the tool defaults to a page. An unbounded list is
+    // large enough on a real account to blow an MCP host's tool-result cap,
+    // and matchCount tells the caller what it is missing.
+    let limit = match optional_integer(arguments, "limit")? {
+        None => DEFAULT_ROOM_LIST_LIMIT,
+        Some(limit) if (1..=MAX_ROOM_LIST_LIMIT).contains(&limit) => limit,
+        Some(_) => {
+            return Err(ToolFailure::InvalidParams(format!(
+                "Argument 'limit' must be between 1 and {MAX_ROOM_LIST_LIMIT}."
+            )))
+        }
+    };
+    params.insert("limit".to_owned(), Value::Number(limit.into()));
+
+    let result = backend_object(backend, "rooms.list", Value::Object(params))?;
+    let returned = result
+        .get("rooms")
+        .and_then(Value::as_array)
+        .map(Vec::len)
+        .unwrap_or(0);
+    let total = result
+        .get("matchCount")
+        .and_then(Value::as_i64)
+        .unwrap_or(returned as i64);
+
+    let summary = if (returned as i64) < total {
+        format!("Listed {returned} of {total} matching rooms. Use offset to page through the rest.")
+    } else {
+        format!("Listed {returned} rooms.")
+    };
+
+    success(Value::Object(result), vec![results::text_content(summary)])
 }
 
 fn handle_rooms_get_timeline(
@@ -1176,22 +1281,91 @@ const TOOLS: &[ToolDefinition] = &[
     ToolDefinition {
         name: "rooms_list",
         title: "List Rooms",
-        description: "List joined rooms from the target Komai profile.",
+        description: "List joined rooms from the target Komai profile. Filters combine with AND, \
+and matchCount reports how many rooms matched before paging -- so a caller can tell it is seeing \
+a subset. Prefer 'ids' or 'query' plus 'fields' over listing everything.",
         access: ToolAccess::Read,
         destructive: false,
         idempotent: true,
         open_world: false,
-        input_schema: || object_schema(vec![], &[]),
+        input_schema: || {
+            object_schema(
+                vec![
+                    (
+                        "ids",
+                        string_array_schema("Room IDs or aliases to restrict the result to. The cheapest way to resolve known rooms to their names."),
+                    ),
+                    (
+                        "query",
+                        string_schema("Case-insensitive substring matched against the room name and alias."),
+                    ),
+                    ("isDm", boolean_schema("Keep only direct chats, or only non-direct chats.")),
+                    (
+                        "encrypted",
+                        boolean_schema("Keep only encrypted rooms, or only unencrypted ones."),
+                    ),
+                    ("tag", string_schema("Keep only rooms carrying this Matrix room tag.")),
+                    (
+                        "parentSpace",
+                        string_schema("Keep only rooms that are children of this space room ID."),
+                    ),
+                    (
+                        "minMemberCount",
+                        json!({
+                            "type": "integer",
+                            "description": "Keep only rooms with at least this many joined members.",
+                            "minimum": 0,
+                        }),
+                    ),
+                    (
+                        "limit",
+                        json!({
+                            "type": "integer",
+                            "description": "Maximum rooms to return.",
+                            "minimum": 1,
+                            "maximum": MAX_ROOM_LIST_LIMIT,
+                            "default": DEFAULT_ROOM_LIST_LIMIT,
+                        }),
+                    ),
+                    (
+                        "offset",
+                        json!({
+                            "type": "integer",
+                            "description": "Skip this many matching rooms before the returned page. Rooms are ordered by recent activity, so paging a busy account is a snapshot rather than a stable cursor.",
+                            "minimum": 0,
+                        }),
+                    ),
+                    (
+                        "fields",
+                        json!({
+                            "type": "array",
+                            "description": "Keys to keep on each returned room. Omit for all of them; most callers want just id and name.",
+                            "items": {
+                                "type": "string",
+                                "enum": ROOM_FIELDS,
+                            },
+                        }),
+                    ),
+                ],
+                &[],
+            )
+        },
         output_schema: || {
             object_schema(
-                vec![(
-                    "rooms",
-                    json!({
-                        "type": "array",
-                        "items": room_info_schema(),
-                    }),
-                )],
-                &["rooms"],
+                vec![
+                    (
+                        "rooms",
+                        json!({
+                            "type": "array",
+                            "items": room_info_schema(),
+                        }),
+                    ),
+                    (
+                        "matchCount",
+                        integer_schema("How many rooms matched the filters, counted before limit and offset were applied. Equals the number of joined rooms only when no filters were given."),
+                    ),
+                ],
+                &["rooms", "matchCount"],
             )
         },
         handler: handle_rooms_list,
@@ -1720,7 +1894,7 @@ mod tests {
     fn rooms_list_wraps_rooms_in_structured_content() {
         let backend = MockBackend::with_response(
             "rooms.list",
-            Ok(json!([
+            Ok(json!({"matchCount": 1, "rooms": [
                 {
                     "id": "!room:example.org",
                     "alias": "#example:example.org",
@@ -1737,7 +1911,7 @@ mod tests {
                     "dmUserId": "@alice:example.org",
                     "encrypted": true
                 }
-            ])),
+            ]})),
         );
 
         let result = call_tool(&backend, AccessMode::ReadOnly, "rooms_list", None).unwrap();
@@ -1747,7 +1921,104 @@ mod tests {
             result["structuredContent"]["rooms"][0]["id"].as_str(),
             Some("!room:example.org")
         );
+        assert_eq!(result["structuredContent"]["matchCount"].as_i64(), Some(1));
         assert_eq!(result["content"][0]["type"].as_str(), Some("text"));
+
+        // The tool pages by default even when the caller asks for nothing.
+        let calls = backend.calls.borrow();
+        assert_eq!(calls[0].1["limit"].as_i64(), Some(50));
+    }
+
+    #[test]
+    fn rooms_list_maps_filters_to_the_ipc_protocol() {
+        let backend = MockBackend::with_response(
+            "rooms.list",
+            Ok(json!({"rooms": [], "matchCount": 0})),
+        );
+
+        call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_list",
+            Some(json!({
+                "ids": ["!a:example.org", "#b:example.org"],
+                "query": "team",
+                "isDm": false,
+                "encrypted": true,
+                "tag": "m.favourite",
+                "parentSpace": "!space:example.org",
+                "minMemberCount": 3,
+                "limit": 5,
+                "offset": 10,
+                "fields": ["id", "name"]
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (method, params) = &calls[0];
+        assert_eq!(method, "rooms.list");
+        assert_eq!(params["ids"], json!(["!a:example.org", "#b:example.org"]));
+        assert_eq!(params["query"].as_str(), Some("team"));
+        assert_eq!(params["isDm"].as_bool(), Some(false));
+        assert_eq!(params["encrypted"].as_bool(), Some(true));
+        assert_eq!(params["tag"].as_str(), Some("m.favourite"));
+        assert_eq!(params["parentSpace"].as_str(), Some("!space:example.org"));
+        assert_eq!(params["minMemberCount"].as_i64(), Some(3));
+        assert_eq!(params["limit"].as_i64(), Some(5));
+        assert_eq!(params["offset"].as_i64(), Some(10));
+        assert_eq!(params["fields"], json!(["id", "name"]));
+    }
+
+    #[test]
+    fn rooms_list_says_when_the_page_is_a_subset() {
+        let backend = MockBackend::with_response(
+            "rooms.list",
+            Ok(json!({"rooms": [{"id": "!a:example.org"}], "matchCount": 312})),
+        );
+
+        let result = call_tool(&backend, AccessMode::ReadOnly, "rooms_list", None).unwrap();
+
+        let text = result["content"][0]["text"].as_str().unwrap();
+        assert!(text.contains("1 of 312"), "unexpected summary: {text}");
+        assert!(text.contains("offset"), "unexpected summary: {text}");
+    }
+
+    #[test]
+    fn rooms_list_rejects_an_unknown_field() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_list",
+            Some(json!({ "fields": ["id", "nmae"] })),
+        )
+        .unwrap_err();
+
+        let CallToolError::InvalidParams(message) = error else {
+            panic!("expected invalid params");
+        };
+        assert!(message.contains("unknown key 'nmae'"), "{message}");
+        assert!(message.contains("memberCount"), "{message}");
+    }
+
+    #[test]
+    fn rooms_list_rejects_a_negative_offset() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_list",
+            Some(json!({ "offset": -1 })),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams("Argument 'offset' must not be negative.".to_owned())
+        );
     }
 
     #[test]

@@ -188,6 +188,29 @@ optionalBoolParam(QLocalSocket *socket, const QJsonObject &params, const QString
 }
 
 static bool
+tristateBoolParam(QLocalSocket *socket,
+                  const QJsonObject &params,
+                  const QString &key,
+                  std::optional<bool> *value)
+{
+    if (!params.contains(key)) {
+        value->reset();
+        return true;
+    }
+
+    if (!params.value(key).isBool()) {
+        writeResponse(
+          socket,
+          {{QStringLiteral("error"),
+            QStringLiteral("Argument '") + key + QStringLiteral("' must be a boolean.")}});
+        return false;
+    }
+
+    *value = params.value(key).toBool();
+    return true;
+}
+
+static bool
 optionalIntParam(QLocalSocket *socket,
                  const QJsonObject &params,
                  const QString &key,
@@ -310,11 +333,53 @@ IpcServer::handleRequest(QLocalSocket *socket)
     // -- rooms --
 
     if (method == QLatin1String("rooms.list")) {
-        const auto rooms = roomList();
+        RoomListQuery query;
+
+        if (!optionalStringListParam(socket, params, QStringLiteral("ids"), &query.ids) ||
+            !optionalStringListParam(socket, params, QStringLiteral("fields"), &query.fields)) {
+            return;
+        }
+
+        if (!optionalStringParam(socket, params, QStringLiteral("query"), &query.query) ||
+            !optionalStringParam(
+              socket, params, QStringLiteral("parentSpace"), &query.parentSpace) ||
+            !optionalStringParam(socket, params, QStringLiteral("tag"), &query.tag)) {
+            return;
+        }
+
+        if (!tristateBoolParam(socket, params, QStringLiteral("isDm"), &query.isDm) ||
+            !tristateBoolParam(socket, params, QStringLiteral("encrypted"), &query.encrypted)) {
+            return;
+        }
+
+        int minMemberCount = -1;
+        if (!optionalIntParam(
+              socket, params, QStringLiteral("minMemberCount"), -1, &minMemberCount)) {
+            return;
+        }
+        if (minMemberCount >= 0)
+            query.minMemberCount = minMemberCount;
+
+        if (!optionalIntParam(socket, params, QStringLiteral("limit"), -1, &query.limit) ||
+            !optionalIntParam(socket, params, QStringLiteral("offset"), 0, &query.offset)) {
+            return;
+        }
+
+        const auto result = roomList(query);
+        if (const auto *error = std::get_if<QString>(&result)) {
+            writeResponse(socket, {{QStringLiteral("error"), *error}});
+            return;
+        }
+
+        const auto &page = std::get<RoomListPage>(result);
         QJsonArray arr;
-        for (const auto &room : rooms)
-            arr.append(room.toJson());
-        writeResponse(socket, {{QStringLiteral("result"), arr}});
+        for (const auto &room : page.rooms)
+            arr.append(room.toJson(query.fields));
+
+        writeResponse(socket,
+                      {{QStringLiteral("result"),
+                        QJsonObject{{QStringLiteral("rooms"), arr},
+                                    {QStringLiteral("matchCount"), page.matchCount}}}});
         return;
     }
     if (method == QLatin1String("rooms.join")) {

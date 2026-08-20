@@ -78,6 +78,44 @@ writeResponse(QLocalSocket *socket, const QJsonObject &response)
     socket->disconnectFromServer();
 }
 
+/// Writes a response from an async callback, which may fire on a background
+/// thread while the socket belongs to the thread that accepted it.
+static void
+writeResponseFromCallback(const QPointer<QLocalSocket> &socket, const QJsonObject &response)
+{
+    if (!socket)
+        return;
+
+    QMetaObject::invokeMethod(
+      socket.data(),
+      [socket, response]() {
+          if (socket)
+              writeResponse(socket.data(), response);
+      },
+      Qt::QueuedConnection);
+}
+
+/// Builds the response body for an async call that either failed with `error`
+/// or produced `result`.
+static QJsonObject
+resultOrErrorResponse(const QJsonValue &result, const QString &error)
+{
+    if (!error.isEmpty())
+        return {{QStringLiteral("error"), error}};
+
+    return {{QStringLiteral("result"), result}};
+}
+
+/// Relays an async send result, which every message-sending method shares.
+static SendMessageCallback
+sendResultResponder(const QPointer<QLocalSocket> &socket)
+{
+    return [socket](const QString &eventId, const QString &error) {
+        writeResponseFromCallback(
+          socket, resultOrErrorResponse(QJsonObject{{QStringLiteral("eventId"), eventId}}, error));
+    };
+}
+
 static bool
 requireNonEmptyString(QLocalSocket *socket,
                       const QJsonObject &params,
@@ -253,22 +291,8 @@ IpcServer::handleRequest(QLocalSocket *socket)
                      includeUnsignedFields,
                      fetchMode,
                      [safeSocket](const QJsonObject &result, const QString &error) {
-                         if (!safeSocket)
-                             return;
-
-                         QJsonObject response;
-                         if (!error.isEmpty())
-                             response.insert(QStringLiteral("error"), error);
-                         else
-                             response.insert(QStringLiteral("result"), result);
-
-                         QMetaObject::invokeMethod(
-                           safeSocket.data(),
-                           [safeSocket, response]() {
-                               if (safeSocket)
-                                   writeResponse(safeSocket.data(), response);
-                           },
-                           Qt::QueuedConnection);
+                         writeResponseFromCallback(safeSocket,
+                                                   resultOrErrorResponse(result, error));
                      });
         return;
     }
@@ -324,23 +348,7 @@ IpcServer::handleRequest(QLocalSocket *socket)
                     params.value(QStringLiteral("body")).toString(),
                     params.value(QStringLiteral("msgtype")).toString(QStringLiteral("m.text")),
                     params.value(QStringLiteral("format")).toString(QStringLiteral("auto")),
-                    [safeSocket](const QString &eventId, const QString &error) {
-                        if (!safeSocket)
-                            return;
-                        QJsonObject response;
-                        if (!error.isEmpty())
-                            response.insert(QStringLiteral("error"), error);
-                        else
-                            response.insert(QStringLiteral("result"),
-                                            QJsonObject{{QStringLiteral("eventId"), eventId}});
-                        QMetaObject::invokeMethod(
-                          safeSocket.data(),
-                          [safeSocket, response]() {
-                              if (safeSocket)
-                                  writeResponse(safeSocket.data(), response);
-                          },
-                          Qt::QueuedConnection);
-                    });
+                    sendResultResponder(safeSocket));
         return;
     }
 
@@ -349,24 +357,7 @@ IpcServer::handleRequest(QLocalSocket *socket)
         sendImageFromFile(params.value(QStringLiteral("roomIdOrAlias")).toString(),
                           params.value(QStringLiteral("path")).toString(),
                           params.value(QStringLiteral("body")).toString(),
-                          [safeSocket](const QString &eventId, const QString &error) {
-                              if (!safeSocket)
-                                  return;
-                              QJsonObject response;
-                              if (!error.isEmpty())
-                                  response.insert(QStringLiteral("error"), error);
-                              else
-                                  response.insert(
-                                    QStringLiteral("result"),
-                                    QJsonObject{{QStringLiteral("eventId"), eventId}});
-                              QMetaObject::invokeMethod(
-                                safeSocket.data(),
-                                [safeSocket, response]() {
-                                    if (safeSocket)
-                                        writeResponse(safeSocket.data(), response);
-                                },
-                                Qt::QueuedConnection);
-                          });
+                          sendResultResponder(safeSocket));
         return;
     }
 
@@ -377,23 +368,7 @@ IpcServer::handleRequest(QLocalSocket *socket)
                   params.value(QStringLiteral("body")).toString(),
                   params.value(QStringLiteral("filename")).toString(),
                   params.value(QStringLiteral("info")).toObject(),
-                  [safeSocket](const QString &eventId, const QString &error) {
-                      if (!safeSocket)
-                          return;
-                      QJsonObject response;
-                      if (!error.isEmpty())
-                          response.insert(QStringLiteral("error"), error);
-                      else
-                          response.insert(QStringLiteral("result"),
-                                          QJsonObject{{QStringLiteral("eventId"), eventId}});
-                      QMetaObject::invokeMethod(
-                        safeSocket.data(),
-                        [safeSocket, response]() {
-                            if (safeSocket)
-                                writeResponse(safeSocket.data(), response);
-                        },
-                        Qt::QueuedConnection);
-                  });
+                  sendResultResponder(safeSocket));
         return;
     }
 
@@ -405,9 +380,6 @@ IpcServer::handleRequest(QLocalSocket *socket)
         if (!requireNonEmptyString(socket, params, QStringLiteral("mxcUri"), &mxcUri))
             return;
         mediaFetch(mxcUri, [safeSocket](const QImage &image) {
-            if (!safeSocket)
-                return;
-
             // Build the response payload (safe on any thread).
             QJsonObject response;
             if (image.isNull()) {
@@ -420,15 +392,7 @@ IpcServer::handleRequest(QLocalSocket *socket)
                 response.insert(QStringLiteral("result"), QString::fromLatin1(pngData.toBase64()));
             }
 
-            // The callback may fire on a background thread, but the socket
-            // must be written to on the thread that owns it (main thread).
-            QMetaObject::invokeMethod(
-              safeSocket.data(),
-              [safeSocket, response]() {
-                  if (safeSocket)
-                      writeResponse(safeSocket.data(), response);
-              },
-              Qt::QueuedConnection);
+            writeResponseFromCallback(safeSocket, response);
         });
         return;
     }
@@ -442,20 +406,8 @@ IpcServer::handleRequest(QLocalSocket *socket)
                     params.value(QStringLiteral("filename")).toString(),
                     params.value(QStringLiteral("contentType")).toString(),
                     [safeSocket](const UploadResult &result, const QString &error) {
-                        if (!safeSocket)
-                            return;
-                        QJsonObject response;
-                        if (!error.isEmpty())
-                            response.insert(QStringLiteral("error"), error);
-                        else
-                            response.insert(QStringLiteral("result"), result.toJson());
-                        QMetaObject::invokeMethod(
-                          safeSocket.data(),
-                          [safeSocket, response]() {
-                              if (safeSocket)
-                                  writeResponse(safeSocket.data(), response);
-                          },
-                          Qt::QueuedConnection);
+                        writeResponseFromCallback(safeSocket,
+                                                  resultOrErrorResponse(result.toJson(), error));
                     });
         return;
     }

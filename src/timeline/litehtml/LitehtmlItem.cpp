@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "timeline/litehtml/LitehtmlItem.h"
+#include <QRegularExpression>
 
 #include <QClipboard>
 #include <QElapsedTimer>
@@ -37,7 +38,26 @@ churnPerfEnabled()
     return enabled;
 }
 
-// Blur one hidden-spoiler line box in place. `itemBox` is in item
+// Diagnostic only: KOMAI_SPOILER_DEBUG traces spoiler box collection and the
+// paint that consumes it, so a mismatch between the two can be seen directly.
+bool
+spoilerDebugEnabled()
+{
+    static const bool enabled = qEnvironmentVariableIsSet("KOMAI_SPOILER_DEBUG");
+    return enabled;
+}
+
+// A short, tag-free prefix of the message, so log lines can be matched up to
+// the messages they came from.
+QString
+spoilerDebugTag(const QString &html)
+{
+    QString plain = html;
+    plain.remove(QRegularExpression(QStringLiteral("<[^>]*>")));
+    return plain.simplified().left(48);
+}
+
+// Blur one hidden-spoiler region in place. `itemBoxes` are in item
 // coordinates; `buffer` holds device pixels at `dpr` scale. Heavy downscale +
 // smooth upscale is cheap and leaves text unreadable at any font size, while
 // the smear still hints at the hidden content's shape and colors.
@@ -541,6 +561,31 @@ LitehtmlItem::collectSpoilerRegions()
         // order; an empty region is simply never hit-tested or blurred.
         m_spoilerRegions.append(region);
     }
+    if (spoilerDebugEnabled()) {
+        QString dump;
+        for (int i = 0; i < m_spoilerRegions.size(); ++i) {
+            dump += QStringLiteral(" r%1=").arg(i);
+            if (m_spoilerRegions[i].boxes.isEmpty())
+                dump += QStringLiteral("EMPTY");
+            for (const QRect &b : m_spoilerRegions[i].boxes)
+                dump += QStringLiteral("[%1,%2 %3x%4]")
+                          .arg(b.x())
+                          .arg(b.y())
+                          .arg(b.width())
+                          .arg(b.height());
+        }
+        komai::logging::ui()->warn("[spoiler] collect item={} selected={} regions={} itemW={} "
+                                   "itemH={} padL={} inset={}{} :: {}",
+                                   (void *)this,
+                                   spoilers.size(),
+                                   m_spoilerRegions.size(),
+                                   qRound(width()),
+                                   qRound(height()),
+                                   qRound(m_leftPadding),
+                                   m_topInset,
+                                   dump.toStdString(),
+                                   spoilerDebugTag(m_html).toStdString());
+    }
 }
 
 int
@@ -610,6 +655,33 @@ LitehtmlItem::paint(QPainter *painter)
     // working without further coord translation.
     QElapsedTimer timer;
     timer.start();
+    if (spoilerDebugEnabled() && m_html.contains(QLatin1String("data-mx-spoiler"))) {
+        QString dump;
+        for (int i = 0; i < m_spoilerRegions.size(); ++i) {
+            dump += QStringLiteral(" r%1%2=").arg(i).arg(
+              m_revealedSpoilers.contains(i) ? QStringLiteral("(revealed)") : QString());
+            if (m_spoilerRegions[i].boxes.isEmpty())
+                dump += QStringLiteral("EMPTY");
+            for (const QRect &b : m_spoilerRegions[i].boxes)
+                dump += QStringLiteral("[%1,%2 %3x%4]")
+                          .arg(b.x())
+                          .arg(b.y())
+                          .arg(b.width())
+                          .arg(b.height());
+        }
+        komai::logging::ui()->warn("[spoiler] paint   item={} blurring={} regions={} itemW={} "
+                                   "itemH={} padL={} inset={} dpr={}{} :: {}",
+                                   (void *)this,
+                                   hasHiddenSpoilers(),
+                                   m_spoilerRegions.size(),
+                                   qRound(width()),
+                                   qRound(height()),
+                                   padLeft,
+                                   m_topInset,
+                                   window() ? window()->devicePixelRatio() : -1.0,
+                                   dump.toStdString(),
+                                   spoilerDebugTag(m_html).toStdString());
+    }
     if (!hasHiddenSpoilers()) {
         m_container->setPainter(painter);
         m_container->beginTextRunCollection();

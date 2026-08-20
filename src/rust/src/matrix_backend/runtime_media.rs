@@ -87,7 +87,8 @@ pub async fn send_room_image(
     body: &str,
     filename: &str,
     info_json: &str,
-) -> Result<(), String> {
+    use_send_queue: bool,
+) -> Result<String, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let normalized_mxc_uri = mxc_uri.trim();
     if normalized_mxc_uri.is_empty() {
@@ -139,15 +140,16 @@ pub async fn send_room_image(
         has_caption = !caption.is_empty(),
         filename = effective_filename,
         has_info = !info_json.trim().is_empty(),
-        "Queueing matrix-sdk room image from existing mxc uri"
+        "Sending matrix-sdk room image from existing mxc uri"
     );
 
-    room.send_queue()
-        .send(AnyMessageLikeEventContent::RoomMessage(RoomMessageEventContent::new(
-            MessageType::Image(content),
-        )))
-        .await
-        .map_err(|e| format!("failed to queue matrix-sdk room image: {e}"))?;
-
-    Ok(())
+    super::timeline_messaging::deliver_message_content(
+        &room,
+        AnyMessageLikeEventContent::RoomMessage(RoomMessageEventContent::new(MessageType::Image(
+            content,
+        ))),
+        use_send_queue,
+        "room image",
+    )
+    .await
 }

@@ -15,7 +15,7 @@
 
 namespace komai {
 
-bool
+std::optional<QString>
 MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallContext context,
                                                 uint64_t handleId,
                                                 const QString &roomId,
@@ -33,6 +33,7 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                                                 QString *errorOut)
 {
     try {
+        ::rust::String eventId;
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_attachment",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
@@ -49,10 +50,11 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
            isVoice,
            waveform,
            stripImageMetadata,
-           context]() {
+           context,
+           &eventId]() {
               const auto waveformSlice = ::rust::Slice<const float>(
                 waveform.constData(), static_cast<size_t>(waveform.size()));
-              ::komai::rust::matrix_send_room_attachment(
+              eventId = ::komai::rust::matrix_send_room_attachment(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
@@ -68,11 +70,11 @@ MatrixBackendRuntimeService::sendRoomAttachment(matrix_backend::BlockingCallCont
                 waveformSlice,
                 stripImageMetadata);
           });
-        return true;
+        return QString::fromStdString(std::string(eventId));
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
-        return false;
+        return std::nullopt;
     }
 }
 
@@ -101,7 +103,7 @@ MatrixBackendRuntimeService::uploadMedia(matrix_backend::BlockingCallContext con
     }
 }
 
-bool
+std::optional<QString>
 MatrixBackendRuntimeService::sendRoomImage(matrix_backend::BlockingCallContext context,
                                            uint64_t handleId,
                                            const QString &roomId,
@@ -109,25 +111,28 @@ MatrixBackendRuntimeService::sendRoomImage(matrix_backend::BlockingCallContext c
                                            const QString &body,
                                            const QString &filename,
                                            const QString &infoJson,
+                                           MatrixSendMode sendMode,
                                            QString *errorOut)
 {
     try {
-        invokeRuntimeWorkerCall("matrix_send_room_image",
-                                [context, handleId, roomId, mxcUri, body, filename, infoJson]() {
-                                    ::komai::rust::matrix_send_room_image(
-                                      matrix_backend::toRustBlockingContext(context),
-                                      handleId,
-                                      roomId.toStdString(),
-                                      mxcUri.toStdString(),
-                                      body.toStdString(),
-                                      filename.toStdString(),
-                                      infoJson.toStdString());
-                                });
-        return true;
+        const auto eventId = invokeRuntimeWorkerCall(
+          "matrix_send_room_image",
+          [context, handleId, roomId, mxcUri, body, filename, infoJson, sendMode]() {
+              return ::komai::rust::matrix_send_room_image(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                mxcUri.toStdString(),
+                body.toStdString(),
+                filename.toStdString(),
+                infoJson.toStdString(),
+                sendMode == MatrixSendMode::Queued);
+          });
+        return QString::fromStdString(std::string(eventId));
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
-        return false;
+        return std::nullopt;
     }
 }
 

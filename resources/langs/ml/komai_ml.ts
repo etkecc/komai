@@ -9677,8 +9677,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>സന്ദേശം അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -9728,13 +9728,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>സന്ദേശം റിപ്പോർട്ട് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>സന്ദേശം ഫോർവേഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>ചില സന്ദേശങ്ങൾ ഫോർവേഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു: %1</translation>
     </message>
@@ -9793,7 +9793,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഡൗൺലോഡ് പരാജയപ്പെട്ടു</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>അറ്റാച്ч്മെന്റ് '%1' അയക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
@@ -9840,7 +9840,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഉപയോക്താവ് %1 അവഗണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>ഈ കമാൻഡിന് ഒരു സജീവ മുറി ആവശ്യമാണ്.</translation>
     </message>
@@ -9855,7 +9855,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix സെഷൻ ഇനിയും തയ്യാറായിട്ടില്ല.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>ദൃശ്യമായ ടൈംലൈനിൽ %1 ൽ നിന്ന് സന്ദേശങ്ങൾ കണ്ടെത്തിയില്ല.</translation>
     </message>

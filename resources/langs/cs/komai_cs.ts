@@ -9694,8 +9694,8 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Nepodařilo se odeslat zprávu: %1</translation>
     </message>
@@ -9745,13 +9745,13 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Nepodařilo se nahlásit zprávu: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Nepodařilo se přeposlat zprávu: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Nepodařilo se přeposlat některé zprávy: %1</translation>
     </message>
@@ -9810,7 +9810,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>stažení selhalo</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nepodařilo se odeslat přílohu '%1': %2</translation>
     </message>
@@ -9857,7 +9857,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Nepodařilo se ignorovat uživatele %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Tento příkaz vyžaduje aktivní místnost.</translation>
     </message>
@@ -9872,7 +9872,7 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Relace Matrix ještě není připravena.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Ve viditelné časové ose nebyly nalezeny žádné zprávy od %1.</translation>
     </message>

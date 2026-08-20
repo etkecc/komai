@@ -110,6 +110,21 @@ Structured result fields:
 - `hasMore`
 - `nextBeforeEventId`
 
+### Sending messages
+
+`rooms_send`, `rooms_send_image`, `rooms_send_image_file` and `rooms_set_state` all return the
+`eventId` of the event they created. That is the real Matrix event ID, so a caller that posts a
+bot command can match the reply to its own message instead of guessing by recency.
+
+Getting it means automation sends go straight to the homeserver rather than through the offline
+send queue the app itself uses. Two consequences worth knowing:
+
+- A send that fails comes back as an error rather than being retried in the background. For a
+  caller waiting on a result that is the useful behavior, but it does mean automation sends are
+  not queued while you are offline.
+- The message appears in the Komai window when sync returns it, rather than immediately as a
+  local echo.
+
 ### `rooms_list`
 
 Lists joined rooms. Every argument is optional, and filters combine with AND.

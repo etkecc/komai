@@ -106,9 +106,11 @@ TimelineViewManager::sendActiveMatrixTextMessage(const QString &body, const QStr
                                                                     plainBody,
                                                                     useMarkdownFormatting,
                                                                     QStringLiteral("text"),
+                                                                    komai::MatrixSendMode::Queued,
                                                                     mentionUserIds,
                                                                     mentionsRoom,
                                                                     &error)
+                  .has_value()
               : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                          handleId,
                                                                          roomId,

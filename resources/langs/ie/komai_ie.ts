@@ -9677,8 +9677,8 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Insuccesse enviar mesage: %1</translation>
     </message>
@@ -9728,13 +9728,13 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse reportar mesage: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Insuccesse transmisser mesage: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Insuccesse transmisser alqui mesages: %1</translation>
     </message>
@@ -9793,7 +9793,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>descargament faliat</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Insuccesse enviar annexe '%1': %2</translation>
     </message>
@@ -9840,7 +9840,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse ignorar usator %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Ti comande necessita un chambre active.</translation>
     </message>
@@ -9855,7 +9855,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Li session Matrix ne es ancor parat.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nul mesage trovat de %1 in li visible timeline.</translation>
     </message>

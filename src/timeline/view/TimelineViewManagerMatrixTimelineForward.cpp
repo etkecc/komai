@@ -77,9 +77,11 @@ TimelineViewManager::forwardActiveMatrixTimelineEvent(const QString &eventId,
                                                                     body,
                                                                     useMarkdownFormatting,
                                                                     normalizedKind,
+                                                                    komai::MatrixSendMode::Queued,
                                                                     QString(),
                                                                     false,
-                                                                    &error);
+                                                                    &error)
+                  .has_value();
               return MatrixTimelineEventActionResult{
                 .handleId = handleId,
                 .roomId   = sourceRoomId,
@@ -253,15 +255,18 @@ TimelineViewManager::forwardActiveMatrixTimelineEvents(const QStringList &eventI
                       ? QStringLiteral("notice")
                       : (entry.itemKind == QStringLiteral("emote") ? QStringLiteral("emote")
                                                                    : QStringLiteral("text"));
-                  ok = komai::MatrixBackendRuntimeService::sendRoomMessage(context,
-                                                                           handleId,
-                                                                           trimmedTargetRoomId,
-                                                                           entry.body,
-                                                                           useMarkdownFormatting,
-                                                                           normalizedKind,
-                                                                           QString(),
-                                                                           false,
-                                                                           &error);
+                  ok = komai::MatrixBackendRuntimeService::sendRoomMessage(
+                         context,
+                         handleId,
+                         trimmedTargetRoomId,
+                         entry.body,
+                         useMarkdownFormatting,
+                         normalizedKind,
+                         komai::MatrixSendMode::Queued,
+                         QString(),
+                         false,
+                         &error)
+                         .has_value();
               } else {
                   auto content =
                     komai::MatrixBackendRuntimeService::fetchActiveRoomEventContentForForwarding(

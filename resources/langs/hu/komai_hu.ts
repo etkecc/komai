@@ -9660,8 +9660,8 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Nem sikerült elküldeni az üzenetet: %1</translation>
     </message>
@@ -9711,13 +9711,13 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Nem sikerült bejelenteni az üzenetet: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Nem sikerült továbbítani az üzenetet: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Nem sikerült továbbítani néhány üzenetet: %1</translation>
     </message>
@@ -9776,7 +9776,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>letöltés sikertelen</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nem sikerült elküldeni a(z) '%1' mellékletet: %2</translation>
     </message>
@@ -9823,7 +9823,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>Nem sikerült figyelmen kívül hagyni a(z) %1 felhasználót: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Ez a parancs aktív szobát igényel.</translation>
     </message>
@@ -9838,7 +9838,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>A Matrix munkamenet még nem áll készen.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nem található üzenet %1-tól a látható idővonalban.</translation>
     </message>

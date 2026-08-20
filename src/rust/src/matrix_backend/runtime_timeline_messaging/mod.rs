@@ -34,6 +34,7 @@ mod echo;
 mod mutations;
 mod read;
 mod send;
+pub(super) use send::deliver_message_content;
 
 pub use echo::{cancel_local_echo, retry_local_echo};
 pub use mutations::{redact_room_event, report_room_event, toggle_room_reaction};

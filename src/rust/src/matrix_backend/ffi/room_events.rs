@@ -16,7 +16,8 @@ pub(crate) fn matrix_send_room_message(
     message_kind: &str,
     mention_user_ids: &str,
     mentions_room: bool,
-) -> Result<(), String> {
+    use_send_queue: bool,
+) -> Result<String, String> {
     ffi_block_on(
         context,
         "matrix_send_room_message",
@@ -28,6 +29,7 @@ pub(crate) fn matrix_send_room_message(
             message_kind,
             mention_user_ids,
             mentions_room,
+            use_send_queue,
         ),
     )
 }
@@ -557,7 +559,7 @@ pub(crate) fn matrix_send_room_attachment(
     is_voice: bool,
     waveform: &[f32],
     strip_image_metadata: bool,
-) -> Result<(), String> {
+) -> Result<String, String> {
     ffi_block_on(
         context,
         "matrix_send_room_attachment",
@@ -601,12 +603,19 @@ pub(crate) fn matrix_send_room_image(
     body: &str,
     filename: &str,
     info_json: &str,
-) -> Result<(), String> {
+    use_send_queue: bool,
+) -> Result<String, String> {
     ffi_block_on(
         context,
         "matrix_send_room_image",
         matrix_backend::runtime::send_room_image(
-            handle_id, room_id, mxc_uri, body, filename, info_json,
+            handle_id,
+            room_id,
+            mxc_uri,
+            body,
+            filename,
+            info_json,
+            use_send_queue,
         ),
     )
 }

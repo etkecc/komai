@@ -9677,8 +9677,8 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Fehler beim Senden der Nachricht: %1</translation>
     </message>
@@ -9728,13 +9728,13 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Fehler beim Melden der Nachricht: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Fehler beim Weiterleiten der Nachricht: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Fehler beim Weiterleiten einiger Nachrichten: %1</translation>
     </message>
@@ -9793,7 +9793,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Download fehlgeschlagen</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Fehler beim Senden des Anhangs '%1': %2</translation>
     </message>
@@ -9840,7 +9840,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Fehler beim Ignorieren von Nutzer %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Dieser Befehl benötigt einen aktiven Raum.</translation>
     </message>
@@ -9855,7 +9855,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Die Matrix-Sitzung ist noch nicht bereit.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Keine Nachrichten von %1 in der sichtbaren Zeitleiste gefunden.</translation>
     </message>

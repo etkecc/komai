@@ -265,15 +265,18 @@ TimelineViewManager::executeActiveMatrixSlashCommand(const QString &text,
               QString error;
               const bool ok =
                 effectiveReplyEventId.isEmpty()
-                  ? komai::MatrixBackendRuntimeService::sendRoomMessage(context,
-                                                                        handleId,
-                                                                        roomId,
-                                                                        plainBody,
-                                                                        useMarkdownFormatting,
-                                                                        messageKind,
-                                                                        mentionUserIds,
-                                                                        mentionsRoom,
-                                                                        &error)
+                  ? komai::MatrixBackendRuntimeService::sendRoomMessage(
+                      context,
+                      handleId,
+                      roomId,
+                      plainBody,
+                      useMarkdownFormatting,
+                      messageKind,
+                      komai::MatrixSendMode::Queued,
+                      mentionUserIds,
+                      mentionsRoom,
+                      &error)
+                      .has_value()
                   : komai::MatrixBackendRuntimeService::sendRoomReplyMessage(context,
                                                                              handleId,
                                                                              roomId,

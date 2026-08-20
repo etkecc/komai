@@ -9660,8 +9660,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>ارسال پیام ناموفق بود: %1</translation>
     </message>
@@ -9711,13 +9711,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>گزارش پیام ناموفق بود: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>بازارسال پیام ناموفق بود: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>بازارسال برخی پیام‌ها ناموفق بود: %1</translation>
     </message>
@@ -9776,7 +9776,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>دانلود ناموفق بود</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>ارسال پیوست '%1' ناموفق بود: %2</translation>
     </message>
@@ -9823,7 +9823,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>نادیده گرفتن کاربر %1 ناموفق بود: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>این دستور به یک اتاق فعال نیاز دارد.</translation>
     </message>
@@ -9838,7 +9838,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>نشست Matrix هنوز آماده نیست.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>هیچ پیامی از %1 در خط زمانی نمایش‌داده‌شده یافت نشد.</translation>
     </message>

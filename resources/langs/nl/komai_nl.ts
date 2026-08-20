@@ -9677,8 +9677,8 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Bericht verzenden mislukt: %1</translation>
     </message>
@@ -9728,13 +9728,13 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Bericht rapporteren mislukt: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Bericht doorsturen mislukt: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Sommige berichten doorsturen mislukt: %1</translation>
     </message>
@@ -9793,7 +9793,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>download mislukt</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Bijlage '%1' verzenden mislukt: %2</translation>
     </message>
@@ -9840,7 +9840,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Gebruiker %1 negeren mislukt: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Dit commando vereist een actieve kamer.</translation>
     </message>
@@ -9855,7 +9855,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>De Matrix-sessie is nog niet gereed.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Geen berichten gevonden van %1 in de zichtbare tijdlijn.</translation>
     </message>

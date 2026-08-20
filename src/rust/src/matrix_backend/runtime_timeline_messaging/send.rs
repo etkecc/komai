@@ -42,6 +42,35 @@ pub(super) fn build_mentions(mention_user_ids: &str, mentions_room: bool) -> Opt
     Some(mentions)
 }
 
+/// Delivers message-like content either through the offline send queue or as a
+/// direct request.
+///
+/// The queue is right for the UI: it survives a restart, retries, and shows a
+/// local echo. It cannot report an event ID, though, because there is no event
+/// yet. Automation callers need the ID to correlate what they sent with what
+/// comes back, and would rather learn immediately that a send failed than have
+/// it retried later, so they send directly.
+pub async fn deliver_message_content(
+    room: &matrix_sdk::Room,
+    content: AnyMessageLikeEventContent,
+    use_send_queue: bool,
+    what: &str,
+) -> Result<String, String> {
+    if use_send_queue {
+        room.send_queue()
+            .send(content)
+            .await
+            .map_err(|e| format!("failed to queue matrix-sdk {what}: {e}"))?;
+        // Queued, so there is no event ID to report yet.
+        return Ok(String::new());
+    }
+
+    room.send(content)
+        .await
+        .map(|sent| sent.response.event_id.to_string())
+        .map_err(|e| format!("failed to send matrix-sdk {what}: {e}"))
+}
+
 pub(super) fn encryption_state_tag(room: &matrix_sdk::Room) -> &'static str {
     use matrix_sdk_base::EncryptionState;
     match room.encryption_state() {
@@ -288,7 +317,8 @@ pub async fn send_room_message(
     message_kind: &str,
     mention_user_ids: &str,
     mentions_room: bool,
-) -> Result<(), String> {
+    use_send_queue: bool,
+) -> Result<String, String> {
     let client = client_for_handle(handle_id)?;
     let room_id = room_id.trim();
     if room_id.is_empty() {
@@ -326,23 +356,22 @@ pub async fn send_room_message(
         message_kind,
         has_formatted_html,
         has_mentions,
+        use_send_queue,
         encryption_state = encryption_state_tag(&room),
-        "Queueing matrix-sdk room message"
+        "Sending matrix-sdk room message"
     );
 
-    room.send_queue()
-        .send(content)
-        .await
-        .map_err(|e| format!("failed to queue matrix-sdk room message: {e}"))?;
+    let event_id = deliver_message_content(&room, content, use_send_queue, "room message").await?;
 
     tracing::debug!(
         handle_id,
         room_id,
         message_kind,
-        "Queued matrix-sdk room message"
+        has_event_id = !event_id.is_empty(),
+        "Sent matrix-sdk room message"
     );
 
-    Ok(())
+    Ok(event_id)
 }
 
 pub async fn send_room_reply_message(
@@ -547,7 +576,7 @@ pub async fn send_room_attachment(
     is_voice: bool,
     waveform: &[f32],
     strip_image_metadata: bool,
-) -> Result<(), String> {
+) -> Result<String, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let file_path = file_path.trim();
     if file_path.is_empty() {
@@ -640,9 +669,11 @@ pub async fn send_room_attachment(
         "Sending matrix-sdk room attachment"
     );
 
+    // Attachments never went through the send queue, so the event ID was
+    // always available here -- it was simply discarded.
     room.send_attachment(filename, &mime, data, config)
         .await
-        .map(|_| ())
+        .map(|response| response.event_id.to_string())
         .map_err(|e| format!("failed to send matrix-sdk room attachment: {e}"))
 }
 

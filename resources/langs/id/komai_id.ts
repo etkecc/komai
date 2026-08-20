@@ -9660,8 +9660,8 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Gagal mengirim pesan: %1</translation>
     </message>
@@ -9711,13 +9711,13 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal melaporkan pesan: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Gagal meneruskan pesan: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Gagal meneruskan beberapa pesan: %1</translation>
     </message>
@@ -9776,7 +9776,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>unduhan gagal</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Gagal mengirim lampiran '%1': %2</translation>
     </message>
@@ -9823,7 +9823,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal mengabaikan pengguna %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Perintah ini membutuhkan ruangan yang aktif.</translation>
     </message>
@@ -9838,7 +9838,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Sesi Matrix belum siap.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Tidak ada pesan dari %1 di linimasa yang terlihat.</translation>
     </message>

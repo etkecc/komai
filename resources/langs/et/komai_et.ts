@@ -9677,8 +9677,8 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Sõnumi saatmine ebaõnnestus: %1</translation>
     </message>
@@ -9728,13 +9728,13 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Sõnumist teatamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Sõnumi edasisaatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Mõnede sõnumite edasisaatmine ebaõnnestus: %1</translation>
     </message>
@@ -9793,7 +9793,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>allalaadimine ebaõnnestus</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Manuse '%1' saatmine ebaõnnestus: %2</translation>
     </message>
@@ -9840,7 +9840,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Kasutaja %1 ignoreerimine ebaõnnestus: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>See käsk vajab aktiivset jututuba.</translation>
     </message>
@@ -9855,7 +9855,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Matrixi seanss ei ole veel valmis.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Nähtavas ajaskalas ei leitud sõnumeid kasutajalt %1.</translation>
     </message>

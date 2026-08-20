@@ -1942,7 +1942,8 @@ rooms_set_state for power levels.",
     ToolDefinition {
         name: "rooms_send",
         title: "Send Room Message",
-        description: "Send a text or notice message to a room through the running Komai profile.",
+        description: "Send a text or notice message to a room through the running Komai profile. \
+Returns the real event ID, so a reply can be matched to the message that prompted it.",
         access: ToolAccess::Write,
         destructive: false,
         idempotent: false,

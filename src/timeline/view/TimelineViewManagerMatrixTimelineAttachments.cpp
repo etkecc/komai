@@ -524,7 +524,8 @@ TimelineViewManager::startNextPendingMatrixAttachment()
                                                                  attachment.isVoice,
                                                                  attachment.waveform,
                                                                  stripImageMetadata,
-                                                                 &error);
+                                                                 &error)
+            .has_value();
 
         QMetaObject::invokeMethod(
           this,

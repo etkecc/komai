@@ -582,15 +582,18 @@ public:
                                  const QString &roomId,
                                  bool typing,
                                  QString *errorOut = nullptr);
-    static bool sendRoomMessage(matrix_backend::BlockingCallContext context,
-                                uint64_t handleId,
-                                const QString &roomId,
-                                const QString &body,
-                                bool useMarkdownFormatting,
-                                const QString &messageKind,
-                                const QString &mentionUserIds = QString(),
-                                bool mentionsRoom             = false,
-                                QString *errorOut             = nullptr);
+    /// Returns the sent event's ID, which is empty when `sendMode` is Queued
+    /// because no event exists yet. std::nullopt means the send failed.
+    static std::optional<QString> sendRoomMessage(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
+                                                  const QString &roomId,
+                                                  const QString &body,
+                                                  bool useMarkdownFormatting,
+                                                  const QString &messageKind,
+                                                  MatrixSendMode sendMode,
+                                                  const QString &mentionUserIds = QString(),
+                                                  bool mentionsRoom             = false,
+                                                  QString *errorOut             = nullptr);
     static bool sendRoomMessageLikeEventJson(matrix_backend::BlockingCallContext context,
                                              uint64_t handleId,
                                              const QString &roomId,
@@ -825,21 +828,23 @@ public:
                           const QString &eventId,
                           QString *errorOut = nullptr);
 
-    static bool sendRoomAttachment(matrix_backend::BlockingCallContext context,
-                                   uint64_t handleId,
-                                   const QString &roomId,
-                                   const QString &filePath,
-                                   const QString &filename,
-                                   const QString &caption,
-                                   bool useMarkdownFormatting,
-                                   const QString &replyEventId,
-                                   const QString &threadId,
-                                   const QString &mimeType,
-                                   uint64_t durationMs          = 0,
-                                   bool isVoice                 = false,
-                                   const QList<float> &waveform = {},
-                                   bool stripImageMetadata      = true,
-                                   QString *errorOut            = nullptr);
+    /// Returns the sent event's ID. Attachments are always sent directly, so
+    /// the ID is always real. std::nullopt means the send failed.
+    static std::optional<QString> sendRoomAttachment(matrix_backend::BlockingCallContext context,
+                                                     uint64_t handleId,
+                                                     const QString &roomId,
+                                                     const QString &filePath,
+                                                     const QString &filename,
+                                                     const QString &caption,
+                                                     bool useMarkdownFormatting,
+                                                     const QString &replyEventId,
+                                                     const QString &threadId,
+                                                     const QString &mimeType,
+                                                     uint64_t durationMs          = 0,
+                                                     bool isVoice                 = false,
+                                                     const QList<float> &waveform = {},
+                                                     bool stripImageMetadata      = true,
+                                                     QString *errorOut            = nullptr);
 
     static std::optional<QString> uploadMedia(matrix_backend::BlockingCallContext context,
                                               uint64_t handleId,
@@ -848,14 +853,17 @@ public:
                                               bool stripImageMetadata = true,
                                               QString *errorOut       = nullptr);
 
-    static bool sendRoomImage(matrix_backend::BlockingCallContext context,
-                              uint64_t handleId,
-                              const QString &roomId,
-                              const QString &mxcUri,
-                              const QString &body,
-                              const QString &filename,
-                              const QString &infoJson,
-                              QString *errorOut = nullptr);
+    /// Returns the sent event's ID, empty when `sendMode` is Queued.
+    /// std::nullopt means the send failed.
+    static std::optional<QString> sendRoomImage(matrix_backend::BlockingCallContext context,
+                                                uint64_t handleId,
+                                                const QString &roomId,
+                                                const QString &mxcUri,
+                                                const QString &body,
+                                                const QString &filename,
+                                                const QString &infoJson,
+                                                MatrixSendMode sendMode,
+                                                QString *errorOut = nullptr);
 
     static std::optional<QByteArray>
     fetchActiveRoomTimelineMediaContent(matrix_backend::BlockingCallContext context,

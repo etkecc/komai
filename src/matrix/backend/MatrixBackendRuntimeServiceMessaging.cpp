@@ -38,18 +38,20 @@ MatrixBackendRuntimeService::sendTypingNotice(matrix_backend::BlockingCallContex
     }
 }
 
-bool
+std::optional<QString>
 MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext context,
                                              uint64_t handleId,
                                              const QString &roomId,
                                              const QString &body,
                                              bool useMarkdownFormatting,
                                              const QString &messageKind,
+                                             MatrixSendMode sendMode,
                                              const QString &mentionUserIds,
                                              bool mentionsRoom,
                                              QString *errorOut)
 {
     try {
+        ::rust::String eventId;
         matrix_backend::invokeBlockingCall(
           "matrix_send_room_message",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
@@ -60,8 +62,10 @@ MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext
            messageKind,
            mentionUserIds,
            mentionsRoom,
-           context]() {
-              ::komai::rust::matrix_send_room_message(
+           sendMode,
+           context,
+           &eventId]() {
+              eventId = ::komai::rust::matrix_send_room_message(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
@@ -69,13 +73,14 @@ MatrixBackendRuntimeService::sendRoomMessage(matrix_backend::BlockingCallContext
                 useMarkdownFormatting,
                 messageKind.toStdString(),
                 mentionUserIds.toStdString(),
-                mentionsRoom);
+                mentionsRoom,
+                sendMode == MatrixSendMode::Queued);
           });
-        return true;
+        return QString::fromStdString(std::string(eventId));
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
-        return false;
+        return std::nullopt;
     }
 }
 

@@ -9660,8 +9660,8 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Không thể gửi tin nhắn: %1</translation>
     </message>
@@ -9711,13 +9711,13 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể báo cáo tin nhắn: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Không thể chuyển tiếp tin nhắn: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Không thể chuyển tiếp một số tin nhắn: %1</translation>
     </message>
@@ -9776,7 +9776,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>tải xuống thất bại</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Không thể gửi tệp đính kèm '%1': %2</translation>
     </message>
@@ -9823,7 +9823,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể bỏ qua người dùng %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Lệnh này cần một phòng đang hoạt động.</translation>
     </message>
@@ -9838,7 +9838,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Phiên Matrix chưa sẵn sàng.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Không tìm thấy tin nhắn nào từ %1 trong dòng thời gian hiển thị.</translation>
     </message>

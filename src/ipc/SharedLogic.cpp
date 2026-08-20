@@ -846,17 +846,22 @@ sendMessage(const QString &roomIdOrAlias,
       [handleId = *handleId, roomId, trimmedBody, useMarkdownFormatting, messageKind]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
-          if (QString error;
-              komai::MatrixBackendRuntimeService::sendRoomMessage(context,
-                                                                  handleId,
-                                                                  roomId,
-                                                                  trimmedBody,
-                                                                  useMarkdownFormatting,
-                                                                  messageKind,
-                                                                  QString(),
-                                                                  false,
-                                                                  &error)) {
-              result.eventId = QStringLiteral("queued");
+          QString error;
+          // Automation callers need the real event ID to correlate a send with
+          // what comes back, so they bypass the offline send queue.
+          const auto eventId =
+            komai::MatrixBackendRuntimeService::sendRoomMessage(context,
+                                                                handleId,
+                                                                roomId,
+                                                                trimmedBody,
+                                                                useMarkdownFormatting,
+                                                                messageKind,
+                                                                MatrixSendMode::Direct,
+                                                                QString(),
+                                                                false,
+                                                                &error);
+          if (eventId.has_value()) {
+              result.eventId = *eventId;
           } else {
               result.error =
                 error.isEmpty() ? QStringLiteral("failed to send matrix-sdk room message") : error;
@@ -1527,7 +1532,7 @@ sendImageFromFile(const QString &roomIdOrAlias,
           // IPC callers ship their own bodies verbatim; don't reinterpret
           // them as Markdown.
           const bool useMarkdownFormatting = false;
-          const bool ok =
+          const auto eventId =
             komai::MatrixBackendRuntimeService::sendRoomAttachment(context,
                                                                    handleId,
                                                                    roomId,
@@ -1543,8 +1548,8 @@ sendImageFromFile(const QString &roomIdOrAlias,
                                                                    {},
                                                                    stripImageMetadata,
                                                                    &error);
-          if (ok) {
-              result.eventId = QStringLiteral("queued");
+          if (eventId.has_value()) {
+              result.eventId = *eventId;
           } else {
               result.error = error.isEmpty()
                                ? QStringLiteral("failed to send matrix-sdk room image attachment")
@@ -1598,16 +1603,18 @@ sendImage(const QString &roomIdOrAlias,
           const auto context = komai::matrix_backend::blockingCallContext();
           AsyncSendResult result;
           QString error;
-          const bool ok = komai::MatrixBackendRuntimeService::sendRoomImage(context,
-                                                                            handleId,
-                                                                            roomId,
-                                                                            normalizedMxcUri,
-                                                                            trimmedBody,
-                                                                            trimmedFilename,
-                                                                            infoJson,
-                                                                            &error);
-          if (ok) {
-              result.eventId = QStringLiteral("queued");
+          const auto eventId =
+            komai::MatrixBackendRuntimeService::sendRoomImage(context,
+                                                              handleId,
+                                                              roomId,
+                                                              normalizedMxcUri,
+                                                              trimmedBody,
+                                                              trimmedFilename,
+                                                              infoJson,
+                                                              MatrixSendMode::Direct,
+                                                              &error);
+          if (eventId.has_value()) {
+              result.eventId = *eventId;
           } else {
               result.error =
                 error.isEmpty() ? QStringLiteral("failed to send matrix-sdk room image") : error;

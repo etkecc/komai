@@ -247,6 +247,23 @@ struct MatrixRoomSettings
     bool canUpgradeRoom             = false;
 };
 
+/// How a message-like send reaches the homeserver.
+///
+/// `Queued` goes through matrix-sdk's offline send queue: it survives a
+/// restart, retries by itself, and produces a local echo, but it cannot report
+/// an event ID because no event exists yet. `Direct` issues the request now
+/// and yields the real event ID, which is what an automation caller needs to
+/// correlate a send with what comes back -- and it surfaces a failure to that
+/// caller instead of retrying behind its back.
+///
+/// This is an enum rather than a bool so that a call site which forgets it
+/// fails to compile, instead of silently binding some other argument.
+enum class MatrixSendMode
+{
+    Queued,
+    Direct,
+};
+
 struct MatrixRoomStateEventResult
 {
     /// False when the room simply has no such state event.

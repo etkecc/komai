@@ -9694,8 +9694,8 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>Nu s-a putut trimite mesajul: %1</translation>
     </message>
@@ -9745,13 +9745,13 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut raporta mesajul: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>Nu s-a putut transmite mesajul: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>Nu s-au putut transmite unele mesaje: %1</translation>
     </message>
@@ -9810,7 +9810,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>descărcare eșuată</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>Nu s-a putut trimite atașamentul '%1': %2</translation>
     </message>
@@ -9857,7 +9857,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut ignora utilizatorul %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Această comandă necesită o cameră activă.</translation>
     </message>
@@ -9872,7 +9872,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Sesiunea Matrix nu este încă pregătită.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>Niciun mesaj de la %1 în cronologia vizibilă.</translation>
     </message>

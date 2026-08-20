@@ -9680,8 +9680,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>No se ha podido enviar el mensaje: %1</translation>
     </message>
@@ -9731,13 +9731,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>No se ha podido denunciar el mensaje: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>No se ha podido reenviar el mensaje: %1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>No se han podido reenviar algunos mensajes: %1</translation>
     </message>
@@ -9796,7 +9796,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>descarga fallida</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>No se ha podido enviar el adjunto '%1': %2</translation>
     </message>
@@ -9843,7 +9843,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>No se ha podido ignorar al usuario %1: %2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>Este comando necesita una sala activa.</translation>
     </message>
@@ -9858,7 +9858,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>La sesión de Matrix aún no está lista.</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>No se han encontrado mensajes de %1 en la línea de tiempo visible.</translation>
     </message>

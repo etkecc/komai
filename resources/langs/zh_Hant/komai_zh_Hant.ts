@@ -9660,8 +9660,8 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TimelineViewManager</name>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+147"/>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+313"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineCompose.cpp" line="+149"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="+316"/>
         <source>Failed to send message: %1</source>
         <translation>傳送訊息失敗：%1</translation>
     </message>
@@ -9711,13 +9711,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>回報訊息失敗：%1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+109"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineForward.cpp" line="+111"/>
         <location line="+64"/>
         <source>Failed to forward message: %1</source>
         <translation>轉寄訊息失敗：%1</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+140"/>
         <source>Failed to forward some messages: %1</source>
         <translation>轉寄部分訊息失敗：%1</translation>
     </message>
@@ -9776,7 +9776,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>下載失敗</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+111"/>
         <source>Failed to send attachment '%1': %2</source>
         <translation>傳送附件「%1」失敗：%2</translation>
     </message>
@@ -9823,7 +9823,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>忽略使用者%1失敗：%2</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-102"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerSlashCommands.cpp" line="-105"/>
         <source>This command needs an active room.</source>
         <translation>此指令需要一個活躍的聊天室。</translation>
     </message>
@@ -9838,7 +9838,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Matrix 工作階段尚未就緒。</translation>
     </message>
     <message>
-        <location line="+192"/>
+        <location line="+195"/>
         <source>No messages found from %1 in the visible timeline.</source>
         <translation>在可見的時間軸中未找到來自 %1 的訊息。</translation>
     </message>

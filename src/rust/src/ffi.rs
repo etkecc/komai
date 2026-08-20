@@ -2378,7 +2378,8 @@ mod bridge {
             message_kind: &str,
             mention_user_ids: &str,
             mentions_room: bool,
-        ) -> Result<()>;
+            use_send_queue: bool,
+        ) -> Result<String>;
         fn matrix_send_room_message_like_event_json(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -2610,7 +2611,7 @@ mod bridge {
             is_voice: bool,
             waveform: &[f32],
             strip_image_metadata: bool,
-        ) -> Result<()>;
+        ) -> Result<String>;
         fn matrix_upload_media(
             context: MatrixFfiBlockingContext,
             handle_id: u64,
@@ -2626,7 +2627,8 @@ mod bridge {
             body: &str,
             filename: &str,
             info_json: &str,
-        ) -> Result<()>;
+            use_send_queue: bool,
+        ) -> Result<String>;
         fn matrix_discover_login_flows(
             context: MatrixFfiBlockingContext,
             server_name_or_url: &str,

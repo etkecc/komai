@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026.08.20.0
+
+- ✨ Feature: spoilers reveal on click; while hidden they are blurred instead of covered by a solid block ([bd0a205d0](https://github.com/etkecc/komai/commit/bd0a205d0), [d5a5fde48](https://github.com/etkecc/komai/commit/d5a5fde48), [5f8ded33c](https://github.com/etkecc/komai/commit/5f8ded33c), [55df16d95](https://github.com/etkecc/komai/commit/55df16d95)).
+- 📦 Calls: the bundled Element Call is updated to v0.24.0 ([12046ea71](https://github.com/etkecc/komai/commit/12046ea71), [aa183a56d](https://github.com/etkecc/komai/commit/aa183a56d), [0489ff418](https://github.com/etkecc/komai/commit/0489ff418), [71cb2e54a](https://github.com/etkecc/komai/commit/71cb2e54a)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.337 ([edb6f893d](https://github.com/etkecc/komai/commit/edb6f893d), [69015bc14](https://github.com/etkecc/komai/commit/69015bc14)).
+- 🔧 Build: Rust dependencies are updated ([bc9934654](https://github.com/etkecc/komai/commit/bc9934654), [d9a599197](https://github.com/etkecc/komai/commit/d9a599197)).
+
 ## 2026.08.10.0
 
 - ✨ Feature: [📤 Chat export](https://github.com/etkecc/komai/blob/70392503e/docs/user-guide/features/chat-export.md): save a room's entire message history to plain text, HTML, or JSON Lines, from the new Export tab in Room Info ([3af9e502a](https://github.com/etkecc/komai/commit/3af9e502a)).

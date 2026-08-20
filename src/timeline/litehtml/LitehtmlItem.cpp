@@ -81,13 +81,25 @@ blurSpoilerRegion(QImage &buffer, const QVector<QRect> &itemBoxes, qreal dpr)
 
     QImage patch = buffer.copy(r);
     patch.setDevicePixelRatio(1.0);
+    // Scaled by the device ratio so the blur is as strong on a HiDPI screen as
+    // on a 1x one. The patch is in device pixels, so a fixed divisor would
+    // leave proportionally more detail the denser the display, and at 2x the
+    // glyph shapes were still legible through it.
     constexpr int kBlurFactor = 8;
-    const QSize small(qMax(1, patch.width() / kBlurFactor), qMax(1, patch.height() / kBlurFactor));
+    const int factor          = qMax(1, qRound(kBlurFactor * dpr));
+    const QSize small(qMax(1, patch.width() / factor), qMax(1, patch.height() / factor));
     const QImage blurred = patch.scaled(small, Qt::IgnoreAspectRatio, Qt::SmoothTransformation)
                              .scaled(patch.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
+    // Everything below is in device pixels. `resetTransform()` is not enough to
+    // get there: it clears the world transform, but not the scale QPainter
+    // derives from the paint device's devicePixelRatio, which would apply the
+    // ratio a second time and push the blur off its text. Drop the ratio for
+    // the duration of the composite instead, then restore it so the image still
+    // draws at its device-independent size.
+    const qreal bufferDpr = buffer.devicePixelRatio();
+    buffer.setDevicePixelRatio(1.0);
     QPainter p(&buffer);
-    p.resetTransform(); // operate in device pixels regardless of buffer DPR
     p.setRenderHint(QPainter::Antialiasing, true);
     // Clip to the region first so the clear and the repaint cover exactly the
     // same pixels. Clearing a larger area than gets repainted is what punched
@@ -105,6 +117,8 @@ blurSpoilerRegion(QImage &buffer, const QVector<QRect> &itemBoxes, qreal dpr)
     p.fillRect(r, Qt::black);
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
     p.drawImage(r.topLeft(), blurred);
+    p.end();
+    buffer.setDevicePixelRatio(bufferDpr);
 }
 } // namespace
 

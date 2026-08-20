@@ -1378,6 +1378,208 @@ setUserPowerLevel(const QString &roomIdOrAlias,
       });
 }
 
+// -- rooms (moderation and read state) --
+
+QJsonObject
+ReadReceipt::toJson() const
+{
+    return {
+      {QStringLiteral("userId"), userId},
+      {QStringLiteral("displayName"), displayName},
+      {QStringLiteral("timestampMs"), static_cast<qint64>(timestampMs)},
+    };
+}
+
+void
+redactEvent(const QString &roomIdOrAlias,
+            const QString &eventId,
+            const QString &reason,
+            SendMessageCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("eventId must not be empty"));
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback({}, QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    runIpcTask(
+      [handleId = *handleId, roomId, trimmedEventId, trimmedReason = reason.trimmed()]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          AsyncSendResult result;
+          QString error;
+          const auto redactionId = komai::MatrixBackendRuntimeService::redactRoomEvent(
+            context, handleId, roomId, trimmedEventId, trimmedReason, &error);
+          if (redactionId.has_value())
+              result.eventId = *redactionId;
+          else
+              result.error = error.isEmpty() ? QStringLiteral("failed to redact event") : error;
+
+          return result;
+      },
+      [callback = std::move(callback)](AsyncSendResult result) mutable {
+          if (callback)
+              callback(result.eventId, result.error);
+      });
+}
+
+void
+markRoomRead(const QString &roomIdOrAlias,
+             const QString &eventId,
+             const std::optional<bool> publicReceipt,
+             RoomActionCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback(QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback(QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    // Default to whatever the user chose for this room, so automation does not
+    // broadcast a receipt the app itself would have sent privately.
+    const bool effectivePublicReceipt =
+      publicReceipt.value_or(UserSettings::instance()->resolvedTimelineReadReceiptsEnabled(roomId));
+
+    runIpcTask(
+      [handleId = *handleId, roomId, trimmedEventId = eventId.trimmed(), effectivePublicReceipt]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          const bool ok =
+            trimmedEventId.isEmpty()
+              ? komai::MatrixBackendRuntimeService::markRoomAsRead(
+                  context, handleId, roomId, effectivePublicReceipt, &error)
+              : komai::MatrixBackendRuntimeService::markRoomEventAsRead(
+                  context, handleId, roomId, trimmedEventId, effectivePublicReceipt, &error);
+          if (ok)
+              return QString{};
+
+          return error.isEmpty() ? QStringLiteral("failed to mark the room read") : error;
+      },
+      [callback = std::move(callback)](QString error) mutable {
+          if (callback)
+              callback(error);
+      });
+}
+
+void
+markRoomUnread(const QString &roomIdOrAlias, const bool unread, RoomActionCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback(QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback(QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    runIpcTask(
+      [handleId = *handleId, roomId, unread]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          QString error;
+          if (komai::MatrixBackendRuntimeService::markRoomUnread(
+                context, handleId, roomId, unread, &error)) {
+              return QString{};
+          }
+
+          return error.isEmpty() ? QStringLiteral("failed to set the unread flag") : error;
+      },
+      [callback = std::move(callback)](QString error) mutable {
+          if (callback)
+              callback(error);
+      });
+}
+
+namespace {
+
+struct AsyncReadReceiptsResult
+{
+    QVector<komai::ipc::ReadReceipt> receipts;
+    QString error;
+};
+
+} // namespace
+
+void
+readReceipts(const QString &roomIdOrAlias, const QString &eventId, ReadReceiptsCallback callback)
+{
+    const auto roomId = resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto trimmedEventId = eventId.trimmed();
+    if (trimmedEventId.isEmpty()) {
+        if (callback)
+            callback({}, QStringLiteral("eventId must not be empty"));
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback({}, QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    runIpcTask(
+      [handleId = *handleId, roomId, trimmedEventId]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          AsyncReadReceiptsResult async;
+          QString error;
+          const auto fetched = komai::MatrixBackendRuntimeService::fetchRoomReadReceipts(
+            context, handleId, roomId, trimmedEventId, &error);
+          if (!fetched.has_value()) {
+              async.error = error.isEmpty() ? QStringLiteral("failed to read receipts") : error;
+              return async;
+          }
+
+          async.receipts.reserve(fetched->size());
+          for (const auto &entry : *fetched) {
+              async.receipts.push_back(komai::ipc::ReadReceipt{
+                .userId      = entry.userId,
+                .displayName = entry.displayName,
+                .timestampMs = entry.timestamp,
+              });
+          }
+
+          return async;
+      },
+      [callback = std::move(callback)](AsyncReadReceiptsResult async) mutable {
+          if (callback)
+              callback(async.receipts, async.error);
+      });
+}
+
 // -- media --
 
 void

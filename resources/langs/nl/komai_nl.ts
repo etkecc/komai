@@ -9693,7 +9693,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Reageren mislukt: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Bericht verwijderen mislukt: %1</translation>
     </message>
@@ -9708,7 +9708,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Niet-verzonden bericht opnieuw proberen mislukt: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Sommige berichten verwijderen mislukt: %1</translation>
     </message>

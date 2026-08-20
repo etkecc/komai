@@ -50,7 +50,8 @@ TimelineViewManager::redactActiveMatrixTimelineEvent(const QString &eventId, con
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = komai::MatrixBackendRuntimeService::redactRoomEvent(
-            context, handleId, roomId, trimmedEventId, trimmedReason, &error);
+                            context, handleId, roomId, trimmedEventId, trimmedReason, &error)
+                            .has_value();
           return MatrixTimelineEventActionResult{
             .handleId = handleId,
             .roomId   = roomId,
@@ -238,7 +239,8 @@ TimelineViewManager::redactActiveMatrixTimelineEvents(const QStringList &eventId
           for (const auto &eventId : trimmedIds) {
               QString error;
               const bool ok = komai::MatrixBackendRuntimeService::redactRoomEvent(
-                context, handleId, roomId, eventId, trimmedReason, &error);
+                                context, handleId, roomId, eventId, trimmedReason, &error)
+                                .has_value();
 
               if (!ok) {
                   ++failCount;

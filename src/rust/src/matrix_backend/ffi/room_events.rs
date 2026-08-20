@@ -305,7 +305,7 @@ pub(crate) fn matrix_redact_room_event(
     room_id: &str,
     event_id: &str,
     reason: &str,
-) -> Result<(), String> {
+) -> Result<String, String> {
     ffi_block_on(
         context,
         "matrix_redact_room_event",

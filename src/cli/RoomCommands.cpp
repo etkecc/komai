@@ -282,6 +282,95 @@ handleCreate(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 }
 
 int
+handleRedact(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+    const auto eventId = parsed.positionals.value(1);
+    if (!requireNonEmptyValue(eventId, "event-id"))
+        return 1;
+
+    QJsonObject params{
+      {QStringLiteral("roomIdOrAlias"), room},
+      {QStringLiteral("eventId"), eventId},
+    };
+    const auto reason = parsed.flagOr(QStringLiteral("--reason"));
+    if (!reason.isEmpty())
+        params.insert(QStringLiteral("reason"), reason);
+
+    const auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.redact"), params);
+    if (handleIpcError(response))
+        return 1;
+
+    const auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
+
+int
+handleMarkRead(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+
+    QJsonObject params{{QStringLiteral("roomIdOrAlias"), room}};
+
+    const auto eventId = parsed.positionals.value(1);
+    if (!eventId.isEmpty())
+        params.insert(QStringLiteral("eventId"), eventId);
+
+    const auto receiptVisibility = parsed.flagOr(QStringLiteral("--receipt"));
+    if (!receiptVisibility.isEmpty())
+        params.insert(QStringLiteral("public"), receiptVisibility == QLatin1String("public"));
+
+    return handleIpcError(cli_ipc::call(parsed.profileId, QStringLiteral("rooms.markRead"), params))
+             ? 1
+             : 0;
+}
+
+int
+handleMarkUnread(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+
+    QJsonObject params{
+      {QStringLiteral("roomIdOrAlias"), room},
+      {QStringLiteral("unread"), !parsed.hasFlag(QStringLiteral("--clear"))},
+    };
+
+    return handleIpcError(
+             cli_ipc::call(parsed.profileId, QStringLiteral("rooms.markUnread"), params))
+             ? 1
+             : 0;
+}
+
+int
+handleReadReceipts(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+    const auto eventId = parsed.positionals.value(1);
+    if (!requireNonEmptyValue(eventId, "event-id"))
+        return 1;
+
+    const auto response = cli_ipc::call(
+      parsed.profileId,
+      QStringLiteral("rooms.readReceipts"),
+      {{QStringLiteral("roomIdOrAlias"), room}, {QStringLiteral("eventId"), eventId}});
+    if (handleIpcError(response))
+        return 1;
+
+    const auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
+
+int
 handleGetState(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
 {
     const auto room = parsed.positionals.value(0);
@@ -672,6 +761,74 @@ roomsGroupDef()
     }
     create.handler = handleCreate;
     group.subcommands.append(create);
+
+    // redact <room> <event-id> [--reason]
+    cli_schema::SubcommandDef redact;
+    redact.name = QStringLiteral("redact");
+    redact.help = QStringLiteral("Redact an event, printing the redaction's event ID (JSON)");
+    for (const auto *name : {"room-id-or-alias", "event-id"}) {
+        cli_schema::PositionalDef positional;
+        positional.name = QString::fromLatin1(name);
+        redact.positionals.append(positional);
+    }
+    cli_schema::FlagDef redactReason;
+    redactReason.longName         = QStringLiteral("--reason");
+    redactReason.takesValue       = true;
+    redactReason.valuePlaceholder = QStringLiteral("<text>");
+    redactReason.help             = QStringLiteral("Reason recorded on the redaction.");
+    redact.flags.append(redactReason);
+    redact.handler = handleRedact;
+    group.subcommands.append(redact);
+
+    // mark-read <room> [event-id] [--receipt]
+    cli_schema::SubcommandDef markRead;
+    markRead.name     = QStringLiteral("mark-read");
+    markRead.help     = QStringLiteral("Mark a room read, up to an event or entirely");
+    markRead.longHelp = QStringLiteral(
+      "Without --receipt, the room's own read-receipt preference decides whether the\n"
+      "receipt is public or private, matching what the app would have sent.");
+    cli_schema::PositionalDef markReadRoom;
+    markReadRoom.name = QStringLiteral("room-id-or-alias");
+    markRead.positionals.append(markReadRoom);
+    cli_schema::PositionalDef markReadEvent;
+    markReadEvent.name     = QStringLiteral("event-id");
+    markReadEvent.optional = true;
+    markReadEvent.help     = QStringLiteral("Defaults to the room's latest event.");
+    markRead.positionals.append(markReadEvent);
+    cli_schema::FlagDef receipt;
+    receipt.longName   = QStringLiteral("--receipt");
+    receipt.takesValue = true;
+    receipt.valueEnum  = {QStringLiteral("public"), QStringLiteral("private")};
+    receipt.help       = QStringLiteral("Override the room's read-receipt visibility.");
+    markRead.flags.append(receipt);
+    markRead.handler = handleMarkRead;
+    group.subcommands.append(markRead);
+
+    // mark-unread <room> [--clear]
+    cli_schema::SubcommandDef markUnread;
+    markUnread.name = QStringLiteral("mark-unread");
+    markUnread.help = QStringLiteral("Set the room's marked-unread flag");
+    cli_schema::PositionalDef markUnreadRoom;
+    markUnreadRoom.name = QStringLiteral("room-id-or-alias");
+    markUnread.positionals.append(markUnreadRoom);
+    cli_schema::FlagDef clearUnread;
+    clearUnread.longName = QStringLiteral("--clear");
+    clearUnread.help     = QStringLiteral("Clear the flag instead of setting it.");
+    markUnread.flags.append(clearUnread);
+    markUnread.handler = handleMarkUnread;
+    group.subcommands.append(markUnread);
+
+    // read-receipts <room> <event-id>
+    cli_schema::SubcommandDef readReceipts;
+    readReceipts.name = QStringLiteral("read-receipts");
+    readReceipts.help = QStringLiteral("List who has read up to an event (JSON)");
+    for (const auto *name : {"room-id-or-alias", "event-id"}) {
+        cli_schema::PositionalDef positional;
+        positional.name = QString::fromLatin1(name);
+        readReceipts.positionals.append(positional);
+    }
+    readReceipts.handler = handleReadReceipts;
+    group.subcommands.append(readReceipts);
 
     // get-state <room> <event-type> [state-key]
     cli_schema::SubcommandDef getState;

@@ -46,6 +46,7 @@ Examples:
 - `rooms_list`
 - `rooms_get_timeline`
 - `rooms_get_state`
+- `rooms_get_read_receipts`
 - `user_get_id`
 - `user_get_homeserver_url`
 - `user_get_device_id`
@@ -65,6 +66,9 @@ Examples of additional write tools:
 - `rooms_set_name`
 - `rooms_set_topic`
 - `rooms_set_power_level`
+- `rooms_redact`
+- `rooms_mark_read`
+- `rooms_mark_unread`
 - `rooms_leave`
 - `rooms_new_direct_chat`
 - `rooms_invite`
@@ -178,6 +182,28 @@ works without waiting on Komai:
 
 Komai does not validate the contents of the three raw fields beyond checking that they are the
 right JSON shape. The homeserver rejects anything malformed, and the error comes back verbatim.
+
+### Moderation and read state
+
+`rooms_redact` removes an event's content for everyone. It returns the **redaction's own event
+ID**, which is a different event from the one being redacted -- a distinction worth keeping
+straight when logging what you did.
+
+`rooms_mark_read` marks a room read up to a given `eventId`, or up to its latest event when you
+omit one. Whether the receipt is public (`m.read`, visible to everyone in the room) or private
+(`m.read.private`, which clears your unread count without telling anyone) follows the user's own
+setting for that room. Pass `public` explicitly to override it. Defaulting this way matters:
+automation should not broadcast a receipt the app itself would have kept private.
+
+`rooms_mark_unread` sets or clears the manual "leave this for later" marker. That is a separate
+thing from having unread messages, and clearing it does not mark anything read.
+
+`rooms_get_read_receipts` lists who has read at or past an event. Paired with the `eventId` that
+`rooms_send` now returns, it answers "has anyone seen what I sent?" without guessing.
+
+Your own receipt is never included, since the question is almost always about other people. An
+empty list therefore means nobody else has read that far, not that the call failed. Receipts are
+also cumulative: reading a later event implies having read this one.
 
 ### State event tools
 

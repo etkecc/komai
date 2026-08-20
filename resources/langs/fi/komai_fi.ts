@@ -9693,7 +9693,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Reaktion lisääminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Viestin poistaminen epäonnistui: %1</translation>
     </message>
@@ -9708,7 +9708,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Lähettämättömän viestin uudelleenyritys epäonnistui: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Joidenkin viestien poistaminen epäonnistui: %1</translation>
     </message>

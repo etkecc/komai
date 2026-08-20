@@ -9710,7 +9710,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspela reakcija: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Nije uspelo brisanje poruke: %1</translation>
     </message>
@@ -9725,7 +9725,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>Nije uspelo ponovno slanje neposlate poruke: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Nije uspelo brisanje nekih poruka: %1</translation>
     </message>

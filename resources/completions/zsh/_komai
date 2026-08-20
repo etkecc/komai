@@ -2,7 +2,7 @@
 # zsh completion for komai (auto-generated; do not edit)
 
 _komai() {
-    local -a _komai_value_flags=(--access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --room-version --state-key --tag --topic --variant -L -l -p)
+    local -a _komai_value_flags=(--access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --receipt --room-version --state-key --tag --topic --variant -L -l -p)
     local cur prev
     cur="${words[CURRENT]}"
     prev="${words[CURRENT-1]}"
@@ -15,6 +15,7 @@ _komai() {
         --is-dm) _values "is-dm" true false; return ;;
         --msgtype) _values "msgtype" text notice; return ;;
         --preset) _values "preset" private_chat public_chat trusted_private_chat; return ;;
+        --receipt) _values "receipt" public private; return ;;
         --variant) _values "variant" light dark; return ;;
     esac
 
@@ -34,11 +35,13 @@ _komai() {
 
     local _key="${_komai_path[*]}"
     case "${_key}" in
-        'profiles launcher remove' | 'profiles launcher remove *') compadd -- --help -h ;;
-        'profiles launcher create' | 'profiles launcher create *') compadd -- --help -h ;;
         'settings ui set-theme' | 'settings ui set-theme *') compadd -- --help -h ;;
         'settings ui theme' | 'settings ui theme *') compadd -- --help -h ;;
-        'settings ui' | 'settings ui *') compadd -- --help -h set-theme theme ;;
+        'profiles launcher remove' | 'profiles launcher remove *') compadd -- --help -h ;;
+        'profiles launcher create' | 'profiles launcher create *') compadd -- --help -h ;;
+        'rooms send-image' | 'rooms send-image *') compadd -- --caption --filename --help -h ;;
+        'rooms set-state' | 'rooms set-state *') compadd -- --help --state-key -h ;;
+        'rooms set-name' | 'rooms set-name *') compadd -- --help -h ;;
         'rooms set-topic' | 'rooms set-topic *') compadd -- --help -h ;;
         'rooms set-power-level' | 'rooms set-power-level *') compadd -- --help -h ;;
         'rooms invite' | 'rooms invite *') compadd -- --help --reason -h ;;
@@ -47,8 +50,8 @@ _komai() {
         'rooms unban' | 'rooms unban *') compadd -- --help --reason -h ;;
         'rooms leave' | 'rooms leave *') compadd -- --help --reason -h ;;
         'rooms send' | 'rooms send *') compadd -- --format --help --msgtype -h ;;
-        'rooms send-image' | 'rooms send-image *') compadd -- --caption --filename --help -h ;;
-        'rooms set-name' | 'rooms set-name *') compadd -- --help -h ;;
+        'rooms get-state' | 'rooms get-state *') compadd -- --help -h ;;
+        'settings ui' | 'settings ui *') compadd -- --help -h set-theme theme ;;
         'theme list' | 'theme list *') compadd -- --help -h ;;
         'theme tinted-search' | 'theme tinted-search *') compadd -- --help -h ;;
         'theme tinted-import' | 'theme tinted-import *') compadd -- --force --help --variant -h ;;
@@ -58,31 +61,33 @@ _komai() {
         'user device-id' | 'user device-id *') compadd -- --help -h ;;
         'user status' | 'user status *') compadd -- --help -h ;;
         'user set-status' | 'user set-status *') compadd -- --help -h ;;
-        'app api-version' | 'app api-version *') compadd -- --help -h ;;
-        'completions zsh' | 'completions zsh *') compadd -- --help -h ;;
-        'completions fish' | 'completions fish *') compadd -- --help -h ;;
-        'media fetch' | 'media fetch *') compadd -- --help -h ;;
-        'completions bash' | 'completions bash *') compadd -- --help -h ;;
-        'media upload' | 'media upload *') compadd -- --content-type --filename --help --stdin -h ;;
-        'rooms set-state' | 'rooms set-state *') compadd -- --help --state-key -h ;;
-        'mcp serve' | 'mcp serve *') compadd -- --access --help -h ;;
-        'profiles launcher' | 'profiles launcher *') compadd -- --help -h create remove ;;
         'app version' | 'app version *') compadd -- --help -h ;;
+        'completions fish' | 'completions fish *') compadd -- --help -h ;;
+        'completions zsh' | 'completions zsh *') compadd -- --help -h ;;
+        'media fetch' | 'media fetch *') compadd -- --help -h ;;
+        'media upload' | 'media upload *') compadd -- --content-type --filename --help --stdin -h ;;
+        'completions bash' | 'completions bash *') compadd -- --help -h ;;
+        'mcp serve' | 'mcp serve *') compadd -- --access --help -h ;;
+        'app api-version' | 'app api-version *') compadd -- --help -h ;;
+        'profiles launcher' | 'profiles launcher *') compadd -- --help -h create remove ;;
         'rooms list' | 'rooms list *') compadd -- --encrypted --fields --help --ids --is-dm --limit --min-member-count --offset --parent-space --query --tag -h ;;
         'rooms timeline' | 'rooms timeline *') compadd -- --before-event-id --fetch-mode --help --include-unsigned-fields --limit -h ;;
         'rooms join' | 'rooms join *') compadd -- --help -h ;;
         'rooms new-direct-chat' | 'rooms new-direct-chat *') compadd -- --help -h ;;
         'rooms create' | 'rooms create *') compadd -- --alias-localpart --creation-content --direct --encrypted --help --initial-state --invite --name --power-levels --preset --public --room-version --space --topic -h ;;
-        'rooms get-state' | 'rooms get-state *') compadd -- --help -h ;;
-        'mcp' | 'mcp *') compadd -- --help -h serve ;;
+        'rooms redact' | 'rooms redact *') compadd -- --help --reason -h ;;
+        'rooms mark-read' | 'rooms mark-read *') compadd -- --help --receipt -h ;;
+        'rooms mark-unread' | 'rooms mark-unread *') compadd -- --clear --help -h ;;
+        'rooms read-receipts' | 'rooms read-receipts *') compadd -- --help -h ;;
+        'app' | 'app *') compadd -- --help -h api-version version ;;
         'completions' | 'completions *') compadd -- --help -h bash fish zsh ;;
         'user' | 'user *') compadd -- --help -h device-id homeserver-url id set-status status ;;
-        'app' | 'app *') compadd -- --help -h api-version version ;;
         'media' | 'media *') compadd -- --help -h fetch upload ;;
         'theme' | 'theme *') compadd -- --help -h create-sample list tinted-import tinted-search ;;
+        'mcp' | 'mcp *') compadd -- --help -h serve ;;
         'settings' | 'settings *') compadd -- --help -h ui ;;
         'profiles' | 'profiles *') compadd -- --help -h launcher ;;
-        'rooms' | 'rooms *') compadd -- --help -h ban create get-state invite join kick leave list new-direct-chat send send-image set-name set-power-level set-state set-topic timeline unban ;;
+        'rooms' | 'rooms *') compadd -- --help -h ban create get-state invite join kick leave list mark-read mark-unread new-direct-chat read-receipts redact send send-image set-name set-power-level set-state set-topic timeline unban ;;
         '') compadd -- --debug --help --log-level --log-type --profile --version -L -h -l -p -v app completions mcp media profiles rooms settings theme user ;;
     esac
 }

@@ -9710,7 +9710,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не вдалося додати реакцію: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Не вдалося видалити повідомлення: %1</translation>
     </message>
@@ -9725,7 +9725,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Не вдалося повторно надіслати повідомлення: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Не вдалося видалити деякі повідомлення: %1</translation>
     </message>

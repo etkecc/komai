@@ -459,7 +459,7 @@ MatrixBackendRuntimeService::toggleRoomReaction(matrix_backend::BlockingCallCont
     }
 }
 
-bool
+std::optional<QString>
 MatrixBackendRuntimeService::redactRoomEvent(matrix_backend::BlockingCallContext context,
                                              uint64_t handleId,
                                              const QString &roomId,
@@ -468,22 +468,23 @@ MatrixBackendRuntimeService::redactRoomEvent(matrix_backend::BlockingCallContext
                                              QString *errorOut)
 {
     try {
+        ::rust::String redactionEventId;
         matrix_backend::invokeBlockingCall(
           "matrix_redact_room_event",
           matrix_backend::BlockingCallThreadPolicy::RequireWorkerThread,
-          [handleId, roomId, eventId, reason, context]() {
-              ::komai::rust::matrix_redact_room_event(
+          [handleId, roomId, eventId, reason, context, &redactionEventId]() {
+              redactionEventId = ::komai::rust::matrix_redact_room_event(
                 matrix_backend::toRustBlockingContext(context),
                 handleId,
                 roomId.toStdString(),
                 eventId.toStdString(),
                 reason.toStdString());
           });
-        return true;
+        return QString::fromStdString(std::string(redactionEventId));
     } catch (const std::exception &e) {
         if (errorOut)
             *errorOut = QString::fromUtf8(e.what());
-        return false;
+        return std::nullopt;
     }
 }
 

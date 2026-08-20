@@ -9693,7 +9693,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Reaktsiooni lisamine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Sõnumi kustutamine ebaõnnestus: %1</translation>
     </message>
@@ -9708,7 +9708,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Saatmata sõnumi uuesti saatmine ebaõnnestus: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Mõnede sõnumite kustutamine ebaõnnestus: %1</translation>
     </message>

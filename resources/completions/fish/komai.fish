@@ -1,7 +1,7 @@
 # fish completion for komai (auto-generated; do not edit)
 
 function __komai_positionals
-    set -l value_flags --access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --room-version --state-key --tag --topic --variant -L -l -p
+    set -l value_flags --access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --receipt --room-version --state-key --tag --topic --variant -L -l -p
     set -l tokens (commandline -opc)
     set -l skip_next 0
     set -l first 1
@@ -136,7 +136,11 @@ complete -c komai -n '__komai_at_path rooms' -a 'join'
 complete -c komai -n '__komai_at_path rooms' -a 'kick'
 complete -c komai -n '__komai_at_path rooms' -a 'leave'
 complete -c komai -n '__komai_at_path rooms' -a 'list'
+complete -c komai -n '__komai_at_path rooms' -a 'mark-read'
+complete -c komai -n '__komai_at_path rooms' -a 'mark-unread'
 complete -c komai -n '__komai_at_path rooms' -a 'new-direct-chat'
+complete -c komai -n '__komai_at_path rooms' -a 'read-receipts'
+complete -c komai -n '__komai_at_path rooms' -a 'redact'
 complete -c komai -n '__komai_at_path rooms' -a 'send'
 complete -c komai -n '__komai_at_path rooms' -a 'send-image'
 complete -c komai -n '__komai_at_path rooms' -a 'set-name'
@@ -182,6 +186,17 @@ complete -c komai -n '__komai_within rooms create' -l room-version
 complete -c komai -n '__komai_within rooms create' -l space
 complete -c komai -n '__komai_within rooms create' -l topic
 complete -c komai -n '__komai_within rooms create' -s h
+complete -c komai -n '__komai_within rooms redact' -l help
+complete -c komai -n '__komai_within rooms redact' -l reason
+complete -c komai -n '__komai_within rooms redact' -s h
+complete -c komai -n '__komai_within rooms mark-read' -l help
+complete -c komai -n '__komai_within rooms mark-read' -l receipt -xa 'public private'
+complete -c komai -n '__komai_within rooms mark-read' -s h
+complete -c komai -n '__komai_within rooms mark-unread' -l clear
+complete -c komai -n '__komai_within rooms mark-unread' -l help
+complete -c komai -n '__komai_within rooms mark-unread' -s h
+complete -c komai -n '__komai_within rooms read-receipts' -l help
+complete -c komai -n '__komai_within rooms read-receipts' -s h
 complete -c komai -n '__komai_within rooms get-state' -l help
 complete -c komai -n '__komai_within rooms get-state' -s h
 complete -c komai -n '__komai_within rooms set-state' -l help

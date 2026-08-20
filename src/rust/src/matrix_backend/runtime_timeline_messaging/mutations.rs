@@ -79,7 +79,7 @@ pub async fn redact_room_event(
     room_id: &str,
     event_id: &str,
     reason: &str,
-) -> Result<(), String> {
+) -> Result<String, String> {
     let room = joined_room_for_handle(handle_id, room_id)?;
     let event_id = event_id.trim();
     if event_id.is_empty() {
@@ -98,9 +98,10 @@ pub async fn redact_room_event(
         "Redacting matrix-sdk room event"
     );
 
+    // Redaction is its own event, so it has its own ID; we were discarding it.
     room.redact(&parsed_event_id, trimmed_reason.as_deref(), None)
         .await
-        .map(|_| ())
+        .map(|response| response.event_id.to_string())
         .map_err(|e| format!("failed to redact matrix-sdk room event: {e}"))
 }
 

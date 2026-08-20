@@ -300,6 +300,52 @@ setUserPowerLevel(const QString &roomIdOrAlias,
                   int powerLevel,
                   RoomActionCallback callback);
 
+// -- rooms (moderation and read state) --
+
+/// Redacts an event, yielding the redaction's own event ID.
+void
+redactEvent(const QString &roomIdOrAlias,
+            const QString &eventId,
+            const QString &reason,
+            SendMessageCallback callback);
+
+/// Marks a room read up to `eventId`, or up to its latest event when
+/// `eventId` is empty.
+///
+/// `publicReceipt` chooses between m.read and m.read.private; when it is
+/// nullopt the user's own read-receipt preference for the room decides, so an
+/// automation call does not quietly broadcast what the app would have kept
+/// private.
+void
+markRoomRead(const QString &roomIdOrAlias,
+             const QString &eventId,
+             std::optional<bool> publicReceipt,
+             RoomActionCallback callback);
+
+/// Sets or clears the room's marked-unread flag.
+void
+markRoomUnread(const QString &roomIdOrAlias, bool unread, RoomActionCallback callback);
+
+struct ReadReceipt
+{
+    QString userId;
+    QString displayName;
+    qulonglong timestampMs = 0;
+
+    QJsonObject toJson() const;
+};
+
+using ReadReceiptsCallback =
+  std::function<void(const QVector<ReadReceipt> &receipts, const QString &error)>;
+
+/// Lists who has a read receipt at or past a given event.
+///
+/// The active account's own receipt is never listed, so an empty result means
+/// nobody else has read that far. Receipts are cumulative: reading a later
+/// event counts as having read this one.
+void
+readReceipts(const QString &roomIdOrAlias, const QString &eventId, ReadReceiptsCallback callback);
+
 // -- media --
 
 using MediaFetchCallback = std::function<void(const QImage &)>;

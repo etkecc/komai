@@ -9693,7 +9693,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse reactionar: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Insuccesse deleter mesage: %1</translation>
     </message>
@@ -9708,7 +9708,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Insuccesse retentar mesage non-enviat: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Insuccesse deleter alqui mesages: %1</translation>
     </message>

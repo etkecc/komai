@@ -9676,7 +9676,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal memberikan reaksi: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Gagal menghapus pesan: %1</translation>
     </message>
@@ -9691,7 +9691,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Gagal mencoba ulang pesan yang belum terkirim: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Gagal menghapus beberapa pesan: %1</translation>
     </message>

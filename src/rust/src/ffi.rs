@@ -2490,7 +2490,7 @@ mod bridge {
             room_id: &str,
             event_id: &str,
             reason: &str,
-        ) -> Result<()>;
+        ) -> Result<String>;
         fn matrix_cancel_room_local_echo(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

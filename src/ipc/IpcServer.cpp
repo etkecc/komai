@@ -582,6 +582,93 @@ IpcServer::handleRequest(QLocalSocket *socket)
         return;
     }
 
+    // -- rooms (moderation and read state) --
+
+    if (method == QLatin1String("rooms.redact")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        QString eventId;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("eventId"), &eventId))
+            return;
+
+        QString reason;
+        if (!optionalStringParam(socket, params, QStringLiteral("reason"), &reason))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        redactEvent(roomIdOrAlias, eventId, reason, sendResultResponder(safeSocket));
+        return;
+    }
+
+    if (method == QLatin1String("rooms.markRead")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        // Absent means "up to the latest event".
+        QString eventId;
+        if (!optionalStringParam(socket, params, QStringLiteral("eventId"), &eventId))
+            return;
+
+        // Absent means "whatever the user chose for this room".
+        std::optional<bool> publicReceipt;
+        if (!tristateBoolParam(socket, params, QStringLiteral("public"), &publicReceipt))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        markRoomRead(roomIdOrAlias, eventId, publicReceipt, roomActionResponder(safeSocket));
+        return;
+    }
+
+    if (method == QLatin1String("rooms.markUnread")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        std::optional<bool> unread;
+        if (!tristateBoolParam(socket, params, QStringLiteral("unread"), &unread))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        markRoomUnread(roomIdOrAlias, unread.value_or(true), roomActionResponder(safeSocket));
+        return;
+    }
+
+    if (method == QLatin1String("rooms.readReceipts")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        QString eventId;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("eventId"), &eventId))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        readReceipts(
+          roomIdOrAlias,
+          eventId,
+          [safeSocket](const QVector<ReadReceipt> &receipts, const QString &error) {
+              QJsonArray arr;
+              for (const auto &receipt : receipts)
+                  arr.append(receipt.toJson());
+
+              writeResponseFromCallback(
+                safeSocket,
+                resultOrErrorResponse(QJsonObject{{QStringLiteral("receipts"), arr}}, error));
+          });
+        return;
+    }
+
     if (method == QLatin1String("rooms.newDirectChat")) {
         QString userId;
         if (!requireNonEmptyString(socket, params, QStringLiteral("userId"), &userId)) {

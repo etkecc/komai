@@ -1050,6 +1050,122 @@ fn handle_rooms_set_power_level(
     )
 }
 
+fn handle_rooms_redact(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "eventId", "reason"])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let event_id = require_non_empty_string(arguments, "eventId")?;
+
+    let mut params = Map::new();
+    params.insert(
+        "roomIdOrAlias".to_owned(),
+        Value::String(room_id_or_alias.clone()),
+    );
+    params.insert("eventId".to_owned(), Value::String(event_id.clone()));
+    if let Some(reason) = optional_string(arguments, "reason")? {
+        params.insert("reason".to_owned(), Value::String(reason));
+    }
+
+    let result = backend_object(backend, "rooms.redact", Value::Object(params))?;
+    success(
+        Value::Object(result),
+        vec![results::text_content(format!(
+            "Redacted {event_id} in {room_id_or_alias}."
+        ))],
+    )
+}
+
+fn handle_rooms_mark_read(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "eventId", "public"])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let event_id = optional_string(arguments, "eventId")?;
+
+    let mut params = Map::new();
+    params.insert(
+        "roomIdOrAlias".to_owned(),
+        Value::String(room_id_or_alias.clone()),
+    );
+    if let Some(event_id) = event_id.clone() {
+        params.insert("eventId".to_owned(), Value::String(event_id));
+    }
+    // Omitted on purpose when absent: the IPC layer then follows the user's own
+    // read-receipt preference for the room.
+    if let Some(public) = optional_bool(arguments, "public")? {
+        params.insert("public".to_owned(), Value::Bool(public));
+    }
+
+    backend_bool_true(backend, "rooms.markRead", Value::Object(params))?;
+
+    let summary = match event_id {
+        Some(event_id) => format!("Marked {room_id_or_alias} read up to {event_id}."),
+        None => format!("Marked {room_id_or_alias} fully read."),
+    };
+
+    success(
+        json!({ "ok": true, "roomIdOrAlias": room_id_or_alias }),
+        vec![results::text_content(summary)],
+    )
+}
+
+fn handle_rooms_mark_unread(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "unread"])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let unread = optional_bool(arguments, "unread")?.unwrap_or(true);
+
+    backend_bool_true(
+        backend,
+        "rooms.markUnread",
+        json!({ "roomIdOrAlias": room_id_or_alias, "unread": unread }),
+    )?;
+
+    let summary = if unread {
+        format!("Flagged {room_id_or_alias} as unread.")
+    } else {
+        format!("Cleared the unread flag on {room_id_or_alias}.")
+    };
+
+    success(
+        json!({ "ok": true, "roomIdOrAlias": room_id_or_alias, "unread": unread }),
+        vec![results::text_content(summary)],
+    )
+}
+
+fn handle_rooms_get_read_receipts(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "eventId"])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let event_id = require_non_empty_string(arguments, "eventId")?;
+
+    let result = backend_object(
+        backend,
+        "rooms.readReceipts",
+        json!({ "roomIdOrAlias": room_id_or_alias, "eventId": event_id }),
+    )?;
+
+    let count = result
+        .get("receipts")
+        .and_then(Value::as_array)
+        .map(Vec::len)
+        .unwrap_or(0);
+
+    success(
+        Value::Object(result),
+        vec![results::text_content(format!(
+            "{count} read receipt(s) at or past {event_id}."
+        ))],
+    )
+}
+
 fn handle_rooms_new_direct_chat(
     backend: &dyn Backend,
     arguments: &Map<String, Value>,
@@ -1879,6 +1995,129 @@ rooms_set_state for power levels.",
             )
         },
         handler: handle_rooms_set_power_level,
+    },
+    ToolDefinition {
+        name: "rooms_redact",
+        title: "Redact Event",
+        description: "Redact an event, removing its content for everyone. Returns the redaction's \
+own event ID, which is a different event from the one redacted.",
+        access: ToolAccess::Write,
+        destructive: true,
+        idempotent: false,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    ("eventId", string_schema("Event ID to redact.")),
+                    ("reason", string_schema("Optional reason recorded on the redaction.")),
+                ],
+                &["roomIdOrAlias", "eventId"],
+            )
+        },
+        output_schema: || getter_output_schema("eventId", "Event ID of the redaction itself."),
+        handler: handle_rooms_redact,
+    },
+    ToolDefinition {
+        name: "rooms_mark_read",
+        title: "Mark Room Read",
+        description: "Mark a room read, up to a given event or entirely. Whether the receipt is \
+public or private follows the user's own preference for that room unless overridden.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    (
+                        "eventId",
+                        string_schema("Mark read up to this event. Omit for the room's latest event."),
+                    ),
+                    (
+                        "public",
+                        boolean_schema("Send a public m.read receipt rather than a private one. Omit to follow the user's setting for the room."),
+                    ),
+                ],
+                &["roomIdOrAlias"],
+            )
+        },
+        output_schema: || ok_with_key_output_schema("roomIdOrAlias", "Room ID or alias that was marked read."),
+        handler: handle_rooms_mark_read,
+    },
+    ToolDefinition {
+        name: "rooms_mark_unread",
+        title: "Mark Room Unread",
+        description: "Set or clear a room's marked-unread flag, the manual \"leave this for \
+later\" marker. This is separate from actual unread messages.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    (
+                        "unread",
+                        boolean_schema("Whether to set the flag. Defaults to true; pass false to clear it."),
+                    ),
+                ],
+                &["roomIdOrAlias"],
+            )
+        },
+        output_schema: || {
+            object_schema(
+                vec![
+                    ("ok", json!({"type": "boolean"})),
+                    ("roomIdOrAlias", string_schema("Room ID or alias that was changed.")),
+                    ("unread", json!({"type": "boolean", "description": "Flag value that was set."})),
+                ],
+                &["ok", "roomIdOrAlias", "unread"],
+            )
+        },
+        handler: handle_rooms_mark_unread,
+    },
+    ToolDefinition {
+        name: "rooms_get_read_receipts",
+        title: "Get Read Receipts",
+        description: "List who has a read receipt at or past a given event. Pair it with the \
+event ID returned by rooms_send to see whether anyone has read what you sent. Your own receipt is \
+never listed, so an empty result means nobody else has read that far -- not that the call failed.",
+        access: ToolAccess::Read,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    ("eventId", string_schema("Event to inspect receipts for.")),
+                ],
+                &["roomIdOrAlias", "eventId"],
+            )
+        },
+        output_schema: || {
+            object_schema(
+                vec![(
+                    "receipts",
+                    json!({
+                        "type": "array",
+                        "items": object_schema(
+                            vec![
+                                ("userId", string_schema("Matrix user ID that has read this far.")),
+                                ("displayName", string_schema("Room display name of that user.")),
+                                ("timestampMs", integer_schema("Receipt timestamp in Unix milliseconds.")),
+                            ],
+                            &["userId", "displayName", "timestampMs"],
+                        ),
+                    }),
+                )],
+                &["receipts"],
+            )
+        },
+        handler: handle_rooms_get_read_receipts,
     },
     ToolDefinition {
         name: "rooms_invite",
@@ -2965,6 +3204,130 @@ mod tests {
 
         let calls = backend.calls.borrow();
         assert_eq!(calls[0].1["powerLevel"].as_i64(), Some(-1));
+    }
+
+    #[test]
+    fn rooms_redact_returns_the_redaction_event_id() {
+        let backend = MockBackend::with_response(
+            "rooms.redact",
+            Ok(json!({ "eventId": "$redaction:example.org" })),
+        );
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_redact",
+            Some(json!({
+                "roomIdOrAlias": "!r:example.org",
+                "eventId": "$target:example.org",
+                "reason": "spam"
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        assert_eq!(calls[0].1["eventId"].as_str(), Some("$target:example.org"));
+        assert_eq!(calls[0].1["reason"].as_str(), Some("spam"));
+        // The redaction is its own event, so the ID coming back differs from
+        // the one that went in.
+        assert_eq!(
+            result["structuredContent"]["eventId"].as_str(),
+            Some("$redaction:example.org")
+        );
+    }
+
+    #[test]
+    fn rooms_mark_read_omits_public_so_the_user_setting_decides() {
+        let backend = MockBackend::with_response("rooms.markRead", Ok(Value::Bool(true)));
+
+        call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_mark_read",
+            Some(json!({ "roomIdOrAlias": "!r:example.org" })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (_, params) = &calls[0];
+        assert!(params.get("public").is_none());
+        assert!(params.get("eventId").is_none());
+    }
+
+    #[test]
+    fn rooms_mark_read_forwards_an_explicit_receipt_visibility() {
+        let backend = MockBackend::with_response("rooms.markRead", Ok(Value::Bool(true)));
+
+        call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_mark_read",
+            Some(json!({
+                "roomIdOrAlias": "!r:example.org",
+                "eventId": "$e:example.org",
+                "public": false
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        assert_eq!(calls[0].1["public"].as_bool(), Some(false));
+        assert_eq!(calls[0].1["eventId"].as_str(), Some("$e:example.org"));
+    }
+
+    #[test]
+    fn rooms_mark_unread_defaults_to_setting_the_flag() {
+        let backend = MockBackend::with_response("rooms.markUnread", Ok(Value::Bool(true)));
+
+        call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_mark_unread",
+            Some(json!({ "roomIdOrAlias": "!r:example.org" })),
+        )
+        .unwrap();
+
+        assert_eq!(backend.calls.borrow()[0].1["unread"].as_bool(), Some(true));
+    }
+
+    #[test]
+    fn rooms_get_read_receipts_is_readable_but_redaction_is_not() {
+        let names: Vec<String> = list_tools(AccessMode::ReadOnly)
+            .into_iter()
+            .map(|tool| tool["name"].as_str().unwrap().to_owned())
+            .collect();
+
+        assert!(names.contains(&"rooms_get_read_receipts".to_owned()));
+        assert!(!names.contains(&"rooms_redact".to_owned()));
+        assert!(!names.contains(&"rooms_mark_read".to_owned()));
+    }
+
+    #[test]
+    fn rooms_get_read_receipts_counts_them_in_the_summary() {
+        let backend = MockBackend::with_response(
+            "rooms.readReceipts",
+            Ok(json!({"receipts": [
+                {"userId": "@a:example.org", "displayName": "A", "timestampMs": 1},
+                {"userId": "@b:example.org", "displayName": "B", "timestampMs": 2}
+            ]})),
+        );
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_read_receipts",
+            Some(json!({ "roomIdOrAlias": "!r:example.org", "eventId": "$e:example.org" })),
+        )
+        .unwrap();
+
+        assert!(result["content"][0]["text"]
+            .as_str()
+            .unwrap()
+            .starts_with("2 read receipt(s)"));
+        assert_eq!(
+            result["structuredContent"]["receipts"][1]["userId"].as_str(),
+            Some("@b:example.org")
+        );
     }
 
     #[test]

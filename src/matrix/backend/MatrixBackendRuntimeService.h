@@ -691,12 +691,14 @@ public:
                                    const QString &reactionKey,
                                    QString *errorOut = nullptr);
 
-    static bool redactRoomEvent(matrix_backend::BlockingCallContext context,
-                                uint64_t handleId,
-                                const QString &roomId,
-                                const QString &eventId,
-                                const QString &reason,
-                                QString *errorOut = nullptr);
+    /// Returns the redaction's own event ID, which is a different event from
+    /// the one being redacted. std::nullopt means the redaction failed.
+    static std::optional<QString> redactRoomEvent(matrix_backend::BlockingCallContext context,
+                                                  uint64_t handleId,
+                                                  const QString &roomId,
+                                                  const QString &eventId,
+                                                  const QString &reason,
+                                                  QString *errorOut = nullptr);
 
     static bool cancelRoomLocalEcho(matrix_backend::BlockingCallContext context,
                                     uint64_t handleId,

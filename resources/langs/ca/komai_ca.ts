@@ -9693,7 +9693,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No s'ha pogut reaccionar: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>No s'ha pogut eliminar el missatge: %1</translation>
     </message>
@@ -9708,7 +9708,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>No s'ha pogut tornar a enviar el missatge no enviat: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>No s'han pogut eliminar alguns missatges: %1</translation>
     </message>

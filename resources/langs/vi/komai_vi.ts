@@ -9676,7 +9676,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể thả cảm xúc: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Không thể xóa tin nhắn: %1</translation>
     </message>
@@ -9691,7 +9691,7 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Không thể gửi lại tin nhắn chưa gửi: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Không thể xóa một số tin nhắn: %1</translation>
     </message>

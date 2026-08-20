@@ -9710,7 +9710,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut reacționa: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation>Nu s-a putut șterge mesajul: %1</translation>
     </message>
@@ -9725,7 +9725,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Nu s-a putut reîncerca mesajul netrimis: %1</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation>Nu s-au putut șterge unele mesaje: %1</translation>
     </message>

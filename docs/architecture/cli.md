@@ -104,6 +104,10 @@ Simple JSON-lines over the transport — one request line, one response line:
 | `rooms.setName`              | `roomIdOrAlias`, `name`       | `true`          |
 | `rooms.setTopic`             | `roomIdOrAlias`, `topic`      | `true`          |
 | `rooms.setPowerLevel`        | `roomIdOrAlias`, `userId`, `powerLevel` | `true` |
+| `rooms.redact`               | `roomIdOrAlias`, `eventId`, `reason`? | `object` |
+| `rooms.markRead`             | `roomIdOrAlias`, `eventId`?, `public`? | `true` |
+| `rooms.markUnread`           | `roomIdOrAlias`, `unread`?    | `true`          |
+| `rooms.readReceipts`         | `roomIdOrAlias`, `eventId`    | `object`        |
 | `rooms.send`                 | `roomIdOrAlias`, `body`, `msgtype`?, `format`? | `object` |
 | `rooms.sendImageFile`        | `roomIdOrAlias`, `path`, `body`? | `object`  |
 | `rooms.sendImage`            | `roomIdOrAlias`, `mxcUri`, `body`?, `filename`?, `info`? | `object` |
@@ -161,7 +165,8 @@ The `settings` group uses nested dispatch:
 The `rooms` group currently exposes read subcommands `list` and `timeline`, plus write
 subcommands such as `activate`, `join`, `new-direct-chat`, `send`, image sending, and the
 membership operations `invite`, `kick`, `ban`, `unban` and `leave`, `create`, and the state
-operations `get-state`, `set-state`, `set-name`, `set-topic` and `set-power-level`.
+operations `get-state`, `set-state`, `set-name`, `set-topic` and `set-power-level`, plus
+`redact`, `mark-read`, `mark-unread` and `read-receipts`.
 
 ## MCP wrapper command
 

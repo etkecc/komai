@@ -9662,7 +9662,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+76"/>
+        <location filename="../../../src/timeline/view/TimelineViewManagerMatrixTimelineEvents.cpp" line="+77"/>
         <source>Failed to delete message: %1</source>
         <translation type="unfinished"/>
     </message>
@@ -9677,7 +9677,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+88"/>
         <source>Failed to delete some messages: %1</source>
         <translation type="unfinished"/>
     </message>

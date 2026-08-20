@@ -247,6 +247,13 @@ struct MatrixRoomSettings
     bool canUpgradeRoom             = false;
 };
 
+struct MatrixRoomStateEventResult
+{
+    /// False when the room simply has no such state event.
+    bool exists = false;
+    QString contentJson;
+};
+
 struct MatrixRoomAliases
 {
     QString canonicalAlias;

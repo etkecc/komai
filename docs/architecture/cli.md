@@ -99,6 +99,11 @@ Simple JSON-lines over the transport — one request line, one response line:
 | `rooms.ban`                  | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
 | `rooms.unban`                | `roomIdOrAlias`, `userId`, `reason`? | `true`   |
 | `rooms.leave`                | `roomIdOrAlias`, `reason`?    | `true`          |
+| `rooms.getState`             | `roomIdOrAlias`, `eventType`, `stateKey`? | `object` |
+| `rooms.setState`             | `roomIdOrAlias`, `eventType`, `content`, `stateKey`? | `object` |
+| `rooms.setName`              | `roomIdOrAlias`, `name`       | `true`          |
+| `rooms.setTopic`             | `roomIdOrAlias`, `topic`      | `true`          |
+| `rooms.setPowerLevel`        | `roomIdOrAlias`, `userId`, `powerLevel` | `true` |
 | `rooms.send`                 | `roomIdOrAlias`, `body`, `msgtype`?, `format`? | `object` |
 | `rooms.sendImageFile`        | `roomIdOrAlias`, `path`, `body`? | `object`  |
 | `rooms.sendImage`            | `roomIdOrAlias`, `mxcUri`, `body`?, `filename`?, `info`? | `object` |
@@ -155,7 +160,8 @@ The `settings` group uses nested dispatch:
 
 The `rooms` group currently exposes read subcommands `list` and `timeline`, plus write
 subcommands such as `activate`, `join`, `new-direct-chat`, `send`, image sending, and the
-membership operations `invite`, `kick`, `ban`, `unban` and `leave`, and `create`.
+membership operations `invite`, `kick`, `ban`, `unban` and `leave`, `create`, and the state
+operations `get-state`, `set-state`, `set-name`, `set-topic` and `set-power-level`.
 
 ## MCP wrapper command
 

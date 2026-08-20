@@ -1148,6 +1148,231 @@ leaveRoom(const QString &roomIdOrAlias, const QString &reason, RoomActionCallbac
       });
 }
 
+// -- rooms (state) --
+
+namespace {
+
+struct AsyncStateReadResult
+{
+    komai::ipc::StateEventResult result;
+    QString error;
+};
+
+/// Resolves the room and runtime handle both state calls need, reporting the
+/// same failures the rest of the surface reports.
+template<typename FailFnT>
+std::optional<std::pair<QString, uint64_t>>
+resolveStateTarget(const QString &roomIdOrAlias, const QString &eventType, FailFnT fail)
+{
+    const auto roomId = komai::ipc::resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        fail(QStringLiteral("room not found: ") + roomIdOrAlias);
+        return std::nullopt;
+    }
+
+    if (eventType.trimmed().isEmpty()) {
+        fail(QStringLiteral("eventType must not be empty"));
+        return std::nullopt;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        fail(QStringLiteral("matrix-sdk runtime is not active"));
+        return std::nullopt;
+    }
+
+    return std::make_pair(roomId, *handleId);
+}
+
+} // namespace
+
+void
+readStateEvent(const QString &roomIdOrAlias,
+               const QString &eventType,
+               const QString &stateKey,
+               ReadStateCallback callback)
+{
+    const auto target =
+      resolveStateTarget(roomIdOrAlias, eventType, [&callback](const QString &error) {
+          if (callback)
+              callback({}, error);
+      });
+    if (!target.has_value())
+        return;
+
+    runIpcTask(
+      [handleId    = target->second,
+       roomId      = target->first,
+       trimmedType = eventType.trimmed(),
+       stateKey]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          AsyncStateReadResult async;
+          QString error;
+          const auto fetched = komai::MatrixBackendRuntimeService::fetchRoomStateEvent(
+            context, handleId, roomId, trimmedType, stateKey, &error);
+          if (!fetched.has_value()) {
+              async.error = error.isEmpty() ? QStringLiteral("failed to read room state") : error;
+              return async;
+          }
+
+          async.result.exists = fetched->exists;
+          if (fetched->exists) {
+              const auto doc = QJsonDocument::fromJson(fetched->contentJson.toUtf8());
+              if (!doc.isObject()) {
+                  async.error = QStringLiteral("homeserver returned a non-object state content");
+                  return async;
+              }
+              async.result.content = doc.object();
+          }
+
+          return async;
+      },
+      [callback = std::move(callback)](AsyncStateReadResult async) mutable {
+          if (callback)
+              callback(async.result, async.error);
+      });
+}
+
+void
+sendStateEvent(const QString &roomIdOrAlias,
+               const QString &eventType,
+               const QString &stateKey,
+               const QJsonObject &content,
+               SendMessageCallback callback)
+{
+    const auto target =
+      resolveStateTarget(roomIdOrAlias, eventType, [&callback](const QString &error) {
+          if (callback)
+              callback({}, error);
+      });
+    if (!target.has_value())
+        return;
+
+    const auto contentJson =
+      QString::fromUtf8(QJsonDocument(content).toJson(QJsonDocument::Compact));
+
+    runIpcTask(
+      [handleId    = target->second,
+       roomId      = target->first,
+       trimmedType = eventType.trimmed(),
+       stateKey,
+       contentJson]() {
+          const auto context = komai::matrix_backend::blockingCallContext();
+          AsyncSendResult result;
+          QString error;
+          const auto eventId = komai::MatrixBackendRuntimeService::sendRoomStateEvent(
+            context, handleId, roomId, trimmedType, stateKey, contentJson, &error);
+          if (eventId.has_value())
+              result.eventId = *eventId;
+          else
+              result.error = error.isEmpty() ? QStringLiteral("failed to send room state") : error;
+
+          return result;
+      },
+      [callback = std::move(callback)](AsyncSendResult result) mutable {
+          if (callback)
+              callback(result.eventId, result.error);
+      });
+}
+
+namespace {
+
+/// Shared plumbing for the named setters, which differ only in the value they
+/// carry and the runtime call they make.
+template<typename WorkFnT>
+void
+runRoomSettingAction(const QString &roomIdOrAlias,
+                     komai::ipc::RoomActionCallback callback,
+                     WorkFnT makeWork)
+{
+    const auto roomId = komai::ipc::resolveRoomId(roomIdOrAlias);
+    if (roomId.isEmpty()) {
+        if (callback)
+            callback(QStringLiteral("room not found: ") + roomIdOrAlias);
+        return;
+    }
+
+    const auto handleId = currentMatrixRuntimeHandleId();
+    if (!handleId.has_value()) {
+        if (callback)
+            callback(QStringLiteral("matrix-sdk runtime is not active"));
+        return;
+    }
+
+    runIpcTask(makeWork(roomId, *handleId),
+               [callback = std::move(callback)](QString error) mutable {
+                   if (callback)
+                       callback(error);
+               });
+}
+
+} // namespace
+
+void
+setRoomName(const QString &roomIdOrAlias, const QString &name, RoomActionCallback callback)
+{
+    runRoomSettingAction(
+      roomIdOrAlias, std::move(callback), [name](const QString &roomId, uint64_t handleId) {
+          return [roomId, handleId, name]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              QString error;
+              if (komai::MatrixBackendRuntimeService::setRoomName(
+                    context, handleId, roomId, name, &error)) {
+                  return QString{};
+              }
+              return error.isEmpty() ? QStringLiteral("failed to set the room name") : error;
+          };
+      });
+}
+
+void
+setRoomTopic(const QString &roomIdOrAlias, const QString &topic, RoomActionCallback callback)
+{
+    runRoomSettingAction(
+      roomIdOrAlias, std::move(callback), [topic](const QString &roomId, uint64_t handleId) {
+          return [roomId, handleId, topic]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              QString error;
+              if (komai::MatrixBackendRuntimeService::setRoomTopic(
+                    context, handleId, roomId, topic, &error)) {
+                  return QString{};
+              }
+              return error.isEmpty() ? QStringLiteral("failed to set the room topic") : error;
+          };
+      });
+}
+
+void
+setUserPowerLevel(const QString &roomIdOrAlias,
+                  const QString &userId,
+                  const int powerLevel,
+                  RoomActionCallback callback)
+{
+    const auto trimmedUserId = userId.trimmed();
+    if (!trimmedUserId.startsWith(QLatin1Char('@'))) {
+        if (callback) {
+            callback(QStringLiteral("user ID must be a fully-qualified Matrix ID: ") +
+                     trimmedUserId);
+        }
+        return;
+    }
+
+    runRoomSettingAction(
+      roomIdOrAlias,
+      std::move(callback),
+      [trimmedUserId, powerLevel](const QString &roomId, uint64_t handleId) {
+          return [roomId, handleId, trimmedUserId, powerLevel]() {
+              const auto context = komai::matrix_backend::blockingCallContext();
+              QString error;
+              if (komai::MatrixBackendRuntimeService::setUserPowerLevel(
+                    context, handleId, roomId, trimmedUserId, powerLevel, &error)) {
+                  return QString{};
+              }
+              return error.isEmpty() ? QStringLiteral("failed to set the power level") : error;
+          };
+      });
+}
+
 // -- media --
 
 void

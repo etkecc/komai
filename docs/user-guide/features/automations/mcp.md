@@ -45,6 +45,7 @@ Examples:
 - `app_get_api_version`
 - `rooms_list`
 - `rooms_get_timeline`
+- `rooms_get_state`
 - `user_get_id`
 - `user_get_homeserver_url`
 - `user_get_device_id`
@@ -60,6 +61,10 @@ Examples of additional write tools:
 
 - `rooms_create`
 - `rooms_join`
+- `rooms_set_state`
+- `rooms_set_name`
+- `rooms_set_topic`
+- `rooms_set_power_level`
 - `rooms_leave`
 - `rooms_new_direct_chat`
 - `rooms_invite`
@@ -158,6 +163,33 @@ works without waiting on Komai:
 
 Komai does not validate the contents of the three raw fields beyond checking that they are the
 right JSON shape. The homeserver rejects anything malformed, and the error comes back verbatim.
+
+### State event tools
+
+`rooms_get_state` and `rooms_set_state` reach any room state event, including custom types that
+Matrix itself does not define. Both take `roomIdOrAlias`, an `eventType`, and an optional
+`stateKey` that defaults to the empty string, which is what most state events use.
+
+`rooms_get_state` answers `{"exists": bool, "content": {...}}`. A room that simply has no such
+state comes back as `exists: false` rather than an error, since "is this set?" is a fair question.
+
+The read always goes to the homeserver rather than Komai's local cache. Komai syncs via sliding
+sync, which only fetches the state types the room list asks for, so a custom type would otherwise
+read back as missing even when the room has it.
+
+`rooms_set_state` takes a `content` object and returns the `eventId` of the state event it sent.
+
+> **`content` replaces, it does not merge.** Whatever you send becomes the entire content of that
+> state event. Read the current content first and send back a complete object, or you will drop
+> the keys you left out.
+
+That trap is sharpest for `m.room.power_levels`, where a content of
+`{"users": {"@alice:example.org": 100}}` removes everyone else's power level and every custom
+event threshold in the room. Use `rooms_set_power_level` instead: it reads the current levels,
+changes the one user, and writes the whole thing back.
+
+`rooms_set_name` and `rooms_set_topic` are the same idea for the two most common fields; passing
+an empty string clears the field rather than failing.
 
 ### Membership tools
 

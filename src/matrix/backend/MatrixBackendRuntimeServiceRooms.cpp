@@ -828,6 +828,65 @@ MatrixBackendRuntimeService::setRoomTopic(matrix_backend::BlockingCallContext co
     }
 }
 
+std::optional<MatrixRoomStateEventResult>
+MatrixBackendRuntimeService::fetchRoomStateEvent(matrix_backend::BlockingCallContext context,
+                                                 uint64_t handleId,
+                                                 const QString &roomId,
+                                                 const QString &eventType,
+                                                 const QString &stateKey,
+                                                 QString *errorOut)
+{
+    try {
+        const auto result = invokeRuntimeWorkerCall(
+          "matrix_fetch_room_state_event", [context, handleId, roomId, eventType, stateKey]() {
+              return ::komai::rust::matrix_fetch_room_state_event(
+                matrix_backend::toRustBlockingContext(context),
+                handleId,
+                roomId.toStdString(),
+                eventType.toStdString(),
+                stateKey.toStdString());
+          });
+
+        return MatrixRoomStateEventResult{
+          .exists      = result.exists,
+          .contentJson = QString::fromStdString(std::string(result.content_json)),
+        };
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
+std::optional<QString>
+MatrixBackendRuntimeService::sendRoomStateEvent(matrix_backend::BlockingCallContext context,
+                                                uint64_t handleId,
+                                                const QString &roomId,
+                                                const QString &eventType,
+                                                const QString &stateKey,
+                                                const QString &contentJson,
+                                                QString *errorOut)
+{
+    try {
+        const auto result =
+          invokeRuntimeWorkerCall("matrix_send_room_state_event",
+                                  [context, handleId, roomId, eventType, stateKey, contentJson]() {
+                                      return ::komai::rust::matrix_send_room_state_event(
+                                        matrix_backend::toRustBlockingContext(context),
+                                        handleId,
+                                        roomId.toStdString(),
+                                        eventType.toStdString(),
+                                        stateKey.toStdString(),
+                                        contentJson.toStdString());
+                                  });
+        return QString::fromStdString(std::string(result));
+    } catch (const std::exception &e) {
+        if (errorOut)
+            *errorOut = QString::fromUtf8(e.what());
+        return std::nullopt;
+    }
+}
+
 QString
 MatrixBackendRuntimeService::uploadRoomAvatar(matrix_backend::BlockingCallContext context,
                                               uint64_t handleId,

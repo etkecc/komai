@@ -281,6 +281,122 @@ handleCreate(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
     return 0;
 }
 
+int
+handleGetState(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+    const auto eventType = parsed.positionals.value(1);
+    if (!requireNonEmptyValue(eventType, "event-type"))
+        return 1;
+
+    QJsonObject params{
+      {QStringLiteral("roomIdOrAlias"), room},
+      {QStringLiteral("eventType"), eventType},
+      {QStringLiteral("stateKey"), parsed.positionals.value(2)},
+    };
+
+    const auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.getState"), params);
+    if (handleIpcError(response))
+        return 1;
+
+    const auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    // A room that simply has no such state is an answer, but scripts want to
+    // branch on it without parsing, so it also shows up in the exit code.
+    return result.value(QStringLiteral("exists")).toBool() ? 0 : 2;
+}
+
+int
+handleSetState(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+    const auto eventType = parsed.positionals.value(1);
+    if (!requireNonEmptyValue(eventType, "event-type"))
+        return 1;
+    const auto rawContent = parsed.positionals.value(2);
+    if (!requireNonEmptyValue(rawContent, "content-json"))
+        return 1;
+
+    QJsonParseError parseError;
+    const auto doc = QJsonDocument::fromJson(rawContent.toUtf8(), &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+        std::cerr << "Error: content-json is not valid JSON: "
+                  << parseError.errorString().toStdString() << "\n";
+        return 1;
+    }
+    if (!doc.isObject()) {
+        std::cerr << "Error: content-json must be a JSON object\n";
+        return 1;
+    }
+
+    QJsonObject params{
+      {QStringLiteral("roomIdOrAlias"), room},
+      {QStringLiteral("eventType"), eventType},
+      {QStringLiteral("stateKey"), parsed.flagOr(QStringLiteral("--state-key"))},
+      {QStringLiteral("content"), doc.object()},
+    };
+
+    const auto response = cli_ipc::call(parsed.profileId, QStringLiteral("rooms.setState"), params);
+    if (handleIpcError(response))
+        return 1;
+
+    const auto result = response.value(QStringLiteral("result")).toObject();
+    std::cout << QJsonDocument(result).toJson(QJsonDocument::Compact).toStdString() << "\n";
+    return 0;
+}
+
+/// set-name and set-topic differ only in the method and the parameter name.
+int
+handleSetRoomText(const cli_schema::ParsedArgs &parsed,
+                  const QString &method,
+                  const QString &paramKey)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+
+    // Remaining positionals join with spaces so unquoted multi-word values
+    // work, and an omitted value clears the field.
+    QStringList parts;
+    for (int i = 1; i < parsed.positionals.size(); ++i)
+        parts.append(parsed.positionals.at(i));
+
+    const auto response = cli_ipc::call(
+      parsed.profileId,
+      method,
+      {{QStringLiteral("roomIdOrAlias"), room}, {paramKey, parts.join(QLatin1Char(' '))}});
+    return handleIpcError(response) ? 1 : 0;
+}
+
+int
+handleSetPowerLevel(const cli_schema::ParsedArgs &parsed, QCoreApplication & /*app*/)
+{
+    const auto room = parsed.positionals.value(0);
+    if (!requireNonEmptyValue(room, "room-id-or-alias"))
+        return 1;
+    const auto userId = parsed.positionals.value(1);
+    if (!requireNonEmptyValue(userId, "user-id"))
+        return 1;
+
+    bool ok              = false;
+    const int powerLevel = parsed.positionals.value(2).toInt(&ok);
+    if (!ok) {
+        std::cerr << "Error: power-level must be an integer\n";
+        return 1;
+    }
+
+    const auto response = cli_ipc::call(parsed.profileId,
+                                        QStringLiteral("rooms.setPowerLevel"),
+                                        {{QStringLiteral("roomIdOrAlias"), room},
+                                         {QStringLiteral("userId"), userId},
+                                         {QStringLiteral("powerLevel"), powerLevel}});
+    return handleIpcError(response) ? 1 : 0;
+}
+
 /// The four user-targeting membership subcommands differ only in the IPC
 /// method they call, so they share one handler.
 int
@@ -556,6 +672,97 @@ roomsGroupDef()
     }
     create.handler = handleCreate;
     group.subcommands.append(create);
+
+    // get-state <room> <event-type> [state-key]
+    cli_schema::SubcommandDef getState;
+    getState.name     = QStringLiteral("get-state");
+    getState.help     = QStringLiteral("Read one room state event's content (JSON)");
+    getState.longHelp = QStringLiteral(
+      "Prints {\"exists\": bool, \"content\": {...}}, read from the homeserver rather than\n"
+      "Komai's local cache, which only holds the state types sliding sync asked for.\n\n"
+      "Exits 2 when the room has no such state event, so scripts can branch without parsing.");
+    for (const auto *name : {"room-id-or-alias", "event-type"}) {
+        cli_schema::PositionalDef positional;
+        positional.name = QString::fromLatin1(name);
+        getState.positionals.append(positional);
+    }
+    cli_schema::PositionalDef getStateKey;
+    getStateKey.name     = QStringLiteral("state-key");
+    getStateKey.optional = true;
+    getStateKey.help     = QStringLiteral("Defaults to the empty string, which most state uses.");
+    getState.positionals.append(getStateKey);
+    getState.handler = handleGetState;
+    group.subcommands.append(getState);
+
+    // set-state <room> <event-type> <content-json> [--state-key]
+    cli_schema::SubcommandDef setState;
+    setState.name     = QStringLiteral("set-state");
+    setState.help     = QStringLiteral("Send a room state event with raw JSON content");
+    setState.longHelp = QStringLiteral(
+      "The content replaces the state event wholesale; it is not merged into what is\n"
+      "already there. For m.room.power_levels that means an object listing one user\n"
+      "drops every other level in the room -- use set-power-level instead.");
+    for (const auto *name : {"room-id-or-alias", "event-type", "content-json"}) {
+        cli_schema::PositionalDef positional;
+        positional.name = QString::fromLatin1(name);
+        setState.positionals.append(positional);
+    }
+    cli_schema::FlagDef stateKeyFlag;
+    stateKeyFlag.longName         = QStringLiteral("--state-key");
+    stateKeyFlag.takesValue       = true;
+    stateKeyFlag.valuePlaceholder = QStringLiteral("<key>");
+    stateKeyFlag.help             = QStringLiteral("State key; defaults to the empty string.");
+    setState.flags.append(stateKeyFlag);
+    setState.handler = handleSetState;
+    group.subcommands.append(setState);
+
+    // set-name / set-topic <room> [value...]
+    const std::pair<const char *, const char *> roomTextSubcommands[] = {
+      {"set-name", "name"},
+      {"set-topic", "topic"},
+    };
+    for (const auto &[name, paramKey] : roomTextSubcommands) {
+        cli_schema::SubcommandDef subcommand;
+        subcommand.name = QString::fromLatin1(name);
+        subcommand.help =
+          QStringLiteral("Set the room %1 (omit to clear it)").arg(QString::fromLatin1(paramKey));
+
+        cli_schema::PositionalDef room;
+        room.name = QStringLiteral("room-id-or-alias");
+        subcommand.positionals.append(room);
+
+        cli_schema::PositionalDef value;
+        value.name     = QString::fromLatin1(paramKey);
+        value.optional = true;
+        value.variadic = true;
+        value.help     = QStringLiteral("Multiple words are joined with spaces.");
+        subcommand.positionals.append(value);
+
+        const auto method = QStringLiteral("rooms.set%1%2")
+                              .arg(QString::fromLatin1(paramKey).left(1).toUpper(),
+                                   QString::fromLatin1(paramKey).mid(1));
+        const auto key     = QString::fromLatin1(paramKey);
+        subcommand.handler = [method, key](const cli_schema::ParsedArgs &parsed,
+                                           QCoreApplication & /*app*/) {
+            return handleSetRoomText(parsed, method, key);
+        };
+        group.subcommands.append(subcommand);
+    }
+
+    // set-power-level <room> <user> <level>
+    cli_schema::SubcommandDef setPowerLevel;
+    setPowerLevel.name     = QStringLiteral("set-power-level");
+    setPowerLevel.help     = QStringLiteral("Set one user's power level in a room");
+    setPowerLevel.longHelp = QStringLiteral(
+      "Reads m.room.power_levels, changes this one user, and writes it back, so every\n"
+      "other level in the room is preserved.");
+    for (const auto *name : {"room-id-or-alias", "user-id", "power-level"}) {
+        cli_schema::PositionalDef positional;
+        positional.name = QString::fromLatin1(name);
+        setPowerLevel.positionals.append(positional);
+    }
+    setPowerLevel.handler = handleSetPowerLevel;
+    group.subcommands.append(setPowerLevel);
 
     // invite / kick / ban / unban <room> <user> [--reason]
     struct MembershipSubcommand

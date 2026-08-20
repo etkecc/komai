@@ -477,6 +477,27 @@ public:
                              const QString &topic,
                              QString *errorOut = nullptr);
 
+    /// Reads one state event's content as raw JSON, straight from the
+    /// homeserver rather than the local state store, which only holds the
+    /// types sliding sync was asked for.
+    static std::optional<MatrixRoomStateEventResult>
+    fetchRoomStateEvent(matrix_backend::BlockingCallContext context,
+                        uint64_t handleId,
+                        const QString &roomId,
+                        const QString &eventType,
+                        const QString &stateKey,
+                        QString *errorOut = nullptr);
+
+    /// Sends a state event with raw JSON content, returning its event ID.
+    /// The content replaces what is there; it is not merged.
+    static std::optional<QString> sendRoomStateEvent(matrix_backend::BlockingCallContext context,
+                                                     uint64_t handleId,
+                                                     const QString &roomId,
+                                                     const QString &eventType,
+                                                     const QString &stateKey,
+                                                     const QString &contentJson,
+                                                     QString *errorOut = nullptr);
+
     static QString uploadRoomAvatar(matrix_backend::BlockingCallContext context,
                                     uint64_t handleId,
                                     const QString &roomId,

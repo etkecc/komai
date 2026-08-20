@@ -885,6 +885,166 @@ fn handle_rooms_create(
     success(Value::Object(result), vec![results::text_content(summary)])
 }
 
+/// Both state tools take the same three locating arguments.
+fn state_params(
+    arguments: &Map<String, Value>,
+) -> Result<(String, String, String), ToolFailure> {
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let event_type = require_non_empty_string(arguments, "eventType")?;
+    // Most state events key off the empty string, so an absent stateKey means
+    // "" rather than "any state key".
+    let state_key = optional_string(arguments, "stateKey")?.unwrap_or_default();
+    Ok((room_id_or_alias, event_type, state_key))
+}
+
+fn handle_rooms_get_state(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "eventType", "stateKey"])?;
+    let (room_id_or_alias, event_type, state_key) = state_params(arguments)?;
+
+    let result = backend_object(
+        backend,
+        "rooms.getState",
+        json!({
+            "roomIdOrAlias": room_id_or_alias,
+            "eventType": event_type,
+            "stateKey": state_key,
+        }),
+    )?;
+
+    let exists = result
+        .get("exists")
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
+    let summary = if exists {
+        format!("Read {event_type} from {room_id_or_alias}.")
+    } else {
+        format!("{room_id_or_alias} has no {event_type} state event.")
+    };
+
+    success(Value::Object(result), vec![results::text_content(summary)])
+}
+
+fn handle_rooms_set_state(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "eventType", "stateKey", "content"])?;
+    let (room_id_or_alias, event_type, state_key) = state_params(arguments)?;
+    let content = match arguments.get("content") {
+        Some(Value::Object(content)) => content.clone(),
+        Some(_) => {
+            return Err(ToolFailure::InvalidParams(
+                "Argument 'content' must be an object.".to_owned(),
+            ))
+        }
+        None => {
+            return Err(ToolFailure::InvalidParams(
+                "Missing required argument 'content'.".to_owned(),
+            ))
+        }
+    };
+
+    let result = backend_object(
+        backend,
+        "rooms.setState",
+        json!({
+            "roomIdOrAlias": room_id_or_alias,
+            "eventType": event_type,
+            "stateKey": state_key,
+            "content": content,
+        }),
+    )?;
+
+    success(
+        Value::Object(result),
+        vec![results::text_content(format!(
+            "Set {event_type} in {room_id_or_alias}."
+        ))],
+    )
+}
+
+/// rooms_set_name and rooms_set_topic differ only in the method and the key
+/// carrying the value.
+fn handle_room_text_setting(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+    method: &str,
+    key: &'static str,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", key])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    // An empty value is meaningful: it clears the field.
+    let value = optional_string(arguments, key)?.unwrap_or_default();
+
+    backend_bool_true(
+        backend,
+        method,
+        json!({ "roomIdOrAlias": room_id_or_alias, key: value }),
+    )?;
+
+    let summary = if value.is_empty() {
+        format!("Cleared the {key} of {room_id_or_alias}.")
+    } else {
+        format!("Set the {key} of {room_id_or_alias} to \"{value}\".")
+    };
+
+    success(
+        json!({ "ok": true, "roomIdOrAlias": room_id_or_alias, key: value }),
+        vec![results::text_content(summary)],
+    )
+}
+
+fn handle_rooms_set_name(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    handle_room_text_setting(backend, arguments, "rooms.setName", "name")
+}
+
+fn handle_rooms_set_topic(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    handle_room_text_setting(backend, arguments, "rooms.setTopic", "topic")
+}
+
+fn handle_rooms_set_power_level(
+    backend: &dyn Backend,
+    arguments: &Map<String, Value>,
+) -> Result<ToolSuccess, ToolFailure> {
+    reject_unknown_keys(arguments, &["roomIdOrAlias", "userId", "powerLevel"])?;
+    let room_id_or_alias = require_non_empty_string(arguments, "roomIdOrAlias")?;
+    let user_id = require_non_empty_string(arguments, "userId")?;
+    let power_level = optional_integer(arguments, "powerLevel")?.ok_or_else(|| {
+        ToolFailure::InvalidParams("Missing required argument 'powerLevel'.".to_owned())
+    })?;
+
+    backend_bool_true(
+        backend,
+        "rooms.setPowerLevel",
+        json!({
+            "roomIdOrAlias": room_id_or_alias,
+            "userId": user_id,
+            "powerLevel": power_level,
+        }),
+    )?;
+
+    success(
+        json!({
+            "ok": true,
+            "roomIdOrAlias": room_id_or_alias,
+            "userId": user_id,
+            "powerLevel": power_level,
+        }),
+        vec![results::text_content(format!(
+            "Set {user_id} to power level {power_level} in {room_id_or_alias}."
+        ))],
+    )
+}
+
 fn handle_rooms_new_direct_chat(
     backend: &dyn Backend,
     arguments: &Map<String, Value>,
@@ -1541,6 +1701,175 @@ untouched, so any Matrix-defined field works; the homeserver validates them.",
         },
         output_schema: || getter_output_schema("roomId", "Matrix room ID of the created room."),
         handler: handle_rooms_create,
+    },
+    ToolDefinition {
+        name: "rooms_get_state",
+        title: "Get Room State Event",
+        description: "Read one room state event's content, fetched from the homeserver. Works for \
+any event type, including custom ones. Returns exists:false rather than an error when the room \
+has no such state.",
+        access: ToolAccess::Read,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    (
+                        "eventType",
+                        string_schema("Matrix state event type, such as m.room.topic or a custom type."),
+                    ),
+                    (
+                        "stateKey",
+                        string_schema("State key. Defaults to the empty string, which is what most state events use."),
+                    ),
+                ],
+                &["roomIdOrAlias", "eventType"],
+            )
+        },
+        output_schema: || {
+            object_schema(
+                vec![
+                    (
+                        "exists",
+                        boolean_schema("Whether the room has this state event at all."),
+                    ),
+                    (
+                        "content",
+                        generic_object_schema("The state event's content, empty when exists is false."),
+                    ),
+                ],
+                &["exists", "content"],
+            )
+        },
+        handler: handle_rooms_get_state,
+    },
+    ToolDefinition {
+        name: "rooms_set_state",
+        title: "Set Room State Event",
+        description: "Send a room state event with arbitrary content, including custom event \
+types. The content REPLACES the state event rather than merging into it, so read it first with \
+rooms_get_state and send back a complete object. For m.room.power_levels prefer \
+rooms_set_power_level, which merges; a partial power_levels object silently drops every level it \
+omits.",
+        access: ToolAccess::Write,
+        destructive: true,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    ("eventType", string_schema("Matrix state event type to send.")),
+                    (
+                        "stateKey",
+                        string_schema("State key. Defaults to the empty string, which is what most state events use."),
+                    ),
+                    (
+                        "content",
+                        generic_object_schema("Complete content for the state event. Replaces what is there."),
+                    ),
+                ],
+                &["roomIdOrAlias", "eventType", "content"],
+            )
+        },
+        output_schema: || getter_output_schema("eventId", "Event ID of the state event that was sent."),
+        handler: handle_rooms_set_state,
+    },
+    ToolDefinition {
+        name: "rooms_set_name",
+        title: "Set Room Name",
+        description: "Set a room's name. Passing an empty name clears it.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    ("name", string_schema("New room name. Empty clears the name.")),
+                ],
+                &["roomIdOrAlias", "name"],
+            )
+        },
+        output_schema: || {
+            object_schema(
+                vec![
+                    ("ok", json!({"type": "boolean"})),
+                    ("roomIdOrAlias", string_schema("Room ID or alias that was changed.")),
+                    ("name", string_schema("Name that was set.")),
+                ],
+                &["ok", "roomIdOrAlias", "name"],
+            )
+        },
+        handler: handle_rooms_set_name,
+    },
+    ToolDefinition {
+        name: "rooms_set_topic",
+        title: "Set Room Topic",
+        description: "Set a room's topic. Passing an empty topic clears it.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    ("topic", string_schema("New room topic. Empty clears the topic.")),
+                ],
+                &["roomIdOrAlias", "topic"],
+            )
+        },
+        output_schema: || {
+            object_schema(
+                vec![
+                    ("ok", json!({"type": "boolean"})),
+                    ("roomIdOrAlias", string_schema("Room ID or alias that was changed.")),
+                    ("topic", string_schema("Topic that was set.")),
+                ],
+                &["ok", "roomIdOrAlias", "topic"],
+            )
+        },
+        handler: handle_rooms_set_topic,
+    },
+    ToolDefinition {
+        name: "rooms_set_power_level",
+        title: "Set User Power Level",
+        description: "Set one user's power level in a room. Reads m.room.power_levels, changes \
+this one user and writes it back, so every other level in the room is preserved. Prefer this over \
+rooms_set_state for power levels.",
+        access: ToolAccess::Write,
+        destructive: false,
+        idempotent: true,
+        open_world: true,
+        input_schema: || {
+            object_schema(
+                vec![
+                    ("roomIdOrAlias", string_schema("Room ID or room alias.")),
+                    ("userId", string_schema("Matrix user ID whose power level changes.")),
+                    (
+                        "powerLevel",
+                        integer_schema("New power level. 0 is default, 50 is usually moderator, 100 is usually admin."),
+                    ),
+                ],
+                &["roomIdOrAlias", "userId", "powerLevel"],
+            )
+        },
+        output_schema: || {
+            object_schema(
+                vec![
+                    ("ok", json!({"type": "boolean"})),
+                    ("roomIdOrAlias", string_schema("Room ID or alias that was changed.")),
+                    ("userId", string_schema("Matrix user ID that was changed.")),
+                    ("powerLevel", integer_schema("Power level that was set.")),
+                ],
+                &["ok", "roomIdOrAlias", "userId", "powerLevel"],
+            )
+        },
+        handler: handle_rooms_set_power_level,
     },
     ToolDefinition {
         name: "rooms_invite",
@@ -2399,6 +2728,190 @@ mod tests {
 
         let calls = backend.calls.borrow();
         assert_eq!(calls[0].1["preset"].as_str(), Some("private_chat"));
+    }
+
+    #[test]
+    fn rooms_get_state_defaults_the_state_key_to_empty() {
+        let backend = MockBackend::with_response(
+            "rooms.getState",
+            Ok(json!({"exists": true, "content": {"topic": "hi"}})),
+        );
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_state",
+            Some(json!({"roomIdOrAlias": "!r:example.org", "eventType": "m.room.topic"})),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (method, params) = &calls[0];
+        assert_eq!(method, "rooms.getState");
+        assert_eq!(params["stateKey"].as_str(), Some(""));
+        assert_eq!(
+            result["structuredContent"]["content"]["topic"].as_str(),
+            Some("hi")
+        );
+    }
+
+    #[test]
+    fn rooms_get_state_reports_absent_state_without_erroring() {
+        let backend = MockBackend::with_response(
+            "rooms.getState",
+            Ok(json!({"exists": false, "content": {}})),
+        );
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadOnly,
+            "rooms_get_state",
+            Some(json!({"roomIdOrAlias": "!r:example.org", "eventType": "com.example.custom"})),
+        )
+        .unwrap();
+
+        assert!(result.get("isError").is_none() || result["isError"] == json!(false));
+        assert_eq!(result["structuredContent"]["exists"].as_bool(), Some(false));
+        assert!(result["content"][0]["text"]
+            .as_str()
+            .unwrap()
+            .contains("has no com.example.custom"));
+    }
+
+    #[test]
+    fn rooms_get_state_is_available_in_read_only_mode() {
+        let names: Vec<String> = list_tools(AccessMode::ReadOnly)
+            .into_iter()
+            .map(|tool| tool["name"].as_str().unwrap().to_owned())
+            .collect();
+
+        assert!(names.contains(&"rooms_get_state".to_owned()));
+        assert!(!names.contains(&"rooms_set_state".to_owned()));
+    }
+
+    #[test]
+    fn rooms_set_state_passes_content_through_and_returns_an_event_id() {
+        let backend = MockBackend::with_response(
+            "rooms.setState",
+            Ok(json!({"eventId": "$state:example.org"})),
+        );
+
+        let content = json!({"protected_rooms": ["!a:example.org"]});
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_set_state",
+            Some(json!({
+                "roomIdOrAlias": "!r:example.org",
+                "eventType": "fi.mau.meowlnir.protected_rooms",
+                "content": content
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        let (method, params) = &calls[0];
+        assert_eq!(method, "rooms.setState");
+        assert_eq!(params["content"], content);
+        assert_eq!(params["stateKey"].as_str(), Some(""));
+        assert_eq!(
+            result["structuredContent"]["eventId"].as_str(),
+            Some("$state:example.org")
+        );
+    }
+
+    #[test]
+    fn rooms_set_state_requires_content() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_set_state",
+            Some(json!({"roomIdOrAlias": "!r:example.org", "eventType": "m.room.topic"})),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams("Missing required argument 'content'.".to_owned())
+        );
+    }
+
+    #[test]
+    fn rooms_set_state_is_annotated_destructive_but_the_wrappers_are_not() {
+        let tools = list_tools(AccessMode::ReadWrite);
+        let destructive = |name: &str| -> bool {
+            tools
+                .iter()
+                .find(|tool| tool["name"].as_str() == Some(name))
+                .expect("tool present")["annotations"]["destructiveHint"]
+                .as_bool()
+                .expect("destructiveHint present")
+        };
+
+        assert!(destructive("rooms_set_state"));
+        assert!(!destructive("rooms_set_name"));
+        assert!(!destructive("rooms_set_topic"));
+        assert!(!destructive("rooms_set_power_level"));
+    }
+
+    #[test]
+    fn empty_room_text_settings_clear_rather_than_fail() {
+        let backend = MockBackend::with_response("rooms.setTopic", Ok(Value::Bool(true)));
+
+        let result = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_set_topic",
+            Some(json!({"roomIdOrAlias": "!r:example.org", "topic": ""})),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        assert_eq!(calls[0].1["topic"].as_str(), Some(""));
+        assert!(result["content"][0]["text"]
+            .as_str()
+            .unwrap()
+            .contains("Cleared"));
+    }
+
+    #[test]
+    fn rooms_set_power_level_requires_an_explicit_level() {
+        let backend = MockBackend::default();
+
+        let error = call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_set_power_level",
+            Some(json!({"roomIdOrAlias": "!r:example.org", "userId": "@a:example.org"})),
+        )
+        .unwrap_err();
+
+        assert_eq!(
+            error,
+            CallToolError::InvalidParams("Missing required argument 'powerLevel'.".to_owned())
+        );
+    }
+
+    #[test]
+    fn rooms_set_power_level_accepts_a_negative_level() {
+        let backend = MockBackend::with_response("rooms.setPowerLevel", Ok(Value::Bool(true)));
+
+        call_tool(
+            &backend,
+            AccessMode::ReadWrite,
+            "rooms_set_power_level",
+            Some(json!({
+                "roomIdOrAlias": "!r:example.org",
+                "userId": "@a:example.org",
+                "powerLevel": -1
+            })),
+        )
+        .unwrap();
+
+        let calls = backend.calls.borrow();
+        assert_eq!(calls[0].1["powerLevel"].as_i64(), Some(-1));
     }
 
     #[test]

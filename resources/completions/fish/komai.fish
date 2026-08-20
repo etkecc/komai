@@ -1,7 +1,7 @@
 # fish completion for komai (auto-generated; do not edit)
 
 function __komai_positionals
-    set -l value_flags --access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --room-version --tag --topic --variant -L -l -p
+    set -l value_flags --access --alias-localpart --before-event-id --caption --content-type --creation-content --encrypted --fetch-mode --fields --filename --format --ids --initial-state --invite --is-dm --limit --log-level --log-type --min-member-count --msgtype --name --offset --parent-space --power-levels --preset --profile --query --reason --room-version --state-key --tag --topic --variant -L -l -p
     set -l tokens (commandline -opc)
     set -l skip_next 0
     set -l first 1
@@ -130,6 +130,7 @@ complete -c komai -n '__komai_at_path rooms' -l help
 complete -c komai -n '__komai_at_path rooms' -s h
 complete -c komai -n '__komai_at_path rooms' -a 'ban'
 complete -c komai -n '__komai_at_path rooms' -a 'create'
+complete -c komai -n '__komai_at_path rooms' -a 'get-state'
 complete -c komai -n '__komai_at_path rooms' -a 'invite'
 complete -c komai -n '__komai_at_path rooms' -a 'join'
 complete -c komai -n '__komai_at_path rooms' -a 'kick'
@@ -138,6 +139,10 @@ complete -c komai -n '__komai_at_path rooms' -a 'list'
 complete -c komai -n '__komai_at_path rooms' -a 'new-direct-chat'
 complete -c komai -n '__komai_at_path rooms' -a 'send'
 complete -c komai -n '__komai_at_path rooms' -a 'send-image'
+complete -c komai -n '__komai_at_path rooms' -a 'set-name'
+complete -c komai -n '__komai_at_path rooms' -a 'set-power-level'
+complete -c komai -n '__komai_at_path rooms' -a 'set-state'
+complete -c komai -n '__komai_at_path rooms' -a 'set-topic'
 complete -c komai -n '__komai_at_path rooms' -a 'timeline'
 complete -c komai -n '__komai_at_path rooms' -a 'unban'
 complete -c komai -n '__komai_within rooms list' -l encrypted -xa 'true false'
@@ -177,6 +182,17 @@ complete -c komai -n '__komai_within rooms create' -l room-version
 complete -c komai -n '__komai_within rooms create' -l space
 complete -c komai -n '__komai_within rooms create' -l topic
 complete -c komai -n '__komai_within rooms create' -s h
+complete -c komai -n '__komai_within rooms get-state' -l help
+complete -c komai -n '__komai_within rooms get-state' -s h
+complete -c komai -n '__komai_within rooms set-state' -l help
+complete -c komai -n '__komai_within rooms set-state' -l state-key
+complete -c komai -n '__komai_within rooms set-state' -s h
+complete -c komai -n '__komai_within rooms set-name' -l help
+complete -c komai -n '__komai_within rooms set-name' -s h
+complete -c komai -n '__komai_within rooms set-topic' -l help
+complete -c komai -n '__komai_within rooms set-topic' -s h
+complete -c komai -n '__komai_within rooms set-power-level' -l help
+complete -c komai -n '__komai_within rooms set-power-level' -s h
 complete -c komai -n '__komai_within rooms invite' -l help
 complete -c komai -n '__komai_within rooms invite' -l reason
 complete -c komai -n '__komai_within rooms invite' -s h

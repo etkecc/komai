@@ -248,6 +248,58 @@ unbanUser(const QString &roomIdOrAlias,
 void
 leaveRoom(const QString &roomIdOrAlias, const QString &reason, RoomActionCallback callback);
 
+// -- rooms (state) --
+
+struct StateEventResult
+{
+    /// False when the room has no such state event, which is an answer rather
+    /// than a failure.
+    bool exists = false;
+    QJsonObject content;
+};
+
+/// Callback for async state reads.
+using ReadStateCallback = std::function<void(const StateEventResult &result, const QString &error)>;
+
+/// Reads one state event's content from the homeserver.
+///
+/// Always a server round trip: Komai syncs via sliding sync, so the local
+/// state store only holds the types the room list asked for, and any other
+/// type would read back as missing even when the room has it.
+void
+readStateEvent(const QString &roomIdOrAlias,
+               const QString &eventType,
+               const QString &stateKey,
+               ReadStateCallback callback);
+
+/// Sends a state event with caller-supplied content, yielding its event ID.
+///
+/// `content` replaces the event wholesale rather than merging into it. For
+/// m.room.power_levels that means an incomplete object silently drops every
+/// level it omits, which is why setUserPowerLevel exists.
+void
+sendStateEvent(const QString &roomIdOrAlias,
+               const QString &eventType,
+               const QString &stateKey,
+               const QJsonObject &content,
+               SendMessageCallback callback);
+
+/// Sets the room name (m.room.name).
+void
+setRoomName(const QString &roomIdOrAlias, const QString &name, RoomActionCallback callback);
+
+/// Sets the room topic (m.room.topic).
+void
+setRoomTopic(const QString &roomIdOrAlias, const QString &topic, RoomActionCallback callback);
+
+/// Sets one user's power level, preserving every other entry in
+/// m.room.power_levels.
+void
+setUserPowerLevel(const QString &roomIdOrAlias,
+                  const QString &userId,
+                  int powerLevel,
+                  RoomActionCallback callback);
+
 // -- media --
 
 using MediaFetchCallback = std::function<void(const QImage &)>;

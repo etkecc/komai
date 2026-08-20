@@ -488,6 +488,100 @@ IpcServer::handleRequest(QLocalSocket *socket)
         return;
     }
 
+    // -- rooms (state) --
+
+    if (method == QLatin1String("rooms.getState") || method == QLatin1String("rooms.setState")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        QString eventType;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("eventType"), &eventType))
+            return;
+
+        // Most state events key off the empty string, so an absent stateKey
+        // means "" rather than "any".
+        QString stateKey;
+        if (!optionalStringParam(socket, params, QStringLiteral("stateKey"), &stateKey))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+
+        if (method == QLatin1String("rooms.getState")) {
+            readStateEvent(
+              roomIdOrAlias,
+              eventType,
+              stateKey,
+              [safeSocket](const StateEventResult &result, const QString &error) {
+                  writeResponseFromCallback(
+                    safeSocket,
+                    resultOrErrorResponse(QJsonObject{{QStringLiteral("exists"), result.exists},
+                                                      {QStringLiteral("content"), result.content}},
+                                          error));
+              });
+            return;
+        }
+
+        QJsonObject content;
+        if (!optionalObjectParam(socket, params, QStringLiteral("content"), &content))
+            return;
+
+        sendStateEvent(
+          roomIdOrAlias, eventType, stateKey, content, sendResultResponder(safeSocket));
+        return;
+    }
+
+    if (method == QLatin1String("rooms.setName") || method == QLatin1String("rooms.setTopic")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        // An empty value is meaningful here: it clears the name or topic.
+        const auto valueKey = method == QLatin1String("rooms.setName") ? QStringLiteral("name")
+                                                                       : QStringLiteral("topic");
+        QString value;
+        if (!optionalStringParam(socket, params, valueKey, &value))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        if (method == QLatin1String("rooms.setName"))
+            setRoomName(roomIdOrAlias, value, roomActionResponder(safeSocket));
+        else
+            setRoomTopic(roomIdOrAlias, value, roomActionResponder(safeSocket));
+        return;
+    }
+
+    if (method == QLatin1String("rooms.setPowerLevel")) {
+        QString roomIdOrAlias;
+        if (!requireNonEmptyString(
+              socket, params, QStringLiteral("roomIdOrAlias"), &roomIdOrAlias)) {
+            return;
+        }
+
+        QString userId;
+        if (!requireNonEmptyString(socket, params, QStringLiteral("userId"), &userId))
+            return;
+
+        if (!params.contains(QStringLiteral("powerLevel"))) {
+            writeResponse(
+              socket,
+              {{QStringLiteral("error"), QStringLiteral("Argument 'powerLevel' is required.")}});
+            return;
+        }
+
+        int powerLevel = 0;
+        if (!optionalIntParam(socket, params, QStringLiteral("powerLevel"), 0, &powerLevel))
+            return;
+
+        QPointer<QLocalSocket> safeSocket = socket;
+        setUserPowerLevel(roomIdOrAlias, userId, powerLevel, roomActionResponder(safeSocket));
+        return;
+    }
+
     if (method == QLatin1String("rooms.newDirectChat")) {
         QString userId;
         if (!requireNonEmptyString(socket, params, QStringLiteral("userId"), &userId)) {

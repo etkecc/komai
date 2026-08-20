@@ -305,6 +305,45 @@ pub(crate) fn matrix_set_room_topic(
     )
 }
 
+pub(crate) fn matrix_fetch_room_state_event(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    event_type: &str,
+    state_key: &str,
+) -> Result<ffi::MatrixRoomStateEvent, String> {
+    ffi_block_on(
+        context,
+        "matrix_fetch_room_state_event",
+        matrix_backend::runtime::fetch_room_state_event(handle_id, room_id, event_type, state_key),
+    )
+    .map(|event| ffi::MatrixRoomStateEvent {
+        exists: event.exists,
+        content_json: event.content_json,
+    })
+}
+
+pub(crate) fn matrix_send_room_state_event(
+    context: ffi::MatrixFfiBlockingContext,
+    handle_id: u64,
+    room_id: &str,
+    event_type: &str,
+    state_key: &str,
+    content_json: &str,
+) -> Result<String, String> {
+    ffi_block_on(
+        context,
+        "matrix_send_room_state_event",
+        matrix_backend::runtime::send_room_state_event(
+            handle_id,
+            room_id,
+            event_type,
+            state_key,
+            content_json,
+        ),
+    )
+}
+
 pub(crate) fn matrix_upload_room_avatar(
     context: ffi::MatrixFfiBlockingContext,
     handle_id: u64,

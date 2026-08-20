@@ -157,6 +157,7 @@ pub use room_settings::{
     remove_room_avatar, set_room_access_rules,
     set_room_history_visibility, set_room_name, set_room_notification_mode, set_room_topic,
     set_user_power_level, upload_room_avatar,
+    fetch_room_state_event, send_room_state_event, MatrixRoomStateEvent,
 };
 pub use media_download::{
     active_timeline_media_download_progress,

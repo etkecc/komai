@@ -5,6 +5,7 @@
 use std::fs;
 
 use super::*;
+use serde_json::Value as JsonValue;
 use matrix_sdk::{
     deserialized_responses::SyncOrStrippedState,
     notification_settings::RoomNotificationMode,
@@ -16,7 +17,9 @@ use matrix_sdk::{
         api::client::{
             discovery::get_capabilities::v3::RoomVersionStability,
             room::aliases as room_aliases,
+            state::get_state_event_for_key,
         },
+        api::error::ErrorKind,
         events::{
             SyncStateEvent,
             StateEventType,
@@ -871,4 +874,95 @@ pub async fn set_room_access_rules(
         .await
         .map(|_| ())
         .map_err(|e| format!("failed to update room guest access via matrix-sdk: {e}"))
+}
+
+/// Result of reading one state event. `exists` is false when the room simply
+/// has no such state, which is a normal answer rather than an error.
+pub struct MatrixRoomStateEvent {
+    pub exists: bool,
+    pub content_json: String,
+}
+
+/// Reads one state event's content straight from the homeserver.
+///
+/// This deliberately does not use the local state store. Komai syncs via
+/// sliding sync, so the store only holds the `required_state` types the room
+/// list asks for; any other type -- notably a custom one -- would read back as
+/// missing even though the room has it.
+pub async fn fetch_room_state_event(
+    handle_id: u64,
+    room_id: &str,
+    event_type: &str,
+    state_key: &str,
+) -> Result<MatrixRoomStateEvent, String> {
+    let client = client_for_handle(handle_id)?;
+    let parsed_room_id = parse_room_id(room_id)?;
+
+    let event_type = event_type.trim();
+    if event_type.is_empty() {
+        return Err("cannot read a room state event without an event type".to_owned());
+    }
+
+    let request = get_state_event_for_key::v3::Request::new(
+        parsed_room_id,
+        event_type.into(),
+        state_key.to_owned(),
+    );
+
+    match client.send(request).await {
+        Ok(response) => Ok(MatrixRoomStateEvent {
+            exists: true,
+            content_json: response.event_or_content.get().to_owned(),
+        }),
+        // A room without this state answers M_NOT_FOUND, which is an answer,
+        // not a failure. Anything else is a real error.
+        Err(error) if matches!(error.client_api_error_kind(), Some(ErrorKind::NotFound)) => {
+            Ok(MatrixRoomStateEvent {
+                exists: false,
+                content_json: String::new(),
+            })
+        }
+        Err(error) => Err(format!(
+            "failed to read room state event '{event_type}': {error}"
+        )),
+    }
+}
+
+/// Sends a state event with caller-supplied content. Returns the event ID.
+///
+/// The content replaces the event wholesale; it is not merged with what is
+/// already there. For `m.room.power_levels` in particular, prefer
+/// set_user_power_level, which reads first.
+pub async fn send_room_state_event(
+    handle_id: u64,
+    room_id: &str,
+    event_type: &str,
+    state_key: &str,
+    content_json: &str,
+) -> Result<String, String> {
+    let room = joined_room_for_handle(handle_id, room_id)?;
+
+    let event_type = event_type.trim();
+    if event_type.is_empty() {
+        return Err("cannot send a room state event without an event type".to_owned());
+    }
+
+    let content: JsonValue = serde_json::from_str(content_json)
+        .map_err(|e| format!("invalid room state event content json: {e}"))?;
+    if !content.is_object() {
+        return Err("room state event content must be a json object".to_owned());
+    }
+
+    tracing::info!(
+        handle_id,
+        room_id = room.room_id().as_str(),
+        event_type,
+        has_state_key = !state_key.is_empty(),
+        "Sending room state event via matrix-sdk backend runtime"
+    );
+
+    room.send_state_event_raw(event_type, state_key, content)
+        .await
+        .map(|response| response.event_id.to_string())
+        .map_err(|e| format!("failed to send room state event '{event_type}': {e}"))
 }

@@ -867,6 +867,13 @@ mod bridge {
         device_id: String,
     }
 
+    /// One room state event's content, as raw JSON. `exists` is false when the
+    /// room has no such state, which is an answer rather than an error.
+    struct MatrixRoomStateEvent {
+        exists: bool,
+        content_json: String,
+    }
+
     struct MatrixOwnProfile {
         display_name: String,
         avatar_url: String,
@@ -2264,6 +2271,21 @@ mod bridge {
             room_id: &str,
             topic: &str,
         ) -> Result<()>;
+        fn matrix_fetch_room_state_event(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            event_type: &str,
+            state_key: &str,
+        ) -> Result<MatrixRoomStateEvent>;
+        fn matrix_send_room_state_event(
+            context: MatrixFfiBlockingContext,
+            handle_id: u64,
+            room_id: &str,
+            event_type: &str,
+            state_key: &str,
+            content_json: &str,
+        ) -> Result<String>;
         fn matrix_upload_room_avatar(
             context: MatrixFfiBlockingContext,
             handle_id: u64,

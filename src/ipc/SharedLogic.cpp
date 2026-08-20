@@ -538,7 +538,9 @@ roomList()
           joinedRoomIt != rl->matrixJoinedRooms().cend() ? joinedRoomIt->memberCount : 0;
 
         RoomInfo info;
-        info.roomId      = roomId;
+        info.roomId = roomId;
+        info.alias =
+          joinedRoomIt != rl->matrixJoinedRooms().cend() ? joinedRoomIt->roomAlias : QString{};
         info.name        = rl->data(index, RoomlistModel::RoomName).toString();
         info.avatarUrl   = rl->data(index, RoomlistModel::AvatarUrl).toString();
         info.read        = !rl->data(index, RoomlistModel::HasUnreadMessages).toBool();
@@ -642,10 +644,15 @@ resolveRoomId(const QString &roomIdOrAlias)
     if (!roomlist)
         return {};
 
+    const auto &joinedRooms = roomlist->matrixJoinedRooms();
     for (int row = 0; row < roomlist->rowCount(); ++row) {
         const auto roomId =
           roomlist->data(roomlist->index(row, 0), RoomlistModel::RoomId).toString();
         if (roomId == roomIdOrAlias)
+            return roomId;
+
+        const auto joinedRoomIt = joinedRooms.constFind(roomId);
+        if (joinedRoomIt != joinedRooms.cend() && joinedRoomIt->roomAlias == roomIdOrAlias)
             return roomId;
     }
 

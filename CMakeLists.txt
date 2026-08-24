@@ -1600,6 +1600,7 @@ if(BUILD_TESTING)
         komai_setting_input_validation_test
         komai_notification_payload_test
         komai_chat_export_formatter_test
+        komai_litehtml_text_run_selection_test
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
         komai_mcp_commands_test

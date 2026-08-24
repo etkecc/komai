@@ -1261,9 +1261,29 @@ if(BUILD_TESTING)
         "QT_QPA_PLATFORM=offscreen"
     )
 
+    # CI and the prek hook build test executables through this aggregate
+    # target before running ctest, so every registered test must be one of its
+    # dependencies -- a test missing from it reports "Not Run" on a clean
+    # build dir. komai_configure_test() adds the dependency itself, so a test
+    # registered the normal way can't be left out.
+    add_custom_target(komai_tests)
+
     function(komai_configure_test test_name labels)
         set_tests_properties(${test_name} PROPERTIES LABELS "${labels}")
         set_property(TEST ${test_name} PROPERTY ENVIRONMENT "${komai_test_env}")
+        # Optional third argument: the executable target backing this test,
+        # for tests whose name differs from it (e.g. per-locale variants).
+        if(ARGC GREATER 2)
+            set(test_target "${ARGV2}")
+        else()
+            set(test_target "${test_name}")
+        endif()
+        if(NOT TARGET ${test_target})
+            message(FATAL_ERROR
+                "Test ${test_name} has no executable target named ${test_target}; "
+                "pass the target as the third komai_configure_test() argument")
+        endif()
+        add_dependencies(komai_tests ${test_target})
     endfunction()
 
     add_executable(komai_settings_integration_test
@@ -1515,10 +1535,12 @@ if(BUILD_TESTING)
     )
     add_test(NAME komai_emoji_completion_search_test_en
         COMMAND komai_emoji_completion_search_test --locale en)
-    komai_configure_test(komai_emoji_completion_search_test_en "unit;emoji")
+    komai_configure_test(komai_emoji_completion_search_test_en "unit;emoji"
+        komai_emoji_completion_search_test)
     add_test(NAME komai_emoji_completion_search_test_ja
         COMMAND komai_emoji_completion_search_test --locale ja)
-    komai_configure_test(komai_emoji_completion_search_test_ja "unit;emoji")
+    komai_configure_test(komai_emoji_completion_search_test_ja "unit;emoji"
+        komai_emoji_completion_search_test)
 
     add_executable(komai_emoji_normalization_test
         tests/EmojiNormalizationTest.cpp
@@ -1593,27 +1615,6 @@ if(BUILD_TESTING)
     add_test(NAME komai_layout_agnostic_keys_test COMMAND komai_layout_agnostic_keys_test)
     komai_configure_test(komai_layout_agnostic_keys_test "unit;ui")
 
-    add_custom_target(komai_tests DEPENDS
-        komai_settings_integration_test
-        komai_settings_storage_test
-        komai_settings_store_test
-        komai_setting_input_validation_test
-        komai_notification_payload_test
-        komai_chat_export_formatter_test
-        komai_litehtml_text_run_selection_test
-        komai_roomlist_preview_selection_test
-        komai_theme_color_utils_test
-        komai_mcp_commands_test
-        komai_dispatcher_test
-        komai_profile_commands_test
-        komai_bot_detection_test
-        komai_emoji_completion_search_test
-        komai_emoji_normalization_test
-        komai_emoticon_replace_test
-        komai_navigation_history_test
-        komai_slash_commands_test
-        komai_layout_agnostic_keys_test
-    )
 endif()
 
 target_link_libraries(komai PRIVATE

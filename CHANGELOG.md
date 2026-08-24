@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026.08.24.0
+
+- ✨ Feature: the [🤖 automations](https://github.com/etkecc/komai/blob/ee83d6e66/docs/user-guide/features/automations/README.md) API (MCP, CLI, D-Bus) can now create rooms, manage membership (invite, kick, ban, unban, leave), read and write room state, redact events, and manage read state ([ad437eb96](https://github.com/etkecc/komai/commit/ad437eb96), [9727f115a](https://github.com/etkecc/komai/commit/9727f115a), [6bc3636e7](https://github.com/etkecc/komai/commit/6bc3636e7), [b719e8834](https://github.com/etkecc/komai/commit/b719e8834), [ae7885f5d](https://github.com/etkecc/komai/commit/ae7885f5d)).
+- ✨ Feature: automation `rooms.list` accepts filters and field selection instead of always returning every room with every field ([25667bf40](https://github.com/etkecc/komai/commit/25667bf40)).
+- 🐛 Fix: copying selected message text no longer includes line breaks introduced by line wrapping: a wrapped URL copies in one piece, paragraphs are separated by a blank line, and tables copy tab-separated ([ee83d6e66](https://github.com/etkecc/komai/commit/ee83d6e66)).
+- 🐛 Fix: automation sends return the sent message's real event ID instead of the literal string "queued" ([1664660d5](https://github.com/etkecc/komai/commit/1664660d5)).
+- 🐛 Fix: the MCP timeline read fetches history from the server when the room is not already loaded, instead of returning an empty list ([53a507b00](https://github.com/etkecc/komai/commit/53a507b00)).
+- 🐛 Fix: automation room lookups resolve `#alias` inputs, and `rooms.list` includes each room's canonical alias ([ac38add9d](https://github.com/etkecc/komai/commit/ac38add9d)).
+- 🐛 Fix: D-Bus write methods report failures as errors instead of empty or success-shaped replies ([75a6ffb63](https://github.com/etkecc/komai/commit/75a6ffb63)).
+- 🔧 Build: the Rust toolchain is updated to 1.98.0 ([34ddd8072](https://github.com/etkecc/komai/commit/34ddd8072)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.338 ([d0d94de47](https://github.com/etkecc/komai/commit/d0d94de47)).
+
 ## 2026.08.20.0
 
 - ✨ Feature: spoilers reveal on click; while hidden they are blurred instead of covered by a solid block ([bd0a205d0](https://github.com/etkecc/komai/commit/bd0a205d0), [d5a5fde48](https://github.com/etkecc/komai/commit/d5a5fde48), [5f8ded33c](https://github.com/etkecc/komai/commit/5f8ded33c), [55df16d95](https://github.com/etkecc/komai/commit/55df16d95)).

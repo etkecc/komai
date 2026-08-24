@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026.08.24.0
+## 2026.08.24.1
 
 - ✨ Feature: the [🤖 automations](https://github.com/etkecc/komai/blob/ee83d6e66/docs/user-guide/features/automations/README.md) API (MCP, CLI, D-Bus) can now create rooms, manage membership (invite, kick, ban, unban, leave), read and write room state, redact events, and manage read state ([ad437eb96](https://github.com/etkecc/komai/commit/ad437eb96), [9727f115a](https://github.com/etkecc/komai/commit/9727f115a), [6bc3636e7](https://github.com/etkecc/komai/commit/6bc3636e7), [b719e8834](https://github.com/etkecc/komai/commit/b719e8834), [ae7885f5d](https://github.com/etkecc/komai/commit/ae7885f5d)).
 - ✨ Feature: automation `rooms.list` accepts filters and field selection instead of always returning every room with every field ([25667bf40](https://github.com/etkecc/komai/commit/25667bf40)).
@@ -11,6 +11,8 @@
 - 🐛 Fix: D-Bus write methods report failures as errors instead of empty or success-shaped replies ([75a6ffb63](https://github.com/etkecc/komai/commit/75a6ffb63)).
 - 🔧 Build: the Rust toolchain is updated to 1.98.0 ([34ddd8072](https://github.com/etkecc/komai/commit/34ddd8072)).
 - 🔧 Build: the Fluent UI System Icons set is updated to v1.1.338 ([d0d94de47](https://github.com/etkecc/komai/commit/d0d94de47)).
+
+_(Re-cut of v2026.08.24.0, which was never published: its CI failed because the new text-selection test was missing from the aggregate test build target ([202629e7a](https://github.com/etkecc/komai/commit/202629e7a)). No application changes from that tag.)_
 
 ## 2026.08.20.0
 

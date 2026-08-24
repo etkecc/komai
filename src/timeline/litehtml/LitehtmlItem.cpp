@@ -660,13 +660,14 @@ LitehtmlItem::paint(QPainter *painter)
     clip.width  = static_cast<int>(width());
     clip.height = static_cast<int>(height());
 
-    // Always collect text runs so they are available for double-click word
-    // selection without requiring a prior drag selection paint pass.
-    // Pass m_topInset as the y offset so that document y=0 maps to
-    // item y=m_topInset, leaving room above for emoji glyph overshoot
-    // (issue #78). TextRun rects recorded during draw_text are in
-    // painter (item) coords, so selection painting/hit-testing keeps
-    // working without further coord translation.
+    // Always rebuild text runs on paint so they are available for
+    // double-click word selection without requiring a prior drag selection
+    // paint pass. Pass m_topInset as the y offset so that document y=0 maps
+    // to item y=m_topInset, leaving room above for emoji glyph overshoot
+    // (issue #78). endTextRunCollection() translates run rects into item
+    // coords with the same (padLeft, m_topInset) offset the document is
+    // drawn at, so selection painting/hit-testing needs no further coord
+    // translation.
     QElapsedTimer timer;
     timer.start();
     if (spoilerDebugEnabled() && m_html.contains(QLatin1String("data-mx-spoiler"))) {
@@ -700,7 +701,7 @@ LitehtmlItem::paint(QPainter *painter)
         m_container->setPainter(painter);
         m_container->beginTextRunCollection();
         m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, m_topInset, &clip);
-        m_container->endTextRunCollection();
+        m_container->endTextRunCollection(m_document->root_render(), QPoint(padLeft, m_topInset));
     } else {
         // Hidden spoilers are blurred from the actual painted pixels, so the
         // document goes through an intermediate image first. Text runs are
@@ -718,7 +719,8 @@ LitehtmlItem::paint(QPainter *painter)
             m_container->beginTextRunCollection();
             m_document->draw(
               reinterpret_cast<litehtml::uint_ptr>(&bufferPainter), padLeft, m_topInset, &clip);
-            m_container->endTextRunCollection();
+            m_container->endTextRunCollection(m_document->root_render(),
+                                              QPoint(padLeft, m_topInset));
         }
         for (int i = 0; i < m_spoilerRegions.size(); ++i) {
             if (m_revealedSpoilers.contains(i))
@@ -1119,9 +1121,8 @@ LitehtmlItem::mouseDoubleClickEvent(QMouseEvent *event)
     m_selectStartPos  = pos;
     m_selectEndPos    = pos;
 
-    const auto &runs = m_container->textRuns();
-    const auto &text = runs[wordStart.runIndex].text;
-    auto selected    = text.mid(wordStart.charOffset, wordEnd.charOffset - wordStart.charOffset);
+    auto selected =
+      timeline::litehtml::extractTextRange(m_container->textRuns(), wordStart, wordEnd);
     if (selected != m_selectedText) {
         m_selectedText = selected;
         emit selectedTextChanged();
@@ -1156,8 +1157,39 @@ LitehtmlItem::wordRangeAt(const SelectionPoint &sp,
         we += text[we].isHighSurrogate() ? 2 : 1;
     }
 
-    wordStart = {sp.runIndex, ws};
-    wordEnd   = {sp.runIndex, we};
+    // A single word may span several runs: split_text chops URL-shaped and
+    // very long tokens into separate segments so they can wrap. Two runs
+    // belong to the same word when no logical separator sits between them.
+    // CJK characters are excluded — each is deliberately its own segment,
+    // and gluing a whole unspaced CJK sentence into one "word" would make
+    // double-click select all of it.
+    auto sameWord = [&](const TextRun &a, const TextRun &b) {
+        if (b.newlinesBefore > 0 || b.tabBefore || b.spaceBefore)
+            return false;
+        if (a.text.isEmpty() || b.text.isEmpty())
+            return false;
+        if (a.text.back().isSpace() || b.text.front().isSpace())
+            return false;
+        return !timeline::litehtml::isCjkChar(a.text.back()) &&
+               !timeline::litehtml::isCjkChar(b.text.front());
+    };
+
+    int rs = sp.runIndex;
+    if (ws == 0) {
+        while (rs > 0 && sameWord(runs[rs - 1], runs[rs]))
+            --rs;
+    }
+
+    int re = sp.runIndex;
+    if (we == text.length()) {
+        while (re + 1 < runs.size() && sameWord(runs[re], runs[re + 1]))
+            ++re;
+        if (re != sp.runIndex)
+            we = runs[re].text.length();
+    }
+
+    wordStart = {rs, rs == sp.runIndex ? ws : 0};
+    wordEnd   = {re, we};
     return true;
 }
 
@@ -1320,45 +1352,11 @@ LitehtmlItem::resolveSelection()
 QString
 LitehtmlItem::extractSelectedText() const
 {
-    if (!m_selStart.isValid() || !m_selEnd.isValid())
-        return {};
-
-    const auto &runs = m_container->textRuns();
-    if (m_selStart.runIndex >= runs.size() || m_selEnd.runIndex >= runs.size())
-        return {};
-
-    if (m_selStart == m_selEnd)
-        return {};
-
-    QString result;
-    for (int i = m_selStart.runIndex; i <= m_selEnd.runIndex; ++i) {
-        const auto &run = runs[i];
-
-        // Insert newline between runs on different lines.
-        // Same-line runs already contain any necessary whitespace — don't add extra.
-        if (i > m_selStart.runIndex && !result.isEmpty()) {
-            const auto &prevRun = runs[i - 1];
-            if (qAbs(run.rect.y() - prevRun.rect.y()) > prevRun.rect.height() / 2)
-                result += u'\n';
-        }
-
-        // Prepend list marker prefix (e.g. "- ") if this is the first run of a list item.
-        if (!run.prefix.isEmpty() && (i != m_selStart.runIndex || m_selStart.charOffset == 0))
-            result += run.prefix;
-
-        if (i == m_selStart.runIndex && i == m_selEnd.runIndex) {
-            result +=
-              run.text.mid(m_selStart.charOffset, m_selEnd.charOffset - m_selStart.charOffset);
-        } else if (i == m_selStart.runIndex) {
-            result += run.text.mid(m_selStart.charOffset);
-        } else if (i == m_selEnd.runIndex) {
-            result += run.text.left(m_selEnd.charOffset);
-        } else {
-            result += run.text;
-        }
-    }
-
-    return result;
+    // Joins the selected runs using the logical separators recorded on them,
+    // so line breaks that exist only because of soft wrapping (a long URL
+    // split to fit a narrow bubble, a wrap at a space) don't leak into the
+    // copied text (issue #280).
+    return timeline::litehtml::extractTextRange(m_container->textRuns(), m_selStart, m_selEnd);
 }
 
 void

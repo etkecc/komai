@@ -17,14 +17,7 @@
 
 #include <litehtml.h>
 
-/// A single text fragment captured during paint, recording its string, font, and position.
-struct TextRun
-{
-    QString text;
-    QRect rect;
-    QFont font;
-    QString prefix; ///< Prepended to text during extraction (e.g. "- " for list items).
-};
+#include "timeline/litehtml/TextRunSelection.h"
 
 /// A list marker position captured during paint.
 struct ListMarker
@@ -130,14 +123,20 @@ public:
     bool isPointerCursor() const { return m_pointerCursor; }
     void resetCursorState() { m_pointerCursor = false; }
 
-    /// Text run collection for selection support.
+    /// Text run collection for selection support. begin/end bracket a
+    /// document draw: list markers are captured while painting (they are not
+    /// part of the render tree's text), then endTextRunCollection() walks the
+    /// laid-out render tree to build the text runs in document order and
+    /// matches the captured markers onto them. `offset` translates document
+    /// coordinates into item coordinates (left padding / top inset).
     void beginTextRunCollection()
     {
         m_textRuns.clear();
         m_listMarkers.clear();
         m_collectingTextRuns = true;
     }
-    void endTextRunCollection();
+    void
+    endTextRunCollection(const std::shared_ptr<litehtml::render_item> &root, const QPoint &offset);
     const QVector<TextRun> &textRuns() const { return m_textRuns; }
 
 signals:

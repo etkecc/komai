@@ -465,6 +465,8 @@ set(SRC_FILES
     src/timeline/litehtml/LitehtmlItem.h
     src/timeline/litehtml/LitehtmlStylesheet.cpp
     src/timeline/litehtml/LitehtmlStylesheet.h
+    src/timeline/litehtml/TextRunSelection.cpp
+    src/timeline/litehtml/TextRunSelection.h
     src/timeline/data/RoomlistModelData.cpp
     src/timeline/roomlist/FilteredRoomlistModel.cpp
     src/timeline/roomlist/RoomlistModelPreviews.cpp
@@ -1401,6 +1403,18 @@ if(BUILD_TESTING)
     )
     add_test(NAME komai_chat_export_formatter_test COMMAND komai_chat_export_formatter_test)
     komai_configure_test(komai_chat_export_formatter_test "unit;timeline")
+
+    add_executable(komai_litehtml_text_run_selection_test
+        tests/LitehtmlTextRunSelectionTest.cpp
+        src/timeline/litehtml/TextRunSelection.cpp
+    )
+    target_include_directories(komai_litehtml_text_run_selection_test PRIVATE src)
+    target_link_libraries(komai_litehtml_text_run_selection_test PRIVATE
+        Qt::Gui
+        litehtml
+    )
+    add_test(NAME komai_litehtml_text_run_selection_test COMMAND komai_litehtml_text_run_selection_test)
+    komai_configure_test(komai_litehtml_text_run_selection_test "unit;timeline")
 
     add_executable(komai_roomlist_preview_selection_test
         tests/RoomlistPreviewSelectionTest.cpp

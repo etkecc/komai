@@ -144,56 +144,13 @@ LitehtmlContainer::split_text(const char *text,
 {
     // Litehtml's default split_text only breaks on whitespace and CJK chars,
     // so a long URL with no spaces becomes a single unbreakable text element
-    // and overflows narrow containers.  Split URL-shaped runs at separator
-    // chars and force a break inside very long unbreakable runs so line_box
-    // has wrap opportunities.  Each emitted segment becomes its own el_text;
-    // line_box only inserts an actual line break between them when the next
-    // segment would overflow, so short text is unaffected visually.
-    constexpr int kForceBreakAfter = 30;
-    auto isUrlBreakChar            = [](QChar c) {
-        const ushort u = c.unicode();
-        return u == u'/' || u == u'?' || u == u'&' || u == u'=' || u == u'#' || u == u':';
-    };
-
-    const QString str = QString::fromUtf8(text);
-    QString word;
-    auto flushWord = [&]() {
-        if (!word.isEmpty()) {
-            on_word(word.toUtf8().constData());
-            word.clear();
-        }
-    };
-
-    for (int i = 0; i < str.size(); ++i) {
-        const QChar c  = str[i];
-        const ushort u = c.unicode();
-
-        if (u == u' ' || u == u'\t' || u == u'\n' || u == u'\r' || u == u'\f') {
-            flushWord();
-            const QString sp(c);
-            on_space(sp.toUtf8().constData());
-        } else if (u >= 0x4E00 && u <= 0x9FCC) {
-            // CJK character: each is its own break opportunity.
-            flushWord();
-            const QString cjk(c);
-            on_word(cjk.toUtf8().constData());
-        } else {
-            word.append(c);
-            if (isUrlBreakChar(c)) {
-                // Split after the *last* char in a run of URL separators, so
-                // "https://" stays as one segment and we break before the next
-                // path component instead of between the two slashes.
-                const QChar next = (i + 1 < str.size()) ? str[i + 1] : QChar();
-                if (next.isNull() || !isUrlBreakChar(next))
-                    flushWord();
-            } else if (word.size() >= kForceBreakAfter) {
-                // Long unbreakable run with no separator chars: force a chunk
-                // boundary so e.g. base64 strings or hashes can wrap.
-                flushWord();
-            }
-        }
-    }
-    flushWord();
+    // and overflows narrow containers.  Komai's tokenizer splits URL-shaped
+    // runs at separator chars and forces a break inside very long unbreakable
+    // runs so line_box has wrap opportunities.  Each emitted segment becomes
+    // its own el_text; line_box only inserts an actual line break between them
+    // when the next segment would overflow, so short text is unaffected
+    // visually.
+    timeline::litehtml::splitText(text, on_word, on_space);
 }
 
 void
@@ -209,14 +166,6 @@ LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
     auto *font = reinterpret_cast<QFont *>(hFont);
     if (!font)
         return;
-
-    if (m_collectingTextRuns) {
-        TextRun run;
-        run.text = QString::fromUtf8(text);
-        run.rect = QRect(pos.x, pos.y, pos.width, pos.height);
-        run.font = *font;
-        m_textRuns.append(run);
-    }
 
     m_painter->setFont(*font);
     m_painter->setPen(toQColor(color));
@@ -255,23 +204,17 @@ LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
 }
 
 void
-LitehtmlContainer::endTextRunCollection()
+LitehtmlContainer::endTextRunCollection(const std::shared_ptr<litehtml::render_item> &root,
+                                        const QPoint &offset)
 {
     m_collectingTextRuns = false;
 
-    // Sort text runs into visual order (top-to-bottom, left-to-right).
-    // litehtml draws list markers and some decorations after content text,
-    // so the raw draw order doesn't match document reading order.
-    std::sort(m_textRuns.begin(), m_textRuns.end(), [](const TextRun &a, const TextRun &b) {
-        // Group by line: treat runs as same-line if their Y ranges overlap.
-        int aMid      = a.rect.y() + a.rect.height() / 2;
-        int bMid      = b.rect.y() + b.rect.height() / 2;
-        bool sameLine = (aMid >= b.rect.top() && aMid <= b.rect.bottom()) ||
-                        (bMid >= a.rect.top() && bMid <= a.rect.bottom());
-        if (!sameLine)
-            return a.rect.y() < b.rect.y();
-        return a.rect.x() < b.rect.x();
-    });
+    // Walk the laid-out render tree instead of capturing draw_text calls:
+    // the tree carries the logical structure (word adjacency, collapsed
+    // spaces, <br>/pre newlines, block boundaries) that selection extraction
+    // needs to undo soft line-wrapping, and yields the runs in document
+    // (reading) order — no visual re-sorting required.
+    timeline::litehtml::collectTextRuns(root, offset, m_defaultFont, m_textRuns);
 
     // Match bullet list markers to text runs by Y-coordinate overlap.
     // Bullet markers are not drawn via draw_text, so they need separate handling.

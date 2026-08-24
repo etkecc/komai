@@ -19,19 +19,6 @@
 
 #include "timeline/litehtml/LitehtmlContainer.h"
 
-struct SelectionPoint
-{
-    int runIndex   = -1;
-    int charOffset = 0;
-
-    bool isValid() const { return runIndex >= 0; }
-    bool operator==(const SelectionPoint &o) const
-    {
-        return runIndex == o.runIndex && charOffset == o.charOffset;
-    }
-    bool operator!=(const SelectionPoint &o) const { return !(*this == o); }
-};
-
 class LitehtmlItem : public QQuickPaintedItem
 {
     Q_OBJECT

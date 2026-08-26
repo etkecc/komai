@@ -2300,12 +2300,12 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+314"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-131"/>
         <source>Forward message</source>
         <translation>Переслать сообщение</translation>
     </message>
@@ -2354,7 +2354,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Выбранные комнаты</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>Комнаты</translation>
     </message>
@@ -2389,7 +2389,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Название, адрес или ID комнаты…</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>Переслать</translation>
     </message>
@@ -2858,7 +2858,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>Пригласить пользователей в %1</translation>
     </message>
@@ -2878,7 +2878,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Выбранные пользователи</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>Пользователи</translation>
     </message>
@@ -2924,7 +2924,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Выбери одного или нескольких пользователей для приглашения.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>Пригласить</translation>
     </message>
@@ -3738,7 +3738,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>Переслать</translation>
     </message>

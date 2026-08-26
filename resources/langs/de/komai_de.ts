@@ -2296,12 +2296,12 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+314"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-131"/>
         <source>Forward message</source>
         <translation>Nachricht weiterleiten</translation>
     </message>
@@ -2349,7 +2349,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Ausgewählte Räume</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>Räume</translation>
     </message>
@@ -2384,7 +2384,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Raumname, Adresse oder ID …</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>Weiterleiten</translation>
     </message>
@@ -2853,7 +2853,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>Lade Benutzer in %1 ein</translation>
     </message>
@@ -2873,7 +2873,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Ausgewählte Nutzer</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>Nutzer</translation>
     </message>
@@ -2919,7 +2919,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Wähle einen oder mehrere Nutzer zum Einladen aus.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>Einladen</translation>
     </message>
@@ -3732,7 +3732,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>Weiterleiten</translation>
     </message>

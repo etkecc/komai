@@ -2292,12 +2292,12 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+314"/>
         <source>Close</source>
         <translation>Đóng</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-131"/>
         <source>Forward message</source>
         <translation>Chuyển tiếp tin nhắn</translation>
     </message>
@@ -2344,7 +2344,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Phòng đã chọn</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>Phòng</translation>
     </message>
@@ -2379,7 +2379,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Tên phòng, địa chỉ hoặc id…</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>Chuyển tiếp</translation>
     </message>
@@ -2848,7 +2848,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>Mời người dùng vào %1</translation>
     </message>
@@ -2868,7 +2868,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Người dùng đã chọn</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>Người dùng</translation>
     </message>
@@ -2914,7 +2914,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Chọn một hoặc nhiều người dùng để mời.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>Mời</translation>
     </message>
@@ -3726,7 +3726,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>Chuyển tiếp</translation>
     </message>

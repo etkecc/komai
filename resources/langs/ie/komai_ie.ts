@@ -2296,12 +2296,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+314"/>
         <source>Close</source>
         <translation>Clauder</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-131"/>
         <source>Forward message</source>
         <translation>Transmir mesage</translation>
     </message>
@@ -2349,7 +2349,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Chambres selectionate</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>Chambres</translation>
     </message>
@@ -2384,7 +2384,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Nomine, adresse o id del chambre…</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>Transmandar</translation>
     </message>
@@ -2853,7 +2853,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>Invitar usatores a %1</translation>
     </message>
@@ -2873,7 +2873,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Usatores selectat</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>Usatores</translation>
     </message>
@@ -2919,7 +2919,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Selectionar un o pluri usatores por invitar.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>Invitar</translation>
     </message>
@@ -3732,7 +3732,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>Transmandar</translation>
     </message>

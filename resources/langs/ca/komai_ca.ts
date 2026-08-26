@@ -2296,12 +2296,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+314"/>
         <source>Close</source>
         <translation>Tanca</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-131"/>
         <source>Forward message</source>
         <translation>Reenvia el missatge</translation>
     </message>
@@ -2349,7 +2349,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Sales seleccionades</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>Sales</translation>
     </message>
@@ -2384,7 +2384,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Nom, adreça o ID de la sala…</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>Reenvia</translation>
     </message>
@@ -2853,7 +2853,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>Convida usuaris a %1</translation>
     </message>
@@ -2873,7 +2873,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Usuaris seleccionats</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>Usuaris</translation>
     </message>
@@ -2919,7 +2919,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Trieu un o més usuaris per convidar.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>Convida</translation>
     </message>
@@ -3732,7 +3732,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>Reenvia</translation>
     </message>

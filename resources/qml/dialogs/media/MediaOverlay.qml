@@ -276,7 +276,10 @@ Window {
         const host = mediaOverlay;
         const dialog = component.createObject(host, {
                 "roomSource": resolvedRoom,
-                "dialogViewportWidth": host.width,
+                // Qt.binding() keeps this tracking the live viewport width; a
+                // plain value here would freeze at whatever it was when the
+                // dialog opened and never follow a later window resize.
+                "dialogViewportWidth": Qt.binding(() => host.width),
                 "modalOverlayColor": mediaOverlay.modalOverlayColor,
                 "timelineSource": resolvedTimeline,
                 "timelineViewSource": resolvedTimelineView,

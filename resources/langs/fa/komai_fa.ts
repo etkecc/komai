@@ -2292,12 +2292,12 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+314"/>
         <source>Close</source>
         <translation>بستن</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-131"/>
         <source>Forward message</source>
         <translation>ارسال پیام</translation>
     </message>
@@ -2344,7 +2344,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>اتاق‌های انتخاب‌شده</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>اتاق‌ها</translation>
     </message>
@@ -2379,7 +2379,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>نام، آدرس یا شناسه اتاق...</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>بازارسال</translation>
     </message>
@@ -2848,7 +2848,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>دعوت کاربران به %1</translation>
     </message>
@@ -2868,7 +2868,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>کاربران انتخاب‌شده</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>کاربران</translation>
     </message>
@@ -2914,7 +2914,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>یک یا چند کاربر برای دعوت انتخاب کنید.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>دعوت</translation>
     </message>
@@ -3726,7 +3726,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>بازارسال</translation>
     </message>

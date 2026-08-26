@@ -2296,7 +2296,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+164"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+183"/>
         <source>Forward message</source>
         <translation>Препрати съобщение</translation>
     </message>
@@ -2344,7 +2344,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Избрани стаи</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>Стаи</translation>
     </message>
@@ -2374,17 +2374,17 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Избери една или повече стаи, към които да препратиш съобщението.</translation>
     </message>
     <message>
-        <location line="-383"/>
+        <location line="-424"/>
         <source>Close</source>
         <translation>Затвори</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+118"/>
         <source>Room name, address or id...</source>
         <translation>Име на стая, адрес или id…</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>Препрати</translation>
     </message>
@@ -2853,7 +2853,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>Покани потребители в %1</translation>
     </message>
@@ -2873,7 +2873,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Избрани потребители</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>Потребители</translation>
     </message>
@@ -2919,7 +2919,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Изберете един или повече потребители за покана.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>Покани</translation>
     </message>
@@ -3732,7 +3732,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>Препрати</translation>
     </message>

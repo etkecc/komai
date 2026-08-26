@@ -2296,12 +2296,12 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+284"/>
+        <location filename="../../qml/dialogs/navigation/ForwardCompleter.qml" line="+314"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-131"/>
         <source>Forward message</source>
         <translation>Transférer le message</translation>
     </message>
@@ -2349,7 +2349,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Salons sélectionnés</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+268"/>
         <source>Rooms</source>
         <translation>Salons</translation>
     </message>
@@ -2384,7 +2384,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Nom du salon, adresse ou identifiant…</translation>
     </message>
     <message>
-        <location line="+326"/>
+        <location line="+330"/>
         <source>Forward</source>
         <translation>Transférer</translation>
     </message>
@@ -2853,7 +2853,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>InviteDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+43"/>
+        <location filename="../../qml/dialogs/room/InviteDialog.qml" line="+54"/>
         <source>Invite users to %1</source>
         <translation>Inviter des utilisateurs dans %1</translation>
     </message>
@@ -2873,7 +2873,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Utilisateurs sélectionnés</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+235"/>
         <source>Users</source>
         <translation>Utilisateurs</translation>
     </message>
@@ -2919,7 +2919,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Choisissez un ou plusieurs utilisateurs à inviter.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Invite</source>
         <translation>Inviter</translation>
     </message>
@@ -3732,7 +3732,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MediaOverlay</name>
     <message>
-        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+709"/>
+        <location filename="../../qml/dialogs/media/MediaOverlay.qml" line="+712"/>
         <source>Forward</source>
         <translation>Transférer</translation>
     </message>

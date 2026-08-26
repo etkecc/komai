@@ -66,6 +66,25 @@ Popup {
         return Math.max(rowH * 2, Math.min(rowH * rows, cap));
     }
 
+    // Height budget consumed by the parts of the dialog that stay pinned
+    // outside the scrollable middle section (title row, hint, and the
+    // Forward/close action row), so the middle section knows how much room
+    // it actually has left before it needs to start scrolling instead of
+    // shoving the action row off the bottom of a short window.
+    readonly property real scrollChromeHeight: topPadding + bottomPadding
+        + forwardColumn.spacing * 3
+        + titleRow.implicitHeight + hintLabel.implicitHeight + actionRow.implicitHeight
+    readonly property real availableScrollHeight: Math.max(
+        cardRowHeight * 2,
+        windowHeight - Komai.paddingLarge * 2 - scrollChromeHeight)
+
+    // Reserve the scrollbar gutter for the outer scroll area too, mirroring
+    // the per-list gutter handling below.
+    readonly property real outerScrollGutter: scrollbarsReserveGutter
+        ? (forwardScrollBar.implicitWidth + Komai.paddingSmall)
+        : 0
+    readonly property real scrollContentWidth: innerWidth - outerScrollGutter
+
     function normalizedMessageEventIds(eventIdsIn) {
         const sourceIds = eventIdsIn || [];
         const normalizedIds = [];
@@ -195,9 +214,18 @@ Popup {
                 ? dialogViewportWidth
                 : (parent ? parent.width : 900)) * 0.8
     x: Math.round(parent.width / 2 - width / 2)
-    y: anchoredY >= 0
-            ? anchoredY
-            : Math.max(Komai.paddingLarge, Math.round((parent.height - height) / 2))
+    // anchoredY pins the top so the dialog doesn't jump under the pointer as
+    // its content reflows (see onOpened below). But a value pinned while the
+    // window was tall (e.g. opened maximized, then unmaximized/shrunk) must
+    // not be allowed to push the dialog past the *current* window bounds —
+    // re-clamp live against parent.height/height on every resize.
+    y: {
+        const desired = anchoredY >= 0
+                ? anchoredY
+                : Math.round((parent.height - height) / 2);
+        const maxY = Math.max(Komai.paddingLarge, parent.height - height - Komai.paddingLarge);
+        return Math.max(Komai.paddingLarge, Math.min(desired, maxY));
+    }
 
     Overlay.modal: Rectangle {
         color: forwardMessagePopup.modalOverlayColor
@@ -255,6 +283,8 @@ Popup {
 
         // Title row
         RowLayout {
+            id: titleRow
+
             width: forwardMessagePopup.innerWidth
             spacing: Komai.paddingSmall
 
@@ -307,141 +337,26 @@ Popup {
             wrapMode: Text.Wrap
         }
 
-        // Preview of the (single) message being forwarded.
-        Loader {
-            id: replyPreviewLoader
-
-            active: forwardMessagePopup.showReplyPreview && forwardMessagePopup.messageCount === 1
-            width: forwardMessagePopup.innerWidth
-            sourceComponent: replyPreviewComponent
-        }
-
-        Component {
-            id: replyPreviewComponent
-
-            Reply {
-                id: replyPreview
-
-                clickable: false
-                eventId: mid
-                room_: activeRoom
-                property bool isReplyFromCurrentUser: {
-                    const currentUser = Komai.currentUser;
-                    const currentUserId = (currentUser && currentUser.userid)
-                            ? String(currentUser.userid)
-                            : "";
-                    return currentUserId.length > 0 && replyPreview.userId === currentUserId;
-                }
-                readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
-                    ? Komai.colors.window
-                    : forwardMessagePopup.palette.window
-                readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
-                    ? Komai.colors.base
-                    : forwardMessagePopup.palette.base
-                bubblePalette: activeRoom ? TimelineManager.roomUserBubblePalette(activeRoom.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
-                userColor: isReplyFromCurrentUser
-                    ? Komai.theme.userColorSelf
-                    : activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewWindowColor)
-                roomColor: isReplyFromCurrentUser
-                    ? Komai.theme.userColorSelf
-                    : activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewBaseColor)
-                limitHeight: true
-                width: forwardMessagePopup.innerWidth
-                maxWidth: forwardMessagePopup.innerWidth
-            }
-        }
-
-        // Room search
-        Components.KomaiTextField {
-            id: roomTextInput
+        // Scrollable middle section: reply preview, room search and both list
+        // panels. Its height is capped to whatever's left of the window after
+        // the title, hint and action row, so on a short window this section
+        // scrolls instead of pushing the Forward button off-screen.
+        Flickable {
+            id: forwardScrollArea
 
             width: forwardMessagePopup.innerWidth
-            font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
-            implicitHeight: Math.max(controlHeight, Math.round(font.pixelSize * 2.0))
-            placeholderText: qsTr("Room name, address or id...")
-
-            Keys.onShortcutOverride: (event) => {
-                // Claim navigation / staging keys before the platform turns them
-                // into edit operations (Ctrl+U "clear line", etc.).
-                if (event.key === Qt.Key_Up || event.key === Qt.Key_Down
-                        || ((event.key === Qt.Key_D || event.key === Qt.Key_U)
-                            && (event.modifiers & Qt.ControlModifier))
-                        || (event.matches(StandardKey.InsertParagraphSeparator)
-                            && !(event.modifiers & Qt.ControlModifier)))
-                    event.accepted = true;
-            }
-            Keys.onPressed: (event) => {
-                if (event.key === Qt.Key_Up) {
-                    suggestionList.moveSelection(-1);
-                    event.accepted = true;
-                } else if (event.key === Qt.Key_Down) {
-                    suggestionList.moveSelection(1);
-                    event.accepted = true;
-                } else if (event.key === Qt.Key_U && (event.modifiers & Qt.ControlModifier)) {
-                    suggestionList.moveSelection(-forwardMessagePopup.pageStep);
-                    event.accepted = true;
-                } else if (event.key === Qt.Key_D && (event.modifiers & Qt.ControlModifier)) {
-                    suggestionList.moveSelection(forwardMessagePopup.pageStep);
-                    event.accepted = true;
-                } else if (event.matches(StandardKey.InsertParagraphSeparator)
-                           && !(event.modifiers & Qt.ControlModifier)) {
-                    forwardMessagePopup.stageCurrentSuggestion();
-                    event.accepted = true;
-                }
-            }
-            onTextEdited: {
-                if (forwardMessagePopup.roomCompleter)
-                    forwardMessagePopup.roomCompleter.searchString = text;
-            }
-        }
-
-        // --- Results (suggestions) ---
-        Label {
-            width: forwardMessagePopup.innerWidth
-            topPadding: Komai.paddingSmall
-            text: qsTr("Rooms")
-            color: palette.text
-            font.bold: true
-            font.pointSize: Settings.uiFontSizePt * 1.05
-        }
-
-        ListView {
-            id: suggestionList
-
-            // Reserve the scrollbar gutter so rows never sit under the bar.
-            readonly property real scrollGutter: forwardMessagePopup.scrollbarsReserveGutter
-                ? (suggestionScrollBar.implicitWidth + Komai.paddingSmall)
-                : 0
-
-            function moveSelection(delta) {
-                if (count === 0) {
-                    currentIndex = -1;
-                    return;
-                }
-                let next = (currentIndex < 0 ? 0 : currentIndex) + delta;
-                next = Math.max(0, Math.min(count - 1, next));
-                currentIndex = next;
-                positionViewAtIndex(next, ListView.Contain);
-            }
-
-            width: forwardMessagePopup.innerWidth
-            height: forwardMessagePopup.reservedListHeight(7)
+            height: Math.min(forwardScrollColumn.implicitHeight, forwardMessagePopup.availableScrollHeight)
+            contentWidth: width
+            contentHeight: forwardScrollColumn.implicitHeight
             clip: true
-            model: forwardMessagePopup.roomCompleter
-            spacing: forwardMessagePopup.listSpacing
             boundsBehavior: Flickable.StopAtBounds
-            highlightFollowsCurrentItem: true
-            keyNavigationEnabled: false
 
-            onCountChanged: {
-                if (count > 0 && (currentIndex < 0 || currentIndex >= count))
-                    currentIndex = 0;
-                else if (count === 0)
-                    currentIndex = -1;
+            Components.FlickableWheelBooster {
+                flickable: forwardScrollArea
             }
 
             ScrollBar.vertical: ScrollBar {
-                id: suggestionScrollBar
+                id: forwardScrollBar
 
                 policy: {
                     switch (forwardMessagePopup.scrollbarPolicySetting) {
@@ -450,226 +365,386 @@ Popup {
                     case Settings.ScrollbarPolicy.Never:
                         return ScrollBar.AlwaysOff;
                     default:
-                        return suggestionList.contentHeight > suggestionList.height
+                        return forwardScrollArea.contentHeight > forwardScrollArea.height
                             ? ScrollBar.AlwaysOn
                             : ScrollBar.AlwaysOff;
                     }
                 }
             }
 
-            delegate: AbstractButton {
-                id: suggestionDelegate
+            Column {
+                id: forwardScrollColumn
 
-                readonly property string rawRoomId: model.rawroomid
-                readonly property bool alreadySelected: forwardMessagePopup.recipientCount >= 0
-                    && forwardMessagePopup.containsRecipient(model.rawroomid)
-                readonly property bool current: model.index === suggestionList.currentIndex
+                width: forwardMessagePopup.scrollContentWidth
+                spacing: Komai.paddingSmall
 
-                width: suggestionList.width - suggestionList.scrollGutter
-                implicitHeight: suggestionRow.implicitHeight + Komai.paddingSmall * 2
-                leftPadding: Komai.paddingMedium
-                rightPadding: Komai.paddingMedium
-                enabled: !alreadySelected
-                hoverEnabled: true
-                activeFocusOnTab: false
-                onClicked: {
-                    suggestionList.currentIndex = model.index;
-                    forwardMessagePopup.addRecipient(model.rawroomid);
-                }
-                onHoveredChanged: {
-                    if (hovered && enabled)
-                        suggestionList.currentIndex = model.index;
+                // Preview of the (single) message being forwarded.
+                Loader {
+                    id: replyPreviewLoader
+
+                    active: forwardMessagePopup.showReplyPreview && forwardMessagePopup.messageCount === 1
+                    width: forwardMessagePopup.scrollContentWidth
+                    sourceComponent: replyPreviewComponent
                 }
 
-                background: Rectangle {
-                    radius: Komai.paddingMedium
-                    color: {
-                        if (suggestionDelegate.current && suggestionDelegate.enabled)
-                            return palette.highlight;
-                        if (suggestionDelegate.alreadySelected)
-                            return Qt.tint(palette.window,
-                                           Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.22));
-                        return palette.window;
-                    }
-                    border.width: 1
-                    border.color: suggestionDelegate.alreadySelected
-                        ? palette.highlight
-                        : Komai.theme.separator
-                }
+                Component {
+                    id: replyPreviewComponent
 
-                contentItem: RowLayout {
-                    id: suggestionRow
+                    Reply {
+                        id: replyPreview
 
-                    spacing: Komai.paddingMedium
-
-                    Components.Avatar {
-                        Layout.preferredWidth: Komai.iconSize
-                        Layout.preferredHeight: Komai.iconSize
-                        Layout.alignment: Qt.AlignVCenter
-                        displayName: model.roomName
-                        roomid: model.rawroomid
-                        url: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
-                        enabled: false
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignVCenter
-                        text: model.roomName
-                        textFormat: Text.PlainText
-                        color: suggestionDelegate.current && suggestionDelegate.enabled
-                            ? palette.highlightedText
-                            : suggestionDelegate.alreadySelected
-                                ? palette.buttonText
-                                : palette.text
-                        font.italic: model.isTombstoned
-                        font.pointSize: Settings.uiFontSizePt
-                        elide: Text.ElideRight
-                    }
-
-                    Label {
-                        visible: model.isSpace
-                        Layout.alignment: Qt.AlignVCenter
-                        text: qsTr("(Space)")
-                        color: suggestionDelegate.current && suggestionDelegate.enabled
-                            ? palette.highlightedText
-                            : palette.buttonText
-                        font.pointSize: Settings.uiFontSizePt * 0.9
-                    }
-
-                    Image {
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredWidth: visible ? 18 : 0
-                        Layout.preferredHeight: 18
-                        visible: suggestionDelegate.alreadySelected
-                        fillMode: Image.PreserveAspectFit
-                        source: visible
-                            ? "image://colorimage/:/icons/icons/ui/double-checkmark.svg?" + palette.highlight
-                            : ""
+                        clickable: false
+                        eventId: mid
+                        room_: activeRoom
+                        property bool isReplyFromCurrentUser: {
+                            const currentUser = Komai.currentUser;
+                            const currentUserId = (currentUser && currentUser.userid)
+                                    ? String(currentUser.userid)
+                                    : "";
+                            return currentUserId.length > 0 && replyPreview.userId === currentUserId;
+                        }
+                        readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
+                            ? Komai.colors.window
+                            : forwardMessagePopup.palette.window
+                        readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
+                            ? Komai.colors.base
+                            : forwardMessagePopup.palette.base
+                        bubblePalette: activeRoom ? TimelineManager.roomUserBubblePalette(activeRoom.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
+                        userColor: isReplyFromCurrentUser
+                            ? Komai.theme.userColorSelf
+                            : activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewWindowColor)
+                        roomColor: isReplyFromCurrentUser
+                            ? Komai.theme.userColorSelf
+                            : activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewBaseColor)
+                        limitHeight: true
+                        width: forwardMessagePopup.scrollContentWidth
+                        maxWidth: forwardMessagePopup.scrollContentWidth
                     }
                 }
-            }
 
-            Label {
-                anchors.centerIn: parent
-                width: parent.width - Komai.paddingLarge * 2
-                visible: suggestionList.count === 0
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt * 0.95
-                text: (roomTextInput.text.trim().length > 0)
-                    ? qsTr("No matching rooms found.")
-                    : qsTr("Start typing to find a room.")
-            }
-        }
+                // Room search
+                Components.KomaiTextField {
+                    id: roomTextInput
 
-        // --- Staging (selected recipients) ---
-        Label {
-            width: forwardMessagePopup.innerWidth
-            topPadding: Komai.paddingSmall
-            text: forwardMessagePopup.selectedHeadingText()
-            color: palette.text
-            font.bold: true
-            font.pointSize: Settings.uiFontSizePt * 1.05
-        }
+                    width: forwardMessagePopup.scrollContentWidth
+                    font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
+                    implicitHeight: Math.max(controlHeight, Math.round(font.pixelSize * 2.0))
+                    placeholderText: qsTr("Room name, address or id...")
 
-        ListView {
-            id: recipientsList
-
-            readonly property real scrollGutter: forwardMessagePopup.scrollbarsReserveGutter
-                ? (recipientsScrollBar.implicitWidth + Komai.paddingSmall)
-                : 0
-
-            width: forwardMessagePopup.innerWidth
-            height: forwardMessagePopup.reservedListHeight(5)
-            clip: true
-            model: recipientsModel
-            spacing: forwardMessagePopup.listSpacing
-            boundsBehavior: Flickable.StopAtBounds
-
-            ScrollBar.vertical: ScrollBar {
-                id: recipientsScrollBar
-
-                policy: {
-                    switch (forwardMessagePopup.scrollbarPolicySetting) {
-                    case Settings.ScrollbarPolicy.Always:
-                        return ScrollBar.AlwaysOn;
-                    case Settings.ScrollbarPolicy.Never:
-                        return ScrollBar.AlwaysOff;
-                    default:
-                        return recipientsList.contentHeight > recipientsList.height
-                            ? ScrollBar.AlwaysOn
-                            : ScrollBar.AlwaysOff;
+                    Keys.onShortcutOverride: (event) => {
+                        // Claim navigation / staging keys before the platform turns them
+                        // into edit operations (Ctrl+U "clear line", etc.).
+                        if (event.key === Qt.Key_Up || event.key === Qt.Key_Down
+                                || ((event.key === Qt.Key_D || event.key === Qt.Key_U)
+                                    && (event.modifiers & Qt.ControlModifier))
+                                || (event.matches(StandardKey.InsertParagraphSeparator)
+                                    && !(event.modifiers & Qt.ControlModifier)))
+                            event.accepted = true;
+                    }
+                    Keys.onPressed: (event) => {
+                        if (event.key === Qt.Key_Up) {
+                            suggestionList.moveSelection(-1);
+                            event.accepted = true;
+                        } else if (event.key === Qt.Key_Down) {
+                            suggestionList.moveSelection(1);
+                            event.accepted = true;
+                        } else if (event.key === Qt.Key_U && (event.modifiers & Qt.ControlModifier)) {
+                            suggestionList.moveSelection(-forwardMessagePopup.pageStep);
+                            event.accepted = true;
+                        } else if (event.key === Qt.Key_D && (event.modifiers & Qt.ControlModifier)) {
+                            suggestionList.moveSelection(forwardMessagePopup.pageStep);
+                            event.accepted = true;
+                        } else if (event.matches(StandardKey.InsertParagraphSeparator)
+                                   && !(event.modifiers & Qt.ControlModifier)) {
+                            forwardMessagePopup.stageCurrentSuggestion();
+                            event.accepted = true;
+                        }
+                    }
+                    onTextEdited: {
+                        if (forwardMessagePopup.roomCompleter)
+                            forwardMessagePopup.roomCompleter.searchString = text;
                     }
                 }
-            }
 
-            delegate: Rectangle {
-                width: recipientsList.width - recipientsList.scrollGutter
-                implicitHeight: recipientRow.implicitHeight + Komai.paddingSmall * 2
-                color: palette.window
-                radius: Komai.paddingMedium
-                border.color: Komai.theme.separator
-                border.width: 1
+                // --- Results (suggestions) ---
+                Label {
+                    width: forwardMessagePopup.scrollContentWidth
+                    topPadding: Komai.paddingSmall
+                    text: qsTr("Rooms")
+                    color: palette.text
+                    font.bold: true
+                    font.pointSize: Settings.uiFontSizePt * 1.05
+                }
 
-                RowLayout {
-                    id: recipientRow
+                ListView {
+                    id: suggestionList
 
-                    anchors.fill: parent
-                    anchors.leftMargin: Komai.paddingMedium
-                    anchors.rightMargin: Komai.paddingSmall
-                    anchors.topMargin: Komai.paddingSmall
-                    anchors.bottomMargin: Komai.paddingSmall
-                    spacing: Komai.paddingMedium
+                    // Reserve the scrollbar gutter so rows never sit under the bar.
+                    readonly property real scrollGutter: forwardMessagePopup.scrollbarsReserveGutter
+                        ? (suggestionScrollBar.implicitWidth + Komai.paddingSmall)
+                        : 0
 
-                    Components.Avatar {
-                        Layout.preferredWidth: Komai.iconSize
-                        Layout.preferredHeight: Komai.iconSize
-                        Layout.alignment: Qt.AlignVCenter
-                        displayName: model.roomName
-                        roomid: model.roomId
-                        url: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
-                        enabled: false
+                    function moveSelection(delta) {
+                        if (count === 0) {
+                            currentIndex = -1;
+                            return;
+                        }
+                        let next = (currentIndex < 0 ? 0 : currentIndex) + delta;
+                        next = Math.max(0, Math.min(count - 1, next));
+                        currentIndex = next;
+                        positionViewAtIndex(next, ListView.Contain);
                     }
 
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignVCenter
-                        text: model.roomName
-                        color: palette.text
-                        font.pointSize: Settings.uiFontSizePt
-                        elide: Text.ElideRight
+                    width: forwardMessagePopup.scrollContentWidth
+                    height: forwardMessagePopup.reservedListHeight(7)
+                    clip: true
+                    model: forwardMessagePopup.roomCompleter
+                    spacing: forwardMessagePopup.listSpacing
+                    boundsBehavior: Flickable.StopAtBounds
+                    highlightFollowsCurrentItem: true
+                    keyNavigationEnabled: false
+
+                    onCountChanged: {
+                        if (count > 0 && (currentIndex < 0 || currentIndex >= count))
+                            currentIndex = 0;
+                        else if (count === 0)
+                            currentIndex = -1;
                     }
 
-                    Components.ImageButton {
-                        Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredWidth: Komai.iconSize
-                        Layout.preferredHeight: Komai.iconSize
-                        activeFocusOnTab: false
+                    ScrollBar.vertical: ScrollBar {
+                        id: suggestionScrollBar
+
+                        policy: {
+                            switch (forwardMessagePopup.scrollbarPolicySetting) {
+                            case Settings.ScrollbarPolicy.Always:
+                                return ScrollBar.AlwaysOn;
+                            case Settings.ScrollbarPolicy.Never:
+                                return ScrollBar.AlwaysOff;
+                            default:
+                                return suggestionList.contentHeight > suggestionList.height
+                                    ? ScrollBar.AlwaysOn
+                                    : ScrollBar.AlwaysOff;
+                            }
+                        }
+                    }
+
+                    delegate: AbstractButton {
+                        id: suggestionDelegate
+
+                        readonly property string rawRoomId: model.rawroomid
+                        readonly property bool alreadySelected: forwardMessagePopup.recipientCount >= 0
+                            && forwardMessagePopup.containsRecipient(model.rawroomid)
+                        readonly property bool current: model.index === suggestionList.currentIndex
+
+                        width: suggestionList.width - suggestionList.scrollGutter
+                        implicitHeight: suggestionRow.implicitHeight + Komai.paddingSmall * 2
+                        leftPadding: Komai.paddingMedium
+                        rightPadding: Komai.paddingMedium
+                        enabled: !alreadySelected
                         hoverEnabled: true
-                        toolTipText: qsTr("Remove")
-                        toolTipVisible: hovered
-                        image: ":/icons/icons/ui/dismiss.svg"
-                        onClicked: forwardMessagePopup.removeRecipient(model.roomId)
+                        activeFocusOnTab: false
+                        onClicked: {
+                            suggestionList.currentIndex = model.index;
+                            forwardMessagePopup.addRecipient(model.rawroomid);
+                        }
+                        onHoveredChanged: {
+                            if (hovered && enabled)
+                                suggestionList.currentIndex = model.index;
+                        }
+
+                        background: Rectangle {
+                            radius: Komai.paddingMedium
+                            color: {
+                                if (suggestionDelegate.current && suggestionDelegate.enabled)
+                                    return palette.highlight;
+                                if (suggestionDelegate.alreadySelected)
+                                    return Qt.tint(palette.window,
+                                                   Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.22));
+                                return palette.window;
+                            }
+                            border.width: 1
+                            border.color: suggestionDelegate.alreadySelected
+                                ? palette.highlight
+                                : Komai.theme.separator
+                        }
+
+                        contentItem: RowLayout {
+                            id: suggestionRow
+
+                            spacing: Komai.paddingMedium
+
+                            Components.Avatar {
+                                Layout.preferredWidth: Komai.iconSize
+                                Layout.preferredHeight: Komai.iconSize
+                                Layout.alignment: Qt.AlignVCenter
+                                displayName: model.roomName
+                                roomid: model.rawroomid
+                                url: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
+                                enabled: false
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignVCenter
+                                text: model.roomName
+                                textFormat: Text.PlainText
+                                color: suggestionDelegate.current && suggestionDelegate.enabled
+                                    ? palette.highlightedText
+                                    : suggestionDelegate.alreadySelected
+                                        ? palette.buttonText
+                                        : palette.text
+                                font.italic: model.isTombstoned
+                                font.pointSize: Settings.uiFontSizePt
+                                elide: Text.ElideRight
+                            }
+
+                            Label {
+                                visible: model.isSpace
+                                Layout.alignment: Qt.AlignVCenter
+                                text: qsTr("(Space)")
+                                color: suggestionDelegate.current && suggestionDelegate.enabled
+                                    ? palette.highlightedText
+                                    : palette.buttonText
+                                font.pointSize: Settings.uiFontSizePt * 0.9
+                            }
+
+                            Image {
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.preferredWidth: visible ? 18 : 0
+                                Layout.preferredHeight: 18
+                                visible: suggestionDelegate.alreadySelected
+                                fillMode: Image.PreserveAspectFit
+                                source: visible
+                                    ? "image://colorimage/:/icons/icons/ui/double-checkmark.svg?" + palette.highlight
+                                    : ""
+                            }
+                        }
+                    }
+
+                    Label {
+                        anchors.centerIn: parent
+                        width: parent.width - Komai.paddingLarge * 2
+                        visible: suggestionList.count === 0
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        color: palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt * 0.95
+                        text: (roomTextInput.text.trim().length > 0)
+                            ? qsTr("No matching rooms found.")
+                            : qsTr("Start typing to find a room.")
                     }
                 }
-            }
 
-            Label {
-                anchors.centerIn: parent
-                width: parent.width - Komai.paddingLarge * 2
-                visible: recipientsList.count === 0
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt * 0.95
-                text: qsTr("Choose one or more rooms to forward the message to.")
-            }
-        }
+                // --- Staging (selected recipients) ---
+                Label {
+                    width: forwardMessagePopup.scrollContentWidth
+                    topPadding: Komai.paddingSmall
+                    text: forwardMessagePopup.selectedHeadingText()
+                    color: palette.text
+                    font.bold: true
+                    font.pointSize: Settings.uiFontSizePt * 1.05
+                }
+
+                ListView {
+                    id: recipientsList
+
+                    readonly property real scrollGutter: forwardMessagePopup.scrollbarsReserveGutter
+                        ? (recipientsScrollBar.implicitWidth + Komai.paddingSmall)
+                        : 0
+
+                    width: forwardMessagePopup.scrollContentWidth
+                    height: forwardMessagePopup.reservedListHeight(5)
+                    clip: true
+                    model: recipientsModel
+                    spacing: forwardMessagePopup.listSpacing
+                    boundsBehavior: Flickable.StopAtBounds
+
+                    ScrollBar.vertical: ScrollBar {
+                        id: recipientsScrollBar
+
+                        policy: {
+                            switch (forwardMessagePopup.scrollbarPolicySetting) {
+                            case Settings.ScrollbarPolicy.Always:
+                                return ScrollBar.AlwaysOn;
+                            case Settings.ScrollbarPolicy.Never:
+                                return ScrollBar.AlwaysOff;
+                            default:
+                                return recipientsList.contentHeight > recipientsList.height
+                                    ? ScrollBar.AlwaysOn
+                                    : ScrollBar.AlwaysOff;
+                            }
+                        }
+                    }
+
+                    delegate: Rectangle {
+                        width: recipientsList.width - recipientsList.scrollGutter
+                        implicitHeight: recipientRow.implicitHeight + Komai.paddingSmall * 2
+                        color: palette.window
+                        radius: Komai.paddingMedium
+                        border.color: Komai.theme.separator
+                        border.width: 1
+
+                        RowLayout {
+                            id: recipientRow
+
+                            anchors.fill: parent
+                            anchors.leftMargin: Komai.paddingMedium
+                            anchors.rightMargin: Komai.paddingSmall
+                            anchors.topMargin: Komai.paddingSmall
+                            anchors.bottomMargin: Komai.paddingSmall
+                            spacing: Komai.paddingMedium
+
+                            Components.Avatar {
+                                Layout.preferredWidth: Komai.iconSize
+                                Layout.preferredHeight: Komai.iconSize
+                                Layout.alignment: Qt.AlignVCenter
+                                displayName: model.roomName
+                                roomid: model.roomId
+                                url: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
+                                enabled: false
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignVCenter
+                                text: model.roomName
+                                color: palette.text
+                                font.pointSize: Settings.uiFontSizePt
+                                elide: Text.ElideRight
+                            }
+
+                            Components.ImageButton {
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.preferredWidth: Komai.iconSize
+                                Layout.preferredHeight: Komai.iconSize
+                                activeFocusOnTab: false
+                                hoverEnabled: true
+                                toolTipText: qsTr("Remove")
+                                toolTipVisible: hovered
+                                image: ":/icons/icons/ui/dismiss.svg"
+                                onClicked: forwardMessagePopup.removeRecipient(model.roomId)
+                            }
+                        }
+                    }
+
+                    Label {
+                        anchors.centerIn: parent
+                        width: parent.width - Komai.paddingLarge * 2
+                        visible: recipientsList.count === 0
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        color: palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt * 0.95
+                        text: qsTr("Choose one or more rooms to forward the message to.")
+                    }
+                }
+            } // forwardScrollColumn
+        } // forwardScrollArea
 
         // Action row
         RowLayout {
+            id: actionRow
+
             width: forwardMessagePopup.innerWidth
             spacing: Komai.paddingMedium
 

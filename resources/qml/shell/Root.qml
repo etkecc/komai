@@ -78,7 +78,10 @@ function openCatalogDialog(componentUrl, properties) {
 
         var dialog = createDialog(componentCatalog.navigationForwardCompleterDialog, {
                 "roomSource": room,
-                "dialogViewportWidth": timelineRoot.width,
+                // Qt.binding() keeps this tracking the live viewport width; a
+                // plain value here would freeze at whatever it was when the
+                // dialog opened and never follow a later window resize.
+                "dialogViewportWidth": Qt.binding(() => timelineRoot.width),
                 "modalOverlayColor": timelineRoot.overlayBackdropColor,
                 "timelineSource": timeline ?? null,
                 "timelineViewSource": timelineView ?? null,

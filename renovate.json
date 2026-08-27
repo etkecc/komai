@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
+  "platformAutomerge": false,
   "ignoreDeps": [
     "ruma"
   ],
@@ -125,6 +126,32 @@
       "description": "GStreamer — stable (even-minor) series only; odd-minor development snapshots can fail to build and get no bug-fix releases",
       "matchPackageNames": ["https://gitlab.freedesktop.org/gstreamer/gstreamer.git"],
       "allowedVersions": "/^1\\.\\d*[02468]\\.\\d+$/"
+    },
+    {
+      "description": "Development tooling and CI: automerge on a branch (no pull request, no email) once CI is green. A bad bump here surfaces as a red build, not as damage to anything.",
+      "matchManagers": ["github-actions", "mise", "pre-commit"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Rust toolchain and crates: automerge on a branch. ci.yml compiles the project, so a crate that does not build cannot merge.",
+      "matchManagers": ["cargo"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Icon asset pins: automerge on a branch. These are build-time asset bundles rather than libraries, they move almost daily, and the build consumes them - so a broken bump fails CI. Matched by name because they share the custom.regex manager with the CPM library pins, which must stay reviewed.",
+      "matchDepNames": ["microsoft/fluentui-system-icons", "FortAwesome/Font-Awesome"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Majors always get a pull request. Listed last, so it overrides every automerge rule above.",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
     }
   ]
 }

@@ -69,7 +69,7 @@ Rectangle {
     }
     RoomJoinCreateDialog {
         id: roomJoinCreateDialog
-        dialogHost: timeline
+        dialogHost: chatPage.timelineRoot
     }
     Shortcut {
         sequence: "Ctrl+W"

@@ -2,7 +2,7 @@
 
 ## 🚀 Getting Started
 
-- 📥 [Installation](installation.md) -- pre-built AppImage/Flatpak/Snap, distro packages, and build-from-source pointers
+- 📥 [Installation](installation.md) -- Linux packages, Windows ZIP, macOS Homebrew/DMG, and build-from-source pointers
 - 🔀 [Differences from nheko](differences-from-nheko.md) -- notable user-facing changes
 
 ## ⚙️ Configuration

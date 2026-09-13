@@ -67,7 +67,17 @@ Downloads for all platforms are also linked from the [komai.chat](https://komai.
 
 **🪟 Windows** (`x64`): a portable **ZIP** for Windows 10 (22H2+) and later is attached to each [GitHub release](https://github.com/etkecc/komai/releases). The build includes [Element Call](docs/user-guide/features/element-call.md) voice/video but excludes the [legacy 1:1 call](docs/user-guide/features/legacy-calls.md) stack (`-DVOIP=OFF`). It isn't code-signed, so the first launch shows a SmartScreen warning that needs **More info** -> **Run anyway**.
 
-**🍏 macOS** (`arm64`): a portable **DMG** for macOS 13.3+ on Apple Silicon is attached to each [GitHub release](https://github.com/etkecc/komai/releases). Like the Windows build, it ships [Element Call](docs/user-guide/features/element-call.md) but not the [legacy 1:1 call](docs/user-guide/features/legacy-calls.md) stack (`-DVOIP=OFF`). It isn't code-signed or notarized, so the first launch shows a Gatekeeper warning. On macOS 13/14, right-click `komai.app` -> **Open**; on macOS 15+, open the app once, then go to **System Settings -> Privacy & Security -> Open Anyway**.
+**🍏 macOS** (`arm64`): install on macOS 13.3+ on Apple Silicon through the [official Homebrew tap](https://github.com/etkecc/homebrew-komai):
+
+```sh
+brew install --cask etkecc/komai/komai
+```
+
+Quit Komai before upgrading, then run `brew update` and `brew upgrade --cask etkecc/komai/komai`.
+A portable **DMG** is also attached to each [GitHub release](https://github.com/etkecc/komai/releases).
+The macOS build ships [Element Call](docs/user-guide/features/element-call.md) but not the [legacy 1:1 call](docs/user-guide/features/legacy-calls.md) stack (`-DVOIP=OFF`).
+It isn't signed with an Apple Developer ID or notarized, so the first launch shows a Gatekeeper warning with either installation method.
+On macOS 13/14, right-click `komai.app` -> **Open**; on macOS 15+, open the app once, then go to **System Settings -> Privacy & Security -> Open Anyway**.
 
 See 📄 [Installation](docs/user-guide/installation.md) for download links and install commands. To build Komai yourself, see 📄 [Native build](docs/maintainers/packaging/native.md).
 

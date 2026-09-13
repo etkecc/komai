@@ -62,13 +62,35 @@ What's not in the Windows build:
 
 For background, see 📄 [Native build on Windows](../maintainers/packaging/native/windows.md).
 
-### 🍏 macOS DMG (Apple Silicon)
+### 🍏 macOS (Apple Silicon)
 
-A `.dmg` for macOS 13.3 and later on `arm64` (Apple Silicon). The build is unsigned and not notarized, so the first launch needs an extra step; after that, the app opens normally.
+Komai supports macOS 13.3 and later on `arm64` (Apple Silicon).
+Install through the [official Homebrew tap](https://github.com/etkecc/homebrew-komai) or download the DMG directly.
+
+#### Homebrew
+
+With [Homebrew](https://brew.sh/) installed, run:
+
+```sh
+brew install --cask etkecc/komai/komai
+```
+
+Homebrew adds the tap automatically and, on Homebrew 6 and newer, trusts only the Komai cask.
+The tap checks for new releases daily and publishes updates after automated validation.
+Quit Komai before upgrading, then run:
+
+```sh
+brew update
+brew upgrade --cask etkecc/komai/komai
+```
+
+#### Direct DMG download
 
 Download `komai-*-macos-arm64.dmg` from the release page, open it (double-click in Finder, or `open <file>` in Terminal), and drag `komai.app` into the **Applications** folder.
 
-The first launch shows a Gatekeeper warning because Komai isn't code-signed or notarized:
+#### First launch (both methods)
+
+The first launch shows a Gatekeeper warning because Komai isn't signed with an Apple Developer ID or notarized:
 
 - **macOS 13 (Ventura) or 14 (Sonoma):** in Finder, right-click `komai.app` in **Applications**, choose **Open**, then click **Open** in the dialog.
 - **macOS 15 (Sequoia) or later:** double-click `komai.app` and click **Done** in the warning dialog. Then open **System Settings**, go to **Privacy & Security**, scroll to the bottom, click **Open Anyway** next to the komai.app entry, and confirm.
@@ -78,9 +100,9 @@ Subsequent launches open normally.
 What's not in the macOS build:
 
 - **Legacy 1:1 calls.** The GStreamer-based [legacy call](features/legacy-calls.md) stack is excluded (`-DVOIP=OFF`). [Element Call](features/element-call.md) voice/video is included.
-- **Auto-update.** Each release is a fresh DMG download from [GitHub Releases](https://github.com/etkecc/komai/releases).
+- **In-app auto-update.** Use `brew upgrade --cask etkecc/komai/komai` for a Homebrew installation, or download a fresh DMG from [GitHub Releases](https://github.com/etkecc/komai/releases).
 - **Intel Macs.** Only `arm64` is available as a pre-built binary. Building on Intel from source still works; see 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
-- **Code-signing / notarization.** Komai is shipped unsigned, hence the first-launch dance.
+- **Developer ID signing / notarization.** Both installation methods require the Gatekeeper approval described above.
 
 For background, see 📄 [Native build on macOS](../maintainers/packaging/native/macos.md).
 

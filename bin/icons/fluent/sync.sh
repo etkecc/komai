@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # Sync all mirrored Fluent icons from pinned upstream.
 #

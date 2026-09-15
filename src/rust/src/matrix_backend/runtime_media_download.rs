@@ -11,7 +11,6 @@
 
 use std::io::Read;
 
-use futures_util::StreamExt as _;
 use matrix_sdk_base::media::store::IgnoreMediaRetentionPolicy;
 
 use super::*;

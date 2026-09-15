@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026.09.15.0
+
+- 🐛 Fix: the **Ctrl+N** actions (start a direct chat, join a room, create a room) open their dialog again; since May, picking one did nothing ([5d3934e52](https://github.com/etkecc/komai/commit/5d3934e52)).
+- 🐛 Fix: the Forward and Invite dialogs scroll instead of pushing their action button off-screen on short windows, and they follow the window when it is resized ([4f3ed7358](https://github.com/etkecc/komai/commit/4f3ed7358)).
+- 📖 Docs: macOS installation covers the official Homebrew tap (`brew install --cask etkecc/komai/komai`) ([26af4dfb9](https://github.com/etkecc/komai/commit/26af4dfb9)).
+- 📦 Calls: the bundled Element Call is updated to v0.26.0 ([db469e4c3](https://github.com/etkecc/komai/commit/db469e4c3), [4db7defaa](https://github.com/etkecc/komai/commit/4db7defaa)).
+- 📦 Flatpak: the bundled GStreamer is updated to v1.28.7 ([2960962ca](https://github.com/etkecc/komai/commit/2960962ca)).
+- 🔧 Build: the Rust toolchain is updated to 1.98.1 ([3275e3efa](https://github.com/etkecc/komai/commit/3275e3efa)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.341 ([a5d906443](https://github.com/etkecc/komai/commit/a5d906443), [7f63860e4](https://github.com/etkecc/komai/commit/7f63860e4)).
+- 🔧 Build: Rust dependencies are updated ([79240c426](https://github.com/etkecc/komai/commit/79240c426), [45b8c0473](https://github.com/etkecc/komai/commit/45b8c0473)).
+
 ## 2026.08.24.1
 
 - ✨ Feature: the [🤖 automations](https://github.com/etkecc/komai/blob/ee83d6e66/docs/user-guide/features/automations/README.md) API (MCP, CLI, D-Bus) can now create rooms, manage membership (invite, kick, ban, unban, leave), read and write room state, redact events, and manage read state ([ad437eb96](https://github.com/etkecc/komai/commit/ad437eb96), [9727f115a](https://github.com/etkecc/komai/commit/9727f115a), [6bc3636e7](https://github.com/etkecc/komai/commit/6bc3636e7), [b719e8834](https://github.com/etkecc/komai/commit/b719e8834), [ae7885f5d](https://github.com/etkecc/komai/commit/ae7885f5d)).

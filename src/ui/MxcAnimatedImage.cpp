@@ -155,8 +155,10 @@ MxcAnimatedImage::startDownload()
 
             if (height() != 0 && width() != 0)
                 movie.setScaledSize(this->size().toSize());
-            if (buffer.bytesAvailable() <
-                4LL * 1024 * 1024 * 1024) // cache images smaller than 4MB in RAM
+            // Cache decoded frames in RAM only for small files. Larger animations are
+            // decoded on the fly, since CacheAll keeps every frame resident.
+            constexpr qint64 kCacheAllMaxBytes = 4LL * 1024 * 1024;
+            if (buffer.bytesAvailable() < kCacheAllMaxBytes)
                 movie.setCacheMode(QMovie::CacheAll);
             if (play_ && movie.frameCount() > 1)
                 movie.start();

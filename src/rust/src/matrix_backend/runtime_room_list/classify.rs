@@ -88,10 +88,11 @@ pub(super) struct RoomHeroCandidate {
     pub(super) avatar_url: String,
 }
 
-pub(super) fn room_hero_candidates(room: &RoomListItem) -> Vec<RoomHeroCandidate> {
+pub(super) async fn room_hero_candidates(room: &RoomListItem) -> Vec<RoomHeroCandidate> {
     let own_user_id = room.own_user_id();
     let mut candidates: Vec<RoomHeroCandidate> = room
         .heroes()
+        .await
         .into_iter()
         .filter(|hero| hero.user_id != own_user_id)
         .map(|hero| RoomHeroCandidate {

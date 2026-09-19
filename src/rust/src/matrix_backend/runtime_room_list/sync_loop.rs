@@ -441,7 +441,7 @@ pub(super) async fn run_sync_loop(
 
     if let Some(handle) = reconciler_handle {
         // The reconciler observes `stop_requested` within ~250ms and exits
-        // cleanly. Await it so any in-flight `subscribe_to_rooms` call
+        // cleanly. Await it so any in-flight `set_room_subscriptions` call
         // finishes before we return.
         let _ = handle.await;
     }

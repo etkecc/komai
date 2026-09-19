@@ -488,15 +488,10 @@ pub(super) fn summarize_reaction_items(
             let users = tooltip_users.join("\n");
             let self_reacted_event = own_user_id
                 .and_then(|user_id| senders.get(user_id))
-                .map(|info| match &info.status {
-                    matrix_sdk_ui::timeline::ReactionStatus::RemoteToRemote(event_id) => {
-                        event_id.to_string()
-                    }
-                    matrix_sdk_ui::timeline::ReactionStatus::LocalToLocal(_)
-                    | matrix_sdk_ui::timeline::ReactionStatus::LocalToRemote(_) => {
-                        "__local__".to_owned()
-                    }
-                })
+                // SDK 0.19 no longer exposes remote reaction event IDs. The
+                // UI only needs a nonempty marker; toggling uses the SDK's
+                // parent-event/key API, not this field as a redaction target.
+                .map(|_| "__local__".to_owned())
                 .unwrap_or_default();
 
             MatrixReactionSummary {

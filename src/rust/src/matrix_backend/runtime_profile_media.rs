@@ -4,7 +4,7 @@
 
 use super::*;
 use matrix_sdk::ruma::{
-    api::client::presence::{get_presence, set_presence},
+    api::client::presence::get_presence,
     presence::PresenceState,
 };
 use mime::Mime;
@@ -213,14 +213,8 @@ pub async fn set_own_presence(
     status_message: &str,
 ) -> Result<(), String> {
     let client = client_for_handle(handle_id)?;
-    let user_id = client
-        .user_id()
-        .map(|user_id| user_id.to_owned())
-        .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} has no user id"))?;
     let presence = presence_state_from_token(presence_state)?;
     let trimmed_status_message = status_message.trim();
-    let mut request = set_presence::v3::Request::new(user_id, presence.clone());
-    request.status_msg = (!trimmed_status_message.is_empty()).then_some(trimmed_status_message.to_owned());
 
     tracing::info!(
         handle_id,
@@ -229,10 +223,14 @@ pub async fn set_own_presence(
         "Setting own presence via matrix-sdk backend runtime"
     );
 
+    // Keep future sliding-sync requests aligned with the explicit update.
     client
-        .send(request)
+        .set_presence(
+            presence,
+            (!trimmed_status_message.is_empty()).then_some(trimmed_status_message.to_owned()),
+            true,
+        )
         .await
-        .map(|_: set_presence::v3::Response| ())
         .map_err(|e| format!("failed to set own presence via matrix-sdk: {e}"))
 }
 

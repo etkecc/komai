@@ -45,7 +45,7 @@ pub(super) async fn fetch_thread_read_state(room: &Room, thread_root: &EventId) 
         }
         for thread in &receipt_threads {
             if let Ok(Some((receipt_event_id, receipt))) = room
-                .load_user_receipt(ReceiptType::Read, thread.clone(), member.user_id())
+                .load_user_receipt(ReceiptType::Read, thread, member.user_id())
                 .await
             {
                 let ts = receipt.ts.map(|t| u64::from(t.0)).unwrap_or(0);

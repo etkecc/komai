@@ -139,7 +139,7 @@ pub(super) async fn own_thread_receipt_covers(
     let user_id = room.own_user_id();
     for receipt_type in [ReceiptType::Read, ReceiptType::ReadPrivate] {
         match room
-            .load_user_receipt(receipt_type, ReceiptThread::Thread(thread_root.clone()), user_id)
+            .load_user_receipt(receipt_type, &ReceiptThread::Thread(thread_root.clone()), user_id)
             .await
         {
             Ok(Some((event_id, _))) if event_id.as_str() == latest_event_id => return true,

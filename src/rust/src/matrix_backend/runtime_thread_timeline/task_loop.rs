@@ -103,6 +103,27 @@ pub(super) async fn run_thread_timeline_loop(
             return;
         }
     };
+    // SDK 0.19 routes threaded receipts to the thread cache. Listen to it
+    // alongside the room cache, which still supplies main/unthreaded receipts
+    // and the thread root's events.
+    let mut thread_event_subscriber = match async {
+        let (cache, _handles) = client
+            .event_cache()
+            .thread(&parsed_room_id, &parsed_thread_root_id)
+            .await?;
+        cache.subscribe().await
+    }.await {
+        Ok((_initial_events, sub)) => sub,
+        Err(error) => {
+            tracing::warn!(
+                handle_id, room_id, thread_root_id, %error,
+                "Failed to subscribe to thread event cache"
+            );
+            return;
+        }
+    };
+    let mut room_cache_closed = false;
+    let mut thread_cache_closed = false;
 
     let (items, stream) = timeline.subscribe().await;
     let mut current_values = items;
@@ -230,7 +251,7 @@ pub(super) async fn run_thread_timeline_loop(
             // uses) — `/relations` is bounded by the thread root, so the
             // extra fetches for unrelated room activity are cheap and
             // coalesce naturally.
-            maybe_update = room_event_subscriber.recv() => {
+            maybe_update = room_event_subscriber.recv(), if !room_cache_closed => {
                 use matrix_sdk::event_cache::{EventsOrigin, RoomEventCacheUpdate};
                 use tokio::sync::broadcast::error::RecvError;
                 let should_schedule = match maybe_update {
@@ -240,12 +261,7 @@ pub(super) async fn run_thread_timeline_loop(
                     // A read receipt landing in the room can change one of our
                     // own thread messages from "Received" to "Read"; typing
                     // notifications can't, so don't refresh for those.
-                    Ok(RoomEventCacheUpdate::AddEphemeralEvents { events }) => {
-                        events.iter().any(|e| {
-                            e.get_field::<String>("type").ok().flatten().as_deref()
-                                == Some("m.receipt")
-                        })
-                    }
+                    Ok(RoomEventCacheUpdate::AddReadReceiptEvent { .. }) => true,
                     Ok(_) => false,
                     Err(RecvError::Lagged(n)) => {
                         tracing::warn!(
@@ -256,10 +272,38 @@ pub(super) async fn run_thread_timeline_loop(
                         true
                     }
                     Err(RecvError::Closed) => {
+                        room_cache_closed = true;
                         tracing::info!(
                             handle_id, room_id, thread_root_id,
                             "Thread room event cache subscriber closed"
                         );
+                        false
+                    }
+                };
+                if should_schedule && refresh_deadline.is_none() {
+                    refresh_deadline = Some(
+                        tokio::time::Instant::now() + Duration::from_millis(300)
+                    );
+                }
+            }
+
+            maybe_update = thread_event_subscriber.recv(), if !thread_cache_closed => {
+                use matrix_sdk::event_cache::{EventsOrigin, ThreadEventCacheUpdate};
+                use tokio::sync::broadcast::error::RecvError;
+                let should_schedule = match maybe_update {
+                    Ok(ThreadEventCacheUpdate::UpdateTimelineEvents(diffs)) => {
+                        matches!(diffs.origin, EventsOrigin::Sync)
+                    }
+                    Ok(ThreadEventCacheUpdate::AddReadReceiptEvent { .. }) => true,
+                    Err(RecvError::Lagged(n)) => {
+                        tracing::warn!(
+                            handle_id, room_id, thread_root_id, lagged = n,
+                            "Thread event cache subscriber lagged; scheduling refresh to recover"
+                        );
+                        true
+                    }
+                    Err(RecvError::Closed) => {
+                        thread_cache_closed = true;
                         false
                     }
                 };

@@ -57,8 +57,8 @@ pub(super) fn apply_relations_annotations(
             senders.insert(trimmed.to_owned(), String::new());
         }
         // Restore own user's reaction event id so a future redact can
-        // target it. `__local__` means it's still a local echo with no
-        // server-confirmed event id; treat it as "we reacted, no event id".
+        // target it. `__local__` means the SDK supplied no reaction event
+        // id (including remote reactions); treat it as "we reacted, no event id".
         if let Some(own) = own_str.as_deref() {
             if !reaction.self_reacted_event.is_empty() {
                 let event_id = if reaction.self_reacted_event == "__local__" {
@@ -104,7 +104,10 @@ pub(super) fn apply_relations_annotations(
             let users = users_list.join("\n");
             let self_reacted_event = own_str
                 .as_deref()
-                .and_then(|own| senders.get(own).cloned())
+                .and_then(|own| senders.get(own))
+                .map(|event_id| {
+                    if event_id.is_empty() { "__local__".to_owned() } else { event_id.clone() }
+                })
                 .unwrap_or_default();
             MatrixReactionSummary {
                 key,

@@ -9,6 +9,29 @@ use matrix_sdk::ruma::serde::Raw;
 use matrix_sdk_ui::timeline::MembershipChange;
 
 #[test]
+fn remote_own_reaction_stays_highlighted_without_an_event_id() {
+    use matrix_sdk::ruma::{MilliSecondsSinceUnixEpoch, user_id};
+    use matrix_sdk_ui::timeline::{ReactionInfo, ReactionsByKeyBySender};
+
+    let own_user = user_id!("@alice:example.org");
+    let mut reactions = ReactionsByKeyBySender::default();
+    reactions.entry("thumbs-up".to_owned()).or_default().insert(
+        own_user.to_owned(),
+        ReactionInfo { timestamp: MilliSecondsSinceUnixEpoch(1u32.into()), send_state: None },
+    );
+
+    let summary = super::messages::summarize_reaction_items(&reactions, Some(own_user));
+    assert_eq!(summary[0].count, 1);
+    assert!(!summary[0].self_reacted_event.is_empty());
+    assert_eq!(summary[0].user_ids, vec![own_user.to_string()]);
+
+    let summary = super::messages::summarize_reaction_items(
+        &reactions, Some(user_id!("@bob:example.org")),
+    );
+    assert!(summary[0].self_reacted_event.is_empty());
+}
+
+#[test]
 fn membership_change_kind_key_returns_join_and_left_variants() {
     assert_eq!(membership_change_kind_key(Some(MembershipChange::Joined)), "joined");
     assert_eq!(membership_change_kind_key(Some(MembershipChange::Left)), "left");

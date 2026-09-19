@@ -106,7 +106,7 @@ pub(super) async fn room_list_item_to_summary(
     notification_settings: &NotificationSettings,
 ) -> MatrixRoomSummary {
     let room_state = room.state();
-    let hero_candidates = room_hero_candidates(room);
+    let hero_candidates = room_hero_candidates(room).await;
     let classification = classify_room(room, &hero_candidates);
     let avatar_url =
         resolve_room_avatar_url(room, &classification, &hero_candidates).await;

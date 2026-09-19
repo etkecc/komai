@@ -47,27 +47,21 @@ unicode-script = "0.5.8"
 syntect = { version = "5", default-features = false, features = ["default-fancy"] }
 # ruma is pinned to the same version matrix-rust-sdk uses at this release to avoid
 # duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.  The
-# direct ruma dep only exists to enable features that matrix-sdk doesn't enable
-# on its own: `unstable-msc2545` (image packs / sticker packs) and
-# `unstable-msc4143` (MatrixRTC transport discovery — the `rtc/transports`
-# endpoint and the `.well-known` `rtc_foci` list Element Call needs, see
-# `runtime_element_call.rs`).  The `markdown` feature comes through matrix-sdk's
-# own `markdown` feature below, and `html` is pulled transitively by
-# matrix-sdk-ui.  Code should import ruma types through `matrix_sdk::ruma::*`
-# rather than `ruma::*` directly so we don't build in a hard coupling to the
-# direct ruma version.
-ruma = { version = "0.16.0", features = ["unstable-msc2545", "unstable-msc4143"] }
+# direct dependency supplies the crate path used by EventContent derives for
+# Komai's legacy image-pack events, plus the RTC discovery feature. Import
+# shared types through `matrix_sdk::ruma::*` to keep SDK boundaries aligned.
+ruma = { version = "0.17.0", features = ["unstable-msc4143"] }
 # `experimental-widgets` provides the native Matrix Widget API driver
 # (`matrix_sdk::widget`) that powers Element Call: capability negotiation, event
 # relay, encrypted to-device, OpenID and MSC4157 delayed events, plus the EC
 # widget URL builder. It is always compiled (it has no QtWebEngine dependency);
 # only the C++/QML side is gated behind the ELEMENT_CALL CMake option.
-matrix-sdk = { version = "0.18.0", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite", "markdown", "experimental-widgets"] }
-matrix-sdk-base = "0.18.0"
-matrix-sdk-ui = "0.18.0"
+matrix-sdk = { version = "0.19.0", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "sqlite", "bundled-sqlite", "markdown", "experimental-widgets"] }
+matrix-sdk-base = "0.19.0"
+matrix-sdk-ui = "0.19.0"
 
-# TLS backend: rustls with aws-lc-rs as the crypto provider, matching what
-# matrix-sdk now hard-wires. Previously we forced native-tls (OpenSSL) to avoid
+# TLS backend: rustls with aws-lc-rs as the crypto provider, enabled by
+# our reqwest `rustls` feature. Previously we forced native-tls (OpenSSL) to avoid
 # a second TLS stack and a Flatpak issue with aws-lc-sys' Jitterentropy C code
 # requiring `-O0`. matrix-sdk dropped native-tls in 2026-04, and aws-lc-sys
 # 0.39+ now filters `-O*` CFLAGS for the Jitterentropy compile unit on its own

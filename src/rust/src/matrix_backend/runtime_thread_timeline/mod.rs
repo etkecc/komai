@@ -24,11 +24,9 @@
 //      timeline sync update — covers events the SDK Live timeline
 //      surfaces (e.g. new top-level messages, latest_thread_summary
 //      bumps from new thread replies).
-//   2. The thread loop subscribes directly to `RoomEventCache` updates
-//      from the same room — covers events that flow into the room cache
-//      but never reach the Live timeline (most importantly, reactions on
-//      thread messages: their parent is in-thread, so the Live timeline
-//      emits no diff and path 1 never fires).
+//   2. The thread loop subscribes directly to room and thread cache updates.
+//      This covers reactions that never reach the Live timeline and, with
+//      SDK 0.19, receipts routed exclusively to the thread cache.
 //
 // Both paths feed the same debounced refresh, which fetches `/relations`
 // from the server directly (bypassing the stale SDK cache) and merges the

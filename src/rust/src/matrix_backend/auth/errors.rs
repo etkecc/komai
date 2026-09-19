@@ -16,15 +16,15 @@ pub(super) fn format_client_build_error(error: &ClientBuildError) -> String {
         ClientBuildError::InvalidServerName => {
             "Received malformed response. Make sure the homeserver domain is valid.".to_owned()
         }
-        ClientBuildError::AutoDiscovery(FromHttpResponseError::Deserialization(_)) => {
-            "Autodiscovery failed. Received malformed response.".to_owned()
-        }
-        ClientBuildError::AutoDiscovery(FromHttpResponseError::Server(error)) => {
-            format_ruma_api_error("Autodiscovery failed while requesting .well-known", error)
-        }
-        ClientBuildError::AutoDiscovery(_) => {
-            "Autodiscovery failed. Unknown error when requesting .well-known.".to_owned()
-        }
+        ClientBuildError::AutoDiscovery(error) => match error.as_ref() {
+            FromHttpResponseError::Deserialization(_) => {
+                "Autodiscovery failed. Received malformed response.".to_owned()
+            }
+            FromHttpResponseError::Server(error) => {
+                format_ruma_api_error("Autodiscovery failed while requesting .well-known", error)
+            }
+            _ => "Autodiscovery failed. Unknown error when requesting .well-known.".to_owned(),
+        },
         ClientBuildError::Http(error) => format_http_error("Failed to contact the homeserver", error),
         _ => format!("Failed to discover Matrix login flows: {error}"),
     }

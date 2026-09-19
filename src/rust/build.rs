@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 fn main() {
+    // Ruma's EventContent derive uses this cfg in generated event types.
+    println!("cargo:rustc-check-cfg=cfg(ruma_unstable_exhaustive_types)");
     cxx_build::bridge("src/ffi.rs")
         .include("..")
         .std("c++20")

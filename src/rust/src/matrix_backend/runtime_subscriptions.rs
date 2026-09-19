@@ -8,22 +8,21 @@
 // the server to send us the room's extended required_state — in particular
 // `m.room.pinned_events` — so we can read pinned-message data straight from
 // the local state store and receive live updates when another client pins
-// or unpins something. Matrix-sdk-ui's `RoomListService::subscribe_to_rooms`
-// does that, but it has three quirks to work around:
+// or unpins something. Matrix-sdk-ui's `RoomListService::set_room_subscriptions`
+// does that. The reconciler manages the full set as follows:
 //
-// 1. **Clear-and-replace semantics.** Each call replaces the full set of
+// 1. **Exact-set semantics.** Each call replaces the full set of
 //    subscriptions. To support multiple open rooms (e.g. main window plus a
 //    detached window) we keep a refcounted set of "rooms some UI is showing"
 //    and submit the full union on every change.
 //
-// 2. **Replay cost.** Every `subscribe_to_rooms` call marks all subscribed
-//    rooms' members as missing (the SDK re-fetches them). Re-submitting the
-//    same set would trigger unnecessary member refetches, so the reconciler
-//    tracks the last-submitted set and only calls the SDK when it changes.
+// 2. **Retained subscriptions.** `set_room_subscriptions` preserves existing
+//    rooms without marking their members as missing. The reconciler also
+//    skips unchanged sets to avoid unnecessary SDK work.
 //
 // 3. **Debounce.** Rapid UI actions (tab switching, close-reopen) can toggle
 //    the set in bursts. The reconciler waits a short window after each
-//    change notification to coalesce them into one `subscribe_to_rooms`
+//    change notification to coalesce them into one `set_room_subscriptions`
 //    call.
 //
 // The reconciler also owns a per-room `pinned_event_ids_stream` forwarder:
@@ -40,7 +39,7 @@ use matrix_sdk_ui::room_list_service::RoomListService;
 use tokio::sync::Notify;
 
 /// How long to wait after a subscription-set change before calling
-/// `RoomListService::subscribe_to_rooms`, to coalesce bursts of
+/// `RoomListService::set_room_subscriptions`, to coalesce bursts of
 /// subscribe/unsubscribe FFI calls.
 const SUBSCRIPTION_DEBOUNCE: Duration = Duration::from_millis(150);
 
@@ -129,7 +128,7 @@ impl SubscribedRooms {
 /// The reconciler:
 /// - waits on `subscribed.notify()` for set changes,
 /// - debounces by `SUBSCRIPTION_DEBOUNCE`,
-/// - on change, calls `room_list_service.subscribe_to_rooms(&union)` exactly
+/// - on change, calls `room_list_service.set_room_subscriptions(&union)` exactly
 ///   once with the new set,
 /// - maintains per-room `pinned_event_ids_stream` forwarders for UI live
 ///   updates.
@@ -186,13 +185,11 @@ pub async fn run_reconciler(
             }
         });
 
-        // Only call the SDK when the effective set has changed, to avoid
-        // the unnecessary per-room `mark_members_missing()` the SDK does on
-        // every subscribe call (see module docs).
+        // Only call the SDK when the effective set has changed.
         if desired != last_submitted {
             let refs: Vec<&matrix_sdk::ruma::RoomId> =
                 desired.iter().map(|id| id.as_ref()).collect();
-            room_list_service.subscribe_to_rooms(&refs).await;
+            room_list_service.set_room_subscriptions(&refs).await;
 
             tracing::debug!(
                 handle_id,
@@ -241,7 +238,7 @@ impl PinnedForwarder {
             // required_state hasn't landed yet — in that case we emit an
             // empty list and wait for the stream below. The gap is one
             // sync round (sub-second on a healthy server, since
-            // `subscribe_to_rooms` cancels the in-flight request).
+            // `set_room_subscriptions` cancels the in-flight request).
             //
             // We deliberately do NOT fall back to `/state` here: it
             // produces an unavoidable `matrix_sdk::http_client: Error

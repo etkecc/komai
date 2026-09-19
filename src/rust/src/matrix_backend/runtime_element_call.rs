@@ -139,6 +139,7 @@ fn element_call_required_permissions(own_user_id: &str, own_device_id: &str) -> 
         update_delayed_event: true,
         send_delayed_event: true,
         download_file: true,
+        rtc_transports: true,
     }
 }
 
@@ -349,6 +350,7 @@ async fn run_session(
     let url = url.to_string();
 
     let (driver, handle) = WidgetDriver::new(settings);
+    let handle = Arc::new(handle);
     let caps = ElementCallCapabilitiesProvider { user_id: own_user_id, device_id };
 
     // The widget API state machine. Single-shot and long-lived: it suspends for
@@ -398,8 +400,8 @@ async fn run_session(
             _ = cancel.cancelled() => break,
             message = to_driver_rx.recv() => match message {
                 Some(message) => {
-                    // MSC4515 is ours to answer: the driver has no handler and
-                    // would reject it (see `answer_rtc_transports`). Resolving
+                    // Keep our MSC4515 discovery policy, including fallback on
+                    // an empty transport list (see `answer_rtc_transports`). Resolving
                     // the transports hits the network, so it runs off to the
                     // side rather than stalling this forwarding loop.
                     if let Some(request) = parse_rtc_transports_request(&message) {
@@ -408,7 +410,7 @@ async fn run_session(
                             client.clone(),
                             request,
                         ));
-                    } else if !handle.send(message).await {
+                    } else if !handle.send(message) {
                         break;
                     }
                 }
@@ -427,8 +429,8 @@ async fn run_session(
 /// Splices MSC4515 into the driver's `supported_api_versions` answer.
 ///
 /// Element Call only sends `get_rtc_transports` once the host has advertised
-/// `org.matrix.msc4515`, and matrix-sdk's driver answers that handshake from a
-/// hardcoded list that predates the MSC. We amend its response instead of
+/// `org.matrix.msc4515`. The SDK now includes it; this idempotent compatibility
+/// helper also handles responses without it. We amend the response instead of
 /// answering the action ourselves so the rest of the list keeps tracking
 /// whatever matrix-sdk supports. Any message we cannot parse or that is not the
 /// versions response passes through untouched.

@@ -10,14 +10,15 @@ use matrix_sdk::{
     room::ParentSpace,
     ruma::{
         MxcUri, OwnedMxcUri, OwnedRoomId,
-        events::{
-            SyncStateEvent,
-            image_pack::{
-                AccountImagePackEventContent, ImagePackRoomContent, ImagePackRoomsEventContent,
-                PackImage, PackInfo, PackUsage, RoomImagePackEventContent,
-            },
-        },
+        events::SyncStateEvent,
     },
+};
+
+#[path = "image_packs_legacy.rs"]
+mod legacy;
+use legacy::{
+    AccountImagePackEventContent, ImagePackRoomContent, ImagePackRoomsEventContent,
+    PackImage, PackInfo, PackUsage, RoomImagePackEventContent,
 };
 
 fn pack_usage_allows(usage: &BTreeSet<PackUsage>, target: PackUsage) -> bool {

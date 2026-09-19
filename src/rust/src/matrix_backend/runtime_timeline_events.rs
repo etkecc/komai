@@ -647,7 +647,7 @@ pub async fn fetch_room_read_receipts(
         }
         for thread in &receipt_threads {
             if let Ok(Some((receipt_event_id, receipt))) =
-                room.load_user_receipt(ReceiptType::Read, thread.clone(), member.user_id()).await
+                room.load_user_receipt(ReceiptType::Read, thread, member.user_id()).await
             {
                 let receipt_ts = receipt.ts.map(|ts| u64::from(ts.0)).unwrap_or(0);
                 // Include this member if their receipt targets this exact event,

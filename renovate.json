@@ -87,9 +87,20 @@
       "managerFilePatterns": [
         "/^bin/emoji/sources\\.lock\\.yml$/"
       ],
-      "matchStrings": ["version:\\s+\"(?<currentValue>[^\"]+)\""],
+      "matchStrings": ["version:\\s+\"(?<currentValue>[^\"]+)\"\\s+annotations_url:"],
       "depNameTemplate": "cldr-annotations-full",
       "datasourceTemplate": "npm"
+    },
+    {
+      "customType": "regex",
+      "description": "Unicode emoji-test.txt release pin for emoji pipeline (sha256 pin in the lock must be updated on bump; `just emoji-update-lock` re-pins it)",
+      "managerFilePatterns": [
+        "/^bin/emoji/sources\\.lock\\.yml$/"
+      ],
+      "matchStrings": ["version:\\s+\"(?<currentValue>[^\"]+)\"\\s+url:\\s+\"https://www\\.unicode\\.org/"],
+      "depNameTemplate": "unicode",
+      "datasourceTemplate": "custom.unicode",
+      "versioningTemplate": "semver"
     },
     {
       "customType": "regex",
@@ -111,6 +122,15 @@
       "datasourceTemplate": "docker"
     }
   ],
+  "customDatasources": {
+    "unicode": {
+      "defaultRegistryUrlTemplate": "https://www.unicode.org/Public/",
+      "format": "html",
+      "transformTemplates": [
+        "{\"releases\": [releases[$contains(version, /^[0-9]+\\.[0-9]+\\.[0-9]+\\/$/)].{\"version\": $substringBefore(version, \"/\")}]}"
+      ]
+    }
+  },
   "packageRules": [
     {
       "description": "Ubuntu Docker image — managed manually, not by Renovate",

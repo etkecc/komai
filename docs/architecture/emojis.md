@@ -30,8 +30,9 @@ Not tracked (generated/cache):
 ## Upstream Inputs
 
 - Unicode emoji data (`emoji-test.txt`):
-  - https://unicode.org/Public/emoji/latest/emoji-test.txt
-  - https://unicode.org/Public/emoji/latest/
+  - `https://www.unicode.org/Public/<version>/emoji/emoji-test.txt`, pinned by
+    `version` and `sha256` in `bin/emoji/sources.lock.yml`
+  - https://www.unicode.org/Public/
 - CLDR localized annotations:
   - https://github.com/unicode-org/cldr-json
   - Example annotations:

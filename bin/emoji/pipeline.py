@@ -596,21 +596,27 @@ def payload_is_json(payload: bytes) -> bool:
     return True
 
 
+def unicode_url_and_sha(lock: dict[str, t.Any]) -> tuple[str, str]:
+    unicode_cfg = lock["unicode"]["emoji_test"]
+    version = str(unicode_cfg["version"])
+    url = str(unicode_cfg["url"]).format(version=version)
+    expected_sha = str(unicode_cfg.get("sha256", "")).strip().lower()
+    return url, expected_sha
+
+
 def ensure_unicode_data(
     *,
     lock: dict[str, t.Any],
     cache_dir: pathlib.Path,
     force: bool,
 ) -> pathlib.Path:
-    unicode_cfg = lock["unicode"]["emoji_test"]
     target = cache_dir / "unicode" / "emoji-test.txt"
     target.parent.mkdir(parents=True, exist_ok=True)
 
     if target.is_file() and not force:
         return target
 
-    url = str(unicode_cfg["url"])
-    expected_sha = str(unicode_cfg.get("sha256", "")).strip().lower()
+    url, expected_sha = unicode_url_and_sha(lock)
 
     try:
         payload = fetch_url_bytes(url)
@@ -630,7 +636,8 @@ def ensure_unicode_data(
         raise RuntimeError(
             "Unicode emoji data checksum mismatch: "
             f"expected {expected_sha}, got {actual_sha}. "
-            "Update bin/emoji/sources.lock.yml if intentional."
+            "If you intentionally bumped the version, run `just emoji-update-lock` "
+            "to re-pin the sha256 fields in bin/emoji/sources.lock.yml."
         )
 
     tmp = target.with_suffix(".tmp")
@@ -1478,26 +1485,29 @@ def rewrite_lock_sha(lock_path: pathlib.Path, key: str, new_sha: str) -> None:
 
 
 def cmd_update_lock(args: argparse.Namespace) -> int:
-    """Re-pin the CLDR tarball sha256 fields to the pinned version's real hashes.
+    """Re-pin the Unicode and CLDR sha256 fields to the pinned versions' real hashes.
 
     For after a Renovate version bump: Renovate updates `version` but cannot
-    update the sha256 fields, so fetches would reject the mismatched tarballs.
-    This downloads the pinned tarballs, records their real hashes, and then
+    update the sha256 fields, so fetches would reject the mismatched payloads.
+    This downloads the pinned payloads, records their real hashes, and then
     runs a full fetch against the updated lock as validation.
     """
     repo_root = repo_root_from_arg(args.repo_root)
     lock_path = repo_root / "bin" / "emoji" / "sources.lock.yml"
     lock = load_yaml(lock_path)
 
-    changed = False
+    pins = [("sha256", unicode_url_and_sha(lock))]
     for kind in ("annotations", "derived"):
-        url, expected_sha = cldr_tarball_url_and_sha(lock, kind)
+        pins.append((f"{kind}_sha256", cldr_tarball_url_and_sha(lock, kind)))
+
+    changed = False
+    for key, (url, expected_sha) in pins:
         actual_sha = sha256_bytes(fetch_url_bytes(url))
         if actual_sha == expected_sha:
-            print(f"{kind}_sha256 already up to date ({actual_sha[:12]})")
+            print(f"{key} already up to date ({actual_sha[:12]})")
             continue
-        rewrite_lock_sha(lock_path, f"{kind}_sha256", actual_sha)
-        print(f"{kind}_sha256 {expected_sha[:12] or '(unset)'} -> {actual_sha[:12]}")
+        rewrite_lock_sha(lock_path, key, actual_sha)
+        print(f"{key} {expected_sha[:12] or '(unset)'} -> {actual_sha[:12]}")
         changed = True
 
     # Validate the (possibly rewritten) lock end to end: fetch into the new
@@ -1509,7 +1519,7 @@ def cmd_update_lock(args: argparse.Namespace) -> int:
     if changed:
         print(
             "updated sources.lock.yml; next:\n"
-            "  git commit -am 'Update emoji CLDR sha256 pins' && git push"
+            "  git commit -am 'Update emoji sha256 pins' && git push"
         )
     else:
         print("lock already current; nothing to commit")

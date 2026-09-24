@@ -171,6 +171,8 @@ desktop:
     attention_on_incoming: false
     # Supported values: never | unencrypted_only | whenever_available
     message_content_policy: whenever_available
+    # Per-room cooldown for message notifications (minutes). 0 disables pacing.
+    pacing_minutes: 0
   attention:
     window_title:
       enabled: true

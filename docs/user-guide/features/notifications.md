@@ -33,6 +33,17 @@ A low priority room still receives system notifications and counts toward unread
 The [🏘️ communities sidebar](communities-sidebar.md) has a built-in **Low Priority** filter if you want a focused view of those rooms.
 
 
+## 🐌 Pacing (per-room cooldown)
+
+A chatty room can turn every message into its own ping. **Notification pacing** (*Settings → Desktop → System notifications*) adds a per-room cooldown to message notifications:
+
+- **Notification pacing (minutes)**. An integer from 0 to 60; **0 disables pacing** (the default).
+- Once a room's notification is delivered, further notifications for that room are silenced for the set number of minutes. Each delivered notification restarts the window.
+- Opening that room (selecting it in the [📋 room list](room-list.md), or clicking one of its notifications) resets the cooldown, so the first notification after you return to a room always delivers.
+- Pacing only suppresses the popup and sound. Unread state, [attention indicators](#-beyond-the-popup), and badges keep updating.
+- Invites always deliver and never start a cooldown, call notifications are unaffected, and pacing windows live in memory only, so a restart clears them.
+
+
 ## 🔒 Privacy and content
 
 - **Message content in notifications**. Choose how much message text appears in the popup, or hide it entirely. Useful when your screen is visible to others.

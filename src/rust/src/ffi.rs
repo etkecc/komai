@@ -395,6 +395,7 @@ mod bridge {
         enabled: bool,
         attention_on_incoming: bool,
         message_content_policy: String,
+        pacing_minutes: i32,
     }
 
     struct SettingsConfigDesktopAttentionWindowTitleSection {

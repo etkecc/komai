@@ -731,7 +731,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Không thể mời người dùng cho đến khi phiên Matrix sẵn sàng.</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>Không thể mời %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Đã xảy ra lỗi</translation>
     </message>
@@ -861,7 +861,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Runtime backend Matrix không khởi động được cho phiên này. Vui lòng đăng nhập lại.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Khôi phục sao lưu khóa yêu cầu runtime backend matrix-sdk đang hoạt động.</translation>
     </message>
@@ -12420,6 +12420,21 @@ Tự động là 'trực tuyến' hoặc 'không khả dụng' (sau 5 phút khô
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Giãn cách thông báo (phút)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Khi một thông báo được gửi đến một phòng, các thông báo từ phòng đó sẽ tạm dừng trong khoảng thời gian này. Đặt 0 để tắt giãn cách.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>thời gian chờ, hạn chế, giới hạn tần suất, im lặng, theo từng phòng</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Chỉ báo chú ý</translation>
     </message>

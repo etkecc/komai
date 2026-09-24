@@ -59,6 +59,7 @@ constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::TimelineRoomHeaderButtonLabels,
   settings::core::SettingId::DesktopSystemTrayIconStyle,
   settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds,
+  settings::core::SettingId::DesktopNotificationsPacingMinutes,
 };
 
 constexpr std::string_view kLegacyEnabledSuffix{"_enabled"};
@@ -266,7 +267,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 108;
+    constexpr std::size_t expectedPersistedDefinitionCount = 109;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

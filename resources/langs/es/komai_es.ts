@@ -796,7 +796,7 @@ Opcionalmente puedes dar una razón para que otros acepten tu toc:</translation>
         <translation>Usuario desbaneado: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>No se puede invitar a usuarios hasta que la sesión de Matrix esté lista.</translation>
     </message>
@@ -806,7 +806,7 @@ Opcionalmente puedes dar una razón para que otros acepten tu toc:</translation>
         <translation>No se ha podido invitar a %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Algo ha ido mal</translation>
     </message>
@@ -863,7 +863,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>El tiempo de ejecución del backend de Matrix no pudo iniciarse para esta sesión. Por favor, inicia sesión de nuevo.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>La recuperación de la copia de seguridad de claves requiere un tiempo de ejecución activo del backend de matrix-sdk.</translation>
     </message>
@@ -12443,6 +12443,21 @@ Automático es 'en línea' o 'no disponible' (tras 5 minutos de inactividad).</t
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Espaciado de notificaciones (minutos)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Tras recibir una notificación en una sala, sus notificaciones se silencian durante esta cantidad de minutos. Use 0 para desactivar el espaciado.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>enfriamiento, limitación, límite de frecuencia, silenciar, por sala</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indicadores de atención</translation>
     </message>

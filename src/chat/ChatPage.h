@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <QVariantList>
 
+#include "notifications/NotificationPacing.h"
 #include "ui/RoomSummary.h"
 
 class TimelineViewManager;
@@ -184,4 +185,6 @@ private:
     std::optional<QString> statusMessageShadow_;
 
     bool pendingSecretsUnlockRequest_ = false;
+
+    komai::notificationPacing::PacingTracker notificationPacing_;
 };

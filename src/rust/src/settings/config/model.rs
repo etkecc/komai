@@ -250,6 +250,7 @@ pub struct ConfigDesktopNotifications {
     pub enabled: Option<bool>,
     pub attention_on_incoming: Option<bool>,
     pub message_content_policy: ConfigNotificationsMessageContentPolicyToken,
+    pub pacing_minutes: Option<i32>,
 }
 
 #[derive(Clone, Debug, Default)]

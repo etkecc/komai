@@ -18,9 +18,9 @@ The translate subcommand:
 3. Injects each batch back into the .ts file immediately (incremental save)
 4. On re-run, only processes remaining unfinished strings
 
-The current LLM integration uses the `claude` CLI — see `call_claude()`. If
-you need a different provider, swap that one function; the rest of the
-pipeline is provider-neutral.
+The LLM integration goes through `call_harness()`, which dispatches to the
+Claude CLI (`call_claude()`, default) or the OMP harness (`call_omp()`);
+select with `--harness`. The rest of the pipeline is provider-neutral.
 """
 
 import argparse
@@ -602,6 +602,45 @@ def call_claude(prompt: str, model: str | None) -> str:
     return result.stdout.strip()
 
 
+def call_omp(prompt: str, model: str | None) -> str:
+    """Call the OMP harness CLI in print mode with a prompt and return the response."""
+    cmd = [
+        "omp",
+        "-p",
+        "--no-session",
+        "--no-tools",
+        "--no-skills",
+        "--no-rules",
+        "--no-lsp",
+        "--no-extensions",
+        "--no-title",
+    ]
+    if model:
+        cmd.extend(["--model", model])
+
+    result = subprocess.run(
+        cmd,
+        input=prompt,
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"OMP CLI failed (exit {result.returncode}):\n{result.stderr}"
+        )
+
+    return result.stdout.strip()
+
+
+def call_harness(prompt: str, model: str | None, harness: str = "claude") -> str:
+    """Call the selected LLM harness ('claude' default, or 'omp') and return the response."""
+    if harness == "omp":
+        return call_omp(prompt, model)
+    return call_claude(prompt, model)
+
+
 def _find_json_array(text: str) -> str | None:
     """Bracket-match the outermost JSON array in `text`, respecting string literals.
 
@@ -734,6 +773,7 @@ def translate_batch(
     lang: str,
     instructions: str,
     model: str | None,
+    harness: str = "claude",
 ) -> dict[tuple[str, str], str]:
     """Translate a batch of strings using the configured LLM.
 
@@ -743,7 +783,7 @@ def translate_batch(
     next run.
     """
     prompt = build_prompt(batch, lang, instructions)
-    response = call_claude(prompt, model)
+    response = call_harness(prompt, model, harness)
     results = extract_json_from_response(response)
 
     # Build lookup: find all contexts for each source from the batch.
@@ -795,6 +835,7 @@ def translate_batch_numerus(
     lang: str,
     instructions: str,
     model: str | None,
+    harness: str = "claude",
 ) -> dict[tuple[str, str], list[str]]:
     """Translate a batch of numerus (plural) strings using the configured LLM.
 
@@ -815,7 +856,7 @@ def translate_batch_numerus(
     form_categories = get_form_categories(lang, form_count)
 
     prompt = build_numerus_prompt(batch, lang, instructions, form_categories)
-    response = call_claude(prompt, model)
+    response = call_harness(prompt, model, harness)
     results = extract_json_from_response(response, shape_check=_is_numerus_shape)
 
     source_to_contexts: dict[str, list[str]] = {}
@@ -926,6 +967,7 @@ def _run_translation_pass(
     lang: str,
     instructions: str,
     model: str | None,
+    harness: str = "claude",
 ) -> tuple[int, list[tuple[int, str]]]:
     """Run a translation pass: batch -> translate -> inject -> repeat.
 
@@ -948,7 +990,7 @@ def _run_translation_pass(
         )
 
         try:
-            translations = translate_fn(batch, lang, instructions, model)
+            translations = translate_fn(batch, lang, instructions, model, harness)
         except (RuntimeError, ValueError, subprocess.TimeoutExpired) as e:
             reason = str(e).splitlines()[0][:120] if str(e) else type(e).__name__
             print(f"  ERROR: {e}", file=sys.stderr)
@@ -1057,6 +1099,7 @@ def cmd_translate(args):
             lang=args.lang,
             instructions=instructions,
             model=args.model,
+            harness=args.harness,
         )
         grand_injected += injected
         all_failed.extend(("regular", idx, reason) for idx, reason in failed)
@@ -1072,6 +1115,7 @@ def cmd_translate(args):
             lang=args.lang,
             instructions=instructions,
             model=args.model,
+            harness=args.harness,
         )
         grand_injected += injected
         all_failed.extend(("numerus", idx, reason) for idx, reason in failed)
@@ -1133,6 +1177,15 @@ def main():
             "a high-volume structured-output task — Opus is slower and "
             "its extra reasoning adds no quality here, while Sonnet is "
             "~3-5x faster and equally reliable at JSON framing."
+        ),
+    )
+    trans_parser.add_argument(
+        "--harness",
+        choices=["claude", "omp"],
+        default="claude",
+        help=(
+            "LLM harness to call (default: claude). 'claude' uses the "
+            "Claude CLI, 'omp' uses the OMP harness CLI in print mode."
         ),
     )
     trans_parser.add_argument(

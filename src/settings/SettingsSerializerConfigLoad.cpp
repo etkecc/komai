@@ -264,6 +264,7 @@ loadConfig(UserSettings &settings, const ::komai::rust::SettingsLoadedConfig &sn
           static_cast<std::string>(snapshot.desktop.notifications.message_content_policy))
           .trimmed(),
         UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
+    settings.setDesktopNotificationsPacingMinutes(snapshot.desktop.notifications.pacing_minutes);
     settings.setDesktopAttentionWindowTitleEnabled(snapshot.desktop.attention.window_title.enabled);
     settings.setDesktopAttentionAppBadgeEnabled(snapshot.desktop.attention.app_badge.enabled);
 

@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nutzer können erst eingeladen werden, wenn die Matrix-Sitzung bereit ist.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Einladen von %1 fehlgeschlagen: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Etwas ist schiefgelaufen</translation>
     </message>
@@ -862,7 +862,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Die Matrix-Backend-Laufzeit konnte für diese Sitzung nicht gestartet werden. Bitte melde dich erneut an.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Die Wiederherstellung der Schlüsselsicherung erfordert eine aktive matrix-sdk-Backend-Laufzeit.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatisch ist entweder 'online' oder 'nicht verfügbar' (nach 5 Minuten Inakti
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Benachrichtigungs-Pacing (Minuten)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Sobald eine Benachrichtigung für einen Raum zugestellt wird, werden Benachrichtigungen aus diesem Raum für diese Anzahl Minuten stummgeschaltet. Setze 0, um das Pacing zu deaktivieren.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>Abklingzeit, Drosselung, Ratenbegrenzung, Stumm, pro Raum</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Aufmerksamkeitsanzeigen</translation>
     </message>

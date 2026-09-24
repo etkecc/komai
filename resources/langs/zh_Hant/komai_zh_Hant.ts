@@ -731,7 +731,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix 工作階段就緒前無法邀請使用者。</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>邀請 %1 失敗：%2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>發生錯誤</translation>
     </message>
@@ -861,7 +861,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>本次工作階段的 Matrix 後端執行時期啟動失敗。請重新登入。</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>金鑰備份還原需要正在執行的 matrix-sdk 後端。</translation>
     </message>
@@ -12420,6 +12420,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>通知冷卻（分鐘）</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>當某聊天室的通知送達後，該聊天室的通知將在設定的分鐘數內靜音。設為 0 可停用此冷卻功能。</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>冷卻、節流、速率限制、靜音、依聊天室</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>注意指標</translation>
     </message>

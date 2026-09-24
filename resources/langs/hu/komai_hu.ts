@@ -794,7 +794,7 @@ Opcionálisan megadhat egy indokot, hogy mások elfogadják a kopogtatását:</t
         <translation>Kitiltás feloldva a felhasználónak: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Felhasználókat nem lehet meghívni, amíg a Matrix munkamenet nem áll készen.</translation>
     </message>
@@ -804,7 +804,7 @@ Opcionálisan megadhat egy indokot, hogy mások elfogadják a kopogtatását:</t
         <translation>%1 meghívása sikertelen: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Valami hiba történt</translation>
     </message>
@@ -861,7 +861,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>A Matrix háttérrendszer futtatókörnyezete nem indult el ehhez a munkamenethez. Kérjük, lépjen be újra.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>A kulcsmentés visszaállításához aktív matrix-sdk futtatókörnyezet szükséges.</translation>
     </message>
@@ -12420,6 +12420,21 @@ Az automatikus mód 'online' vagy 'nem elérhető' (5 perc tétlenség után).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Értesítési szünet (perc)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Ha egy szobába értesítés érkezik, az onnan érkező további értesítések ennyi percre elnémulnak. A 0 érték kikapcsolja a szüneteltetést.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>várakozás, szabályozás, gyakoriságkorlát, csendes, szobánként</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Figyelemjelzők</translation>
     </message>

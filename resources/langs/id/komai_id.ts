@@ -731,7 +731,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Tidak dapat mengundang pengguna sebelum sesi Matrix siap.</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>Gagal mengundang %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Terjadi kesalahan</translation>
     </message>
@@ -861,7 +861,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Runtime backend Matrix gagal dimulai untuk sesi ini. Silakan masuk kembali.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Pemulihan cadangan kunci memerlukan runtime backend matrix-sdk yang aktif.</translation>
     </message>
@@ -12420,6 +12420,21 @@ Otomatis berarti 'online' atau 'tidak tersedia' (setelah 5 menit tidak aktif).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Penjedaan notifikasi (menit)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Setelah notifikasi terkirim untuk sebuah ruangan, notifikasi dari ruangan tersebut akan disenyapkan selama jangka waktu ini. Atur 0 untuk menonaktifkan penjedaan.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>masa tenang, pembatasan, batas laju, sunyi, per ruangan</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indikator perhatian</translation>
     </message>

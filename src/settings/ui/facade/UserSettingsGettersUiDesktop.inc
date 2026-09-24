@@ -195,3 +195,13 @@ UserSettings::desktopWindowFocusBlurDelaySeconds() const
         return *value;
     return desktopWindowFocusBlurDelaySeconds_;
 }
+
+int
+UserSettings::desktopNotificationsPacingMinutes() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::DesktopNotificationsPacingMinutes);
+        value.has_value())
+        return *value;
+    return desktopNotificationsPacingMinutes_;
+}

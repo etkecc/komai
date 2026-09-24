@@ -733,7 +733,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nelze pozvat uživatele, dokud není relace Matrix připravena.</translation>
     </message>
@@ -743,7 +743,7 @@
         <translation>Nepodařilo se pozvat %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Něco se pokazilo</translation>
     </message>
@@ -863,7 +863,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Běhové prostředí backendu Matrix se pro tuto relaci nepodařilo spustit. Přihlaš se prosím znovu.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Obnovení zálohy klíčů vyžaduje aktivní běhové prostředí matrix-sdk.</translation>
     </message>
@@ -12460,6 +12460,21 @@ Automatický je buď 'online' nebo 'nedostupný' (po 5 minutách nečinnosti).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Prodleva oznámení (minuty)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Jakmile je pro místnost doručeno oznámení, oznámení z této místnosti jsou na tuto dobu ztlumena. Nastav 0 pro vypnutí prodlevy.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>prodleva, omezování, limit frekvence, ztlumení, po místnostech</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indikátory pozornosti</translation>
     </message>

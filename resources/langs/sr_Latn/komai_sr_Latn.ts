@@ -733,7 +733,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nije moguće pozivati korisnike dok Matrix sesija nije spremna.</translation>
     </message>
@@ -743,7 +743,7 @@
         <translation>Pozivanje korisnika %1 nije uspelo: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Nešto je pošlo naopako</translation>
     </message>
@@ -863,7 +863,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Matrix backend runtime nije uspeo da se pokrene za ovu sesiju. Molimo, prijavi se ponovo.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Oporavak rezervne kopije ključeva zahteva aktivan matrix-sdk backend runtime.</translation>
     </message>
@@ -12460,6 +12460,21 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Razmak obaveštenja (minuti)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Kada se obaveštenje dostavi za sobu, obaveštenja iz te sobe se utišavaju na ovoliko minuta. Postavi 0 da onemogućiš razmak.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>hlađenje, prigušivanje, ograničenje brzine, tiho, po sobi</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indikatori pažnje</translation>
     </message>

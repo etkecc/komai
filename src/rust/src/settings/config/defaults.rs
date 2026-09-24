@@ -58,6 +58,7 @@ pub const MEDIA_DEFAULT_AUDIO_PLAYBACK_SPEED: f64 = 1.0;
 // -- desktop ------------------------------------------------------------------
 pub const NOTIFICATIONS_ENABLED: bool = true;
 pub const NOTIFICATIONS_ATTENTION_ON_INCOMING: bool = false;
+pub const NOTIFICATIONS_PACING_MINUTES: i32 = 0;
 pub const ATTENTION_WINDOW_TITLE_ENABLED: bool = true;
 pub const ATTENTION_APP_BADGE_ENABLED: bool = true;
 pub const SYSTEM_TRAY_ENABLED: bool = false;

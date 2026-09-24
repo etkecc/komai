@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Ne eblas inviti uzantojn ĝis la Matrix-sesio estas preta.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Malsukcesis inviti %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Io eraris</translation>
     </message>
@@ -862,7 +862,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>La Matrix-dorsa rultempo malsukcesis ekfunkcii por ĉi tiu sesio. Bonvolu ensaluti denove.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>La rekupero de ŝlosilsavkopio postulas aktivan matrix-sdk-dorsan rultempan.</translation>
     </message>
@@ -12443,6 +12443,21 @@ Aŭtomata estas aŭ 'rete' aŭ 'neatingebla' (post 5 minutoj da neaktiveco).</tr
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Sciiga intertempo (minutoj)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Post kiam sciigo estas liverita al ĉambro, sciigoj de tiu ĉambro estas silentigitaj por tiom da minutoj. Agordu 0 por malŝalti la intertempon.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>malvarmigo, limigo, rapidlimigo, silentigo, po ĉambro</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Atentoindikiloj</translation>
     </message>

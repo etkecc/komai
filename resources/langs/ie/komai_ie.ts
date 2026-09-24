@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>On ne pote invitar usatores til li session Matrix es pret.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Faliat a invitar %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Alcos va mal</translation>
     </message>
@@ -862,7 +862,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Li runtime backend Matrix faliat a lanciar por ti session. Vu prega de reingressar.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Li recuperation de copia de reserva de clés require un runtime backend matrix-sdk activ.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatic es 'online' o 'indisponibil' (pos 5 minuts de inactivitá).</translati
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Temporisation de notification (minutes)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Un vez que un notification es deliverat a un chambre, notifications de ti chambre es silentiat por ti mult minutes. Fixa 0 por desactivar temporisation.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>pausa, limitation, limite de frequentie, quiet, per chambre</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indicatores de attention</translation>
     </message>

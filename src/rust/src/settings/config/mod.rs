@@ -169,6 +169,8 @@ const DESKTOP_NOTIFICATIONS_ATTENTION_ON_INCOMING_PATH: [&str; 3] =
     ["desktop", "notifications", "attention_on_incoming"];
 const DESKTOP_NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH: [&str; 3] =
     ["desktop", "notifications", "message_content_policy"];
+const DESKTOP_NOTIFICATIONS_PACING_MINUTES_PATH: [&str; 3] =
+    ["desktop", "notifications", "pacing_minutes"];
 const DESKTOP_ATTENTION_WINDOW_TITLE_ENABLED_PATH: [&str; 4] =
     ["desktop", "attention", "window_title", "enabled"];
 const DESKTOP_ATTENTION_APP_BADGE_ENABLED_PATH: [&str; 4] =
@@ -564,6 +566,8 @@ pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
                     root,
                     &DESKTOP_NOTIFICATIONS_MESSAGE_CONTENT_POLICY_PATH,
                 )),
+                pacing_minutes: yaml::value_at_path(root, &DESKTOP_NOTIFICATIONS_PACING_MINUTES_PATH)
+                    .and_then(parse_scalar_i32),
             },
             attention: ConfigDesktopAttention {
                 window_title: ConfigDesktopAttentionToggle {

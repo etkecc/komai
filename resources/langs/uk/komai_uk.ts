@@ -733,7 +733,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Неможливо запросити користувачів, доки сесія Matrix не готова.</translation>
     </message>
@@ -743,7 +743,7 @@
         <translation>Не вдалося запросити %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Щось пішло не так</translation>
     </message>
@@ -863,7 +863,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не вдалося запустити середовище виконання бекенду Matrix для цієї сесії. Будь ласка, увійдіть знову.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Відновлення резервної копії ключів потребує активного середовища виконання бекенду matrix-sdk.</translation>
     </message>
@@ -12460,6 +12460,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Темпування сповіщень (хвилини)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Після доставки сповіщення для кімнати сповіщення з цієї кімнати приглушуються на цю кількість хвилин. Встановіть 0, щоб вимкнути темпування.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>затримка, обмеження, ліміт швидкості, тихо, на кімнату</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Індикатори уваги</translation>
     </message>

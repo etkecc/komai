@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Gebruikers kunnen niet worden uitgenodigd totdat de Matrix-sessie gereed is.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Uitnodigen van %1 mislukt: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>Er is iets misgegaan</translation>
     </message>
@@ -862,7 +862,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Matrix-backendruntime kon niet worden gestart voor deze sessie. Meld je opnieuw aan.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Sleutelback-upherstel vereist een actieve matrix-sdk-backendruntime.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatisch is 'online' of 'niet beschikbaar' (na 5 minuten inactiviteit).</tran
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Notificatietempo (minuten)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Zodra een notificatie voor een kamer wordt bezorgd, worden notificaties uit die kamer gedurende dit aantal minuten gedempt. Stel 0 in om het tempo uit te schakelen.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>afkoelen, beperken, frequentielimiet, stil, per kamer</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Aandachtsindicatoren</translation>
     </message>

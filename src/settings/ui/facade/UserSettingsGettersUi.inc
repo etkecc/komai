@@ -26,6 +26,7 @@
     bool uiMotionAnimationsEnabled() const;
     bool desktopWindowFocusBlurEnabled() const;
     int desktopWindowFocusBlurDelaySeconds() const;
+    int desktopNotificationsPacingMinutes() const;
     bool composerInputMarkdownToHtmlEnabled() const;
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;

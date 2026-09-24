@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>No es poden convidar usuaris fins que la sessió de Matrix estigui llesta.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>No s'ha pogut convidar %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>S'ha produït un error</translation>
     </message>
@@ -862,7 +862,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>El temps d'execució del backend de Matrix no ha pogut iniciar-se per a aquesta sessió. Torna a iniciar sessió.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>La recuperació de la còpia de seguretat de claus requereix un temps d'execució del backend matrix-sdk actiu.</translation>
     </message>
@@ -12440,6 +12440,21 @@ L'automàtic és 'en línia' o 'no disponible' (després de 5 minuts d'inactivit
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Temps d'espera de notificacions (minuts)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Quan es lliura una notificació d'una sala, les notificacions d'aquesta sala es silencien durant aquests minuts. Estableix 0 per desactivar el temps d'espera.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>espera, limitació, límit de freqüència, silenci, per sala</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indicadors d'atenció</translation>
     </message>

@@ -805,7 +805,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ഉപയോക്താവ് ban-ൽ നിന്ന് നീക്കം ചെയ്തു: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix സെഷൻ തയ്യാറാകുന്നതുവരെ ഉപയോക്താക്കളെ ക്ഷണിക്കാൻ കഴിയില്ല.</translation>
     </message>
@@ -815,7 +815,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1 നെ ക്ഷണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+355"/>
         <source>Something went wrong</source>
         <translation>എന്തോ തെറ്റ് സംഭവിച്ചു</translation>
     </message>
@@ -862,7 +862,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഈ സെഷനായി Matrix ബാക്കെൻഡ് റൺടൈം ആരംഭിക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ലോഗ് ഇൻ ചെയ്യുക.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>കീ ബാക്കപ്പ് പുനഃസ്ഥാപനത്തിന് ഒരു സജീവ matrix-sdk ബാക്കെൻഡ് റൺടൈം ആവശ്യമാണ്.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatic എന്നത് 'online' അല്ലെങ്കിൽ 'unavailabl
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>അറിയിപ്പ് ഇടവേള (മിനിറ്റുകൾ)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>ഒരു മുറിക്ക് അറിയിപ്പ് ലഭിച്ചുകഴിഞ്ഞാൽ, ആ മുറിയിൽ നിന്നുള്ള അറിയിപ്പുകൾ ഇത്രയും മിനിറ്റ് നിശ്ശബ്ദമാക്കും. ഇടവേള നിയന്ത്രണം പ്രവർത്തനരഹിതമാക്കാൻ 0 സജ്ജമാക്കുക.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>കൂൾഡൗൺ, നിയന്ത്രണം, നിരക്ക് പരിധി, നിശ്ശബ്ദം, ഓരോ മുറിക്കും</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>ശ്രദ്ധ സൂചകങ്ങൾ</translation>
     </message>

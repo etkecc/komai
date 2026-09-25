@@ -741,7 +741,7 @@
         <translation>Không thể mời %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Đã xảy ra lỗi</translation>
     </message>

@@ -810,7 +810,7 @@ Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</t
         <translation>Misslyckades med att bjuda in %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Något gick fel</translation>
     </message>

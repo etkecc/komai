@@ -806,7 +806,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не удалось пригласить %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Что-то пошло не так</translation>
     </message>

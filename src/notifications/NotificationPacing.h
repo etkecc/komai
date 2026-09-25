@@ -17,8 +17,7 @@ struct PacingTracker
     QHash<QString, qint64> lastDeliveredMs_;
 
     // pacingMinutes <= 0 disables pacing: never suppress.
-    inline bool
-    isSuppressed(const QString &roomId, qint64 nowMs, int pacingMinutes) const
+    inline bool isSuppressed(const QString &roomId, qint64 nowMs, int pacingMinutes) const
     {
         if (pacingMinutes <= 0)
             return false;
@@ -29,25 +28,16 @@ struct PacingTracker
     }
 
     // Call once per delivered notification; starts or extends the window.
-    inline void
-    recordDelivered(const QString &roomId, qint64 nowMs)
+    inline void recordDelivered(const QString &roomId, qint64 nowMs)
     {
         lastDeliveredMs_[roomId] = nowMs;
     }
 
     // Reset one room's window (user opened/read that room); no-op if missing.
-    inline void
-    clearRoom(const QString &roomId)
-    {
-        lastDeliveredMs_.remove(roomId);
-    }
+    inline void clearRoom(const QString &roomId) { lastDeliveredMs_.remove(roomId); }
 
     // Drop all state (logout).
-    inline void
-    clear()
-    {
-        lastDeliveredMs_.clear();
-    }
+    inline void clear() { lastDeliveredMs_.clear(); }
 };
 
 } // namespace komai::notificationPacing

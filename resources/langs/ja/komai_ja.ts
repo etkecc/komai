@@ -741,7 +741,7 @@
         <translation>%1 の招待に失敗しました: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>問題が発生しました</translation>
     </message>

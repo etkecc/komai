@@ -805,7 +805,7 @@ Opcionalmente, pode indicar uma razão para que outros aceitem o seu pedido de e
         <translation>Falha ao convidar %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Ocorreu um erro</translation>
     </message>

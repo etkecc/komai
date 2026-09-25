@@ -806,7 +806,7 @@ Opcionalmente puedes dar una razón para que otros acepten tu toc:</translation>
         <translation>No se ha podido invitar a %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Algo ha ido mal</translation>
     </message>

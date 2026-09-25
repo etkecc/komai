@@ -741,7 +741,7 @@
         <translation>%1 davet edilemedi: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Bir şeyler ters gitti</translation>
     </message>

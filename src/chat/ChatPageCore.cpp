@@ -351,7 +351,7 @@ ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notifi
     if (isRoomActive(notification.roomId))
         return;
 
-    const qint64 nowMs = QDateTime::currentDateTime().toMSecsSinceEpoch();
+    const qint64 nowMs = QDateTime::currentMSecsSinceEpoch();
     // Invites are never paced: a missed invite is a real loss, messages are not.
     const bool isInvite = notification.notificationKind == QStringLiteral("invite");
     if (!isInvite) {

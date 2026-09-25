@@ -742,7 +742,7 @@
         <translation>Einladen von %1 fehlgeschlagen: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Etwas ist schiefgelaufen</translation>
     </message>

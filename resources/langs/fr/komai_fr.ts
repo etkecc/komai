@@ -742,7 +742,7 @@
         <translation>Échec de l'invitation de %1 : %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Une erreur s'est produite</translation>
     </message>

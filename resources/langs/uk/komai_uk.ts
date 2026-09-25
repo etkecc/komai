@@ -743,7 +743,7 @@
         <translation>Не вдалося запросити %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Щось пішло не так</translation>
     </message>

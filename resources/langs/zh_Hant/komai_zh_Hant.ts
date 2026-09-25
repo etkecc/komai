@@ -741,7 +741,7 @@
         <translation>邀請 %1 失敗：%2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>發生錯誤</translation>
     </message>

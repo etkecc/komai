@@ -40,6 +40,7 @@ A chatty room can turn every message into its own ping. **Notification pacing** 
 - **Notification pacing (minutes)**. An integer from 0 to 60; **0 disables pacing** (the default).
 - Once a room's notification is delivered, further notifications for that room are silenced for the set number of minutes. Each delivered notification restarts the window.
 - Opening that room (selecting it in the [📋 room list](room-list.md), or clicking one of its notifications) resets the cooldown, so the first notification after you return to a room always delivers.
+- Mentions of you are paced like any other message: a mention that arrives during the cooldown does not pop up.
 - Pacing only suppresses the popup and sound. Unread state, [attention indicators](#-beyond-the-popup), and badges keep updating.
 - Invites always deliver and never start a cooldown, call notifications are unaffected, and pacing windows live in memory only, so a restart clears them.
 

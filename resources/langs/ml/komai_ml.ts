@@ -815,7 +815,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1 നെ ക്ഷണിക്കുന്നതിൽ പരാജയപ്പെട്ടു: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>എന്തോ തെറ്റ് സംഭവിച്ചു</translation>
     </message>

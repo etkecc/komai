@@ -804,7 +804,7 @@ Opcionálisan megadhat egy indokot, hogy mások elfogadják a kopogtatását:</t
         <translation>%1 meghívása sikertelen: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Valami hiba történt</translation>
     </message>

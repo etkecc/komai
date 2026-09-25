@@ -741,7 +741,7 @@
         <translation>دعوت %1 ناموفق بود: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>مشکلی پیش آمد</translation>
     </message>

@@ -810,7 +810,7 @@ Você pode, opcionalmente, fornecer um motivo para que outras pessoas aceitem su
         <translation>Falha ao convidar %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Algo deu errado</translation>
     </message>

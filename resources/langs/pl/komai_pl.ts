@@ -806,7 +806,7 @@ Opcjonalnie możesz podać powód, dla którego inni mieliby cię przyjąć:</tr
         <translation>Nie udało się zaprosić %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Coś poszło nie tak</translation>
     </message>

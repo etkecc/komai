@@ -742,7 +742,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation type="unfinished"/>
     </message>

@@ -741,7 +741,7 @@
         <translation>%1을(를) 초대하지 못했습니다: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>문제가 발생했습니다</translation>
     </message>

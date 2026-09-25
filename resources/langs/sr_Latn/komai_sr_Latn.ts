@@ -743,7 +743,7 @@
         <translation>Pozivanje korisnika %1 nije uspelo: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Nešto je pošlo naopako</translation>
     </message>

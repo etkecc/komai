@@ -805,7 +805,7 @@ Puoi facoltativamente fornire un motivo affinché gli altri accettino la tua ric
         <translation>Impossibile invitare %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Qualcosa è andato storto</translation>
     </message>

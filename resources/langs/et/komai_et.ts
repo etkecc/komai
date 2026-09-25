@@ -742,7 +742,7 @@
         <translation>Ei õnnestunud kutsuda kasutajat %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Midagi läks valesti</translation>
     </message>

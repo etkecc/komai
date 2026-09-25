@@ -743,7 +743,7 @@
         <translation>Nepodařilo se pozvat %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Něco se pokazilo</translation>
     </message>

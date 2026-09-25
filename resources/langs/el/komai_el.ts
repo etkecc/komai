@@ -742,7 +742,7 @@
         <translation>Αποτυχία πρόσκλησης του %1: %2</translation>
     </message>
     <message>
-        <location line="+355"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Κάτι πήγε στραβά</translation>
     </message>

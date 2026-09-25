@@ -737,7 +737,7 @@
         <translation>Matrix backend runtime не успя да стартира за тази сесия. Моля, влез отново.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Не може да се поканят потребители, докато Matrix сесията не е готова.</translation>
     </message>
@@ -747,7 +747,7 @@
         <translation>Неуспешна покана на %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Нещо се обърка</translation>
     </message>
@@ -862,7 +862,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Деблокиран потребител: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Възстановяването на резервното копие на ключовете изисква активен matrix-sdk backend runtime.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Успокояване на известията (минути)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>След като бъде доставено известие за стая, известията от тази стая се заглушават за толкова минути. Задайте 0 за да изключите успокояването.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>изчакване, ограничаване, честотен лимит, тих режим, на стая</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Индикатори за внимание</translation>
     </message>

@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
+#include <QDateTime>
 #include <QDir>
 #include <QInputDialog>
 #include <QMessageBox>
@@ -164,6 +165,9 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                     view_manager_->showEvent(roomid, eventid);
 
                 clearRoomNotifications(roomid);
+                // Clicking a notification counts as reading the room; the next one must deliver.
+                if (!roomid.isEmpty())
+                    notificationPacing_.clearRoom(roomid);
             });
     connect(notificationsManager,
             &NotificationsManager::sendNotificationReply,
@@ -197,7 +201,12 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
     connect(view_manager_->rooms(),
             &RoomlistModel::currentRoomIdChanged,
             this,
-            [this](const QString &roomId) { clearRoomNotifications(roomId); });
+            [this](const QString &roomId) {
+                clearRoomNotifications(roomId);
+                // Opening a room = the user read it; the next notification from it must deliver.
+                if (!roomId.isEmpty())
+                    notificationPacing_.clearRoom(roomId);
+            });
     connect(userSettings_.get(),
             &UserSettings::networkPresenceStatusPolicyChanged,
             this,
@@ -341,6 +350,16 @@ ChatPage::dispatchMatrixNotification(const komai::MatrixNotificationItem &notifi
 
     if (isRoomActive(notification.roomId))
         return;
+
+    const qint64 nowMs = QDateTime::currentMSecsSinceEpoch();
+    // Invites are never paced: a missed invite is a real loss, messages are not.
+    const bool isInvite = notification.notificationKind == QStringLiteral("invite");
+    if (!isInvite) {
+        if (notificationPacing_.isSuppressed(
+              notification.roomId, nowMs, userSettings_->desktopNotificationsPacingMinutes()))
+            return;
+        notificationPacing_.recordDelivered(notification.roomId, nowMs);
+    }
 
     const auto translatedBody = StateEventText::translateNotificationBody(notification);
 

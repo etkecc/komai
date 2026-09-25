@@ -294,6 +294,10 @@ if (keyString == QLatin1String(SettingKey::DesktopWindowFocusBlurDelaySeconds)) 
         return expect(snapshot.desktop.window_focus_blur.delay_seconds == expected,
                       message);
     }
+    if (keyString == QLatin1String(SettingKey::DesktopNotificationsPacingMinutes)) {
+        return expect(snapshot.desktop.notifications.pacing_minutes == expected,
+                      message);
+    }
 
     return expect(false, message);
 }
@@ -1493,14 +1497,18 @@ testConstrainedIntSettersRejectInvalidUpdates()
 
     settings->setTimelineMessagesLayoutMaxWidthPercent(70);
     settings->setDesktopWindowFocusBlurDelaySeconds(5);
+    settings->setDesktopNotificationsPacingMinutes(7);
     settings->setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(2000);
 
     const auto baselineMaxWidth   = settings->timelineMessagesLayoutMaxWidthPercent();
     const auto baselineBlurDelay  = settings->desktopWindowFocusBlurDelaySeconds();
+    const auto baselinePacing     = settings->desktopNotificationsPacingMinutes();
     const auto baselineBreakpoint = settings->timelineMessagesLayoutAdaptivePositioningBreakpointPx();
 
     settings->setTimelineMessagesLayoutMaxWidthPercent(200); // invalid: > 100
     settings->setDesktopWindowFocusBlurDelaySeconds(-3);     // invalid: < 0
+    settings->setDesktopNotificationsPacingMinutes(-1);      // invalid: < 0
+    settings->setDesktopNotificationsPacingMinutes(61);      // invalid: > 60
     settings->setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(100);  // invalid: < 300
     settings->setTimelineMessagesLayoutAdaptivePositioningBreakpointPx(9000); // invalid: > 4000
 
@@ -1509,6 +1517,8 @@ testConstrainedIntSettersRejectInvalidUpdates()
                  "invalid max width percent update is ignored");
     ok &= expect(settings->desktopWindowFocusBlurDelaySeconds() == baselineBlurDelay,
                  "invalid window blur delay update is ignored");
+    ok &= expect(settings->desktopNotificationsPacingMinutes() == baselinePacing,
+                 "invalid pacing update is ignored");
     ok &= expect(settings->timelineMessagesLayoutAdaptivePositioningBreakpointPx() ==
                    baselineBreakpoint,
                  "invalid adaptive positioning breakpoint update is ignored");
@@ -1518,6 +1528,8 @@ testConstrainedIntSettersRejectInvalidUpdates()
       store.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutMaxWidthPercent);
     const auto blurDelayValue =
       store.valueAs<int>(settings::core::SettingId::DesktopWindowFocusBlurDelaySeconds);
+    const auto pacingValue =
+      store.valueAs<int>(settings::core::SettingId::DesktopNotificationsPacingMinutes);
     const auto breakpointValue = store.valueAs<int>(
       settings::core::SettingId::TimelineMessagesLayoutAdaptivePositioningBreakpointPx);
 
@@ -1525,6 +1537,8 @@ testConstrainedIntSettersRejectInvalidUpdates()
                  "core store keeps previous max width percent on invalid update");
     ok &= expect(blurDelayValue.has_value() && *blurDelayValue == baselineBlurDelay,
                  "core store keeps previous window blur delay on invalid update");
+    ok &= expect(pacingValue.has_value() && *pacingValue == baselinePacing,
+                 "core store keeps previous pacing on invalid update");
     ok &= expect(breakpointValue.has_value() && *breakpointValue == baselineBreakpoint,
                  "core store keeps previous adaptive positioning breakpoint on invalid update");
 
@@ -1537,6 +1551,10 @@ testConstrainedIntSettersRejectInvalidUpdates()
                           SettingKey::DesktopWindowFocusBlurDelaySeconds,
                           baselineBlurDelay,
                           "config keeps previous window blur delay on invalid update");
+    ok &= expectConfigInt(configRoot,
+                          SettingKey::DesktopNotificationsPacingMinutes,
+                          baselinePacing,
+                          "config keeps previous pacing on invalid update");
     ok &= expectConfigInt(configRoot,
                           SettingKey::TimelineMessagesLayoutAdaptivePositioningBreakpointPx,
                           baselineBreakpoint,
@@ -2066,6 +2084,8 @@ testConfigSchemaCoverageAndKeyUniqueness()
       QString::fromLatin1(SettingKey::DesktopNotificationsAttentionOnIncoming));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::DesktopNotificationsMessageContentPolicy));
+    serializerHandledConfigKeys.insert(
+      QString::fromLatin1(SettingKey::DesktopNotificationsPacingMinutes));
     serializerHandledConfigKeys.insert(
       QString::fromLatin1(SettingKey::DesktopAttentionWindowTitleEnabled));
     serializerHandledConfigKeys.insert(

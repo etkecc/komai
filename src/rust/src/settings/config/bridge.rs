@@ -369,6 +369,11 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     );
     yaml::set_value(
         &mut root,
+        &["desktop", "notifications", "pacing_minutes"],
+        Value::Number(Number::from(snapshot.desktop.notifications.pacing_minutes)),
+    );
+    yaml::set_value(
+        &mut root,
         &["desktop", "attention", "window_title", "enabled"],
         Value::Bool(snapshot.desktop.attention.window_title.enabled),
     );

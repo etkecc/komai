@@ -1412,6 +1412,16 @@ if(BUILD_TESTING)
     add_test(NAME komai_notification_payload_test COMMAND komai_notification_payload_test)
     komai_configure_test(komai_notification_payload_test "unit;timeline")
 
+    add_executable(komai_notification_pacing_test
+        tests/NotificationPacingTest.cpp
+    )
+    target_include_directories(komai_notification_pacing_test PRIVATE src)
+    target_link_libraries(komai_notification_pacing_test PRIVATE
+        Qt::Core
+    )
+    add_test(NAME komai_notification_pacing_test COMMAND komai_notification_pacing_test)
+    komai_configure_test(komai_notification_pacing_test "unit;timeline")
+
     add_executable(komai_chat_export_formatter_test
         tests/ChatExportFormatterTest.cpp
         src/export/ChatExportFormatter.cpp

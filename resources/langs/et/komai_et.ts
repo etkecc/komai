@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Kasutajaid ei saa kutsuda enne, kui Matrix-seanss on valmis.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Ei õnnestunud kutsuda kasutajat %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Midagi läks valesti</translation>
     </message>
@@ -862,7 +862,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Matrix-taustaprogrammi käivitamine selle seansi jaoks ebaõnnestus. Palun logi uuesti sisse.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Võtmevarunduse taastamine nõuab aktiivset matrix-sdk taustaprogrammi käitusaega.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Teavituste vaheajastamine (minutites)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Kui jututoale on edastatud üks teavitus, vaigistatakse teavitused sellest jututoast selleks arvuks minutiteks. Määra 0 vaheajastamise keelamiseks.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>jahtumine, piiramine, kiiruspiirang, vaigistamine, jututoa kohta</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Tähelepanuindikaatorid</translation>
     </message>

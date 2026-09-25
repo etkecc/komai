@@ -733,7 +733,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nu se pot invita utilizatori până când sesiunea Matrix este pregătită.</translation>
     </message>
@@ -743,7 +743,7 @@
         <translation>Nu s-a putut invita %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Ceva a mers greșit</translation>
     </message>
@@ -863,7 +863,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Runtime-ul backend-ului Matrix nu a putut porni pentru această sesiune. Conectează-te din nou.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Recuperarea copiei de rezervă a cheilor necesită un runtime activ pentru backend-ul matrix-sdk.</translation>
     </message>
@@ -12460,6 +12460,21 @@ Automatic înseamnă fie 'online' fie 'indisponibil' (după 5 minute de inactivi
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Temporizare notificări (minute)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Odată ce o notificare este livrată pentru o cameră, notificările din acea cameră sunt dezactivate pentru acest număr de minute. Setați 0 pentru a dezactiva temporizarea.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>pauză, limita, limitare de rată, silențios, pe cameră</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indicatori de atenție</translation>
     </message>

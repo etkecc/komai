@@ -53,6 +53,14 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Flash app window/taskbar on incoming messages"),
       QT_TRANSLATE_NOOP("UserSettingsModel", "Show an attention alert when a message is received (for example, taskbar icon activity)."),
       SM::TabDesktop, desktopNotificationsAttentionOnIncoming, setDesktopNotificationsAttentionOnIncoming, desktopNotificationsSettingsEnabled, DesktopNotificationsAttentionOnIncoming, SettingKey::DesktopNotificationsAttentionOnIncoming),
+    // DesktopNotificationsPacingMinutes
+    withKeywords(
+      SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(QT_TRANSLATE_NOOP("UserSettingsModel", "Notification pacing (minutes)"),
+        QT_TRANSLATE_NOOP("UserSettingsModel",
+          "Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing."),
+        SM::TabDesktop, desktopNotificationsPacingMinutes, setDesktopNotificationsPacingMinutes, 0, 60, 1,
+        nullptr, desktopNotificationsSettingsEnabled, DesktopNotificationsPacingMinutes, SettingKey::DesktopNotificationsPacingMinutes),
+      QT_TRANSLATE_NOOP("UserSettingsModel", "cooldown, throttle, rate limit, quiet, per room")),
 
     // DesktopAttentionIndicatorsSection
     { QT_TRANSLATE_NOOP("UserSettingsModel", "Attention indicators"), nullptr, SM::SectionTitle, SM::TabDesktop,

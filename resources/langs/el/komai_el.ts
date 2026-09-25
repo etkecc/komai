@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Δεν είναι δυνατή η πρόσκληση χρηστών μέχρι να είναι έτοιμη η συνεδρία Matrix.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Αποτυχία πρόσκλησης του %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Κάτι πήγε στραβά</translation>
     </message>
@@ -862,7 +862,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Ο χρόνος εκτέλεσης Matrix backend απέτυχε να εκκινήσει για αυτή τη συνεδρία. Παρακαλώ συνδεθείτε ξανά.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Η ανάκτηση αντιγράφου ασφαλείας κλειδιών απαιτεί ενεργό χρόνο εκτέλεσης matrix-sdk.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Περίοδος ειδοποιήσεων (λεπτά)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Μόλις παραδοθεί μια ειδοποίηση για ένα δωμάτιο, οι ειδοποιήσεις από αυτό το δωμάτιο τίθενται σε σίγαση για τόσα λεπτά. Ορίστε 0 για απενεργοποίηση του περιορισμού ειδοποιήσεων.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>αναμονή, περιορισμός, όριο ρυθμού, σίγαση, ανά δωμάτιο</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Ενδείξεις προσοχής</translation>
     </message>

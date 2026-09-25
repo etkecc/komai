@@ -9,3 +9,4 @@ X(DesktopAttentionWindowTitleEnabled, settings.desktopAttentionWindowTitleEnable
 X(DesktopAttentionAppBadgeEnabled, settings.desktopAttentionAppBadgeEnabled())
 X(DesktopWindowFocusBlurEnabled, settings.desktopWindowFocusBlurEnabled())
 X(DesktopWindowFocusBlurDelaySeconds, settings.desktopWindowFocusBlurDelaySeconds())
+X(DesktopNotificationsPacingMinutes, settings.desktopNotificationsPacingMinutes())

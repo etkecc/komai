@@ -75,6 +75,8 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
 void
 ChatPage::finalizeLogout(LogoutRoute route, const QString &loginMessage)
 {
+    notificationPacing_.clear();
+
     if (auto *mainWindow = MainWindow::instance())
         mainWindow->stopMatrixBackendHandle();
 

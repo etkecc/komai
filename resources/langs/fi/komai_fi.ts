@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Käyttäjiä ei voi kutsua ennen kuin Matrix-istunto on valmis.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Käyttäjän %1 kutsuminen epäonnistui: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Jokin meni vikaan</translation>
     </message>
@@ -862,7 +862,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Matrix-taustasuoritusympäristön käynnistäminen epäonnistui tälle istunnolle. Kirjaudu sisään uudelleen.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Avainvarmuuskopion palautus vaatii aktiivisen matrix-sdk-taustasuoritusympäristön.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettom
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Ilmoitusten tahdistus (minuutteina)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Kun ilmoitus on toimitettu huoneeseen, kyseisen huoneen ilmoitukset vaiennetaan tämän minuuttimäärän ajaksi. Aseta 0 poistaaksesi tahdistuksen käytöstä.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>jäähtyminen, kuristus, nopeusrajoitus, hiljainen, huoneittain</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Huomio-ilmaisimet</translation>
     </message>

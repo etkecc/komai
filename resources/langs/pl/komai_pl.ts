@@ -796,7 +796,7 @@ Opcjonalnie możesz podać powód, dla którego inni mieliby cię przyjąć:</tr
         <translation>Odblokowano użytkownika: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Nie można zapraszać użytkowników, dopóki sesja Matrix nie będzie gotowa.</translation>
     </message>
@@ -806,7 +806,7 @@ Opcjonalnie możesz podać powód, dla którego inni mieliby cię przyjąć:</tr
         <translation>Nie udało się zaprosić %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Coś poszło nie tak</translation>
     </message>
@@ -863,7 +863,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Uruchomienie środowiska backendu Matrix dla tej sesji nie powiodło się. Zaloguj się ponownie.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Odzyskiwanie kopii zapasowej kluczy wymaga aktywnego środowiska uruchomieniowego backendu matrix-sdk.</translation>
     </message>
@@ -12461,6 +12461,21 @@ Tryb automatyczny to 'online' lub 'niedostępny' (po 5 minutach braku aktywnośc
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Tłumienie powiadomień (minuty)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Po dostarczeniu powiadomienia z danego pokoju, powiadomienia z tego pokoju są wyciszone na tę liczbę minut. Ustaw 0, aby wyłączyć tłumienie.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>przerwa, ograniczenie, limit częstotliwości, wyciszenie, na pokój</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Wskaźniki uwagi</translation>
     </message>

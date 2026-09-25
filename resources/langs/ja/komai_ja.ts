@@ -731,7 +731,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrixセッションの準備が整うまで、ユーザーを招待できません。</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>%1 の招待に失敗しました: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>問題が発生しました</translation>
     </message>
@@ -861,7 +861,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>このセッションの Matrix バックエンドランタイムの起動に失敗しました。再度ログインしてください。</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>キーバックアップの回復には、アクティブな matrix-sdk バックエンドランタイムが必要です。</translation>
     </message>
@@ -12420,6 +12420,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>通知ペーシング（分）</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>ルームに通知が届いた後、そのルームからの通知はこの分数の間ミュートされます。0 に設定するとペーシングが無効になります。</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>クールダウン、スロットル、レート制限、ミュート、ルームごと</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>注意インジケーター</translation>
     </message>

@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Impossible d'inviter des utilisateurs avant que la session Matrix soit prête.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>Échec de l'invitation de %1 : %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Une erreur s'est produite</translation>
     </message>
@@ -862,7 +862,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Le moteur d'exécution Matrix n'a pas pu démarrer pour cette session. Veuillez vous reconnecter.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>La récupération de la sauvegarde des clés nécessite un moteur d'exécution matrix-sdk actif.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatique correspond à 'en ligne' ou 'indisponible' (après 5 minutes d'inact
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Espacement des notifications (minutes)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Une fois qu'une notification est envoyée pour un salon, les notifications de ce salon sont mises en sourdine pendant ce nombre de minutes. Mettez 0 pour désactiver l'espacement.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>recharge, limitation, limite de débit, silencieux, par salon</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Indicateurs d'attention</translation>
     </message>

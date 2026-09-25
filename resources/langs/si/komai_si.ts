@@ -732,7 +732,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix සැසිය සූදානම් වනතෙක් පරිශීලකයන් ආරාධනා කළ නොහැකිය.</translation>
     </message>
@@ -742,7 +742,7 @@
         <translation>%1 ආරාධනා කිරීම අසාර්ථක විය: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>යමක් වැරදී ගියේය</translation>
     </message>
@@ -862,7 +862,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>මෙම සැසිය සඳහා Matrix backend runtime ආරම්භ කිරීමට අසාර්ථක විය. කරුණාකර නැවතත් ලොග් ඉන් වන්න.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>යතුරු උපස්ථ ප්‍රතිසාධනයට ක්‍රියාකාරී matrix-sdk backend runtime එකක් අවශ්‍ය වේ.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>දැනුම්දීම් වේග පාලනය (මිනිත්තු)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>කාමරයකට දැනුම්දීමක් ලැබුණු පසු, එම කාමරයෙන් ලැබෙන දැනුම්දීම් මෙම මිනිත්තු ගණන සඳහා නිහඬ කරනු ලැබේ. වේග පාලනය අබල කිරීමට 0 ලෙස සකසන්න.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>තාවකාලික නිහඬ කාලය, සීමා කිරීම, අනුපාත සීමාව, නිශ්ශබ්ද, එක් කාමරයකට</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>අවධාන දර්ශක</translation>
     </message>

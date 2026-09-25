@@ -133,3 +133,17 @@ UserSettings::setDesktopWindowFocusBlurDelaySeconds(int s)
     emit desktopWindowFocusBlurDelaySecondsChanged(s);
     save();
 }
+
+void
+UserSettings::setDesktopNotificationsPacingMinutes(int s)
+{
+    if (desktopNotificationsPacingMinutes_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::DesktopNotificationsPacingMinutes,
+                      s,
+                      SettingKey::DesktopNotificationsPacingMinutes))
+        return;
+    desktopNotificationsPacingMinutes_ = s;
+    emit desktopNotificationsPacingMinutesChanged(s);
+    save();
+}

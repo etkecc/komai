@@ -174,6 +174,7 @@ stageConfig(const UserSettings &settings,
               .message_content_policy =
                 cfg::toStorageValue(settings.desktopNotificationsMessageContentPolicy())
                   .toStdString(),
+              .pacing_minutes = settings.desktopNotificationsPacingMinutes(),
             },
           .attention =
             {

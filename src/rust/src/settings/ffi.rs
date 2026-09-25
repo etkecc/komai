@@ -308,6 +308,7 @@ pub(crate) fn ffi_config_desktop_section(
             enabled: config.desktop.notifications.enabled.unwrap_or(defaults::NOTIFICATIONS_ENABLED),
             attention_on_incoming: config.desktop.notifications.attention_on_incoming.unwrap_or(defaults::NOTIFICATIONS_ATTENTION_ON_INCOMING),
             message_content_policy: config.desktop.notifications.message_content_policy.to_storage_string(),
+            pacing_minutes: config.desktop.notifications.pacing_minutes.unwrap_or(defaults::NOTIFICATIONS_PACING_MINUTES),
         },
         attention: ffi::SettingsConfigDesktopAttentionSection {
             window_title: ffi::SettingsConfigDesktopAttentionWindowTitleSection {
@@ -802,6 +803,7 @@ fn clone_config_desktop_section(
             enabled: section.notifications.enabled,
             attention_on_incoming: section.notifications.attention_on_incoming,
             message_content_policy: section.notifications.message_content_policy.clone(),
+            pacing_minutes: section.notifications.pacing_minutes,
         },
         attention: ffi::SettingsConfigDesktopAttentionSection {
             window_title: ffi::SettingsConfigDesktopAttentionWindowTitleSection {

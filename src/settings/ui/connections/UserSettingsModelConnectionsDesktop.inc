@@ -57,3 +57,4 @@
     CONNECT_SETTING_ID(DesktopWindowFocusBlurDelaySeconds,
                        desktopWindowFocusBlurDelaySecondsChanged,
                        Value);
+    CONNECT_SETTING_ID(DesktopNotificationsPacingMinutes, desktopNotificationsPacingMinutesChanged, Value);

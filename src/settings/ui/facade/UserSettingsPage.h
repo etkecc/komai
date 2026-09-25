@@ -234,6 +234,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       int desktopWindowFocusBlurDelaySeconds READ desktopWindowFocusBlurDelaySeconds WRITE
         setDesktopWindowFocusBlurDelaySeconds NOTIFY desktopWindowFocusBlurDelaySecondsChanged)
+    Q_PROPERTY(
+      int desktopNotificationsPacingMinutes READ desktopNotificationsPacingMinutes WRITE
+        setDesktopNotificationsPacingMinutes NOTIFY desktopNotificationsPacingMinutesChanged)
     Q_PROPERTY(int navigationRoomListWidthPx READ navigationRoomListWidthPx WRITE
                  setNavigationRoomListWidthPx NOTIFY navigationRoomListWidthPxChanged)
     Q_PROPERTY(int navigationCommunitiesWidthPx READ navigationCommunitiesWidthPx WRITE
@@ -675,6 +678,7 @@ public:
     void setUiMotionAnimationsEnabled(bool state);
     void setDesktopWindowFocusBlurEnabled(bool state);
     void setDesktopWindowFocusBlurDelaySeconds(int state);
+    void setDesktopNotificationsPacingMinutes(int minutes);
     void setNetworkPresenceStatusPolicy(Presence state);
     void setTimelineMediaImageDisplay(ShowImage state);
     void setCallsAudioRingtone(QString callsAudioRingtone);
@@ -919,6 +923,7 @@ signals:
     void uiMotionAnimationsEnabledChanged(bool state);
     void desktopWindowFocusBlurEnabledChanged(bool state);
     void desktopWindowFocusBlurDelaySecondsChanged(int state);
+    void desktopNotificationsPacingMinutesChanged(int minutes);
     void navigationRoomListWidthPxChanged(int state);
     void navigationCommunitiesWidthPxChanged(int state);
     void uiScaleFactorChanged(double factor);

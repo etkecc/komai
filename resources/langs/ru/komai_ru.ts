@@ -796,7 +796,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Разблокированный пользователь: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Нельзя приглашать пользователей, пока сессия Matrix не готова.</translation>
     </message>
@@ -806,7 +806,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не удалось пригласить %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Что-то пошло не так</translation>
     </message>
@@ -863,7 +863,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Среда выполнения бэкенда Matrix не запустилась для этой сессии. Войди снова.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Для восстановления резервной копии ключей требуется активная среда выполнения бэкенда matrix-sdk.</translation>
     </message>
@@ -12460,6 +12460,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Пауза уведомлений (минуты)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>После доставки уведомления из комнаты, уведомления из этой комнаты отключаются на указанное количество минут. Установите 0, чтобы отключить паузу.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>пауза, ограничение, лимит, тишина, на комнату</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Индикаторы внимания</translation>
     </message>

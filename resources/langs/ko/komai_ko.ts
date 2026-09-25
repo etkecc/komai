@@ -731,7 +731,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix 세션이 준비될 때까지 사용자를 초대할 수 없습니다.</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>%1을(를) 초대하지 못했습니다: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>문제가 발생했습니다</translation>
     </message>
@@ -861,7 +861,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>이 세션의 Matrix 백엔드 런타임이 시작되지 않았습니다. 다시 로그인하세요.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>키 백업 복구에는 활성 matrix-sdk 백엔드 런타임이 필요합니다.</translation>
     </message>
@@ -12420,6 +12420,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>알림 텀(분)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>방에 알림이 전달되면 해당 방의 알림이 지정된 시간(분) 동안 음소거됩니다. 0으로 설정하면 속도 제한이 비활성화됩니다.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>쿨다운, 스로틀, 속도 제한, 무음, 방별</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>주의 표시기</translation>
     </message>

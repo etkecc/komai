@@ -731,7 +731,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>تا زمانی که نشست Matrix آماده نشود، امکان دعوت کاربران وجود ندارد.</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>دعوت %1 ناموفق بود: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>مشکلی پیش آمد</translation>
     </message>
@@ -861,7 +861,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>محیط اجرایی سرویس پشتی Matrix برای این نشست راه‌اندازی نشد. لطفاً دوباره وارد شوید.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>بازیابی پشتیبان‌گیری کلید به یک محیط اجرایی فعال سرویس پشتی matrix-sdk نیاز دارد.</translation>
     </message>
@@ -12420,6 +12420,21 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>فاصله‌گذاری اعلان (دقیقه)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>پس از ارسال یک اعلان برای یک اتاق، اعلان‌های آن اتاق به مدت این تعداد دقیقه مسدود می‌شوند. برای غیرفعال کردن فاصله‌گذاری، مقدار ۰ را تنظیم کنید.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>خنک‌شدن، محدودسازی، محدودیت نرخ، بی‌صدا، به‌ازای هر اتاق</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>نشانگرهای توجه</translation>
     </message>

@@ -800,7 +800,7 @@ Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</t
         <translation>Hävde bannlysningen av användare: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Det går inte att bjuda in användare förrän Matrix-sessionen är redo.</translation>
     </message>
@@ -810,7 +810,7 @@ Du kan valfritt ange en anledning för att andra ska acceptera din knackning:</t
         <translation>Misslyckades med att bjuda in %1: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Något gick fel</translation>
     </message>
@@ -862,7 +862,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Matrix-bakgrunden misslyckades med att starta för den här sessionen. Logga in igen.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Återställning av nyckelkopia kräver en aktiv matrix-sdk-bakgrundskörning.</translation>
     </message>
@@ -12440,6 +12440,21 @@ Automatisk är antingen 'online' eller 'otillgänglig' (efter 5 minuters inaktiv
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Aviseringspaus (minuter)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>När en avisering har levererats för ett rum tystas aviseringar från det rummet under detta antal minuter. Sätt 0 för att stänga av pausen.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>nedkylning, begränsning, hastighetsbegränsning, tyst, per rum</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Uppmärksamhetsindikatorer</translation>
     </message>

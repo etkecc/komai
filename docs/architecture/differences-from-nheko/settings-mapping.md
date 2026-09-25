@@ -86,6 +86,7 @@ Note:
 | Desktop | SYSTEM NOTIFICATIONS | Enable system notifications | `settings::core::SettingId::DesktopNotificationsEnabled` | `desktop_notifications` | `desktop.notifications.enabled` | config.yml | yes |
 | Desktop | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `settings::core::SettingId::DesktopNotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `desktop.notifications.attention_on_incoming` | config.yml | yes |
 | Desktop | SYSTEM NOTIFICATIONS | Message content in notifications | `settings::core::SettingId::DesktopNotificationsMessageContentPolicy` | `decrypt_notifications` | `desktop.notifications.message_content_policy` | config.yml | yes |
+| Desktop | SYSTEM NOTIFICATIONS | Notification pacing (minutes) | `settings::core::SettingId::DesktopNotificationsPacingMinutes` | *(new)* | `desktop.notifications.pacing_minutes` | config.yml | yes |
 | Desktop | ATTENTION INDICATORS | Show attention count in window title | `settings::core::SettingId::DesktopAttentionWindowTitleEnabled` | `-` | `desktop.attention.window_title.enabled` | config.yml | yes |
 | Desktop | ATTENTION INDICATORS | Show attention count on app icon/taskbar badge | `settings::core::SettingId::DesktopAttentionAppBadgeEnabled` | `-` | `desktop.attention.app_badge.enabled` | config.yml | yes |
 | Calls | GENERAL | Enable legacy calls | `settings::core::SettingId::CallsLegacyEnabled` | `enable_legacy_calls` | `calls.legacy.enabled` | config.yml | yes |

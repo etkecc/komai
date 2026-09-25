@@ -108,6 +108,7 @@ constexpr auto DesktopNotificationsAttentionOnIncoming =
   "desktop.notifications.attention_on_incoming";
 constexpr auto DesktopNotificationsMessageContentPolicy =
   "desktop.notifications.message_content_policy";
+constexpr auto DesktopNotificationsPacingMinutes     = "desktop.notifications.pacing_minutes";
 constexpr auto DesktopAttentionWindowTitleEnabled    = "desktop.attention.window_title.enabled";
 constexpr auto DesktopAttentionAppBadgeEnabled       = "desktop.attention.app_badge.enabled";
 constexpr auto CallsLegacyEnabled                    = "calls.legacy.enabled";

@@ -731,7 +731,7 @@
 <context>
     <name>ChatPage</name>
     <message>
-        <location filename="../../../src/chat/ChatPageCore.cpp" line="+107"/>
+        <location filename="../../../src/chat/ChatPageCore.cpp" line="+108"/>
         <source>Cannot invite users until the Matrix session is ready.</source>
         <translation>Matrix oturumu hazır olana kadar kullanıcılar davet edilemez.</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>%1 davet edilemedi: %2</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+358"/>
         <source>Something went wrong</source>
         <translation>Bir şeyler ters gitti</translation>
     </message>
@@ -861,7 +861,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Bu oturum için Matrix arka uç çalışma zamanı başlatılamadı. Lütfen tekrar oturum açın.</translation>
     </message>
     <message>
-        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+133"/>
+        <location filename="../../../src/chat/ChatPageSessionLifecycle.cpp" line="+135"/>
         <source>Key backup recovery requires an active matrix-sdk backend runtime.</source>
         <translation>Anahtar yedeklemesi kurtarma, aktif bir matrix-sdk arka uç çalışma zamanı gerektirir.</translation>
     </message>
@@ -12420,6 +12420,21 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
     </message>
     <message>
         <location line="+4"/>
+        <source>Notification pacing (minutes)</source>
+        <translation>Bildirim aralığı (dakika)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Once a notification is delivered for a room, notifications from that room are silenced for this many minutes. Set 0 to disable pacing.</source>
+        <translation>Bir oda için bir bildirim iletildiğinde, o odadan gelen bildirimler bu dakika boyunca sessize alınır. Bildirim aralığını devre dışı bırakmak için 0 ayarlayın.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>cooldown, throttle, rate limit, quiet, per room</source>
+        <translation>soğuma, hız sınırı, hız sınırlaması, sessiz, oda başına</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Attention indicators</source>
         <translation>Dikkat göstergeleri</translation>
     </message>

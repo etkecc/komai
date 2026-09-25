@@ -11,3 +11,4 @@
 
   // desktop
   SettingId::DesktopWindowFocusBlurDelaySeconds,
+  SettingId::DesktopNotificationsPacingMinutes,

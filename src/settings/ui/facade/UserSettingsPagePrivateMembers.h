@@ -85,6 +85,7 @@ bool timelineDateDividersEnabled_                        = true;
 bool uiMotionAnimationsEnabled_                          = true;
 bool desktopWindowFocusBlurEnabled_                      = false;
 int desktopWindowFocusBlurDelaySeconds_                  = 0;
+int desktopNotificationsPacingMinutes_                   = 0;
 bool encryptionKeySharingShareWithTrusted_               = false;
 bool encryptionKeySharingOnlyVerifiedUsers_              = false;
 bool encryptionBackupOnlineEnabled_                      = true;

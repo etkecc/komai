@@ -273,6 +273,7 @@ desktop:
     enabled: false
     attention_on_incoming: true
     message_content_policy: unencrypted_only
+    pacing_minutes: 5
   attention:
     window_title:
       enabled: false
@@ -293,6 +294,7 @@ desktop:
         config.desktop.notifications.message_content_policy,
         "unencrypted_only".into()
     );
+    assert_eq!(config.desktop.notifications.pacing_minutes, Some(5));
     assert_eq!(config.desktop.attention.window_title.enabled, Some(false));
     assert_eq!(config.desktop.attention.app_badge.enabled, Some(true));
     assert_eq!(config.desktop.system_tray.enabled, Some(true));
@@ -603,6 +605,7 @@ fn encodes_generic_config_values() {
                 enabled: false,
                 attention_on_incoming: true,
                 message_content_policy: "unencrypted_only".to_owned(),
+                pacing_minutes: 5,
             },
             attention: SettingsConfigDesktopAttentionSection {
                 window_title: SettingsConfigDesktopAttentionWindowTitleSection {
@@ -1430,6 +1433,7 @@ fn encode_config_yaml_round_trips_partial_transcription_overrides() {
                 enabled: true,
                 attention_on_incoming: true,
                 message_content_policy: "whenever_available".to_owned(),
+                pacing_minutes: 0,
             },
             attention: SettingsConfigDesktopAttentionSection {
                 window_title: SettingsConfigDesktopAttentionWindowTitleSection {
@@ -1675,6 +1679,7 @@ fn encode_config_yaml_preserves_globals_when_by_room_empty() {
             notifications: SettingsConfigDesktopNotificationsSection {
                 enabled: true, attention_on_incoming: true,
                 message_content_policy: "whenever_available".to_owned(),
+                pacing_minutes: 0,
             },
             attention: SettingsConfigDesktopAttentionSection {
                 window_title: SettingsConfigDesktopAttentionWindowTitleSection { enabled: true },

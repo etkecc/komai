@@ -68,9 +68,10 @@ public:
         setSourceDevice(nullptr);
         if (buffer.isOpen())
             buffer.close();
-        streaming_                  = false;
-        streamingFallbackAttempted_ = false;
-        streamingLoadStarted_       = false;
+        streaming_                   = false;
+        streamingFallbackAttempted_  = false;
+        streamingLoadStarted_        = false;
+        resumePositionAfterFallback_ = -1;
         setRecoveringFromStreamingFallback(false);
         setBuffering(false);
     }
@@ -202,6 +203,9 @@ private:
     bool recoveringFromStreamingFallback_ = false;
     bool buffering_                       = false;
     double downloadProgress_              = -1;
+    // Playback position to restore once the full-download fallback loads, or
+    // -1 when the stream failed before or without active playback.
+    qint64 resumePositionAfterFallback_ = -1;
     QTimer pausedAudioOutputReleaseTimer_{this};
     // Polls the Rust download-progress registry while the full-file download
     // thread is running; feeds the downloadProgress property.

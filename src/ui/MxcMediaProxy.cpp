@@ -109,6 +109,16 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
               // The stream opened successfully; a later NoMedia (end/stop/loop)
               // is not a load failure and must not trigger the download fallback.
               streamingLoadStarted_ = false;
+              // A stream that failed mid-playback continues from the same spot
+              // in the fallback download instead of silently stopping.
+              if (!streaming_ && resumePositionAfterFallback_ >= 0) {
+                  const auto resumePosition    = resumePositionAfterFallback_;
+                  resumePositionAfterFallback_ = -1;
+                  komai::logging::ui()->info("Resuming playback at {}ms after streaming fallback",
+                                             resumePosition);
+                  setPosition(resumePosition);
+                  play();
+              }
           } else if (streamingLoadStarted_ &&
                      (status == QMediaPlayer::NoMedia || status == QMediaPlayer::InvalidMedia)) {
               if (!fallBackToFullDownload())
@@ -172,9 +182,10 @@ MxcMediaProxy::fallBackToFullDownload()
 
     komai::logging::ui()->info("Streaming failed, falling back to full download");
     streamingWatchdog_.stop();
-    streamingFallbackAttempted_ = true;
-    streaming_                  = false;
-    streamingLoadStarted_       = false;
+    streamingFallbackAttempted_  = true;
+    streaming_                   = false;
+    streamingLoadStarted_        = false;
+    resumePositionAfterFallback_ = playbackState() == QMediaPlayer::PlayingState ? position() : -1;
     setRecoveringFromStreamingFallback(true);
     stop();
     setSource(QUrl());

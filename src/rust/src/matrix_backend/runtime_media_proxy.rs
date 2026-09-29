@@ -50,6 +50,11 @@ use super::*;
 /// disk and plays from there.
 const BODY_CACHE_MAX_BYTES: usize = 150 * 1024 * 1024; // 150 MB
 
+/// How long a request for an unknown-length (chunked) body waits for the
+/// download to complete before streaming it forward without a length.
+/// See [`wait_for_stream_length`].
+const UNKNOWN_LENGTH_WAIT: Duration = Duration::from_secs(3);
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -423,29 +428,36 @@ async fn handle_request(
     // and started a single background download into a shared buffer.  Serve
     // this request (typically FFmpeg seeking back for the moov atom) from
     // that buffer instead of re-fetching the whole body from upstream.
-    {
+    let existing = {
         let prog = reg.stream.lock().expect("poisoned media proxy stream lock");
-        if prog.downloading || prog.complete {
-            let content_type = prog.content_type.clone();
-            let total = prog.total;
-            let buffered = prog.buffer.len();
-            let complete = prog.complete;
-            drop(prog);
-            tracing::info!(
-                token = %short_token(token),
-                range = ?range_str(range_header.as_ref()),
-                buffered,
-                total,
-                complete,
-                "media proxy: following existing download"
-            );
-            return Ok(serve_as_follower(
-                Arc::clone(&reg.stream),
-                &content_type,
-                total,
-                range_header.as_ref(),
-            ));
-        }
+        (prog.downloading || prog.complete).then(|| {
+            (
+                prog.content_type.clone(),
+                prog.total,
+                prog.buffer.len(),
+                prog.complete,
+            )
+        })
+    };
+    if let Some((content_type, total, buffered, complete)) = existing {
+        tracing::info!(
+            token = %short_token(token),
+            range = ?range_str(range_header.as_ref()),
+            buffered,
+            total,
+            complete,
+            "media proxy: following existing download"
+        );
+        let total = match total {
+            Some(total) => Some(total),
+            None => wait_for_stream_length(&reg.stream).await,
+        };
+        return Ok(serve_as_follower(
+            Arc::clone(&reg.stream),
+            &content_type,
+            total,
+            range_header.as_ref(),
+        ));
     }
 
     // ── First request for this token: probe upstream Range support ──────
@@ -610,6 +622,10 @@ async fn handle_request(
         );
     }
 
+    let total = match total {
+        Some(total) => Some(total),
+        None => wait_for_stream_length(&reg.stream).await,
+    };
     Ok(serve_as_follower(
         Arc::clone(&reg.stream),
         &content_type,
@@ -701,13 +717,42 @@ async fn run_stream_download(
     }
 }
 
+/// Wait for an unknown-length (chunked) stream-through download to finish so
+/// the response can carry a real `Content-Length`.
+///
+/// FFmpeg reports the end of a chunked or EOF-delimited HTTP body as an I/O
+/// error rather than EOF, and Qt's demuxer turns that into a fatal "Demuxing
+/// failed" once its read-ahead reaches the end, cutting playback short.  A
+/// known length ends cleanly.  Voice messages and other short audio finish
+/// downloading well within the deadline; anything slower is streamed forward
+/// as before.
+async fn wait_for_stream_length(stream: &Arc<Mutex<StreamProgress>>) -> Option<usize> {
+    let deadline = tokio::time::Instant::now() + UNKNOWN_LENGTH_WAIT;
+    loop {
+        {
+            let prog = stream.lock().expect("poisoned media proxy stream lock");
+            if prog.complete {
+                return prog.total;
+            }
+            if prog.failed || !prog.downloading {
+                return None;
+            }
+        }
+        if tokio::time::Instant::now() >= deadline {
+            return None;
+        }
+        tokio::time::sleep(Duration::from_millis(25)).await;
+    }
+}
+
 /// Serve a request by following the shared download buffer: send response
 /// headers immediately, then stream bytes as they become available, waiting
 /// when caught up to the download frontier.
 ///
 /// With a known `total` we can answer Range requests as seekable `206`s.
-/// Without one (Synapse's chunked 200) we stream forward as a non-seekable
-/// `200` from offset 0.
+/// Without one (Synapse's chunked 200 that is still downloading after
+/// [`wait_for_stream_length`]) we stream forward as a non-seekable `200` from
+/// offset 0.
 fn serve_as_follower(
     stream: Arc<Mutex<StreamProgress>>,
     content_type: &str,

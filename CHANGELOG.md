@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026.09.29.0
+
+- ✨ Feature: [🔔 notification pacing](https://github.com/etkecc/komai/blob/eb79153ac/docs/user-guide/features/notifications.md#-pacing-per-room-cooldown) adds an optional per-room cooldown, so a busy room doesn't ping you for every message ([3b6407d96](https://github.com/etkecc/komai/commit/3b6407d96)).
+- 🐛 Fix: voice messages no longer stop a second or so into their first play ([805d92b80](https://github.com/etkecc/komai/commit/805d92b80)).
+- 🐛 Fix: when Komai can't read its local data, it explains the problem instead of asking you to sign in again ([eb79153ac](https://github.com/etkecc/komai/commit/eb79153ac)).
+- 🐛 Fix: large animated images (over 4 MB) no longer keep every frame in memory ([58d789de2](https://github.com/etkecc/komai/commit/58d789de2)).
+- 📦 Calls: the bundled Element Call is updated to v0.26.1 ([4567cdd4f](https://github.com/etkecc/komai/commit/4567cdd4f)).
+- 🔧 Build: the Matrix Rust SDK is updated to v0.19.1. Local data written by this version can't be read by older Komai releases ([719a7a3c6](https://github.com/etkecc/komai/commit/719a7a3c6), [02ad79a48](https://github.com/etkecc/komai/commit/02ad79a48)).
+- 🔧 Build: Unicode emoji data is pinned to a fixed Unicode version, so new Unicode releases no longer break builds ([e7bda84d7](https://github.com/etkecc/komai/commit/e7bda84d7)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.343 ([747936a73](https://github.com/etkecc/komai/commit/747936a73)).
+- 🔧 Build: Rust dependencies are updated ([7768c587f](https://github.com/etkecc/komai/commit/7768c587f), [dfb4e8af6](https://github.com/etkecc/komai/commit/dfb4e8af6)).
+
 ## 2026.09.15.0
 
 - 🐛 Fix: the **Ctrl+N** actions (start a direct chat, join a room, create a room) open their dialog again; since May, picking one did nothing ([5d3934e52](https://github.com/etkecc/komai/commit/5d3934e52)).

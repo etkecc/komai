@@ -50,6 +50,74 @@ pub struct RestoredMatrixBackend {
     pub cache_root: String,
 }
 
+/// Why a persisted session could not be restored. The store variants mean the
+/// session itself may still be valid: signing in again would not help, and
+/// the UI must not suggest it.
+#[derive(Debug)]
+pub enum RestoreError {
+    /// The local store could not be opened or its contents could not be read,
+    /// typically after a newer Komai rewrote it in a format this build predates.
+    StoreUnreadable { detail: String, matrix_data_root: String },
+    /// The store's encryption key could not be read (typically a locked keyring).
+    StoreKeyUnavailable { detail: String, matrix_data_root: String },
+    Other(String),
+}
+
+impl std::fmt::Display for RestoreError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::StoreUnreadable { detail, .. }
+            | Self::StoreKeyUnavailable { detail, .. }
+            | Self::Other(detail) => f.write_str(detail),
+        }
+    }
+}
+
+impl From<String> for RestoreError {
+    fn from(detail: String) -> Self {
+        Self::Other(detail)
+    }
+}
+
+fn store_unreadable(detail: String, paths: &DerivedMatrixSdkPaths) -> RestoreError {
+    RestoreError::StoreUnreadable {
+        detail,
+        matrix_data_root: paths.matrix_data_root.clone(),
+    }
+}
+
+/// Errors from `restore_session_with` that come from reading local stores
+/// rather than from the session itself.
+fn is_local_store_error(error: &matrix_sdk::Error) -> bool {
+    matches!(
+        error,
+        matrix_sdk::Error::StateStore(_)
+            | matrix_sdk::Error::CryptoStoreError(_)
+            | matrix_sdk::Error::EventCacheStore(_)
+            | matrix_sdk::Error::MediaStore(_)
+            | matrix_sdk::Error::BadCryptoStoreState
+            | matrix_sdk::Error::SerdeJson(_)
+            | matrix_sdk::Error::Io(_)
+    )
+}
+
+/// Test hook: `KOMAI_DEBUG_FAIL_STORE_RESTORE=unreadable|key` makes the
+/// restore fail with that store error after the client is built, without
+/// touching the on-disk store. Lets the failure UI be exercised on a build
+/// that can read its own store.
+fn simulated_restore_failure(paths: &DerivedMatrixSdkPaths) -> Option<RestoreError> {
+    let mode = std::env::var("KOMAI_DEBUG_FAIL_STORE_RESTORE").ok()?;
+    let detail = format!("simulated store failure (KOMAI_DEBUG_FAIL_STORE_RESTORE={mode})");
+    match mode.trim() {
+        "unreadable" => Some(store_unreadable(detail, paths)),
+        "key" => Some(RestoreError::StoreKeyUnavailable {
+            detail,
+            matrix_data_root: paths.matrix_data_root.clone(),
+        }),
+        _ => None,
+    }
+}
+
 struct StoredSession {
     homeserver_url: String,
     session: AuthSession,
@@ -136,7 +204,7 @@ fn is_store_cipher_init_failure(error: &ClientBuildError) -> bool {
 }
 
 pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePreview, String> {
-    let Some(restored) = restore_client(profile_id).await? else {
+    let Some(restored) = restore_client(profile_id).await.map_err(|e| e.to_string())? else {
         return Ok(MatrixRestorePreview {
             has_session: false,
             session_source: String::new(),
@@ -161,7 +229,9 @@ pub async fn restore_session_preview(profile_id: &str) -> Result<MatrixRestorePr
     })
 }
 
-pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBackend>, String> {
+pub async fn restore_client(
+    profile_id: &str,
+) -> Result<Option<RestoredMatrixBackend>, RestoreError> {
     tracing::debug!(profile_id, "Attempting to restore persisted matrix-sdk session");
 
     let persisted_secrets = load_persisted_session_secrets(profile_id);
@@ -186,8 +256,18 @@ pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBac
     )
     .await
     .map_err(|e| {
-        store_cipher_failure_hint(&e, &paths)
-            .unwrap_or_else(|| format!("failed to build matrix-sdk client for restore: {e}"))
+        if let Some(hint) = store_cipher_failure_hint(&e, &paths) {
+            return RestoreError::StoreKeyUnavailable {
+                detail: hint,
+                matrix_data_root: paths.matrix_data_root.clone(),
+            };
+        }
+        let detail = format!("failed to build matrix-sdk client for restore: {e}");
+        if matches!(e, ClientBuildError::SqliteStore(_)) {
+            store_unreadable(detail, &paths)
+        } else {
+            RestoreError::Other(detail)
+        }
     })?;
 
     configure_session_callbacks(
@@ -197,10 +277,22 @@ pub async fn restore_client(profile_id: &str) -> Result<Option<RestoredMatrixBac
         &stored_session.homeserver_url,
     )?;
 
+    if let Some(simulated) = simulated_restore_failure(&paths) {
+        tracing::warn!(profile_id, "{simulated}");
+        return Err(simulated);
+    }
+
     client
         .restore_session_with(stored_session.session.clone(), RoomLoadSettings::default())
         .await
-        .map_err(|e| format!("failed to restore matrix-sdk session: {e}"))?;
+        .map_err(|e| {
+            let detail = format!("failed to restore matrix-sdk session: {e}");
+            if is_local_store_error(&e) {
+                store_unreadable(detail, &paths)
+            } else {
+                RestoreError::Other(detail)
+            }
+        })?;
 
     persist_current_session(
         profile_id,
@@ -350,4 +442,30 @@ pub(crate) fn configure_session_callbacks(
             }),
         )
         .map_err(|e| format!("failed to register matrix-sdk session callbacks: {e}"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The shape of the real downgrade failure: a newer SDK stored a map where
+    /// the older one expects a sequence.
+    fn downgrade_json_error() -> serde_json::Error {
+        serde_json::from_str::<Vec<String>>(r#"{"items":[],"capacity":10}"#)
+            .expect_err("a map is not a sequence")
+    }
+
+    #[test]
+    fn state_store_deserialization_is_a_local_store_error() {
+        let error = matrix_sdk::Error::StateStore(Box::new(matrix_sdk::StoreError::Json(
+            downgrade_json_error(),
+        )));
+        assert!(is_local_store_error(&error));
+    }
+
+    #[test]
+    fn auth_errors_are_not_local_store_errors() {
+        assert!(!is_local_store_error(&matrix_sdk::Error::AuthenticationRequired));
+        assert!(!is_local_store_error(&matrix_sdk::Error::MultipleSessionCallbacks));
+    }
 }

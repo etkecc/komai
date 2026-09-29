@@ -26,6 +26,10 @@ class TrayIcon;
 class UserSettings;
 class MxcImageProvider;
 
+namespace komai {
+struct MatrixRestoreFailure;
+}
+
 namespace mtx {
 namespace requests {
 struct CreateRoom;
@@ -59,6 +63,10 @@ class MainWindow : public QQuickView
     Q_PROPERTY(bool altPressed READ altPressed NOTIFY altPressedChanged)
     Q_PROPERTY(QString startupHeadline READ startupHeadline NOTIFY startupStatusChanged)
     Q_PROPERTY(QString startupDetail READ startupDetail NOTIFY startupStatusChanged)
+    Q_PROPERTY(bool startupFailed READ startupFailed NOTIFY startupStatusChanged)
+    Q_PROPERTY(QString startupDataPath READ startupDataPath NOTIFY startupStatusChanged)
+    Q_PROPERTY(
+      QString startupTechnicalDetail READ startupTechnicalDetail NOTIFY startupStatusChanged)
 
 public:
     explicit MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup = false);
@@ -93,6 +101,9 @@ public:
     QString matrixBackendAuthType() const { return matrixBackendAuthType_; }
     QString startupHeadline() const { return startupHeadline_; }
     QString startupDetail() const { return startupDetail_; }
+    bool startupFailed() const { return startupFailed_; }
+    QString startupDataPath() const { return startupDataPath_; }
+    QString startupTechnicalDetail() const { return startupTechnicalDetail_; }
 
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);
@@ -105,6 +116,10 @@ public:
     Q_INVOKABLE void showUserSettingsPage(int initialTab);
     Q_INVOKABLE void showUserSettingsPage(int initialTab, const QString &scrollToSection);
     Q_INVOKABLE void openRoomDirectory() { emit openRoomDirectoryRequested(); }
+    //! Retry restoring the session after a startup failure.
+    Q_INVOKABLE void retryStartup();
+    //! Open the directory holding the profile's local Matrix data.
+    Q_INVOKABLE void openStartupDataFolder();
 
 #ifdef KOMAI_DBUS_SYS
     bool dbusAvailable() const { return dbusAvailable_; }
@@ -173,6 +188,10 @@ private:
     void continueShowChatPageAfterBackendStart(bool hadSessionIdentity);
     void transitionToLoginPage(const QString &error = QString());
     void setStartupStatus(const QString &headline, const QString &detail);
+    //! Keep the startup page up with an explanation instead of sending the
+    //! user to sign in again, which would not help when the local store is the
+    //! problem.
+    void showStartupRestoreFailure(const komai::MatrixRestoreFailure &failure);
     //! Check if the current page supports the "minimize to tray" functionality.
     bool pageSupportsTray() const;
     void updateAttentionIndicators();
@@ -211,4 +230,7 @@ private:
     bool forwardButtonPressSeen_{false};
     QString startupHeadline_;
     QString startupDetail_;
+    bool startupFailed_{false};
+    QString startupDataPath_;
+    QString startupTechnicalDetail_;
 };

@@ -3481,12 +3481,12 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
-        <location line="+79"/>
+        <location line="+90"/>
         <source>Starting Komai</source>
         <translation>Komai indítása</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-474"/>
         <source>Checking your profile...</source>
         <translation>Profil ellenőrzése...</translation>
     </message>
@@ -3506,21 +3506,21 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location line="-280"/>
         <location line="+212"/>
         <location line="+112"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Welcome to Komai</source>
         <translation>Üdvözöl a Komai</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-348"/>
         <location line="+212"/>
         <location line="+113"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Preparing sign-in...</source>
         <translation>Bejelentkezés előkészítése...</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+13"/>
+        <location line="-22"/>
+        <location line="+24"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>Nem sikerült inicializálni a Matrix munkamenetet. Kérjük, jelentkezzen be újra.</translation>
     </message>
@@ -3528,6 +3528,46 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>Szobák megnyitása...</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Nothing has been deleted: your session and messages are still on this device.</source>
+        <translation>Semmi nem törlődött: a munkamenet és az üzenetek továbbra is ezen az eszközön vannak.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Can't unlock this profile's data</source>
+        <translation>Nem sikerült feloldani a profil adatait</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Komai couldn't read the key that protects this profile's local data.</source>
+        <translation>A Komai nem tudta beolvasni a profil helyi adatait védő kulcsot.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Unlock your system keyring or password manager, then try again.</source>
+        <translation>Oldja fel a rendszer kulcstartóját vagy jelszókezelőjét, majd próbálja újra.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Can't read this profile's data</source>
+        <translation>Nem sikerült beolvasni a profil adatait</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Komai couldn't read this profile's local data.</source>
+        <translation>A Komai nem tudta beolvasni a profil helyi adatait.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This can happen after using a newer version of Komai with the same profile.</source>
+        <translation>Ez akkor fordulhat elő, ha ugyanazt a profilt a Komai újabb verziójával használták.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Update Komai, then try again.</source>
+        <translation>Frissítse a Komai alkalmazást, majd próbálja újra.</translation>
     </message>
 </context>
 <context>
@@ -8569,6 +8609,34 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <source>%1 (built-in)</source>
         <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
         <translation>%1 (beépített)</translation>
+    </message>
+</context>
+<context>
+    <name>StartupRestorePage</name>
+    <message>
+        <location filename="../../qml/pages/StartupRestorePage.qml" line="+88"/>
+        <source>Try again</source>
+        <translation>Újrapróbálkozás</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open data folder</source>
+        <translation>Adatmappa megnyitása</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Quit</source>
+        <translation>Kilépés</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Technical details</source>
+        <translation>Műszaki részletek</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Data folder: %1</source>
+        <translation>Adatmappa: %1</translation>
     </message>
 </context>
 <context>

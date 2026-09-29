@@ -3486,12 +3486,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
-        <location line="+79"/>
+        <location line="+90"/>
         <source>Starting Komai</source>
         <translation>S'està iniciant Komai</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-474"/>
         <source>Checking your profile...</source>
         <translation>S'està comprovant el perfil…</translation>
     </message>
@@ -3511,21 +3511,21 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="-280"/>
         <location line="+212"/>
         <location line="+112"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Welcome to Komai</source>
         <translation>Benvingut a Komai</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-348"/>
         <location line="+212"/>
         <location line="+113"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Preparing sign-in...</source>
         <translation>S'està preparant l'inici de sessió…</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+13"/>
+        <location line="-22"/>
+        <location line="+24"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>No s'ha pogut inicialitzar la sessió de Matrix. Torna a iniciar la sessió.</translation>
     </message>
@@ -3533,6 +3533,46 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>S'estan obrint les sales…</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Nothing has been deleted: your session and messages are still on this device.</source>
+        <translation>No s'ha suprimit res: la teva sessió i els teus missatges continuen en aquest dispositiu.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Can't unlock this profile's data</source>
+        <translation>No s'han pogut desbloquejar les dades d'aquest perfil</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Komai couldn't read the key that protects this profile's local data.</source>
+        <translation>Komai no ha pogut llegir la clau que protegeix les dades locals d'aquest perfil.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Unlock your system keyring or password manager, then try again.</source>
+        <translation>Desbloqueja l'anell de claus del sistema o el gestor de contrasenyes i torna-ho a provar.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Can't read this profile's data</source>
+        <translation>No s'han pogut llegir les dades d'aquest perfil</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Komai couldn't read this profile's local data.</source>
+        <translation>Komai no ha pogut llegir les dades locals d'aquest perfil.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This can happen after using a newer version of Komai with the same profile.</source>
+        <translation>Això pot passar després d'utilitzar una versió més nova de Komai amb el mateix perfil.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Update Komai, then try again.</source>
+        <translation>Actualitza Komai i torna-ho a provar.</translation>
     </message>
 </context>
 <context>
@@ -8582,6 +8622,34 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <source>%1 (built-in)</source>
         <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
         <translation>%1 (integrat)</translation>
+    </message>
+</context>
+<context>
+    <name>StartupRestorePage</name>
+    <message>
+        <location filename="../../qml/pages/StartupRestorePage.qml" line="+88"/>
+        <source>Try again</source>
+        <translation>Torna-ho a provar</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open data folder</source>
+        <translation>Obre la carpeta de dades</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Quit</source>
+        <translation>Surt</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Technical details</source>
+        <translation>Detalls tècnics</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Data folder: %1</source>
+        <translation>Carpeta de dades: %1</translation>
     </message>
 </context>
 <context>

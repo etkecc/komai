@@ -3481,12 +3481,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
-        <location line="+79"/>
+        <location line="+90"/>
         <source>Starting Komai</source>
         <translation>Komai 시작 중</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-474"/>
         <source>Checking your profile...</source>
         <translation>프로필 확인 중…</translation>
     </message>
@@ -3506,21 +3506,21 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-280"/>
         <location line="+212"/>
         <location line="+112"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Welcome to Komai</source>
         <translation>Komai에 오신 것을 환영합니다</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-348"/>
         <location line="+212"/>
         <location line="+113"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Preparing sign-in...</source>
         <translation>로그인 준비 중…</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+13"/>
+        <location line="-22"/>
+        <location line="+24"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>Matrix 세션 초기화에 실패했습니다. 다시 로그인해 주세요.</translation>
     </message>
@@ -3528,6 +3528,46 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>방을 여는 중…</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Nothing has been deleted: your session and messages are still on this device.</source>
+        <translation>삭제된 것은 없습니다. 세션과 메시지는 여전히 이 기기에 남아 있습니다.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Can't unlock this profile's data</source>
+        <translation>이 프로필의 데이터를 잠금 해제할 수 없습니다</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Komai couldn't read the key that protects this profile's local data.</source>
+        <translation>Komai가 이 프로필의 로컬 데이터를 보호하는 키를 읽지 못했습니다.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Unlock your system keyring or password manager, then try again.</source>
+        <translation>시스템 키링 또는 비밀번호 관리자의 잠금을 해제한 후 다시 시도하세요.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Can't read this profile's data</source>
+        <translation>이 프로필의 데이터를 읽을 수 없습니다</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Komai couldn't read this profile's local data.</source>
+        <translation>Komai가 이 프로필의 로컬 데이터를 읽지 못했습니다.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This can happen after using a newer version of Komai with the same profile.</source>
+        <translation>이는 같은 프로필로 더 최신 버전의 Komai를 사용한 후에 발생할 수 있습니다.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Update Komai, then try again.</source>
+        <translation>Komai를 업데이트한 후 다시 시도하세요.</translation>
     </message>
 </context>
 <context>
@@ -8569,6 +8609,34 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <source>%1 (built-in)</source>
         <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
         <translation>%1 (기본 제공)</translation>
+    </message>
+</context>
+<context>
+    <name>StartupRestorePage</name>
+    <message>
+        <location filename="../../qml/pages/StartupRestorePage.qml" line="+88"/>
+        <source>Try again</source>
+        <translation>다시 시도</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open data folder</source>
+        <translation>데이터 폴더 열기</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Quit</source>
+        <translation>종료</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Technical details</source>
+        <translation>기술 세부 정보</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Data folder: %1</source>
+        <translation>데이터 폴더: %1</translation>
     </message>
 </context>
 <context>

@@ -3481,12 +3481,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
-        <location line="+79"/>
+        <location line="+90"/>
         <source>Starting Komai</source>
         <translation>正在啟動 Komai</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-474"/>
         <source>Checking your profile...</source>
         <translation>正在檢查您的個人資料……</translation>
     </message>
@@ -3506,21 +3506,21 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-280"/>
         <location line="+212"/>
         <location line="+112"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Welcome to Komai</source>
         <translation>歡迎使用 Komai</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-348"/>
         <location line="+212"/>
         <location line="+113"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Preparing sign-in...</source>
         <translation>正在準備登入……</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+13"/>
+        <location line="-22"/>
+        <location line="+24"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>Matrix 工作階段初始化失敗，請重新登入。</translation>
     </message>
@@ -3528,6 +3528,46 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>正在開啟您的聊天室……</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Nothing has been deleted: your session and messages are still on this device.</source>
+        <translation>沒有任何內容被刪除：你的登入狀態和訊息仍保留在此裝置上。</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Can't unlock this profile's data</source>
+        <translation>無法解鎖此設定檔的資料</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Komai couldn't read the key that protects this profile's local data.</source>
+        <translation>Komai 無法讀取保護此設定檔本機資料的金鑰。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Unlock your system keyring or password manager, then try again.</source>
+        <translation>解鎖你的系統金鑰環或密碼管理員，然後再試一次。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Can't read this profile's data</source>
+        <translation>無法讀取此設定檔的資料</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Komai couldn't read this profile's local data.</source>
+        <translation>Komai 無法讀取此設定檔的本機資料。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This can happen after using a newer version of Komai with the same profile.</source>
+        <translation>在以同一設定檔使用較新版本的 Komai 後，可能會發生此情況。</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Update Komai, then try again.</source>
+        <translation>更新 Komai，然後再試一次。</translation>
     </message>
 </context>
 <context>
@@ -8569,6 +8609,34 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <source>%1 (built-in)</source>
         <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
         <translation>%1（內建）</translation>
+    </message>
+</context>
+<context>
+    <name>StartupRestorePage</name>
+    <message>
+        <location filename="../../qml/pages/StartupRestorePage.qml" line="+88"/>
+        <source>Try again</source>
+        <translation>重試</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open data folder</source>
+        <translation>開啟資料資料夾</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Quit</source>
+        <translation>結束</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Technical details</source>
+        <translation>技術詳細資訊</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Data folder: %1</source>
+        <translation>資料資料夾：%1</translation>
     </message>
 </context>
 <context>

@@ -604,6 +604,17 @@ MainWindow::startMatrixBackendHandleForActiveSession(bool hadSessionIdentity)
               return;
           }
 
+          if (result.handleInfo->restoreFailure.isSet()) {
+              komai::logging::ui()->warn(
+                "Local matrix-sdk store for profile '{}' is unusable ({}); keeping the startup "
+                "page up instead of asking to sign in again: {}",
+                normalizedProfileId.toStdString(),
+                result.handleInfo->restoreFailure.kind.toStdString(),
+                result.handleInfo->restoreFailure.detail.toStdString());
+              window->showStartupRestoreFailure(result.handleInfo->restoreFailure);
+              return;
+          }
+
           if (!result.handleInfo->hasSession || result.handleInfo->handleId == 0) {
               komai::logging::ui()->info(
                 "No persisted matrix-sdk session is available yet for profile "
@@ -683,12 +694,59 @@ MainWindow::transitionToLoginPage(const QString &error)
 void
 MainWindow::setStartupStatus(const QString &headline, const QString &detail)
 {
-    if (startupHeadline_ == headline && startupDetail_ == detail)
+    if (startupHeadline_ == headline && startupDetail_ == detail && !startupFailed_)
         return;
 
     startupHeadline_ = headline;
     startupDetail_   = detail;
+    startupFailed_   = false;
+    startupDataPath_.clear();
+    startupTechnicalDetail_.clear();
     emit startupStatusChanged();
+}
+
+void
+MainWindow::showStartupRestoreFailure(const komai::MatrixRestoreFailure &failure)
+{
+    // One sentence per line: centered text wraps poorly, and short lines fit
+    // the page without leaving a lone word behind.
+    const QString keepsData =
+      tr("Nothing has been deleted: your session and messages are still on this device.");
+
+    if (failure.kind == QStringLiteral("store_key_unavailable")) {
+        startupHeadline_ = tr("Can't unlock this profile's data");
+        startupDetail_ =
+          tr("Komai couldn't read the key that protects this profile's local data.") +
+          QStringLiteral("\n") +
+          tr("Unlock your system keyring or password manager, then try again.");
+    } else {
+        startupHeadline_ = tr("Can't read this profile's data");
+        startupDetail_   = tr("Komai couldn't read this profile's local data.") +
+                         QStringLiteral("\n") +
+                         tr("This can happen after using a newer version of Komai with the "
+                            "same profile.") +
+                         QStringLiteral("\n") + tr("Update Komai, then try again.");
+    }
+    startupDetail_ += QStringLiteral("\n\n") + keepsData;
+
+    startupFailed_          = true;
+    startupDataPath_        = failure.matrixDataRoot;
+    startupTechnicalDetail_ = failure.detail;
+    emit startupStatusChanged();
+    emit switchToStartupRestorePage();
+}
+
+void
+MainWindow::retryStartup()
+{
+    showChatPage(userSettings_->hasPersistedSessionIdentity());
+}
+
+void
+MainWindow::openStartupDataFolder()
+{
+    if (!startupDataPath_.isEmpty())
+        QDesktopServices::openUrl(QUrl::fromLocalFile(startupDataPath_));
 }
 
 void

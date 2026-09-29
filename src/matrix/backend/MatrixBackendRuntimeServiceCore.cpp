@@ -33,6 +33,13 @@ fromRustHandleInfo(const ::komai::rust::MatrixBackendHandleInfo &info)
       .homeserverUrl = QString::fromStdString(std::string(info.homeserver_url)),
       .userId        = QString::fromStdString(std::string(info.user_id)),
       .deviceId      = QString::fromStdString(std::string(info.device_id)),
+      .restoreFailure =
+        MatrixRestoreFailure{
+          .kind   = QString::fromStdString(std::string(info.restore_failure.kind)),
+          .detail = QString::fromStdString(std::string(info.restore_failure.detail)),
+          .matrixDataRoot =
+            QString::fromStdString(std::string(info.restore_failure.matrix_data_root)),
+        },
     };
 }
 

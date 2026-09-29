@@ -3486,12 +3486,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
-        <location line="+79"/>
+        <location line="+90"/>
         <source>Starting Komai</source>
         <translation>Εκκίνηση Komai</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-474"/>
         <source>Checking your profile...</source>
         <translation>Έλεγχος προφίλ…</translation>
     </message>
@@ -3511,21 +3511,21 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-280"/>
         <location line="+212"/>
         <location line="+112"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Welcome to Komai</source>
         <translation>Καλώς ήρθατε στο Komai</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-348"/>
         <location line="+212"/>
         <location line="+113"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Preparing sign-in...</source>
         <translation>Προετοιμασία σύνδεσης…</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+13"/>
+        <location line="-22"/>
+        <location line="+24"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>Αποτυχία αρχικοποίησης της συνεδρίας Matrix. Παρακαλώ συνδεθείτε ξανά.</translation>
     </message>
@@ -3533,6 +3533,46 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>Άνοιγμα δωματίων…</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Nothing has been deleted: your session and messages are still on this device.</source>
+        <translation>Δεν έχει διαγραφεί τίποτα: η συνεδρία σας και τα μηνύματά σας παραμένουν σε αυτή τη συσκευή.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Can't unlock this profile's data</source>
+        <translation>Δεν είναι δυνατό το ξεκλείδωμα των δεδομένων αυτού του προφίλ</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Komai couldn't read the key that protects this profile's local data.</source>
+        <translation>Το Komai δεν μπόρεσε να διαβάσει το κλειδί που προστατεύει τα τοπικά δεδομένα αυτού του προφίλ.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Unlock your system keyring or password manager, then try again.</source>
+        <translation>Ξεκλειδώστε την κλειδοθήκη του συστήματός σας ή τον διαχειριστή κωδικών πρόσβασης και δοκιμάστε ξανά.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Can't read this profile's data</source>
+        <translation>Δεν είναι δυνατή η ανάγνωση των δεδομένων αυτού του προφίλ</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Komai couldn't read this profile's local data.</source>
+        <translation>Το Komai δεν μπόρεσε να διαβάσει τα τοπικά δεδομένα αυτού του προφίλ.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This can happen after using a newer version of Komai with the same profile.</source>
+        <translation>Αυτό μπορεί να συμβεί μετά τη χρήση μιας νεότερης έκδοσης του Komai με το ίδιο προφίλ.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Update Komai, then try again.</source>
+        <translation>Ενημερώστε το Komai και δοκιμάστε ξανά.</translation>
     </message>
 </context>
 <context>
@@ -8582,6 +8622,34 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <source>%1 (built-in)</source>
         <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
         <translation>%1 (ενσωματωμένο)</translation>
+    </message>
+</context>
+<context>
+    <name>StartupRestorePage</name>
+    <message>
+        <location filename="../../qml/pages/StartupRestorePage.qml" line="+88"/>
+        <source>Try again</source>
+        <translation>Δοκιμάστε ξανά</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open data folder</source>
+        <translation>Άνοιγμα φακέλου δεδομένων</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Quit</source>
+        <translation>Έξοδος</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Technical details</source>
+        <translation>Τεχνικές λεπτομέρειες</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Data folder: %1</source>
+        <translation>Φάκελος δεδομένων: %1</translation>
     </message>
 </context>
 <context>

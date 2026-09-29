@@ -36,7 +36,14 @@ pub(crate) fn matrix_start_restored_backend(
         context,
         "matrix_start_restored_backend",
         matrix_backend::runtime::start_restored_backend(profile_id),
-    )?;
+    );
+
+    // Store failures come back as a structured result rather than an error so
+    // the UI can tell them apart from a lost session.
+    let result = match result {
+        Ok(result) => result,
+        Err(error) => return restore_failure_handle_info(error),
+    };
 
     Ok(ffi::MatrixBackendHandleInfo {
         handle_id: result.handle_id,
@@ -45,6 +52,42 @@ pub(crate) fn matrix_start_restored_backend(
         homeserver_url: result.homeserver_url,
         user_id: result.user_id,
         device_id: result.device_id,
+        restore_failure: no_restore_failure(),
+    })
+}
+
+fn no_restore_failure() -> ffi::MatrixRestoreFailure {
+    ffi::MatrixRestoreFailure {
+        kind: String::new(),
+        detail: String::new(),
+        matrix_data_root: String::new(),
+    }
+}
+
+fn restore_failure_handle_info(
+    error: matrix_backend::bootstrap::RestoreError,
+) -> Result<ffi::MatrixBackendHandleInfo, String> {
+    use matrix_backend::bootstrap::RestoreError;
+
+    let detail = error.to_string();
+    let (kind, matrix_data_root) = match error {
+        RestoreError::Other(detail) => return Err(detail),
+        RestoreError::StoreUnreadable { matrix_data_root, .. } => ("store_unreadable", matrix_data_root),
+        RestoreError::StoreKeyUnavailable { matrix_data_root, .. } => {
+            ("store_key_unavailable", matrix_data_root)
+        }
+    };
+    let restore_failure =
+        ffi::MatrixRestoreFailure { kind: kind.to_owned(), detail, matrix_data_root };
+
+    Ok(ffi::MatrixBackendHandleInfo {
+        handle_id: 0,
+        has_session: true,
+        auth_type: String::new(),
+        homeserver_url: String::new(),
+        user_id: String::new(),
+        device_id: String::new(),
+        restore_failure,
     })
 }
 

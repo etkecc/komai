@@ -3481,12 +3481,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
-        <location line="+79"/>
+        <location line="+90"/>
         <source>Starting Komai</source>
         <translation>در حال راه‌اندازی Komai</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-474"/>
         <source>Checking your profile...</source>
         <translation>در حال بررسی پروفایل شما…</translation>
     </message>
@@ -3506,21 +3506,21 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-280"/>
         <location line="+212"/>
         <location line="+112"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Welcome to Komai</source>
         <translation>به Komai خوش آمدید</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-348"/>
         <location line="+212"/>
         <location line="+113"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Preparing sign-in...</source>
         <translation>در حال آماده‌سازی ورود…</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+13"/>
+        <location line="-22"/>
+        <location line="+24"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>راه‌اندازی جلسه Matrix ناموفق بود. لطفاً دوباره وارد شوید.</translation>
     </message>
@@ -3528,6 +3528,46 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>در حال باز کردن اتاق‌های شما…</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Nothing has been deleted: your session and messages are still on this device.</source>
+        <translation>چیزی حذف نشده است: نشست و پیام‌های شما همچنان روی این دستگاه هستند.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Can't unlock this profile's data</source>
+        <translation>امکان باز کردن قفل داده‌های این نمایه وجود ندارد</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Komai couldn't read the key that protects this profile's local data.</source>
+        <translation>Komai نتوانست کلیدی را که از داده‌های محلی این نمایه محافظت می‌کند بخواند.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Unlock your system keyring or password manager, then try again.</source>
+        <translation>قفل جاکلیدی سیستم یا مدیر گذرواژه خود را باز کنید، سپس دوباره تلاش کنید.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Can't read this profile's data</source>
+        <translation>امکان خواندن داده‌های این نمایه وجود ندارد</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Komai couldn't read this profile's local data.</source>
+        <translation>Komai نتوانست داده‌های محلی این نمایه را بخواند.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This can happen after using a newer version of Komai with the same profile.</source>
+        <translation>این ممکن است پس از استفاده از نسخه جدیدتر Komai با همین نمایه رخ دهد.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Update Komai, then try again.</source>
+        <translation>Komai را به‌روزرسانی کنید، سپس دوباره تلاش کنید.</translation>
     </message>
 </context>
 <context>
@@ -8569,6 +8609,34 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <source>%1 (built-in)</source>
         <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
         <translation>%1 (داخلی)</translation>
+    </message>
+</context>
+<context>
+    <name>StartupRestorePage</name>
+    <message>
+        <location filename="../../qml/pages/StartupRestorePage.qml" line="+88"/>
+        <source>Try again</source>
+        <translation>تلاش مجدد</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open data folder</source>
+        <translation>باز کردن پوشه داده</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Quit</source>
+        <translation>خروج</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Technical details</source>
+        <translation>جزئیات فنی</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Data folder: %1</source>
+        <translation>پوشه داده: %1</translation>
     </message>
 </context>
 <context>

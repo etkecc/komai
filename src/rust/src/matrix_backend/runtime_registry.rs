@@ -4,7 +4,9 @@
 
 use super::*;
 
-pub async fn start_restored_backend(profile_id: &str) -> Result<MatrixBackendHandleInfo, String> {
+pub async fn start_restored_backend(
+    profile_id: &str,
+) -> Result<MatrixBackendHandleInfo, bootstrap::RestoreError> {
     tracing::info!(profile_id, "Starting restored matrix-sdk backend runtime");
 
     let Some(restored) = bootstrap::restore_client(profile_id).await? else {

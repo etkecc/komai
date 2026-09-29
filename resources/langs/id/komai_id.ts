@@ -3481,12 +3481,12 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+21"/>
         <location line="+223"/>
         <location line="+63"/>
-        <location line="+79"/>
+        <location line="+90"/>
         <source>Starting Komai</source>
         <translation>Memulai Komai</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-474"/>
         <source>Checking your profile...</source>
         <translation>Memeriksa profil Anda…</translation>
     </message>
@@ -3506,21 +3506,21 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="-280"/>
         <location line="+212"/>
         <location line="+112"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Welcome to Komai</source>
         <translation>Selamat datang di Komai</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-348"/>
         <location line="+212"/>
         <location line="+113"/>
-        <location line="+13"/>
+        <location line="+24"/>
         <source>Preparing sign-in...</source>
         <translation>Mempersiapkan masuk…</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+13"/>
+        <location line="-22"/>
+        <location line="+24"/>
         <source>Failed to initialize the Matrix session. Please sign in again.</source>
         <translation>Gagal menginisialisasi sesi Matrix. Silakan masuk kembali.</translation>
     </message>
@@ -3528,6 +3528,46 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+20"/>
         <source>Opening your rooms...</source>
         <translation>Membuka ruangan Anda…</translation>
+    </message>
+    <message>
+        <location line="+67"/>
+        <source>Nothing has been deleted: your session and messages are still on this device.</source>
+        <translation>Tidak ada yang dihapus: sesi dan pesan Anda masih ada di perangkat ini.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Can't unlock this profile's data</source>
+        <translation>Tidak dapat membuka kunci data profil ini</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Komai couldn't read the key that protects this profile's local data.</source>
+        <translation>Komai tidak dapat membaca kunci yang melindungi data lokal profil ini.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Unlock your system keyring or password manager, then try again.</source>
+        <translation>Buka kunci keyring sistem atau pengelola kata sandi Anda, lalu coba lagi.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Can't read this profile's data</source>
+        <translation>Tidak dapat membaca data profil ini</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Komai couldn't read this profile's local data.</source>
+        <translation>Komai tidak dapat membaca data lokal profil ini.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>This can happen after using a newer version of Komai with the same profile.</source>
+        <translation>Ini dapat terjadi setelah menggunakan versi Komai yang lebih baru dengan profil yang sama.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Update Komai, then try again.</source>
+        <translation>Perbarui Komai, lalu coba lagi.</translation>
     </message>
 </context>
 <context>
@@ -8569,6 +8609,34 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <source>%1 (built-in)</source>
         <extracomment>Settings-list row label for the bundled dictionary that ships with Komai (as opposed to one installed from the system or a manual drop-in). %1 is the dictionary's display name ("English / United States", "Bulgarian / Bulgaria", or just "Esperanto" for locale codes without a territory).</extracomment>
         <translation>%1 (bawaan)</translation>
+    </message>
+</context>
+<context>
+    <name>StartupRestorePage</name>
+    <message>
+        <location filename="../../qml/pages/StartupRestorePage.qml" line="+88"/>
+        <source>Try again</source>
+        <translation>Coba lagi</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Open data folder</source>
+        <translation>Buka folder data</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Quit</source>
+        <translation>Keluar</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Technical details</source>
+        <translation>Detail teknis</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Data folder: %1</source>
+        <translation>Folder data: %1</translation>
     </message>
 </context>
 <context>

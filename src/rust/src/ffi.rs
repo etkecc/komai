@@ -866,6 +866,16 @@ mod bridge {
         homeserver_url: String,
         user_id: String,
         device_id: String,
+        restore_failure: MatrixRestoreFailure,
+    }
+
+    /// Set when a persisted session exists but its local store could not be
+    /// used. `kind` is empty on success, otherwise `store_unreadable` or
+    /// `store_key_unavailable`.
+    struct MatrixRestoreFailure {
+        kind: String,
+        detail: String,
+        matrix_data_root: String,
     }
 
     /// One room state event's content, as raw JSON. `exists` is false when the

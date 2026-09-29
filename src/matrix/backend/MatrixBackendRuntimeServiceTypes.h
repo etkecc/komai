@@ -14,6 +14,17 @@
 
 namespace komai {
 
+//! Why a persisted session's local store could not be used. Empty `kind`
+//! means no failure; otherwise "store_unreadable" or "store_key_unavailable".
+struct MatrixRestoreFailure
+{
+    QString kind;
+    QString detail;
+    QString matrixDataRoot;
+
+    bool isSet() const { return !kind.isEmpty(); }
+};
+
 struct MatrixBackendHandleInfo
 {
     uint64_t handleId = 0;
@@ -22,6 +33,7 @@ struct MatrixBackendHandleInfo
     QString homeserverUrl;
     QString userId;
     QString deviceId;
+    MatrixRestoreFailure restoreFailure;
 };
 
 struct MatrixOwnProfile

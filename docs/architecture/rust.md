@@ -164,7 +164,7 @@ Flatpak builds have no network access. Rust crates are vendored via `flatpak-car
 
 1. `just flatpak-cargo-sources` (generates `var/build/flatpak/cargo-sources.json` from `src/rust/Cargo.lock`)
 2. The generated JSON is added as a Flatpak source that populates `CARGO_HOME`
-3. The `org.freedesktop.Sdk.Extension.rust-stable` SDK extension provides the toolchain
+3. The toolchain comes from the standalone Rust tarballs bundled in the manifest, pinned to the version in `rust-toolchain.toml`. The `flatpak-rust-toolchain` pre-commit hook enforces the match; after a toolchain bump, run `just flatpak-rust-update-lock` to re-pin their URLs and sha256s
 
 ### Native / AppImage / Arch
 

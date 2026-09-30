@@ -312,6 +312,10 @@ perf-room-switch-report logfile:
 perf-room-switch-report-profile profile="default":
 	python3 {{ justfile_directory() }}/bin/perf/room_switch_report.py --profile "{{ profile }}"
 
+# Re-pins the Flatpak manifest's bundled Rust tarballs (URLs + sha256s) to the version in rust-toolchain.toml
+flatpak-rust-update-lock:
+	python3 {{ justfile_directory() }}/bin/flatpak/rust-toolchain.py update-lock --repo-root {{ justfile_directory() }}
+
 # Regenerates etc/packaging/flatpak/cargo-sources.json from src/rust/Cargo.lock
 flatpak-cargo-sources:
 	python3 {{ justfile_directory() }}/bin/flatpak/cargo-sources.py {{ justfile_directory() }}

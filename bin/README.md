@@ -19,7 +19,7 @@ The big picture:
 - [`build/`](build/) - native build orchestrator (`native.sh`) backing `just configure` / `just build` / `just test-cpp*`.
 - [`docs/`](docs/README.md) - Markdown quality checks for documentation links.
 - [`emoji/`](emoji/README.md) - generate `src/emoji/Provider.{h,cpp}` from Unicode emoji data.
-- [`flatpak/`](flatpak/) - vendor cargo dependencies for the offline Flatpak build (`cargo-sources.py`).
+- [`flatpak/`](flatpak/) - vendor cargo dependencies for the offline Flatpak build (`cargo-sources.py`) and keep its bundled Rust toolchain in sync with `rust-toolchain.toml` (`rust-toolchain.py`).
 - [`icons/`](icons/README.md) - icon audit and pinned Fluent sync helpers.
 - [`license/`](license/README.md) - REUSE license checks and SPDX header injection helpers.
 - [`perf/`](perf/) - performance benchmarking helpers (room-switch latency reports, etc.).

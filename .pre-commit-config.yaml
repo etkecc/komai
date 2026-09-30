@@ -122,6 +122,12 @@ repos:
         language: system
         files: '^(VERSION\.txt|CHANGELOG\.md|etc/packaging/archlinux/komai(-bin)?/PKGBUILD|resources/komai\.appdata\.xml\.in|bin/prek/version-drift\.sh|bin/release/prepare\.py)$'
         pass_filenames: false
+      - id: flatpak-rust-toolchain
+        name: Verify Flatpak Rust toolchain matches rust-toolchain.toml
+        entry: python3 bin/flatpak/rust-toolchain.py check --repo-root .
+        language: system
+        files: '^(rust-toolchain\.toml|etc/packaging/flatpak/cc\.etke\.komai\.yaml|bin/flatpak/rust-toolchain\.py)$'
+        pass_filenames: false
       - id: release-translations-complete
         name: Verify translations have no unfinished entries (release gate)
         entry: python3 bin/prek/release-translations-complete.py

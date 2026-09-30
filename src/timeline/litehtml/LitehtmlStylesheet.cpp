@@ -49,6 +49,12 @@ generateMasterStylesheet(const QPalette &palette,
                           "  margin: %7;"
                           "  padding-left: 20px;"
                           "}"
+                          // Numbered markers are drawn right-aligned inside this padding and
+                          // clipped where they overflow it ("10." renders as "0."). 1ch is
+                          // one digit's width: room for two digits plus ". " and slack.
+                          "ol {"
+                          "  padding-left: 3.5ch;"
+                          "}"
                           "body > :first-child, body > :first-child > :first-child {"
                           "  margin-top: 0;"
                           "}"

@@ -1446,6 +1446,19 @@ if(BUILD_TESTING)
     add_test(NAME komai_litehtml_text_run_selection_test COMMAND komai_litehtml_text_run_selection_test)
     komai_configure_test(komai_litehtml_text_run_selection_test "unit;timeline")
 
+    add_executable(komai_litehtml_list_marker_test
+        tests/LitehtmlListMarkerTest.cpp
+        src/timeline/litehtml/LitehtmlStylesheet.cpp
+        src/timeline/litehtml/TextRunSelection.cpp
+    )
+    target_include_directories(komai_litehtml_list_marker_test PRIVATE src)
+    target_link_libraries(komai_litehtml_list_marker_test PRIVATE
+        Qt::Gui
+        litehtml
+    )
+    add_test(NAME komai_litehtml_list_marker_test COMMAND komai_litehtml_list_marker_test)
+    komai_configure_test(komai_litehtml_list_marker_test "unit;timeline")
+
     add_executable(komai_roomlist_preview_selection_test
         tests/RoomlistPreviewSelectionTest.cpp
         src/timeline/roomlist/RoomlistPreviewSelection.cpp

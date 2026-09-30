@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026.09.29.0
+## 2026.09.30.0
 
 - ✨ Feature: [🔔 notification pacing](https://github.com/etkecc/komai/blob/eb79153ac/docs/user-guide/features/notifications.md#-pacing-per-room-cooldown) adds an optional per-room cooldown, so a busy room doesn't ping you for every message ([3b6407d96](https://github.com/etkecc/komai/commit/3b6407d96)).
 - 🐛 Fix: voice messages no longer stop a second or so into their first play ([805d92b80](https://github.com/etkecc/komai/commit/805d92b80)).
@@ -11,6 +11,8 @@
 - 🔧 Build: Unicode emoji data is pinned to a fixed Unicode version, so new Unicode releases no longer break builds ([e7bda84d7](https://github.com/etkecc/komai/commit/e7bda84d7)).
 - 🔧 Build: the Fluent UI System Icons set is updated to v1.1.343 ([747936a73](https://github.com/etkecc/komai/commit/747936a73)).
 - 🔧 Build: Rust dependencies are updated ([7768c587f](https://github.com/etkecc/komai/commit/7768c587f), [dfb4e8af6](https://github.com/etkecc/komai/commit/dfb4e8af6)).
+
+_(Re-cut of v2026.09.29.0, which was never published: its Flatpak builds failed because the bundled Rust toolchain was too old for the updated Matrix Rust SDK ([9dd0523df](https://github.com/etkecc/komai/commit/9dd0523df)). No application changes from that tag.)_
 
 ## 2026.09.15.0
 

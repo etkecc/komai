@@ -5,6 +5,8 @@ name: CI
 
 on:
   pull_request:
+  # Manual runs, e.g. to try workflow changes on a branch without a PR.
+  workflow_dispatch:
   push:
     branches:
       - main

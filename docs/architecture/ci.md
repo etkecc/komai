@@ -93,11 +93,11 @@ touch dependencies.
 
 | Cache | Source path | Why |
 |---|---|---|
-| **rustup toolchains** | `var/cache/rustup` | Avoids re-downloading the pinned Rust toolchain on every run. |
-| **cargo registry + git db** | `var/cache/cargo-home/registry/{index,cache}` + `git/db` | Avoids re-fetching crate index and git-pinned dep snapshots. |
+| **rustup toolchains** | `var/cache/rustup` (or host-mounted) | Avoids re-downloading the pinned Rust toolchain on every run. Host-mounted, old toolchains are pruned each run. |
+| **cargo registry + git db** | `var/cache/cargo-home/registry/{index,cache}` + `git/db` (or the host-mounted cargo home) | Avoids re-fetching crate index and git-pinned dep snapshots. |
 | **ccache** | `var/cache/ccache` (or host-mounted) | Per-source-file C/C++ object cache, keyed by source + flags hash. |
 | **cargo target dir** | `var/build/native/cargo` (or host-mounted) | Rust crate compile artefacts (`.rlib`, `.rmeta`, fingerprints). |
-| **mise + prek** | `var/mise`, `var/prek` | Tool managers (mise) and the prek-hook environment. |
+| **mise + prek** | `var/mise`, `var/prek` (or host-mounted) | Tool managers (mise) and the prek-hook environment. |
 
 ### The Corrosion target-dir gotcha
 

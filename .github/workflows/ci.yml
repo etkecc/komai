@@ -191,6 +191,30 @@ jobs:
             echo "to actions/cache for ccache; cargo-target stays host-mounted."
           fi
 
+      - name: Wire host-mounted tool caches
+        # Same host-mount pattern for the rustup toolchains, the cargo
+        # registry/git db, and the mise/prek tool dirs. The job-level
+        # env points these at the workspace; on the cache disk they
+        # persist across jobs, so their actions/cache steps below are
+        # skipped (restoring rustup alone took ~2 min per run over the
+        # runner's uplink, and the saves after a toolchain, lock, or
+        # prek bump took up to ~6 min).
+        if: env.HOST_CACHE == 'true'
+        run: |
+          BASE=/var/lib/komai-ci
+          if mkdir -p "${BASE}/rustup" "${BASE}/cargo-home" "${BASE}/mise" "${BASE}/prek" 2>/dev/null; then
+            {
+              echo "RUSTUP_HOME=${BASE}/rustup"
+              echo "CARGO_HOME=${BASE}/cargo-home"
+              echo "MISE_DATA_DIR=${BASE}/mise"
+              echo "PREK_HOME=${BASE}/prek"
+              echo "TOOLS_HOST_OK=true"
+            } >> "${GITHUB_ENV}"
+            echo "Host-mounted rustup, cargo home, mise and prek dirs active under ${BASE}"
+          else
+            echo "Cannot create tool cache dirs under ${BASE}; falling back to actions/cache"
+          fi
+
       - name: Invalidate host-mounted cargo target on toolchain change
         # The persistent cargo target dir outlives the weekly CI image
         # refresh, but cargo does not track the system C toolchain as a
@@ -219,6 +243,9 @@ jobs:
       # automatically at end of job on successful completion.
 
       - name: Cache rustup toolchains
+        # Skipped when the host-mounted tool dirs are active (TOOLS_HOST_OK
+        # from the wire step above); same for the next step and mise + prek.
+        if: env.TOOLS_HOST_OK != 'true'
         uses: actions/cache@v6
         with:
           path: var/cache/rustup
@@ -227,6 +254,7 @@ jobs:
             rustup-
 
       - name: Cache cargo registry + git db
+        if: env.TOOLS_HOST_OK != 'true'
         uses: actions/cache@v6
         with:
           path: |
@@ -327,6 +355,7 @@ jobs:
             cargo-target-v2-
 
       - name: Cache mise + prek
+        if: env.TOOLS_HOST_OK != 'true'
         uses: actions/cache@v6
         with:
           path: |
@@ -341,8 +370,23 @@ jobs:
       - name: Warm Rust toolchain
         # Installs the repo-pinned toolchain before CMake/Corrosion
         # enumerates it during configure. Cached across runs by the
-        # rustup cache step above.
+        # rustup cache step above, or kept on the host-mounted cache disk.
         run: cargo --version
+
+      - name: Prune old host-mounted Rust toolchains
+        # The host-mounted RUSTUP_HOME outlives toolchain bumps, so drop
+        # every toolchain except the one rust-toolchain.toml pins, or old
+        # toolchains pile up on the cache disk.
+        if: env.TOOLS_HOST_OK == 'true'
+        run: |
+          PINNED=$(sed -n 's/^channel *= *"\(.*\)"/\1/p' rust-toolchain.toml)
+          [ -n "${PINNED}" ] || { echo "No channel in rust-toolchain.toml" >&2; exit 1; }
+          rustup toolchain list | awk '{print $1}' | while read -r TC; do
+            case "${TC}" in
+              "${PINNED}"-*) echo "Keeping ${TC}" ;;
+              *) echo "Removing ${TC}"; rustup toolchain uninstall "${TC}" ;;
+            esac
+          done
 
       - name: ccache — reset stats
         run: ccache --zero-stats

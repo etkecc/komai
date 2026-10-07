@@ -67,8 +67,8 @@ container with every pacman build dep installed (Qt, GStreamer,
 mold, ccache, etc.) plus a non-root `ci` user whose UID matches the
 runner's host user. Triggered on changes to `etc/ci/Dockerfile`.
 
-Both `ci.yml` and `publish.yml` use this image, so a fresh build
-doesn't need to reinstall hundreds of packages on every CI run.
+`ci.yml` uses this image, so a fresh build doesn't need to reinstall
+hundreds of packages on every CI run.
 
 ## Cache strategy
 

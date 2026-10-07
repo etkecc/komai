@@ -76,7 +76,7 @@ Pushing the tag triggers `ci.yml` again on the tag ref. Once that goes green, [`
 - `build-flatpak-amd64` / `build-flatpak-arm64` (the amd64 leg reuses the warm k150 state-dir; arm64 uses `actions/cache`)
 - `build-snap-amd64` / `build-snap-arm64`
 - `build-windows-x64`, `build-macos-arm64`
-- `release` — creates the GH Release, attaches all artefacts, uses the matching CHANGELOG section as the release body.
+- `release` (GitHub-hosted `ubuntu-26.04`) — creates the GH Release, attaches all artefacts, uses the matching CHANGELOG section as the release body.
 
 The build jobs run in parallel across their runners, so wall time is set by the slowest single job (a cold packaging build); the release-creation step itself is ~3.5 min.
 

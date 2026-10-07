@@ -357,18 +357,13 @@ jobs:
       - build-snap-arm64
       - build-windows-x64
       - build-macos-arm64
-    runs-on: [self-hosted, k150]
-    # Runs inside the CI image so `python3` and the `gh` CLI come from
-    # the image, not the host. Keeps the release-creation path
-    # self-contained instead of tying it to another host package.
-    container:
-      image: ghcr.io/etkecc/komai/ci:latest
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    # GitHub-hosted: this job only moves artefacts (download from the
+    # artifact store, upload to the Release), so running it inside
+    # GitHub's network avoids pushing every bundle through the k150
+    # runner's home uplink twice. The image ships `python3` and `gh`.
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
-      packages: read
     steps:
       - name: Checkout tagged commit
         uses: actions/checkout@v7

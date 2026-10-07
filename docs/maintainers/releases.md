@@ -70,7 +70,7 @@ They run automatically if you have the git hook installed (`just prek-install-gi
 
 ### 5. Watch the publish run
 
-Pushing the tag triggers `ci.yml` again on the tag ref. Once that goes green, [`publish.yml`](https://github.com/etkecc/komai/actions/workflows/publish.yml) fires automatically. Each Linux format is built for both amd64 (on the self-hosted k150 runner) and arm64 (on a free GitHub-hosted `ubuntu-24.04-arm` runner), alongside a Windows x64 ZIP and a macOS arm64 DMG on GitHub-hosted runners; a final `release` job then gathers everything:
+Pushing the tag triggers `ci.yml` again on the tag ref. Once that goes green, [`publish.yml`](https://github.com/etkecc/komai/actions/workflows/publish.yml) fires automatically. Each Linux format is built for both amd64 (on the self-hosted k150 runner) and arm64 (on a free GitHub-hosted `ubuntu-26.04-arm` runner), alongside a Windows x64 ZIP and a macOS arm64 DMG on GitHub-hosted runners; a final `release` job then gathers everything:
 
 - `build-appimage-amd64` / `build-appimage-arm64`
 - `build-flatpak-amd64` / `build-flatpak-arm64` (the amd64 leg reuses the warm k150 state-dir; arm64 uses `actions/cache`)

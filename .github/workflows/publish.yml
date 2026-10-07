@@ -2,7 +2,7 @@ name: Publish
 
 # Fires after CI succeeds on a `v*` tag push. Builds AppImage, Flatpak,
 # and Snap bundles for both amd64 (self-hosted k150 runner) and arm64
-# (free GitHub-hosted ubuntu-24.04-arm runner), plus a Windows x64
+# (free GitHub-hosted ubuntu-26.04-arm runner), plus a Windows x64
 # no-installer ZIP and a macOS arm64 DMG on GitHub-hosted runners, then
 # creates a GitHub Release with the CHANGELOG section for that version as
 # release notes and all artefacts attached.
@@ -63,7 +63,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
       startsWith(github.event.workflow_run.head_branch || '', 'v')
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     steps:
       - name: Checkout tagged commit
         uses: actions/checkout@v7
@@ -186,7 +186,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
       startsWith(github.event.workflow_run.head_branch || '', 'v')
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     steps:
       - name: Checkout tagged commit
         uses: actions/checkout@v7
@@ -262,7 +262,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
       startsWith(github.event.workflow_run.head_branch || '', 'v')
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     steps:
       - name: Checkout tagged commit
         uses: actions/checkout@v7

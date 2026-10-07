@@ -16,6 +16,12 @@ Works on any Linux distro. Everything runs inside an Ubuntu 24.04 container.
 just snap-build-docker
 ```
 
+Each build downloads the KDE SDK snaps (~1.8 GiB on amd64). To keep them between builds, point `SNAP_SDK_CACHE_DIR` at a directory: they are then downloaded again only when their stable revision changes. The k150 CI runner uses this for its Snap jobs.
+
+```sh
+SNAP_SDK_CACHE_DIR=~/.cache/komai-snap-sdk just snap-build-docker
+```
+
 ### Native build with LXD
 
 Runs snapcraft on the host, using [LXD](https://documentation.ubuntu.com/lxd/) for build isolation.

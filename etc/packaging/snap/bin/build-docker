@@ -48,6 +48,45 @@ fi
 echo "=== Building snap (snapcraft rocks image) ==="
 mkdir -p "$out_dir"
 
+# Optional cache for the KDE SDK snaps (~1.8 GiB per build on amd64). When
+# SNAP_SDK_CACHE_DIR is set, the downloaded .snap files are kept there and
+# reused while their revision is still the current stable one; the store is
+# only asked for the revision numbers. Unset, every build downloads them.
+sdk_snaps="kde-qt6-core24-sdk kf6-core24-sdk"
+sdk_cache_args=()
+sdk_revisions=""
+if [[ -n "${SNAP_SDK_CACHE_DIR:-}" ]]; then
+    mkdir -p "$SNAP_SDK_CACHE_DIR"
+    sdk_cache_args=(-v "$SNAP_SDK_CACHE_DIR:/sdk-cache")
+    case "$(uname -m)" in
+        x86_64) snap_arch=amd64 ;;
+        aarch64) snap_arch=arm64 ;;
+        *) snap_arch="$(uname -m)" ;;
+    esac
+    # "<snap>=<revision>" per snap; an empty revision (lookup failed) just
+    # means the build downloads that snap again. curl rather than Python's
+    # urllib: it falls back to IPv4 when the store's IPv6 is unreachable.
+    for name in $sdk_snaps; do
+        revision="$(curl -fsS --max-time 30 -H 'Snap-Device-Series: 16' \
+            "https://api.snapcraft.io/v2/snaps/info/$name" \
+            | python3 -c '
+import json
+import sys
+
+arch = sys.argv[1]
+for entry in json.load(sys.stdin)["channel-map"]:
+    channel = entry["channel"]
+    if channel["track"] == "latest" and channel["risk"] == "stable" and channel["architecture"] == arch:
+        print(entry["revision"])
+' "$snap_arch" 2>/dev/null)" || {
+            echo "Snap store lookup for $name failed; it will be downloaded" >&2
+            revision=""
+        }
+        sdk_revisions+="$name=$revision "
+    done
+    echo "SDK snap revisions (stable, $snap_arch): $(echo $sdk_revisions)"
+fi
+
 # The kde-neon-6 extension needs two things that are missing from the
 # Snapcraft Rocks OCI image:
 #
@@ -63,6 +102,9 @@ mkdir -p "$out_dir"
 # The entrypoint is overridden so we can run the setup before snapcraft.
 docker run --rm \
     -v "$build_dir:/project" \
+    "${sdk_cache_args[@]}" \
+    -e SDK_SNAPS="$sdk_snaps" \
+    -e SDK_REVISIONS="$sdk_revisions" \
     --entrypoint bash \
     "$image" \
     -c '
@@ -76,16 +118,42 @@ docker run --rm \
             /usr/share/snapcraft/extensions/desktop
 
         # --- Fix 2: download and extract KDE SDK snaps ---
+        # With the cache (/sdk-cache, see SNAP_SDK_CACHE_DIR), a snap whose
+        # current stable revision is already there is reused. Otherwise it is
+        # downloaded into a staging dir and moved into the cache once complete
+        # (the file name carries the downloaded revision), replacing older
+        # revisions.
         echo "=== Downloading KDE SDK snaps ==="
-        cd /tmp
-        snap download kde-qt6-core24-sdk 2>&1 | tail -1
-        snap download kf6-core24-sdk 2>&1 | tail -1
+        for name in $SDK_SNAPS; do
+            if [ ! -d /sdk-cache ]; then
+                snap download --target-directory=/tmp "$name" 2>&1 | tail -1
+                continue
+            fi
+            revision=""
+            for entry in $SDK_REVISIONS; do
+                if [ "${entry%%=*}" = "$name" ]; then revision="${entry#*=}"; fi
+            done
+            if [ -n "$revision" ] && [ -f "/sdk-cache/${name}_${revision}.snap" ]; then
+                file="/sdk-cache/${name}_${revision}.snap"
+                echo "Using cached $(basename "$file")"
+            else
+                rm -rf /sdk-cache/.partial
+                mkdir -p /sdk-cache/.partial
+                snap download --target-directory=/sdk-cache/.partial "$name" 2>&1 | tail -1
+                downloaded="$(basename /sdk-cache/.partial/"${name}"_*.snap)"
+                find /sdk-cache -maxdepth 1 -name "${name}_*.snap" -delete
+                mv "/sdk-cache/.partial/$downloaded" "/sdk-cache/$downloaded"
+                rm -rf /sdk-cache/.partial
+                file="/sdk-cache/$downloaded"
+            fi
+            ln -sf "$file" "/tmp/${name}.snap"
+        done
 
         echo "=== Extracting SDK snaps ==="
-        mkdir -p /snap/kde-qt6-core24-sdk/current
-        unsquashfs -f -d /snap/kde-qt6-core24-sdk/current kde-qt6-core24-sdk_*.snap >/dev/null
-        mkdir -p /snap/kf6-core24-sdk/current
-        unsquashfs -f -d /snap/kf6-core24-sdk/current kf6-core24-sdk_*.snap >/dev/null
+        for name in $SDK_SNAPS; do
+            mkdir -p "/snap/$name/current"
+            unsquashfs -f -d "/snap/$name/current" /tmp/"${name}"*.snap >/dev/null
+        done
         rm -f /tmp/*.snap /tmp/*.assert
 
         echo "=== Running snapcraft ==="

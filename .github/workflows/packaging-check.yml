@@ -165,6 +165,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Wire host-mounted Snap SDK cache
+        # Mirrors the host-mount pattern of the other k150 caches (see
+        # docs/architecture/ci.md): when /var/lib/komai-ci is writable,
+        # the KDE SDK snaps (~1.8 GiB) stay on the cache disk between
+        # builds and are only downloaded again when their stable revision
+        # changes (SNAP_SDK_CACHE_DIR in etc/packaging/snap/bin/build-docker).
+        # Otherwise every build downloads them, as before.
+        run: |
+          if mkdir -p /var/lib/komai-ci/snap-sdk 2>/dev/null; then
+            echo "SNAP_SDK_CACHE_DIR=/var/lib/komai-ci/snap-sdk" >> "${GITHUB_ENV}"
+            echo "Host-mounted Snap SDK cache active"
+          else
+            echo "No host-mount; downloading the SDK snaps"
+          fi
+
       - name: Cache emoji upstream data
         # Exact-key only: the key is the lock-file hash, so any lock change
         # misses and re-fetches from the sha256-pinned sources.

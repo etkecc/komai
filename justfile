@@ -342,6 +342,9 @@ flatpak-build: _ensure_just_temp_directory emoji-fetch element-call-fetch flatpa
 	fi
 
 	mkdir -p "{{ flatpak_build_dir }}"
+	# flatpak-builder keeps a module's build dir when its build fails and
+	# never reads it again, so drop any left in the persistent state-dir.
+	rm -rf "{{ flatpak_build_dir }}/.flatpak-builder/build"
 	flatpak-builder \
 		--install-deps-from=flathub \
 		--user \

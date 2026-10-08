@@ -215,7 +215,7 @@ jobs:
             echo "Cannot create tool cache dirs under ${BASE}; falling back to actions/cache"
           fi
 
-      - name: Invalidate host-mounted cargo target on toolchain change
+      - name: Invalidate host-mounted cargo target on toolchain change or size limit
         # The persistent cargo target dir outlives the weekly CI image
         # refresh, but cargo does not track the system C toolchain as a
         # rebuild input: `cc`-crate build scripts (ring, zstd-sys, ...)
@@ -224,16 +224,29 @@ jobs:
         # Fingerprint the toolchain packages and wipe the cargo tree
         # when they change; the next build repopulates it in one cold
         # run. ccache is guarded separately via CCACHE_COMPILER_CHECK.
+        #
+        # Cargo never removes artifacts of dependency versions that are
+        # no longer in Cargo.lock, so the tree also grows with every
+        # dependency bump; wipe it once it passes LIMIT_GB to keep the
+        # cache disk from filling up.
         if: env.HOST_CACHE == 'true'
+        env:
+          LIMIT_GB: 15
         run: |
           STAMP=/var/lib/komai-ci/cargo-target/.toolchain-stamp
           CURRENT=$(pacman -Q gcc glibc binutils mold)
-          if [ -f "$STAMP" ] && [ "$(cat "$STAMP")" = "$CURRENT" ]; then
+          SIZE_GB=$(du -s --block-size=1G /var/lib/komai-ci/cargo-target | cut -f1)
+          echo "Persistent cargo target: ${SIZE_GB}G (limit ${LIMIT_GB}G)"
+          if [ -f "$STAMP" ] && [ "$(cat "$STAMP")" = "$CURRENT" ] && [ "$SIZE_GB" -le "$LIMIT_GB" ]; then
             echo "Toolchain unchanged; keeping persistent cargo target"
           else
-            echo "Toolchain changed or stamp missing; wiping persistent cargo target"
-            [ -f "$STAMP" ] && { echo "--- was:"; cat "$STAMP"; }
-            echo "--- now:"; echo "$CURRENT"
+            if [ "$SIZE_GB" -gt "$LIMIT_GB" ]; then
+              echo "Over the size limit; wiping persistent cargo target"
+            else
+              echo "Toolchain changed or stamp missing; wiping persistent cargo target"
+              [ -f "$STAMP" ] && { echo "--- was:"; cat "$STAMP"; }
+              echo "--- now:"; echo "$CURRENT"
+            fi
             find /var/lib/komai-ci/cargo-target -mindepth 1 -maxdepth 1 -exec rm -rf {} +
             printf '%s\n' "$CURRENT" > "$STAMP"
           fi

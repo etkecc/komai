@@ -167,6 +167,24 @@ jobs:
       - name: Build Flatpak
         run: just flatpak-build
 
+      - name: Prune old host Rust toolchains
+        # The Flatpak recipe runs `cargo vendor` on the runner host, so the
+        # host rustup installs every toolchain rust-toolchain.toml has ever
+        # pinned. Drop all but the pinned one, as ci.yml does for its
+        # host-mounted RUSTUP_HOME.
+        if: success() || failure()
+        continue-on-error: true
+        run: |
+          command -v rustup >/dev/null || { echo "No host rustup"; exit 0; }
+          PINNED=$(sed -n 's/^channel *= *"\(.*\)"/\1/p' rust-toolchain.toml)
+          [ -n "${PINNED}" ] || { echo "No channel in rust-toolchain.toml" >&2; exit 1; }
+          rustup toolchain list | awk '{print $1}' | while read -r TC; do
+            case "${TC}" in
+              "${PINNED}"-*) echo "Keeping ${TC}" ;;
+              *) echo "Removing ${TC}"; rustup toolchain uninstall "${TC}" ;;
+            esac
+          done
+
       - name: Upload Flatpak artefact
         uses: actions/upload-artifact@v7
         with:

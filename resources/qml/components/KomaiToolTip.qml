@@ -4,7 +4,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Window
 import cc.etke.komai 1.0
 
 Item {
@@ -21,12 +20,8 @@ Item {
     property string text: ""
     property int delay: 0
     property bool requestedVisible: false
-    property color textColor: (Window.window && Window.window.palette && Window.window.palette.toolTipText !== undefined)
-        ? Window.window.palette.toolTipText
-        : "white"
-    property color backgroundColor: (Window.window && Window.window.palette && Window.window.palette.toolTipBase !== undefined)
-        ? Window.window.palette.toolTipBase
-        : "black"
+    property color textColor: palette.toolTipText
+    property color backgroundColor: palette.toolTipBase
     property int padding: Komai.paddingSmall
     property int leftPadding: Komai.paddingMedium
     property int rightPadding: Komai.paddingMedium

@@ -969,7 +969,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message numerus="yes">
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+57"/>
         <source>%n unread message(s)</source>
         <translation type="unfinished">
             <numerusform/>
@@ -3000,7 +3000,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation type="unfinished"/>
@@ -3041,7 +3041,7 @@ You may optionally provide a reason for others to accept your knock:</translatio
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation type="unfinished"/>
     </message>

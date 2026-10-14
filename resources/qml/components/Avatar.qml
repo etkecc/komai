@@ -5,7 +5,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Window
 import QtQuick.Effects
 import cc.etke.komai 1.0
 
@@ -32,11 +31,7 @@ AbstractButton {
     // entry and large avatars get full resolution.  DPR scaling is handled
     // entirely in C++ (MxcImageProvider applies QScreen DPR).
     readonly property int _mxcThumbSidePx: Math.max(Math.max(Math.round(width), Math.round(height)), Komai.iconSize)
-    readonly property real _devicePixelRatio: {
-        if (Window.window && Window.window.screen)
-            return Window.window.screen.devicePixelRatio || 1;
-        return Screen.devicePixelRatio || 1;
-    }
+    readonly property real _devicePixelRatio: Komai.devicePixelRatio
     readonly property bool _isBundledRasterAvatar: avatar.url.startsWith(':/preview-avatars/')
         || avatar.url.startsWith('qrc:/preview-avatars/')
     readonly property int _rasterThumbSidePx: Math.max(1, Math.round(avatar._mxcThumbSidePx * avatar._devicePixelRatio))

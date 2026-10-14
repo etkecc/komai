@@ -40,7 +40,7 @@ TextArea {
         gapY: Komai.paddingMedium
         text: Komai.punyLink(r.hoveredLink)
         requestedVisible: r.hoveredLink.length > 0
-        maxWidth: (r.Window.window ? r.Window.window.width : 500) * 0.5
+        maxWidth: MainWindow.width * 0.5
     }
 
     // Setting a tooltip delay makes the hover text empty .-.

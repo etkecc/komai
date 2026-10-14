@@ -976,7 +976,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message numerus="yes">
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+57"/>
         <source>%n unread message(s)</source>
         <translation>
             <numerusform>%n nieprzeczytana wiadomość</numerusform>
@@ -3011,7 +3011,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Nazwa profilu jest wymagana.</translation>
@@ -3052,7 +3052,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Nie udało się odtworzyć folderu pamięci podręcznej.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Doskonała aplikacja czatu %1, którą możesz pokochać</translation>
     </message>

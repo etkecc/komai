@@ -5,7 +5,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Window
 import cc.etke.komai
 import "../../components"
 
@@ -87,7 +86,7 @@ AbstractButton {
         delay: 0
         requestedVisible: button.hovered && button.toolTipText.length > 0 && (button.alwaysShowToolTip || !button.hasLabel)
         width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                        (button.Window.window ? button.Window.window.width : 500) * 0.5)
+                        MainWindow.width * 0.5)
     }
 
     HoverHandler {

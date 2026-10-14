@@ -102,7 +102,7 @@ AbstractButton {
         text: encryptionButton.encryptionDialogTitle()
         delay: Komai.tooltipDelay
         requestedVisible: encryptionButton.hovered
-        maxWidth: (encryptionButton.Window.window ? encryptionButton.Window.window.width : 500) * 0.5
+        maxWidth: MainWindow.width * 0.5
     }
 
     function encryptionDialogTitle() {

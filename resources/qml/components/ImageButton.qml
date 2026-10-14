@@ -6,7 +6,6 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Window
 import cc.etke.komai // for cursor shape
 
 AbstractButton {
@@ -44,7 +43,7 @@ AbstractButton {
         text: button.toolTipText
         delay: button.toolTipDelay
         requestedVisible: button.toolTipVisible
-        maxWidth: (button.Window.window ? button.Window.window.width : 500) * 0.5
+        maxWidth: MainWindow.width * 0.5
     }
 
     Image {

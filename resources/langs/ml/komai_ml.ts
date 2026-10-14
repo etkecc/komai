@@ -975,7 +975,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message numerus="yes">
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+57"/>
         <source>%n unread message(s)</source>
         <translation>
             <numerusform>%n വായിക്കാത്ത സന്ദേശം</numerusform>
@@ -3006,7 +3006,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>പ്രൊഫൈൽ നാമം ആവശ്യമാണ്.</translation>
@@ -3047,7 +3047,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ക്യാഷ് ഫോൾഡർ പുനർനിർമ്മിക്കാൻ കഴിഞ്ഞില്ല.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>നിങ്ങൾ ഇഷ്ടപ്പെട്ടു പോകുന്ന ഒരു മികച്ച %1 ചാറ്റ് ആപ്പ്</translation>
     </message>

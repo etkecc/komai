@@ -5,7 +5,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Window
 import cc.etke.komai
 import "../../components"
 
@@ -43,7 +42,7 @@ AbstractButton {
         delay: 0
         requestedVisible: root.hovered && root.toolTipText.length > 0
         width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                        (root.Window.window ? root.Window.window.width : 500) * 0.5)
+                        MainWindow.width * 0.5)
     }
 
     font.pointSize: Settings.uiFontSizePt

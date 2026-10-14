@@ -975,7 +975,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message numerus="yes">
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+57"/>
         <source>%n unread message(s)</source>
         <translation>
             <numerusform>%n missatge no llegit</numerusform>
@@ -3006,7 +3006,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>El nom de perfil és obligatori.</translation>
@@ -3047,7 +3047,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>No s'ha pogut recrear la carpeta de memòria cau.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Una excel·lent aplicació de xat %1 que aprendràs a estimar</translation>
     </message>

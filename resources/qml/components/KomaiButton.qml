@@ -5,7 +5,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Window
 import cc.etke.komai 1.0
 
 Button {
@@ -84,7 +83,7 @@ Button {
         delay: control.toolTipDelay
         requestedVisible: control.toolTipVisible
         width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
-                        (control.Window.window ? control.Window.window.width : 500) * 0.5)
+                        MainWindow.width * 0.5)
     }
 
     background: Rectangle {

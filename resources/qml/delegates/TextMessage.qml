@@ -114,7 +114,7 @@ LitehtmlItem {
                     text: linkMetrics.text
                     requestedVisible: litehtmlRoot.hoveredLink.length > 0
                     width: Math.min(linkMetrics.advanceWidth + leftPadding + rightPadding,
-                                    (litehtmlRoot.Window.window ? litehtmlRoot.Window.window.width : 500) * 0.5)
+                                    MainWindow.width * 0.5)
                 }
             }
         }

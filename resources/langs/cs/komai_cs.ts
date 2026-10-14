@@ -976,7 +976,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message numerus="yes">
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+57"/>
         <source>%n unread message(s)</source>
         <translation>
             <numerusform>%n nepřečtená zpráva</numerusform>
@@ -3011,7 +3011,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Název profilu je povinný.</translation>
@@ -3052,7 +3052,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Nepodařilo se znovu vytvořit složku mezipaměti.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Skvělá %1 chatovací aplikace, do které se lze zamilovat</translation>
     </message>

@@ -51,6 +51,9 @@ class Komai : public QObject
     Q_PROPERTY(UserSettings::Density density READ uiLayoutDensity NOTIFY layoutMetricsChanged)
     Q_PROPERTY(
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY layoutMetricsChanged)
+    // Highest device pixel ratio across connected screens. Shared so per-item
+    // delegates don't each need a Window/Screen attached object to read it.
+    Q_PROPERTY(double devicePixelRatio READ devicePixelRatio NOTIFY devicePixelRatioChanged)
     // Font-scaled icon size shared across all navigation surfaces
     // (list rows, community entries, action bars, avatars).
     Q_PROPERTY(int iconSize READ iconSize NOTIFY layoutMetricsChanged)
@@ -105,6 +108,7 @@ public:
     UserSettings::Density uiLayoutDensity() const;
     double sidebarAvatarMultiplier() const;
     int iconSize() const;
+    static double devicePixelRatio();
     // Single authoritative logical list/avatar size. Use this from C++ code
     // that needs the same sizing as the QML Komai.iconSize property.
     static int iconLogicalSize();
@@ -255,6 +259,7 @@ signals:
     void applicationProfilesChanged();
     void localCacheInfoChanged();
     void layoutMetricsChanged();
+    void devicePixelRatioChanged();
     void localizedStringsChanged();
     void navigationRoomListShowLastMessageTimeChanged();
 

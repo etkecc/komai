@@ -192,6 +192,18 @@ Komai::Komai()
                 this,
                 &Komai::openCloseToTrayPromptDialog);
     }
+
+    const auto trackScreen = [this](QScreen *screen) {
+        connect(
+          screen, &QScreen::physicalDotsPerInchChanged, this, &Komai::devicePixelRatioChanged);
+    };
+    for (auto *screen : QGuiApplication::screens())
+        trackScreen(screen);
+    connect(qApp, &QGuiApplication::screenAdded, this, [this, trackScreen](QScreen *screen) {
+        trackScreen(screen);
+        emit devicePixelRatioChanged();
+    });
+    connect(qApp, &QGuiApplication::screenRemoved, this, &Komai::devicePixelRatioChanged);
 }
 
 void
@@ -351,12 +363,18 @@ int
 Komai::avatarThumbnailPhysicalSize()
 {
     const int logical = iconLogicalSize();
-    // Use QScreen::devicePixelRatio (integer DPR, e.g. 2) for crisp HiDPI
-    // rendering.  This is a stable value that doesn't vary per-surface.
+    return qMax(1, qRound(logical * devicePixelRatio()));
+}
+
+// Use QScreen::devicePixelRatio (integer DPR, e.g. 2) for crisp HiDPI
+// rendering.  This is a stable value that doesn't vary per-surface.
+double
+Komai::devicePixelRatio()
+{
     double dpr = 1.0;
     for (const auto *s : QGuiApplication::screens())
         dpr = qMax(dpr, s->devicePixelRatio());
-    return qMax(1, qRound(logical * dpr));
+    return dpr;
 }
 
 // Shared baseline used to keep room-list and communities rows aligned with

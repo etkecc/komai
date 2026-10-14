@@ -979,7 +979,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesListItemDelegate</name>
     <message numerus="yes">
-        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+58"/>
+        <location filename="../../qml/shell/components/CommunitiesListItemDelegate.qml" line="+57"/>
         <source>%n unread message(s)</source>
         <translation>
             <numerusform>%n رسائل غير مقروءة</numerusform>
@@ -3026,7 +3026,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+672"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>اسم الملف الشخصي مطلوب.</translation>
@@ -3067,7 +3067,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>تعذّرت إعادة إنشاء مجلد التخزين المؤقت.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+120"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>تطبيق دردشة %1 رائع ستحبه</translation>
     </message>

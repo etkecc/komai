@@ -9,6 +9,8 @@
 #include <malloc.h>
 #endif
 
+#include <chrono>
+
 #include <QByteArray>
 #include <QClipboard>
 #include <QGuiApplication>
@@ -353,8 +355,27 @@ void
 TimelineViewManager::trimProcessMemory()
 {
 #ifdef __GLIBC__
-    ::malloc_trim(0);
-    komai::logging::ui()->info("Trimmed process memory (malloc_trim)");
+    // malloc_trim walks every arena and madvises free pages back to the OS,
+    // which takes ~1s on a long-running multi-GB heap. Run it on a worker so
+    // the UI thread only waits if it allocates from an arena while that arena
+    // is being trimmed.
+    if (trimProcessMemoryInFlight_)
+        return;
+    trimProcessMemoryInFlight_ = true;
+
+    komai::qt_worker_task::runQueued(
+      this,
+      [] {
+          const auto started = std::chrono::steady_clock::now();
+          ::malloc_trim(0);
+          return std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::steady_clock::now() - started)
+            .count();
+      },
+      [](TimelineViewManager *self, long long elapsedMs) {
+          self->trimProcessMemoryInFlight_ = false;
+          komai::logging::ui()->info("Trimmed process memory (malloc_trim) in {} ms", elapsedMs);
+      });
 #endif
 }
 

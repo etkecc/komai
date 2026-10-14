@@ -299,15 +299,9 @@ CommunitiesModel::clear()
 void
 CommunitiesModel::initializeSidebar()
 {
-    beginResetModel();
-    tags_.clear();
-    spaceOrder_.tree.clear();
-    spaces_.clear();
-    tagBadgeCache.clear();
-    for (auto &f : fixedFilters_) {
-        f.unreadRoomCount = 0;
-        f.hasHighlight    = false;
-    }
+    QStringList newTags;
+    FlatTree newSpaceOrder;
+    std::map<QString, RoomInfo> newSpaces;
 
     std::set<std::string> ts;
     std::set<std::string> isSpace;
@@ -341,8 +335,8 @@ CommunitiesModel::initializeSidebar()
             info.name = roomlistModel->data(idx, RoomlistModel::RoomName).toString().toStdString();
             info.avatar_url =
               roomlistModel->data(idx, RoomlistModel::AvatarUrl).toString().toStdString();
-            info.is_space   = true;
-            spaces_[roomId] = info;
+            info.is_space     = true;
+            newSpaces[roomId] = info;
             isSpace.insert(roomId.toStdString());
         }
 
@@ -399,10 +393,10 @@ CommunitiesModel::initializeSidebar()
     for (const auto &space : spacetree.children)
         addChildren(spacetree, path, space.first, spaceChilds);
 
-    spacetree.flatten(spaceOrder_, spaces_);
+    spacetree.flatten(newSpaceOrder, newSpaces);
 
     for (const auto &t : ts)
-        tags_.push_back(QString::fromStdString(t));
+        newTags.push_back(QString::fromStdString(t));
 
     // Favourites and Low Priority are always-present filters: their rows
     // render even when no rooms carry the tag (faded via the IsEmpty role)
@@ -410,10 +404,34 @@ CommunitiesModel::initializeSidebar()
     // only appears when the homeserver actually pushes notice rooms.
     for (const auto &alwaysShown :
          {QStringLiteral("m.favourite"), QStringLiteral("m.lowpriority")}) {
-        if (!tags_.contains(alwaysShown))
-            tags_.push_back(alwaysShown);
+        if (!newTags.contains(alwaysShown))
+            newTags.push_back(alwaysShown);
     }
 
+    // Room-list snapshots arrive on every unread/read change, but the set of
+    // sidebar rows rarely changes. A model reset makes the view destroy and
+    // recreate every delegate, so only reset when rows were added, removed or
+    // reordered; otherwise refresh names, avatars and badges in place.
+    const bool sameRows =
+      newTags == tags_ && std::equal(newSpaceOrder.tree.begin(),
+                                     newSpaceOrder.tree.end(),
+                                     spaceOrder_.tree.begin(),
+                                     spaceOrder_.tree.end(),
+                                     [](const FlatTree::Elem &a, const FlatTree::Elem &b) {
+                                         return a.id == b.id && a.depth == b.depth;
+                                     });
+    if (sameRows) {
+        spaces_ = std::move(newSpaces);
+        computeFilterBadges();
+        emit dataChanged(index(0), index(rowCount() - 1));
+        setCurrentFilterId(UserSettings::instance()->currentFilterId());
+        return;
+    }
+
+    beginResetModel();
+    tags_       = std::move(newTags);
+    spaceOrder_ = std::move(newSpaceOrder);
+    spaces_     = std::move(newSpaces);
     spaceOrder_.restoreCollapsed();
 
     computeFilterBadges();

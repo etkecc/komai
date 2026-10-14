@@ -110,6 +110,35 @@ activeMatrixBackendHandleId()
     return window->matrixBackendHandleId();
 }
 
+// Fit a decoded thumbnail to `requestedSize`. Cropped thumbnails are scaled to
+// fill the box and center-cropped. Uncropped ones are only ever scaled down:
+// QML requests sourceSize from the desktop size, far larger than the thumbnail
+// the server returns, and enlarging it on the CPU adds no detail while costing
+// tens of MB per image for as long as the delegate holds it. The view scales
+// the smaller image up on the GPU instead.
+QImage
+scaleThumbnailImage(QImage image, const QSize &requestedSize, bool cropLocally)
+{
+    if (requestedSize.width() <= 0) {
+        if (image.height() > requestedSize.height())
+            image = image.scaledToHeight(requestedSize.height(), Qt::SmoothTransformation);
+        return image;
+    }
+
+    if (cropLocally) {
+        image =
+          image.scaled(requestedSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        return image.copy((image.width() - requestedSize.width()) / 2,
+                          (image.height() - requestedSize.height()) / 2,
+                          requestedSize.width(),
+                          requestedSize.height());
+    }
+
+    if (image.width() > requestedSize.width() || image.height() > requestedSize.height())
+        image = image.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    return image;
+}
+
 QImage
 prepareThumbnailImage(QByteArray data,
                       const QSize &requestedSize,
@@ -119,19 +148,7 @@ prepareThumbnailImage(QByteArray data,
 {
     QImage image = utils::readImage(data);
     if (!image.isNull()) {
-        if (requestedSize.width() <= 0) {
-            image = image.scaledToHeight(requestedSize.height(), Qt::SmoothTransformation);
-        } else {
-            image = image.scaled(requestedSize,
-                                 cropLocally ? Qt::KeepAspectRatioByExpanding : Qt::KeepAspectRatio,
-                                 Qt::SmoothTransformation);
-            if (cropLocally) {
-                image = image.copy((image.width() - requestedSize.width()) / 2,
-                                   (image.height() - requestedSize.height()) / 2,
-                                   requestedSize.width(),
-                                   requestedSize.height());
-            }
-        }
+        image = scaleThumbnailImage(std::move(image), requestedSize, cropLocally);
 
         if (radius != 0) {
             image = clipRadius(std::move(image), radius);
@@ -739,20 +756,7 @@ MxcImageProvider::download(const QString &id,
             if (!image.isNull()) {
                 possiblyUpdateAccessTime(fileInfo);
 
-                if (requestedSize.width() <= 0) {
-                    image = image.scaledToHeight(requestedSize.height(), Qt::SmoothTransformation);
-                } else {
-                    image = image.scaled(requestedSize,
-                                         cropLocally ? Qt::KeepAspectRatioByExpanding
-                                                     : Qt::KeepAspectRatio,
-                                         Qt::SmoothTransformation);
-                    if (cropLocally) {
-                        image = image.copy((image.width() - requestedSize.width()) / 2,
-                                           (image.height() - requestedSize.height()) / 2,
-                                           requestedSize.width(),
-                                           requestedSize.height());
-                    }
-                }
+                image = scaleThumbnailImage(std::move(image), requestedSize, cropLocally);
 
                 if (radius != 0) {
                     image = clipRadius(std::move(image), radius);

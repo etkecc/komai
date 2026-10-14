@@ -22,7 +22,7 @@ Rectangle {
     property bool allowStickers: true
     property bool allowCommandCompleter: true
     property bool attachmentsEnabled: true
-    property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
+    property bool showAllButtons: width > 450 || (composerTextArea.length == 0 && !composerTextArea.inputMethodComposing)
     property bool walkModeActive: false
     property string _draftRoomId: ""
     property string _draftText: ""
@@ -39,8 +39,8 @@ Rectangle {
         if (transcriptionState !== "idle")
             _cancelTranscriptionGesture();
     }
-    readonly property string text: messageInput.text
-    readonly property bool textInputActiveFocus: messageInput.activeFocus
+    readonly property string text: composerTextArea.text
+    readonly property bool textInputActiveFocus: composerTextArea.activeFocus
     readonly property bool hasUploads: !!(inputController && inputController.uploads && inputController.uploads.length > 0)
     readonly property bool hasVoiceRecording: VoiceRecorder.recording || VoiceRecorder.paused || VoiceRecorder.hasRecording
     onHasVoiceRecordingChanged: {
@@ -53,7 +53,7 @@ Rectangle {
             VoiceRecorder.discardRecording();
     }
     readonly property bool composerEnabled: !hasUploads && !hasVoiceRecording
-    readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
+    readonly property bool hasSendableContent: composerTextArea.length > 0 || hasUploads
     readonly property bool _rtlLayout: inputBar.LayoutMirroring.enabled
         || Qt.application.layoutDirection === Qt.RightToLeft
         || inputBar._languageCodeIsRtl(Settings.uiLanguage)
@@ -313,31 +313,31 @@ Rectangle {
             return false;
         }
 
-        messageInput.forceActiveFocus();
-        return !!messageInput.activeFocus;
+        composerTextArea.forceActiveFocus();
+        return !!composerTextArea.activeFocus;
     }
 
     function focusTextInputIfAllowed() {
         if (walkModeActive)
             return false;
 
-        messageInput.forceActiveFocus();
-        return !!messageInput.activeFocus;
+        composerTextArea.forceActiveFocus();
+        return !!composerTextArea.activeFocus;
     }
 
     function appendText(text) {
         if (!text)
             return false;
 
-        messageInput.forceActiveFocus();
-        messageInput.insert(messageInput.cursorPosition, text);
+        composerTextArea.forceActiveFocus();
+        composerTextArea.insert(composerTextArea.cursorPosition, text);
         return true;
     }
 
     function replaceText(text) {
         const value = String(text || "");
-        messageInput.text = value;
-        messageInput.cursorPosition = value.length;
+        composerTextArea.text = value;
+        composerTextArea.cursorPosition = value.length;
         return true;
     }
 
@@ -412,10 +412,10 @@ Rectangle {
         // by Send, mutated by Backspace, etc.).
         if (transcriptionTriggerKind === "space"
             && _transcriptionGestureSpacePos >= 0
-            && _transcriptionGestureSpacePos < messageInput.length
-            && messageInput.getText(_transcriptionGestureSpacePos,
+            && _transcriptionGestureSpacePos < composerTextArea.length
+            && composerTextArea.getText(_transcriptionGestureSpacePos,
                                     _transcriptionGestureSpacePos + 1) === " ") {
-            messageInput.remove(_transcriptionGestureSpacePos,
+            composerTextArea.remove(_transcriptionGestureSpacePos,
                                 _transcriptionGestureSpacePos + 1);
         }
         _transcriptionGestureSpacePos = -1;
@@ -469,8 +469,8 @@ Rectangle {
             return;
         }
         _transcriptionRealtimeJobId = jobId;
-        _transcriptionRealtimeOriginStart = messageInput.cursorPosition;
-        _transcriptionTentativeStart = messageInput.cursorPosition;
+        _transcriptionRealtimeOriginStart = composerTextArea.cursorPosition;
+        _transcriptionTentativeStart = composerTextArea.cursorPosition;
         _transcriptionTentativeLength = 0;
         _transcriptionTentativeText = "";
         TranscriptionAudioCapture.startStreaming();
@@ -585,18 +585,18 @@ Rectangle {
     function _insertTranscribedText(text) {
         if (!text)
             return;
-        messageInput.forceActiveFocus();
-        const pos = messageInput.cursorPosition;
+        composerTextArea.forceActiveFocus();
+        const pos = composerTextArea.cursorPosition;
         let prefix = "";
         if (pos > 0 && !/^\s/.test(text)) {
-            const prevChar = messageInput.getText(pos - 1, pos);
+            const prevChar = composerTextArea.getText(pos - 1, pos);
             if (prevChar.length > 0
                 && !/^\s$/.test(prevChar)
                 && !_isCJKCharacter(prevChar)) {
                 prefix = " ";
             }
         }
-        messageInput.insert(pos, prefix + text);
+        composerTextArea.insert(pos, prefix + text);
     }
 
     // Realtime "tentative range" book-keeping ----------------------------
@@ -608,7 +608,7 @@ Rectangle {
     // the range is removed entirely.
     //
     // (Inline italic/muted styling for the tentative range would require
-    // switching messageInput to RichText mode, which conflicts with
+    // switching composerTextArea to RichText mode, which conflicts with
     // markdown handling. The composer banner — "Recording & transcribing…"
     // — already signals to the user that the in-place text is provisional.
     // Inline styling can land as a follow-up if desired.)
@@ -621,8 +621,8 @@ Rectangle {
         var insertPos = _transcriptionTentativeStart + _transcriptionTentativeLength;
         if (insertPos < 0)
             insertPos = 0;
-        if (insertPos > messageInput.length)
-            insertPos = messageInput.length;
+        if (insertPos > composerTextArea.length)
+            insertPos = composerTextArea.length;
         // Auto-prepend a space the first time we land tentative text into
         // a non-whitespace context, mirroring `_insertTranscribedText`'s
         // batch heuristic so realtime and batch insertion feel the same.
@@ -630,7 +630,7 @@ Rectangle {
         if (_transcriptionTentativeLength === 0
             && insertPos > 0
             && !/^\s/.test(delta)) {
-            var prevChar = messageInput.getText(insertPos - 1, insertPos);
+            var prevChar = composerTextArea.getText(insertPos - 1, insertPos);
             if (prevChar.length > 0
                 && !/^\s$/.test(prevChar)
                 && !_isCJKCharacter(prevChar)) {
@@ -638,7 +638,7 @@ Rectangle {
             }
         }
         var combined = prefix + delta;
-        messageInput.insert(insertPos, combined);
+        composerTextArea.insert(insertPos, combined);
         // Pull any auto-space *into* the tentative range so a cancel
         // takes it back out cleanly.
         _transcriptionTentativeLength += combined.length;
@@ -647,7 +647,7 @@ Rectangle {
         // QTextDocument. Re-applied on every delta because Qt's TextEdit
         // can fan out the format at the boundary; mergeCharFormat is
         // cheap and idempotent.
-        Transcription.applyTentativeFormat(messageInput.textDocument,
+        Transcription.applyTentativeFormat(composerTextArea.textDocument,
                                            _transcriptionTentativeStart,
                                            _transcriptionTentativeLength);
     }
@@ -665,9 +665,9 @@ Rectangle {
             // batch). This is the path for "completed arrived without
             // preceding deltas", e.g. extremely short utterances.
             if (finalText && finalText.length > 0) {
-                var cursorBefore = messageInput.cursorPosition;
+                var cursorBefore = composerTextArea.cursorPosition;
                 _insertTranscribedText(finalText);
-                _transcriptionTentativeStart = messageInput.cursorPosition;
+                _transcriptionTentativeStart = composerTextArea.cursorPosition;
                 _transcriptionTentativeLength = 0;
                 _transcriptionTentativeText = "";
                 // cursorBefore unused; _insertTranscribedText already
@@ -678,9 +678,9 @@ Rectangle {
             return;
         }
         var start = _transcriptionTentativeStart;
-        var end = Math.min(messageInput.length, start + _transcriptionTentativeLength);
+        var end = Math.min(composerTextArea.length, start + _transcriptionTentativeLength);
         if (end > start)
-            messageInput.remove(start, end);
+            composerTextArea.remove(start, end);
         _transcriptionTentativeLength = 0;
         _transcriptionTentativeText = "";
         // Insert polished text at the previous tentative-start position.
@@ -691,7 +691,7 @@ Rectangle {
         if (finalText && finalText.length > 0) {
             var prefix = "";
             if (start > 0 && !/^\s/.test(finalText)) {
-                var prevChar = messageInput.getText(start - 1, start);
+                var prevChar = composerTextArea.getText(start - 1, start);
                 if (prevChar.length > 0
                     && !/^\s$/.test(prevChar)
                     && !_isCJKCharacter(prevChar)) {
@@ -699,12 +699,12 @@ Rectangle {
                 }
             }
             var combined = prefix + finalText;
-            messageInput.insert(start, combined);
+            composerTextArea.insert(start, combined);
             _transcriptionTentativeStart = start + combined.length;
         } else {
             _transcriptionTentativeStart = start;
         }
-        messageInput.cursorPosition = _transcriptionTentativeStart;
+        composerTextArea.cursorPosition = _transcriptionTentativeStart;
     }
 
     // Drop the italic/muted styling on whatever tentative text is still
@@ -719,10 +719,10 @@ Rectangle {
             _transcriptionTentativeText = "";
             return;
         }
-        Transcription.clearTextFormat(messageInput.textDocument,
+        Transcription.clearTextFormat(composerTextArea.textDocument,
                                       _transcriptionTentativeStart,
                                       _transcriptionTentativeLength);
-        messageInput.cursorPosition =
+        composerTextArea.cursorPosition =
             _transcriptionTentativeStart + _transcriptionTentativeLength;
         _transcriptionTentativeStart = -1;
         _transcriptionTentativeLength = 0;
@@ -736,9 +736,9 @@ Rectangle {
             return;
         }
         var start = _transcriptionTentativeStart;
-        var end = Math.min(messageInput.length, start + _transcriptionTentativeLength);
+        var end = Math.min(composerTextArea.length, start + _transcriptionTentativeLength);
         if (end > start)
-            messageInput.remove(start, end);
+            composerTextArea.remove(start, end);
         _transcriptionTentativeStart = -1;
         _transcriptionTentativeLength = 0;
         _transcriptionTentativeText = "";
@@ -760,9 +760,9 @@ Rectangle {
         var end = _transcriptionTentativeStart >= 0
             ? _transcriptionTentativeStart + _transcriptionTentativeLength
             : start;
-        end = Math.min(messageInput.length, Math.max(start, end));
+        end = Math.min(composerTextArea.length, Math.max(start, end));
         if (end > start)
-            messageInput.remove(start, end);
+            composerTextArea.remove(start, end);
         _transcriptionRealtimeOriginStart = -1;
         _transcriptionTentativeStart = -1;
         _transcriptionTentativeLength = 0;
@@ -790,7 +790,7 @@ Rectangle {
         }
 
         emojiPopup.show(emojiButton, room ? room.roomId : "", function (plaintext, markdown) {
-            messageInput.insert(messageInput.cursorPosition, markdown);
+            composerTextArea.insert(composerTextArea.cursorPosition, markdown);
             TimelineManager.focusMessageInput();
         }, inputBar);
     }
@@ -981,7 +981,7 @@ Rectangle {
         interval: 300
         onTriggered: {
             if (inputBar._draftRoomId)
-                Rooms.persistDraftForRoom(inputBar._draftRoomId, messageInput.text);
+                Rooms.persistDraftForRoom(inputBar._draftRoomId, composerTextArea.text);
         }
     }
 
@@ -1000,7 +1000,7 @@ Rectangle {
             Layout.alignment: inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter
             Layout.leftMargin: Komai.paddingMedium
             KeyNavigation.backtab: inputBar.roomHeaderBacktabTarget()
-            KeyNavigation.tab: attachButton.visible ? attachButton : messageInput
+            KeyNavigation.tab: attachButton.visible ? attachButton : composerTextArea
             room: inputBar.room
             timelineRoot: inputBar.timelineRoot
             showAllButtons: inputBar.showAllButtons && inputBar.allowCalls
@@ -1012,7 +1012,7 @@ Rectangle {
             Layout.leftMargin: callButton.visible ? 0 : Komai.paddingMedium
             enabled: inputBar.attachmentsEnabled && !inputBar.hasVoiceRecording
             KeyNavigation.backtab: callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()
-            KeyNavigation.tab: voiceButton.visible ? voiceButton : messageInput
+            KeyNavigation.tab: voiceButton.visible ? voiceButton : composerTextArea
             room: inputBar.room
             showAllButtons: inputBar.showAllButtons
         }
@@ -1023,9 +1023,9 @@ Rectangle {
             KeyNavigation.backtab: attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget())
             KeyNavigation.tab: transcriptionButton.visible
                 ? transcriptionButton
-                : (inputBar.hasVoiceRecording ? sendButton : messageInput)
+                : (inputBar.hasVoiceRecording ? sendButton : composerTextArea)
             showAllButtons: inputBar.showAllButtons
-            composerHasText: messageInput.length > 0 || inputBar.hasUploads
+            composerHasText: composerTextArea.length > 0 || inputBar.hasUploads
         }
         ComposerTranscriptionButton {
             id: transcriptionButton
@@ -1034,7 +1034,7 @@ Rectangle {
             KeyNavigation.backtab: voiceButton.visible
                 ? voiceButton
                 : (attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()))
-            KeyNavigation.tab: messageInput
+            KeyNavigation.tab: composerTextArea
             showAllButtons: inputBar.showAllButtons
             inputBar: inputBar
         }
@@ -1055,9 +1055,9 @@ Rectangle {
         ScrollView {
             id: textInput
 
-            readonly property int singleLineHeight: Math.ceil(fontMetrics.lineSpacing + messageInput.topPadding + messageInput.bottomPadding)
+            readonly property int singleLineHeight: Math.ceil(fontMetrics.lineSpacing + composerTextArea.topPadding + composerTextArea.bottomPadding)
             readonly property int targetTextAreaHeight: Math.max(singleLineHeight,
-                                                                 Math.ceil(messageInput.contentHeight + messageInput.topPadding + messageInput.bottomPadding))
+                                                                 Math.ceil(composerTextArea.contentHeight + composerTextArea.topPadding + composerTextArea.bottomPadding))
             // User drag-resize floor (re-clamped at read time so a window
             // shrink after the drag can't leave the composer oversized).
             readonly property int userDesiredHeight: Math.ceil(Math.min(inputBar.userDesiredInputHeight,
@@ -1098,7 +1098,7 @@ Rectangle {
             visible: !inputBar.hasVoiceRecording
             // Fade out (rather than hide) during uploads so Layout.fillWidth
             // stays active and the button row doesn't redistribute; the draft
-            // lives on in messageInput.text and reappears once uploads clear.
+            // lives on in composerTextArea.text and reappears once uploads clear.
             opacity: inputBar.hasUploads ? 0 : 1
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ScrollBar.vertical.policy: scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
@@ -1107,7 +1107,7 @@ Rectangle {
             padding: 0
 
             TextArea {
-                id: messageInput
+                id: composerTextArea
 
                 property int completerTriggeredAt: 0
                 // Position of the `:` whose emoji picker we auto-suppressed
@@ -1132,12 +1132,12 @@ Rectangle {
 
                 function currentCompleterSearchString() {
                     if (completer.completerType === "command" && inputBar.inputController) {
-                        const prefix = messageInput.getText(0, cursorPosition) + messageInput.preeditText;
+                        const prefix = composerTextArea.getText(0, cursorPosition) + composerTextArea.preeditText;
                         return inputBar.inputController.commandCompletionSearchString(prefix,
-                                                                                      cursorPosition + messageInput.preeditText.length);
+                                                                                      cursorPosition + composerTextArea.preeditText.length);
                     }
 
-                    return messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText;
+                    return composerTextArea.getText(completerTriggeredAt, cursorPosition) + composerTextArea.preeditText;
                 }
                 function hasNestedCompleterTrigger(searchString) {
                     const suffix = String(searchString || "").slice(1);
@@ -1184,8 +1184,8 @@ Rectangle {
                     if (!completer.completer || completer.completerType === "")
                         return;
 
-                    const searchString = messageInput.currentCompleterSearchString();
-                    if (messageInput.hasNestedCompleterTrigger(searchString)) {
+                    const searchString = composerTextArea.currentCompleterSearchString();
+                    if (composerTextArea.hasNestedCompleterTrigger(searchString)) {
                         completer.completerType = "";
                         popup.close();
                         return;
@@ -1203,7 +1203,7 @@ Rectangle {
                     if (completer.completerType === "emoji"
                             && Settings.composerInputAutoReplaceEmoji !== Settings.AutoReplaceEmoji.Never
                             && (Komai.isEmoticonShortcut(searchString)
-                                || messageInput.looksLikeAbandonedEmojiSearch(searchString.slice(1)))) {
+                                || composerTextArea.looksLikeAbandonedEmojiSearch(searchString.slice(1)))) {
                         emoticonSuppressedTriggerAt = completerTriggeredAt;
                         completer.completerType = "";
                         popup.close();
@@ -1223,16 +1223,16 @@ Rectangle {
                         emoticonSuppressedTriggerAt = -1;
                         return;
                     }
-                    const token = text.substring(trigger, cursorPosition) + messageInput.preeditText;
+                    const token = text.substring(trigger, cursorPosition) + composerTextArea.preeditText;
                     if (token.length === 0 || /\s/.test(token)) {
                         emoticonSuppressedTriggerAt = -1;
                         return;
                     }
                     if (Komai.isEmoticonShortcut(token))
                         return; // still a shortcut — keep the picker dismissed
-                    if (messageInput.looksLikeAbandonedEmojiSearch(token.slice(1)))
+                    if (composerTextArea.looksLikeAbandonedEmojiSearch(token.slice(1)))
                         return; // extended with punctuation, not more letters — stay dismissed
-                    messageInput.openCompleter(trigger, "emoji");
+                    composerTextArea.openCompleter(trigger, "emoji");
                 }
                 function maybeReopenAfterSpaceClose() {
                     if (completer.completerType !== "" || emojiSpaceClosedAt < 0)
@@ -1242,7 +1242,7 @@ Rectangle {
                         emojiSpaceClosedAt = -1;
                         return;
                     }
-                    const token = text.substring(trigger, cursorPosition) + messageInput.preeditText;
+                    const token = text.substring(trigger, cursorPosition) + composerTextArea.preeditText;
                     if (token.length === 0) {
                         emojiSpaceClosedAt = -1;
                         return;
@@ -1250,7 +1250,7 @@ Rectangle {
                     if (/\s/.test(token))
                         return; // the space (or more) is still there — wait for it to be removed, keep tracking
                     emojiSpaceClosedAt = -1;
-                    messageInput.openCompleter(trigger, "emoji");
+                    composerTextArea.openCompleter(trigger, "emoji");
                 }
                 function insertCompletion(completion, activeType, activeUserid) {
                     if (activeType === undefined)
@@ -1259,14 +1259,14 @@ Rectangle {
                         activeUserid = completer.currentUserid();
 
                     if (activeType === "command" && inputBar.inputController) {
-                        const updatedText = inputBar.inputController.applyCommandCompletion(messageInput.text,
+                        const updatedText = inputBar.inputController.applyCommandCompletion(composerTextArea.text,
                                                                                             cursorPosition,
                                                                                             completion);
-                        const updatedCursorPosition = inputBar.inputController.commandCompletionCursorPosition(messageInput.text,
+                        const updatedCursorPosition = inputBar.inputController.commandCompletionCursorPosition(composerTextArea.text,
                                                                                                                cursorPosition,
                                                                                                                completion);
-                        messageInput.text = updatedText;
-                        messageInput.cursorPosition = updatedCursorPosition;
+                        composerTextArea.text = updatedText;
+                        composerTextArea.cursorPosition = updatedCursorPosition;
                         return;
                     }
 
@@ -1275,9 +1275,9 @@ Rectangle {
                         ? String(activeUserid)
                         : completion;
                     let replaceEnd = cursorPosition;
-                    messageInput.remove(completerTriggeredAt, replaceEnd);
-                    messageInput.insert(completerTriggeredAt, textToInsert);
-                    messageInput.cursorPosition = completerTriggeredAt + textToInsert.length;
+                    composerTextArea.remove(completerTriggeredAt, replaceEnd);
+                    composerTextArea.insert(completerTriggeredAt, textToInsert);
+                    composerTextArea.cursorPosition = completerTriggeredAt + textToInsert.length;
                     if (activeUserid && inputBar.inputController && !isUserMxidPick)
                         inputBar.inputController.addMention(activeUserid, completion);
                 }
@@ -1289,13 +1289,13 @@ Rectangle {
                         popup._positionRefreshTick++;
                         popup.open();
                     }
-                    messageInput.refreshCompleterSearchString();
+                    composerTextArea.refreshCompleterSearchString();
                 }
                 function completerTypeForTrigger(trigger, tokenStart) {
                     if ((trigger === '@' || trigger === '＠') && Settings.composerInputInlineUserPickerEnabled) {
                         if (inputBar.inputController
                                 && typeof inputBar.inputController.commandExpectsUserIdAt === "function"
-                                && inputBar.inputController.commandExpectsUserIdAt(messageInput.text, tokenStart)) {
+                                && inputBar.inputController.commandExpectsUserIdAt(composerTextArea.text, tokenStart)) {
                             return "user-mxid";
                         }
                         return "user";
@@ -1316,7 +1316,7 @@ Rectangle {
                     return currentVisualLineStartPosition() === 0;
                 }
                 function isCursorOnBottomLine() {
-                    return currentVisualLineEndPosition() === messageInput.length;
+                    return currentVisualLineEndPosition() === composerTextArea.length;
                 }
                 function currentVisualLineStartPosition() {
                     return positionAt(0, cursorRectangle.y + cursorRectangle.height / 2);
@@ -1328,7 +1328,7 @@ Rectangle {
                     if (text.length === 0 && cursorPosition === 0)
                         return true;
 
-                    if (!messageInput.isCursorOnTopLine())
+                    if (!composerTextArea.isCursorOnTopLine())
                         return false;
 
                     return cursorPosition === currentVisualLineStartPosition();
@@ -1354,26 +1354,26 @@ Rectangle {
                         return;
 
                     const trigger = text.charAt(tokenStart);
-                    const type = messageInput.completerTypeForTrigger(trigger, tokenStart);
+                    const type = composerTextArea.completerTypeForTrigger(trigger, tokenStart);
                     if (type !== "")
-                        messageInput.openCompleter(tokenStart, type);
+                        composerTextArea.openCompleter(tokenStart, type);
                 }
                 function applyComposerFormat(kind) {
-                    const result = Komai.composerApplyFormat(messageInput.text,
-                                                              messageInput.selectionStart,
-                                                              messageInput.selectionEnd,
+                    const result = Komai.composerApplyFormat(composerTextArea.text,
+                                                              composerTextArea.selectionStart,
+                                                              composerTextArea.selectionEnd,
                                                               kind);
                     if (!result || !result.applied)
                         return false;
-                    Komai.composerReplaceRange(messageInput.textDocument,
+                    Komai.composerReplaceRange(composerTextArea.textDocument,
                                                 result.replaceStart,
                                                 result.replaceEnd,
                                                 result.replacement);
                     if (result.selectionStart === result.selectionEnd)
-                        messageInput.cursorPosition = result.selectionStart;
+                        composerTextArea.cursorPosition = result.selectionStart;
                     else
-                        messageInput.select(result.selectionStart, result.selectionEnd);
-                    messageInput.forceActiveFocus();
+                        composerTextArea.select(result.selectionStart, result.selectionEnd);
+                    composerTextArea.forceActiveFocus();
                     return true;
                 }
 
@@ -1429,26 +1429,26 @@ Rectangle {
 
                 Label {
                     readonly property bool rtlText: inputBar._rtlLayout || inputBar._textStartsRtl(text)
-                    readonly property real availableWidth: Math.max(0, messageInput.width - messageInput.leftPadding - messageInput.rightPadding)
+                    readonly property real availableWidth: Math.max(0, composerTextArea.width - composerTextArea.leftPadding - composerTextArea.rightPadding)
 
-                    color: messageInput.placeholderTextColor
+                    color: composerTextArea.placeholderTextColor
                     enabled: false
-                    font: messageInput.font
-                    height: Math.max(0, messageInput.height - messageInput.topPadding - messageInput.bottomPadding)
+                    font: composerTextArea.font
+                    height: Math.max(0, composerTextArea.height - composerTextArea.topPadding - composerTextArea.bottomPadding)
                     horizontalAlignment: rtlText ? Text.AlignRight : Text.AlignLeft
                     LayoutMirroring.enabled: false
-                    text: messageInput.placeholderLabelText
+                    text: composerTextArea.placeholderLabelText
                     textFormat: Text.PlainText
                     width: Math.min(implicitWidth, availableWidth)
                     x: rtlText
-                        ? Math.max(0, messageInput.width - messageInput.rightPadding - width)
-                        : messageInput.leftPadding
-                    y: messageInput.topPadding
+                        ? Math.max(0, composerTextArea.width - composerTextArea.rightPadding - width)
+                        : composerTextArea.leftPadding
+                    y: composerTextArea.topPadding
                     z: 1
-                    verticalAlignment: messageInput.verticalAlignment === TextEdit.AlignTop
+                    verticalAlignment: composerTextArea.verticalAlignment === TextEdit.AlignTop
                         ? Text.AlignTop
                         : Text.AlignVCenter
-                    visible: messageInput.length === 0 && !messageInput.inputMethodComposing
+                    visible: composerTextArea.length === 0 && !composerTextArea.inputMethodComposing
                 }
 
                 Keys.onPressed: event => {
@@ -1457,7 +1457,7 @@ Rectangle {
                         // and the unhandled key event produces a control character / tofu square)
                         var clipText = inputBar.inputController ? inputBar.inputController.clipboardText() : "";
                         if (clipText)
-                            messageInput.insert(messageInput.cursorPosition, clipText);
+                            composerTextArea.insert(composerTextArea.cursorPosition, clipText);
                         event.accepted = true;
                     } else if (event.matches(StandardKey.Paste)) {
                         event.accepted = inputBar.inputController
@@ -1494,7 +1494,7 @@ Rectangle {
                             if (!event.isAutoRepeat
                                 && (inputBar.transcriptionState === "idle"
                                     || inputBar.transcriptionState === "error")) {
-                                inputBar._transcriptionGestureSpacePos = messageInput.cursorPosition;
+                                inputBar._transcriptionGestureSpacePos = composerTextArea.cursorPosition;
                                 inputBar._armTranscriptionGesture("space");
                             } else if (event.isAutoRepeat
                                 && inputBar.transcriptionState !== "idle"
@@ -1505,52 +1505,52 @@ Rectangle {
                     } else if (event.modifiers == Qt.ControlModifier && inputBar.eventMatchesLatinKey(event, LayoutAgnosticKeys.LatinKey.U)) {
                         event.accepted = inputBar.requestSelectionModeOlderChunk();
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_P) {
-                        messageInput.text = inputBar.inputController
+                        composerTextArea.text = inputBar.inputController
                             ? inputBar.inputController.previousText()
-                            : messageInput.text;
+                            : composerTextArea.text;
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_N) {
-                        messageInput.text = inputBar.inputController
+                        composerTextArea.text = inputBar.inputController
                             ? inputBar.inputController.nextText()
-                            : messageInput.text;
+                            : composerTextArea.text;
                     } else if (event.modifiers === Qt.ControlModifier && event.key === Qt.Key_B
-                               && !messageInput.readOnly
-                               && messageInput.preeditText.length === 0
+                               && !composerTextArea.readOnly
+                               && composerTextArea.preeditText.length === 0
                                && !popup.opened
-                               && messageInput.selectionStart !== messageInput.selectionEnd) {
-                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Bold))
+                               && composerTextArea.selectionStart !== composerTextArea.selectionEnd) {
+                        if (composerTextArea.applyComposerFormat(Komai.ComposerFormatKind.Bold))
                             event.accepted = true;
                     } else if (event.modifiers === Qt.ControlModifier && event.key === Qt.Key_I
-                               && !messageInput.readOnly
-                               && messageInput.preeditText.length === 0
+                               && !composerTextArea.readOnly
+                               && composerTextArea.preeditText.length === 0
                                && !popup.opened
-                               && messageInput.selectionStart !== messageInput.selectionEnd) {
-                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Italic))
+                               && composerTextArea.selectionStart !== composerTextArea.selectionEnd) {
+                        if (composerTextArea.applyComposerFormat(Komai.ComposerFormatKind.Italic))
                             event.accepted = true;
                     } else if (event.modifiers === Qt.ControlModifier && event.key === Qt.Key_E
-                               && !messageInput.readOnly
-                               && messageInput.preeditText.length === 0
+                               && !composerTextArea.readOnly
+                               && composerTextArea.preeditText.length === 0
                                && !popup.opened
-                               && messageInput.selectionStart !== messageInput.selectionEnd) {
-                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.InlineCode))
+                               && composerTextArea.selectionStart !== composerTextArea.selectionEnd) {
+                        if (composerTextArea.applyComposerFormat(Komai.ComposerFormatKind.InlineCode))
                             event.accepted = true;
                     } else if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier)
                                && (event.key === Qt.Key_Greater
                                    || event.key === Qt.Key_Period)
-                               && !messageInput.readOnly
-                               && messageInput.preeditText.length === 0
+                               && !composerTextArea.readOnly
+                               && composerTextArea.preeditText.length === 0
                                && !popup.opened
-                               && messageInput.selectionStart !== messageInput.selectionEnd) {
+                               && composerTextArea.selectionStart !== composerTextArea.selectionEnd) {
                         // Ctrl+Shift+> (US layout produces Key_Greater; some
                         // layouts deliver Key_Period with Shift instead).
-                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Quote))
+                        if (composerTextArea.applyComposerFormat(Komai.ComposerFormatKind.Quote))
                             event.accepted = true;
                     } else if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier) && event.key === Qt.Key_L
-                               && !messageInput.readOnly
-                               && messageInput.preeditText.length === 0
+                               && !composerTextArea.readOnly
+                               && composerTextArea.preeditText.length === 0
                                && !popup.opened) {
                         // Link tolerates an empty selection — it inserts
                         // `[]()` and parks the cursor inside the brackets.
-                        if (messageInput.applyComposerFormat(Komai.ComposerFormatKind.Link))
+                        if (composerTextArea.applyComposerFormat(Komai.ComposerFormatKind.Link))
                             event.accepted = true;
                     } else if (event.key == Qt.Key_Escape && popup.opened) {
                         completer.completerType = "";
@@ -1603,7 +1603,7 @@ Rectangle {
                             // with a trigger char (e.g. raw MXIDs from "user-mxid"
                             // completion) don't immediately re-open the popup.
                             if (currentCompletion) {
-                                messageInput.insertCompletion(currentCompletion, capturedType, userid);
+                                composerTextArea.insertCompletion(currentCompletion, capturedType, userid);
                                 if (userid && capturedType === "user") {
                                     if (inputBar.inputController)
                                         inputBar.inputController.addMention(userid, currentCompletion);
@@ -1631,12 +1631,12 @@ Rectangle {
                               || Settings.composerInputSendKey == Settings.SendMessageKey.ShiftEnter && event.modifiers == Qt.NoModifier
                               || Settings.composerInputSendKey == Settings.SendMessageKey.CtrlEnter && event.modifiers == Qt.ShiftModifier)
                         ) {
-                            messageInput.insert(messageInput.cursorPosition, "\n");
+                            composerTextArea.insert(composerTextArea.cursorPosition, "\n");
                             event.accepted = true;
                         }
                         // Any other Enter key combo is ignored here.
                     } else if (inputBar.isComposerTabEvent(event)) {
-                        if (!popup.opened && messageInput.length === 0 && !messageInput.inputMethodComposing) {
+                        if (!popup.opened && composerTextArea.length === 0 && !composerTextArea.inputMethodComposing) {
                             event.accepted = true;
                             if (inputBar.isBackwardTabEvent(event))
                                 inputBar.focusComposerBacktabTarget();
@@ -1654,46 +1654,46 @@ Rectangle {
                         } else {
                             var pos = cursorPosition - 1;
                             while (pos > -1) {
-                                var t = messageInput.getText(pos, pos + 1);
+                                var t = composerTextArea.getText(pos, pos + 1);
                                 console.log('"' + t + '"');
-                                const type = messageInput.completerTypeForTrigger(t, pos);
+                                const type = composerTextArea.completerTypeForTrigger(t, pos);
                                 if (type !== "") {
-                                    messageInput.openCompleter(pos, type);
+                                    composerTextArea.openCompleter(pos, type);
                                     return;
                                 } else if (t == ' ' || t == '\t') {
-                                    messageInput.openCompleter(pos + 1, "user");
+                                    composerTextArea.openCompleter(pos + 1, "user");
                                     return;
                                 }
                                 pos = pos - 1;
                             }
                             // At start of input
-                            messageInput.openCompleter(0, "user");
+                            composerTextArea.openCompleter(0, "user");
                         }
                     } else if (event.key == Qt.Key_Backspace
                                && event.modifiers === Qt.NoModifier
-                               && messageInput.preeditText.length === 0
-                               && messageInput.selectionStart === messageInput.selectionEnd
-                               && messageInput.cursorPosition > 0) {
+                               && composerTextArea.preeditText.length === 0
+                               && composerTextArea.selectionStart === composerTextArea.selectionEnd
+                               && composerTextArea.cursorPosition > 0) {
                         // Qt's default Backspace deletes one UTF-16 code unit, which
                         // breaks emoji clusters: base + VS16 leaves a bare text-default
                         // glyph rendered B&W (e.g. ☺️ becomes ☺), and ZWJ sequences
                         // degrade one component at a time. Delete the full previous
                         // grapheme cluster instead.
-                        const pos = messageInput.cursorPosition;
-                        const prev = Komai.previousGraphemeBoundary(messageInput.text, pos);
+                        const pos = composerTextArea.cursorPosition;
+                        const prev = Komai.previousGraphemeBoundary(composerTextArea.text, pos);
                         if (prev < pos - 1) {
-                            messageInput.remove(prev, pos);
+                            composerTextArea.remove(prev, pos);
                             event.accepted = true;
                         }
                     } else if (event.key == Qt.Key_Delete
                                && event.modifiers === Qt.NoModifier
-                               && messageInput.preeditText.length === 0
-                               && messageInput.selectionStart === messageInput.selectionEnd
-                               && messageInput.cursorPosition < messageInput.length) {
-                        const pos = messageInput.cursorPosition;
-                        const next = Komai.nextGraphemeBoundary(messageInput.text, pos);
+                               && composerTextArea.preeditText.length === 0
+                               && composerTextArea.selectionStart === composerTextArea.selectionEnd
+                               && composerTextArea.cursorPosition < composerTextArea.length) {
+                        const pos = composerTextArea.cursorPosition;
+                        const next = Komai.nextGraphemeBoundary(composerTextArea.text, pos);
                         if (next > pos + 1) {
-                            messageInput.remove(pos, next);
+                            composerTextArea.remove(pos, next);
                             event.accepted = true;
                         }
                     } else if (event.key == Qt.Key_Up && popup.opened) {
@@ -1703,15 +1703,15 @@ Rectangle {
                         event.accepted = true;
                         completer.down();
                     } else if (event.key == Qt.Key_Up && (event.modifiers == Qt.NoModifier || event.modifiers == Qt.KeypadModifier)) {
-                        if (messageInput.isCursorAtSelectionModeBoundary()) {
+                        if (composerTextArea.isCursorAtSelectionModeBoundary()) {
                             event.accepted = inputBar.requestSelectionModeEntry();
-                        } else if (messageInput.isCursorOnTopLine()) {
+                        } else if (composerTextArea.isCursorOnTopLine()) {
                             event.accepted = true;
-                            cursorPosition = messageInput.currentVisualLineStartPosition();
+                            cursorPosition = composerTextArea.currentVisualLineStartPosition();
                         }
                     } else if (event.key == Qt.Key_Down && (event.modifiers == Qt.NoModifier || event.modifiers == Qt.KeypadModifier)) {
-                        if (messageInput.isCursorOnBottomLine()) {
-                            const lineEnd = messageInput.currentVisualLineEndPosition();
+                        if (composerTextArea.isCursorOnBottomLine()) {
+                            const lineEnd = composerTextArea.currentVisualLineEndPosition();
                             if (cursorPosition !== lineEnd) {
                                 event.accepted = true;
                                 cursorPosition = lineEnd;
@@ -1758,10 +1758,10 @@ Rectangle {
                         popup.close();
                     if (emoticonSuppressedTriggerAt >= 0 && cursorPosition <= emoticonSuppressedTriggerAt)
                         emoticonSuppressedTriggerAt = -1;
-                    messageInput.refreshCompleterSearchString();
+                    composerTextArea.refreshCompleterSearchString();
                 }
                 onPreeditTextChanged: {
-                    messageInput.refreshCompleterSearchString();
+                    composerTextArea.refreshCompleterSearchString();
                 }
                 onSelectionEndChanged: {
                     if (inputBar.inputController)
@@ -1782,7 +1782,7 @@ Rectangle {
                     // bulk-inserted text; pasted shortcuts still convert at
                     // send time via the existing replaceEmoticons() fallback.
                     if (insertedLength === 1 && cursorPosition > 0
-                            && !messageInput.inputMethodComposing
+                            && !composerTextArea.inputMethodComposing
                             && Settings.composerInputAutoReplaceEmoji !== Settings.AutoReplaceEmoji.Never
                             && text.charAt(cursorPosition - 1) === " ") {
                         const spacePos = cursorPosition - 1;
@@ -1793,9 +1793,9 @@ Rectangle {
                         if (token.length > 0) {
                             const replacement = Komai.emoticonReplacementFor(token);
                             if (replacement.length > 0) {
-                                messageInput.remove(tokenStart, spacePos);
-                                messageInput.insert(tokenStart, replacement);
-                                messageInput.cursorPosition = tokenStart + replacement.length + 1;
+                                composerTextArea.remove(tokenStart, spacePos);
+                                composerTextArea.insert(tokenStart, replacement);
+                                composerTextArea.cursorPosition = tokenStart + replacement.length + 1;
                                 // The token just consumed may have reopened the
                                 // emoji picker along the way (e.g. typing the
                                 // "?" in ":)?" no longer matches an exact
@@ -1823,7 +1823,7 @@ Rectangle {
                     else
                         lastChar = '';
                     const triggerPos = selectionStart - 1;
-                    const type = messageInput.completerTypeForTrigger(lastChar, triggerPos);
+                    const type = composerTextArea.completerTypeForTrigger(lastChar, triggerPos);
                     if (type !== "") {
                         // Don't open mid-word (e.g. inside `user@example.com`
                         // or `test:value`). The boundary check lives in Rust
@@ -1833,12 +1833,12 @@ Rectangle {
                         // open the picker.
                         if (type === "command"
                             || Komai.composerTriggerAtWordBoundary(text, triggerPos))
-                            messageInput.openCompleter(triggerPos, type);
+                            composerTextArea.openCompleter(triggerPos, type);
                     } else if (insertedLength > 1) {
-                        messageInput.maybeOpenCompleterForTrailingTokenAfterBulkInsert();
+                        composerTextArea.maybeOpenCompleterForTrailingTokenAfterBulkInsert();
                     } else {
-                        messageInput.maybeReopenAfterEmoticonSuppression();
-                        messageInput.maybeReopenAfterSpaceClose();
+                        composerTextArea.maybeReopenAfterEmoticonSuppression();
+                        composerTextArea.maybeReopenAfterSpaceClose();
                     }
                     previousTextLength = text.length;
                     inputBar._draftText = text;
@@ -1878,16 +1878,16 @@ Rectangle {
                         // Blank _draftRoomId before clear() so onTextChanged doesn't clobber the saved draft
                         inputBar._draftRoomId = "";
 
-                        messageInput.clear();
+                        composerTextArea.clear();
                         if (inputBar.inputController && inputBar.inputController.text)
-                            messageInput.append(inputBar.inputController.text);
+                            composerTextArea.append(inputBar.inputController.text);
 
                         // Restore draft for the new room
                         inputBar._draftRoomId = room ? room.roomId : "";
-                        if (inputBar._draftRoomId && messageInput.length === 0) {
+                        if (inputBar._draftRoomId && composerTextArea.length === 0) {
                             var draft = Rooms.composerDraftForRoom(inputBar._draftRoomId);
                             if (draft)
-                                messageInput.append(draft);
+                                composerTextArea.append(draft);
                         }
 
                         // Restore the entering room's mentions: its saved
@@ -1897,7 +1897,7 @@ Rectangle {
                         if (inputBar.inputController
                                 && typeof inputBar.inputController.loadMentionsForRoom === "function")
                             inputBar.inputController.loadMentionsForRoom(inputBar._draftRoomId,
-                                                                         messageInput.text);
+                                                                         composerTextArea.text);
 
                         completer.completerType = "";
                         inputBar.focusTextInputIfAllowed();
@@ -1914,7 +1914,7 @@ Rectangle {
                 }
                 Connections {
                     function onCompletionClicked(completion) {
-                        messageInput.insertCompletion(completion);
+                        composerTextArea.insertCompletion(completion);
                         completer.completerType = "";
                         popup.close();
                     }
@@ -1926,7 +1926,7 @@ Rectangle {
                         // while still allowing multi-word searches that DO produce
                         // results (e.g. ":bearded woman").
                         if (popup.opened && completer.completerType !== "command" && completer.count <= 0) {
-                            var raw = messageInput.getText(messageInput.completerTriggeredAt, messageInput.cursorPosition);
+                            var raw = composerTextArea.getText(composerTextArea.completerTriggeredAt, composerTextArea.cursorPosition);
                             if (raw.indexOf(' ') >= 0)
                                 popup.close();
                         }
@@ -1941,7 +1941,7 @@ Rectangle {
                 ComposerFormattingBar {
                     id: formattingBar
 
-                    messageInput: messageInput
+                    messageInput: composerTextArea
                     popupOpen: popup.opened
                 }
                 Popup {
@@ -1972,11 +1972,11 @@ Rectangle {
                     }
                     function anchorRectInOverlay() {
                         const _ = popup._positionRefreshTick;
-                        const cursorRect = messageInput.positionToRectangle(messageInput.completerTriggeredAt);
+                        const cursorRect = composerTextArea.positionToRectangle(composerTextArea.completerTriggeredAt);
                         if (!popup.parent)
                             return cursorRect;
 
-                        const topLeft = messageInput.mapToItem(popup.parent, cursorRect.x, cursorRect.y);
+                        const topLeft = composerTextArea.mapToItem(popup.parent, cursorRect.x, cursorRect.y);
                         return Qt.rect(topLeft.x, topLeft.y, cursorRect.width, cursorRect.height);
                     }
                     function preferredInlineWidth(availableWidth) {
@@ -2075,17 +2075,17 @@ Rectangle {
                         const updatedText = newText !== undefined
                             ? String(newText)
                             : String((inputBar.inputController && inputBar.inputController.text) || "");
-                        if (messageInput.text === updatedText)
+                        if (composerTextArea.text === updatedText)
                             return;
-                        // Wholesale assignment to messageInput.text (or
+                        // Wholesale assignment to composerTextArea.text (or
                         // setPlainText under the hood) wipes the QTextDocument
                         // undo stack, so Ctrl+Z stops working from then on.
                         // Apply through the atomic QTextCursor path instead so
                         // external setText/updateState round-trips preserve
                         // prior typing history.
-                        Komai.composerReplaceRange(messageInput.textDocument,
-                                                    0, messageInput.length, updatedText);
-                        messageInput.cursorPosition = updatedText.length;
+                        Komai.composerReplaceRange(composerTextArea.textDocument,
+                                                    0, composerTextArea.length, updatedText);
+                        composerTextArea.cursorPosition = updatedText.length;
                     }
 
                     ignoreUnknownSignals: true
@@ -2146,18 +2146,18 @@ Rectangle {
                 SpellChecker {
                     id: composerSpellChecker
 
-                    document: messageInput.textDocument
+                    document: composerTextArea.textDocument
                     underlineColor: Komai.theme.error
 
                     // `textDocument` is a CONSTANT property — if it wasn't ready
                     // when the binding above first evaluated, re-assign once the
                     // component tree is complete.
-                    Component.onCompleted: if (!composerSpellChecker.document) composerSpellChecker.document = messageInput.textDocument
+                    Component.onCompleted: if (!composerSpellChecker.document) composerSpellChecker.document = composerTextArea.textDocument
                 }
 
                 SpellcheckContextMenu {
                     id: composerSpellcheckCtx
-                    target: messageInput
+                    target: composerTextArea
                     spellChecker: composerSpellChecker
                 }
             }
@@ -2166,7 +2166,7 @@ Rectangle {
             id: stickerButton
 
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
-            KeyNavigation.backtab: messageInput
+            KeyNavigation.backtab: composerTextArea
             KeyNavigation.tab: emojiButton.visible ? emojiButton : sendButton
             toolTipText: qsTr("Stickers")
             image: ":/icons/icons/ui/sticky-note-solid.svg"
@@ -2192,7 +2192,7 @@ Rectangle {
             id: emojiButton
 
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
-            KeyNavigation.backtab: stickerButton.visible ? stickerButton : messageInput
+            KeyNavigation.backtab: stickerButton.visible ? stickerButton : composerTextArea
             KeyNavigation.tab: sendButton
             toolTipText: qsTr("Emoji [Ctrl+.]")
             image: ":/icons/icons/ui/smile.svg"
@@ -2211,7 +2211,7 @@ Rectangle {
 
             Layout.alignment: Qt.AlignRight | (inputBar.composerExpanded ? Qt.AlignBottom : Qt.AlignVCenter)
             Layout.rightMargin: Komai.paddingMedium
-            KeyNavigation.backtab: emojiButton.visible ? emojiButton : (stickerButton.visible ? stickerButton : (inputBar.hasVoiceRecording && voiceButton.visible ? voiceButton : messageInput))
+            KeyNavigation.backtab: emojiButton.visible ? emojiButton : (stickerButton.visible ? stickerButton : (inputBar.hasVoiceRecording && voiceButton.visible ? voiceButton : composerTextArea))
             toolTipText: qsTr("Send [%1]").arg(Settings.composerInputSendKeyLabel)
             // In a thread view, the active-state colour swaps to the thread's
             // user color so the composer reinforces the "you're sending into a
@@ -2244,9 +2244,9 @@ Rectangle {
             }
 
             Connections {
-                target: messageInput
+                target: composerTextArea
                 function onTextChanged() {
-                    if (messageInput.length > 0 && Settings.uiMotionAnimationsEnabled)
+                    if (composerTextArea.length > 0 && Settings.uiMotionAnimationsEnabled)
                         shakeTimer.restart();
                     else
                         shakeTimer.stop();

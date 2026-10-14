@@ -247,7 +247,7 @@ OverlayDialog {
                 { text: qsTr("Mine (%1)").arg(roomDirectoryRoot.localHomeserver), value: RoomDirectory.ServerMode.Mine, badge: mineBadge }
             ];
             if (roomDirectoryRoot.mrsEnabled) {
-                var mrsBadge = publicRooms.mrsRoomCount >= 0
+                const mrsBadge = publicRooms.mrsRoomCount >= 0
                     ? roomDirectoryRoot.roomCountBadgeText(publicRooms.mrsRoomCount)
                     : "";
                 segments.push({ text: roomDirectoryRoot.mrsServerName, value: RoomDirectory.ServerMode.MRS, badge: mrsBadge });
@@ -690,8 +690,8 @@ OverlayDialog {
                     if (index === 0) {
                         publicRooms.mrsLanguageFilter = "";
                     } else {
-                        var entry = languageFilter.model[index];
-                        var match = entry.match(/\(([a-z]{2})\)$/);
+                        const entry = languageFilter.model[index];
+                        const match = entry.match(/\(([a-z]{2})\)$/);
                         publicRooms.mrsLanguageFilter = match ? match[1] : "";
                     }
                 }

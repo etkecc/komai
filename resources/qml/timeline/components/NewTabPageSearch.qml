@@ -210,8 +210,8 @@ ColumnLayout {
                 }
                 onPointChanged: {
                     if (!resultsList.mouseActivated && hovered && entryPoint.x >= 0) {
-                        var dx = point.position.x - entryPoint.x;
-                        var dy = point.position.y - entryPoint.y;
+                        const dx = point.position.x - entryPoint.x;
+                        const dy = point.position.y - entryPoint.y;
                         if (dx !== 0 || dy !== 0) {
                             resultsList.mouseActivated = true;
                             resultsList.hoveredIndex = model.index;

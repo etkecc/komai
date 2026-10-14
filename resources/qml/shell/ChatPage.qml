@@ -100,7 +100,7 @@ Rectangle {
         anchors.fill: parent
         spacing: 0
         AdaptiveLayout {
-            id: adaptiveView
+            id: adaptiveLayout
 
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -111,7 +111,7 @@ Rectangle {
                 collapsedWidth: Math.max(Komai.navigationRowHeight,
                                          communitiesList.iconOnlyMinWidth, 1)
                 snapUpperWidth: communitiesList.fullMinWidth
-                maximumWidth: Math.min(500, adaptiveView.width * 0.5)
+                maximumWidth: Math.min(500, adaptiveLayout.width * 0.5)
                 preferredWidth: Settings.navigationCommunitiesWidthPx > collapsedWidth
                                 ? Settings.navigationCommunitiesWidthPx
                                 : collapsedWidth
@@ -120,7 +120,7 @@ Rectangle {
                 CommunitiesList {
                     id: communitiesList
 
-                    adaptiveView: adaptiveView
+                    adaptiveView: adaptiveLayout
                     roomListTarget: roomlist
                 }
                 Binding {
@@ -134,7 +134,7 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: roomListC
 
-                maximumWidth: Math.min(500, adaptiveView.width * 0.5)
+                maximumWidth: Math.min(500, adaptiveLayout.width * 0.5)
                 collapsedWidth: Math.max(Komai.navigationRowHeight,
                                          roomlist.iconOnlyMinWidth, 1)
                 snapUpperWidth: roomlist.fullMinWidth
@@ -145,9 +145,9 @@ Rectangle {
                 RoomList {
                     id: roomlist
 
-                    adaptiveView: adaptiveView
+                    adaptiveView: adaptiveLayout
                     communitiesTarget: communitiesList
-                    height: adaptiveView.height
+                    height: adaptiveLayout.height
                     timelineRoot: chatPage.timelineRoot
                     tabController: chatPage.tabController
                 }
@@ -199,7 +199,7 @@ Rectangle {
 
         anchors.fill: parent
         screenTimeout: Settings.desktopWindowFocusBlurDelaySeconds
-        timelineRoot: adaptiveView
+        timelineRoot: adaptiveLayout
         visible: Settings.desktopWindowFocusBlurEnabled
         windowTarget: MainWindow
     }

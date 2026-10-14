@@ -503,7 +503,7 @@ QtObject {
 
         var item = model.itemAt(idx);
         if (item) {
-            var eid = item["eventId"] || "";
+            let eid = item["eventId"] || "";
             if (eid.length > 0)
                 savedResetEventId = eid;
         }

@@ -190,7 +190,7 @@ ColumnLayout {
 
 
     MessageActionSupport {
-        id: messageActionSupport
+        id: roomMessageActionSupport
     }
 
     MatrixRoomWalkModeSupport {
@@ -200,7 +200,7 @@ ColumnLayout {
         timelineList: matrixTimelineList
         topBar: externalHeaderPane.headerItem
         dialogHost: externalDialogHost
-        messageActionSupport: messageActionSupport
+        messageActionSupport: roomMessageActionSupport
     }
 
     MatrixRoomInteractionSupport {
@@ -214,14 +214,14 @@ ColumnLayout {
     }
 
     MatrixRoomViewportSupport {
-        id: viewportSupport
+        id: roomViewportSupport
 
         rootItem: root
         timelineList: matrixTimelineList
     }
 
     MatrixRoomListShellSupport {
-        id: listShellSupport
+        id: roomListShellSupport
 
         rootItem: root
         timelineList: matrixTimelineList
@@ -269,7 +269,7 @@ ColumnLayout {
         // the bound model.
         onModelAboutToBeReset: {
             if (matrixTimelineList.model === filteredTimeline)
-                listShellSupport.flushDelegateReusePool();
+                roomListShellSupport.flushDelegateReusePool();
         }
     }
 
@@ -353,8 +353,8 @@ ColumnLayout {
 
     Connections {
         target: root.perRoomModel
-        function onAboutToReplaceContent() { listShellSupport.handleModelResetAboutToReplace(); }
-        function onContentReplaced() { listShellSupport.handleModelResetContentReplaced(); }
+        function onAboutToReplaceContent() { roomListShellSupport.handleModelResetAboutToReplace(); }
+        function onContentReplaced() { roomListShellSupport.handleModelResetContentReplaced(); }
     }
 
     Binding {
@@ -369,8 +369,8 @@ ColumnLayout {
 
         rootItem: root
         topBar: externalHeaderPane.headerItem
-        listShellSupport: listShellSupport
-        viewportSupport: viewportSupport
+        listShellSupport: roomListShellSupport
+        viewportSupport: roomViewportSupport
     }
 
     function clearSearch() { return lifecycleSupport.clearSearch(); }
@@ -386,15 +386,15 @@ ColumnLayout {
     function unregisterVisibleDelegate(eventId, delegateItem) { return eventSupport.unregisterVisibleDelegate(eventId, delegateItem); }
     function replaceTrackedEventId(previousId, nextId) { return eventSupport.replaceTrackedEventId(previousId, nextId); }
 
-    function scheduleInitialTimelineBufferCheck() { return viewportSupport.scheduleInitialTimelineBufferCheck(); }
-    function scheduleDeferredInitialTimelineBufferCheck() { return viewportSupport.scheduleDeferredInitialTimelineBufferCheck(); }
-    function scheduleReadMarkerUpdate(preferLatestEvent) { return viewportSupport.scheduleReadMarkerUpdate(preferLatestEvent); }
-    function ensureInitialBottomPin() { return viewportSupport.ensureInitialBottomPin(); }
-    function updatePreferredInitialTimelinePageSize() { return viewportSupport.updatePreferredInitialTimelinePageSize(); }
-    function isEffectivelyAtLiveEdge() { return viewportSupport.isEffectivelyAtLiveEdge(); }
-    function isNearLiveEdge() { return viewportSupport.isNearLiveEdge(); }
-    function bottomMostVisibleEventId() { return viewportSupport.bottomMostVisibleEventId(); }
-    function selectableEventIdNearMatrixRow(row) { return viewportSupport.selectableEventIdNearMatrixRow(row); }
+    function scheduleInitialTimelineBufferCheck() { return roomViewportSupport.scheduleInitialTimelineBufferCheck(); }
+    function scheduleDeferredInitialTimelineBufferCheck() { return roomViewportSupport.scheduleDeferredInitialTimelineBufferCheck(); }
+    function scheduleReadMarkerUpdate(preferLatestEvent) { return roomViewportSupport.scheduleReadMarkerUpdate(preferLatestEvent); }
+    function ensureInitialBottomPin() { return roomViewportSupport.ensureInitialBottomPin(); }
+    function updatePreferredInitialTimelinePageSize() { return roomViewportSupport.updatePreferredInitialTimelinePageSize(); }
+    function isEffectivelyAtLiveEdge() { return roomViewportSupport.isEffectivelyAtLiveEdge(); }
+    function isNearLiveEdge() { return roomViewportSupport.isNearLiveEdge(); }
+    function bottomMostVisibleEventId() { return roomViewportSupport.bottomMostVisibleEventId(); }
+    function selectableEventIdNearMatrixRow(row) { return roomViewportSupport.selectableEventIdNearMatrixRow(row); }
 
     function clearSelectedEvents() { return walkModeSupport.clearSelectedEvents(); }
     function handleMouseSelectionToggle(eventId) { return walkModeSupport.handleMouseSelectionToggle(eventId); }
@@ -592,7 +592,7 @@ ColumnLayout {
                             positionOnPress = position;
                         } else {
                             positionOnPress = -1;
-                            listShellSupport.handleScrollbarReleased();
+                            roomListShellSupport.handleScrollbarReleased();
                         }
                     }
                 }
@@ -619,7 +619,7 @@ ColumnLayout {
                 Connections {
                     target: matrixTimelineScrollbar
                     function onPositionChanged() {
-                        listShellSupport.handleScrollbarPositionChanged();
+                        roomListShellSupport.handleScrollbarPositionChanged();
                     }
                 }
 
@@ -658,12 +658,12 @@ ColumnLayout {
                     property real stableThumbSize: 1.0
                     property bool visibleIndicesValid: false
 
-                    function updateStableThumbSize() { return listShellSupport.updateStableThumbSize(); }
-                    function updateLastScroll() { return listShellSupport.updateLastScroll(); }
-                    function updateBottomPin() { return listShellSupport.updateBottomPin(); }
-                    function maybeScrollToBottom(force) { return listShellSupport.maybeScrollToBottom(force); }
-                    function isNearLiveEdge() { return viewportSupport.isNearLiveEdge(); }
-                    function isEffectivelyAtLiveEdge() { return viewportSupport.isEffectivelyAtLiveEdge(); }
+                    function updateStableThumbSize() { return roomListShellSupport.updateStableThumbSize(); }
+                    function updateLastScroll() { return roomListShellSupport.updateLastScroll(); }
+                    function updateBottomPin() { return roomListShellSupport.updateBottomPin(); }
+                    function maybeScrollToBottom(force) { return roomListShellSupport.maybeScrollToBottom(force); }
+                    function isNearLiveEdge() { return roomViewportSupport.isNearLiveEdge(); }
+                    function isEffectivelyAtLiveEdge() { return roomViewportSupport.isEffectivelyAtLiveEdge(); }
 
                     anchors.fill: parent
                     anchors.margins: Komai.paddingMedium
@@ -732,18 +732,18 @@ ColumnLayout {
                         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
 
                         onRotationChanged: {
-                            listShellSupport.handleWheelRotation(rotation);
+                            roomListShellSupport.handleWheelRotation(rotation);
                         }
                     }
 
-                    onMovementEnded: listShellSupport.handleMovementEnded()
-                    onAtYBeginningChanged: listShellSupport.handleAtYBeginningChanged()
-                    onContentYChanged: listShellSupport.handleContentYChanged()
-                    onContentHeightChanged: listShellSupport.handleContentHeightChanged()
-                    onHeightChanged: listShellSupport.handleHeightChanged()
-                    onCountChanged: listShellSupport.handleCountChanged()
-                    onModelChanged: listShellSupport.handleModelChanged()
-                    Component.onCompleted: listShellSupport.handleCompleted()
+                    onMovementEnded: roomListShellSupport.handleMovementEnded()
+                    onAtYBeginningChanged: roomListShellSupport.handleAtYBeginningChanged()
+                    onContentYChanged: roomListShellSupport.handleContentYChanged()
+                    onContentHeightChanged: roomListShellSupport.handleContentHeightChanged()
+                    onHeightChanged: roomListShellSupport.handleHeightChanged()
+                    onCountChanged: roomListShellSupport.handleCountChanged()
+                    onModelChanged: roomListShellSupport.handleModelChanged()
+                    Component.onCompleted: roomListShellSupport.handleCompleted()
 
 
 

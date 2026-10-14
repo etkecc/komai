@@ -62,9 +62,9 @@ Control {
             // user-mxid uses a sibling backend that excludes the @room
             // pseudo-user, since /ban, /kick and friends need real MXIDs.
             // Otherwise behaves like the mention picker.
-            var resolvedType = completerType;
-            var backend = backendModel || resolvedType;
-            var needsRoom = resolvedType !== "room" && resolvedType !== "roomAliases" && resolvedType !== "command";
+            const resolvedType = completerType;
+            const backend = backendModel || resolvedType;
+            const needsRoom = resolvedType !== "room" && resolvedType !== "roomAliases" && resolvedType !== "command";
             if (needsRoom && !popup.roomId) {
                 completer = undefined;
                 currentIndex = -1;
@@ -105,7 +105,7 @@ Control {
     }
     function finishCompletion() {
         if (popup.completerType == "room") {
-            var item = listView.itemAtIndex(currentIndex);
+            const item = listView.itemAtIndex(currentIndex);
             lastCompletionWasSpace = item && item.modelData && item.modelData.isSpace;
             popup.completionSelected(item.modelData.rawroomid);
         } else if (popup.completerType == "user" || popup.completerType == "user-mxid") {
@@ -437,8 +437,8 @@ Control {
                     }
                     onPointChanged: {
                         if (!listView.mouseActivated && hovered && entryPoint.x >= 0) {
-                            var dx = point.position.x - entryPoint.x;
-                            var dy = point.position.y - entryPoint.y;
+                            const dx = point.position.x - entryPoint.x;
+                            const dy = point.position.y - entryPoint.y;
                             if (dx !== 0 || dy !== 0) {
                                 listView.mouseActivated = true;
                                 listView.hoveredIndex = model.index;

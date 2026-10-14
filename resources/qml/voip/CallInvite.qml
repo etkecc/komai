@@ -140,7 +140,7 @@ Popup {
 
             function validateMic() {
                 if (CallManager.mics.length == 0) {
-                    var dialog = deviceError.createObject(timelineRoot, {
+                    const dialog = deviceError.createObject(timelineRoot, {
                         "errorString": qsTr("No microphone found."),
                         "image": ":/icons/icons/ui/place-call.svg"
                     });

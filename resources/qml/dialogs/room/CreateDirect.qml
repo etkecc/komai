@@ -316,7 +316,7 @@ OverlayDialog {
             if (userID.isValidMxid) {
                 createDirectRoot.selectUser(userID.resolvedMxid, "", "");
             } else if (searchResults.count > 0) {
-                var item = searchResults.itemAtIndex(0);
+                const item = searchResults.itemAtIndex(0);
                 if (item)
                     createDirectRoot.selectUser(item.userid, "", "");
             }

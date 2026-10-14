@@ -42,7 +42,7 @@ Item {
         var _ = preferencesTab.transcriptionOverridesRevision;
         if (preferencesTab.currentRoomId &&
             Settings.hasIntegrationsTranscriptionOverrideForRoom(preferencesTab.currentRoomId, fieldName)) {
-            var overrides = Settings.integrationsTranscriptionOverridesForRoom(preferencesTab.currentRoomId);
+            const overrides = Settings.integrationsTranscriptionOverridesForRoom(preferencesTab.currentRoomId);
             return overrides[fieldName] !== undefined ? overrides[fieldName] : "";
         }
         switch (fieldName) {
@@ -557,7 +557,7 @@ Item {
                                     Settings.setIntegrationsTranscriptionOverrideForRoom(
                                         preferencesTab.currentRoomId, "api_url", preferencesTab.openaiCloudUrl);
                                 } else {
-                                    var current = preferencesTab._resolvedTranscriptionField("api_url") || "";
+                                    const current = preferencesTab._resolvedTranscriptionField("api_url") || "";
                                     if (current.trim().toLowerCase() === preferencesTab.openaiCloudUrl) {
                                         Settings.setIntegrationsTranscriptionOverrideForRoom(
                                             preferencesTab.currentRoomId, "api_url", "");

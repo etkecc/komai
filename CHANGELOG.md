@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026.10.15.0
+
+- ⚡ Performance: Komai uses far less memory: photos, rich-text messages, message outlines and image placeholders no longer keep oversized copies in memory ([b83a12e67](https://github.com/etkecc/komai/commit/b83a12e67), [983b43d20](https://github.com/etkecc/komai/commit/983b43d20), [5a99892ee](https://github.com/etkecc/komai/commit/5a99892ee), [1753035a9](https://github.com/etkecc/komai/commit/1753035a9)).
+- ⚡ Performance: memory no longer creeps up slowly while Komai sits idle ([98d3bb114](https://github.com/etkecc/komai/commit/98d3bb114)).
+- ⚡ Performance: closing tabs no longer gets slower the longer Komai runs ([f5b710331](https://github.com/etkecc/komai/commit/f5b710331), [f9be6c2de](https://github.com/etkecc/komai/commit/f9be6c2de), [c15825beb](https://github.com/etkecc/komai/commit/c15825beb), [42744d42f](https://github.com/etkecc/komai/commit/42744d42f)).
+- ⚡ Performance: Komai wakes the CPU far less often while idle, which helps battery life ([836d5eb5e](https://github.com/etkecc/komai/commit/836d5eb5e), [ec3b6fd8a](https://github.com/etkecc/komai/commit/ec3b6fd8a), [0d62ab349](https://github.com/etkecc/komai/commit/0d62ab349), [b2e2b287b](https://github.com/etkecc/komai/commit/b2e2b287b)).
+- ⚡ Performance: Komai no longer freezes for a moment when a new message moves a room up the room list ([613441eb6](https://github.com/etkecc/komai/commit/613441eb6), [c071856e2](https://github.com/etkecc/komai/commit/c071856e2), [fac55b800](https://github.com/etkecc/komai/commit/fac55b800)).
+- 🐛 Fix: 2-digit numbers in ordered lists are no longer clipped ([ca66593e6](https://github.com/etkecc/komai/commit/ca66593e6)).
+- 📦 Calls: the bundled Element Call is updated to v0.28.0 ([fe6989cb7](https://github.com/etkecc/komai/commit/fe6989cb7)).
+- 📦 Flatpak: the bundled GStreamer is updated to v1.28.8 ([bd371cdb5](https://github.com/etkecc/komai/commit/bd371cdb5)).
+- 🔧 Build: the Rust toolchain is updated to 1.99.0 ([09ece91f2](https://github.com/etkecc/komai/commit/09ece91f2)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.344 ([978885bcd](https://github.com/etkecc/komai/commit/978885bcd)).
+- 🔧 Build: Rust dependencies are updated, including security fixes in rustls and xxhash-rust ([c003ab632](https://github.com/etkecc/komai/commit/c003ab632), [fd752ef7b](https://github.com/etkecc/komai/commit/fd752ef7b)).
+
+**Performance in this release**, measured on one real account (about 200 rooms) before and after these changes:
+
+| | Before | After |
+|---|---|---|
+| Peak memory after a couple of minutes of use | 1.10 GB | 366 MB |
+| Decoded photos in 2 image-heavy rooms | 442 MB | 16 MB |
+| Idle CPU wakeups (quiet minute) | ~425/s | ~19/s |
+| Idle CPU use (one core) | ~2.7% | ~0.5% |
+| Freeze when a new message moves a room up the list | 38–93 ms | 3–8 ms |
+
+_Your numbers will differ with your rooms, screen and hardware._
+
 ## 2026.09.30.0
 
 - ✨ Feature: [🔔 notification pacing](https://github.com/etkecc/komai/blob/eb79153ac/docs/user-guide/features/notifications.md#-pacing-per-room-cooldown) adds an optional per-room cooldown, so a busy room doesn't ping you for every message ([3b6407d96](https://github.com/etkecc/komai/commit/3b6407d96)).

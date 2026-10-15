@@ -432,14 +432,11 @@ bool
 RoomlistModel::matrixRoomListSnapshotDiffersFromAppliedState(
   const QVector<komai::MatrixRoomSummary> &roomList) const
 {
+    // Order doesn't matter: rows keep stable positions and the proxy sorts.
     if (roomids.size() != static_cast<size_t>(roomList.size()))
         return true;
 
-    for (int i = 0; i < roomList.size(); ++i) {
-        const auto &room = roomList.at(i);
-        if (roomids[static_cast<size_t>(i)] != room.roomId)
-            return true;
-
+    for (const auto &room : roomList) {
         const auto currentIt = matrixJoinedRooms_.constFind(room.roomId);
         if (currentIt == matrixJoinedRooms_.cend() ||
             !matrixRoomSummaryEquals(currentIt.value(), room)) {
@@ -699,44 +696,61 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
         newMatrixRooms.insert(room.roomId, room);
     }
 
-    // Detect whether the room set or ordering changed (structural) vs only field
-    // values changed (data-only).  A full model reset (beginResetModel/endResetModel)
-    // causes QML ListView to lose its scroll position, so we avoid it when the room
-    // set is identical and only emit targeted dataChanged signals.
-    const bool structuralChange = roomids.size() != newRoomIds.size() || [&]() {
-        for (size_t i = 0; i < newRoomIds.size(); ++i) {
-            if (roomids[i] != newRoomIds[i])
-                return true;
+    // Rows keep a stable position: the visible order comes from
+    // FilteredRoomlistModel, which sorts by importance and recency itself. A room
+    // moving to the top of the backend's list is therefore just a data change
+    // here, which the proxy turns into a row move. Resetting the model instead
+    // would rebuild every room-list delegate on each incoming message.
+    bool anyChange = false;
+
+    // Drop rooms that are no longer in the snapshot, bottom-up so earlier
+    // indices stay valid.
+    for (int row = static_cast<int>(roomids.size()) - 1; row >= 0; --row) {
+        const QString roomId = roomids[static_cast<size_t>(row)];
+        if (newMatrixRooms.contains(roomId))
+            continue;
+        beginRemoveRows(QModelIndex(), row, row);
+        roomids.erase(roomids.begin() + row);
+        removeRoomState(roomId, false);
+        endRemoveRows();
+        anyChange = true;
+    }
+
+    // Rows whose summary changed, compared before the new values are installed.
+    QVector<int> changedRows;
+    QSet<QString> presentRoomIds;
+    presentRoomIds.reserve(static_cast<int>(roomids.size()));
+    for (size_t row = 0; row < roomids.size(); ++row) {
+        const auto &roomId = roomids[row];
+        presentRoomIds.insert(roomId);
+        const auto it = matrixJoinedRooms_.constFind(roomId);
+        if (it == matrixJoinedRooms_.cend() ||
+            !matrixRoomSummaryEquals(it.value(), newMatrixRooms.value(roomId))) {
+            changedRows.push_back(static_cast<int>(row));
         }
-        return false;
-    }();
+    }
 
-    if (!structuralChange) {
-        // Same rooms in same order – find rows where field values differ.
-        QVector<int> changedRows;
-        for (size_t i = 0; i < newRoomIds.size(); ++i) {
-            const auto it = matrixJoinedRooms_.constFind(newRoomIds[i]);
-            if (it == matrixJoinedRooms_.cend() ||
-                !matrixRoomSummaryEquals(it.value(), newMatrixRooms.value(newRoomIds[i]))) {
-                changedRows.push_back(static_cast<int>(i));
-            }
-        }
+    std::vector<QString> addedRoomIds;
+    for (const auto &roomId : newRoomIds) {
+        if (!presentRoomIds.contains(roomId))
+            addedRoomIds.push_back(roomId);
+    }
 
-        if (changedRows.isEmpty()) {
-            emitAttentionCount();
-            return;
-        }
+    if (!anyChange && changedRows.isEmpty() && addedRoomIds.empty()) {
+        emitAttentionCount();
+        return;
+    }
 
-        matrixJoinedRooms_ = std::move(newMatrixRooms);
+    matrixJoinedRooms_ = std::move(newMatrixRooms);
 
-        for (int row : changedRows)
-            emit dataChanged(index(row), index(row));
-    } else {
-        beginResetModel();
-        resetRoomCollections(false);
-        matrixJoinedRooms_ = std::move(newMatrixRooms);
-        roomids            = std::move(newRoomIds);
-        endResetModel();
+    for (int row : changedRows)
+        emit dataChanged(index(row), index(row));
+
+    if (!addedRoomIds.empty()) {
+        const int first = static_cast<int>(roomids.size());
+        beginInsertRows(QModelIndex(), first, first + static_cast<int>(addedRoomIds.size()) - 1);
+        roomids.insert(roomids.end(), addedRoomIds.begin(), addedRoomIds.end());
+        endInsertRows();
     }
 
     refreshActiveCalls();

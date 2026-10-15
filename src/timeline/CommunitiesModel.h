@@ -263,6 +263,11 @@ private:
 
     void computeFilterBadges();
     void recomputeFilterBadges();
+    // Recomputes the badges once the current event has been handled, so a
+    // room-list update that changes many rooms at once costs one recompute
+    // instead of one per room.
+    void scheduleFilterBadgesRecompute();
+    bool filterBadgesRecomputeQueued_                        = false;
     std::array<FixedFilterRow, kFixedRowCount> fixedFilters_ = {{
       {"", QStringLiteral(":/icons/icons/ui/world.svg"), {}},
       {"people", QStringLiteral(":/icons/icons/ui/person.svg"), {}},

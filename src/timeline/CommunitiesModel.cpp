@@ -227,6 +227,21 @@ CommunitiesModel::recomputeFilterBadges()
           index(0), index(rowCount() - 1), {UnreadMessages, HasLoudNotification, IsEmpty});
 }
 
+void
+CommunitiesModel::scheduleFilterBadgesRecompute()
+{
+    if (filterBadgesRecomputeQueued_)
+        return;
+    filterBadgesRecomputeQueued_ = true;
+    QMetaObject::invokeMethod(
+      this,
+      [this]() {
+          filterBadgesRecomputeQueued_ = false;
+          recomputeFilterBadges();
+      },
+      Qt::QueuedConnection);
+}
+
 bool
 CommunitiesModel::hasRoomsForFixedFilter(const QString &filterId) const
 {
@@ -582,7 +597,7 @@ CommunitiesModel::handleRoomlistDataChanged(const QModelIndex &topLeft,
         roles.contains(RoomlistModel::UnreadCount) || roles.contains(RoomlistModel::Tags) ||
         roles.contains(RoomlistModel::ParentSpaces) || roles.contains(RoomlistModel::IsDirect) ||
         roles.contains(RoomlistModel::IsBotRoom) || roles.contains(RoomlistModel::IsSpace)) {
-        recomputeFilterBadges();
+        scheduleFilterBadgesRecompute();
     }
 }
 

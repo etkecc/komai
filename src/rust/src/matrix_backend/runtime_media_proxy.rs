@@ -5,10 +5,7 @@
 use std::collections::HashMap;
 use std::convert::Infallible;
 use std::pin::Pin;
-use std::sync::{
-    Arc, Mutex, OnceLock, RwLock,
-    atomic::{AtomicBool, Ordering},
-};
+use std::sync::{Arc, Mutex, OnceLock, RwLock};
 use std::task::{Context, Poll};
 use std::thread::JoinHandle;
 
@@ -62,7 +59,7 @@ const UNKNOWN_LENGTH_WAIT: Duration = Duration::from_secs(3);
 pub(super) struct MediaProxyInstance {
     pub port: u16,
     registry: Arc<RwLock<HashMap<String, MediaRegistration>>>,
-    stop_requested: Arc<AtomicBool>,
+    stop: tokio_util::sync::CancellationToken,
     thread: JoinHandle<()>,
 }
 
@@ -179,8 +176,8 @@ pub fn start_media_proxy(handle_id: u64) -> Result<u16, String> {
     let registry: Arc<RwLock<HashMap<String, MediaRegistration>>> =
         Arc::new(RwLock::new(HashMap::new()));
 
-    let stop_requested = Arc::new(AtomicBool::new(false));
-    let stop_for_thread = Arc::clone(&stop_requested);
+    let stop = tokio_util::sync::CancellationToken::new();
+    let stop_for_thread = stop.clone();
     let registry_for_thread = Arc::clone(&registry);
 
     let thread = std::thread::spawn(move || {
@@ -201,7 +198,7 @@ pub fn start_media_proxy(handle_id: u64) -> Result<u16, String> {
             handle.media_proxy = Some(MediaProxyInstance {
                 port,
                 registry,
-                stop_requested,
+                stop,
                 thread,
             });
         });
@@ -313,7 +310,7 @@ pub fn stop_media_proxy(handle_id: u64) {
 
 pub(super) fn stop_proxy_instance(handle_id: u64, proxy: MediaProxyInstance) {
     tracing::info!(handle_id, port = proxy.port, "Stopping media proxy");
-    proxy.stop_requested.store(true, Ordering::Relaxed);
+    proxy.stop.cancel();
     let _ = proxy.thread.join();
 }
 
@@ -326,14 +323,14 @@ async fn run_proxy_loop(
     listener: tokio::net::TcpListener,
     client: Client,
     registry: Arc<RwLock<HashMap<String, MediaRegistration>>>,
-    stop_requested: Arc<AtomicBool>,
+    stop: tokio_util::sync::CancellationToken,
 ) {
     let state = Arc::new(ProxyState { client, registry });
 
     loop {
         let accept_result = tokio::select! {
             result = listener.accept() => result,
-            () = poll_stop(&stop_requested) => break,
+            () = stop.cancelled() => break,
         };
 
         let (stream, _) = match accept_result {
@@ -364,14 +361,6 @@ async fn run_proxy_loop(
     tracing::info!(handle_id, "Media proxy loop stopped");
 }
 
-async fn poll_stop(flag: &AtomicBool) {
-    loop {
-        if flag.load(Ordering::Relaxed) {
-            return;
-        }
-        tokio::time::sleep(Duration::from_millis(100)).await;
-    }
-}
 
 // ---------------------------------------------------------------------------
 // Request handling

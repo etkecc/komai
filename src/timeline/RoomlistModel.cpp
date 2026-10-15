@@ -41,6 +41,24 @@ struct MatrixNotificationFetchBatchResult
 // attention like an incoming message.
 constexpr qint64 kDraftAttentionDelayMs = 60'000;
 
+// How long a room opened by the user keeps showing as read while the backend
+// still reports unread counts from before the read receipt was sent.
+constexpr qint64 kLocalReadTimeoutMs = 30'000;
+
+void
+clearUnreadCounts(komai::MatrixRoomSummary &room)
+{
+    room.unreadMessages    = 0;
+    room.notificationCount = 0;
+    room.highlightCount    = 0;
+}
+
+bool
+hasUnreadCounts(const komai::MatrixRoomSummary &room)
+{
+    return room.unreadMessages > 0 || room.notificationCount > 0 || room.highlightCount > 0;
+}
+
 bool
 matrixRoomSummaryEquals(const komai::MatrixRoomSummary &left, const komai::MatrixRoomSummary &right)
 {
@@ -393,6 +411,7 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     invites.clear();
     roomids.clear();
     roomReadStatus.clear();
+    localReads_.clear();
     matrixNotificationFetchQueued_     = false;
     pendingMatrixNotificationHandleId_ = 0;
     pendingMatrixNotificationRequests_.clear();
@@ -437,9 +456,13 @@ RoomlistModel::matrixRoomListSnapshotDiffersFromAppliedState(
         return true;
 
     for (const auto &room : roomList) {
+        auto effectiveRoom = room;
+        if (hasPendingLocalRead(room))
+            clearUnreadCounts(effectiveRoom);
+
         const auto currentIt = matrixJoinedRooms_.constFind(room.roomId);
         if (currentIt == matrixJoinedRooms_.cend() ||
-            !matrixRoomSummaryEquals(currentIt.value(), room)) {
+            !matrixRoomSummaryEquals(currentIt.value(), effectiveRoom)) {
             return true;
         }
     }
@@ -447,10 +470,19 @@ RoomlistModel::matrixRoomListSnapshotDiffersFromAppliedState(
     return false;
 }
 
+bool
+RoomlistModel::hasPendingLocalRead(const komai::MatrixRoomSummary &room) const
+{
+    const auto it = localReads_.constFind(room.roomId);
+    return it != localReads_.cend() && it->latestEventId == room.latestEventId &&
+           QDateTime::currentMSecsSinceEpoch() - it->markedAtMs < kLocalReadTimeoutMs;
+}
+
 void
 RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
 {
     matrixJoinedRooms_.remove(room_id);
+    localReads_.remove(room_id);
     invites.remove(room_id);
     previewedRooms.remove(room_id);
     roomReadStatus.erase(room_id);
@@ -693,7 +725,13 @@ RoomlistModel::applyMatrixBackendRoomsSnapshot(const QVector<komai::MatrixRoomSu
 
     for (const auto &room : roomList) {
         newRoomIds.push_back(room.roomId);
-        newMatrixRooms.insert(room.roomId, room);
+        auto &inserted = newMatrixRooms.insert(room.roomId, room).value();
+        if (!localReads_.contains(room.roomId))
+            continue;
+        if (hasUnreadCounts(room) && hasPendingLocalRead(room))
+            clearUnreadCounts(inserted);
+        else
+            localReads_.remove(room.roomId);
     }
 
     // Rows keep a stable position: the visible order comes from

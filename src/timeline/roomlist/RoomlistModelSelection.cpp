@@ -5,6 +5,7 @@
 
 #include "RoomlistModel.h"
 
+#include <QDateTime>
 #include <QTimer>
 
 #include "TimelineViewManager.h"
@@ -71,7 +72,8 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     //
     // Because dynamic sorting is already disabled during suppression, emitting
     // dataChanged here only updates the visual badge without reordering rooms.
-    // The deferred snapshot replaces matrixJoinedRooms_ when the pause ends.
+    // Snapshots built before the read receipt goes out still carry the old
+    // counts; localReads_ keeps them from showing the room as unread again.
     //
     // We always fire this regardless of the read-receipts toggle: when the
     // toggle is off we send `m.read.private` rather than skipping the send,
@@ -80,6 +82,7 @@ RoomlistModel::trySelectCurrentMatrixSummaryRoom(const QString &roomid)
     if (interactionSuppressed_) {
         auto &room = matrixJoinedRooms_[roomid];
         if (room.unreadMessages > 0 || room.notificationCount > 0 || room.highlightCount > 0) {
+            localReads_.insert(roomid, {room.latestEventId, QDateTime::currentMSecsSinceEpoch()});
             room.unreadMessages    = 0;
             room.notificationCount = 0;
             room.highlightCount    = 0;

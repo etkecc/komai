@@ -244,6 +244,7 @@ private:
     QVariant dataForUnavailablePreview(int role) const;
     void resetRoomCollections(bool clearAllDrafts);
     void removeRoomState(const QString &room_id, bool clearDraftForRoom = true);
+    bool hasPendingLocalRead(const komai::MatrixRoomSummary &room) const;
     void emitCurrentRoomVisualStateChanged();
     void notifyCurrentRoomIdChanged();
     void scheduleCurrentRoomVisualStateChanged();
@@ -311,6 +312,17 @@ private:
     bool matrixRoomRefreshInFlight_ = false;
     bool matrixRoomRefreshPending_  = false;
     std::optional<QVector<komai::MatrixRoomSummary>> deferredMatrixRoomListSnapshot_;
+    // Rooms opened while the room list was paused, whose unread counts were
+    // cleared right away. The read receipt goes out only once the timeline has
+    // loaded, so snapshots built before then still carry the old counts. Those
+    // counts are ignored until the backend reports the room read, a newer
+    // event arrives in it, or the entry expires.
+    struct LocalRead
+    {
+        QString latestEventId;
+        qint64 markedAtMs = 0;
+    };
+    QHash<QString, LocalRead> localReads_;
     bool matrixNotificationFetchQueued_         = false;
     uint64_t pendingMatrixNotificationHandleId_ = 0;
     QHash<QString, komai::MatrixNotificationRequest> pendingMatrixNotificationRequests_;

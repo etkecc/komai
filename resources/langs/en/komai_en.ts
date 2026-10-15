@@ -5145,7 +5145,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Write a message…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation type="unfinished"/>
     </message>

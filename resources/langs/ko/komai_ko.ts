@@ -5160,7 +5160,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>메시지를 작성하세요...</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 기기 검증 대체 방법도 실패했습니다: %2</translation>
     </message>

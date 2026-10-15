@@ -5168,7 +5168,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>පණිවිඩයක් ලියන්න…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 උපකරණ තහවුරු කිරීමේ ආදේශ ද අසාර්ථක විය: %2</translation>
     </message>

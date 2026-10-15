@@ -267,6 +267,7 @@ fn extract_verification_ids_from_raw_room_event(
 }
 
 async fn register_incoming_verification_session(
+    handle_id: u64,
     client: matrix_sdk::Client,
     verification_sessions: Arc<Mutex<HashMap<String, MatrixVerificationSessionEntry>>>,
     pending_flow_ids: Arc<Mutex<Vec<String>>>,
@@ -340,11 +341,18 @@ async fn register_incoming_verification_session(
         .expect("poisoned matrix backend verification sessions mutex")
         .insert(flow_id.to_owned(), entry);
 
-    let mut pending = pending_flow_ids
-        .lock()
-        .expect("poisoned matrix backend pending verification flows mutex");
-    if !pending.iter().any(|pending_flow_id| pending_flow_id == flow_id) {
-        pending.push(flow_id.to_owned());
+    let added = {
+        let mut pending = pending_flow_ids
+            .lock()
+            .expect("poisoned matrix backend pending verification flows mutex");
+        let added = !pending.iter().any(|pending_flow_id| pending_flow_id == flow_id);
+        if added {
+            pending.push(flow_id.to_owned());
+        }
+        added
+    };
+    if added {
+        crate::ffi::matrix_notify_pending_verifications_available(handle_id);
     }
 
     Ok(())
@@ -371,6 +379,7 @@ pub(crate) fn install_incoming_verification_event_handlers(
                 tracing::info!(handle_id, sender, flow_id, "Received to-device verification event");
 
                 if let Err(error) = register_incoming_verification_session(
+                    handle_id,
                     client,
                     verification_sessions,
                     pending_flow_ids,
@@ -403,6 +412,7 @@ pub(crate) fn install_incoming_verification_event_handlers(
                 };
 
                 if let Err(error) = register_incoming_verification_session(
+                    handle_id,
                     client,
                     verification_sessions,
                     pending_flow_ids,

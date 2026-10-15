@@ -5160,7 +5160,7 @@ Jalankan '%1 &lt;group&gt; --help' untuk detail subperintah.</translation>
         <translation>Ketik pesan…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Fallback verifikasi perangkat juga gagal: %2</translation>
     </message>

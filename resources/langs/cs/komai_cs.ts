@@ -5176,7 +5176,7 @@ Spusťte '%1 &lt;group&gt; --help' pro podrobnosti o podpříkazu.</translation>
         <translation>Napište zprávu…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Záložní ověření zařízení také selhalo: %2</translation>
     </message>

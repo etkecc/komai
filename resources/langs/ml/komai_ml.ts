@@ -5168,7 +5168,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>ഈ ലോഞ്ചിലേക്കു മാത്രം സിസ്റ്റം ട്രേയിൽ മറഞ്ഞ് ആരംഭിക്കുക, "ട്രേയിൽ ആരംഭിക്കുക" ക്രമീകരണം മാറ്റാതെ. ഓട്ടോസ്റ്റാർട്ട് എൻട്രികളിൽ ഉപയോഗപ്രദം, അതുവഴി സെഷൻ ലോഞ്ചുകൾ നിശബ്ദമായി തുടരുകയും സാധാരണ ലോഞ്ചുകൾ ഇപ്പോഴും വിൻഡോ തുറക്കുകയും ചെയ്യും. "ട്രേയിലേക്ക് അടയ്ക്കുക" പ്രവർത്തനക്ഷമമാക്കിയിരിക്കണം, ഒരു പ്രവർത്തനക്ഷമ സിസ്റ്റം ട്രേ ആവശ്യമാണ്. ഒന്നിലധികം-പ്രൊഫൈൽ സജ്ജീകരണങ്ങളിൽ, പ്രൊഫൈൽ സ്വിച്ചർ ഒഴിവാക്കാൻ -p-യുമായി ചേർക്കുക.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 ഉപകരണ പരിശോധന ഫാൾബാക്കും പരാജയപ്പെട്ടു: %2</translation>
     </message>

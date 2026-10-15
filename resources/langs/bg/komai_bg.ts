@@ -5153,7 +5153,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Стартирай скрито в системния трей само за това стартиране, без да засягаш настройката "Стартирай в трей". Полезно при записи за автоматично стартиране, за да могат стартиранията при сесия да са тихи, докато нормалните стартирания все още отварят прозореца. Изисква включена настройка "Затвори в трей" и работещ системен трей. При конфигурации с множество профили, комбинирай с -p, за да заобиколиш превключвателя на профили.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Резервната верификация на устройство също е неуспешна: %2</translation>
     </message>

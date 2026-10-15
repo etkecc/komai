@@ -5168,7 +5168,7 @@ Esegui '%1 &lt;group&gt; --help' per dettagli sui sottocomandi.</translation>
         <translation>Avvia nascosto nel vassoio di sistema solo per questo avvio, lasciando invariata l'impostazione "Avvia in area di notifica". Utile nelle voci di avvio automatico per mantenere silenziosi gli avvii di sessione, mentre gli avvii normali aprono comunque la finestra. Richiede l'opzione "Chiudi nel vassoio" abilitata e un vassoio di sistema funzionante. In configurazioni multi-profilo, combinare con -p per ignorare il selettore di profilo.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Anche il fallback di verifica del dispositivo è fallito: %2</translation>
     </message>

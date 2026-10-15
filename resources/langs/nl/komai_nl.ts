@@ -5168,7 +5168,7 @@ Voer '%1 &lt;groep&gt; --help' uit voor subopdracht-details.</translation>
         <translation>Typ een bericht…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Terugvaloptie voor apparaatverificatie ook mislukt: %2</translation>
     </message>

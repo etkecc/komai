@@ -5168,7 +5168,7 @@ Alamkäsu üksikasjade jaoks käivita '%1 &lt;grupp&gt; --help'.</translation>
         <translation>Kirjuta sõnum…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Seadme verifitseerimise varulahendus ebaõnnestus samuti: %2</translation>
     </message>

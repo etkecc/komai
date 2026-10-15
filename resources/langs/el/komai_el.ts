@@ -5168,7 +5168,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Εκκίνηση κρυφά στην περιοχή ειδοποιήσεων μόνο για αυτή την εκκίνηση, χωρίς να επηρεαστεί η ρύθμιση "Εκκίνηση στην περιοχή ειδοποιήσεων". Χρήσιμο σε καταχωρίσεις αυτόματης εκκίνησης ώστε οι εκκινήσεις περιόδου σύνδεσης να γίνονται σιωπηλά ενώ οι κανονικές εκκινήσεις ανοίγουν κανονικά το παράθυρο. Απαιτεί ενεργοποιημένο το "Κλείσιμο στην περιοχή ειδοποιήσεων" και λειτουργική περιοχή ειδοποιήσεων. Σε ρυθμίσεις με πολλά προφίλ, συνδυάστε με -p για παράκαμψη του επιλογέα προφίλ.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Η εναλλακτική επαλήθευση συσκευής απέτυχε επίσης: %2</translation>
     </message>

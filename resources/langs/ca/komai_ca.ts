@@ -5168,7 +5168,7 @@ Executa '%1 &lt;grup&gt; --help' per als detalls del subordre.</translation>
         <translation>Escriu un missatge…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>La verificació alternativa del dispositiu %1 també ha fallat: %2</translation>
     </message>

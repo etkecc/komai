@@ -5176,7 +5176,7 @@ Pokrenite '%1 &lt;grupa&gt; --help' za detalje o podkomandi.</translation>
         <translation>Napiši poruku...</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Rezervna verifikacija uređaja takođe nije uspela: %2</translation>
     </message>

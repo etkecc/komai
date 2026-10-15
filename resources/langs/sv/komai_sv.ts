@@ -5168,7 +5168,7 @@ Kör '%1 &lt;grupp&gt; --help' för detaljer om underkommandon.</translation>
         <translation>Starta dolt i systemfältet för enbart den här starten, utan att ändra inställningen "Starta i systemfältet". Användbart i autostartposter så att sessionslanseringar förblir tysta medan normala lanseringar fortfarande öppnar fönstret. Kräver att "Stäng till systemfältet" är aktiverat och att ett fungerande systemfält finns. I konfigurationer med flera profiler, kombinera med -p för att hoppa över profilväljaren.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Reservmetod för enhetsverifiering misslyckades också: %2</translation>
     </message>

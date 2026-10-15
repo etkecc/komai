@@ -5177,7 +5177,7 @@ Uruchom '%1 &lt;group&gt; --help', aby uzyskać szczegóły podkomendy.</transla
         <translation>Uruchom ukryty w zasobniku systemowym tylko dla tego uruchomienia, nie zmieniając ustawienia "Uruchom w zasobniku". Przydatne we wpisach automatycznego uruchamiania, aby sesje startowały w tle, a normalne uruchomienia nadal otwierały okno. Wymaga włączonego "Minimalizuj do zasobnika" i działającego zasobnika systemowego. W konfiguracjach z wieloma profilami połącz z -p, aby ominąć przełącznik profili.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Alternatywna weryfikacja urządzenia również nie powiodła się: %2</translation>
     </message>

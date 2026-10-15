@@ -5176,7 +5176,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>Запустить скрытым в системном трее только для этого запуска, не изменяя настройку "Start in tray". Полезно в записях автозапуска, чтобы сессия запускалась незаметно, а обычные запуски по-прежнему открывали окно. Требует включённой опции "Close to tray" и работающего системного трея. В конфигурациях с несколькими профилями используй совместно с -p, чтобы обойти переключатель профилей.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Резервная верификация устройства также не удалась: %2</translation>
     </message>

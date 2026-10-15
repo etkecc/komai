@@ -5160,7 +5160,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>この起動のみシステムトレイに非表示で起動し、「トレイで起動」設定はそのまま維持されます。自動起動エントリに便利で、セッション起動をサイレントにしながら、通常の起動ではウィンドウが開きます。「トレイに閉じる」が有効で、動作するシステムトレイが必要です。マルチプロファイル設定では、-p と組み合わせてプロファイルスイッチャーをバイパスできます。</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 デバイス検証のフォールバックも失敗しました: %2</translation>
     </message>

@@ -5168,7 +5168,7 @@ Executar '%1 &lt;group&gt; --help' para detalhes do subcomando.</translation>
         <translation>Inicia oculto na área de notificação apenas para este arranque, sem alterar a definição "Iniciar na área de notificação". Útil em entradas de arranque automático para que os arranques de sessão permaneçam silenciosos enquanto os arranques normais continuam a abrir a janela. Requer "Fechar para a área de notificação" ativado e uma área de notificação funcional. Em configurações com múltiplos perfis, combine com -p para contornar o seletor de perfis.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 O mecanismo alternativo de verificação de dispositivo também falhou: %2</translation>
     </message>

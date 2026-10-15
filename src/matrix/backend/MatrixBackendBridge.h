@@ -98,6 +98,9 @@ void
 matrix_notify_initial_sync_ready(std::uint64_t handle_id);
 
 void
+matrix_notify_pending_verifications_available(std::uint64_t handle_id);
+
+void
 matrix_notify_sync_connection_state_changed(std::uint64_t handle_id, bool is_connected);
 
 void

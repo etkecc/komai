@@ -5160,7 +5160,7 @@ Részletekért: '%1 &lt;csoport&gt; --help'.</translation>
         <translation>Csak erre az indításra rejtve indul a rendszertálcán, az "Indítás a tálcán" beállítást érintetlenül hagyva. Hasznos automatikus indítási bejegyzéseknél, hogy a munkamenet-indítások csendben maradjanak, míg a normál indítások továbbra is megnyitják az ablakot. Szükséges a "Bezárás a tálcára" engedélyezése és egy működő rendszertálca. Többprofil-beállítások esetén a -p kapcsolóval kombinálva kihagyható a profilváltó.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Az eszközhitelesítési visszalépési megoldás is sikertelen volt: %2</translation>
     </message>

@@ -71,7 +71,6 @@ private:
     void requestMatrixVerificationFlow(uint64_t handleId, const QString &flowId);
 
     inline static VerificationManager *instance_ = nullptr;
-    QTimer *matrixVerificationPollTimer_         = nullptr;
     QSet<QString> activeMatrixFlowIds_;
     QSet<QString> openingMatrixFlowIds_;
     bool matrixVerificationPollInFlight_ = false;

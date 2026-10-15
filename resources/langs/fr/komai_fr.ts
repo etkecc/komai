@@ -5168,7 +5168,7 @@ Exécutez '%1 &lt;group&gt; --help' pour les détails des sous-commandes.</trans
         <translation>Démarrer masqué dans la zone de notification pour ce lancement uniquement, sans modifier le paramètre "Démarrer dans la zone de notification". Utile dans les entrées de démarrage automatique afin que les lancements de session restent silencieux tandis que les lancements normaux ouvrent toujours la fenêtre. Nécessite que "Fermer dans la zone de notification" soit activé et une zone de notification fonctionnelle. Dans les configurations multi-profils, combinez avec -p pour contourner le sélecteur de profil.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 La vérification de secours de l'appareil a également échoué : %2</translation>
     </message>

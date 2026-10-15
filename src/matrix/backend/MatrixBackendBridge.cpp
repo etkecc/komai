@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "chat/ChatPage.h"
+#include "encryption/VerificationManager.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixMediaUri.h"
 #include "matrix/backend/MatrixBackendFfiConversions.h"
@@ -323,6 +324,23 @@ matrix_notify_initial_sync_ready(std::uint64_t handle_id)
             return;
 
         manager->handleMatrixBackendInitialSyncReady(handle_id);
+        // Requests registered before the app adopted this handle were
+        // announced to nobody; pick them up now.
+        if (auto *verificationManager = VerificationManager::instance())
+            verificationManager->pollPendingMatrixVerifications();
+    });
+}
+
+void
+matrix_notify_pending_verifications_available(std::uint64_t handle_id)
+{
+    postToAppThread([handle_id]() {
+        auto *mainWindow = MainWindow::instance();
+        auto *manager    = VerificationManager::instance();
+        if (!mainWindow || !manager || mainWindow->matrixBackendHandleId() != handle_id)
+            return;
+
+        manager->pollPendingMatrixVerifications();
     });
 }
 

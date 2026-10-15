@@ -5160,7 +5160,7 @@ Run '%1 &lt;group&gt; --help' for subcommand details.</source>
         <translation>یک پیام بنویسید…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>روش جایگزین تأیید دستگاه %1 نیز ناموفق بود: %2</translation>
     </message>

@@ -60,14 +60,7 @@ runVerificationManagerTask(VerificationManager *manager, WorkFnT work, UiFnT ui)
 VerificationManager::VerificationManager(TimelineViewManager *o)
   : QObject(o)
 {
-    instance_                    = this;
-    matrixVerificationPollTimer_ = new QTimer(this);
-    matrixVerificationPollTimer_->setInterval(500);
-    connect(matrixVerificationPollTimer_,
-            &QTimer::timeout,
-            this,
-            &VerificationManager::pollPendingMatrixVerifications);
-    matrixVerificationPollTimer_->start();
+    instance_ = this;
 }
 
 void

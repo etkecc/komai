@@ -5171,7 +5171,7 @@ Ejecuta '%1 &lt;group&gt; --help' para más detalles sobre los subcomandos.</tra
         <translation>Iniciar oculto en la bandeja del sistema solo para este inicio, sin modificar el ajuste "Iniciar en bandeja". Útil en entradas de inicio automático para que los inicios de sesión sean silenciosos mientras los inicios normales siguen abriendo la ventana. Requiere "Cerrar en bandeja" activado y una bandeja del sistema funcional. En configuraciones de varios perfiles, combinar con -p para omitir el selector de perfiles.</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 El método alternativo de verificación de dispositivo también ha fallado: %2</translation>
     </message>

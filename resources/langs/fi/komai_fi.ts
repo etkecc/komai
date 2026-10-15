@@ -5168,7 +5168,7 @@ Aja '%1 &lt;ryhmä&gt; --help' alikomennon tietoihin.</translation>
         <translation>Kirjoita viesti…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Laitteen vahvistuksen vararatkaisu epäonnistui myös: %2</translation>
     </message>

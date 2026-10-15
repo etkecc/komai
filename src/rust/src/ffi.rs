@@ -1532,6 +1532,8 @@ mod bridge {
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_initial_sync_ready(handle_id: u64);
         #[namespace = "komai::rust_bridge"]
+        fn matrix_notify_pending_verifications_available(handle_id: u64);
+        #[namespace = "komai::rust_bridge"]
         fn matrix_notify_sync_connection_state_changed(handle_id: u64, is_connected: bool);
         #[namespace = "komai::rust_bridge"]
         fn matrix_notify_room_timeline_snapshot_updated(handle_id: u64, room_id: &str);

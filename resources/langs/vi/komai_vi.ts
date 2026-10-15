@@ -5160,7 +5160,7 @@ Chạy '%1 &lt;nhóm&gt; --help' để xem chi tiết lệnh con.</translation>
         <translation>Viết tin nhắn…</translation>
     </message>
     <message>
-        <location filename="../../../src/encryption/VerificationManager.cpp" line="+185"/>
+        <location filename="../../../src/encryption/VerificationManager.cpp" line="+178"/>
         <source>%1 Device verification fallback also failed: %2</source>
         <translation>%1 Phương án dự phòng xác minh thiết bị cũng thất bại: %2</translation>
     </message>

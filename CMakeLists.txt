@@ -902,6 +902,14 @@ CPMAddPackage(
     EXCLUDE_FROM_ALL YES
 )
 corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml)
+# Corrosion hardcodes the Command Line Tools SDK's usr/lib as a link directory
+# for Rust libraries on macOS, and an explicit -L wins over the sysroot. When
+# the installed Command Line Tools are newer than the selected Xcode, ld then
+# picks up .tbd stubs it can't parse ("unknown architecture arm64e.x1-macos").
+# The sysroot already provides -lSystem/-lc/-lm, so drop the directory.
+if(APPLE)
+    set_property(TARGET komai_rust-static PROPERTY INTERFACE_LINK_DIRECTORIES "")
+endif()
 corrosion_add_cxxbridge(komai-rust-cxxbridge
     CRATE komai_rust
     FILES ffi.rs

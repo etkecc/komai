@@ -581,8 +581,11 @@ Rectangle {
 
             Avatar {
                 anchors.fill: parent
-                anchors.bottomMargin: avatarBounce.running ? -avatarBounce.offset : 0
-                anchors.topMargin: avatarBounce.running ? avatarBounce.offset : 0
+                // A transform rather than anchor margins, so the per-frame
+                // bounce doesn't resize the avatar and re-lay out its contents.
+                transform: Translate {
+                    y: avatarBounce.running ? avatarBounce.offset : 0
+                }
                 displayName: tabDelegate.displayName
                 url: tabDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
                 roomid: tabDelegate.roomId

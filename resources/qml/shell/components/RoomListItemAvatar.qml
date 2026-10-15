@@ -26,8 +26,11 @@ Avatar {
     property bool isSelected: false
 
     Layout.alignment: Qt.AlignVCenter
-    Layout.bottomMargin: avatarBounce.running ? -avatarBounce.offset : 0
-    Layout.topMargin: avatarBounce.running ? avatarBounce.offset : 0
+    // A transform rather than layout margins: the bounce animates every
+    // frame, and moving the margins would re-run the room-list row layout.
+    transform: Translate {
+        y: avatarBounce.running ? avatarBounce.offset : 0
+    }
     displayName: roomName
     enabled: false
     roomid: roomId

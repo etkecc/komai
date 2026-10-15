@@ -8,7 +8,7 @@
 #include <QFont>
 #include <QPoint>
 #include <QQmlEngine>
-#include <QQuickPaintedItem>
+#include <QQuickItem>
 #include <QRectF>
 #include <QSet>
 #include <QString>
@@ -19,7 +19,7 @@
 
 #include "timeline/litehtml/LitehtmlContainer.h"
 
-class LitehtmlItem : public QQuickPaintedItem
+class LitehtmlItem : public QQuickItem
 {
     Q_OBJECT
     QML_ELEMENT
@@ -95,8 +95,6 @@ public:
     // trailing newline). Returns false when no block is tracked.
     Q_INVOKABLE bool copyCodeBlockText();
 
-    void paint(QPainter *painter) override;
-
     Q_INVOKABLE void handleHoverMove(qreal x, qreal y);
     Q_INVOKABLE void handleHoverLeave();
     // Called by the timeline's drag-select controller once it has decided the
@@ -153,6 +151,8 @@ signals:
 
 protected:
     void componentComplete() override;
+    QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *data) override;
+    void itemChange(ItemChange change, const ItemChangeData &value) override;
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -165,7 +165,7 @@ private:
     void requestDocumentRebuild();
     void rebuildDocument();
     void relayout();
-    void updateTextureSize();
+    void paint(QPainter *painter);
     QString generateMasterCss();
 
     SelectionPoint hitTestTextRun(const QPoint &pos) const;

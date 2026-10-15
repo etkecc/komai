@@ -13,6 +13,8 @@
 #include <QPainterPath>
 #include <QPalette>
 #include <QQuickWindow>
+#include <QSGImageNode>
+#include <QSGTexture>
 #include <QtMath>
 
 #include <algorithm>
@@ -123,11 +125,11 @@ blurSpoilerRegion(QImage &buffer, const QVector<QRect> &itemBoxes, qreal dpr)
 } // namespace
 
 LitehtmlItem::LitehtmlItem(QQuickItem *parent)
-  : QQuickPaintedItem(parent)
+  : QQuickItem(parent)
   , m_container(new LitehtmlContainer(this))
 {
+    setFlag(ItemHasContents);
     setAcceptedMouseButtons(Qt::LeftButton);
-    setAntialiasing(true);
 
     connect(m_container, &LitehtmlContainer::linkClicked, this, &LitehtmlItem::linkActivated);
     connect(m_container, &LitehtmlContainer::imageLoaded, this, [this]() {
@@ -289,7 +291,7 @@ LitehtmlItem::setCompact(bool compact)
 void
 LitehtmlItem::componentComplete()
 {
-    QQuickPaintedItem::componentComplete();
+    QQuickItem::componentComplete();
 
     if (m_rebuildPending)
         rebuildDocument();
@@ -414,7 +416,7 @@ LitehtmlItem::relayout()
     // ascent.  litehtml lays out the line box using the text font's ascent
     // (faked in LitehtmlContainer::create_font to keep line heights uniform),
     // so the emoji's ink top is positioned above the line box on the first
-    // line — i.e. above the QQuickPaintedItem's texture top edge — and gets
+    // line — i.e. above the item's texture top edge — and gets
     // clipped.  Reserve room for the overshoot and shift the document draw
     // down by the same amount in paint().
     const bool htmlHasEmoji = m_html.contains(QStringLiteral("<span class=\"emoji\""));
@@ -435,7 +437,6 @@ LitehtmlItem::relayout()
 
     collectSpoilerRegions();
 
-    updateTextureSize();
     ++m_relayoutCount;
     if (roomSwitchPerfEnabled() && m_relayoutCount <= 3) {
         logPerfPhase("litehtml.relayout",
@@ -634,15 +635,57 @@ LitehtmlItem::setHoveredSpoiler(bool hovered)
     emit hoveredSpoilerChanged();
 }
 
-void
-LitehtmlItem::updateTextureSize()
+QSGNode *
+LitehtmlItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
 {
-    auto *w = window();
-    if (!w)
-        return;
-    qreal dpr = w->devicePixelRatio();
-    if (dpr > 1.0)
-        setTextureSize(QSize(qCeil(width() * dpr), qCeil(height() * dpr)));
+    // The document is painted into a temporary image that is uploaded and then
+    // dropped, so only the GPU texture stays around. QQuickPaintedItem would
+    // keep the image as well, for every message in every pooled timeline.
+    // Runs on the render thread while the GUI thread is blocked, like
+    // QQuickPaintedItem's own painting.
+    auto *node      = static_cast<QSGImageNode *>(oldNode);
+    auto *w         = window();
+    const qreal dpr = w ? w->effectiveDevicePixelRatio() : 1.0;
+    const QSize pixelSize(qCeil(width() * dpr), qCeil(height() * dpr));
+    if (!w || !m_document || pixelSize.isEmpty()) {
+        delete node;
+        return nullptr;
+    }
+
+    QImage image(pixelSize, QImage::Format_RGBA8888_Premultiplied);
+    image.setDevicePixelRatio(dpr);
+    image.fill(Qt::transparent);
+    {
+        QPainter painter(&image);
+        painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
+                               QPainter::SmoothPixmapTransform);
+        paint(&painter);
+    }
+
+    QSGTexture *texture = w->createTextureFromImage(image);
+    if (!texture) {
+        delete node;
+        return nullptr;
+    }
+    if (!node) {
+        node = w->createImageNode();
+        node->setOwnsTexture(true);
+        node->setFiltering(QSGTexture::Linear);
+    }
+    // Replacing the texture deletes the previous one, since the node owns it.
+    node->setTexture(texture);
+    // Map texels 1:1 onto device pixels; the rounded-up edge overhangs the item
+    // by less than a pixel.
+    node->setRect(QRectF(QPointF(0, 0), QSizeF(pixelSize) / dpr));
+    return node;
+}
+
+void
+LitehtmlItem::itemChange(ItemChange change, const ItemChangeData &value)
+{
+    if (change == ItemDevicePixelRatioHasChanged)
+        update();
+    QQuickItem::itemChange(change, value);
 }
 
 void
@@ -753,7 +796,7 @@ LitehtmlItem::paint(QPainter *painter)
 void
 LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
-    QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
+    QQuickItem::geometryChange(newGeometry, oldGeometry);
 
     if (m_document && qRound(newGeometry.width()) != qRound(oldGeometry.width())) {
         if (churnPerfEnabled()) {
@@ -765,7 +808,7 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
         relayout();
         update();
     } else if (qRound(newGeometry.height()) != qRound(oldGeometry.height())) {
-        updateTextureSize();
+        update();
     }
 }
 
@@ -934,7 +977,7 @@ void
 LitehtmlItem::mousePressEvent(QMouseEvent *event)
 {
     if (!m_document || event->button() != Qt::LeftButton) {
-        QQuickPaintedItem::mousePressEvent(event);
+        QQuickItem::mousePressEvent(event);
         return;
     }
 
@@ -971,7 +1014,7 @@ void
 LitehtmlItem::mouseMoveEvent(QMouseEvent *event)
 {
     if (!m_document || !m_selecting) {
-        QQuickPaintedItem::mouseMoveEvent(event);
+        QQuickItem::mouseMoveEvent(event);
         return;
     }
 
@@ -1026,7 +1069,7 @@ void
 LitehtmlItem::mouseReleaseEvent(QMouseEvent *event)
 {
     if (!m_document || event->button() != Qt::LeftButton) {
-        QQuickPaintedItem::mouseReleaseEvent(event);
+        QQuickItem::mouseReleaseEvent(event);
         return;
     }
 
@@ -1092,7 +1135,7 @@ void
 LitehtmlItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (!m_document || event->button() != Qt::LeftButton) {
-        QQuickPaintedItem::mouseDoubleClickEvent(event);
+        QQuickItem::mouseDoubleClickEvent(event);
         return;
     }
 
@@ -1208,7 +1251,7 @@ LitehtmlItem::event(QEvent *event)
             return true;
         }
     }
-    return QQuickPaintedItem::event(event);
+    return QQuickItem::event(event);
 }
 
 void
@@ -1237,7 +1280,7 @@ LitehtmlItem::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    QQuickPaintedItem::keyPressEvent(event);
+    QQuickItem::keyPressEvent(event);
 }
 
 void

@@ -64,8 +64,10 @@ BlurhashRunnable::run()
                  static_cast<int>(w) * 4,
                  QImage::Format_RGBA8888);
 
-    image = image.scaled(m_requestedSize);
-
+    // Hand back the small decode rather than scaling it to the requested size:
+    // a blurhash has no detail to preserve, and the view's smooth GPU scaling
+    // keeps a placeholder at a few KB instead of several MB per image.
+    // convertToFormat also copies the pixels out of the Rust buffer.
     emit done(image.convertToFormat(QImage::Format_RGB32));
 }
 

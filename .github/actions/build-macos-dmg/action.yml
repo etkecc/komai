@@ -114,13 +114,11 @@ runs:
     # ---------- Build --------------------------------------------------
 
     - name: Pin the macOS SDK to the selected Xcode
-      # CMake 4 no longer passes an SDK to the compiler by default, so the
-      # final link has no -syslibroot and ld falls back to the Command Line
-      # Tools SDK. When the runner image ships Command Line Tools newer than
-      # its default Xcode, that SDK's .tbd stubs list architectures the
-      # Xcode linker doesn't know ("tapi error: unknown architecture
-      # arm64e.x1-macos"). SDKROOT keeps the compiler, the linker and the
-      # Rust build scripts on the selected Xcode's SDK.
+      # Runner images can ship Command Line Tools newer than the default
+      # Xcode, whose SDK the Xcode toolchain may not be able to read.
+      # SDKROOT (which CMake also picks up as CMAKE_OSX_SYSROOT) keeps the
+      # compiler, the linker and the Rust build scripts on the selected
+      # Xcode's SDK.
       shell: bash
       run: |
         sdk="$(xcrun --sdk macosx --show-sdk-path)"

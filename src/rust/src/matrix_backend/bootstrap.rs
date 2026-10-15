@@ -5,6 +5,7 @@
 use std::path::Path;
 
 use matrix_sdk::AuthSession;
+use matrix_sdk::cross_process_lock::CrossProcessLockConfig;
 use matrix_sdk::store::RoomLoadSettings;
 use matrix_sdk::{
     Client, ClientBuildError,
@@ -152,7 +153,12 @@ pub async fn build_client(
             Path::new(&paths.state_store_root),
             Path::new(&paths.cache_root),
             config.store_passphrase,
-        );
+        )
+        // Komai runs one process per profile (single-instance check in
+        // MainApplication), so the stores need no cross-process lock. With
+        // the default multi-process config, matrix-sdk renews a lease row in
+        // SQLite every 50 ms for as long as the client runs.
+        .cross_process_store_config(CrossProcessLockConfig::SingleProcess);
 
     if !config.verify_certificates {
         builder = builder.disable_ssl_verification();

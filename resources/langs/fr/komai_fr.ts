@@ -3006,7 +3006,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+706"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Le nom du profil est obligatoire.</translation>
@@ -3047,7 +3047,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Impossible de recréer le dossier de cache.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+131"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Une belle application de chat %1 que vous apprendrez à aimer</translation>
     </message>
@@ -3764,7 +3764,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+248"/>
         <source>Show</source>
         <translation>Afficher</translation>
     </message>

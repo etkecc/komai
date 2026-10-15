@@ -51,9 +51,14 @@ class Komai : public QObject
     Q_PROPERTY(UserSettings::Density density READ uiLayoutDensity NOTIFY layoutMetricsChanged)
     Q_PROPERTY(
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY layoutMetricsChanged)
-    // Highest device pixel ratio across connected screens. Shared so per-item
-    // delegates don't each need a Window/Screen attached object to read it.
-    Q_PROPERTY(double devicePixelRatio READ devicePixelRatio NOTIFY devicePixelRatioChanged)
+    // Screen metrics shared so per-item delegates don't each need a
+    // Window/Screen attached object to read them. devicePixelRatio is the
+    // highest across connected screens; screenPixelDensity (physical dots per
+    // millimetre) and desktopAvailableSize (the available virtual desktop)
+    // mirror the Screen attached properties of the primary screen.
+    Q_PROPERTY(double devicePixelRatio READ devicePixelRatio NOTIFY screenMetricsChanged)
+    Q_PROPERTY(double screenPixelDensity READ screenPixelDensity NOTIFY screenMetricsChanged)
+    Q_PROPERTY(QSize desktopAvailableSize READ desktopAvailableSize NOTIFY screenMetricsChanged)
     // Font-scaled icon size shared across all navigation surfaces
     // (list rows, community entries, action bars, avatars).
     Q_PROPERTY(int iconSize READ iconSize NOTIFY layoutMetricsChanged)
@@ -109,6 +114,8 @@ public:
     double sidebarAvatarMultiplier() const;
     int iconSize() const;
     static double devicePixelRatio();
+    static double screenPixelDensity();
+    static QSize desktopAvailableSize();
     // Single authoritative logical list/avatar size. Use this from C++ code
     // that needs the same sizing as the QML Komai.iconSize property.
     static int iconLogicalSize();
@@ -259,7 +266,7 @@ signals:
     void applicationProfilesChanged();
     void localCacheInfoChanged();
     void layoutMetricsChanged();
-    void devicePixelRatioChanged();
+    void screenMetricsChanged();
     void localizedStringsChanged();
     void navigationRoomListShowLastMessageTimeChanged();
 

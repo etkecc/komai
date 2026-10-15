@@ -3006,7 +3006,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+706"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Profil-nomo estas postulata.</translation>
@@ -3047,7 +3047,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Ne eblis rekrei la kaŝmemoran dosierujon.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+131"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Bona %1 babileja aplikaĵo, kiun vi povas ekami</translation>
     </message>
@@ -3764,7 +3764,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+248"/>
         <source>Show</source>
         <translation>Montri</translation>
     </message>

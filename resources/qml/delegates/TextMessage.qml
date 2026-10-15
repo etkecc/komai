@@ -4,8 +4,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../components"
+import QtQuick
 import QtQuick.Controls
-import QtQuick.Window
 import cc.etke.komai
 
 LitehtmlItem {
@@ -61,7 +61,7 @@ LitehtmlItem {
     // We intentionally ignore the "small avatars" toggle here: otherwise the cap gets too low and
     // "enlarged" emojis can end up near regular text size, which defeats the feature.
     readonly property real timelineAvatarSize: Komai.iconSize
-    readonly property real pixelsPerPoint: Math.max(0.01, Screen.pixelDensity * 25.4 / 72)
+    readonly property real pixelsPerPoint: Math.max(0.01, Komai.screenPixelDensity * 25.4 / 72)
     readonly property int enlargedEmojiCapPixelSize: Math.max(1, Math.round(timelineAvatarSize * 0.9))
     readonly property real enlargedEmojiCapPointSize: enlargedEmojiCapPixelSize / pixelsPerPoint
     readonly property real enlargedEmojiPointSize: Math.min(Settings.uiFontSizePt * 3, enlargedEmojiCapPointSize)

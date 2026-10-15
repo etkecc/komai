@@ -3011,7 +3011,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+706"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Требуется имя профиля.</translation>
@@ -3052,7 +3052,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Не удалось воссоздать папку кэша.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+131"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Отличный чат-клиент для %1, который полюбишь</translation>
     </message>
@@ -3770,7 +3770,7 @@ If the problem persists, you can log out and sign in again, but this will delete
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+248"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>

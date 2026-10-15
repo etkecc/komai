@@ -3001,7 +3001,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+706"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>Tên hồ sơ là bắt buộc.</translation>
@@ -3042,7 +3042,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Không thể tạo lại thư mục bộ nhớ đệm.</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+131"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>Ứng dụng trò chuyện %1 tuyệt vời mà bạn sẽ yêu thích</translation>
     </message>
@@ -3758,7 +3758,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+248"/>
         <source>Show</source>
         <translation>Hiển thị</translation>
     </message>

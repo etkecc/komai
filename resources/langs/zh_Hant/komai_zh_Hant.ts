@@ -3001,7 +3001,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>Komai</name>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+690"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.cpp" line="+706"/>
         <location line="+122"/>
         <source>Profile name is required.</source>
         <translation>需要設定檔名稱。</translation>
@@ -3042,7 +3042,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>無法重新建立快取資料夾。</translation>
     </message>
     <message>
-        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+124"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+131"/>
         <source>A fine %1 chat app you can get to love</source>
         <translation>一款你會愛上的優質 %1 聊天應用程式</translation>
     </message>
@@ -3758,7 +3758,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>MediaImageSurface</name>
     <message>
-        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+249"/>
+        <location filename="../../qml/delegates/MediaImageSurface.qml" line="+248"/>
         <source>Show</source>
         <translation>顯示</translation>
     </message>

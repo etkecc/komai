@@ -5,7 +5,6 @@
 
 import QtMultimedia
 import QtQuick
-import QtQuick.Window
 import cc.etke.komai
 import QtQuick.Effects
 
@@ -117,8 +116,8 @@ Item {
                 : "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.windowText
             asynchronous: true
             fillMode: Image.PreserveAspectFit
-            sourceSize.width: Math.min(Screen.desktopAvailableWidth, content.tempWidth) * Screen.devicePixelRatio
-            sourceSize.height: Math.min(Screen.desktopAvailableHeight, content.tempWidth * content.safeProportionalHeight) * Screen.devicePixelRatio
+            sourceSize.width: Math.min(Komai.desktopAvailableSize.width, content.tempWidth) * Komai.devicePixelRatio
+            sourceSize.height: Math.min(Komai.desktopAvailableSize.height, content.tempWidth * content.safeProportionalHeight) * Komai.devicePixelRatio
 
             VideoOutput {
                 id: videoOutput
@@ -152,8 +151,8 @@ Item {
                     width: parent.width * 0.45
                     height: width
                     source: "image://colorimage/:/icons/icons/ui/play-sign.svg?white"
-                    sourceSize.width: width * Screen.devicePixelRatio
-                    sourceSize.height: height * Screen.devicePixelRatio
+                    sourceSize.width: width * Komai.devicePixelRatio
+                    sourceSize.height: height * Komai.devicePixelRatio
                 }
             }
         }

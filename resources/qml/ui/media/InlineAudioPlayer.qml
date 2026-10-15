@@ -382,8 +382,8 @@ Rectangle {
                             height: 14
                             visible: !root.loadingIndicatorVisible
                             source: "image://colorimage/:/icons/icons/ui/music.svg?" + root.palette.highlight
-                            sourceSize.width: width * Screen.devicePixelRatio
-                            sourceSize.height: height * Screen.devicePixelRatio
+                            sourceSize.width: width * Komai.devicePixelRatio
+                            sourceSize.height: height * Komai.devicePixelRatio
                         }
                     }
 

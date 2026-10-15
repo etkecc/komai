@@ -5,7 +5,6 @@
 
 import "../components" as Components
 import QtQuick
-import QtQuick.Window
 import QtQuick.Effects
 import cc.etke.komai
 
@@ -178,8 +177,8 @@ Item {
             smooth: true
             mipmap: true
 
-            sourceSize.width: Math.min(Screen.desktopAvailableWidth, surface.originalWidth < 1 ? Screen.desktopAvailableWidth : surface.originalWidth) * Screen.devicePixelRatio
-            sourceSize.height: Math.min(Screen.desktopAvailableHeight, (surface.originalWidth < 1 ? Screen.desktopAvailableHeight : surface.originalWidth * surface.safeProportionalHeight)) * Screen.devicePixelRatio
+            sourceSize.width: Math.min(Komai.desktopAvailableSize.width, surface.originalWidth < 1 ? Komai.desktopAvailableSize.width : surface.originalWidth) * Komai.devicePixelRatio
+            sourceSize.height: Math.min(Komai.desktopAvailableSize.height, (surface.originalWidth < 1 ? Komai.desktopAvailableSize.height : surface.originalWidth * surface.safeProportionalHeight)) * Komai.devicePixelRatio
 
             onStatusChanged: {
                 if (!img._hasNetworkSource)
@@ -235,8 +234,8 @@ Item {
             source: hasValidBlurhash ? ("image://blurhash/" + encodeURIComponent(surface.blurhash)) : ("image://colorimage/:/icons/icons/ui/image-failed.svg?" + palette.buttonText)
             asynchronous: true
             fillMode: Image.PreserveAspectFit
-            sourceSize.width: hasValidBlurhash ? parent.width * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
-            sourceSize.height: hasValidBlurhash ? parent.height * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
+            sourceSize.width: hasValidBlurhash ? parent.width * Komai.devicePixelRatio : Math.min(parent.width, parent.height)
+            sourceSize.height: hasValidBlurhash ? parent.height * Komai.devicePixelRatio : Math.min(parent.width, parent.height)
 
             anchors.fill: parent
         }

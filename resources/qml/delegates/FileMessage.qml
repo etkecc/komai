@@ -62,8 +62,8 @@ ColumnLayout {
 
                     height: Komai.iconSize
                     width: Komai.iconSize
-                    sourceSize.height: Komai.iconSize * Screen.devicePixelRatio
-                    sourceSize.width: Komai.iconSize * Screen.devicePixelRatio
+                    sourceSize.height: Komai.iconSize * Komai.devicePixelRatio
+                    sourceSize.width: Komai.iconSize * Komai.devicePixelRatio
 
                     anchors.centerIn: parent
                     source: "image://colorimage/" + evRoot.fileTypeIconSource + "?" + palette.buttonText

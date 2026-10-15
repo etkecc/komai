@@ -194,16 +194,18 @@ Komai::Komai()
     }
 
     const auto trackScreen = [this](QScreen *screen) {
-        connect(
-          screen, &QScreen::physicalDotsPerInchChanged, this, &Komai::devicePixelRatioChanged);
+        connect(screen, &QScreen::physicalDotsPerInchChanged, this, &Komai::screenMetricsChanged);
+        connect(screen, &QScreen::virtualGeometryChanged, this, &Komai::screenMetricsChanged);
+        connect(screen, &QScreen::availableGeometryChanged, this, &Komai::screenMetricsChanged);
     };
     for (auto *screen : QGuiApplication::screens())
         trackScreen(screen);
     connect(qApp, &QGuiApplication::screenAdded, this, [this, trackScreen](QScreen *screen) {
         trackScreen(screen);
-        emit devicePixelRatioChanged();
+        emit screenMetricsChanged();
     });
-    connect(qApp, &QGuiApplication::screenRemoved, this, &Komai::devicePixelRatioChanged);
+    connect(qApp, &QGuiApplication::screenRemoved, this, &Komai::screenMetricsChanged);
+    connect(qApp, &QGuiApplication::primaryScreenChanged, this, &Komai::screenMetricsChanged);
 }
 
 void
@@ -375,6 +377,20 @@ Komai::devicePixelRatio()
     for (const auto *s : QGuiApplication::screens())
         dpr = qMax(dpr, s->devicePixelRatio());
     return dpr;
+}
+
+double
+Komai::screenPixelDensity()
+{
+    const auto *screen = QGuiApplication::primaryScreen();
+    return screen ? screen->physicalDotsPerInch() / 25.4 : 96.0 / 25.4;
+}
+
+QSize
+Komai::desktopAvailableSize()
+{
+    const auto *screen = QGuiApplication::primaryScreen();
+    return screen ? screen->availableVirtualSize() : QSize(1920, 1080);
 }
 
 // Shared baseline used to keep room-list and communities rows aligned with

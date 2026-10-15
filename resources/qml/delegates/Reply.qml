@@ -590,7 +590,7 @@ Pane {
                         smooth: true
                         mipmap: true
                         source: r.compactPreviewImageSource
-                        readonly property int _sourcePx: Math.max(1, Math.round(Math.max(parent.width, parent.height) * Screen.devicePixelRatio))
+                        readonly property int _sourcePx: Math.max(1, Math.round(Math.max(parent.width, parent.height) * Komai.devicePixelRatio))
                         sourceSize.width: _sourcePx
                         sourceSize.height: _sourcePx
 

@@ -14,7 +14,7 @@ pub(super) async fn run_sync_loop(
     handle_id: u64,
     client: Client,
     room_list_snapshot: Arc<Mutex<Vec<MatrixRoomSummary>>>,
-    stop_requested: Arc<AtomicBool>,
+    stop: tokio_util::sync::CancellationToken,
 ) {
     tracing::info!(handle_id, "Running matrix-sdk room-list sync loop");
 
@@ -52,7 +52,7 @@ pub(super) async fn run_sync_loop(
     // subscribe/unsubscribe changes to sliding-sync room subscriptions,
     // and forwards per-room `pinned_event_ids_stream` updates to the UI.
     // See `runtime_subscriptions.rs` for the full design.
-    let reconciler_stop = Arc::clone(&stop_requested);
+    let reconciler_stop = stop.clone();
     let reconciler_handle = match super::subscribed_rooms_for_handle(handle_id) {
         Ok(subscribed_rooms) => {
             let reconciler_client = client.clone();
@@ -168,7 +168,7 @@ pub(super) async fn run_sync_loop(
         load_ignored_user_ids(&client).await,
     );
 
-    while !stop_requested.load(Ordering::Relaxed) {
+    while !stop.is_cancelled() {
         tokio::select! {
             maybe_diffs = entries_stream.next() => {
                 match maybe_diffs {
@@ -429,19 +429,14 @@ pub(super) async fn run_sync_loop(
                 }
             }
 
-            _ = tokio::time::sleep(Duration::from_millis(200)) => {
-                if stop_requested.load(Ordering::Relaxed) {
-                    break;
-                }
-            }
+            _ = stop.cancelled() => break,
         }
     }
 
     sync_service.stop().await;
 
     if let Some(handle) = reconciler_handle {
-        // The reconciler observes `stop_requested` within ~250ms and exits
-        // cleanly. Await it so any in-flight `set_room_subscriptions` call
+        // The reconciler observes the same stop token and exits cleanly. Await it so any in-flight `set_room_subscriptions` call
         // finishes before we return.
         let _ = handle.await;
     }

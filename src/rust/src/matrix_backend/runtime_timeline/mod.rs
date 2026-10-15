@@ -229,8 +229,8 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
         )
     };
 
-    let stop_requested = Arc::new(AtomicBool::new(false));
-    let stop_requested_for_thread = Arc::clone(&stop_requested);
+    let stop = tokio_util::sync::CancellationToken::new();
+    let stop_for_thread = stop.clone();
     let (command_sender, command_receiver) = mpsc::unbounded_channel();
     let room_id_owned = room_id.to_owned();
     let room_id_for_thread = room_id_owned.clone();
@@ -243,7 +243,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
             room_timeline_snapshot,
             room_timeline_media_lookup,
             command_receiver,
-            stop_requested_for_thread,
+            stop_for_thread,
             preloaded_timelines,
             thread_reply_counts,
         ));
@@ -259,7 +259,7 @@ pub fn select_active_room_timeline(handle_id: u64, room_id: &str) -> Result<(), 
                 MatrixBackendRoomTimelineTask {
                     room_id: room_id_owned.clone(),
                     commands: command_sender,
-                    stop_requested,
+                    stop,
                     thread: room_timeline_task,
                 },
             );

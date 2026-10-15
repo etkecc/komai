@@ -593,7 +593,6 @@ static NEXT_BACKEND_HANDLE_ID: AtomicU64 = AtomicU64::new(1);
 const ROOM_LIST_PAGE_SIZE: usize = 100_000;
 const ROOM_TIMELINE_INITIAL_PAGE_SIZE: u16 = 15;
 const ROOM_TIMELINE_PAGE_SIZE: u16 = 50;
-const ROOM_TIMELINE_STOP_POLL_INTERVAL_MS: u64 = 50;
 /// Max number of thread timeline subscriptions kept warm.  Mirrors the
 /// "default 3 recently-closed timelines" behavior on the room side.
 pub(super) const THREAD_SUBSCRIPTION_CACHE_CAP: usize = 3;
@@ -691,14 +690,14 @@ struct MatrixVerificationSessionEntry {
 }
 
 struct MatrixBackendSyncTask {
-    stop_requested: Arc<AtomicBool>,
+    stop: tokio_util::sync::CancellationToken,
     thread: JoinHandle<()>,
 }
 
 struct MatrixBackendRoomTimelineTask {
     room_id: String,
     commands: mpsc::UnboundedSender<MatrixBackendRoomTimelineCommand>,
-    stop_requested: Arc<AtomicBool>,
+    stop: tokio_util::sync::CancellationToken,
     thread: JoinHandle<()>,
 }
 
@@ -904,7 +903,7 @@ fn normalize_mxc_uri(uri: String) -> String {
 
 fn stop_sync_task(handle_id: u64, sync_task: MatrixBackendSyncTask) {
     tracing::info!(handle_id, "Stopping matrix-sdk sync task");
-    sync_task.stop_requested.store(true, Ordering::Relaxed);
+    sync_task.stop.cancel();
     let _ = sync_task.thread.join();
 }
 
@@ -914,8 +913,6 @@ fn stop_room_timeline_task(handle_id: u64, room_timeline_task: MatrixBackendRoom
         room_id = %room_timeline_task.room_id,
         "Stopping matrix-sdk room timeline task"
     );
-    room_timeline_task
-        .stop_requested
-        .store(true, Ordering::Relaxed);
+    room_timeline_task.stop.cancel();
     let _ = room_timeline_task.thread.join();
 }

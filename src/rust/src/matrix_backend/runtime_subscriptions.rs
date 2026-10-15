@@ -123,7 +123,7 @@ impl SubscribedRooms {
 }
 
 /// Run the reconciler loop. Intended to be spawned on the sync loop's
-/// tokio runtime at room-list start-up; exits when `stop_requested` is set.
+/// tokio runtime at room-list start-up; exits when `stop` is cancelled.
 ///
 /// The reconciler:
 /// - waits on `subscribed.notify()` for set changes,
@@ -137,7 +137,7 @@ pub async fn run_reconciler(
     client: Client,
     room_list_service: Arc<RoomListService>,
     subscribed: Arc<SubscribedRooms>,
-    stop_requested: Arc<std::sync::atomic::AtomicBool>,
+    stop: tokio_util::sync::CancellationToken,
 ) {
     let notify = subscribed.notify();
     let mut last_submitted: HashSet<OwnedRoomId> = HashSet::new();
@@ -145,22 +145,17 @@ pub async fn run_reconciler(
 
     tracing::info!(handle_id, "Started sliding-sync room-subscription reconciler");
 
-    while !stop_requested.load(std::sync::atomic::Ordering::Relaxed) {
+    while !stop.is_cancelled() {
         // Block until a subscription change is signalled, or bail out on stop.
         tokio::select! {
             _ = notify.notified() => {}
-            _ = tokio::time::sleep(Duration::from_millis(250)) => {
-                // Periodic wake so stop_requested is observed without
-                // requiring a final notify. No reconcile work if the set
-                // hasn't changed.
-                continue;
-            }
+            _ = stop.cancelled() => break,
         }
 
         // Debounce burst changes.
         tokio::time::sleep(SUBSCRIPTION_DEBOUNCE).await;
 
-        if stop_requested.load(std::sync::atomic::Ordering::Relaxed) {
+        if stop.is_cancelled() {
             break;
         }
 

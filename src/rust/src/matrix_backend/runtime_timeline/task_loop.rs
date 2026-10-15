@@ -17,7 +17,7 @@ pub(super) async fn run_room_timeline_loop(
     room_timeline_snapshot: Arc<Mutex<Vec<MatrixTimelineItem>>>,
     room_timeline_media_lookup: Arc<Mutex<HashMap<String, MatrixTimelineMediaRequest>>>,
     mut commands: mpsc::UnboundedReceiver<MatrixBackendRoomTimelineCommand>,
-    stop_requested: Arc<AtomicBool>,
+    stop: tokio_util::sync::CancellationToken,
     preloaded_timelines: Arc<Mutex<HashMap<String, Timeline>>>,
     thread_reply_counts: Arc<Mutex<HashMap<String, HashMap<String, u32>>>>,
 ) {
@@ -119,7 +119,8 @@ pub(super) async fn run_room_timeline_loop(
 
     // Per-user typing state (see TYPING_USER_TTL above).  Replaced
     // wholesale on every `m.typing` event; entries that aren't refreshed
-    // within TYPING_USER_TTL are pruned by the 50ms stop-poll arm.
+    // within TYPING_USER_TTL are pruned by the typing-prune arm, which only
+    // wakes the loop while someone is typing.
     let mut typing_state: HashMap<OwnedUserId, RoomTypingEntry> = HashMap::new();
     let mut last_published_typing: Vec<String> = Vec::new();
     let mut last_typing_prune = Instant::now();
@@ -313,7 +314,7 @@ pub(super) async fn run_room_timeline_loop(
 
     let mut stream = Box::pin(stream);
     let mut first_diff_logged = false;
-    while !stop_requested.load(Ordering::Relaxed) {
+    while !stop.is_cancelled() {
         tokio::select! {
             result = &mut initial_paginate_fut, if initial_paginate_pending => {
                 initial_paginate_pending = false;
@@ -596,26 +597,23 @@ pub(super) async fn run_room_timeline_loop(
                 }
             }
 
-            _ = tokio::time::sleep(Duration::from_millis(ROOM_TIMELINE_STOP_POLL_INTERVAL_MS)) => {
-                if stop_requested.load(Ordering::Relaxed) {
-                    break;
-                }
-                // TTL prune of typing entries lives here rather than in its
-                // own `select!` arm: a sibling `tokio::time::sleep` arm gets
-                // recreated each loop iteration and would lose the race
-                // against this 50ms poll forever.
-                if !typing_state.is_empty() && last_typing_prune.elapsed() >= TYPING_PRUNE_INTERVAL {
-                    last_typing_prune = Instant::now();
-                    let now = Instant::now();
-                    typing_state
-                        .retain(|_, entry| now.duration_since(entry.last_seen_at) < TYPING_USER_TTL);
-                    publish_typing_state_if_changed(
-                        handle_id,
-                        &room_id,
-                        &typing_state,
-                        &mut last_published_typing,
-                    );
-                }
+            _ = stop.cancelled() => break,
+
+            // The deadline is fixed by `last_typing_prune`, so recreating this
+            // sleep on every loop iteration doesn't push it back.
+            _ = tokio::time::sleep_until(
+                tokio::time::Instant::from_std(last_typing_prune + TYPING_PRUNE_INTERVAL)
+            ), if !typing_state.is_empty() => {
+                last_typing_prune = Instant::now();
+                let now = Instant::now();
+                typing_state
+                    .retain(|_, entry| now.duration_since(entry.last_seen_at) < TYPING_USER_TTL);
+                publish_typing_state_if_changed(
+                    handle_id,
+                    &room_id,
+                    &typing_state,
+                    &mut last_published_typing,
+                );
             }
         }
     }

@@ -55,14 +55,14 @@ pub fn start_sync(handle_id: u64) -> Result<(), String> {
         (handle.client.clone(), Arc::clone(&handle.room_list_snapshot))
     };
 
-    let stop_requested = Arc::new(AtomicBool::new(false));
-    let stop_requested_for_thread = Arc::clone(&stop_requested);
+    let stop = tokio_util::sync::CancellationToken::new();
+    let stop_for_thread = stop.clone();
     let sync_task = std::thread::spawn(move || {
         crate::matrix_backend::ffi::runtime().block_on(run_sync_loop(
             handle_id,
             client,
             room_list_snapshot,
-            stop_requested_for_thread,
+            stop_for_thread,
         ));
     });
 
@@ -72,7 +72,7 @@ pub fn start_sync(handle_id: u64) -> Result<(), String> {
         .entry(handle_id)
         .and_modify(|handle| {
             handle.sync_task = Some(MatrixBackendSyncTask {
-                stop_requested,
+                stop,
                 thread: sync_task,
             });
         });

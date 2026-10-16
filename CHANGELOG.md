@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026.10.15.1
+## 2026.10.16.0
 
 - ⚡ Performance: Komai uses far less memory: photos, rich-text messages, message outlines and image placeholders no longer keep oversized copies in memory ([b83a12e67](https://github.com/etkecc/komai/commit/b83a12e67), [983b43d20](https://github.com/etkecc/komai/commit/983b43d20), [5a99892ee](https://github.com/etkecc/komai/commit/5a99892ee), [1753035a9](https://github.com/etkecc/komai/commit/1753035a9)).
 - ⚡ Performance: memory no longer creeps up slowly while Komai sits idle ([98d3bb114](https://github.com/etkecc/komai/commit/98d3bb114)).
@@ -26,7 +26,7 @@
 
 _Your numbers will differ with your rooms, screen and hardware._
 
-_(Re-cut of v2026.10.15.0, which was never published: its macOS build failed after a GitHub runner image update brought newer Command Line Tools than its default Xcode ([409a799a7](https://github.com/etkecc/komai/commit/409a799a7)). This re-cut also includes the Rust 1.99.1 update.)_
+_(Re-cut of v2026.10.15.0 and v2026.10.15.1, which were never published: their macOS builds failed after a GitHub runner image update brought newer Command Line Tools than its default Xcode ([409a799a7](https://github.com/etkecc/komai/commit/409a799a7), [6908013f2](https://github.com/etkecc/komai/commit/6908013f2)). This re-cut also includes the Rust 1.99.1 update.)_
 
 ## 2026.09.30.0
 

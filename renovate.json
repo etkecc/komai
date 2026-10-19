@@ -3,7 +3,7 @@
   "extends": ["config:recommended"],
   "platformAutomerge": false,
   "lockFileMaintenance": {
-    "description": "Refreshes Cargo.lock weekly, so transitive dependencies (which no other rule touches) do not drift. Automerged on a branch like the cargo rule below, once ci.yml passes.",
+    "description": "Refreshes Cargo.lock weekly, so transitive dependencies (which no other rule touches) do not drift. Merged like the cargo rule below: ci.yml only runs on pull requests, so the branch waits for Renovate to open one and merges once it is green.",
     "enabled": true,
     "automerge": true,
     "automergeType": "branch"
@@ -141,8 +141,9 @@
       "enabled": false
     },
     {
-      "description": "Group all Rust crate updates",
+      "description": "Group all Rust crate updates. Lock file maintenance is left out, so it keeps its own branch instead of being folded into this group under a second name.",
       "matchManagers": ["cargo"],
+      "matchUpdateTypes": ["!lockFileMaintenance"],
       "groupName": "rust dependencies"
     },
     {

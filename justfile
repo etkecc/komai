@@ -316,7 +316,7 @@ perf-room-switch-report-profile profile="default":
 flatpak-rust-update-lock:
 	python3 {{ justfile_directory() }}/bin/flatpak/rust-toolchain.py update-lock --repo-root {{ justfile_directory() }}
 
-# Regenerates etc/packaging/flatpak/cargo-sources.json from src/rust/Cargo.lock
+# Regenerates var/build/flatpak/cargo-sources.json (vendored crates for the offline Flatpak build) from src/rust/Cargo.lock
 flatpak-cargo-sources:
 	python3 {{ justfile_directory() }}/bin/flatpak/cargo-sources.py {{ justfile_directory() }}
 

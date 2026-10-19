@@ -2,9 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "platformAutomerge": false,
-  "ignoreDeps": [
-    "ruma"
-  ],
+  "lockFileMaintenance": {
+    "description": "Refreshes Cargo.lock weekly, so transitive dependencies (which no other rule touches) do not drift. Automerged on a branch like the cargo rule below, once ci.yml passes.",
+    "enabled": true,
+    "automerge": true,
+    "automergeType": "branch"
+  },
   "customManagers": [
     {
       "customType": "regex",

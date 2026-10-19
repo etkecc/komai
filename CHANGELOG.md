@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026.10.19.0
+
+- 🔧 Build: Rust dependencies are updated ([0535bae05](https://github.com/etkecc/komai/commit/0535bae05), [de54cf44d](https://github.com/etkecc/komai/commit/de54cf44d)).
+
 ## 2026.10.16.0
 
 - ⚡ Performance: Komai uses far less memory: photos, rich-text messages, message outlines and image placeholders no longer keep oversized copies in memory ([b83a12e67](https://github.com/etkecc/komai/commit/b83a12e67), [983b43d20](https://github.com/etkecc/komai/commit/983b43d20), [5a99892ee](https://github.com/etkecc/komai/commit/5a99892ee), [1753035a9](https://github.com/etkecc/komai/commit/1753035a9)).

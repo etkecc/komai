@@ -19,8 +19,8 @@ cldr:
   # merging a bump, run `just emoji-update-lock` to re-pin them (the pipeline
   # verifies the pins and prints the actual hash on mismatch); then commit the
   # lock change.
-  version: "48.2.0"
+  version: "49.0.0"
   annotations_url: "https://registry.npmjs.org/cldr-annotations-full/-/cldr-annotations-full-{version}.tgz"
-  annotations_sha256: "28576e51225deb51e3ddd734b0f824a0079682cb5d8c27faa9f68149317a14d1"
+  annotations_sha256: "ce415a4898da7a4ca755437de2593863c05045fc6b1649d8da5ee05fa3bdc33b"
   derived_url: "https://registry.npmjs.org/cldr-annotations-derived-full/-/cldr-annotations-derived-full-{version}.tgz"
-  derived_sha256: "4be946ff5815f806ec78b50363d577a769f2fbfb90c6380a44e161a92436996e"
+  derived_sha256: "e83ab0348ec09f4b5bb27f658b9c424c9c8fbf512484b728903515b9f01c3c28"

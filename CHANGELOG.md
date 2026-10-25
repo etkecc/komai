@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026.10.25.0
+
+- ✨ Feature: the emoji picker includes the new Unicode 18.0 emoji, with search keywords refreshed from CLDR v49 ([fa40b9fd7](https://github.com/etkecc/komai/commit/fa40b9fd7), [8915cdcde](https://github.com/etkecc/komai/commit/8915cdcde)).
+- 🔧 Build: Rust dependencies are updated ([b9cd753b4](https://github.com/etkecc/komai/commit/b9cd753b4), [c83f98a22](https://github.com/etkecc/komai/commit/c83f98a22)).
+
 ## 2026.10.19.0
 
 - 🔧 Build: Rust dependencies are updated ([0535bae05](https://github.com/etkecc/komai/commit/0535bae05), [de54cf44d](https://github.com/etkecc/komai/commit/de54cf44d)).

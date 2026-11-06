@@ -49,6 +49,10 @@ Steps are intentionally split rather than batched into a single
 per-phase timing (Build vs lint vs Rust tests vs C++ tests) — this
 is what made the cache-strategy investigations possible.
 
+Pushes to `main` and tags run on the `k150` runner; pull requests and
+manual runs run on `k150-ci`. See
+[Runner trust boundaries](#runner-trust-boundaries).
+
 ### `publish.yml` — release tags only (`v*`)
 
 Three packaging jobs (AppImage, Flatpak, Snap) plus a release job that
@@ -69,6 +73,46 @@ runner's host user. Triggered on changes to `etc/ci/Dockerfile`.
 
 `ci.yml` uses this image, so a fresh build doesn't need to reinstall
 hundreds of packages on every CI run.
+
+## Runner trust boundaries
+
+Pull request code is untrusted, and release builds must not read
+anything it can write. Two runner instances on the same VM keep them
+apart:
+
+| | `k150-ci` | `k150` |
+|---|---|---|
+| **Runs** | `ci.yml` for pull requests and manual runs | `ci.yml` for pushes, `publish.yml`, `packaging-check.yml`, `ci-image.yml`, other repositories' `self-hosted` jobs |
+| **Install** | `/home/runner/actions-runner-ci` | `/home/runner/actions-runner` |
+| **Cache mount** | `/var/lib/komai-ci/ci-pr` | `/var/lib/komai-ci/ci-trusted` |
+
+The separate install matters as much as the cache split. The runner
+mounts all of `_work` into job containers, and `actions/checkout` keeps
+an existing `.git`, hooks included, so a shared workspace would let a
+PR job run code in the next trusted job.
+
+Rules to keep this working:
+
+- Never mount the root of `/var/lib/komai-ci` into a job container.
+  `flatpak-build` and `snap-sdk` live there.
+- `main` and tag CI never share caches with PR jobs. Their tools run
+  with a cache token that writes to the `main` scope, which `publish.yml`
+  restores from, and tag CI gates publishing.
+- `k150-ci` is registered with `--no-default-labels`, so its only label
+  is `k150-ci`. A `self-hosted` label would attract other repositories'
+  trusted jobs.
+- Only dispatch `packaging-check.yml` on reviewed code. It runs on the
+  host and writes `snap-sdk`.
+
+This protects against PR code in an unmodified workflow. A PR that edits
+a workflow can pick any runner or drop `container:`, and both instances
+share one VM and Docker daemon, so review of workflow changes is the
+remaining gate.
+
+The two instances can run jobs at the same time. Each runs one job at a
+time and they write to separate directories, so the shared resources
+are RAM and CPU. All host packaging stays on `k150`, which keeps fixed
+paths like `/tmp/komai-snap-build` serial.
 
 ## Cache strategy
 
@@ -186,7 +230,9 @@ this round-trip becomes the dominant CI cost — easily tens of
 minutes for a multi-GB cargo target tree.
 
 If the runner provides a persistent host-mounted directory at
-`/var/lib/komai-ci`, the CI workflow:
+`/var/lib/komai-ci` inside the job container (`ci-pr` or `ci-trusted`
+on the host, see [Runner trust boundaries](#runner-trust-boundaries)),
+the CI workflow:
 
 1. Detects the mount by checking for a `cargo-target/` subdir
    (which the runner host pre-creates with permissive write perms,
@@ -209,10 +255,10 @@ runners or any self-hosted runner without the host disk), all cache
 steps run as `actions/cache` and the workflow behaves correctly,
 just slower.
 
-The host-mount path is intentionally world-writable so future cache
-types (e.g., flatpak/appimage/snap state on `publish.yml`) can be
-added entirely from the workflow side without coordinating runner-
-host changes.
+New CI cache types can be added from the workflow side without
+runner-host changes, as subdirectories of the mounted directory. Host
+jobs in `publish.yml` keep their caches in the root of
+`/var/lib/komai-ci` on the host, which job containers can't see.
 
 Because the host mount never expires, it can outlive the weekly CI
 image refresh while holding artifacts compiled by a toolchain the
@@ -343,9 +389,9 @@ prefer using that knob over our replication.
 
 If the host-mount is provisioned but a `mkdir` inside
 `/var/lib/komai-ci/<subdir>` fails with `Permission denied`, the
-parent dir's perms are too tight. The mount root needs to be
-world-writable so the non-root container user can create new
-subdirs without runner-host changes for every new cache type.
+parent dir's perms are too tight. `ci-pr` and `ci-trusted` need to be
+writable by the runner user, so the non-root container user can create
+new subdirs without runner-host changes for every new cache type.
 
 The CI workflow degrades gracefully on this: the affected cache
 falls back to `actions/cache` rather than failing the build.

@@ -23,7 +23,12 @@ concurrency:
 
 jobs:
   build-and-lint:
-    runs-on: [self-hosted, k150]
+    # Trust split, see "Runner trust boundaries" in docs/architecture/ci.md:
+    # pushes (main, tags) run on the release runner with their own caches;
+    # everything else runs on k150-ci, which shares no workspace or cache
+    # with release builds. k150-ci has no default labels, so that jobs from
+    # other repositories targeting `self-hosted` can't land on it.
+    runs-on: ${{ github.event_name == 'push' && fromJSON('["self-hosted", "k150"]') || 'k150-ci' }}
     container:
       # Pre-baked image with every pacman dep installed and a non-root
       # `ci` user whose UID matches the host runner. See etc/ci/Dockerfile
@@ -32,8 +37,9 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-      # Mount the host-provisioned cache disk into the container.
-      # On k150 this resolves to a dedicated 50 GB ext4 volume
+      # Mount this trust level's directory of the host-provisioned cache
+      # disk into the container, never the disk's root: release caches
+      # live there. On k150 this resolves to a dedicated 50 GB ext4 volume
       # (provisioned via Ansible) where cargo state persists across
       # jobs, eliminating the actions/cache round-trip for the cargo
       # target dir. On runners without this path, Docker transparently
@@ -43,7 +49,7 @@ jobs:
       # (created by Ansible, not Docker) and falls back to the
       # in-workspace cache + actions/cache. Workflow remains portable.
       volumes:
-        - /var/lib/komai-ci:/var/lib/komai-ci
+        - ${{ github.event_name == 'push' && '/var/lib/komai-ci/ci-trusted' || '/var/lib/komai-ci/ci-pr' }}:/var/lib/komai-ci
 
     env:
       # Keep rustup + cargo state inside the workspace (instead of the

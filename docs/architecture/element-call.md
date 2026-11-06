@@ -86,7 +86,9 @@ Per call, `start_element_call_session`:
    `WidgetSettings::new_virtual_element_call_widget(props, config)` then
    `settings.generate_webview_url(room, client_props)`. The URL is **never**
    hand-rolled; the SDK fills in `widgetId`, `userId`, `deviceId`, `baseUrl`,
-   `roomId`, `perParticipantE2EE`, theme, and language. `element_call_url` points
+   `roomId`, theme, and language. The SDK also emits `perParticipantE2EE`, which
+   Element Call 0.28.1+ no longer reads; encryption follows the room state.
+   `element_call_url` points
    at the embedded bundle's secure origin (`komai-ec://app/room`).
 3. Appends a few chrome and behavior parameters to the URL fragment (see
    [URL tuning](#url-tuning-why-the-fragment-is-edited)).
@@ -186,6 +188,15 @@ notification) via `room.send_raw`.
     to add `org.matrix.msc4515`, since Element Call will not send the action above
     unless the host advertises it. Splicing rather than replacing keeps the rest
     of the list tracking whatever matrix-sdk supports.
+
+  Element Call 0.28.1+ also requests the optional MSC4533 capabilities for
+  LiveKit token acquisition and delayed-leave delegation. Komai does not advertise
+  MSC4533 or grant those capabilities. Transports with `livekit_service_url`
+  continue to use Element Call's OpenID flow, including transports that also have
+  a `url`. URL-only transports require MSC4533 host support and cannot be used
+  through this driver yet. Upstream specifies no retirement date for the OpenID
+  flow; supporting URL-only transports requires implementing both MSC4533 actions
+  before advertising support.
 
   Native mic/camera toggles send `io.element.device_mute` *to* the widget with only
   the changed field; the resulting fromWidget report is what actually flips the
@@ -559,8 +570,9 @@ recorded here with the reasoning, since most are not obvious from the code alone
 - **E2EE follows the room, not the URL.** Element Call's effective encryption is
   per-participant only when the Matrix room is encrypted; in an unencrypted room the
   LiveKit publisher logs a benign "e2ee not configured" and the call connects
-  unencrypted. `perParticipantE2EE=true` is correct and simply ignored for the
-  choice. For an encrypted call, use an encrypted room.
+  unencrypted. Element Call 0.28.1+ removed the `perParticipantE2EE` URL option;
+  the SDK-generated parameter has no effect. For an encrypted call, use an
+  encrypted room.
 - **`experimental-widgets` is an experimental SDK feature**, so its API can churn
   across matrix-sdk upgrades.
 - **Async webview resize overflow.** QtWebEngine resizes its render surface

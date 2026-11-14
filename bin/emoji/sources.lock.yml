@@ -7,7 +7,7 @@ unicode:
     #
     # Renovate proposes `version` bumps but cannot update the sha256 pin; run
     # `just emoji-update-lock` after merging a bump, like for CLDR below.
-    version: "18.0.0"
+    version: "19.0.0"
     url: "https://www.unicode.org/Public/{version}/emoji/emoji-test.txt"
     sha256: "8f3735cda1f92a779d78af67cf86066bb1f07143dc22f2ac29394d9bc57ab21a"
 cldr:

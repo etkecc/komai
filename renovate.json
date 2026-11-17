@@ -147,6 +147,13 @@
       "groupName": "rust dependencies"
     },
     {
+      "description": "ruma must match the version matrix-sdk depends on, so it moves together with the matrix-sdk crates in a group of its own. A ruma release that matrix-sdk has not adopted yet then stalls only this group, not every other Rust crate update.",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["ruma", "matrix-sdk", "matrix-sdk-base", "matrix-sdk-ui"],
+      "matchUpdateTypes": ["!lockFileMaintenance"],
+      "groupName": "matrix-sdk and ruma"
+    },
+    {
       "description": "GStreamer — stable (even-minor) series only; odd-minor development snapshots can fail to build and get no bug-fix releases",
       "matchPackageNames": ["https://gitlab.freedesktop.org/gstreamer/gstreamer.git"],
       "allowedVersions": "/^1\\.\\d*[02468]\\.\\d+$/"

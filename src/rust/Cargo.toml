@@ -50,7 +50,7 @@ syntect = { version = "5", default-features = false, features = ["default-fancy"
 # direct dependency supplies the crate path used by EventContent derives for
 # Komai's legacy image-pack events, plus the RTC discovery feature. Import
 # shared types through `matrix_sdk::ruma::*` to keep SDK boundaries aligned.
-ruma = { version = "0.17.2", features = ["unstable-msc4143"] }
+ruma = { version = "0.18.0", features = ["unstable-msc4143"] }
 # `experimental-widgets` provides the native Matrix Widget API driver
 # (`matrix_sdk::widget`) that powers Element Call: capability negotiation, event
 # relay, encrypted to-device, OpenID and MSC4157 delayed events, plus the EC

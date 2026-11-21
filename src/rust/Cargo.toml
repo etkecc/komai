@@ -37,7 +37,7 @@ image = { version = "0.25", default-features = false, features = ["jpeg", "png",
 img-parts = "0.4"
 bytes = "1"
 blurhash = "0.2"
-linkify = "0.11"
+linkify = "0.12"
 # Markdown-to-HTML for outgoing messages: mirrors ruma's conversion but demotes
 # raw HTML to literal text. Same version/features as ruma-events' own dependency,
 # so no extra crate is built.

@@ -53,6 +53,12 @@ mkdir -p "$out_dir"
 # reused while their revision is still the current stable one; the store is
 # only asked for the revision numbers. Unset, every build downloads them.
 sdk_snaps="kde-qt6-core24-sdk kf6-core24-sdk"
+
+# Revisions to use when the store has no stable one for an architecture, as
+# "<snap>/<arch>=<revision>". A revision that is no longer in any channel can
+# still be downloaded by its number.
+sdk_fallback_revisions="kde-qt6-core24-sdk/arm64=52"
+
 sdk_cache_args=()
 sdk_revisions=""
 if [[ -n "${SNAP_SDK_CACHE_DIR:-}" ]]; then
@@ -105,6 +111,7 @@ docker run --rm \
     "${sdk_cache_args[@]}" \
     -e SDK_SNAPS="$sdk_snaps" \
     -e SDK_REVISIONS="$sdk_revisions" \
+    -e SDK_FALLBACK_REVISIONS="$sdk_fallback_revisions" \
     --entrypoint bash \
     "$image" \
     -c '
@@ -117,6 +124,24 @@ docker run --rm \
         ln -sfn /usr/lib/python3.12/site-packages/extensions/desktop \
             /usr/share/snapcraft/extensions/desktop
 
+        download_sdk_snap() {
+            local name="$1" target_dir="$2" output entry
+            if output="$(snap download --target-directory="$target_dir" "$name" 2>&1)"; then
+                tail -1 <<<"$output"
+                return
+            fi
+            echo "$output" >&2
+            [[ "$output" == *"no snap revision available"* ]] || return 1
+            for entry in $SDK_FALLBACK_REVISIONS; do
+                if [ "${entry%%=*}" = "$name/$(dpkg --print-architecture)" ]; then
+                    echo "Falling back to revision ${entry#*=} of $name" >&2
+                    snap download --target-directory="$target_dir" --revision="${entry#*=}" "$name" 2>&1 | tail -1
+                    return
+                fi
+            done
+            return 1
+        }
+
         # --- Fix 2: download and extract KDE SDK snaps ---
         # With the cache (/sdk-cache, see SNAP_SDK_CACHE_DIR), a snap whose
         # current stable revision is already there is reused. Otherwise it is
@@ -126,7 +151,7 @@ docker run --rm \
         echo "=== Downloading KDE SDK snaps ==="
         for name in $SDK_SNAPS; do
             if [ ! -d /sdk-cache ]; then
-                snap download --target-directory=/tmp "$name" 2>&1 | tail -1
+                download_sdk_snap "$name" /tmp
                 continue
             fi
             revision=""
@@ -139,7 +164,7 @@ docker run --rm \
             else
                 rm -rf /sdk-cache/.partial
                 mkdir -p /sdk-cache/.partial
-                snap download --target-directory=/sdk-cache/.partial "$name" 2>&1 | tail -1
+                download_sdk_snap "$name" /sdk-cache/.partial
                 downloaded="$(basename /sdk-cache/.partial/"${name}"_*.snap)"
                 find /sdk-cache -maxdepth 1 -name "${name}_*.snap" -delete
                 mv "/sdk-cache/.partial/$downloaded" "/sdk-cache/$downloaded"

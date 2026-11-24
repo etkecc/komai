@@ -2245,7 +2245,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+149"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>

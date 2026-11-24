@@ -2245,7 +2245,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+149"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>

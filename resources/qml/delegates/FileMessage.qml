@@ -43,20 +43,52 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.maximumWidth: implicitWidth
 
-        padding: evRoot.styleProfile.fileMessagePadding
+        // The thresholds and the implicit width below must not depend on the
+        // layout they select, or the delegate would keep re-laying itself out.
+        readonly property int regularPadding: evRoot.styleProfile.fileMessagePadding
+        readonly property int compactPadding: Math.min(regularPadding, Komai.paddingMedium)
+        readonly property int regularSpacing: Komai.paddingMedium * 2
+        readonly property real saveIconWidth: saveButton.leftPadding + saveButton.effectiveIconSize + saveButton.rightPadding
+        readonly property real saveFullWidth: saveIconWidth + saveButton.spacing + Math.ceil(saveMetrics.advanceWidth)
+        readonly property real labelsWidth: Math.ceil(Math.max(filename_.implicitWidth, filesize_.visible ? filesize_.implicitWidth : 0)) + 1
+        readonly property real regularWidthWithoutLabels: 2 * regularPadding + iconCircle.circleSize + saveFullWidth + 2 * regularSpacing
+        readonly property real compactInnerWidth: evRoot.width - 2 * compactPadding
 
-        contentItem: RowLayout {
-            id: rowa
+        // Too narrow for a readable file name between the icon and the button:
+        // move the name to a row of its own.
+        readonly property bool compact: evRoot.width < regularWidthWithoutLabels
+            + Math.min(labelsWidth, 12 * fontMetrics.averageCharacterWidth)
+        readonly property bool showSaveLabel: !compact
+            || compactInnerWidth >= iconCircle.circleSize + Komai.paddingSmall + saveFullWidth
+        readonly property bool showIcon: !compact
+            || compactInnerWidth >= iconCircle.circleSize + Komai.paddingSmall + saveIconWidth
 
-            spacing: Komai.paddingMedium * 2
+        implicitWidth: regularWidthWithoutLabels + labelsWidth
+        padding: compact ? compactPadding : regularPadding
+
+        TextMetrics {
+            id: saveMetrics
+
+            font: saveButton.font
+            text: saveButton.text
+        }
+
+        contentItem: GridLayout {
+            id: grid
+
+            columnSpacing: fileWidget.compact ? Komai.paddingSmall : fileWidget.regularSpacing
+            rowSpacing: Komai.paddingSmall
 
             Rectangle {
                 id: iconCircle
 
                 readonly property int circleSize: Komai.iconSize + 2 * Komai.paddingMedium
 
+                visible: fileWidget.showIcon
                 color: palette.light
                 radius: circleSize / 2
+                Layout.row: 0
+                Layout.column: 0
                 Layout.preferredHeight: circleSize
                 Layout.preferredWidth: circleSize
 
@@ -78,6 +110,9 @@ ColumnLayout {
                 id: col
 
                 spacing: 0
+                Layout.row: fileWidget.compact ? 1 : 0
+                Layout.column: fileWidget.compact ? 0 : 1
+                Layout.columnSpan: fileWidget.compact ? 2 : 1
                 Layout.fillWidth: true
 
                 Text {
@@ -105,6 +140,12 @@ ColumnLayout {
             }
 
             KomaiButton {
+                id: saveButton
+
+                Layout.row: 0
+                Layout.column: fileWidget.compact ? 1 : 2
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                display: fileWidget.showSaveLabel ? AbstractButton.TextBesideIcon : AbstractButton.IconOnly
                 text: qsTr("Save")
                 icon.source: "qrc:/icons/icons/ui/download.svg"
                 toolTipText: qsTr("Save file")

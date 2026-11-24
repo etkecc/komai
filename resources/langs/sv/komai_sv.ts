@@ -2245,7 +2245,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+149"/>
         <source>Save</source>
         <translation>Spara</translation>
     </message>

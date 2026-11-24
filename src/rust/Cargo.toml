@@ -44,7 +44,7 @@ linkify = "0.12"
 pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
 spellbook = "0.4.0"
 unicode-script = "0.5.8"
-syntect = { version = "5", default-features = false, features = ["default-fancy"] }
+syntect = { version = "5", default-features = false, features = ["default-syntaxes", "html", "regex-fancy"] }
 # ruma is pinned to the same version matrix-rust-sdk uses at this release to avoid
 # duplicate-crate type mismatches at the Komai ↔ matrix-sdk boundary.  The
 # direct dependency supplies the crate path used by EventContent derives for

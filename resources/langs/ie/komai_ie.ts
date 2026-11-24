@@ -2245,7 +2245,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>

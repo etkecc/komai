@@ -38,7 +38,10 @@ ColumnLayout {
         id: fileWidget
 
         Layout.alignment: Qt.AlignLeft
-        Layout.maximumWidth: rowa.Layout.maximumWidth + padding * 2
+        // Shrink to the available width (eliding the filename) instead of
+        // overflowing the bubble and pushing the Save button out of view.
+        Layout.fillWidth: true
+        Layout.maximumWidth: implicitWidth
 
         padding: evRoot.styleProfile.fileMessagePadding
 

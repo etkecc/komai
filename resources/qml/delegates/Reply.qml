@@ -486,7 +486,7 @@ Pane {
                 room: (r.roleDataSource instanceof EventDataSource) ? r.roleDataSource : null
                 eventId: r.eventId
                 replyTo: ""
-                mainInset: Komai.paddingSmall + Komai.paddingMedium
+                mainInset: r.leftPadding + r.rightPadding
                 maxWidth: Math.max(0, r.maxWidth - replyContainer.reservedScrollbarWidth)
                 limitAsReply: true
                 previewData: r.effectivePreviewData

@@ -204,9 +204,14 @@ modules:
           # Cargo 1.100 uses published lockfiles even without --locked. Build
           # cxxbridge from a writable copy using our vendored dependency set;
           # Corrosion discovers the matching executable in .rust/bin.
+          # Source commands run in the host-side build dir, before it is
+          # mounted at /run/build/komai, so the paths from build-options
+          # do not resolve here.
           - cp -r cargo/vendor/cxxbridge-cmd .cxxbridge-cmd
           - rm .cxxbridge-cmd/Cargo.lock
-          - cargo install --offline --path .cxxbridge-cmd --root "$PWD/.rust"
+          - >-
+            PATH="$PWD/.rust/bin:$PATH" LD_LIBRARY_PATH="$PWD/.rust/lib" CARGO_HOME="$PWD/cargo"
+            cargo install --offline --path .cxxbridge-cmd --root "$PWD/.rust"
       - dest: .deps/qtkeychain
         disable-lfs: true
         tag: 0.18.0

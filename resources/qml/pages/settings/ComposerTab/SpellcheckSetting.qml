@@ -13,8 +13,8 @@ import cc.etke.komai
 // Spellcheck section in Settings → Composer (mounted as the tab's footer
 // content). Master on/off toggle plus one card per dictionary Komai found —
 // the bundled en_US, anything under the per-user dictionary dir, and the
-// system Hunspell locations (incl. Flatpak `org.freedesktop.Platform.Hunspell.*`
-// extensions). Edits go through SpellCheckEngine, which persists them into the
+// system Hunspell locations (in a Flatpak, those of the KDE runtime).
+// Edits go through SpellCheckEngine, which persists them into the
 // regular per-profile config.yml.
 Item {
     id: root

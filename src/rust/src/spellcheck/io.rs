@@ -29,8 +29,8 @@ pub(super) fn dictionary_search_dirs(data_dir: &Path) -> Vec<PathBuf> {
     }
 
     if cfg!(unix) && !cfg!(target_os = "macos") {
-        // XDG data dirs (covers Flatpak's Hunspell.* extensions mounted under
-        // /usr/share/hunspell as well).
+        // XDG data dirs (in a Flatpak, this includes the KDE runtime's
+        // /usr/share/hunspell).
         let xdg_data_home = std::env::var_os("XDG_DATA_HOME")
             .map(PathBuf::from)
             .or_else(|| dirs_home().map(|h| h.join(".local/share")));

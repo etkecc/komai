@@ -35,12 +35,11 @@ Additional dictionaries are discovered from the filesystem on demand by
 - Each `$XDG_DATA_DIRS/hunspell` entry
 - `~/Library/Spelling` (macOS — no system Hunspell dir, manual only)
 
-Inside a Flatpak, `org.freedesktop.Platform.Hunspell.<locale>` extensions
-mount at `/usr/share/hunspell` and are picked up by the same code path. The
-manifest declares an `add-extensions` block so language packs flow in via
-`flatpak install` rather than being rebuilt into the runtime. The Arch
-PKGBUILD declares `hunspell-*` packages as optional dependencies for the same
-reason.
+Inside a Flatpak, `/usr/share/hunspell` comes from the KDE runtime and is
+picked up by the same code path. It holds symlinks into the runtime's
+`org.kde.Platform.Locale` extension, of which Flatpak downloads only the
+user's configured languages; symlinks for other languages dangle and are
+skipped.
 
 ### Word filtering (skip rules)
 

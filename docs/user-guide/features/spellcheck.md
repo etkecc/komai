@@ -62,13 +62,18 @@ Package names vary by distro — search for `hunspell` (or `myspell`) plus your 
 
 ### Flatpak
 
-Install the matching `org.freedesktop.Platform.Hunspell.<locale>` runtime extension from Flathub:
+Dictionaries for most languages are part of the KDE runtime that Komai uses. Flatpak downloads only those for your system's languages, so for most people no extra step is needed.
+
+To get dictionaries for other languages, tell Flatpak about them (separate language codes with `;`) and update:
 
 ```sh
-flatpak install flathub org.freedesktop.Platform.Hunspell.de_DE
+flatpak config --user --set extra-languages "de;fr"
+flatpak update --user
 ```
 
-The extensions for the languages you've configured in Flatpak (`flatpak config --set languages …`) are pulled in automatically when you install Komai, so for most people no extra step is needed.
+If the KDE runtime is installed system-wide (`flatpak list --runtime` shows `system` next to it), use `--system` instead of `--user`.
+
+The setting applies to everything Flatpak installs there, so it also downloads translations for those languages. Setting it again replaces the previous list. If the runtime doesn't have your language, use the [Manual](#manual-any-platform) method.
 
 ### Snap
 

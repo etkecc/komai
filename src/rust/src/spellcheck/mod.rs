@@ -12,9 +12,8 @@
 //!     resource system (so a fresh install always has working English);
 //!  2. the per-user override directory `<AppData>/komai/hunspell/`;
 //!  3. the standard system Hunspell locations (`/usr/share/hunspell`,
-//!     `/usr/share/myspell/dicts`, `$XDG_DATA_DIRS/hunspell`, …) — and, inside
-//!     a Flatpak, the `org.freedesktop.Platform.Hunspell.*` runtime extensions
-//!     mounted at `/usr/share/hunspell`.
+//!     `/usr/share/myspell/dicts`, `$XDG_DATA_DIRS/hunspell`, …). Inside
+//!     a Flatpak, `/usr/share/hunspell` is provided by the KDE runtime.
 //!
 //! The C++ side owns the `QSyntaxHighlighter` that draws the squiggles and the
 //! settings UI; this module owns dictionary discovery + the lazily-parsed

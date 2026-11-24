@@ -2249,7 +2249,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
         <source>Save</source>
         <translation>Sačuvaj</translation>
     </message>

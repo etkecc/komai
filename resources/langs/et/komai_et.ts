@@ -2245,7 +2245,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
         <source>Save</source>
         <translation>Salvesta</translation>
     </message>

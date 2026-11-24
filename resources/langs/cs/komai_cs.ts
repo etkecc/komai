@@ -2249,7 +2249,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>

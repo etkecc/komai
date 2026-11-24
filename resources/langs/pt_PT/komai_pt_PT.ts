@@ -2245,7 +2245,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
 <context>
     <name>FileMessage</name>
     <message>
-        <location filename="../../qml/delegates/FileMessage.qml" line="+105"/>
+        <location filename="../../qml/delegates/FileMessage.qml" line="+108"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>

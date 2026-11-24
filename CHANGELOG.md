@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026.11.24.0
+
+- 🔒 Security: the vodozemac encryption library is updated to v0.11.2. Malformed keys no longer crash it, and it clears used secrets from memory more thoroughly (RUSTSEC-2026-0445, RUSTSEC-2026-0451, RUSTSEC-2026-0510) ([52c6c9df9](https://github.com/etkecc/komai/commit/52c6c9df9)).
+- 🐛 Fix: images are sent as images and avatars can be uploaded again on systems where Komai finds no file type database, which mostly affected the AppImage ([44c7ac92b](https://github.com/etkecc/komai/commit/44c7ac92b)).
+- 🐛 Fix: WebP images are displayed in the AppImage ([90fac3474](https://github.com/etkecc/komai/commit/90fac3474)).
+- 🐛 Fix: a custom API URL for [🎙️ voice transcription](https://github.com/etkecc/komai/blob/8bf6bd36d/docs/user-guide/features/voice-transcription.md) can be entered in the settings; the field used to stay read-only ([d660c88dd](https://github.com/etkecc/komai/commit/d660c88dd)).
+- 🐛 Fix: file messages keep their name and **Save** button visible in narrow bubbles; thanks to [@rebaseandpanic](https://github.com/rebaseandpanic) for [PR #356](https://github.com/etkecc/komai/pull/356) ([47d0f14a6](https://github.com/etkecc/komai/commit/47d0f14a6), [5f84eaaa1](https://github.com/etkecc/komai/commit/5f84eaaa1)).
+- 🐛 Fix: wide images no longer extend past their message bubble, and quoted content stays inside the reply frame ([5d4281eae](https://github.com/etkecc/komai/commit/5d4281eae), [986ccf969](https://github.com/etkecc/komai/commit/986ccf969)).
+- 📦 Calls: the bundled Element Call is updated to v0.28.2 ([18c610021](https://github.com/etkecc/komai/commit/18c610021)).
+- 📦 Flatpak: Qt and QtWebEngine are updated to 6.11, with newer Chromium security patches ([3079566b4](https://github.com/etkecc/komai/commit/3079566b4)).
+- 📦 Flatpak: the bundled GStreamer is updated to v1.28.9 ([6ddf5db9e](https://github.com/etkecc/komai/commit/6ddf5db9e)).
+- 📦 Flatpak: the [🔤 spell checking](https://github.com/etkecc/komai/blob/8bf6bd36d/docs/user-guide/features/spellcheck.md#flatpak) guide explains how to add languages ([de44cc177](https://github.com/etkecc/komai/commit/de44cc177)).
+- 📦 Windows, macOS: Qt and QtWebEngine are updated to 6.11.3, with newer Chromium security patches ([2aa962180](https://github.com/etkecc/komai/commit/2aa962180)).
+- 🔧 Build: the Rust toolchain is updated to 1.100.0 ([be6d12ccb](https://github.com/etkecc/komai/commit/be6d12ccb), [93cc05391](https://github.com/etkecc/komai/commit/93cc05391)).
+- 🔧 Build: 2 unmaintained Rust crates (`yaml-rust` and `unsafe-libyaml`) are no longer dependencies ([87061d519](https://github.com/etkecc/komai/commit/87061d519), [42da3f817](https://github.com/etkecc/komai/commit/42da3f817)).
+- 🔧 Build: QtKeychain is updated to v0.18.0, and CPM.cmake to v0.43.2 ([855f77ed3](https://github.com/etkecc/komai/commit/855f77ed3), [08286d507](https://github.com/etkecc/komai/commit/08286d507)).
+- 🔧 Build: the Fluent UI System Icons set is updated to v1.1.347 ([8678e7b25](https://github.com/etkecc/komai/commit/8678e7b25), [5db6db035](https://github.com/etkecc/komai/commit/5db6db035), [4c8e662d9](https://github.com/etkecc/komai/commit/4c8e662d9)).
+- 🔧 Build: Rust dependencies are updated, including security fixes in rustix, url and pulldown-cmark ([53a86bdcc](https://github.com/etkecc/komai/commit/53a86bdcc), [631db6f72](https://github.com/etkecc/komai/commit/631db6f72), [f5f6c77d9](https://github.com/etkecc/komai/commit/f5f6c77d9), [52c6c9df9](https://github.com/etkecc/komai/commit/52c6c9df9), [af0c4ba0c](https://github.com/etkecc/komai/commit/af0c4ba0c), [434e31792](https://github.com/etkecc/komai/commit/434e31792), [cc2b73058](https://github.com/etkecc/komai/commit/cc2b73058), [f934c9ce0](https://github.com/etkecc/komai/commit/f934c9ce0), [4819b183f](https://github.com/etkecc/komai/commit/4819b183f)).
+
 ## 2026.10.25.0
 
 - ✨ Feature: the emoji picker includes the new Unicode 18.0 emoji, with search keywords refreshed from CLDR v49 ([fa40b9fd7](https://github.com/etkecc/komai/commit/fa40b9fd7), [8915cdcde](https://github.com/etkecc/komai/commit/8915cdcde)).

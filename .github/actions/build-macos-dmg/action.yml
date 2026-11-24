@@ -24,7 +24,7 @@ inputs:
       baseline in docs/maintainers/packaging/native/macos.md; bump
       together with that doc.
     required: false
-    default: "6.10.3"
+    default: "6.11.3"
 
 runs:
   using: composite
@@ -86,8 +86,10 @@ runs:
       # (there is no system to break). Installing without `--user`
       # lands in the brewed Python's site-packages, so the `-m aqt`
       # invocation below finds it without PATH munging.
+      # A commit rather than a release, the same one as in
+      # build-windows-zip.
       shell: bash
-      run: python3 -m pip install --break-system-packages --upgrade aqtinstall
+      run: python3 -m pip install --break-system-packages git+https://github.com/miurahr/aqtinstall@8c3695d4a4e1ceabf6a74dc6c79681656dc6b74b
 
     - name: Install Qt (${{ inputs.qt-version }} / clang_64)
       if: steps.qt-cache.outputs.cache-hit != 'true'

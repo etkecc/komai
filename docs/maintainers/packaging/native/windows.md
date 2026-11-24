@@ -133,10 +133,13 @@ tool that downloads Qt from Qt's official CDN. No Qt account
 required.
 
 ```powershell
-pip install aqtinstall
+pip install git+https://github.com/miurahr/aqtinstall@8c3695d4a4e1ceabf6a74dc6c79681656dc6b74b
 ```
 
-**Pick a version.** Last verified against **6.10.3**; any **6.10.x**
+This is a specific commit, because aqtinstall 3.3.0 cannot find Qt 6.11+
+for Windows.
+
+**Pick a version.** Releases are built with **6.11.3**; any **6.11.x**
 (or newer 6.x) should work. List what's available:
 
 ```powershell
@@ -144,7 +147,7 @@ python -m aqt list-qt windows desktop --arch win64_msvc2022_64
 ```
 
 Output is grouped by minor version; pick the highest patch in the
-latest 6.x line (pipe through `Select-String '6.10'` to filter).
+latest 6.x line (pipe through `Select-String '6.11'` to filter).
 Substitute your chosen version for `<QT_VER>` below.
 
 ```powershell
@@ -159,7 +162,7 @@ python -m aqt install-qt windows desktop <QT_VER> win64_msvc2022_64 -O C:\Qt `
 all three if you build with `-DELEMENT_CALL=OFF`.
 
 **Do not** pass `qtdeclarative`, `qtsvg`, or `qttools` to `-m` -- on
-Qt 6.10 they're part of the base install and aqt errors out if listed
+Qt 6.11 they're part of the base install and aqt errors out if listed
 as add-ons. To see what modules a specific version offers:
 `python -m aqt list-qt windows desktop --modules <QT_VER> win64_msvc2022_64`.
 Installs to `C:\Qt\<QT_VER>\msvc2022_64\`.

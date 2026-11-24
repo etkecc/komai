@@ -17,7 +17,7 @@ inputs:
       baseline in docs/maintainers/packaging/native/windows.md; bump
       together with that doc.
     required: false
-    default: "6.10.3"
+    default: "6.11.3"
   qt-arch:
     description: aqtinstall arch token for the Qt build.
     required: false
@@ -94,14 +94,16 @@ runs:
     - name: Install aqtinstall
       # Qt's online installer needs a Qt account; aqtinstall pulls
       # straight from Qt's CDN and is what windows.md recommends.
+      # A commit rather than a release, because aqtinstall 3.3.0 cannot
+      # find Qt 6.11+ for Windows.
       shell: pwsh
-      run: pip install --upgrade aqtinstall
+      run: pip install git+https://github.com/miurahr/aqtinstall@8c3695d4a4e1ceabf6a74dc6c79681656dc6b74b
 
     - name: Install Qt (${{ inputs.qt-version }} / ${{ inputs.qt-arch }})
       if: steps.qt-cache.outputs.cache-hit != 'true'
       # Module list mirrors windows.md verbatim. `qtdeclarative`,
       # `qtsvg`, and `qttools` are part of the base install on Qt
-      # 6.10 and aqt errors out if listed again as add-ons.
+      # 6.11 and aqt errors out if listed again as add-ons.
       # qtwebengine/qtwebchannel/qtpositioning back Element Call
       # (ELEMENT_CALL is ON by default): qtwebchannel provides
       # Qt::WebChannelQuick, qtpositioning is a QtWebEngine dependency.

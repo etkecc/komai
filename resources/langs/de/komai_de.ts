@@ -6633,30 +6633,30 @@ Vorherige serverseitige Schlüsselsicherungen werden nicht automatisch entfernt.
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+383"/>
+        <location line="+388"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (Streaming)</translation>
     </message>
     <message>
-        <location line="-382"/>
-        <location line="+381"/>
+        <location line="-387"/>
+        <location line="+386"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (einmalig)</translation>
     </message>
     <message>
         <location line="-375"/>
-        <location line="+477"/>
+        <location line="+473"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI Cloud</translation>
     </message>
     <message>
-        <location line="-476"/>
-        <location line="+477"/>
+        <location line="-472"/>
+        <location line="+473"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Andere (OpenAI-kompatibler Server)</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-457"/>
         <source>Message visibility</source>
         <translation>Nachrichtensichtbarkeit</translation>
     </message>
@@ -10136,22 +10136,22 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>TranscriptionSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+57"/>
         <source>Voice transcription</source>
         <translation>Sprachtranskription</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+33"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI Cloud</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+38"/>
         <source>API key</source>
         <translation>API-Schlüssel</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-64"/>
         <source>Provider</source>
         <translation>Anbieter</translation>
     </message>
@@ -10176,12 +10176,12 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>Hosting</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Andere (OpenAI-kompatibler Server)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+23"/>
         <source>Example: http://localhost:8080/v1</source>
         <translation>Beispiel: http://localhost:8080/v1</translation>
     </message>
@@ -10221,12 +10221,12 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>API-Basis-URL</translation>
     </message>
     <message>
-        <location line="-37"/>
+        <location line="-42"/>
         <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Streaming (etwas mehr Echtzeit, aber immer noch nicht Wort für Wort) wird von API-Servern in der Regel nicht so gut unterstützt und ist tendenziell teurer. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Mehr erfahren&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+110"/>
         <source>Show/Hide API key</source>
         <translation>API-Schlüssel anzeigen/ausblenden</translation>
     </message>

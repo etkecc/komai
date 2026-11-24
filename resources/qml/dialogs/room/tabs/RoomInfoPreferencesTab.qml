@@ -67,9 +67,14 @@ Item {
         return qsTr("OpenAI Batch (one-shot)");
     }
 
+    // An empty URL means "Other, not filled in yet", so it does not count as
+    // OpenAI cloud.
+    function _isOpenaiCloudUrl(url) {
+        return (url || "").trim().toLowerCase() === preferencesTab.openaiCloudUrl;
+    }
+
     function _hostingToLabel(url) {
-        var trimmed = (url || "").trim().toLowerCase();
-        if (trimmed.length === 0 || trimmed === preferencesTab.openaiCloudUrl)
+        if (preferencesTab._isOpenaiCloudUrl(url))
             return qsTr("OpenAI cloud");
         return qsTr("Other (OpenAI-compatible server)");
     }
@@ -527,6 +532,7 @@ Item {
                     }
 
                     ColumnLayout {
+                        id: apiUrlOverride
                         visible: apiUrlOverrideToggle.checked
                         Layout.fillWidth: true
                         Layout.leftMargin: Komai.paddingMedium
@@ -535,13 +541,8 @@ Item {
                         Layout.bottomMargin: Komai.paddingMedium
                         spacing: Komai.paddingSmall
 
-                        readonly property string overrideUrl: preferencesTab._resolvedTranscriptionField("api_url")
-                        readonly property bool hostingIsOpenaiCloud: {
-                            var trimmed = (overrideUrl || "").trim().toLowerCase();
-                            if (trimmed.length === 0)
-                                return true;
-                            return trimmed === preferencesTab.openaiCloudUrl;
-                        }
+                        readonly property bool hostingIsOpenaiCloud:
+                            preferencesTab._isOpenaiCloudUrl(preferencesTab._resolvedTranscriptionField("api_url"))
 
                         Components.SegmentedButton {
                             id: hostingPicker
@@ -550,26 +551,30 @@ Item {
                                 { text: qsTr("OpenAI cloud") },
                                 { text: qsTr("Other (OpenAI-compatible server)") }
                             ]
-                            currentIndex: parent.hostingIsOpenaiCloud ? 0 : 1
+                            currentIndex: apiUrlOverride.hostingIsOpenaiCloud ? 0 : 1
                             onActivated: function(index) {
                                 if (!preferencesTab.currentRoomId) return;
                                 if (index === 0) {
                                     Settings.setIntegrationsTranscriptionOverrideForRoom(
                                         preferencesTab.currentRoomId, "api_url", preferencesTab.openaiCloudUrl);
                                 } else {
-                                    const current = preferencesTab._resolvedTranscriptionField("api_url") || "";
-                                    if (current.trim().toLowerCase() === preferencesTab.openaiCloudUrl) {
+                                    if (apiUrlOverride.hostingIsOpenaiCloud) {
                                         Settings.setIntegrationsTranscriptionOverrideForRoom(
                                             preferencesTab.currentRoomId, "api_url", "");
                                     }
                                 }
+                                // SegmentedButton assigns currentIndex on click, which drops the
+                                // binding. Restore it, so that the selection keeps following the
+                                // saved URL.
+                                hostingPicker.currentIndex = Qt.binding(
+                                    () => apiUrlOverride.hostingIsOpenaiCloud ? 0 : 1);
                             }
                         }
 
                         Components.KomaiTextField {
                             Layout.fillWidth: true
                             text: preferencesTab._resolvedTranscriptionField("api_url")
-                            readOnly: parent.hostingIsOpenaiCloud
+                            readOnly: apiUrlOverride.hostingIsOpenaiCloud
                             placeholderText: qsTr("Example: http://localhost:8080/v1")
                             onEditingFinished: {
                                 if (!preferencesTab.currentRoomId) return;

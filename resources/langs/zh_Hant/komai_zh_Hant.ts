@@ -6621,30 +6621,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+383"/>
+        <location line="+388"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI 即時（串流）</translation>
     </message>
     <message>
-        <location line="-382"/>
-        <location line="+381"/>
+        <location line="-387"/>
+        <location line="+386"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 批次（單次）</translation>
     </message>
     <message>
         <location line="-375"/>
-        <location line="+477"/>
+        <location line="+473"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 雲端</translation>
     </message>
     <message>
-        <location line="-476"/>
-        <location line="+477"/>
+        <location line="-472"/>
+        <location line="+473"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>其他（OpenAI 相容伺服器）</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-457"/>
         <source>Message visibility</source>
         <translation>訊息可見性</translation>
     </message>
@@ -10118,22 +10118,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TranscriptionSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+57"/>
         <source>Voice transcription</source>
         <translation>語音轉錄</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+33"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 雲端</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+38"/>
         <source>API key</source>
         <translation>API 金鑰</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-64"/>
         <source>Provider</source>
         <translation>提供者</translation>
     </message>
@@ -10158,12 +10158,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>託管</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>其他（OpenAI 相容伺服器）</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+23"/>
         <source>Example: http://localhost:8080/v1</source>
         <translation>範例：http://localhost:8080/v1</translation>
     </message>
@@ -10203,12 +10203,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API 基礎 URL</translation>
     </message>
     <message>
-        <location line="-37"/>
+        <location line="-42"/>
         <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
         <translation>串流（更接近即時，但仍非逐字）通常在各 API 伺服器上的支援程度較差，且費用較高。&lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;了解更多&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+110"/>
         <source>Show/Hide API key</source>
         <translation>顯示／隱藏 API 金鑰</translation>
     </message>

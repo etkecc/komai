@@ -6621,30 +6621,30 @@ Các sao lưu khóa phía máy chủ trước đây không được xóa tự đ
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+383"/>
+        <location line="+388"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (trực tuyến)</translation>
     </message>
     <message>
-        <location line="-382"/>
-        <location line="+381"/>
+        <location line="-387"/>
+        <location line="+386"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (một lần)</translation>
     </message>
     <message>
         <location line="-375"/>
-        <location line="+477"/>
+        <location line="+473"/>
         <source>OpenAI cloud</source>
         <translation>Đám mây OpenAI</translation>
     </message>
     <message>
-        <location line="-476"/>
-        <location line="+477"/>
+        <location line="-472"/>
+        <location line="+473"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Khác (máy chủ tương thích OpenAI)</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-457"/>
         <source>Message visibility</source>
         <translation>Khả năng hiển thị tin nhắn</translation>
     </message>
@@ -10118,22 +10118,22 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
 <context>
     <name>TranscriptionSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+57"/>
         <source>Voice transcription</source>
         <translation>Phiên âm giọng nói</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+33"/>
         <source>OpenAI cloud</source>
         <translation>Đám mây OpenAI</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+38"/>
         <source>API key</source>
         <translation>Khóa API</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-64"/>
         <source>Provider</source>
         <translation>Nhà cung cấp</translation>
     </message>
@@ -10158,12 +10158,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Lưu trữ</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Khác (máy chủ tương thích OpenAI)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+23"/>
         <source>Example: http://localhost:8080/v1</source>
         <translation>Ví dụ: http://localhost:8080/v1</translation>
     </message>
@@ -10203,12 +10203,12 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>URL cơ sở API</translation>
     </message>
     <message>
-        <location line="-37"/>
+        <location line="-42"/>
         <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Streaming (thời gian thực hơn một chút, nhưng vẫn không phải từng từ một) thường không được hỗ trợ tốt trên các máy chủ API và thường tốn kém hơn. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Tìm hiểu thêm&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+110"/>
         <source>Show/Hide API key</source>
         <translation>Hiện/Ẩn khóa API</translation>
     </message>

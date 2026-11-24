@@ -28,14 +28,11 @@ Item {
 
     readonly property string openaiCloudUrl: "https://api.openai.com/v1"
 
-    // Default the hosting type to "OpenAI cloud" for a fresh install.
-    // Otherwise the heuristic looks at the saved api_url.
-    readonly property bool hostingIsOpenaiCloud: {
-        var url = (Settings.integrationsTranscriptionApiUrl || "").trim().toLowerCase();
-        if (url.length === 0)
-            return true;
-        return url === root.openaiCloudUrl;
-    }
+    // The hosting type is derived from the saved api_url, which defaults to
+    // the OpenAI cloud URL. An empty URL means "Other, not filled in yet", so
+    // that the field stays editable until the user enters their server's URL.
+    readonly property bool hostingIsOpenaiCloud:
+        (Settings.integrationsTranscriptionApiUrl || "").trim().toLowerCase() === root.openaiCloudUrl
 
     function setHostingType(index) {
         if (index === 0) {
@@ -87,6 +84,7 @@ Item {
             label: qsTr("Hosting")
 
             SegmentedButton {
+                id: hostingPicker
                 width: parent.width
                 model: [
                     { text: qsTr("OpenAI cloud") },
@@ -95,6 +93,10 @@ Item {
                 currentIndex: root.hostingIsOpenaiCloud ? 0 : 1
                 onActivated: index => {
                     root.setHostingType(index);
+                    // SegmentedButton assigns currentIndex on click, which
+                    // drops the binding. Restore it, so that the selection
+                    // keeps following the saved URL.
+                    hostingPicker.currentIndex = Qt.binding(() => root.hostingIsOpenaiCloud ? 0 : 1);
                 }
             }
         }

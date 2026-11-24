@@ -6633,30 +6633,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+383"/>
+        <location line="+388"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (поточно)</translation>
     </message>
     <message>
-        <location line="-382"/>
-        <location line="+381"/>
+        <location line="-387"/>
+        <location line="+386"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (еднократно)</translation>
     </message>
     <message>
         <location line="-375"/>
-        <location line="+477"/>
+        <location line="+473"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI облак</translation>
     </message>
     <message>
-        <location line="-476"/>
-        <location line="+477"/>
+        <location line="-472"/>
+        <location line="+473"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Друг (OpenAI-съвместим сървър)</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-457"/>
         <source>Message visibility</source>
         <translation>Видимост на съобщенията</translation>
     </message>
@@ -10136,7 +10136,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TranscriptionSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+57"/>
         <source>Voice transcription</source>
         <translation>Гласова транскрипция</translation>
     </message>
@@ -10171,7 +10171,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Хостинг</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI облак</translation>
     </message>
@@ -10181,7 +10181,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Друг (OpenAI-съвместим сървър)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+16"/>
         <source>API base URL</source>
         <translation>Основен URL на API</translation>
     </message>

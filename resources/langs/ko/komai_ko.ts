@@ -6621,30 +6621,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+383"/>
+        <location line="+388"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI 실시간 (스트리밍)</translation>
     </message>
     <message>
-        <location line="-382"/>
-        <location line="+381"/>
+        <location line="-387"/>
+        <location line="+386"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI 배치 (일회성)</translation>
     </message>
     <message>
         <location line="-375"/>
-        <location line="+477"/>
+        <location line="+473"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 클라우드</translation>
     </message>
     <message>
-        <location line="-476"/>
-        <location line="+477"/>
+        <location line="-472"/>
+        <location line="+473"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>기타 (OpenAI 호환 서버)</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-457"/>
         <source>Message visibility</source>
         <translation>메시지 공개 설정</translation>
     </message>
@@ -10118,22 +10118,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TranscriptionSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+57"/>
         <source>Voice transcription</source>
         <translation>음성 텍스트 변환</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+33"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI 클라우드</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+38"/>
         <source>API key</source>
         <translation>API 키</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-64"/>
         <source>Provider</source>
         <translation>제공자</translation>
     </message>
@@ -10158,12 +10158,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>호스팅</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>기타 (OpenAI 호환 서버)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+23"/>
         <source>Example: http://localhost:8080/v1</source>
         <translation>예시: http://localhost:8080/v1</translation>
     </message>
@@ -10203,12 +10203,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API 기본 URL</translation>
     </message>
     <message>
-        <location line="-37"/>
+        <location line="-42"/>
         <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
         <translation>스트리밍(약간 더 실시간에 가깝지만 단어 단위는 아님)은 일반적으로 API 서버에서 지원이 제한적이며 비용이 더 많이 드는 경향이 있습니다. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;자세히 알아보기&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+110"/>
         <source>Show/Hide API key</source>
         <translation>API 키 표시/숨기기</translation>
     </message>

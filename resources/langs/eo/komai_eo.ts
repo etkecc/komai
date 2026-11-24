@@ -6635,30 +6635,30 @@ Antaŭaj servilaj ŝlosil-sekurkopioj ne foriĝas aŭtomate.</translation>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+383"/>
+        <location line="+388"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (fluanta)</translation>
     </message>
     <message>
-        <location line="-382"/>
-        <location line="+381"/>
+        <location line="-387"/>
+        <location line="+386"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (unu-foja)</translation>
     </message>
     <message>
         <location line="-375"/>
-        <location line="+477"/>
+        <location line="+473"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI nubo</translation>
     </message>
     <message>
-        <location line="-476"/>
-        <location line="+477"/>
+        <location line="-472"/>
+        <location line="+473"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Alia (OpenAI-kompatiebla servilo)</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-457"/>
         <source>Message visibility</source>
         <translation>Videbleco de mesaĝoj</translation>
     </message>
@@ -10139,22 +10139,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TranscriptionSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+57"/>
         <source>Voice transcription</source>
         <translation>Voĉa transskribo</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+33"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI nubo</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+38"/>
         <source>API key</source>
         <translation>API-ŝlosilo</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-64"/>
         <source>Provider</source>
         <translation>Provizanto</translation>
     </message>
@@ -10179,12 +10179,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Gastigado</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>Alia (OpenAI-kompatiebla servilo)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+23"/>
         <source>Example: http://localhost:8080/v1</source>
         <translation>Ekzemplo: http://localhost:8080/v1</translation>
     </message>
@@ -10224,12 +10224,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API baza URL</translation>
     </message>
     <message>
-        <location line="-37"/>
+        <location line="-42"/>
         <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
         <translation>Streaming (iomete pli realtempa, sed ankoraŭ ne vorto-post-vorte) estas tipe malpli bone subtenata de API-serviloj kaj tendencas kosti pli. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Lerni pli&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+110"/>
         <source>Show/Hide API key</source>
         <translation>Montri/Kaŝi API-ŝlosilon</translation>
     </message>

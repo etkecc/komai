@@ -6633,30 +6633,30 @@ Previous server-side key backups are not removed automatically.</source>
     <name>RoomInfoPreferencesTab</name>
     <message>
         <location filename="../../qml/dialogs/room/tabs/RoomInfoPreferencesTab.qml" line="+66"/>
-        <location line="+383"/>
+        <location line="+388"/>
         <source>OpenAI Realtime (streaming)</source>
         <translation>OpenAI Realtime (സ്ട്രീമിംഗ്)</translation>
     </message>
     <message>
-        <location line="-382"/>
-        <location line="+381"/>
+        <location line="-387"/>
+        <location line="+386"/>
         <source>OpenAI Batch (one-shot)</source>
         <translation>OpenAI Batch (ഒറ്റ-ഷോട്ട്)</translation>
     </message>
     <message>
         <location line="-375"/>
-        <location line="+477"/>
+        <location line="+473"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI ക്ലൗഡ്</translation>
     </message>
     <message>
-        <location line="-476"/>
-        <location line="+477"/>
+        <location line="-472"/>
+        <location line="+473"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>മറ്റുള്ളവ (OpenAI-compatible സെർവർ)</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-457"/>
         <source>Message visibility</source>
         <translation>സന്ദേശ ദൃശ്യത</translation>
     </message>
@@ -10136,22 +10136,22 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
 <context>
     <name>TranscriptionSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+60"/>
+        <location filename="../../qml/pages/settings/IntegrationsTab/TranscriptionSetting.qml" line="+57"/>
         <source>Voice transcription</source>
         <translation>ശബ്ദ ട്രാൻസ്ക്രിപ്ഷൻ</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+33"/>
         <source>OpenAI cloud</source>
         <translation>OpenAI ക്ലൗഡ്</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+38"/>
         <source>API key</source>
         <translation>API കീ</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-64"/>
         <source>Provider</source>
         <translation>പ്രൊവൈഡർ</translation>
     </message>
@@ -10176,12 +10176,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>ഹോസ്റ്റിംഗ്</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Other (OpenAI-compatible server)</source>
         <translation>മറ്റുള്ളവ (OpenAI-compatible സെർവർ)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+23"/>
         <source>Example: http://localhost:8080/v1</source>
         <translation>ഉദാഹരണം: http://localhost:8080/v1</translation>
     </message>
@@ -10221,12 +10221,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>API ബേസ് URL</translation>
     </message>
     <message>
-        <location line="-37"/>
+        <location line="-42"/>
         <source>Streaming (a little more realtime, but still not word-by-word) is typically not as well-supported across API servers and tends to cost more. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;Learn more&lt;/a&gt;.</source>
         <translation>സ്ട്രീമിങ് (കൂടുതൽ തത്സമയം, എന്നാൽ ഇപ്പോഴും വാക്ക്-ബൈ-വാക്ക് അല്ല) സാധാരണയായി API സെർവറുകളിൽ ഇത്ര നന്നായി പ്രവർത്തിക്കുന്നില്ല, കൂടാതെ കൂടുതൽ ചെലവ് ആകും. &lt;a href="https://github.com/etkecc/komai/blob/main/docs/user-guide/features/voice-transcription.md#-compatible-providers"&gt;കൂടുതൽ അറിയുക&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+110"/>
         <source>Show/Hide API key</source>
         <translation>API കീ കാണിക്കുക/മറയ്ക്കുക</translation>
     </message>

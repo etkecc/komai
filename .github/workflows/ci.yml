@@ -39,7 +39,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
       # Mount this trust level's directory of the host-provisioned cache
       # disk into the container, never the disk's root: release caches
-      # live there. On k150 this resolves to a dedicated 50 GB ext4 volume
+      # live there. On k150 this resolves to a dedicated ext4 volume
       # (provisioned via Ansible) where cargo state persists across
       # jobs, eliminating the actions/cache round-trip for the cargo
       # target dir. On runners without this path, Docker transparently

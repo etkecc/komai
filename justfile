@@ -345,6 +345,9 @@ flatpak-build: _ensure_just_temp_directory emoji-fetch element-call-fetch flatpa
 	# flatpak-builder keeps a module's build dir when its build fails and
 	# never reads it again, so drop any left in the persistent state-dir.
 	rm -rf "{{ flatpak_build_dir }}/.flatpak-builder/build"
+	# The repo only feeds the bundle below, and every export leaves the
+	# previous builds' objects in it (up to ~0.5 GB per build). Start afresh.
+	rm -rf "{{ flatpak_build_dir }}/repo"
 	flatpak-builder \
 		--install-deps-from=flathub \
 		--user \

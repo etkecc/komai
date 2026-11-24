@@ -71,6 +71,9 @@ AppDir:
     - qt6-svg-plugins
     - libqt6widgets6
     - libqt6multimedia6
+    # WebP (and TIFF, etc.) image decoding. Qt only loads image formats through
+    # plugins, so nothing pulls this in as a library dependency.
+    - qt6-image-formats-plugins
     # Ubuntu's Qt has no built-in MIME database and reads this one. It is a
     # dependency of libqt6core6t64, but appimage-builder skips it unless it is
     # listed explicitly. Relying on the host's copy is not an option: when

@@ -9,7 +9,6 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QImageReader>
-#include <QMimeDatabase>
 #include <QPointer>
 #include <QQuickWindow>
 #include <QSGImageNode>
@@ -20,6 +19,7 @@
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
+#include "utils/MimeTypes.h"
 
 #include <thread>
 
@@ -83,7 +83,7 @@ MxcAnimatedImage::startDownload()
     if (!animatable)
         return;
 
-    QString suffix = QMimeDatabase().mimeTypeForName(mimeType).preferredSuffix();
+    QString suffix = komai::mime_types::preferredSuffix(mimeType);
     QFileInfo filename(
       QFileInfo(app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
                                                   matrixRuntimeMediaCacheKey(roomId, eventId_),

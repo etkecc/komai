@@ -7321,7 +7321,7 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Alle bestanden (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Het gekozen bestand is geen afbeelding</translation>
     </message>
@@ -9827,12 +9827,12 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Alle bestanden (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Beëindig het bewerken van het huidige bericht voordat je bestanden bijvoegt.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Alleen bestaande lokale bestanden kunnen worden bijgevoegd via slepen en neerzetten.</translation>
     </message>
@@ -10470,13 +10470,13 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Matrix backend runtime is niet beschikbaar.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Machtsniveau instellen voor %1 mislukt.</translation>
     </message>
@@ -10556,7 +10556,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Alle bestanden (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Het gekozen bestand is geen afbeelding</translation>
     </message>
@@ -10980,7 +10980,7 @@ Je kunt het negeren later ongedaan maken via het profiel van deze gebruiker of v
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

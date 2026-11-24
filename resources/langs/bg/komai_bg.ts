@@ -7331,7 +7331,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>Всички файлове (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Избраният файл не е изображение</translation>
     </message>
@@ -9827,12 +9827,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Всички файлове (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Завърши редактирането на текущото съобщение, преди да прикачиш файлове.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Само съществуващи локални файлове могат да бъдат прикачени чрез влачене и пускане.</translation>
     </message>
@@ -10929,13 +10929,13 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Matrix backend runtime не е достъпен.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Неуспешно задаване на ниво на права за %1.</translation>
     </message>
@@ -11020,7 +11020,7 @@ You can unignore later via this user's profile or via Settings → Account → I
         <translation>Всички файлове (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Избраният файл не е изображение</translation>
     </message>

@@ -7321,7 +7321,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
         <translation>Tots els fitxers (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>El fitxer seleccionat no és una imatge</translation>
     </message>
@@ -9827,12 +9827,12 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Tots els fitxers (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Cal acabar d'editar el missatge actual abans d'adjuntar fitxers.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Només es poden adjuntar fitxers locals existents arrossegant i deixant anar.</translation>
     </message>
@@ -10857,13 +10857,13 @@ Podràs deixar d'ignorar-lo/la més endavant des del perfil d'aquest usuari o a 
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>El temps d'execució del backend de Matrix no està disponible.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>No s'ha pogut establir el nivell de poder per a %1.</translation>
     </message>
@@ -10943,7 +10943,7 @@ Podràs deixar d'ignorar-lo/la més endavant des del perfil d'aquest usuari o a 
         <translation>Tots els fitxers (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>El fitxer seleccionat no és una imatge</translation>
     </message>
@@ -10980,7 +10980,7 @@ Podràs deixar d'ignorar-lo/la més endavant des del perfil d'aquest usuari o a 
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

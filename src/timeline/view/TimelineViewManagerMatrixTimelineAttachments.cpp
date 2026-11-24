@@ -15,7 +15,6 @@
 #include <QGuiApplication>
 #include <QImage>
 #include <QMimeData>
-#include <QMimeDatabase>
 #include <QPointer>
 #include <QStandardPaths>
 #include <QTimer>
@@ -33,6 +32,7 @@
 #include "ui/MainWindow.h"
 #include "ui/NotificationAction.h"
 #include "utils/MediaIcons.h"
+#include "utils/MimeTypes.h"
 #include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
@@ -105,8 +105,7 @@ TimelineViewManager::tryPasteClipboardAttachment(bool strict)
         if (data.isEmpty())
             return false;
 
-        QMimeDatabase db;
-        const auto suffix   = db.mimeTypeForName(mimeType).preferredSuffix();
+        const auto suffix   = komai::mime_types::preferredSuffix(mimeType);
         const auto tempDir  = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
         const auto filePath = tempDir + QStringLiteral("/komai-paste-") +
                               QUuid::createUuid().toString(QUuid::Id128) +
@@ -206,7 +205,6 @@ TimelineViewManager::stageMatrixAttachmentsForRoom(const QString &roomId,
         return false;
     }
 
-    QMimeDatabase mimeDatabase;
     QStringList normalizedFilePaths;
     normalizedFilePaths.reserve(filePaths.size());
 
@@ -232,10 +230,8 @@ TimelineViewManager::stageMatrixAttachmentsForRoom(const QString &roomId,
             continue;
 
         normalizedFilePaths.push_back(absoluteFilePath);
-        const auto mimeType = mimeDatabase.mimeTypeForFile(absoluteFilePath).name();
-        const auto effectiveMimeType =
-          mimeType.isEmpty() ? QStringLiteral("application/octet-stream") : mimeType;
-        const auto fileName = info.fileName();
+        const auto effectiveMimeType = komai::mime_types::forFile(absoluteFilePath);
+        const auto fileName          = info.fileName();
         pendingMatrixAttachments_.push_back(PendingMatrixAttachment{
           .handleId     = handleId,
           .roomId       = targetRoomId,

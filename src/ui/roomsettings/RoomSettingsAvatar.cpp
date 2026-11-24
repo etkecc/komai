@@ -8,10 +8,10 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QImageReader>
-#include <QMimeDatabase>
 #include <QStandardPaths>
 
 #include "logging/Logging.h"
+#include "utils/MimeTypes.h"
 #include "utils/QtWorkerTask.h"
 
 namespace {
@@ -51,13 +51,10 @@ RoomSettings::updateAvatar()
     if (fileName.isEmpty())
         return;
 
-    QMimeDatabase db;
-    QMimeType mime = db.mimeTypeForFile(fileName, QMimeDatabase::MatchContent);
-
-    const auto format = mime.name().split(QStringLiteral("/"))[0];
+    const auto mimeName = komai::mime_types::forFile(fileName, QMimeDatabase::MatchContent);
 
     QFile file{fileName, this};
-    if (format != QLatin1String("image")) {
+    if (!mimeName.startsWith(QLatin1String("image/"))) {
         emit displayError(tr("The selected file is not an image"));
         return;
     }
@@ -78,9 +75,9 @@ RoomSettings::updateAvatar()
       [handleId,
        roomId = roomid_,
        fileName,
-       mimeName = mime.name(),
-       width    = dimensions.width(),
-       height   = dimensions.height()]() {
+       mimeName,
+       width  = dimensions.width(),
+       height = dimensions.height()]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           RoomAvatarMutationResult result;
           result.newAvatarUrl = komai::MatrixBackendRuntimeService::uploadRoomAvatar(

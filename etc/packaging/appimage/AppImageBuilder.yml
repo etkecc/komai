@@ -71,6 +71,12 @@ AppDir:
     - qt6-svg-plugins
     - libqt6widgets6
     - libqt6multimedia6
+    # Ubuntu's Qt has no built-in MIME database and reads this one. It is a
+    # dependency of libqt6core6t64, but appimage-builder skips it unless it is
+    # listed explicitly. Relying on the host's copy is not an option: when
+    # XDG_DATA_DIRS is unset on the host, the value AppRun exports contains only
+    # bundled directories, which hides /usr/share from Qt.
+    - shared-mime-info
 
     # Qt6 QML modules
     - qml6-module-qtquick

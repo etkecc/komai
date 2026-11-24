@@ -7308,7 +7308,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <translation>Tüm Dosyalar (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Seçilen dosya bir görüntü değil</translation>
     </message>
@@ -9810,12 +9810,12 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Tüm Dosyalar (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Dosya eklemeden önce mevcut mesajı düzenlemeyi tamamlayın.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Yalnızca mevcut yerel dosyalar sürükle ve bırak ile eklenebilir.</translation>
     </message>
@@ -10837,13 +10837,13 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Matrix arka uç çalışma zamanı mevcut değil.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>%1 için yetki düzeyi ayarlanamadı.</translation>
     </message>
@@ -10923,7 +10923,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <translation>Tüm Dosyalar (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Seçilen dosya bir görüntü değil</translation>
     </message>
@@ -10960,7 +10960,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

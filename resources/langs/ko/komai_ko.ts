@@ -7308,7 +7308,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>모든 파일 (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>선택한 파일이 이미지가 아닙니다</translation>
     </message>
@@ -9810,12 +9810,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>모든 파일 (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>파일을 첨부하기 전에 현재 메시지 편집을 완료하세요.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>드래그 앤 드롭으로는 로컬에 존재하는 파일만 첨부할 수 있습니다.</translation>
     </message>
@@ -10450,13 +10450,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Matrix 백엔드 런타임을 사용할 수 없습니다.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>%1의 권한 수준 설정에 실패했습니다.</translation>
     </message>
@@ -10536,7 +10536,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>모든 파일 (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>선택한 파일이 이미지가 아닙니다</translation>
     </message>
@@ -10960,7 +10960,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

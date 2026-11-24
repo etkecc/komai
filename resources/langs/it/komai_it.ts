@@ -7321,7 +7321,7 @@ Si noti che non può essere disabilitata in seguito.</translation>
         <translation>Tutti i file (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Il file selezionato non è un'immagine</translation>
     </message>
@@ -9827,12 +9827,12 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Tutti i file (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Termina la modifica del messaggio corrente prima di allegare file.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Solo i file locali esistenti possono essere allegati tramite trascinamento.</translation>
     </message>
@@ -10470,13 +10470,13 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Il runtime del backend Matrix non è disponibile.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Impossibile impostare il livello di potere per %1.</translation>
     </message>
@@ -10556,7 +10556,7 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Tutti i file (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Il file selezionato non è un'immagine</translation>
     </message>
@@ -10980,7 +10980,7 @@ Puoi smettere di ignorarlo in seguito tramite il profilo dell'utente o in Impost
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

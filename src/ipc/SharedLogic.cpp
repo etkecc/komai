@@ -12,7 +12,6 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QMetaObject>
-#include <QMimeDatabase>
 #include <QPointer>
 #include <QThread>
 
@@ -32,6 +31,7 @@
 #include "timeline/TimelineViewManager.h"
 #include "timeline/rust/MatrixTimelineModel.h"
 #include "ui/MainWindow.h"
+#include "utils/MimeTypes.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -177,12 +177,7 @@ effectiveMimeTypeForFile(const QString &filePath, const QString &contentTypeOver
     if (!trimmedOverride.isEmpty())
         return trimmedOverride;
 
-    const auto mime = QMimeDatabase().mimeTypeForFile(filePath, QMimeDatabase::MatchContent);
-    const auto name = mime.name().trimmed();
-    if (!name.isEmpty())
-        return name;
-
-    return QStringLiteral("application/octet-stream");
+    return komai::mime_types::forFile(filePath, QMimeDatabase::MatchContent);
 }
 
 bool
@@ -1700,10 +1695,8 @@ sendImageFromFile(const QString &roomIdOrAlias,
     }
 
     const auto effectiveFilePath = fileInfo.absoluteFilePath();
-    const auto mimeType          = QMimeDatabase()
-                            .mimeTypeForFile(effectiveFilePath, QMimeDatabase::MatchContent)
-                            .name()
-                            .trimmed();
+    const auto mimeType =
+      komai::mime_types::forFile(effectiveFilePath, QMimeDatabase::MatchContent);
     if (!mimeType.startsWith(QStringLiteral("image/"), Qt::CaseInsensitive)) {
         if (callback)
             callback({}, QStringLiteral("file is not an image: ") + effectiveFilePath);

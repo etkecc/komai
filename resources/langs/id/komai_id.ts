@@ -7308,7 +7308,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Semua File (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>File yang dipilih bukan sebuah gambar</translation>
     </message>
@@ -9810,12 +9810,12 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Semua File (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Selesaikan pengeditan pesan saat ini sebelum melampirkan file.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Hanya file lokal yang ada yang dapat dilampirkan dengan seret dan lepas.</translation>
     </message>
@@ -10450,13 +10450,13 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Runtime backend Matrix tidak tersedia.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Gagal mengatur tingkat kekuasaan untuk %1.</translation>
     </message>
@@ -10536,7 +10536,7 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>Semua File (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>File yang dipilih bukan sebuah gambar</translation>
     </message>
@@ -10960,7 +10960,7 @@ Anda dapat menghapus abaian nanti melalui profil pengguna ini atau melalui Penga
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

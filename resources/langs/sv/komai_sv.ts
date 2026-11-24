@@ -7321,7 +7321,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
         <translation>Alla filer (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Den valda filen är inte en bild</translation>
     </message>
@@ -9827,12 +9827,12 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Alla filer (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Slutför redigeringen av det aktuella meddelandet innan du bifogar filer.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Endast befintliga lokala filer kan bifogas med drag och släpp.</translation>
     </message>
@@ -10470,13 +10470,13 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Matrix-backend är inte tillgänglig.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Det gick inte att ange behörighetsnivå för %1.</translation>
     </message>
@@ -10556,7 +10556,7 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Alla filer (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Den valda filen är inte en bild</translation>
     </message>
@@ -10980,7 +10980,7 @@ Du kan sluta ignorera senare via den här användarens profil eller via Inställ
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

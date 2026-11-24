@@ -49,7 +49,7 @@ docker run --rm \
             curl \
             pipx libffi-dev \
             desktop-file-utils elfutils fakeroot file squashfs-tools zsync \
-            gtk-update-icon-cache \
+            gtk-update-icon-cache shared-mime-info \
             >/dev/null 2>&1
 
         # Install Rust via rustup (distro Rust may be too old for edition 2024 crates).

@@ -12,7 +12,6 @@
 #include <QFileInfo>
 #include <QMediaMetaData>
 #include <QMediaPlayer>
-#include <QMimeDatabase>
 #include <QPointer>
 #include <QUrl>
 
@@ -27,6 +26,7 @@
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "utils/MimeTypes.h"
 
 namespace {
 uint64_t
@@ -253,7 +253,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
         emit encryptedChanged();
     }
 
-    QString suffix = QMimeDatabase().mimeTypeForName(mimeType).preferredSuffix();
+    QString suffix = komai::mime_types::preferredSuffix(mimeType);
     QFileInfo filename(
       QFileInfo(app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
                                                   matrixRuntimeMediaCacheKey(roomId, eventId_),

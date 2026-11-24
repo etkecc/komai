@@ -5,7 +5,6 @@
 
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QMimeDatabase>
 #include <QPointer>
 #include <QStandardPaths>
 
@@ -17,6 +16,7 @@
 #include "matrix/backend/MatrixBackendRuntimeService.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineViewManager.h"
+#include "utils/MimeTypes.h"
 #include "utils/QtWorkerTask.h"
 
 namespace {
@@ -350,13 +350,10 @@ UserProfile::changeAvatar()
     if (fileName.isEmpty())
         return;
 
-    QMimeDatabase db;
-    QMimeType mime = db.mimeTypeForFile(fileName, QMimeDatabase::MatchContent);
-
-    const auto format = mime.name().split(QStringLiteral("/"))[0];
+    const auto mimeName = komai::mime_types::forFile(fileName, QMimeDatabase::MatchContent);
 
     QFile file{fileName, this};
-    if (format != QLatin1String("image")) {
+    if (!mimeName.startsWith(QLatin1String("image/"))) {
         emit displayError(tr("The selected file is not an image"));
         return;
     }
@@ -389,7 +386,7 @@ UserProfile::changeAvatar()
 
     runUserProfileRuntimeTask(
       this,
-      [handleId, roomId, fileName, mimeName = mime.name(), globalProfile]() {
+      [handleId, roomId, fileName, mimeName, globalProfile]() {
           const auto context = komai::matrix_backend::blockingCallContext();
           QString error;
           const bool ok = globalProfile ? komai::MatrixBackendRuntimeService::uploadOwnAvatar(

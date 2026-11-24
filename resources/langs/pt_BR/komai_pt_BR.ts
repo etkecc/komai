@@ -7321,7 +7321,7 @@ Observe que ela não pode ser desativada depois.</translation>
         <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>O arquivo selecionado não é uma imagem</translation>
     </message>
@@ -9827,12 +9827,12 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Termine de editar a mensagem atual antes de anexar arquivos.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Somente arquivos locais existentes podem ser anexados por arrastar e soltar.</translation>
     </message>
@@ -10857,13 +10857,13 @@ Você pode deixar de ignorar mais tarde pelo perfil do usuário ou via Configura
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>O runtime do backend Matrix não está disponível.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Falha ao definir o nível de poder para %1.</translation>
     </message>
@@ -10943,7 +10943,7 @@ Você pode deixar de ignorar mais tarde pelo perfil do usuário ou via Configura
         <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>O arquivo selecionado não é uma imagem</translation>
     </message>
@@ -10980,7 +10980,7 @@ Você pode deixar de ignorar mais tarde pelo perfil do usuário ou via Configura
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

@@ -7308,7 +7308,7 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>所有檔案 (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>所選檔案不是圖片</translation>
     </message>
@@ -9810,12 +9810,12 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>所有檔案 (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>請先完成編輯目前的訊息，再附加檔案。</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>只能透過拖放附加本機現有的檔案。</translation>
     </message>
@@ -10450,13 +10450,13 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Matrix 後端執行環境不可用。</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>無法設定%1的權限等級。</translation>
     </message>
@@ -10536,7 +10536,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>所有檔案 (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>所選檔案不是圖片</translation>
     </message>
@@ -10960,7 +10960,7 @@ You can unignore later via this user's profile or via Settings → Account → I
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

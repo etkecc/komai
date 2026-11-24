@@ -7321,7 +7321,7 @@ Veuillez noter qu'il ne peut pas être désactivé par la suite.</translation>
         <translation>Tous les types de fichiers (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Le fichier sélectionné n'est pas une image</translation>
     </message>
@@ -9827,12 +9827,12 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Tous les types de fichiers (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Terminez la modification du message actuel avant de joindre des fichiers.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Seuls les fichiers locaux existants peuvent être joints par glisser-déposer.</translation>
     </message>
@@ -10470,13 +10470,13 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Le moteur Matrix n'est pas disponible.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Échec de la définition du niveau de pouvoir pour %1.</translation>
     </message>
@@ -10556,7 +10556,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Tous les types de fichiers (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Le fichier sélectionné n'est pas une image</translation>
     </message>
@@ -10980,7 +10980,7 @@ Vous pouvez cesser de l'ignorer ultérieurement via le profil de cet utilisateur
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

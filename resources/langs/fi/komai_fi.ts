@@ -7321,7 +7321,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <translation>Kaikki Tiedostot (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Valittu tiedosto ei ole kuva</translation>
     </message>
@@ -9827,12 +9827,12 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Kaikki Tiedostot (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Lopeta nykyisen viestin muokkaaminen ennen tiedostojen liittämistä.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Vain olemassa olevia paikallisia tiedostoja voi liittää vetämällä ja pudottamalla.</translation>
     </message>
@@ -10470,13 +10470,13 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Matrix-tausta ei ole käytettävissä.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Oikeustason asettaminen käyttäjälle %1 epäonnistui.</translation>
     </message>
@@ -10556,7 +10556,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>Kaikki Tiedostot (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Valittu tiedosto ei ole kuva</translation>
     </message>
@@ -10980,7 +10980,7 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

@@ -7321,7 +7321,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Omni Files (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Li dosier selectat ne es un imagine</translation>
     </message>
@@ -9827,12 +9827,12 @@ It sembla plaisant al ocul e insanmen rapid! ðŸš€</translation>
         <translation>Omni Files (*)</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+132"/>
         <source>Finish editing the current message before attaching files.</source>
         <translation>Finishe editar li actual mesage ante annexar files.</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+57"/>
         <source>Only existing local files can be attached by drag and drop.</source>
         <translation>Solmen files local existente posse esser annexat per drag e drop.</translation>
     </message>
@@ -10857,13 +10857,13 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes â
         <location line="+68"/>
         <location line="+41"/>
         <location line="+40"/>
-        <location line="+76"/>
+        <location line="+73"/>
         <location line="+50"/>
         <source>Matrix backend runtime is not available.</source>
         <translation>Le runtime backend Matrix ne es disponibil.</translation>
     </message>
     <message>
-        <location line="-357"/>
+        <location line="-354"/>
         <source>Failed to set power level for %1.</source>
         <translation>Fallat de fixar nivel de poder por %1.</translation>
     </message>
@@ -10943,7 +10943,7 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes â
         <translation>Omni Files (*)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>The selected file is not an image</source>
         <translation>Li dosier selectat ne es un imagine</translation>
     </message>
@@ -10980,7 +10980,7 @@ Vu posse des-ignorar plu tard via li profil de ti usator o via Configurationes â
     </message>
     <message>
         <location filename="../../../src/ui/UserProfile.cpp" line="+247"/>
-        <location filename="../../../src/ui/UserProfileActions.cpp" line="-295"/>
+        <location filename="../../../src/ui/UserProfileActions.cpp" line="-292"/>
         <location line="+67"/>
         <location line="+41"/>
         <location line="+40"/>

@@ -760,6 +760,8 @@ set(SRC_FILES
     src/models/UsersModel.cpp
     src/models/UsersModel.h
     src/utils/BotDetection.cpp
+    src/utils/MimeTypes.cpp
+    src/utils/MimeTypes.h
     src/utils/UtilsCore.cpp
     src/utils/Utils.h
     src/utils/UtilsColor.cpp
@@ -1543,6 +1545,15 @@ if(BUILD_TESTING)
     target_include_directories(komai_bot_detection_test PRIVATE src)
     add_test(NAME komai_bot_detection_test COMMAND komai_bot_detection_test)
     komai_configure_test(komai_bot_detection_test "unit;utils")
+
+    add_executable(komai_mime_types_test
+        tests/MimeTypesTest.cpp
+        src/utils/MimeTypes.cpp
+    )
+    target_include_directories(komai_mime_types_test PRIVATE src tests)
+    target_link_libraries(komai_mime_types_test PRIVATE Qt::Core)
+    add_test(NAME komai_mime_types_test COMMAND komai_mime_types_test)
+    komai_configure_test(komai_mime_types_test "unit;utils")
 
     add_executable(komai_emoji_completion_search_test
         tests/EmojiCompletionSearchTest.cpp

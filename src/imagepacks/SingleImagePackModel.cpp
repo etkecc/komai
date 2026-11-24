@@ -6,7 +6,6 @@
 #include "imagepacks/SingleImagePackModel.h"
 
 #include <QFileInfo>
-#include <QMimeDatabase>
 
 #include <optional>
 #include <unordered_set>
@@ -18,6 +17,7 @@
 #include "timeline/Permissions.h"
 #include "timeline/TimelineEventTypes.h"
 #include "ui/MainWindow.h"
+#include "utils/MimeTypes.h"
 #include "utils/QtWorkerTask.h"
 #include "utils/Utils.h"
 
@@ -113,9 +113,9 @@ detectUploadMimeType(const QString &filePath, QString *errorOut)
         return std::nullopt;
     }
 
-    QMimeDatabase db;
-    const auto mime = db.mimeTypeForFile(fileInfo.absoluteFilePath(), QMimeDatabase::MatchContent);
-    if (!mime.isValid() || !mime.name().startsWith(QLatin1String("image/"))) {
+    const auto mimeType =
+      komai::mime_types::forFile(fileInfo.absoluteFilePath(), QMimeDatabase::MatchContent);
+    if (!mimeType.startsWith(QLatin1String("image/"))) {
         if (errorOut) {
             *errorOut = SingleImagePackModel::tr("The selected file is not an image: %1")
                           .arg(fileInfo.fileName());
@@ -123,7 +123,7 @@ detectUploadMimeType(const QString &filePath, QString *errorOut)
         return std::nullopt;
     }
 
-    return mime.name();
+    return mimeType;
 }
 
 } // namespace

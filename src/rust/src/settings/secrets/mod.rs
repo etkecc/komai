@@ -4,7 +4,7 @@
 
 use std::collections::BTreeMap;
 
-use serde_yaml_ng::{Mapping, Value};
+use yaml_serde::{Mapping, Value};
 
 use crate::ffi::{MatrixPersistedSessionSecrets, SettingsSecretsPayload, SettingsStringMapEntry};
 
@@ -29,7 +29,7 @@ fn ordered_map(entries: &[SettingsStringMapEntry]) -> BTreeMap<String, String> {
 }
 
 fn encode_yaml_value(value: &Value) -> String {
-    let mut serialized = serde_yaml_ng::to_string(value).unwrap_or_default();
+    let mut serialized = yaml_serde::to_string(value).unwrap_or_default();
     if let Some(rest) = serialized.strip_prefix("---\n") {
         serialized = rest.to_owned();
     }
@@ -41,7 +41,7 @@ fn parse_yaml_root(serialized: &str) -> Option<Value> {
         return None;
     }
 
-    serde_yaml_ng::from_str::<Value>(serialized).ok()
+    yaml_serde::from_str::<Value>(serialized).ok()
 }
 
 fn decode_string_map_value(value: Option<&Value>) -> Vec<SettingsStringMapEntry> {
@@ -125,7 +125,7 @@ fn decode_profile_secrets_entries(entries: &[SettingsStringMapEntry]) -> Setting
 }
 
 pub fn encode_string_map_yaml(entries: &[SettingsStringMapEntry]) -> String {
-    let value = serde_yaml_ng::to_value(ordered_map(entries)).unwrap_or(Value::Mapping(Mapping::new()));
+    let value = yaml_serde::to_value(ordered_map(entries)).unwrap_or(Value::Mapping(Mapping::new()));
     encode_yaml_value(&value)
 }
 
@@ -148,7 +148,7 @@ pub fn encode_named_string_map_yaml(root_key: &str, entries: &[SettingsStringMap
     let mut root = Mapping::new();
     root.insert(
         Value::String(root_key.to_owned()),
-        serde_yaml_ng::to_value(ordered_map(entries)).unwrap_or(Value::Mapping(Mapping::new())),
+        yaml_serde::to_value(ordered_map(entries)).unwrap_or(Value::Mapping(Mapping::new())),
     );
     encode_yaml_value(&Value::Mapping(root))
 }

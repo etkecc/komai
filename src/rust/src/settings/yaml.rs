@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use serde_yaml_ng::{Mapping, Number, Value};
+use yaml_serde::{Mapping, Number, Value};
 
 pub(crate) fn empty_mapping() -> Value {
     Value::Mapping(Mapping::new())
@@ -13,7 +13,7 @@ pub(crate) fn parse_root(serialized: &str) -> Value {
         return empty_mapping();
     }
 
-    match serde_yaml_ng::from_str::<Value>(serialized) {
+    match yaml_serde::from_str::<Value>(serialized) {
         Ok(Value::Mapping(mapping)) => Value::Mapping(mapping),
         Ok(_) | Err(_) => empty_mapping(),
     }
@@ -73,7 +73,7 @@ pub(crate) fn set_value(root: &mut Value, path: &[&str], value: Value) {
 }
 
 pub(crate) fn serialize_yaml(root: &Value) -> String {
-    let mut serialized = serde_yaml_ng::to_string(root).unwrap_or_default();
+    let mut serialized = yaml_serde::to_string(root).unwrap_or_default();
     if let Some(rest) = serialized.strip_prefix("---\n") {
         serialized = rest.to_owned();
     }

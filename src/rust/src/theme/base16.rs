@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use serde_yaml_ng::{Mapping, Value};
+use yaml_serde::{Mapping, Value};
 
 use crate::ffi::{ThemeBase16PaletteData, ThemeBase16ParseResult};
 
 pub fn parse_base16_yaml(theme_text: &str) -> ThemeBase16ParseResult {
-    let root = match serde_yaml_ng::from_str::<Value>(theme_text) {
+    let root = match yaml_serde::from_str::<Value>(theme_text) {
         Ok(value) => value,
         Err(error) => {
             return ThemeBase16ParseResult {

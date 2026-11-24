@@ -1569,7 +1569,7 @@ testConstrainedIntSettersRejectInvalidUpdates()
 // member in UserSettings is never written from the YAML; later reads
 // fall through to the in-class default, and (worse, prior to that fix)
 // could read uninitialized memory and propagate UB through cxx-rs into
-// serde_yaml_ng, breaking the next config save.
+// yaml_serde, breaking the next config save.
 //
 // The fixture below flips every covered bool from its documented default
 // in defaults.rs. After load, each setting's coreStore value must match

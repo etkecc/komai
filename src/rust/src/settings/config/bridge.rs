@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use serde_yaml_ng::{Number, Value};
+use yaml_serde::{Number, Value};
 
 use crate::ffi::SettingsConfigSnapshot;
 use crate::settings::yaml;
@@ -21,7 +21,7 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     yaml::set_value(
         &mut root,
         &["ui", "scale", "factor"],
-        serde_yaml_ng::to_value(snapshot.ui.scale_factor).unwrap_or(Value::Null),
+        yaml_serde::to_value(snapshot.ui.scale_factor).unwrap_or(Value::Null),
     );
     yaml::set_value(
         &mut root,
@@ -39,7 +39,7 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     yaml::set_value(
         &mut root,
         &["ui", "font", "size_pt"],
-        serde_yaml_ng::to_value(snapshot.ui.font_size_pt).unwrap_or(Value::Null),
+        yaml_serde::to_value(snapshot.ui.font_size_pt).unwrap_or(Value::Null),
     );
     yaml::set_value(
         &mut root,
@@ -306,7 +306,7 @@ pub(super) fn encode_config_yaml(snapshot: &SettingsConfigSnapshot) -> String {
     yaml::set_value(
         &mut root,
         &["timeline", "media", "default_audio_playback_speed"],
-        serde_yaml_ng::to_value(snapshot.timeline.media.default_audio_playback_speed)
+        yaml_serde::to_value(snapshot.timeline.media.default_audio_playback_speed)
             .unwrap_or(Value::Null),
     );
     yaml::set_value(

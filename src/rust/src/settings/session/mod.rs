@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use serde_yaml_ng::Value;
+use yaml_serde::Value;
 
 use super::{storage, yaml};
 

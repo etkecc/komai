@@ -10,7 +10,7 @@ use model::{ServerEntry, ServerListFile};
 const SERVERS_YAML: &str = include_str!("../../../../resources/serverlist/servers.yml");
 
 pub fn entries(locale: &str) -> ServerListResult {
-    match serde_yaml_ng::from_str::<ServerListFile>(SERVERS_YAML) {
+    match yaml_serde::from_str::<ServerListFile>(SERVERS_YAML) {
         Ok(parsed) => {
             if let Err(error) = parsed.validate() {
                 return ServerListResult {

@@ -692,340 +692,340 @@ fn encodes_generic_config_values() {
         },
     });
 
-    let root: serde_yaml_ng::Value = serde_yaml_ng::from_str(&yaml).expect("valid yaml");
+    let root: yaml_serde::Value = yaml_serde::from_str(&yaml).expect("valid yaml");
     assert!(matches!(
         yaml::value_at_path(&root, &["meta", "settings_schema_version"]),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(3)
+        Some(yaml_serde::Value::Number(number)) if number.as_i64() == Some(3)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "theme", "slug"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "dark-komai"
+        Some(yaml_serde::Value::String(value)) if value == "dark-komai"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "style"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "plain"
+        Some(yaml_serde::Value::String(value)) if value == "plain"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "layout", "positioning"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "all_right"
+        Some(yaml_serde::Value::String(value)) if value == "all_right"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "user_color_coding_policy"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "me_vs_others"
+        Some(yaml_serde::Value::String(value)) if value == "me_vs_others"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "layout", "avatar_size"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "small"
+        Some(yaml_serde::Value::String(value)) if value == "small"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "layout", "show_own_avatar"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "layout", "max_width_percent"]),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(70)
+        Some(yaml_serde::Value::Number(number)) if number.as_i64() == Some(70)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "sender_username"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "always"
+        Some(yaml_serde::Value::String(value)) if value == "always"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "emoji_only_enlarge"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "messages", "hover_highlight"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(
             &root,
             &["timeline", "messages", "actions", "activation_policy"]
         ),
-        Some(serde_yaml_ng::Value::String(value)) if value == "on_message_hover"
+        Some(yaml_serde::Value::String(value)) if value == "on_message_hover"
     ));
     assert!(matches!(
         yaml::value_at_path(
             &root,
             &["timeline", "messages", "actions", "pinned_reactions"]
         ),
-        Some(serde_yaml_ng::Value::String(value)) if value == "👍,👀"
+        Some(yaml_serde::Value::String(value)) if value == "👍,👀"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "formatted", "code_syntax_highlighting"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "typing", "show", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "read_receipts", "global"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     // Encoder always emits an empty by_room map alongside the global,
     // mirroring `composer.typing.send.by_room`. The legacy
     // `timeline.read_receipts.enabled` v2 path must not appear in v3 output.
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "read_receipts", "by_room"]),
-        Some(serde_yaml_ng::Value::Mapping(mapping)) if mapping.is_empty()
+        Some(yaml_serde::Value::Mapping(mapping)) if mapping.is_empty()
     ));
     assert!(yaml::value_at_path(&root, &["timeline", "read_receipts", "enabled"]).is_none());
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "effects", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "animate_on_hover"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "image_display"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "never"
+        Some(yaml_serde::Value::String(value)) if value == "never"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "open_images_external"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "open_videos_external"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "autoplay_gif_videos"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "media", "open_audio_external"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(
             &root,
             &["timeline", "media", "default_audio_playback_speed"]
         ),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_f64() == Some(2.5)
+        Some(yaml_serde::Value::Number(number)) if number.as_f64() == Some(2.5)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "hidden_events", "global"]),
-        Some(serde_yaml_ng::Value::Sequence(_))
+        Some(yaml_serde::Value::Sequence(_))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["timeline", "hidden_events", "by_room"]),
-        Some(serde_yaml_ng::Value::Mapping(_))
+        Some(yaml_serde::Value::Mapping(_))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "font", "family"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "Iosevka"
+        Some(yaml_serde::Value::String(value)) if value == "Iosevka"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "font", "emoji_family"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "Noto Color Emoji"
+        Some(yaml_serde::Value::String(value)) if value == "Noto Color Emoji"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "font", "size_pt"]),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_f64() == Some(14.0)
+        Some(yaml_serde::Value::Number(number)) if number.as_f64() == Some(14.0)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "motion", "enable_animations"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "layout", "density"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "spacious"
+        Some(yaml_serde::Value::String(value)) if value == "spacious"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "avatars", "circular"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "avatars", "default_avatar_style"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "boring_avatars_bauhaus"
+        Some(yaml_serde::Value::String(value)) if value == "boring_avatars_bauhaus"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["ui", "scrollbar_policy"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "when_needed"
+        Some(yaml_serde::Value::String(value)) if value == "when_needed"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "room_list", "show_last_message_timestamp"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "room_list", "last_message_preview"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "never"
+        Some(yaml_serde::Value::String(value)) if value == "never"
     ));
     assert!(matches!(
         yaml::value_at_path(
             &root,
             &["navigation", "room_list", "show_unread_indicators"]
         ),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "room_list", "sort"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "alphabetical"
+        Some(yaml_serde::Value::String(value)) if value == "alphabetical"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "room_list", "opening_policy"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "reuse_active_tab"
+        Some(yaml_serde::Value::String(value)) if value == "reuse_active_tab"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "show_unread_indicators"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "filters", "favourites"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "filters", "people"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "filters", "bots"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "filters", "groups"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(
             &root,
             &["navigation", "communities", "filters", "server_notices"]
         ),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["navigation", "communities", "filters", "low_priority"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["secrets", "provider"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "file"
+        Some(yaml_serde::Value::String(value)) if value == "file"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "encryption", "only_verified_users"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "encryption", "share_with_trusted"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "encryption", "key_backup"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "notifications", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "notifications", "attention_on_incoming"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "notifications", "message_content_policy"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "unencrypted_only"
+        Some(yaml_serde::Value::String(value)) if value == "unencrypted_only"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "attention", "window_title", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "attention", "app_badge", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "system_tray", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "system_tray", "autostart"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "window_focus_blur", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["desktop", "window_focus_blur", "delay_seconds"]),
-        Some(serde_yaml_ng::Value::Number(number)) if number.as_i64() == Some(3)
+        Some(yaml_serde::Value::Number(number)) if number.as_i64() == Some(3)
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "presence", "status_policy"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "offline"
+        Some(yaml_serde::Value::String(value)) if value == "offline"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "tls", "enable_certificate_validation"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "mrs", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "mrs", "server_name"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "example.org"
+        Some(yaml_serde::Value::String(value)) if value == "example.org"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["network", "http3", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["integrations", "dbus", "access"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "read_only"
+        Some(yaml_serde::Value::String(value)) if value == "read_only"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["integrations", "browser", "command"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "firefox %s"
+        Some(yaml_serde::Value::String(value)) if value == "firefox %s"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "markdown_to_html", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "send_key"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "ctrl_enter"
+        Some(yaml_serde::Value::String(value)) if value == "ctrl_enter"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "auto_replace_emoji"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "never"
+        Some(yaml_serde::Value::String(value)) if value == "never"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "emoji", "preferred_gender"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "woman"
+        Some(yaml_serde::Value::String(value)) if value == "woman"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "emoji", "preferred_skin_tone"]),
-        Some(serde_yaml_ng::Value::String(value)) if value == "medium_dark"
+        Some(yaml_serde::Value::String(value)) if value == "medium_dark"
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "inline_emoji_picker", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "inline_room_picker", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(true))
+        Some(yaml_serde::Value::Bool(true))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "inline_user_picker", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "input", "transcription", "enabled"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "typing", "send", "global"]),
-        Some(serde_yaml_ng::Value::Bool(false))
+        Some(yaml_serde::Value::Bool(false))
     ));
     // The encoder always emits an empty by_room map alongside the global,
     // mirroring `timeline.threads.collapse_replies.by_room`. The legacy
     // `composer.typing.send.enabled` v1 path must not appear in v2 output.
     assert!(matches!(
         yaml::value_at_path(&root, &["composer", "typing", "send", "by_room"]),
-        Some(serde_yaml_ng::Value::Mapping(mapping)) if mapping.is_empty()
+        Some(yaml_serde::Value::Mapping(mapping)) if mapping.is_empty()
     ));
     assert!(yaml::value_at_path(&root, &["composer", "typing", "send", "enabled"]).is_none());
 }

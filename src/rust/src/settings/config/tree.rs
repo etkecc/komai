@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use serde_yaml_ng::{Mapping, Value};
+use yaml_serde::{Mapping, Value};
 
 use crate::ffi::{
     SettingsBoolMapEntry, SettingsConfigTranscriptionByRoomEntry, SettingsStringListMapEntry,

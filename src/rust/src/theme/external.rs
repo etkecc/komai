@@ -9,7 +9,7 @@ use crate::ffi::{
 use super::model::{ExternalThemeFile, ExternalThemePalette, ExternalThemeUserColorSlot};
 
 pub fn parse_external_theme(theme_text: &str) -> ThemeExternalParseResult {
-    let parsed = match serde_yaml_ng::from_str::<ExternalThemeFile>(theme_text) {
+    let parsed = match yaml_serde::from_str::<ExternalThemeFile>(theme_text) {
         Ok(value) => value,
         Err(error) => return error_result(error.to_string()),
     };

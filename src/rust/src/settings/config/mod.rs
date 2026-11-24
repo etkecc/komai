@@ -279,7 +279,7 @@ pub fn parse_config_text(config_text: &str) -> Config {
     parse_config_root(&root)
 }
 
-pub(crate) fn parse_config_root(root: &serde_yaml_ng::Value) -> Config {
+pub(crate) fn parse_config_root(root: &yaml_serde::Value) -> Config {
     Config {
         ui: ConfigUi {
             scale: ConfigUiScale {
@@ -799,39 +799,39 @@ pub fn load_config_snapshot(config_text: &str) -> LoadedConfig {
     bridge::load_config_snapshot(config_text)
 }
 
-fn parse_scalar_f32(value: &serde_yaml_ng::Value) -> Option<f32> {
+fn parse_scalar_f32(value: &yaml_serde::Value) -> Option<f32> {
     match value {
-        serde_yaml_ng::Value::Number(number) => number.as_f64().map(|value| value as f32),
-        serde_yaml_ng::Value::String(value) => value.trim().parse::<f32>().ok(),
+        yaml_serde::Value::Number(number) => number.as_f64().map(|value| value as f32),
+        yaml_serde::Value::String(value) => value.trim().parse::<f32>().ok(),
         _ => None,
     }
 }
 
-fn parse_scalar_f64(value: &serde_yaml_ng::Value) -> Option<f64> {
+fn parse_scalar_f64(value: &yaml_serde::Value) -> Option<f64> {
     match value {
-        serde_yaml_ng::Value::Number(number) => number.as_f64(),
-        serde_yaml_ng::Value::String(value) => value.trim().parse::<f64>().ok(),
+        yaml_serde::Value::Number(number) => number.as_f64(),
+        yaml_serde::Value::String(value) => value.trim().parse::<f64>().ok(),
         _ => None,
     }
 }
 
-fn parse_scalar_i32(value: &serde_yaml_ng::Value) -> Option<i32> {
+fn parse_scalar_i32(value: &yaml_serde::Value) -> Option<i32> {
     match value {
-        serde_yaml_ng::Value::Number(number) => number.as_i64().and_then(|value| i32::try_from(value).ok()),
-        serde_yaml_ng::Value::String(value) => value.trim().parse::<i32>().ok(),
+        yaml_serde::Value::Number(number) => number.as_i64().and_then(|value| i32::try_from(value).ok()),
+        yaml_serde::Value::String(value) => value.trim().parse::<i32>().ok(),
         _ => None,
     }
 }
 
-fn parse_scalar_bool(value: &serde_yaml_ng::Value) -> Option<bool> {
+fn parse_scalar_bool(value: &yaml_serde::Value) -> Option<bool> {
     match value {
-        serde_yaml_ng::Value::Bool(value) => Some(*value),
-        serde_yaml_ng::Value::Number(number) => match number.as_i64() {
+        yaml_serde::Value::Bool(value) => Some(*value),
+        yaml_serde::Value::Number(number) => match number.as_i64() {
             Some(0) => Some(false),
             Some(1) => Some(true),
             _ => None,
         },
-        serde_yaml_ng::Value::String(value) => match value.trim().to_ascii_lowercase().as_str() {
+        yaml_serde::Value::String(value) => match value.trim().to_ascii_lowercase().as_str() {
             "true" | "yes" | "on" | "1" => Some(true),
             "false" | "no" | "off" | "0" => Some(false),
             _ => None,
@@ -844,18 +844,18 @@ fn normalize_scale_factor(factor: f32) -> Option<f32> {
     (1.0..=3.0).contains(&factor).then_some(factor)
 }
 
-fn parse_string(value: Option<&serde_yaml_ng::Value>) -> String {
+fn parse_string(value: Option<&yaml_serde::Value>) -> String {
     match value {
-        Some(serde_yaml_ng::Value::String(value)) => value.trim().to_owned(),
+        Some(yaml_serde::Value::String(value)) => value.trim().to_owned(),
         _ => String::new(),
     }
 }
 
-fn parse_storage_token<T: StorageToken>(value: Option<&serde_yaml_ng::Value>) -> T {
+fn parse_storage_token<T: StorageToken>(value: Option<&yaml_serde::Value>) -> T {
     T::from_storage_str(&parse_string(value))
 }
 
-fn parse_storage_token_or<T: StorageToken>(value: Option<&serde_yaml_ng::Value>, default: T) -> T {
+fn parse_storage_token_or<T: StorageToken>(value: Option<&yaml_serde::Value>, default: T) -> T {
     let s = parse_string(value);
     if s.is_empty() {
         default
@@ -864,13 +864,13 @@ fn parse_storage_token_or<T: StorageToken>(value: Option<&serde_yaml_ng::Value>,
     }
 }
 
-fn parse_string_list(value: Option<&serde_yaml_ng::Value>) -> Option<Vec<String>> {
+fn parse_string_list(value: Option<&yaml_serde::Value>) -> Option<Vec<String>> {
     match value {
-        Some(serde_yaml_ng::Value::Sequence(values)) => Some(
+        Some(yaml_serde::Value::Sequence(values)) => Some(
             values
                 .iter()
                 .filter_map(|value| match value {
-                    serde_yaml_ng::Value::String(value) => Some(value.clone()),
+                    yaml_serde::Value::String(value) => Some(value.clone()),
                     _ => None,
                 })
                 .collect(),
@@ -880,25 +880,25 @@ fn parse_string_list(value: Option<&serde_yaml_ng::Value>) -> Option<Vec<String>
 }
 
 fn parse_string_list_map(
-    value: Option<&serde_yaml_ng::Value>,
+    value: Option<&yaml_serde::Value>,
 ) -> std::collections::BTreeMap<String, Vec<String>> {
-    let Some(serde_yaml_ng::Value::Mapping(mapping)) = value else {
+    let Some(yaml_serde::Value::Mapping(mapping)) = value else {
         return std::collections::BTreeMap::new();
     };
 
     let mut result = std::collections::BTreeMap::new();
     for (key, value) in mapping {
-        let serde_yaml_ng::Value::String(key) = key else {
+        let yaml_serde::Value::String(key) = key else {
             continue;
         };
-        let serde_yaml_ng::Value::Sequence(values) = value else {
+        let yaml_serde::Value::Sequence(values) = value else {
             continue;
         };
 
         let mut parsed = Vec::new();
         let mut valid = true;
         for value in values {
-            let serde_yaml_ng::Value::String(value) = value else {
+            let yaml_serde::Value::String(value) = value else {
                 valid = false;
                 break;
             };
@@ -913,18 +913,18 @@ fn parse_string_list_map(
 }
 
 fn parse_bool_map(
-    value: Option<&serde_yaml_ng::Value>,
+    value: Option<&yaml_serde::Value>,
 ) -> std::collections::BTreeMap<String, bool> {
-    let Some(serde_yaml_ng::Value::Mapping(mapping)) = value else {
+    let Some(yaml_serde::Value::Mapping(mapping)) = value else {
         return std::collections::BTreeMap::new();
     };
 
     let mut result = std::collections::BTreeMap::new();
     for (key, value) in mapping {
-        let serde_yaml_ng::Value::String(key) = key else {
+        let yaml_serde::Value::String(key) = key else {
             continue;
         };
-        let serde_yaml_ng::Value::Bool(value) = value else {
+        let yaml_serde::Value::Bool(value) = value else {
             continue;
         };
         result.insert(key.clone(), *value);
@@ -936,9 +936,9 @@ fn parse_bool_map(
 /// Variant of `parse_string` that returns `None` for missing or non-string
 /// values (instead of an empty string), so callers can tell "absent" from
 /// "deliberately blank".
-fn parse_optional_string(value: &serde_yaml_ng::Value) -> Option<String> {
+fn parse_optional_string(value: &yaml_serde::Value) -> Option<String> {
     match value {
-        serde_yaml_ng::Value::String(value) => Some(value.trim().to_owned()),
+        yaml_serde::Value::String(value) => Some(value.trim().to_owned()),
         _ => None,
     }
 }
@@ -947,8 +947,8 @@ fn parse_optional_string(value: &serde_yaml_ng::Value) -> Option<String> {
 /// absent or not a string, so callers can tell "no override set" from
 /// "default chosen". Unrecognised string values fall back to the token's
 /// default, mirroring `parse_storage_token`.
-fn parse_optional_storage_token<T: StorageToken>(value: &serde_yaml_ng::Value) -> Option<T> {
-    let serde_yaml_ng::Value::String(string) = value else {
+fn parse_optional_storage_token<T: StorageToken>(value: &yaml_serde::Value) -> Option<T> {
+    let yaml_serde::Value::String(string) = value else {
         return None;
     };
     let trimmed = string.trim();
@@ -959,24 +959,24 @@ fn parse_optional_storage_token<T: StorageToken>(value: &serde_yaml_ng::Value) -
 }
 
 fn parse_integrations_transcription_overrides_map(
-    value: Option<&serde_yaml_ng::Value>,
+    value: Option<&yaml_serde::Value>,
 ) -> std::collections::BTreeMap<String, ConfigIntegrationsTranscriptionOverrides> {
-    let Some(serde_yaml_ng::Value::Mapping(mapping)) = value else {
+    let Some(yaml_serde::Value::Mapping(mapping)) = value else {
         return std::collections::BTreeMap::new();
     };
 
     let mut result = std::collections::BTreeMap::new();
     for (room_id_key, room_value) in mapping {
-        let serde_yaml_ng::Value::String(room_id) = room_id_key else {
+        let yaml_serde::Value::String(room_id) = room_id_key else {
             continue;
         };
-        let serde_yaml_ng::Value::Mapping(fields) = room_value else {
+        let yaml_serde::Value::Mapping(fields) = room_value else {
             continue;
         };
 
         let mut overrides = ConfigIntegrationsTranscriptionOverrides::default();
         for (field_key, field_value) in fields {
-            let serde_yaml_ng::Value::String(field_name) = field_key else {
+            let yaml_serde::Value::String(field_name) = field_key else {
                 continue;
             };
             match field_name.as_str() {

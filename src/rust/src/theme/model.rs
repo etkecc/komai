@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use serde::Deserialize;
-use serde_yaml_ng::Value;
+use yaml_serde::Value;
 
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]

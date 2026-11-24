@@ -82,7 +82,7 @@ pub fn builtin_themes() -> ThemeBuiltinListResult {
     let mut errors = Vec::new();
 
     for &(slug, sort_order, yaml_text) in BUILTIN_THEMES {
-        match serde_yaml_ng::from_str::<ExternalThemeFile>(yaml_text) {
+        match yaml_serde::from_str::<ExternalThemeFile>(yaml_text) {
             Ok(parsed) => {
                 if let Err(error) = parsed.validate() {
                     errors.push(format!("{slug}: {error}"));

@@ -113,9 +113,10 @@ Item {
         Item {
             id: mediaFrame
 
-            // Image-native size; do not stretch when root is widened to fit a long caption.
-            width: root.imageDisplayWidth
-            height: Math.max(1, Math.round(root.imageDisplayWidth * root.safeProportionalHeight))
+            // Image-native size; do not stretch when root is widened to fit a long caption,
+            // but shrink when the image is wider than the space root has been given.
+            width: root.width > 0 ? Math.min(root.imageDisplayWidth, root.width) : root.imageDisplayWidth
+            height: Math.max(1, Math.round(width * root.safeProportionalHeight))
 
             HoverHandler {
                 id: mediaHover

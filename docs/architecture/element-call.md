@@ -34,13 +34,14 @@ legacy stack see the [legacy calls user guide](../user-guide/features/legacy-cal
 
 ## Hard requirements
 
-Element Call only works against a homeserver with a MatrixRTC backend: a LiveKit
-SFU plus an `lk-jwt-service`, advertised either through the MSC4519 endpoint
-(`GET /_matrix/client/unstable/org.matrix.msc4143/rtc/transports`) or the
-`.well-known` `org.matrix.msc4143.rtc_foci` list, with the relevant MSCs (delayed
-events / MSC4140, MSC4222) enabled. There is no SFU-less mesh fallback in current
-Element Call. A homeserver without this backend will load the lobby but cannot
-connect a call.
+Element Call requires a homeserver with a MatrixRTC backend and a LiveKit SFU.
+Komai uses the stable MSC4143 `GET /_matrix/client/v1/rtc/transports` endpoint
+when the homeserver advertises `org.matrix.msc4143.stable`. Other homeservers
+can advertise transports through the unstable endpoint. Komai also reads
+`m.rtc_foci` or `org.matrix.msc4143.rtc_foci` from `.well-known`. Legacy
+transports use an `lk-jwt-service` for OpenID. The homeserver also needs delayed
+events (MSC4140) and MSC4222. A homeserver without this backend will load the
+lobby but cannot connect a call.
 
 Element Call 0.24.0 dropped its own `.well-known` lookup and asks the host for
 the transports over the Widget API instead (MSC4515), so the discovery above is
@@ -180,23 +181,20 @@ notification) via `room.send_raw`.
   A second intercept lives on the Rust side, in `runtime_element_call.rs`, because
   it needs the logged-in `Client`:
   - `org.matrix.msc4515.get_rtc_transports` → Element Call asks where the
-    MatrixRTC backend is. `resolve_rtc_transports()` tries the MSC4519
-    `rtc/transports` endpoint and falls back to the `.well-known` `rtc_foci` list,
-    which is still all most homeservers publish, then replies directly into the
-    webview.
+    MatrixRTC backend is. `resolve_rtc_transports()` selects the stable or
+    unstable MSC4143 endpoint and falls back to the `.well-known` `rtc_foci`
+    list if the endpoint yields no transports, then replies to the webview.
   - `supported_api_versions` → the driver's own answer is amended on its way out
     to add `org.matrix.msc4515`, since Element Call will not send the action above
     unless the host advertises it. Splicing rather than replacing keeps the rest
     of the list tracking whatever matrix-sdk supports.
 
-  Element Call 0.28.1+ also requests the optional MSC4533 capabilities for
-  LiveKit token acquisition and delayed-leave delegation. Komai does not advertise
-  MSC4533 or grant those capabilities. Transports with `livekit_service_url`
-  continue to use Element Call's OpenID flow, including transports that also have
-  a `url`. URL-only transports require MSC4533 host support and cannot be used
-  through this driver yet. Upstream specifies no retirement date for the OpenID
-  flow; supporting URL-only transports requires implementing both MSC4533 actions
-  before advertising support.
+  The SDK widget driver advertises MSC4533 and handles LiveKit token acquisition
+  and delayed-leave delegation. Komai grants both capabilities when the bundled
+  widget requests them. Element Call supports `m.livekit` and routes URL-only
+  transports through these actions. Transports with `livekit_service_url`
+  continue to use Element Call's OpenID flow, including entries that also carry
+  a `url`.
 
   Native mic/camera toggles send `io.element.device_mute` *to* the widget with only
   the changed field; the resulting fromWidget report is what actually flips the

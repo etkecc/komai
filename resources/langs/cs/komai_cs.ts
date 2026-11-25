@@ -2262,7 +2262,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+542"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+514"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>Štítky místností lze měnit pouze pro připojené místnosti dostupné v této relaci.</translation>
     </message>

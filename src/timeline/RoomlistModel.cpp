@@ -219,19 +219,19 @@ RoomlistModel::computeAttentionCount() const
 
     const int rows = rowCount();
     for (int row = 0; row < rows; ++row) {
-        const auto idx            = index(row, 0);
+        const auto idx = index(row, 0);
+
+        // Same rule as FilteredRoomlistModel::computeFilterBadges(): a space's own
+        // unread state is never counted.
+        if (data(idx, RoomlistModel::IsSpace).toBool())
+            continue;
+
         const auto attentionState = attentionStateForRow(this, idx);
         if (!attentionState.hasAnyAttention())
             continue;
 
-        const bool isSpace = data(idx, RoomlistModel::IsSpace).toBool();
-        if (isSpace) {
-            const auto roomId = data(idx, RoomlistModel::RoomId).toString();
-            if (globalExcludes.spaces.contains(roomId))
-                continue;
-        } else if (isExcludedFromAllRooms(idx, globalExcludes)) {
+        if (isExcludedFromAllRooms(idx, globalExcludes))
             continue;
-        }
 
         if (attentionState.countAsActive(false))
             totalAttentionCount++;

@@ -465,7 +465,9 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
     for (int row = 0; row < rows; row++) {
         const auto idx = sourceModel()->index(row, 0);
 
-        // Space rooms are structural — don't count them toward any badge.
+        // Badges count regular rooms only. A space's own unread state is left out: spaces
+        // are not listed under "All rooms" and markAsRead() skips them, so a badge counting
+        // it could not be traced or cleared.
         if (sourceModel()->data(idx, RoomlistModel::IsSpace).toBool())
             continue;
 
@@ -487,36 +489,6 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
                 if (attentionState.hasHighlight)
                     badge.hasHighlight = true;
             }
-        }
-    }
-
-    // Space rooms are skipped above (structural, not regular rooms) but should
-    // still count toward the "All rooms" badge — unless the space itself is excluded.
-    if (result.contains(QString())) {
-        auto *communities = CommunitiesModel::instance();
-        for (int row = 0; row < rows; row++) {
-            const auto idx = sourceModel()->index(row, 0);
-            if (!sourceModel()->data(idx, RoomlistModel::IsSpace).toBool())
-                continue;
-
-            // Respect the per-space Exclude setting, including cascade from
-            // ancestor spaces (excluding a parent excludes its subspaces too).
-            auto roomId         = sourceModel()->data(idx, RoomlistModel::RoomId).toString();
-            const bool excluded = communities
-                                    ? communities->isSpaceEffectivelyExcludedFromAllRooms(roomId)
-                                    : globalExcludedSpaces.contains(roomId);
-            if (excluded)
-                continue;
-
-            const auto attentionState = RoomlistModel::attentionStateForRow(sourceModel(), idx);
-            if (!attentionState.hasAnyAttention())
-                continue;
-
-            auto &badge = result[QString()];
-            if (attentionState.countAsActive(false))
-                badge.unreadCount++;
-            if (attentionState.hasHighlight)
-                badge.hasHighlight = true;
         }
     }
 

@@ -2254,7 +2254,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
 <context>
     <name>FilteredRoomlistModel</name>
     <message>
-        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+542"/>
+        <location filename="../../../src/timeline/roomlist/FilteredRoomlistModel.cpp" line="+514"/>
         <source>Room tags can only be changed for joined rooms available in this session.</source>
         <translation>A szobacímkék csak az ebben a munkamenetben elérhető, csatlakozott szobáknál módosíthatók.</translation>
     </message>

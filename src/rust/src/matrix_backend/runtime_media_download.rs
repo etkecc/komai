@@ -126,6 +126,7 @@ pub async fn fetch_active_room_timeline_media_content_with_progress(
 
     let response = client
         .http_client()
+        .raw()
         .get(&url)
         // Same rationale as the media proxy: matrix-sdk's shared HTTP client
         // has a ~30s request timeout that would abort a slow/large download

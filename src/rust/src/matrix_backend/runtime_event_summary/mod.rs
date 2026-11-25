@@ -23,7 +23,7 @@ use matrix_sdk::{
     },
 };
 use matrix_sdk_ui::timeline::{
-    AnyOtherStateEventContentChange, EncryptedMessage, InReplyToDetails, MemberProfileChange,
+    AnyOtherStateEventContentChange, EncryptedMessage, EventTimelineItem, InReplyToDetails, MemberProfileChange,
     MembershipChange, MsgLikeContent, MsgLikeKind, OtherState, ReactionsByKeyBySender,
     RoomMembershipChange, TimelineDetails, TimelineEventItemId, TimelineItemContent,
 };
@@ -99,7 +99,10 @@ mod media;
 mod messages;
 mod state;
 
-use messages::{summarize_msg_like_content, summarize_room_message_event};
+use messages::{
+    summarize_msg_like_content, summarize_reaction_items, summarize_reactions,
+    summarize_room_message_event,
+};
 use state::{summarize_membership_change, summarize_other_state, summarize_profile_change};
 pub use messages::utd_reason_tag;
 pub use state::summarize_sync_state_event;
@@ -110,13 +113,26 @@ pub use state::summarize_sync_state_event;
 /// by C++ `StateEventText` (src/timeline/StateEventText.cpp).
 /// When adding new item_kind values or state event types here, add
 /// corresponding tr() calls there.
-pub fn summarize_timeline_content(
-    content: &TimelineItemContent,
+pub fn summarize_timeline_item(
+    event: &EventTimelineItem,
     own_user_id: Option<&UserId>,
     sender_display_name: &str,
 ) -> MatrixEventSummary {
+    let content = event.content();
+    let mut summary = summarize_timeline_content(content, sender_display_name);
+    if matches!(content, TimelineItemContent::MsgLike(_)) {
+        summary.reactions = summarize_reaction_items(event.reactions(), own_user_id);
+        summary.reactions_summary = summarize_reactions(&summary.reactions);
+    }
+    summary
+}
+
+fn summarize_timeline_content(
+    content: &TimelineItemContent,
+    sender_display_name: &str,
+) -> MatrixEventSummary {
     match content {
-        TimelineItemContent::MsgLike(content) => summarize_msg_like_content(content, own_user_id),
+        TimelineItemContent::MsgLike(content) => summarize_msg_like_content(content),
         TimelineItemContent::MembershipChange(change) => {
             summarize_membership_change(change, sender_display_name)
         }

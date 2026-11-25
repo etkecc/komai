@@ -61,7 +61,7 @@ pub(super) async fn run_thread_timeline_loop(
     // Build the SDK TimelineFocus::Thread timeline
     // -----------------------------------------------------------------------
     let focus = TimelineFocus::Thread {
-        root_event_id: parsed_thread_root_id.clone(),
+        thread_id: parsed_thread_root_id.clone(),
     };
 
     let timeline = match room.timeline_builder().with_focus(focus).build().await {
@@ -79,9 +79,12 @@ pub(super) async fn run_thread_timeline_loop(
     // arrive in the room but don't surface as room timeline diffs — most
     // importantly remote reactions on thread messages (their parent is
     // in-thread, so the SDK Live timeline emits no diff and the C++-side
-    // refresh trigger never fires).  `Timeline::build()` above has already
-    // called `client.event_cache().subscribe()`, so the cache is live.
-    let (room_event_cache, _event_cache_drop_handles) = match room.event_cache().await {
+    // refresh trigger never fires).
+    let Some(event_cache) = client.event_cache() else {
+        tracing::warn!(handle_id, room_id, thread_root_id, "Thread timeline requires the event cache");
+        return;
+    };
+    let (room_event_cache, _event_cache_drop_handles) = match event_cache.room(&parsed_room_id).await {
         Ok(rec) => rec,
         Err(error) => {
             tracing::warn!(
@@ -103,12 +106,10 @@ pub(super) async fn run_thread_timeline_loop(
             return;
         }
     };
-    // SDK 0.19 routes threaded receipts to the thread cache. Listen to it
-    // alongside the room cache, which still supplies main/unthreaded receipts
-    // and the thread root's events.
+    // The thread cache supplies threaded receipts. The room cache supplies
+    // main/unthreaded receipts and the thread root's events.
     let mut thread_event_subscriber = match async {
-        let (cache, _handles) = client
-            .event_cache()
+        let (cache, _handles) = event_cache
             .thread(&parsed_room_id, &parsed_thread_root_id)
             .await?;
         cache.subscribe().await
@@ -295,6 +296,7 @@ pub(super) async fn run_thread_timeline_loop(
                         matches!(diffs.origin, EventsOrigin::Sync)
                     }
                     Ok(ThreadEventCacheUpdate::AddReadReceiptEvent { .. }) => true,
+                    Ok(ThreadEventCacheUpdate::UpdateSummary(_)) => false,
                     Err(RecvError::Lagged(n)) => {
                         tracing::warn!(
                             handle_id, room_id, thread_root_id, lagged = n,

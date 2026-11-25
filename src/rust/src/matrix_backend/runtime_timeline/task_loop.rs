@@ -267,10 +267,7 @@ pub(super) async fn run_room_timeline_loop(
                         let mut counts = HashMap::new();
                         for event in &result.chunk {
                             if let Some(event_id) = event.event_id() {
-                                let reply_count = match &event.thread_summary {
-                                    matrix_sdk_base::deserialized_responses::ThreadSummaryStatus::Some(summary) => summary.num_replies,
-                                    _ => 0,
-                                };
+                                let reply_count = event.thread_summary().map_or(0, |summary| summary.num_replies);
                                 if reply_count > 0 {
                                     counts.insert(event_id.to_string(), reply_count);
                                 }

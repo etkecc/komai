@@ -467,6 +467,7 @@ async fn handle_request(
     let mut upstream_req = state
         .client
         .http_client()
+        .raw()
         .get(&upstream_url)
         // matrix-sdk's shared HTTP client has a ~30s request timeout, which
         // aborts a slow full-body download mid-stream (surfacing as an "error

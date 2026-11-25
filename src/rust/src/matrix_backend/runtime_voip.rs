@@ -35,6 +35,7 @@ async fn fetch_turn_server_info_response_body(
             .map_err(|e| format!("failed to build matrix TURN server URL for {path}: {e}"))?;
         let response = client
             .http_client()
+            .raw()
             .get(endpoint.clone())
             .bearer_auth(access_token)
             .header(reqwest::header::ACCEPT, "application/json")

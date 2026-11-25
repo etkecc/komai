@@ -336,7 +336,8 @@ pub(super) async fn run_sync_loop(
             } => {
                 match maybe_ignored {
                     Some(user_ids) => {
-                        let mut user_ids: Vec<String> = user_ids;
+                        let mut user_ids: Vec<String> =
+                            user_ids.into_iter().map(String::from).collect();
                         user_ids.sort();
                         user_ids.dedup();
                         crate::ffi::matrix_notify_ignored_user_list_updated(handle_id, user_ids.clone());
@@ -482,7 +483,9 @@ pub(super) async fn listen_to_latest_events_for_new_rooms(
         return;
     }
 
-    let latest_events = client.latest_events().await;
+    let Some(latest_events) = client.latest_events().await else {
+        return;
+    };
     for room_id in to_register {
         match latest_events.listen_to_room(&room_id).await {
             Ok(_) => {}

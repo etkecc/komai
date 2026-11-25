@@ -30,7 +30,7 @@
 // the handle is cached back for potential reuse.
 
 use super::*;
-use super::event_summary::summarize_timeline_content;
+use super::event_summary::summarize_timeline_item;
 use super::timeline::build_room_timeline;
 use std::time::{Duration as StdDuration, Instant};
 
@@ -498,7 +498,7 @@ fn extract_newest_preview(
             _ => String::new(),
         };
 
-        let summary = summarize_timeline_content(event.content(), own_user_id, &sender_display_name);
+        let summary = summarize_timeline_item(event, own_user_id, &sender_display_name);
         // Skip state events.
         if matches!(
             summary.kind.as_str(),

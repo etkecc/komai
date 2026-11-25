@@ -26,7 +26,7 @@
 use super::*;
 
 use language_tags::LanguageTag;
-use matrix_sdk::ruma::api::client::rtc::{RtcTransport, transports::v1 as rtc_transports};
+use matrix_sdk::ruma::api::client::rtc::{RtcTransport, transports::msc4143 as rtc_transports};
 use matrix_sdk::widget::{
     Capabilities, CapabilitiesProvider, ClientProperties, EncryptionSystem, Filter,
     MessageLikeEventFilter, StateEventFilter, ToDeviceEventFilter, VirtualElementCallWidgetConfig,
@@ -140,6 +140,7 @@ fn element_call_required_permissions(own_user_id: &str, own_device_id: &str) -> 
         send_delayed_event: true,
         download_file: true,
         rtc_transports: true,
+        ..Capabilities::default()
     }
 }
 

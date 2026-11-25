@@ -26,10 +26,7 @@ pub(super) struct ReplyPreviewSummary {
     media: Option<MatrixEventMediaSummary>,
 }
 
-pub(super) fn summarize_msg_like_content(
-    content: &MsgLikeContent,
-    own_user_id: Option<&UserId>,
-) -> MatrixEventSummary {
+pub(super) fn summarize_msg_like_content(content: &MsgLikeContent) -> MatrixEventSummary {
     let mut summary = summarize_msg_like_kind(&content.kind);
 
     summary.thread_root_id = content
@@ -53,8 +50,6 @@ pub(super) fn summarize_msg_like_content(
         summary.reply_media = reply_preview.media;
     }
 
-    summary.reactions = summarize_reaction_items(&content.reactions, own_user_id);
-    summary.reactions_summary = summarize_reactions(&summary.reactions);
     summary.is_edited = matches!(&content.kind, MsgLikeKind::Message(message) if message.is_edited());
 
     summary
@@ -95,7 +90,7 @@ pub(super) fn utd_cause_tag(encrypted_message: &EncryptedMessage) -> &'static st
     };
 
     match cause {
-        UtdCause::Unknown => "unknown",
+        UtdCause::Unknown | UtdCause::Malformed => "unknown",
         UtdCause::SentBeforeWeJoined => "sent_before_we_joined",
         UtdCause::VerificationViolation => "verification_violation",
         UtdCause::UnsignedDevice => "unsigned_device",
@@ -455,7 +450,7 @@ pub(super) fn summarize_reply_preview(
 }
 
 pub(super) fn summarize_embedded_content(content: &TimelineItemContent) -> MatrixEventSummary {
-    summarize_timeline_content(content, None, "")
+    summarize_timeline_content(content, "")
 }
 
 pub(super) fn summarize_reaction_items(

@@ -4,7 +4,6 @@
 
 use matrix_sdk::{
     encryption::{CrossSigningResetAuthType, recovery::RecoveryState},
-    ruma::api::client::uiaa::{self, AuthData},
 };
 
 use super::*;
@@ -272,7 +271,7 @@ pub async fn continue_reset_encryption_identity_with_password(
             .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} has no pending encryption identity reset"))?
     };
 
-    let CrossSigningResetAuthType::Uiaa(uiaa_info) = handle.auth_type().clone() else {
+    let CrossSigningResetAuthType::Uiaa(uiaa_info) = handle.auth_type() else {
         let mut pending = pending
             .lock()
             .expect("poisoned matrix backend pending identity reset mutex");
@@ -284,10 +283,9 @@ pub async fn continue_reset_encryption_identity_with_password(
     let user_id = client
         .user_id()
         .ok_or_else(|| "matrix-sdk client has no authenticated user id".to_owned())?;
-    let mut password_auth = uiaa::Password::new(user_id.to_owned().into(), password.to_owned());
-    password_auth.session = uiaa_info.session.clone();
+    let auth = uiaa_info.as_password_auth_data(user_id.to_owned().into(), password.to_owned());
 
-    match handle.reset(Some(AuthData::Password(password_auth))).await {
+    match handle.reset(auth).await {
         Ok(()) => Ok(()),
         Err(e) => {
             let mut pending = pending
@@ -312,7 +310,7 @@ pub async fn continue_reset_encryption_identity_after_approval(
             .ok_or_else(|| format!("matrix-sdk backend runtime handle {handle_id} has no pending encryption identity reset"))?
     };
 
-    let CrossSigningResetAuthType::OAuth(_) = handle.auth_type() else {
+    let CrossSigningResetAuthType::OAuth(info) = handle.auth_type() else {
         let mut pending = pending
             .lock()
             .expect("poisoned matrix backend pending identity reset mutex");
@@ -321,7 +319,7 @@ pub async fn continue_reset_encryption_identity_after_approval(
                      .to_owned());
     };
 
-    match handle.reset(None).await {
+    match handle.reset(info.as_auth_data()).await {
         Ok(()) => Ok(()),
         Err(e) => {
             let mut pending = pending

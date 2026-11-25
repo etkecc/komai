@@ -6,7 +6,7 @@
 // into the flat MatrixTimelineItem structs consumed by the C++ side.
 
 use super::*;
-use super::event_summary::summarize_timeline_content;
+use super::event_summary::summarize_timeline_item;
 
 use matrix_sdk_ui::timeline::{TimelineEventShieldState, TimelineEventShieldStateCode};
 
@@ -157,7 +157,7 @@ fn timeline_item_to_summary(
             ),
             _ => (sender_id.clone(), String::new()),
         };
-        let summary = summarize_timeline_content(event.content(), own_user_id, &sender_display_name);
+        let summary = summarize_timeline_item(event, own_user_id, &sender_display_name);
         let body = summary.body;
         let formatted_body = summary.formatted_body;
         let thread_id = summary.thread_root_id;

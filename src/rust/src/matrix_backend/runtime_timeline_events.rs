@@ -22,7 +22,6 @@ use matrix_sdk::ruma::{
         room::pinned_events::RoomPinnedEventsEventContent,
     },
 };
-use matrix_sdk_base::deserialized_responses::ThreadSummaryStatus;
 
 // ---------------------------------------------------------------------------
 // Frequent reactions
@@ -158,10 +157,7 @@ pub async fn fetch_room_thread_roots(
         };
         let timestamp = event.timestamp.map(|ts| ts.0.into()).unwrap_or(0u64);
 
-        let reply_count = match &event.thread_summary {
-            ThreadSummaryStatus::Some(summary) => summary.num_replies,
-            _ => 0,
-        };
+        let reply_count = event.thread_summary().map_or(0, |summary| summary.num_replies);
 
         let raw = event.raw();
         let Some(deserialized) = raw.deserialize().ok() else {

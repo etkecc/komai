@@ -26,7 +26,10 @@
 use super::*;
 
 use language_tags::LanguageTag;
-use matrix_sdk::ruma::api::client::rtc::{RtcTransport, transports::msc4143 as rtc_transports};
+use matrix_sdk::ruma::api::{
+    FeatureFlag,
+    client::rtc::{RtcTransport, transports},
+};
 use matrix_sdk::widget::{
     Capabilities, CapabilitiesProvider, ClientProperties, EncryptionSystem, Filter,
     MessageLikeEventFilter, StateEventFilter, ToDeviceEventFilter, VirtualElementCallWidgetConfig,
@@ -47,8 +50,8 @@ const MSC4515_GET_RTC_TRANSPORTS: &str = "org.matrix.msc4515.get_rtc_transports"
 
 /// The canonical Element Call capability set, ported from matrix-sdk-ffi's
 /// `get_element_call_required_permissions`. Our `CapabilitiesProvider` returns
-/// this verbatim (Element Call is a trusted first-party widget — no prompt),
-/// ignoring whatever the widget requests.
+/// these permissions to the trusted bundled widget without a prompt, along
+/// with the MSC4533 capabilities it requests.
 ///
 /// Event types are spelled as string literals rather than `ruma` enum variants
 /// because several of them (`org.matrix.msc4075.*`, `org.matrix.msc4310.*`,
@@ -151,8 +154,12 @@ struct ElementCallCapabilitiesProvider {
 }
 
 impl CapabilitiesProvider for ElementCallCapabilitiesProvider {
-    async fn acquire_capabilities(&self, _capabilities: Capabilities) -> Capabilities {
-        element_call_required_permissions(&self.user_id, &self.device_id)
+    async fn acquire_capabilities(&self, requested: Capabilities) -> Capabilities {
+        Capabilities {
+            rtc_livekit_get_token: requested.rtc_livekit_get_token,
+            rtc_livekit_delegate_delayed_leave: requested.rtc_livekit_delegate_delayed_leave,
+            ..element_call_required_permissions(&self.user_id, &self.device_id)
+        }
     }
 }
 
@@ -532,33 +539,44 @@ async fn answer_rtc_transports(session_id: u64, client: Client, mut request: ser
 /// Resolves the homeserver's MatrixRTC transports (the LiveKit SFU Element Call
 /// connects its media to).
 ///
-/// MSC4519's `rtc/transports` endpoint is the method Element Call 0.24+ expects,
-/// but few homeservers implement it yet, so we fall back to the `.well-known`
-/// `rtc_foci` list Element Call used to read for itself before it dropped that
-/// discovery path.
+/// Prefer the stable MSC4143 endpoint when the homeserver advertises it.
+/// Keep the `.well-known` fallback for servers without a usable endpoint.
 async fn resolve_rtc_transports(
     session_id: u64,
     client: &Client,
 ) -> Result<Vec<RtcTransport>, String> {
-    match client.send(rtc_transports::Request::new()).await {
-        Ok(response) if !response.rtc_transports.is_empty() => {
+    let supports_stable_transports = client
+        .unstable_features()
+        .await
+        .is_ok_and(|features| features.contains(&FeatureFlag::Msc4143Stable));
+    let transports = if supports_stable_transports {
+        client
+            .send(transports::v1::Request::new())
+            .await
+            .map(|response| response.transports)
+    } else {
+        client.fetch_rtc_transports().await
+    };
+
+    match transports {
+        Ok(transports) if !transports.is_empty() => {
             tracing::info!(
                 session_id,
-                count = response.rtc_transports.len(),
-                "Resolved MatrixRTC transports from the homeserver's MSC4519 rtc/transports endpoint"
+                count = transports.len(),
+                "Resolved MatrixRTC transports from the homeserver's MSC4143 rtc/transports endpoint"
             );
-            return Ok(response.rtc_transports);
+            return Ok(transports);
         }
         Ok(_) => {
             tracing::info!(
                 session_id,
-                "MSC4519 rtc/transports endpoint returned no transports; falling back to .well-known"
+                "MSC4143 rtc/transports endpoint returned no transports; falling back to .well-known"
             );
         }
         Err(e) => {
             tracing::info!(
                 session_id,
-                "MSC4519 rtc/transports endpoint unavailable ({e}); falling back to .well-known"
+                "MSC4143 rtc/transports endpoint unavailable ({e}); falling back to .well-known"
             );
         }
     }
@@ -653,14 +671,14 @@ mod tests {
         // What a homeserver publishes, in `rtc/transports` and in the
         // `.well-known` `rtc_foci` list alike.
         let advertised = serde_json::json!([
+            {"type": "m.livekit", "url": "wss://livekit.example.com"},
             {"type": "livekit", "livekit_service_url": "https://livekit.example.com"},
             {"type": "future.transport", "some_field": 1},
         ]);
         let transports: Vec<RtcTransport> = serde_json::from_value(advertised.clone()).unwrap();
-        assert_eq!(transports[0].transport_type(), "livekit");
-        // Element Call picks the first entry whose `type` is `livekit` and dials
-        // its `livekit_service_url`, so the reply has to carry both through
-        // untouched — including transport types this ruma build has no variant for.
+        assert_eq!(transports[0].transport_type(), "m.livekit");
+        // Element Call chooses its auth flow from the advertised transport
+        // fields. Preserve those fields and forward unknown transport types.
         assert_eq!(
             serde_json::json!({ "rtc_transports": transports }),
             serde_json::json!({ "rtc_transports": advertised })

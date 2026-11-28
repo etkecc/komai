@@ -3197,7 +3197,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>Nedostupan</translation>
+        <translation>Nedostupno</translation>
     </message>
     <message>
         <location line="-295"/>

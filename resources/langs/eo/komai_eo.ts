@@ -7282,7 +7282,7 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <location line="+8"/>
         <source>Unavailable</source>
         <extracomment>Matrix presence status for a user who is away.</extracomment>
-        <translation>Nedisponebla</translation>
+        <translation>Neatingebla</translation>
     </message>
     <message>
         <location line="+7"/>

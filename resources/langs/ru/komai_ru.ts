@@ -3197,7 +3197,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>Недоступен</translation>
+        <translation>Недоступно</translation>
     </message>
     <message>
         <location line="-295"/>

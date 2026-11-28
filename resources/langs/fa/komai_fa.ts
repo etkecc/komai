@@ -11105,7 +11105,7 @@ You can unignore later via this user's profile or via Settings → Account → I
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>وضعیت &lt;a href="%1"&gt;حضور&lt;/a&gt; شما در شبکه Matrix را کنترل می‌کند.
-خودکار یا 'آنلاین' یا 'غیرقابل دسترس' (پس از 5 دقیقه عدم فعالیت) است.</translation>
+خودکار یا 'آنلاین' یا 'در دسترس نیست' (پس از 5 دقیقه عدم فعالیت) است.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -11625,7 +11625,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="-10"/>
         <location line="+11"/>
         <source>Always unavailable</source>
-        <translation>همیشه ناموجود</translation>
+        <translation>همیشه در دسترس نیست</translation>
     </message>
     <message>
         <location line="-10"/>

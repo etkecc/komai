@@ -7280,7 +7280,7 @@ Huomaa, että sitä ei voi poistaa käytöstä jälkeenpäin.</translation>
         <location line="+8"/>
         <source>Unavailable</source>
         <extracomment>Matrix presence status for a user who is away.</extracomment>
-        <translation>Ei saatavilla</translation>
+        <translation>Tavoittamattomissa</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -11125,7 +11125,7 @@ Voit poistaa ohituksen myöhemmin tämän käyttäjän profiilista tai Asetukset
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Hallinnoi &lt;a href="%1"&gt;Läsnäolo&lt;/a&gt;-tilaasi Matrix-verkossa.
-Automaattinen on joko 'verkossa' tai 'ei käytettävissä' (5 minuutin toimettomuuden jälkeen).</translation>
+Automaattinen on joko 'verkossa' tai 'tavoittamattomissa' (5 minuutin toimettomuuden jälkeen).</translation>
     </message>
     <message>
         <location line="+9"/>

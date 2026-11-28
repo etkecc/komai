@@ -11125,7 +11125,7 @@ You can unignore later via this user's profile or via Settings → Account → I
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Ελέγχει την κατάσταση &lt;a href="%1"&gt;Παρουσίας&lt;/a&gt; σας στο δίκτυο Matrix.
-Το Αυτόματο είναι είτε 'online' είτε 'unavailable' (μετά από 5 λεπτά αδράνειας).</translation>
+Το Αυτόματο είναι είτε 'σε σύνδεση' είτε 'μη διαθέσιμο' (μετά από 5 λεπτά αδράνειας).</translation>
     </message>
     <message>
         <location line="+9"/>

@@ -7267,7 +7267,7 @@ Lütfen daha sonra devre dışı bırakılamayacağını unutmayın.</translatio
         <location line="+8"/>
         <source>Unavailable</source>
         <extracomment>Matrix presence status for a user who is away.</extracomment>
-        <translation>Kullanılamıyor</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -11105,7 +11105,7 @@ Daha sonra bu kullanıcının profili veya Ayarlar → Hesap → Yoksayılan kul
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
         <translation>Matrix ağındaki &lt;a href="%1"&gt;Varlık&lt;/a&gt; durumunuzu kontrol eder.
-Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) olabilir.</translation>
+Otomatik, 'çevrimiçi' veya 'uzakta' (5 dakika hareketsizlik sonrası) olabilir.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -11625,7 +11625,7 @@ Otomatik, 'çevrimiçi' veya 'kullanılamaz' (5 dakika hareketsizlik sonrası) o
         <location line="-10"/>
         <location line="+11"/>
         <source>Always unavailable</source>
-        <translation>Her zaman kullanılamaz</translation>
+        <translation>Her zaman uzakta</translation>
     </message>
     <message>
         <location line="-10"/>

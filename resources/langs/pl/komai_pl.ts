@@ -7294,7 +7294,7 @@ Zwróć uwagę, że nie można go później wyłączyć.</translation>
         <location line="+8"/>
         <source>Unavailable</source>
         <extracomment>Matrix presence status for a user who is away.</extracomment>
-        <translation>Niedostępne</translation>
+        <translation>Niedostępny</translation>
     </message>
     <message>
         <location line="+7"/>

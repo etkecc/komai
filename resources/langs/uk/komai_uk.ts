@@ -3197,7 +3197,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>Недоступний</translation>
+        <translation>Недоступно</translation>
     </message>
     <message>
         <location line="-295"/>

@@ -7267,7 +7267,7 @@ Please take note that it can't be disabled afterwards.</source>
         <location line="+8"/>
         <source>Unavailable</source>
         <extracomment>Matrix presence status for a user who is away.</extracomment>
-        <translation>利用不可</translation>
+        <translation>不在</translation>
     </message>
     <message>
         <location line="+7"/>

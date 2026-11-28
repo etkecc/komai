@@ -1631,8 +1631,9 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Appel entrant de %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Rejoindre</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
         <translation>A lancé un appel</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Rejoindre</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>%1 a démarré un appel · appel terminé</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Rejoindre</translation>
     </message>
     <message>

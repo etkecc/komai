@@ -1631,8 +1631,9 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Envenanta voko de %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Aliĝi</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Kontrolu por malŝlosi ĉifritajn mesaĝojn.</translation>
         <translation>Komencis vokon</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Aliĝi</translation>
     </message>
     <message>
@@ -9609,8 +9611,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 komencis vokon · voko finiĝis</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Aliĝi</translation>
     </message>
     <message>

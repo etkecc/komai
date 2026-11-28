@@ -1632,8 +1632,9 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <translation>Llamada entrante de %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Unirse</translation>
     </message>
     <message>
@@ -4578,9 +4579,10 @@ Verifica para desbloquear los mensajes cifrados.</translation>
         <translation>Ha iniciado una llamada</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Unirse</translation>
     </message>
     <message>
@@ -9609,8 +9611,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 inició una llamada · llamada finalizada</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Unirse</translation>
     </message>
     <message>

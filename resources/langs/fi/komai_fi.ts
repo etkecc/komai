@@ -1631,8 +1631,9 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <translation>Saapuva puhelu käyttäjältä %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Liity</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Vahvista avataksesi salatut viestit.</translation>
         <translation>Aloitti puhelun</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Liity</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
         <translation>%1 aloitti puhelun · puhelu päättyi</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Liity</translation>
     </message>
     <message>

@@ -1631,8 +1631,9 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Chiamata in arrivo da %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Partecipa</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verifica per sbloccare i messaggi crittati.</translation>
         <translation>Ha avviato una chiamata</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Partecipa</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>%1 ha avviato una chiamata · chiamata terminata</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Partecipa</translation>
     </message>
     <message>

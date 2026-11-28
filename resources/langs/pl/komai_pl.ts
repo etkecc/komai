@@ -1634,8 +1634,9 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Przychodzące połączenie od %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Dołącz</translation>
     </message>
     <message>
@@ -4582,9 +4583,10 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
         <translation>Rozpoczęto połączenie</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Dołącz</translation>
     </message>
     <message>
@@ -9622,8 +9624,9 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>%1 rozpoczął(a) połączenie · połączenie zakończone</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Dołącz</translation>
     </message>
     <message>

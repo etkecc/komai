@@ -1628,8 +1628,9 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Bejövő hívás: %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Csatlakozás</translation>
     </message>
     <message>
@@ -4569,9 +4570,10 @@ Hitelesítse a titkosított üzenetek eléréséhez.</translation>
         <translation>Hívást indított</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Csatlakozás</translation>
     </message>
     <message>
@@ -9591,8 +9593,9 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <translation>%1 hívást kezdeményezett · hívás befejezve</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Csatlakozás</translation>
     </message>
     <message>

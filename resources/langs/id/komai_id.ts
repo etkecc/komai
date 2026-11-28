@@ -1628,8 +1628,9 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Panggilan masuk dari %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Gabung</translation>
     </message>
     <message>
@@ -4569,9 +4570,10 @@ Verifikasi untuk membuka pesan terenkripsi.</translation>
         <translation>Memulai panggilan</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Bergabung</translation>
     </message>
     <message>
@@ -9591,8 +9593,9 @@ Terlihat menarik dan sangat cepat! 🚀</translation>
         <translation>%1 memulai panggilan · panggilan berakhir</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Bergabung</translation>
     </message>
     <message>

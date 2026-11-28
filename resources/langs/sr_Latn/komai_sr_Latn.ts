@@ -1634,8 +1634,9 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Dolazni poziv od %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Pridruži se</translation>
     </message>
     <message>
@@ -4581,9 +4582,10 @@ Verifikuj da otključaš šifrovane poruke.</translation>
         <translation>Poziv je pokrenut</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Pridruži se</translation>
     </message>
     <message>
@@ -9621,8 +9623,9 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
         <translation>%1 je pokrenuo poziv · poziv završen</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Pridruži se</translation>
     </message>
     <message>

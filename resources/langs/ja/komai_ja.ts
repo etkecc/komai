@@ -1628,8 +1628,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1 からの着信</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>参加</translation>
     </message>
     <message>
@@ -4569,9 +4570,10 @@ Verify to unlock encrypted messages.</source>
         <translation>通話を開始しました</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>参加</translation>
     </message>
     <message>
@@ -9591,8 +9593,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 が通話を開始しました · 通話終了</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>参加</translation>
     </message>
     <message>

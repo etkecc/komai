@@ -1631,8 +1631,9 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>%1-ൽ നിന്ന് കോൾ വരുന്നു</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>ചേരുക</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verify to unlock encrypted messages.</source>
         <translation>ഒരു കോൾ ആരംഭിച്ചു</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>ചേരുക</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 ഒരു കോൾ ആരംഭിച്ചു · കോൾ അവസാനിച്ചു</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>ചേരുക</translation>
     </message>
     <message>

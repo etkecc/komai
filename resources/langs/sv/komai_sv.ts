@@ -1631,8 +1631,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Inkommande samtal från %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Gå med</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verifiera för att låsa upp krypterade meddelanden.</translation>
         <translation>Startade ett samtal</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Gå med</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>%1 startade ett samtal · samtalet avslutades</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Gå med</translation>
     </message>
     <message>

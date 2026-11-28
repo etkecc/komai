@@ -1634,8 +1634,9 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Příchozí hovor od %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Připojit se</translation>
     </message>
     <message>
@@ -4581,9 +4582,10 @@ Ověřením se odemknou šifrované zprávy.</translation>
         <translation>Zahájil hovor</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Připojit se</translation>
     </message>
     <message>
@@ -9621,8 +9623,9 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>%1 zahájil hovor · hovor ukončen</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Připojit se</translation>
     </message>
     <message>

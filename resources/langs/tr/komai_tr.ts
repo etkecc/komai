@@ -1628,8 +1628,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1'den gelen arama</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Katıl</translation>
     </message>
     <message>
@@ -4569,9 +4570,10 @@ Verify to unlock encrypted messages.</source>
         <translation>Arama başlatıldı</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Katıl</translation>
     </message>
     <message>
@@ -9591,8 +9593,9 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>%1 bir arama başlattı · arama sona erdi</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Katıl</translation>
     </message>
     <message>

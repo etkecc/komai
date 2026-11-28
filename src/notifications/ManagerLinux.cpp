@@ -233,7 +233,9 @@ NotificationsManager::postCallNotification(const QString &roomId,
     // "default" makes clicking the popup body join; "join" is the explicit
     // button. A ring also offers "decline".
     QStringList actions;
+    //: Joins an ongoing call.
     actions << QStringLiteral("default") << tr("Join");
+    //: Joins an ongoing call.
     actions << QStringLiteral("join") << tr("Join");
     if (canDecline)
         actions << QStringLiteral("decline") << tr("Decline");

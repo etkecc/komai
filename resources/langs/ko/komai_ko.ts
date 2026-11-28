@@ -1628,8 +1628,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1에서 걸려온 전화</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>참여</translation>
     </message>
     <message>
@@ -4569,9 +4570,10 @@ Verify to unlock encrypted messages.</source>
         <translation>통화를 시작했습니다</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>참여</translation>
     </message>
     <message>
@@ -9591,8 +9593,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 이(가) 통화를 시작했습니다 · 통화 종료됨</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>참여</translation>
     </message>
     <message>

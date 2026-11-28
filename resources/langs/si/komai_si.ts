@@ -1631,8 +1631,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>%1 සිට ලැබෙන ඇමතුමක්</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>සම්බන්ධ වන්න</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verify to unlock encrypted messages.</source>
         <translation>ඇමතුමක් ආරම්භ කළා</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>සම්බන්ධ වන්න</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 ඇමතුමක් ආරම්භ කළා · ඇමතුම අවසන් විය</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>සම්බන්ධ වන්න</translation>
     </message>
     <message>

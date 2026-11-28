@@ -1631,8 +1631,9 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
         <translation>Eingehender Anruf von %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Beitreten</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
         <translation>Anruf gestartet</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Beitreten</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
         <translation>%1 hat einen Anruf gestartet · Anruf beendet</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Beitreten</translation>
     </message>
     <message>

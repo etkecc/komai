@@ -1631,8 +1631,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Sissetulev kõne: %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Liitu</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verifitseeri, et avada krüptitud sõnumid.</translation>
         <translation>Alustas kõnet</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Liitu</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>%1 alustas kõnet · kõne lõppes</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Liitu</translation>
     </message>
     <message>

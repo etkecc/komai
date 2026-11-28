@@ -1631,8 +1631,9 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Apel arrivant de %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Juntar se</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verificar por debloquar mesages criptat.</translation>
         <translation>Commensat un apell</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Juntar se</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>%1 iniciát un appel · appel terminat</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Participer</translation>
     </message>
     <message>

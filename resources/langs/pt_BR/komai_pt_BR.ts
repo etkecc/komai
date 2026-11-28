@@ -1631,8 +1631,9 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Chamada recebida de %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Entrar</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verifique para desbloquear mensagens criptografadas.</translation>
         <translation>Iniciou uma chamada</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Entrar</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
         <translation>%1 iniciou uma chamada · chamada encerrada</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Entrar</translation>
     </message>
     <message>

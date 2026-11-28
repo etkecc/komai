@@ -1628,8 +1628,9 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Cuộc gọi đến từ %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Tham gia</translation>
     </message>
     <message>
@@ -4569,9 +4570,10 @@ Xác minh để mở khóa tin nhắn đã mã hóa.</translation>
         <translation>Đã bắt đầu cuộc gọi</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Tham gia</translation>
     </message>
     <message>
@@ -9591,8 +9593,9 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>%1 đã bắt đầu cuộc gọi · cuộc gọi đã kết thúc</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Tham gia</translation>
     </message>
     <message>

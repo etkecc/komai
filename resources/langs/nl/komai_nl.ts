@@ -1631,8 +1631,9 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Inkomend gesprek van %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Deelnemen</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
         <translation>Oproep gestart</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Deelnemen</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>%1 heeft een gesprek gestart · gesprek beëindigd</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Deelnemen</translation>
     </message>
     <message>

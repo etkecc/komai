@@ -1634,8 +1634,9 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Apel primit de la %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Alătură-te</translation>
     </message>
     <message>
@@ -4581,9 +4582,10 @@ Verifică pentru a debloca mesajele criptate.</translation>
         <translation>A început un apel</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Alătură-te</translation>
     </message>
     <message>
@@ -9621,8 +9623,9 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>%1 a început un apel · apel încheiat</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Alătură-te</translation>
     </message>
     <message>

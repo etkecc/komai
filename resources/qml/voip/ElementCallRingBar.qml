@@ -88,6 +88,7 @@ Rectangle {
 
         ElementCallBarButton {
             Layout.alignment: Qt.AlignVCenter
+            //: Joins an ongoing call.
             text: qsTr("Join")
             image: ":/icons/icons/ui/place-call.svg"
             style: ElementCallBarButton.Style.Accept

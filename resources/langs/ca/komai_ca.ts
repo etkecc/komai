@@ -1631,8 +1631,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Trucada entrant de %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Unir-se</translation>
     </message>
     <message>
@@ -4575,9 +4576,10 @@ Verifica'l per desbloquejar els missatges xifrats.</translation>
         <translation>Ha iniciat una trucada</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Uneix-te</translation>
     </message>
     <message>
@@ -9606,8 +9608,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>%1 ha iniciat una trucada · trucada finalitzada</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Unir-se</translation>
     </message>
     <message>

@@ -1634,8 +1634,9 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Входящий звонок от %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Присоединиться</translation>
     </message>
     <message>
@@ -4581,9 +4582,10 @@ Verify to unlock encrypted messages.</source>
         <translation>Начат звонок</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+1"/>
+        <location line="+6"/>
+        <location line="+2"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Присоединиться</translation>
     </message>
     <message>
@@ -9621,8 +9623,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>%1 начал звонок · звонок завершён</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Join</source>
+        <extracomment>Joins an ongoing call.</extracomment>
         <translation>Присоединиться</translation>
     </message>
     <message>

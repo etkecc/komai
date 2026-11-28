@@ -545,6 +545,7 @@ EventDelegateChooser {
             }
             Components.KomaiButton {
                 Layout.alignment: Qt.AlignHCenter
+                //: Joins an ongoing call.
                 text: qsTr("Join")
                 visible: callNotification.canJoin
 

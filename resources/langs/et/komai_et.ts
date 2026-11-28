@@ -2140,7 +2140,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="-2"/>
         <source>Export failed: %1</source>
-        <translation>Eksportimine ebaõnnestus: %1</translation>
+        <translation>Eksport nurjus: %1</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -6489,7 +6489,7 @@ Eelmisi serveripoolseid võtmevarukoopiaid ei eemaldata automaatselt.</translati
     <message>
         <location line="+143"/>
         <source>Export…</source>
-        <translation>Eksport…</translation>
+        <translation>Ekspordi…</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8646,7 +8646,7 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
     <message>
         <location line="+6"/>
         <source>Quit</source>
-        <translation>Välju</translation>
+        <translation>Lõpeta töö</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -13015,7 +13015,7 @@ Automaatne on kas 'võrgus' või 'kättesaamatu' (pärast 5 minutit tegevusetust
         <location line="-13"/>
         <location line="+14"/>
         <source>Encryption keys</source>
-        <translation>Krüptimise võtmed</translation>
+        <translation>Krüptimisvõtmed</translation>
     </message>
     <message>
         <location line="-11"/>

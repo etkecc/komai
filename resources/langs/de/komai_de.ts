@@ -9079,7 +9079,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>Started a call</source>
-        <translation>Hat einen Anruf gestartet</translation>
+        <translation>Anruf gestartet</translation>
     </message>
     <message>
         <location line="+2"/>

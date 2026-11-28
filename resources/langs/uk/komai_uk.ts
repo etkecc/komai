@@ -2143,7 +2143,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-2"/>
         <source>Export failed: %1</source>
-        <translation>Помилка експортування: %1</translation>
+        <translation>Не вдалося експортувати: %1</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -6499,7 +6499,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+143"/>
         <source>Export…</source>
-        <translation>Експорт…</translation>
+        <translation>Експортувати…</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -9915,7 +9915,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation>Показати у теці</translation>
+        <translation>Показати в теці</translation>
     </message>
     <message>
         <location line="+5"/>

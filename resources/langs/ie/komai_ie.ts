@@ -572,12 +572,12 @@
     <message>
         <location filename="../../../src/export/ChatExport.cpp" line="+247"/>
         <source>Open</source>
-        <translation>Apertar</translation>
+        <translation>Aperter</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Show in folder</source>
-        <translation>Monstrar in dossier</translation>
+        <translation>Monstrar in dosier</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -990,7 +990,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation>Contraher</translation>
+        <translation>Collapsar</translation>
     </message>
 </context>
 <context>
@@ -1383,7 +1383,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Cercar per nomine o @user:example.com</translation>
+        <translation>Serchar per nom o @user:example.com</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -1394,7 +1394,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>Nomine de exhibition incognit</translation>
+        <translation>Nom de display incognit</translation>
     </message>
     <message>
         <location line="-84"/>
@@ -1404,7 +1404,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+13"/>
         <source>No matching users found.</source>
-        <translation>Null usatores correspondente es trovate.</translation>
+        <translation>Necun usator corespondent trovat.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2168,7 +2168,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+17"/>
         <source>Cancel</source>
-        <translation>Anullar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2359,7 +2359,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Spacie)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -2804,7 +2804,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+17"/>
         <source>Cancel</source>
-        <translation>Anullar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2884,7 +2884,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <location line="+124"/>
         <location line="+158"/>
         <source>Unknown display name</source>
-        <translation>Nomine de exhibition incognit</translation>
+        <translation>Nom de display incognit</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2894,7 +2894,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="-460"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Cercar per nomine o @user:example.com</translation>
+        <translation>Serchar per nom o @user:example.com</translation>
     </message>
     <message>
         <location line="+123"/>
@@ -2909,7 +2909,7 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>Null usatores correspondente es trovate.</translation>
+        <translation>Necun usator corespondent trovat.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -4576,7 +4576,7 @@ Verificar por debloquar mesages criptat.</translation>
         <location line="+0"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>Started a call</source>
-        <translation>Commensat un apell</translation>
+        <translation>Ha iniciat un appel</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6506,7 +6506,7 @@ Previ backups de claves del servidor ne es removet automaticmen.</translation>
         <location line="+11"/>
         <location line="+11"/>
         <source>All files (*)</source>
-        <translation>Omni files (*)</translation>
+        <translation>Tot files (*)</translation>
     </message>
     <message>
         <location line="-201"/>
@@ -6534,7 +6534,7 @@ Previ backups de claves del servidor ne es removet automaticmen.</translation>
     <message>
         <location line="+78"/>
         <source>Text files (*.txt)</source>
-        <translation>Files de texte (*.txt)</translation>
+        <translation>Files de text (*.txt)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9079,7 +9079,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>Started a call</source>
-        <translation>Iniciát un appel</translation>
+        <translation>Ha iniciat un appel</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9615,7 +9615,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location line="+13"/>
         <source>Join</source>
         <extracomment>Joins an ongoing call.</extracomment>
-        <translation>Participer</translation>
+        <translation>Juntar se</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -10389,7 +10389,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>Nom monstrat incognit</translation>
+        <translation>Nom de display incognit</translation>
     </message>
     <message>
         <location line="-207"/>
@@ -10414,7 +10414,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>Necun usator correspondent trovate.</translation>
+        <translation>Necun usator corespondent trovat.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -10424,7 +10424,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+24"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Cancellar</translation>
     </message>
     <message>
         <location line="+7"/>

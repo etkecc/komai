@@ -2379,7 +2379,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(فضاء)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4607,7 +4607,7 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Join</source>
         <extracomment>Joins an ongoing call.</extracomment>
-        <translation>انضمام</translation>
+        <translation>انضم</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10479,7 +10479,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+33"/>
         <source>Search by name or @user:example.com</source>
-        <translation>ابحث بالاسم أو @user:example.com</translation>
+        <translation>البحث بالاسم أو @user:example.com</translation>
     </message>
     <message>
         <location line="+84"/>
@@ -10494,7 +10494,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>لم يُعثر على مستخدمين مطابقين.</translation>
+        <translation>لم يتم العثور على مستخدمين مطابقين.</translation>
     </message>
     <message>
         <location line="+8"/>

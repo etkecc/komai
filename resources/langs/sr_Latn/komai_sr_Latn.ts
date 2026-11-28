@@ -2192,7 +2192,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+0"/>
         <source>Text files (*.txt)</source>
-        <translation>Tekstualni fajlovi (*.txt)</translation>
+        <translation>Tekstualne datoteke (*.txt)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2364,7 +2364,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Prostor)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -2829,7 +2829,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+0"/>
         <source>Text files (*.txt)</source>
-        <translation>Tekstualni fajlovi (*.txt)</translation>
+        <translation>Tekstualne datoteke (*.txt)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9092,7 +9092,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>Started a call</source>
-        <translation>Poziv pokrenut</translation>
+        <translation>Poziv je pokrenut</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10434,7 +10434,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>Nisu pronađeni korisnici koji odgovaraju.</translation>
+        <translation>Nema pronađenih korisnika.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -13035,7 +13035,7 @@ Automatski je 'online' ili 'nedostupan' (nakon 5 minuta neaktivnosti).</translat
         <location line="-13"/>
         <location line="+14"/>
         <source>Encryption keys</source>
-        <translation>Ključevi šifrovanja</translation>
+        <translation>Ključevi za šifrovanje</translation>
     </message>
     <message>
         <location line="-11"/>

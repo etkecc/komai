@@ -990,7 +990,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     <message>
         <location line="+0"/>
         <source>Collapse</source>
-        <translation>Tiivistä</translation>
+        <translation>Kutista</translation>
     </message>
 </context>
 <context>
@@ -1589,13 +1589,13 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
-        <translation>Suurenna</translation>
+        <translation>Laajenna</translation>
     </message>
     <message>
         <location line="-1"/>
         <location line="+1"/>
         <source>Collapse</source>
-        <translation>Pienennä</translation>
+        <translation>Kutista</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2359,7 +2359,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Tila)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -10414,7 +10414,7 @@ Se on silmää miellyttävä ja uskomattoman nopea! 🚀</translation>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>Vastaavia käyttäjiä ei löydy.</translation>
+        <translation>Vastaavia käyttäjiä ei löytynyt.</translation>
     </message>
     <message>
         <location line="+8"/>

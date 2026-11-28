@@ -577,7 +577,7 @@
     <message>
         <location line="+4"/>
         <source>Show in folder</source>
-        <translation>Arată în folder</translation>
+        <translation>Afișează în dosar</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3793,7 +3793,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+27"/>
         <source>Copy</source>
-        <translation>Copiere</translation>
+        <translation>Copiază</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -3851,7 +3851,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+10"/>
         <source>Copy</source>
-        <translation>Copiere</translation>
+        <translation>Copiază</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -6499,7 +6499,7 @@ Copiile de rezervă ale cheilor de pe server nu sunt șterse automat.</translati
     <message>
         <location line="+143"/>
         <source>Export…</source>
-        <translation>Export…</translation>
+        <translation>Exportă…</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -10409,7 +10409,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>Nume de afișare necunoscut</translation>
+        <translation>Nume afișat necunoscut</translation>
     </message>
     <message>
         <location line="-207"/>

@@ -1126,7 +1126,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+56"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Alan)</translation>
+        <translation>(Uzay)</translation>
     </message>
 </context>
 <context>
@@ -1380,7 +1380,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+60"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Ada veya @kullanıcı:example.com ile ara</translation>
+        <translation>Ada göre veya @user:example.com ile ara</translation>
     </message>
     <message>
         <location line="+87"/>
@@ -2354,7 +2354,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Boşluk)</translation>
+        <translation>(Uzay)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -2889,7 +2889,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-460"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Ada veya @kullanıcı:example.com ile ara</translation>
+        <translation>Ada göre veya @user:example.com ile ara</translation>
     </message>
     <message>
         <location line="+123"/>
@@ -4304,7 +4304,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+83"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Alan)</translation>
+        <translation>(Uzay)</translation>
     </message>
 </context>
 <context>
@@ -6435,7 +6435,7 @@ Yeni bir kurtarma anahtarı alacaksınız. Tekrar sıfırlamaktan kaçınmak iç
     <message>
         <location line="+86"/>
         <source>Export failed: %1</source>
-        <translation>Dışa aktarım başarısız oldu: %1</translation>
+        <translation>Dışa aktarma başarısız: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -10379,7 +10379,7 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
     <message>
         <location line="+33"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Ada veya @kullanici:ornek.com ile ara</translation>
+        <translation>Ada göre veya @user:example.com ile ara</translation>
     </message>
     <message>
         <location line="+84"/>

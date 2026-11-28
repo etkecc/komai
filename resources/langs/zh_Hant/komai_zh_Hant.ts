@@ -916,7 +916,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Quit</source>
-        <translation>退出</translation>
+        <translation>結束</translation>
     </message>
 </context>
 <context>
@@ -10252,7 +10252,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+1"/>
         <source>Quit</source>
-        <translation>退出</translation>
+        <translation>結束</translation>
     </message>
     <message numerus="yes">
         <location line="+60"/>
@@ -10369,7 +10369,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>未知顯示名稱</translation>
+        <translation>未知的顯示名稱</translation>
     </message>
     <message>
         <location line="-207"/>

@@ -577,7 +577,7 @@
     <message>
         <location line="+4"/>
         <source>Show in folder</source>
-        <translation>Hiện trong thư mục</translation>
+        <translation>Hiển thị trong thư mục</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2354,7 +2354,7 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Không gian)</translation>
     </message>
     <message>
         <location line="+29"/>

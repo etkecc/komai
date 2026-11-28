@@ -2364,7 +2364,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Spacja)</translation>
+        <translation>(Przestrzeń)</translation>
     </message>
     <message>
         <location line="+29"/>

@@ -6443,7 +6443,7 @@ As cópias de segurança de chaves anteriores no servidor não são removidas au
     <message>
         <location line="+86"/>
         <source>Export failed: %1</source>
-        <translation>Falha na exportação: %1</translation>
+        <translation>Falha ao exportar: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>

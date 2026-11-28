@@ -1632,7 +1632,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+10"/>
         <source>Join</source>
         <extracomment>Joins an ongoing call.</extracomment>
-        <translation>Gabung</translation>
+        <translation>Bergabung</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2184,7 +2184,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+0"/>
         <source>Text files (*.txt)</source>
-        <translation>File teks (*.txt)</translation>
+        <translation>Berkas teks (*.txt)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2354,7 +2354,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Ruang)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -2819,7 +2819,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+0"/>
         <source>Text files (*.txt)</source>
-        <translation>File teks (*.txt)</translation>
+        <translation>Berkas teks (*.txt)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7705,7 +7705,7 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation>Tersalin</translation>
+        <translation>Disalin</translation>
     </message>
     <message>
         <location line="+0"/>

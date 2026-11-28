@@ -577,7 +577,7 @@
     <message>
         <location line="+4"/>
         <source>Show in folder</source>
-        <translation>Mostrar en la carpeta</translation>
+        <translation>Mostrar en carpeta</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1395,7 +1395,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <location line="+81"/>
         <location line="+111"/>
         <source>Unknown display name</source>
-        <translation>Nombre de visualización desconocido</translation>
+        <translation>Nombre visible desconocido</translation>
     </message>
     <message>
         <location line="-84"/>
@@ -2887,7 +2887,7 @@ Si el problema persiste, puedes cerrar sesión e iniciarla de nuevo, pero esto e
         <location line="+124"/>
         <location line="+158"/>
         <source>Unknown display name</source>
-        <translation>Nombre de visualización desconocido</translation>
+        <translation>Nombre visible desconocido</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -9082,7 +9082,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>Started a call</source>
-        <translation>Inició una llamada</translation>
+        <translation>Ha iniciado una llamada</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10392,7 +10392,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>Nombre para mostrar desconocido</translation>
+        <translation>Nombre visible desconocido</translation>
     </message>
     <message>
         <location line="-207"/>

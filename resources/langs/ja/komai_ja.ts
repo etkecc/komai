@@ -983,7 +983,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+88"/>
         <source>Expand</source>
-        <translation>展開する</translation>
+        <translation>展開</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2354,7 +2354,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(スペース)</translation>
+        <translation>（スペース）</translation>
     </message>
     <message>
         <location line="+29"/>

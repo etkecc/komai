@@ -1589,13 +1589,13 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
-        <translation>Vastigi</translation>
+        <translation>Etendi</translation>
     </message>
     <message>
         <location line="-1"/>
         <location line="+1"/>
         <source>Collapse</source>
-        <translation>Kunfaldi</translation>
+        <translation>Faldi</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2359,7 +2359,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Spaco)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -10392,7 +10392,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>Nekonata montronomo</translation>
+        <translation>Nekonata montrata nomo</translation>
     </message>
     <message>
         <location line="-207"/>

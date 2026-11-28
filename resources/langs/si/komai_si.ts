@@ -1589,7 +1589,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
-        <translation>විශාල කරන්න</translation>
+        <translation>පුළුල් කරන්න</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -2359,7 +2359,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(අවකාශය)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -6443,7 +6443,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+86"/>
         <source>Export failed: %1</source>
-        <translation>නිර්යාතය අසාර්ථක විය: %1</translation>
+        <translation>අපනයනය අසාර්ථක විය: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -6489,7 +6489,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+143"/>
         <source>Export…</source>
-        <translation>නිර්යාතය…</translation>
+        <translation>අපනයනය කරන්න…</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -9404,7 +9404,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location filename="../../qml/delegates/TextMessage.qml" line="+156"/>
         <source>Copied</source>
-        <translation>පිටපත් කරන ලදී</translation>
+        <translation>පිටපත් කළා</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -9898,7 +9898,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation>ෆෝල්ඩරයේ පෙන්වන්න</translation>
+        <translation>බහාලුමෙහි පෙන්වන්න</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10414,7 +10414,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>ගැළපෙන පරිශීලකයන් හමු නොවීය.</translation>
+        <translation>ගැලපෙන පරිශීලකයන් හමු නොවීය.</translation>
     </message>
     <message>
         <location line="+8"/>

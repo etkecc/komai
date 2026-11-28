@@ -1589,13 +1589,13 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
-        <translation>Maximera</translation>
+        <translation>Expandera</translation>
     </message>
     <message>
         <location line="-1"/>
         <location line="+1"/>
         <source>Collapse</source>
-        <translation>Minimera</translation>
+        <translation>Fäll ihop</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1640,7 +1640,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="+8"/>
         <source>Decline</source>
-        <translation>Neka</translation>
+        <translation>Avböj</translation>
     </message>
 </context>
 <context>
@@ -2140,7 +2140,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
     <message>
         <location line="-2"/>
         <source>Export failed: %1</source>
-        <translation>Exporten misslyckades: %1</translation>
+        <translation>Export misslyckades: %1</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -2359,7 +2359,7 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Mellanslag)</translation>
+        <translation>(Område)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -7718,7 +7718,7 @@ Observera att den inte kan inaktiveras efteråt.</translation>
     <message>
         <location line="+27"/>
         <source>Copied</source>
-        <translation>Kopierad</translation>
+        <translation>Kopierat</translation>
     </message>
     <message>
         <location line="+0"/>

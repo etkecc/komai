@@ -2137,7 +2137,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-2"/>
         <source>Export failed: %1</source>
-        <translation>내보내기에 실패했습니다: %1</translation>
+        <translation>내보내기 실패: %1</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -10394,7 +10394,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>일치하는 사용자를 찾을 수 없습니다.</translation>
+        <translation>일치하는 사용자가 없습니다.</translation>
     </message>
     <message>
         <location line="+8"/>

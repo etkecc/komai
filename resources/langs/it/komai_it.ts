@@ -2359,7 +2359,7 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Spazio)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4576,7 +4576,7 @@ Verifica per sbloccare i messaggi crittati.</translation>
         <location line="+0"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>Started a call</source>
-        <translation>Ha avviato una chiamata</translation>
+        <translation>Chiamata avviata</translation>
     </message>
     <message>
         <location line="+6"/>

@@ -1589,7 +1589,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
-        <translation>വലുതാക്കുക</translation>
+        <translation>വികസിപ്പിക്കുക</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -2359,7 +2359,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(സ്പേസ്)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8646,7 +8646,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+6"/>
         <source>Quit</source>
-        <translation>പുറത്തുകടക്കുക</translation>
+        <translation>അവസാനിപ്പിക്കുക</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -10389,7 +10389,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>അജ്ഞാത പ്രദർശന നാമം</translation>
+        <translation>അജ്ഞാത ഡിസ്പ്ലേ നാമം</translation>
     </message>
     <message>
         <location line="-207"/>
@@ -10414,7 +10414,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>പൊരുത്തമുള്ള ഉപയോക്താക്കളെ കണ്ടെത്തിയില്ല.</translation>
+        <translation>പൊരുത്തപ്പെടുന്ന ഉപയോക്താക്കളെ കണ്ടെത്തിയില്ല.</translation>
     </message>
     <message>
         <location line="+8"/>

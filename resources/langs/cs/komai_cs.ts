@@ -2364,7 +2364,7 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(prostor)</translation>
+        <translation>(Prostor)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4582,7 +4582,7 @@ Ověřením se odemknou šifrované zprávy.</translation>
         <location line="+0"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>Started a call</source>
-        <translation>Zahájil hovor</translation>
+        <translation>Zahájen hovor</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6499,7 +6499,7 @@ Předchozí zálohy klíčů na serveru nejsou automaticky odstraněny.</transla
     <message>
         <location line="+143"/>
         <source>Export…</source>
-        <translation>Export…</translation>
+        <translation>Exportovat…</translation>
     </message>
     <message>
         <location line="+29"/>

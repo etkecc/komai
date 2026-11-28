@@ -1589,7 +1589,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
-        <translation>Agrandir</translation>
+        <translation>Développer</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -1640,7 +1640,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+8"/>
         <source>Decline</source>
-        <translation>Décliner</translation>
+        <translation>Refuser</translation>
     </message>
 </context>
 <context>
@@ -4576,7 +4576,7 @@ Vérifiez pour déverrouiller les messages chiffrés.</translation>
         <location line="+0"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>Started a call</source>
-        <translation>A lancé un appel</translation>
+        <translation>A démarré un appel</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6443,7 +6443,7 @@ Les sauvegardes de clés côté serveur précédentes ne sont pas supprimées au
     <message>
         <location line="+86"/>
         <source>Export failed: %1</source>
-        <translation>Échec de l'export : %1</translation>
+        <translation>Échec de l'exportation : %1</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -10098,7 +10098,7 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <location line="+21"/>
         <source>Clear</source>
         <extracomment>Clears the current message selection.</extracomment>
-        <translation>Effacer</translation>
+        <translation>Désélectionner</translation>
     </message>
     <message>
         <location line="+5"/>

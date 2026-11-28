@@ -6443,7 +6443,7 @@ Os backups de chaves anteriores no servidor não são removidos automaticamente.
     <message>
         <location line="+86"/>
         <source>Export failed: %1</source>
-        <translation>Falha na exportação: %1</translation>
+        <translation>Falha ao exportar: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -10399,7 +10399,7 @@ Parece agradável aos olhos e incrivelmente rápido! 🚀</translation>
     <message>
         <location line="+33"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Pesquisar por nome ou @user:example.com</translation>
+        <translation>Buscar por nome ou @user:example.com</translation>
     </message>
     <message>
         <location line="+84"/>

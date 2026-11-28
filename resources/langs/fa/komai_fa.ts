@@ -983,7 +983,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+88"/>
         <source>Expand</source>
-        <translation>گسترش دادن</translation>
+        <translation>گسترش</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1592,7 +1592,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="-1"/>
         <location line="+1"/>
         <source>Collapse</source>
-        <translation>جمع‌کردن</translation>
+        <translation>جمع کردن</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2137,7 +2137,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-2"/>
         <source>Export failed: %1</source>
-        <translation>صادر کردن ناموفق بود: %1</translation>
+        <translation>خروجی گرفتن ناموفق بود: %1</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -2354,7 +2354,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(فضا)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -6479,7 +6479,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+143"/>
         <source>Export…</source>
-        <translation>خروجی…</translation>
+        <translation>برون‌بری…</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -6496,7 +6496,7 @@ Previous server-side key backups are not removed automatically.</source>
         <location line="+11"/>
         <location line="+11"/>
         <source>All files (*)</source>
-        <translation>همهٔ فایل‌ها (*)</translation>
+        <translation>همه فایل‌ها (*)</translation>
     </message>
     <message>
         <location line="-201"/>
@@ -10369,7 +10369,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>نام نمایشی ناشناس</translation>
+        <translation>نام نمایشی ناشناخته</translation>
     </message>
     <message>
         <location line="-207"/>
@@ -10394,7 +10394,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>کاربر مطابقی یافت نشد.</translation>
+        <translation>هیچ کاربر منطبقی یافت نشد.</translation>
     </message>
     <message>
         <location line="+8"/>

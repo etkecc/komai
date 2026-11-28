@@ -1589,13 +1589,13 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="-282"/>
         <location line="+1"/>
         <source>Expand</source>
-        <translation>Expandir</translation>
+        <translation>Desplega</translation>
     </message>
     <message>
         <location line="-1"/>
         <location line="+1"/>
         <source>Collapse</source>
-        <translation>Replegar</translation>
+        <translation>Plega</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1635,12 +1635,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="+10"/>
         <source>Join</source>
         <extracomment>Joins an ongoing call.</extracomment>
-        <translation>Unir-se</translation>
+        <translation>Uneix-te</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Decline</source>
-        <translation>Rebutjar</translation>
+        <translation>Rebutja</translation>
     </message>
 </context>
 <context>
@@ -2359,7 +2359,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Espai)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -8646,7 +8646,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+6"/>
         <source>Quit</source>
-        <translation>Surt</translation>
+        <translation>Sortir</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -9615,7 +9615,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <location line="+13"/>
         <source>Join</source>
         <extracomment>Joins an ongoing call.</extracomment>
-        <translation>Unir-se</translation>
+        <translation>Uneix-te</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -10414,7 +10414,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>No s'han trobat usuaris coincidents.</translation>
+        <translation>No s'ha trobat cap usuari coincident.</translation>
     </message>
     <message>
         <location line="+8"/>

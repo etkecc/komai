@@ -577,7 +577,7 @@
     <message>
         <location line="+4"/>
         <source>Show in folder</source>
-        <translation>Εμφάνιση στον φάκελο</translation>
+        <translation>Εμφάνιση σε φάκελο</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2359,7 +2359,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Χώρος)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -10399,7 +10399,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+33"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Αναζήτηση με όνομα ή @user:example.com</translation>
+        <translation>Αναζήτηση με βάση το όνομα ή @user:example.com</translation>
     </message>
     <message>
         <location line="+84"/>

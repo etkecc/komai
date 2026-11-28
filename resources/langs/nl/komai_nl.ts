@@ -1370,7 +1370,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+0"/>
         <source>Join</source>
-        <translation>Binnentreden</translation>
+        <translation>Binnengaan</translation>
     </message>
 </context>
 <context>
@@ -2140,7 +2140,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="-2"/>
         <source>Export failed: %1</source>
-        <translation>Exporteren mislukt: %1</translation>
+        <translation>Export mislukt: %1</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -2359,7 +2359,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Ruimte)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -2947,7 +2947,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation>Afwijzen</translation>
+        <translation>Weigeren</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -3003,7 +3003,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+11"/>
         <source>Join</source>
-        <translation>Binnentreden</translation>
+        <translation>Binnengaan</translation>
     </message>
 </context>
 <context>
@@ -4576,7 +4576,7 @@ Verifieer om versleutelde berichten te ontgrendelen.</translation>
         <location line="+0"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>Started a call</source>
-        <translation>Oproep gestart</translation>
+        <translation>Gesprek gestart</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -6035,7 +6035,7 @@ Eerdere sleutelback-ups op de server worden niet automatisch verwijderd.</transl
     <message>
         <location line="+10"/>
         <source>Join</source>
-        <translation>Binnentreden</translation>
+        <translation>Binnengaan</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -9898,7 +9898,7 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation>Weergeven in map</translation>
+        <translation>Tonen in map</translation>
     </message>
     <message>
         <location line="+5"/>

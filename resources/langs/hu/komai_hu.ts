@@ -6435,7 +6435,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location line="+86"/>
         <source>Export failed: %1</source>
-        <translation>Sikertelen exportálás: %1</translation>
+        <translation>Exportálás sikertelen: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -6523,7 +6523,7 @@ A korábbi szerveren tárolt kulcsmentések nem törlődnek automatikusan.</tran
     <message>
         <location line="+78"/>
         <source>Text files (*.txt)</source>
-        <translation>Szövegfájlok (*.txt)</translation>
+        <translation>Szöveges fájlok (*.txt)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -9066,7 +9066,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
     <message>
         <location line="+2"/>
         <source>Started a call</source>
-        <translation>Hívást kezdeményezett</translation>
+        <translation>Hívást indított</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -9881,7 +9881,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <location line="+4"/>
         <location filename="../../../src/timeline/view/TimelineViewManagerMedia.cpp" line="+4"/>
         <source>Show in folder</source>
-        <translation>Megjelenítés mappában</translation>
+        <translation>Megjelenítés a mappában</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -10369,7 +10369,7 @@ Szemre tetszetős és elképesztően gyors! 🚀</translation>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>Ismeretlen megjelenítési név</translation>
+        <translation>Ismeretlen megjelenített név</translation>
     </message>
     <message>
         <location line="-207"/>

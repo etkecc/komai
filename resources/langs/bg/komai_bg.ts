@@ -128,7 +128,7 @@
     <message>
         <location line="+15"/>
         <source>Export…</source>
-        <translation>Експортиране…</translation>
+        <translation>Експортирай…</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2947,7 +2947,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+31"/>
         <source>Decline</source>
-        <translation>Откажи</translation>
+        <translation>Отказ</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -4573,7 +4573,7 @@ Verify to unlock encrypted messages.</source>
         <location line="+2"/>
         <source>Join</source>
         <extracomment>Joins an ongoing call.</extracomment>
-        <translation>Влез</translation>
+        <translation>Присъедини се</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -6443,7 +6443,7 @@ Previous server-side key backups are not removed automatically.</source>
     <message>
         <location line="+86"/>
         <source>Export failed: %1</source>
-        <translation>Неуспешно експортиране: %1</translation>
+        <translation>Експортирането е неуспешно: %1</translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
@@ -9079,7 +9079,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+2"/>
         <source>Started a call</source>
-        <translation>Стартира обаждане</translation>
+        <translation>Започна обаждане</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -10389,7 +10389,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <location line="+52"/>
         <location line="+225"/>
         <source>Unknown display name</source>
-        <translation>Неизвестно показвано ime</translation>
+        <translation>Неизвестно показвано име</translation>
     </message>
     <message>
         <location line="-207"/>
@@ -10399,7 +10399,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+33"/>
         <source>Search by name or @user:example.com</source>
-        <translation>Търсене по име или @user:example.com</translation>
+        <translation>Търси по име или @user:example.com</translation>
     </message>
     <message>
         <location line="+84"/>

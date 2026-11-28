@@ -2364,7 +2364,7 @@ If the problem persists, you can log out and sign in again, but this will delete
         <location line="+132"/>
         <source>(Space)</source>
         <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
-        <translation>(Space)</translation>
+        <translation>(Пространство)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -4582,7 +4582,7 @@ Verify to unlock encrypted messages.</source>
         <location line="+0"/>
         <location filename="../../../src/notifications/ManagerMac.cpp" line="+0"/>
         <source>Started a call</source>
-        <translation>Начат звонок</translation>
+        <translation>Звонок начат</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -10434,7 +10434,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+15"/>
         <source>No matching users found.</source>
-        <translation>Совпадающих пользователей не найдено.</translation>
+        <translation>Подходящие пользователи не найдены.</translation>
     </message>
     <message>
         <location line="+8"/>

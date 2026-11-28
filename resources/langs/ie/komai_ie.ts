@@ -7277,8 +7277,9 @@ Plase notar que it ne posse esser disactivat depos.</translation>
         <translation>Online</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Indisponibil</translation>
     </message>
     <message>

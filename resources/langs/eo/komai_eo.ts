@@ -7279,8 +7279,9 @@ Notu ke ĝi ne povas esti malŝaltita poste.</translation>
         <translation>Rete</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Nedisponebla</translation>
     </message>
     <message>

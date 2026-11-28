@@ -7329,8 +7329,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>متصل</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>غير متاح</translation>
     </message>
     <message>

@@ -7290,8 +7290,9 @@ Berte na vědomí, že po aktivaci jej nelze vypnout.</translation>
         <translation>Online</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Nedostupné</translation>
     </message>
     <message>

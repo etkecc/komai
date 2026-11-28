@@ -7277,8 +7277,9 @@ Let op dat het achteraf niet uitgeschakeld kan worden.</translation>
         <translation>Online</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Niet beschikbaar</translation>
     </message>
     <message>

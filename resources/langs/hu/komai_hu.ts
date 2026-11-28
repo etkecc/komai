@@ -7264,8 +7264,9 @@ Kérjük, vegye figyelembe, hogy utólag nem lehet kikapcsolni.</translation>
         <translation>Online</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Nem elérhető</translation>
     </message>
     <message>

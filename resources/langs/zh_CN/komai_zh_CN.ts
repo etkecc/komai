@@ -7264,9 +7264,10 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
-        <translation>不可用</translation>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
+        <translation>离开</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -11624,7 +11625,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="-10"/>
         <location line="+11"/>
         <source>Always unavailable</source>
-        <translation>始终不可用</translation>
+        <translation>始终显示为离开</translation>
     </message>
     <message>
         <location line="-10"/>

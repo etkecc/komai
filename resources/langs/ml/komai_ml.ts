@@ -11134,7 +11134,7 @@ You can unignore later via this user's profile or via Settings → Account → I
         <location filename="../../../src/settings/ui/SettingRoleData.cpp" line="+52"/>
         <source>Controls your &lt;a href="%1"&gt;Presence&lt;/a&gt; status on the Matrix network.
 Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</source>
-        <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;Presence&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
+        <translation>Matrix നെറ്റ്‌വർക്കിൽ നിങ്ങളുടെ &lt;a href="%1"&gt;സാന്നിധ്യം&lt;/a&gt; സ്ഥിതി നിയന്ത്രിക്കുന്നു.
 ഓട്ടോമാറ്റിക് എന്നത് 'ഓൺലൈൻ' അല്ലെങ്കിൽ 'ലഭ്യമല്ല' ആണ് (5 മിനിറ്റ് നിഷ്‌ക്രിയത്വത്തിനുശേഷം).</translation>
     </message>
     <message>

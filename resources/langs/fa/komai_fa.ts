@@ -11635,7 +11635,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="-10"/>
         <location line="+11"/>
         <source>Always unavailable</source>
-        <translation>همیشه در دسترس نیست</translation>
+        <translation>همیشه در وضعیت «در دسترس نیست»</translation>
     </message>
     <message>
         <location line="-10"/>

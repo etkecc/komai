@@ -31,7 +31,7 @@ Rectangle {
         var _d1 = sidebarNavFontMetrics.height;
 
         var maxWidth = sidebarNavFontMetrics.advanceWidth(qsTr("Back"));
-        for (var i = 0; i < navModel.length; i++)
+        for (let i = 0; i < navModel.length; i++)
             maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
         return Math.max(120, Math.ceil(Komai.paddingMedium + 24 + Komai.paddingMedium + maxWidth + Komai.paddingLarge));
     }

@@ -33,8 +33,8 @@ Popup {
         var sections = gridView.model ? gridView.model.sections : null;
         var maxWidth = sidebarCategoryFontMetrics.advanceWidth(qsTr("Settings"));
         if (sections) {
-            for (var i = 0; i < sections.length; ++i) {
-                var name = stickerPopup.sectionName(sections[i]);
+            for (let i = 0; i < sections.length; ++i) {
+                let name = stickerPopup.sectionName(sections[i]);
                 if (name)
                     maxWidth = Math.max(maxWidth, sidebarCategoryFontMetrics.advanceWidth(name));
             }

@@ -16,7 +16,7 @@ Container {
     property Component handleToucharea
 
     Component.onCompleted: {
-        for (var i = 0; i < count - 1; i++) {
+        for (let i = 0; i < count - 1; i++) {
             let handle_ = handle.createObject(contentChildren[i]);
             let split_ = handleToucharea.createObject(contentChildren[i]);
             contentChildren[i].width = Qt.binding(function() {
@@ -31,14 +31,14 @@ Container {
         }
         contentChildren[count - 1].width = Qt.binding(function() {
             var w = container.width;
-            for (var i = 0; i < count - 1; i++) {
+            for (let i = 0; i < count - 1; i++) {
                 if (contentChildren[i].width)
                     w = w - contentChildren[i].width;
             }
             return w;
         });
         contentChildren[count - 1].splitterWidth = 0;
-        for (var i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             contentChildren[i].height = Qt.binding(function() {
                 return container.height;
             });

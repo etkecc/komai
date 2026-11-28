@@ -61,7 +61,7 @@ Item {
         var idx = root._sectionOrder.indexOf(sectionId);
         if (idx <= 0)
             return false;
-        for (var i = 0; i < idx; i++) {
+        for (let i = 0; i < idx; i++) {
             if (root.sectionVisible(root._sectionOrder[i]))
                 return true;
         }
@@ -102,8 +102,8 @@ Item {
                     return;
                 var roleDeviceId = 0;   // DeviceInfoModel::DeviceId
                 var roleDeviceName = 1; // DeviceInfoModel::DeviceName
-                for (var i = 0; i < profile.deviceList.rowCount(); i++) {
-                    var idx = profile.deviceList.index(i, 0);
+                for (let i = 0; i < profile.deviceList.rowCount(); i++) {
+                    let idx = profile.deviceList.index(i, 0);
                     if (profile.deviceList.data(idx, roleDeviceId) === Settings.deviceId) {
                         currentDeviceName = profile.deviceList.data(idx, roleDeviceName) || "";
                         return;
@@ -120,8 +120,8 @@ Item {
 
                 var roleDeviceId = 0; // DeviceInfoModel::DeviceId
                 var count = 0;
-                for (var i = 0; i < profile.deviceList.rowCount(); i++) {
-                    var idx = profile.deviceList.index(i, 0);
+                for (let i = 0; i < profile.deviceList.rowCount(); i++) {
+                    let idx = profile.deviceList.index(i, 0);
                     if (profile.deviceList.data(idx, roleDeviceId) !== Settings.deviceId)
                         count++;
                 }

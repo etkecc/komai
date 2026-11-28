@@ -48,9 +48,9 @@ Rectangle {
         var avatarOnlyTotal = 0;
         var labelCount = 0;
 
-        for (var i = 0; i < count; i++) {
-            var tab = tabController.tabs.get(i);
-            var isAvatarOnly = !!tab.roomId
+        for (let i = 0; i < count; i++) {
+            let tab = tabController.tabs.get(i);
+            let isAvatarOnly = !!tab.roomId
                 && (tab.pinned
                     ? Settings.navigationTabsPinnedTabLabel === Settings.TabLabelDisplay.AvatarOnly
                     : Settings.navigationTabsTabLabel === Settings.TabLabelDisplay.AvatarOnly);
@@ -257,8 +257,8 @@ Rectangle {
         var precedingWidth = 0;
         var estimatedContentWidth = 0;
         var activeWidth = 0;
-        for (var i = 0; i < tabController.tabs.count; i++) {
-            var width = _tabWidthAtIndex(i);
+        for (let i = 0; i < tabController.tabs.count; i++) {
+            let width = _tabWidthAtIndex(i);
             if (i < idx)
                 precedingWidth += width;
             if (i === idx)

@@ -129,28 +129,28 @@ Rectangle {
     // Must match the actual visual background so the gradient hides text cleanly.
     readonly property color opaqueBackgroundColor: {
         if (isActive) {
-            var d = palette.dark;
+            let d = palette.dark;
             return Qt.rgba(
                 d.r * 0.85 + palette.window.r * 0.15,
                 d.g * 0.85 + palette.window.g * 0.15,
                 d.b * 0.85 + palette.window.b * 0.15, 1);
         }
         if (isHovered) {
-            var d2 = palette.dark;
+            let d2 = palette.dark;
             return Qt.rgba(
                 d2.r * 0.30 + palette.window.r * 0.70,
                 d2.g * 0.30 + palette.window.g * 0.70,
                 d2.b * 0.30 + palette.window.b * 0.70, 1);
         }
         if (emphasizeDraft) {
-            var a = Komai.theme.attention;
+            let a = Komai.theme.attention;
             return Qt.rgba(
                 a.r * 0.12 + palette.window.r * 0.88,
                 a.g * 0.12 + palette.window.g * 0.88,
                 a.b * 0.12 + palette.window.b * 0.88, 1);
         }
         if (emphasizeUnread) {
-            var h = palette.highlight;
+            let h = palette.highlight;
             return Qt.rgba(
                 h.r * 0.15 + palette.window.r * 0.85,
                 h.g * 0.15 + palette.window.g * 0.85,
@@ -165,7 +165,7 @@ Rectangle {
     readonly property int closeableOtherCount: {
         var r = _attRev; // rebind on model changes
         var count = 0;
-        for (var i = 0; i < tabController.tabs.count; i++) {
+        for (let i = 0; i < tabController.tabs.count; i++) {
             if (i !== index && !tabController.tabs.get(i).pinned)
                 count++;
         }
@@ -176,7 +176,7 @@ Rectangle {
     readonly property int closeableRightCount: {
         var r = _attRev;
         var count = 0;
-        for (var i = index + 1; i < tabController.tabs.count; i++) {
+        for (let i = index + 1; i < tabController.tabs.count; i++) {
             if (!tabController.tabs.get(i).pinned)
                 count++;
         }
@@ -245,8 +245,8 @@ Rectangle {
                 return;
             }
             if (tabController.isDragging) {
-                var listPos = tabDelegate.mapToItem(tabDelegate.parentListView, mouse.x, 0);
-                var contentX = listPos.x + tabDelegate.parentListView.contentX;
+                let listPos = tabDelegate.mapToItem(tabDelegate.parentListView, mouse.x, 0);
+                let contentX = listPos.x + tabDelegate.parentListView.contentX;
 
                 // Compute target index using only the non-dragged tabs'
                 // midpoints as boundaries.  Including the dragged tab's
@@ -255,16 +255,16 @@ Rectangle {
                 // avatar-only width, the cursor falls into a different
                 // slot, it unpins and widens again — flickering without
                 // the user moving the mouse.
-                var draggedIndex = tabController.findTab(tabController._dragRoomId);
-                var count = tabController.tabs.count;
-                var targetIndex = count - 1;
-                var acc = 0;
-                var gap = 0;
-                for (var i = 0; i < count; i++) {
+                let draggedIndex = tabController.findTab(tabController._dragRoomId);
+                let count = tabController.tabs.count;
+                let targetIndex = count - 1;
+                let acc = 0;
+                let gap = 0;
+                for (let i = 0; i < count; i++) {
                     if (i === draggedIndex)
                         continue;
-                    var item = tabDelegate.parentListView.itemAtIndex(i);
-                    var w = item ? item.width : tabDelegate.tabWidth;
+                    let item = tabDelegate.parentListView.itemAtIndex(i);
+                    let w = item ? item.width : tabDelegate.tabWidth;
                     if (contentX < acc + w / 2) {
                         targetIndex = gap;
                         break;
@@ -469,7 +469,7 @@ Rectangle {
         anchorItem: tabDelegate
         text: {
             if (closeArea.containsMouse) {
-                var closeLabel = qsTr("Close %1").arg(tabDelegate.displayName);
+                let closeLabel = qsTr("Close %1").arg(tabDelegate.displayName);
                 if (tabDelegate.isActive)
                     closeLabel += "  [Ctrl+W]";
                 return closeLabel;

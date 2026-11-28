@@ -630,7 +630,7 @@ Rectangle {
         if (_transcriptionTentativeLength === 0
             && insertPos > 0
             && !/^\s/.test(delta)) {
-            var prevChar = composerTextArea.getText(insertPos - 1, insertPos);
+            let prevChar = composerTextArea.getText(insertPos - 1, insertPos);
             if (prevChar.length > 0
                 && !/^\s$/.test(prevChar)
                 && !_isCJKCharacter(prevChar)) {
@@ -665,7 +665,7 @@ Rectangle {
             // batch). This is the path for "completed arrived without
             // preceding deltas", e.g. extremely short utterances.
             if (finalText && finalText.length > 0) {
-                var cursorBefore = composerTextArea.cursorPosition;
+                let cursorBefore = composerTextArea.cursorPosition;
                 _insertTranscribedText(finalText);
                 _transcriptionTentativeStart = composerTextArea.cursorPosition;
                 _transcriptionTentativeLength = 0;
@@ -689,16 +689,16 @@ Rectangle {
         // and the previous utterance ends in punctuation, so without
         // this you get "pizza.And just" mashed together.
         if (finalText && finalText.length > 0) {
-            var prefix = "";
+            let prefix = "";
             if (start > 0 && !/^\s/.test(finalText)) {
-                var prevChar = composerTextArea.getText(start - 1, start);
+                let prevChar = composerTextArea.getText(start - 1, start);
                 if (prevChar.length > 0
                     && !/^\s$/.test(prevChar)
                     && !_isCJKCharacter(prevChar)) {
                     prefix = " ";
                 }
             }
-            var combined = prefix + finalText;
+            let combined = prefix + finalText;
             composerTextArea.insert(start, combined);
             _transcriptionTentativeStart = start + combined.length;
         } else {
@@ -1455,7 +1455,7 @@ Rectangle {
                     if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier) && event.key === Qt.Key_V) {
                         // Ctrl+Shift+V: paste as plain text (Qt doesn't handle this natively,
                         // and the unhandled key event produces a control character / tofu square)
-                        var clipText = inputBar.inputController ? inputBar.inputController.clipboardText() : "";
+                        let clipText = inputBar.inputController ? inputBar.inputController.clipboardText() : "";
                         if (clipText)
                             composerTextArea.insert(composerTextArea.cursorPosition, clipText);
                         event.accepted = true;
@@ -1592,7 +1592,7 @@ Rectangle {
                             || event.modifiers == Qt.ShiftModifier
                             || event.modifiers == Qt.ControlModifier)
                         ) {
-                            var currentCompletion = completer.currentCompletion();
+                            let currentCompletion = completer.currentCompletion();
                             let userid = completer.currentUserid();
                             const capturedType = completer.completerType;
 
@@ -1652,9 +1652,9 @@ Rectangle {
                             else
                                 completer.up();
                         } else {
-                            var pos = cursorPosition - 1;
+                            let pos = cursorPosition - 1;
                             while (pos > -1) {
-                                var t = composerTextArea.getText(pos, pos + 1);
+                                let t = composerTextArea.getText(pos, pos + 1);
                                 console.log('"' + t + '"');
                                 const type = composerTextArea.completerTypeForTrigger(t, pos);
                                 if (type !== "") {
@@ -1885,7 +1885,7 @@ Rectangle {
                         // Restore draft for the new room
                         inputBar._draftRoomId = room ? room.roomId : "";
                         if (inputBar._draftRoomId && composerTextArea.length === 0) {
-                            var draft = Rooms.composerDraftForRoom(inputBar._draftRoomId);
+                            let draft = Rooms.composerDraftForRoom(inputBar._draftRoomId);
                             if (draft)
                                 composerTextArea.append(draft);
                         }
@@ -1926,7 +1926,7 @@ Rectangle {
                         // while still allowing multi-word searches that DO produce
                         // results (e.g. ":bearded woman").
                         if (popup.opened && completer.completerType !== "command" && completer.count <= 0) {
-                            var raw = composerTextArea.getText(composerTextArea.completerTriggeredAt, composerTextArea.cursorPosition);
+                            let raw = composerTextArea.getText(composerTextArea.completerTriggeredAt, composerTextArea.cursorPosition);
                             if (raw.indexOf(' ') >= 0)
                                 popup.close();
                         }

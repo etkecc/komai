@@ -51,7 +51,7 @@ Components.OverlayDialog {
         var _d = sidebarNavFontMetrics.height;
 
         var maxWidth = 0;
-        for (var i = 0; i < navModel.length; i++)
+        for (let i = 0; i < navModel.length; i++)
             maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
         return Math.max(180, Math.ceil(Komai.paddingSmall + 24 + Komai.paddingMedium + maxWidth + Komai.paddingSmall));
     }

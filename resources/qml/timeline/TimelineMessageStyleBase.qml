@@ -425,7 +425,7 @@ TimelineEvent {
         }
         if (activationMode === "button") {
             // X (button mode): center on anchor, clamped to delegate bounds
-            var centerX = pos.x + anchorItem.width / 2 - barW / 2;
+            let centerX = pos.x + anchorItem.width / 2 - barW / 2;
             messageActions.x = Math.max(minX, Math.min(centerX, maxX));
         } else {
             // X (hover mode): align to message side

@@ -698,7 +698,7 @@ Item {
                     // Match the dashed thread outline below: only an outlined
                     // message needs the inset that keeps the row-edge bar off
                     // the outline.
-                    var threadInset = root.threadOutlineVisible ? Komai.paddingSmall : 0;
+                    let threadInset = root.threadOutlineVisible ? Komai.paddingSmall : 0;
                     return Math.round(root.wrapper.messageIsRightAligned
                         ? threadInset
                         : (root.width - width - threadInset));

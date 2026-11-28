@@ -92,8 +92,8 @@ Rectangle {
     function buildStepModel() {
         var steps = [{ text: qsTr("Server") }, { text: qsTr("Account") }];
         if (reg.probed) {
-            for (var i = 0; i < reg.flowStages.length; i++) {
-                var stage = reg.flowStages[i];
+            for (let i = 0; i < reg.flowStages.length; i++) {
+                let stage = reg.flowStages[i];
                 if (stage === "m.login.dummy") continue;
                 steps.push({ text: stageDisplayName(stage) });
             }
@@ -105,7 +105,7 @@ Rectangle {
     function effectiveStepIndex() {
         if (currentStep <= 1) return currentStep;
         var visualStep = 2;
-        for (var i = 0; i < currentStageIndex && i < reg.flowStages.length; i++) {
+        for (let i = 0; i < currentStageIndex && i < reg.flowStages.length; i++) {
             if (reg.flowStages[i] !== "m.login.dummy")
                 visualStep++;
         }
@@ -675,7 +675,7 @@ Rectangle {
                             var url = registrationPage.selectedServerRegLink;
                             if (!url) {
                                 // Fallback: try the homepage
-                                for (var i = 0; i < reg.serverList.length; i++) {
+                                for (let i = 0; i < reg.serverList.length; i++) {
                                     if (reg.serverList[i].name === registrationPage.selectedServer) {
                                         url = reg.serverList[i].homepage;
                                         break;

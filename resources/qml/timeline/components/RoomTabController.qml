@@ -60,7 +60,7 @@ QtObject {
     // Empty tabs (roomId="") are persisted as startup-restorable "new tab" entries.
     function _saveTabs() {
         var roomIds = [];
-        for (var i = 0; i < tabs.count; i++)
+        for (let i = 0; i < tabs.count; i++)
             roomIds.push(tabs.get(i).roomId);
         Settings.openTabs = roomIds;
     }
@@ -68,7 +68,7 @@ QtObject {
     // Persist pinned tab list to Settings.
     function _savePinnedTabs() {
         var pinnedIds = [];
-        for (var i = 0; i < tabs.count; i++) {
+        for (let i = 0; i < tabs.count; i++) {
             if (tabs.get(i).pinned && tabs.get(i).roomId)
                 pinnedIds.push(tabs.get(i).roomId);
         }
@@ -83,11 +83,11 @@ QtObject {
         var pinnedSet = {};
         var pinnedList = Settings.pinnedTabs;
         if (pinnedList) {
-            for (var p = 0; p < pinnedList.length; p++)
+            for (let p = 0; p < pinnedList.length; p++)
                 pinnedSet[pinnedList[p]] = true;
         }
-        for (var i = 0; i < saved.length; i++) {
-            var roomId = saved[i];
+        for (let i = 0; i < saved.length; i++) {
+            let roomId = saved[i];
             if (findTab(roomId) === -1)
                 tabs.append({
                     "roomId": roomId,
@@ -153,7 +153,7 @@ QtObject {
         if (activeIndex !== -1 && tabs.get(activeIndex).pinned)
             activeIndex = -1;
         if (activeIndex !== -1) {
-            var previousRoomId = tabs.get(activeIndex).roomId;
+            let previousRoomId = tabs.get(activeIndex).roomId;
             tabs.set(activeIndex, {
                 "roomId": roomId,
                 "roomName": _getRoomName(roomId),
@@ -195,12 +195,12 @@ QtObject {
         _tabHistoryStack = _tabHistoryStack.filter(function(id) { return id !== roomId; });
         if (wasActive) {
             // Try to go back to the most recently visited tab that still exists.
-            var switched = false;
+            let switched = false;
             while (_tabHistoryStack.length > 0) {
-                var hist = _tabHistoryStack.slice();
-                var candidate = hist.pop();
+                let hist = _tabHistoryStack.slice();
+                let candidate = hist.pop();
                 _tabHistoryStack = hist;
-                var candidateIndex = findTab(candidate);
+                let candidateIndex = findTab(candidate);
                 if (candidateIndex !== -1) {
                     switchToTab(candidateIndex);
                     switched = true;
@@ -208,7 +208,7 @@ QtObject {
                 }
             }
             if (!switched) {
-                var newIndex = Math.min(index, tabs.count - 1);
+                let newIndex = Math.min(index, tabs.count - 1);
                 switchToTab(newIndex);
             }
         }
@@ -223,7 +223,7 @@ QtObject {
                 closeTab(rid);
         } else {
             // Empty room ID means "New Tab" page — close it.
-            var emptyIndex = findTab("");
+            let emptyIndex = findTab("");
             if (emptyIndex !== -1)
                 closeTab("");
         }
@@ -231,7 +231,7 @@ QtObject {
 
     function reopenClosedTab() {
         while (_closedTabsStack.length > 0) {
-            var entry = _popClosedTab();
+            let entry = _popClosedTab();
             // Skip if already open.
             if (findTab(entry.roomId) !== -1)
                 continue;
@@ -247,9 +247,9 @@ QtObject {
         if (keepIndex === -1)
             return;
         // Remove from the end to avoid index shifting issues.
-        for (var i = tabs.count - 1; i >= 0; i--) {
+        for (let i = tabs.count - 1; i >= 0; i--) {
             if (i !== keepIndex && !tabs.get(i).pinned) {
-                var closedId = tabs.get(i).roomId;
+                let closedId = tabs.get(i).roomId;
                 tabs.remove(i);
                 if (closedId) {
                     _pushClosedTab(closedId);
@@ -268,9 +268,9 @@ QtObject {
         var fromIndex = findTab(roomId);
         if (fromIndex === -1)
             return;
-        for (var i = tabs.count - 1; i > fromIndex; i--) {
+        for (let i = tabs.count - 1; i > fromIndex; i--) {
             if (!tabs.get(i).pinned) {
-                var closedId = tabs.get(i).roomId;
+                let closedId = tabs.get(i).roomId;
                 tabs.remove(i);
                 if (closedId) {
                     _pushClosedTab(closedId);
@@ -283,9 +283,9 @@ QtObject {
     }
 
     function closeUnpinnedTabs() {
-        for (var i = tabs.count - 1; i >= 0; i--) {
+        for (let i = tabs.count - 1; i >= 0; i--) {
             if (!tabs.get(i).pinned) {
-                var closedId = tabs.get(i).roomId;
+                let closedId = tabs.get(i).roomId;
                 tabs.remove(i);
                 if (closedId) {
                     _pushClosedTab(closedId);
@@ -309,7 +309,7 @@ QtObject {
     }
 
     function findTab(roomId) {
-        for (var i = 0; i < tabs.count; i++) {
+        for (let i = 0; i < tabs.count; i++) {
             if (tabs.get(i).roomId === roomId)
                 return i;
         }
@@ -351,7 +351,7 @@ QtObject {
         tabs.setProperty(index, "pinned", false);
         // Move right after the last remaining pinned tab.
         var lastPinnedIndex = -1;
-        for (var i = 0; i < tabs.count; i++) {
+        for (let i = 0; i < tabs.count; i++) {
             if (tabs.get(i).pinned)
                 lastPinnedIndex = i;
         }
@@ -368,7 +368,7 @@ QtObject {
 
     // Returns the index of the first unpinned tab (= insertion point for new tabs).
     function _firstUnpinnedIndex() {
-        for (var i = 0; i < tabs.count; i++) {
+        for (let i = 0; i < tabs.count; i++) {
             if (!tabs.get(i).pinned)
                 return i;
         }
@@ -378,7 +378,7 @@ QtObject {
     // Move all pinned tabs to the left, preserving relative order within each group.
     function _sortPinnedToLeft() {
         var insertPos = 0;
-        for (var i = 0; i < tabs.count; i++) {
+        for (let i = 0; i < tabs.count; i++) {
             if (tabs.get(i).pinned && i !== insertPos) {
                 tabs.move(i, insertPos, 1);
             }
@@ -445,7 +445,7 @@ QtObject {
     // Determine if a tab at the given index should be pinned based on its neighbors.
     // Rule: pinned if all tabs before it are pinned (contiguous with pinned group).
     function _shouldBePinnedAtIndex(index) {
-        for (var i = 0; i < index; i++) {
+        for (let i = 0; i < index; i++) {
             if (!tabs.get(i).pinned)
                 return false;
         }
@@ -460,7 +460,7 @@ QtObject {
         // Push the outgoing room onto the history stack (for "go back" on close).
         var outgoing = Rooms.currentRoomId;
         if (outgoing !== undefined && outgoing !== roomId && findTab(outgoing) !== -1) {
-            var hist = _tabHistoryStack.filter(function(id) { return id !== outgoing; });
+            let hist = _tabHistoryStack.filter(function(id) { return id !== outgoing; });
             hist.push(outgoing);
             _tabHistoryStack = hist;
         }
@@ -489,7 +489,7 @@ QtObject {
         if (prevTabIndex !== -1 && tabs.get(prevTabIndex).pinned)
             prevTabIndex = -1;
         if (prevTabIndex !== -1) {
-            var previousRoomId = tabs.get(prevTabIndex).roomId;
+            let previousRoomId = tabs.get(prevTabIndex).roomId;
             tabs.set(prevTabIndex, {
                 "roomId": newRoomId,
                 "roomName": _getRoomName(newRoomId),

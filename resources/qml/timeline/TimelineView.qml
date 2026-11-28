@@ -96,9 +96,9 @@ Item {
         _activePoolEntry = entry;
 
         if (isReactivation) {
-            var preserveScroll = entry.preserveScrollOnReactivation;
+            let preserveScroll = entry.preserveScrollOnReactivation;
             entry.preserveScrollOnReactivation = false;
-            var modelCount = entry.roomView.perRoomModel ? entry.roomView.perRoomModel.count : 0;
+            let modelCount = entry.roomView.perRoomModel ? entry.roomView.perRoomModel.count : 0;
             console.info("[timeline-pool] hit room=" + roomId
                          + " poolSize=" + poolSize
                          + " modelItems=" + modelCount
@@ -115,7 +115,7 @@ Item {
             // If the room still has an open tab, preserve scroll on next
             // reactivation (tab switch).  If the tab was closed or reused,
             // findTab returns -1 and scroll resets to bottom.
-            var roomId = _activePoolEntry.roomView.activeRoomId;
+            let roomId = _activePoolEntry.roomView.activeRoomId;
             _activePoolEntry.preserveScrollOnReactivation = tabController
                 && tabController.findTab(roomId) !== -1;
             // Synchronously kill timeline maintenance on the outgoing view
@@ -172,9 +172,9 @@ Item {
 
     function _poolEvictIfNeeded() {
         while (Object.keys(_poolEntries).length >= _poolMaxSize) {
-            var evicted = false;
-            for (var i = _poolLru.length - 1; i >= 0; i--) {
-                var candidate = _poolLru[i];
+            let evicted = false;
+            for (let i = _poolLru.length - 1; i >= 0; i--) {
+                let candidate = _poolLru[i];
                 if (tabController && tabController.findTab(candidate) !== -1)
                     continue;
                 if (_poolRoomHasActiveCall(candidate))
@@ -205,9 +205,9 @@ Item {
     function _poolTrimExcess() {
         var poolSize = Object.keys(_poolEntries).length;
         while (Object.keys(_poolEntries).length > _poolMaxSize) {
-            var evicted = false;
-            for (var i = _poolLru.length - 1; i >= 0; i--) {
-                var candidate = _poolLru[i];
+            let evicted = false;
+            for (let i = _poolLru.length - 1; i >= 0; i--) {
+                let candidate = _poolLru[i];
                 if (_poolEntries[candidate] === _activePoolEntry)
                     continue;
                 if (tabController && tabController.findTab(candidate) !== -1)

@@ -288,8 +288,8 @@ Item {
     function updateFilter() {
         filteredModel.clear();
         var needle = searchField.text.toLowerCase();
-        for (var i = 0; i < model.length; i++) {
-            var entry = model[i];
+        for (let i = 0; i < model.length; i++) {
+            let entry = model[i];
             if (needle === "" || entry.toLowerCase().indexOf(needle) !== -1) {
                 filteredModel.append({ label: entry, originalIndex: i });
             }

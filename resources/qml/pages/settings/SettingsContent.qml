@@ -560,7 +560,7 @@ Item {
                             Layout.bottomMargin: Komai.paddingMedium
                             onLinkActivated: function(link) {
                                 if (link === "komai://media-cache") {
-                                    var info = Komai.localCacheInfo();
+                                    let info = Komai.localCacheInfo();
                                     if (info.mediaCachePathExists)
                                         Komai.openLocalPath(info.mediaCachePath);
                                 } else if (link === "komai://rooms-directory") {
@@ -634,8 +634,8 @@ Item {
         var tag = scrollToTagId;
         scrollToTagId = "";
         var maxY = Math.max(0, scroll.contentHeight - scroll.height);
-        for (var i = 0; i < settingsRepeater.count; i++) {
-            var item = settingsRepeater.itemAt(i);
+        for (let i = 0; i < settingsRepeater.count; i++) {
+            let item = settingsRepeater.itemAt(i);
             if (!item || !item.model)
                 continue;
             if (item.model.tagId === tag) {
@@ -650,7 +650,7 @@ Item {
         if (!anchor)
             anchor = _findCustomTagAnchor(footerLoader.item, tag);
         if (anchor) {
-            var p = anchor.mapToItem(grid, 0, 0);
+            let p = anchor.mapToItem(grid, 0, 0);
             scroll.contentY = Math.min(p.y, maxY);
         }
     }
@@ -661,15 +661,15 @@ Item {
         if (node.tagId !== undefined && node.tagId === tag)
             return node;
         var children = node.children || [];
-        for (var i = 0; i < children.length; i++) {
+        for (let i = 0; i < children.length; i++) {
             // Loader items expose their loaded content via `.item` instead
             // of as a regular child.
             if (children[i].item) {
-                var found = _findCustomTagAnchor(children[i].item, tag);
+                let found = _findCustomTagAnchor(children[i].item, tag);
                 if (found)
                     return found;
             }
-            var nested = _findCustomTagAnchor(children[i], tag);
+            let nested = _findCustomTagAnchor(children[i], tag);
             if (nested)
                 return nested;
         }

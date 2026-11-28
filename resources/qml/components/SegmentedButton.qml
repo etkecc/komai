@@ -39,14 +39,14 @@ Item {
         var sideMargins = Komai.paddingMedium * 2;
         var labelBadgeSpacing = Komai.paddingMedium;
         var items = root.model || [];
-        for (var i = 0; i < items.length; i++) {
-            var entry = items[i];
+        for (let i = 0; i < items.length; i++) {
+            let entry = items[i];
             labelMetrics.text = (entry && entry.text) ? entry.text : "";
-            var w = labelMetrics.advanceWidth;
+            let w = labelMetrics.advanceWidth;
             if (entry && entry.badge) {
                 badgeMetrics.text = entry.badge;
-                var badgeH = badgeMetrics.boundingRect.height + Komai.paddingSmall * 0.5;
-                var badgeW = Math.max(badgeMetrics.advanceWidth + Komai.paddingSmall * 1.5, badgeH);
+                let badgeH = badgeMetrics.boundingRect.height + Komai.paddingSmall * 0.5;
+                let badgeW = Math.max(badgeMetrics.advanceWidth + Komai.paddingSmall * 1.5, badgeH);
                 w += labelBadgeSpacing + badgeW;
             }
             w += sideMargins;

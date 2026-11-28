@@ -1966,8 +1966,9 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
         <translation>Pasta</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>Alfinete</translation>
     </message>
     <message>
@@ -3880,7 +3881,7 @@ Se o problema persistir, você pode sair e entrar novamente, mas isso apagará o
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Alfinete</translation>
+        <translation>Fixar</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -1966,9 +1966,10 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Mapp</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Fäst</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Häftstift</translation>
     </message>
     <message>
         <location line="+50"/>

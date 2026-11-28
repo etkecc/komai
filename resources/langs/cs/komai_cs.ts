@@ -1969,9 +1969,10 @@ Volitelně můžeš uvést důvod, proč by ostatní měli tvoje zaklepání př
         <translation>Složka</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Připnout</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Špendlík</translation>
     </message>
     <message>
         <location line="+50"/>

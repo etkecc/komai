@@ -1966,9 +1966,10 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
         <translation>Pasta</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Alfinete</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Pionés</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3880,7 +3881,7 @@ Se o problema persistir, pode terminar sessão e iniciar sessão novamente, mas 
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Alfinete</translation>
+        <translation>Fixar</translation>
     </message>
     <message>
         <location line="+3"/>

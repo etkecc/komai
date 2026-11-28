@@ -1966,9 +1966,10 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>ෆෝල්ඩරය</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>පිනය</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>පුෂ්පින්</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3875,12 +3876,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>PIN ඉවත් කරන්න</translation>
+        <translation>පින් ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>පිනය</translation>
+        <translation>පින් කරන්න</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -7311,7 +7312,7 @@ Please take note that it can't be disabled afterwards.</source>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>PIN ඉවත් කරන්න</translation>
+        <translation>පින් ඉවත් කරන්න</translation>
     </message>
 </context>
 <context>
@@ -9666,7 +9667,7 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>PIN ඉවත් කරන්න</translation>
+        <translation>පින් ඉවත් කරන්න</translation>
     </message>
     <message>
         <location line="+17"/>

@@ -1966,9 +1966,10 @@ Se il problema persiste, puoi disconnetterti e accedere nuovamente, ma questo el
         <translation>Cartella</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Fissa</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Puntina</translation>
     </message>
     <message>
         <location line="+50"/>

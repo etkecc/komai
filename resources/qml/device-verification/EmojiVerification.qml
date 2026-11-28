@@ -338,6 +338,7 @@ ColumnLayout {
         }, {
             "number": 63,
             "emoji": "\u{1F4CC}",
+            //: Name of the 📌 pushpin emoji shown during device verification (a noun).
             "description": qsTr("Pin"),
             "unicode": "U+1F4CC"
         }]

@@ -1966,9 +1966,10 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
         <translation>Dossier</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Fixer</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Pingle</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3875,12 +3876,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>Defixer</translation>
+        <translation>Defixar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Fixer</translation>
+        <translation>Fixar</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4076,12 +4077,12 @@ Vu pote facultativmen dar un motiv por que alters accepta vun petition:</transla
     <message>
         <location line="+26"/>
         <source>Un&amp;pin</source>
-        <translation>Des&amp;fixer</translation>
+        <translation>De&amp;fixar</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>&amp;Pin</source>
-        <translation>&amp;Fixer</translation>
+        <translation>&amp;Fixar</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -7311,7 +7312,7 @@ Plase notar que it ne posse esser disactivat depos.</translation>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>Defixer</translation>
+        <translation>Defixar</translation>
     </message>
 </context>
 <context>
@@ -9666,7 +9667,7 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Defixer</translation>
+        <translation>Defixar</translation>
     </message>
     <message>
         <location line="+17"/>

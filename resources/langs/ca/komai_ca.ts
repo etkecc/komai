@@ -1966,9 +1966,10 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Carpeta</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Fixa</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Xinxeta</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3875,7 +3876,7 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
     <message>
         <location line="+8"/>
         <source>Unpin</source>
-        <translation>Desancora</translation>
+        <translation>Desfixa</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -7311,7 +7312,7 @@ Tingues en compte que no es pot desactivar posteriorment.</translation>
     <message>
         <location filename="../../qml/room/components/RoomPinnedMessagesSection.qml" line="+94"/>
         <source>Unpin</source>
-        <translation>Desancora</translation>
+        <translation>Desfixa</translation>
     </message>
 </context>
 <context>
@@ -9666,7 +9667,7 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
     <message>
         <location line="+43"/>
         <source>Unpin</source>
-        <translation>Desancora</translation>
+        <translation>Desfixa</translation>
     </message>
     <message>
         <location line="+17"/>

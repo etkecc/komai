@@ -1966,8 +1966,9 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>ഫോൾഡർ</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>പിൻ</translation>
     </message>
     <message>
@@ -3880,7 +3881,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>പിൻ</translation>
+        <translation>പിൻ ചെയ്യുക</translation>
     </message>
     <message>
         <location line="+3"/>

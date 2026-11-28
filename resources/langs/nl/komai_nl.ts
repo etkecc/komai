@@ -1966,9 +1966,10 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
         <translation>Map</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Speld</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Duimspijker</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3880,7 +3881,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Speld</translation>
+        <translation>Vastzetten</translation>
     </message>
     <message>
         <location line="+3"/>

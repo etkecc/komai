@@ -1963,8 +1963,9 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
         <translation>Folder</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>Pin</translation>
     </message>
     <message>
@@ -3874,7 +3875,7 @@ Anda dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Pin</translation>
+        <translation>Sematkan</translation>
     </message>
     <message>
         <location line="+3"/>

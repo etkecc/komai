@@ -1966,9 +1966,10 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
         <translation>Dosierujo</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Pingli</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Pinglo</translation>
     </message>
     <message>
         <location line="+50"/>

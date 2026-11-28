@@ -1969,8 +1969,9 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Dosar</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>Ac cu gămălie</translation>
     </message>
     <message>
@@ -3886,7 +3887,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Ac cu gămălie</translation>
+        <translation>Fixează</translation>
     </message>
     <message>
         <location line="+3"/>

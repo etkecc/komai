@@ -1969,9 +1969,10 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Папка</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Закрепить</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Булавка</translation>
     </message>
     <message>
         <location line="+50"/>

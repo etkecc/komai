@@ -1966,9 +1966,10 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Dossier</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Épingle</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Punaise</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3880,7 +3881,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Épingle</translation>
+        <translation>Épingler</translation>
     </message>
     <message>
         <location line="+3"/>

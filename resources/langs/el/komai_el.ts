@@ -1966,9 +1966,10 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Φάκελος</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Καρφίτσωμα</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Πινέζα</translation>
     </message>
     <message>
         <location line="+50"/>

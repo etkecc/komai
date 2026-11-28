@@ -1969,8 +1969,9 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Folder</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>Pinezka</translation>
     </message>
     <message>
@@ -3886,7 +3887,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Pinezka</translation>
+        <translation>Przypnij</translation>
     </message>
     <message>
         <location line="+3"/>

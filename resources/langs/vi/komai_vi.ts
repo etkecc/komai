@@ -1963,8 +1963,9 @@ Bạn có thể tùy chọn cung cấp lý do để người khác chấp nhận
         <translation>Thư mục</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>Ghim</translation>
     </message>
     <message>

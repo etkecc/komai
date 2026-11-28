@@ -1969,9 +1969,10 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
         <translation>Fascikla</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>Pribadača</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>Čioda</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3886,7 +3887,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Pribadača</translation>
+        <translation>Zakači</translation>
     </message>
     <message>
         <location line="+3"/>

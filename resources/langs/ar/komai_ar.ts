@@ -1978,9 +1978,10 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>مجلد</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
-        <translation>تثبيت</translation>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
+        <translation>دبوس</translation>
     </message>
     <message>
         <location line="+50"/>

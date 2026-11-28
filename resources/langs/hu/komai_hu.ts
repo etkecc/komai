@@ -1963,8 +1963,9 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
         <translation>Mappa</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>Rajzszög</translation>
     </message>
     <message>
@@ -3874,7 +3875,7 @@ Ha a probléma továbbra is fennáll, kijelentkezhet és újra bejelentkezhet, d
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>Rajzszög</translation>
+        <translation>Rögzítés</translation>
     </message>
     <message>
         <location line="+3"/>

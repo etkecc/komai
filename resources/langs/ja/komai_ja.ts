@@ -1963,8 +1963,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>フォルダー</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Pin</source>
+        <extracomment>Name of the 📌 pushpin emoji shown during device verification (a noun).</extracomment>
         <translation>ピン</translation>
     </message>
     <message>
@@ -3874,7 +3875,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+0"/>
         <source>Pin</source>
-        <translation>ピン</translation>
+        <translation>ピン留め</translation>
     </message>
     <message>
         <location line="+3"/>

@@ -10070,8 +10070,9 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Daha fazla mesaj eylemi [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Temizle</translation>
     </message>
     <message>

@@ -10088,8 +10088,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Plus d'actions sur le message [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Effacer</translation>
     </message>
     <message>

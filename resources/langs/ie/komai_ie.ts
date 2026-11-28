@@ -10088,8 +10088,9 @@ It sembla plaisant al ocul e insanmen rapid! 🚀</translation>
         <translation>Plu actiones de mesage [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Clarer</translation>
     </message>
     <message>

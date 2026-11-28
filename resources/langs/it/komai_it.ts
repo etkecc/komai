@@ -10088,8 +10088,9 @@ Sembra gradevole alla vista e incredibilmente veloce! 🚀</translation>
         <translation>Altre azioni messaggio [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Cancella</translation>
     </message>
     <message>

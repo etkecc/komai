@@ -10088,8 +10088,9 @@ Het ziet er aangenaam uit en is waanzinnig snel! 🚀</translation>
         <translation>Meer berichtacties [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Wissen</translation>
     </message>
     <message>

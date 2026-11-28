@@ -10088,8 +10088,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>තවත් පණිවිඩ ක්‍රියා [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>හිස් කරන්න</translation>
     </message>
     <message>

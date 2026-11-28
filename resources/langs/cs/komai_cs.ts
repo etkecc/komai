@@ -10106,8 +10106,9 @@ Zdá se to příjemné pro oko a šíleně rychlé! 🚀</translation>
         <translation>Další akce se zprávou [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Zrušit</translation>
     </message>
     <message>

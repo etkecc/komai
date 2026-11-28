@@ -10070,8 +10070,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>その他のメッセージ操作 [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>クリア</translation>
     </message>
     <message>

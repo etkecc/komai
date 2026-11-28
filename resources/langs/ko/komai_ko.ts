@@ -10070,8 +10070,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>메시지 추가 동작 [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>초기화</translation>
     </message>
     <message>

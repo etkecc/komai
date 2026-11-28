@@ -374,6 +374,7 @@ Rectangle {
                     navigationHost: walkBar
                     enabled: walkBar.canClearSelection
                     image: ":/icons/icons/ui/round-remove-button.svg"
+                    //: Clears the current message selection.
                     labelText: qsTr("Clear")
                     nextTabTarget: walkBar.nextVisibleButton(clearButton)
                     previousTabTarget: walkBar.previousVisibleButton(clearButton)

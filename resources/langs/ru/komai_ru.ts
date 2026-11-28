@@ -10106,8 +10106,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Другие действия с сообщением [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Очистить</translation>
     </message>
     <message>

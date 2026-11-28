@@ -10070,8 +10070,9 @@ Trông rất bắt mắt và cực kỳ nhanh! 🚀</translation>
         <translation>Thêm thao tác tin nhắn [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Xóa</translation>
     </message>
     <message>

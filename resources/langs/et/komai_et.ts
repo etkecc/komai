@@ -10088,8 +10088,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Rohkem sõnumitoiminguid [O]</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <source>Clear</source>
+        <extracomment>Clears the current message selection.</extracomment>
         <translation>Tühjenda</translation>
     </message>
     <message>

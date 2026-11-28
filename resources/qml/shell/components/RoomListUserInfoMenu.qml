@@ -72,6 +72,7 @@ Item {
             onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.Online
         }
         MenuItem {
+            //: Matrix presence status for a user who is away.
             text: qsTr("Unavailable")
             ButtonGroup.group: onlineStateGroup
             checkable: true

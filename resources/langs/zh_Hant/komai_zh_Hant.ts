@@ -3187,7 +3187,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <location line="+20"/>
         <location line="+137"/>
         <source>Unavailable</source>
-        <translation>暫時離開</translation>
+        <translation>無法取得</translation>
     </message>
     <message>
         <location line="-295"/>
@@ -7264,8 +7264,9 @@ Please take note that it can't be disabled afterwards.</source>
         <translation>線上</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>暫時離開</translation>
     </message>
     <message>
@@ -11624,7 +11625,7 @@ Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).</
         <location line="-10"/>
         <location line="+11"/>
         <source>Always unavailable</source>
-        <translation>永遠不可用</translation>
+        <translation>一律顯示為暫時離開</translation>
     </message>
     <message>
         <location line="-10"/>

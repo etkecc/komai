@@ -7280,8 +7280,9 @@ Ten en cuenta que no se puede desactivar después.</translation>
         <translation>En línea</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>No disponible</translation>
     </message>
     <message>

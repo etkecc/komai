@@ -7290,8 +7290,9 @@ Imaj na umu da se ne može deaktivirati naknadno.</translation>
         <translation>Na mreži</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Nedostupan</translation>
     </message>
     <message>

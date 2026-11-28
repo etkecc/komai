@@ -7264,8 +7264,9 @@ Harap diperhatikan bahwa enkripsi tidak dapat dinonaktifkan setelahnya.</transla
         <translation>Daring</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Tidak tersedia</translation>
     </message>
     <message>

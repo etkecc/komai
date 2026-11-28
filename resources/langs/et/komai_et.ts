@@ -7277,8 +7277,9 @@ Pane tähele, et seda ei saa hiljem keelata.</translation>
         <translation>Võrgus</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Kättesaamatu</translation>
     </message>
     <message>

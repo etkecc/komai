@@ -7264,8 +7264,9 @@ Lưu ý rằng tính năng này không thể tắt sau khi đã bật.</translat
         <translation>Trực tuyến</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Unavailable</source>
+        <extracomment>Matrix presence status for a user who is away.</extracomment>
         <translation>Không khả dụng</translation>
     </message>
     <message>

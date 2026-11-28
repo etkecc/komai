@@ -5,7 +5,6 @@
 import "../../components"
 import "../../timeline/styles/bubble"
 import "../../timeline/styles/plain"
-import "../../timeline/components" as TimelineComponents
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts

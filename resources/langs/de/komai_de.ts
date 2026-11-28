@@ -488,7 +488,7 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+17"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 wird von %2 bereitgestellt (verwaltetes Matrix-Server-Hosting).</translation>
     </message>
@@ -1311,7 +1311,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>ComposerVoicePreview</name>
     <message>
-        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+111"/>
+        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+110"/>
         <source>Finalize recording for preview</source>
         <translation>Aufnahme für Vorschau abschließen</translation>
     </message>
@@ -2988,7 +2988,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>JoinRoomDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
+        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+14"/>
         <source>Join room</source>
         <translation>Raum betreten</translation>
     </message>
@@ -4261,7 +4261,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
 <context>
     <name>NewTabPageActions</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
+        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+39"/>
         <source>Join room</source>
         <translation>Raum betreten</translation>
     </message>
@@ -4606,7 +4606,7 @@ Verifiziere es, um verschlüsselte Nachrichten zu entsperren.</translation>
 <context>
     <name>PinnedMessagesDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+22"/>
+        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+21"/>
         <source>Pinned messages (%1)</source>
         <translation>Angeheftete Nachrichten (%1)</translation>
     </message>
@@ -8599,7 +8599,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>SpellcheckSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+53"/>
         <source>Spellcheck</source>
         <translation>Rechtschreibprüfung</translation>
     </message>
@@ -9512,7 +9512,7 @@ Es ist angenehm anzusehen und wahnsinnig schnell! 🚀</translation>
 <context>
     <name>TimelineEmptyStateLinks</name>
     <message>
-        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
+        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+25"/>
         <source>Report an issue</source>
         <translation>Problem melden</translation>
     </message>

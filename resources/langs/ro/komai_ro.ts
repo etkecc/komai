@@ -488,7 +488,7 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+17"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 este creat de %2 (găzduire gestionată de servere Matrix).</translation>
     </message>
@@ -1313,7 +1313,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>ComposerVoicePreview</name>
     <message>
-        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+111"/>
+        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+110"/>
         <source>Finalize recording for preview</source>
         <translation>Finalizează înregistrarea pentru previzualizare</translation>
     </message>
@@ -2993,7 +2993,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>JoinRoomDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
+        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+14"/>
         <source>Join room</source>
         <translation>Alătură-te camerei</translation>
     </message>
@@ -4267,7 +4267,7 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
 <context>
     <name>NewTabPageActions</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
+        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+39"/>
         <source>Join room</source>
         <translation>Alătură-te camerei</translation>
     </message>
@@ -4612,7 +4612,7 @@ Verifică pentru a debloca mesajele criptate.</translation>
 <context>
     <name>PinnedMessagesDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+22"/>
+        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+21"/>
         <source>Pinned messages (%1)</source>
         <translation>Mesaje fixate (%1)</translation>
     </message>
@@ -8612,7 +8612,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>SpellcheckSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+53"/>
         <source>Spellcheck</source>
         <translation>Verificare ortografică</translation>
     </message>
@@ -9527,7 +9527,7 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
 <context>
     <name>TimelineEmptyStateLinks</name>
     <message>
-        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
+        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+25"/>
         <source>Report an issue</source>
         <translation>Raportează o problemă</translation>
     </message>

@@ -488,7 +488,7 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+17"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 je kreiran od strane %2 (upravljani Matrix server hosting).</translation>
     </message>
@@ -1313,7 +1313,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>ComposerVoicePreview</name>
     <message>
-        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+111"/>
+        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+110"/>
         <source>Finalize recording for preview</source>
         <translation>Završi snimanje za pregled</translation>
     </message>
@@ -2993,7 +2993,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>JoinRoomDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
+        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+14"/>
         <source>Join room</source>
         <translation>Pridruži se sobi</translation>
     </message>
@@ -4267,7 +4267,7 @@ Opciono možeš navesti razlog zbog kojeg bi drugi prihvatili tvoje kucanje:</tr
 <context>
     <name>NewTabPageActions</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
+        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+39"/>
         <source>Join room</source>
         <translation>Pridruži se sobi</translation>
     </message>
@@ -4612,7 +4612,7 @@ Verifikuj da otključaš šifrovane poruke.</translation>
 <context>
     <name>PinnedMessagesDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+22"/>
+        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+21"/>
         <source>Pinned messages (%1)</source>
         <translation>Zakačene poruke (%1)</translation>
     </message>
@@ -8612,7 +8612,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
 <context>
     <name>SpellcheckSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+53"/>
         <source>Spellcheck</source>
         <translation>Provera pravopisa</translation>
     </message>
@@ -9527,7 +9527,7 @@ Izgleda prijatno za oko i neverovatno brzo! 🚀</translation>
 <context>
     <name>TimelineEmptyStateLinks</name>
     <message>
-        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
+        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+25"/>
         <source>Report an issue</source>
         <translation>Prijavi problem</translation>
     </message>

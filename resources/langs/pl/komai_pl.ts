@@ -488,7 +488,7 @@
 <context>
     <name>AttributionFooter</name>
     <message>
-        <location filename="../../qml/components/AttributionFooter.qml" line="+18"/>
+        <location filename="../../qml/components/AttributionFooter.qml" line="+17"/>
         <source>%1 is created by %2 (managed Matrix server hosting).</source>
         <translation>%1 jest tworzone przez %2 (zarządzany hosting serwera Matrix).</translation>
     </message>
@@ -1313,7 +1313,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>ComposerVoicePreview</name>
     <message>
-        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+111"/>
+        <location filename="../../qml/composer/ComposerVoicePreview.qml" line="+110"/>
         <source>Finalize recording for preview</source>
         <translation>Zakończ nagrywanie do podglądu</translation>
     </message>
@@ -2993,7 +2993,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>JoinRoomDialog</name>
     <message>
-        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+15"/>
+        <location filename="../../qml/dialogs/room/JoinRoomDialog.qml" line="+14"/>
         <source>Join room</source>
         <translation>Dołącz do pokoju</translation>
     </message>
@@ -4267,7 +4267,7 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
 <context>
     <name>NewTabPageActions</name>
     <message>
-        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+40"/>
+        <location filename="../../qml/timeline/components/NewTabPageActions.qml" line="+39"/>
         <source>Join room</source>
         <translation>Dołącz do pokoju</translation>
     </message>
@@ -4613,7 +4613,7 @@ Zweryfikuj, by odblokować zaszyfrowane wiadomości.</translation>
 <context>
     <name>PinnedMessagesDialog</name>
     <message>
-        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+22"/>
+        <location filename="../../qml/dialogs/timeline/PinnedMessagesDialog.qml" line="+21"/>
         <source>Pinned messages (%1)</source>
         <translation>Przypięte wiadomości (%1)</translation>
     </message>
@@ -8613,7 +8613,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
 <context>
     <name>SpellcheckSetting</name>
     <message>
-        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+54"/>
+        <location filename="../../qml/pages/settings/ComposerTab/SpellcheckSetting.qml" line="+53"/>
         <source>Spellcheck</source>
         <translation>Sprawdzanie pisowni</translation>
     </message>
@@ -9528,7 +9528,7 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
 <context>
     <name>TimelineEmptyStateLinks</name>
     <message>
-        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+26"/>
+        <location filename="../../qml/timeline/components/TimelineEmptyStateLinks.qml" line="+25"/>
         <source>Report an issue</source>
         <translation>Zgłoś problem</translation>
     </message>

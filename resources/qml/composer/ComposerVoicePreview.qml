@@ -6,7 +6,6 @@ import QtMultimedia
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import "../ui"
 import "../ui/media"
 import cc.etke.komai
 

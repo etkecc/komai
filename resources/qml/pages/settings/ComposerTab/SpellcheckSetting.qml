@@ -6,7 +6,6 @@ pragma ComponentBehavior: Bound
 import "../../../components"
 import "../IntegrationsTab"
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 

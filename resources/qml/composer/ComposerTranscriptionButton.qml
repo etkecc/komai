@@ -10,19 +10,19 @@ ComposerToolbarButton {
     id: root
 
     required property bool showAllButtons
-    required property var inputBar
+    required property var composerInput
 
     readonly property bool _recordingViaButton:
-        inputBar
-        && inputBar.transcriptionState === "recording"
-        && (inputBar.transcriptionTriggerKind === "button-hold"
-            || inputBar.transcriptionTriggerKind === "button-toggle")
+        composerInput
+        && composerInput.transcriptionState === "recording"
+        && (composerInput.transcriptionTriggerKind === "button-hold"
+            || composerInput.transcriptionTriggerKind === "button-toggle")
     readonly property bool _eligible:
-        inputBar
-        && inputBar.transcriptionGestureEligible
-        && (inputBar.transcriptionState === "idle"
-            || inputBar.transcriptionState === "error"
-            || inputBar.transcriptionState === "armed"
+        composerInput
+        && composerInput.transcriptionGestureEligible
+        && (composerInput.transcriptionState === "idle"
+            || composerInput.transcriptionState === "error"
+            || composerInput.transcriptionState === "armed"
             || _recordingViaButton)
 
     Layout.alignment: Qt.AlignBottom
@@ -48,42 +48,42 @@ ComposerToolbarButton {
         interval: 350
         repeat: false
         onTriggered: {
-            if (!root._pressing || !root.inputBar)
+            if (!root._pressing || !root.composerInput)
                 return;
             // Promote the armed gesture to recording in hold mode.
-            if (root.inputBar.transcriptionState === "armed"
-                && root.inputBar.transcriptionTriggerKind === "button-hold") {
-                root.inputBar._beginTranscriptionRecording();
+            if (root.composerInput.transcriptionState === "armed"
+                && root.composerInput.transcriptionTriggerKind === "button-hold") {
+                root.composerInput._beginTranscriptionRecording();
             }
         }
     }
 
     onPressed: {
-        if (!inputBar)
+        if (!composerInput)
             return;
 
         // If we're already mid-toggle-recording, the press is the "stop"
         // click. Treat it on `released` so `clicked` semantics still work
         // for keyboard activation.
-        if (inputBar.transcriptionState === "recording"
-            && inputBar.transcriptionTriggerKind === "button-toggle") {
+        if (composerInput.transcriptionState === "recording"
+            && composerInput.transcriptionTriggerKind === "button-toggle") {
             return;
         }
 
-        if (!inputBar.transcriptionGestureEligible)
+        if (!composerInput.transcriptionGestureEligible)
             return;
-        if (inputBar.transcriptionState !== "idle"
-            && inputBar.transcriptionState !== "error") {
+        if (composerInput.transcriptionState !== "idle"
+            && composerInput.transcriptionState !== "error") {
             return;
         }
 
         _pressing = true;
-        inputBar._armTranscriptionGesture("button-hold");
+        composerInput._armTranscriptionGesture("button-hold");
         holdThresholdTimer.restart();
     }
 
     onReleased: {
-        if (!inputBar)
+        if (!composerInput)
             return;
 
         const wasPressing = _pressing;
@@ -91,40 +91,40 @@ ComposerToolbarButton {
         holdThresholdTimer.stop();
 
         // Toggle-mode click-again: stop recording and dispatch.
-        if (inputBar.transcriptionState === "recording"
-            && inputBar.transcriptionTriggerKind === "button-toggle") {
-            inputBar._commitTranscriptionGesture();
+        if (composerInput.transcriptionState === "recording"
+            && composerInput.transcriptionTriggerKind === "button-toggle") {
+            composerInput._commitTranscriptionGesture();
             return;
         }
 
         if (!wasPressing)
             return;
 
-        if (inputBar.transcriptionTriggerKind !== "button-hold")
+        if (composerInput.transcriptionTriggerKind !== "button-hold")
             return;
 
-        if (inputBar.transcriptionState === "armed") {
+        if (composerInput.transcriptionState === "armed") {
             // Released before the threshold = click. Enter toggle mode and
             // start recording right now; user clicks again to stop.
-            inputBar._beginTranscriptionInToggleMode();
-        } else if (inputBar.transcriptionState === "recording") {
+            composerInput._beginTranscriptionInToggleMode();
+        } else if (composerInput.transcriptionState === "recording") {
             // Held past threshold and now released = commit.
-            inputBar._commitTranscriptionGesture();
+            composerInput._commitTranscriptionGesture();
         }
     }
 
     onCanceled: {
         // Pointer left the button bounds before release. Treat as cancel
         // so we don't leave the gesture armed.
-        if (!inputBar)
+        if (!composerInput)
             return;
         const wasPressing = _pressing;
         _pressing = false;
         holdThresholdTimer.stop();
         if (wasPressing
-            && inputBar.transcriptionTriggerKind === "button-hold"
-            && inputBar.transcriptionState === "armed") {
-            inputBar._cancelTranscriptionGesture();
+            && composerInput.transcriptionTriggerKind === "button-hold"
+            && composerInput.transcriptionState === "armed") {
+            composerInput._cancelTranscriptionGesture();
         }
     }
 }

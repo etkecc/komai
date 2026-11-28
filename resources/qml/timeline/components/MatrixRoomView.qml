@@ -72,7 +72,7 @@ ColumnLayout {
     readonly property var composerShell: externalComposerPane.composerShell
     readonly property var notificationAreaItem: timelineViewport
     readonly property var timelineListItem: matrixTimelineList
-    readonly property alias filteredTimeline: filteredTimeline
+    readonly property alias filteredTimeline: timelineFilter
     readonly property bool headerSearchHasFocus: !!externalHeaderPane.searchHasFocus
     readonly property real listViewDisplayMargin: roomSwitchInProgress
         ? 0
@@ -88,7 +88,7 @@ ColumnLayout {
     readonly property string searchString: externalHeaderPane.headerItem
         ? String(externalHeaderPane.headerItem.searchString || "") : ""
     readonly property bool filteringRequested: searchString.length > 0
-    readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
+    readonly property bool filteringInProgress: timelineFilter.filteringInProgress
     property bool restoringEditDraft: false
     property int lastPaginationTriggerCount: -1
     property int lastInitialBufferTriggerCount: -1
@@ -183,8 +183,8 @@ ColumnLayout {
     // this opaquely. Inside a thread view no filtering applies.
     readonly property var activeTimelineModel: threadViewActive
         ? threadTimelineModel
-        : ((filteringRequested || filteredTimeline.collapseThreadReplies)
-            ? filteredTimeline
+        : ((filteringRequested || timelineFilter.collapseThreadReplies)
+            ? timelineFilter
             : perRoomModel)
     property int _collapseByRoomRevision: 0
 
@@ -235,7 +235,7 @@ ColumnLayout {
     }
 
     TimelineFilter {
-        id: filteredTimeline
+        id: timelineFilter
 
         source: root.perRoomModel
         filterByContent: root.searchString
@@ -268,7 +268,7 @@ ColumnLayout {
         // perRoomModel-targeted flush hooks don't reach while the proxy is
         // the bound model.
         onModelAboutToBeReset: {
-            if (matrixTimelineList.model === filteredTimeline)
+            if (matrixTimelineList.model === timelineFilter)
                 roomListShellSupport.flushDelegateReusePool();
         }
     }
@@ -279,7 +279,7 @@ ColumnLayout {
     // unblock pagination in that case.
     Connections {
         target: root.perRoomModel
-        enabled: filteredTimeline.collapseThreadReplies && !root.threadViewActive
+        enabled: timelineFilter.collapseThreadReplies && !root.threadViewActive
         function onCountChanged() {
             if (root.bufferPaginationInFlight) {
                 root.bufferPaginationInFlight = false;
@@ -692,8 +692,8 @@ ColumnLayout {
                     cacheBuffer: root.listViewCacheBuffer
                     model: root.threadViewActive
                         ? root.threadTimelineModel
-                        : ((root.filteringRequested || filteredTimeline.collapseThreadReplies)
-                            ? filteredTimeline : root.perRoomModel)
+                        : ((root.filteringRequested || timelineFilter.collapseThreadReplies)
+                            ? timelineFilter : root.perRoomModel)
                     header: Item { width: 1; height: Komai.paddingSmall }
                     // BottomToTop layout: this footer is rendered at the visual
                     // top of the timeline.  It surfaces a spinner while the

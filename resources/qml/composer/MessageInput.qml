@@ -1036,7 +1036,7 @@ Rectangle {
                 : (attachButton.visible ? attachButton : (callButton.visible ? callButton : inputBar.roomHeaderBacktabTarget()))
             KeyNavigation.tab: composerTextArea
             showAllButtons: inputBar.showAllButtons
-            inputBar: inputBar
+            composerInput: inputBar
         }
         Loader {
             id: voicePreviewLoader

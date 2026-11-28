@@ -1126,9 +1126,10 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Powiadom cały pokój</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Przestrzeń)</translation>
     </message>
 </context>
@@ -2360,8 +2361,9 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Pokoje</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Spacja)</translation>
     </message>
     <message>
@@ -2385,12 +2387,12 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Wybierz jeden lub więcej pokoi, do których chcesz przekazać wiadomość.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Nazwa pokoju, adres lub ID…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>Przekaż dalej</translation>
     </message>
@@ -4311,8 +4313,9 @@ Jeśli problem będzie się powtarzał, możesz się wylogować i zalogować pon
         <translation>Nie znaleziono dopasowań.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Przestrzeń)</translation>
     </message>
 </context>
@@ -8484,8 +8487,9 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Pakiet konta</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>obraz</translation>
     </message>
     <message>
@@ -10392,8 +10396,9 @@ Wygląda przyjemnie dla oka i jest niesamowicie szybka! 🚀</translation>
         <translation>Dodatkowi twórcy</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>Opcjonalne</translation>
     </message>
     <message>

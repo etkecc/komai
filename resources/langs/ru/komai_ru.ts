@@ -1126,9 +1126,10 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Уведомить всю комнату</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Пространство)</translation>
     </message>
 </context>
@@ -2360,8 +2361,9 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Комнаты</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Space)</translation>
     </message>
     <message>
@@ -2385,12 +2387,12 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Выберите одну или несколько комнат для пересылки сообщения.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Название, адрес или ID комнаты…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>Переслать</translation>
     </message>
@@ -4311,8 +4313,9 @@ If the problem persists, you can log out and sign in again, but this will delete
         <translation>Совпадений не найдено.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Пространство)</translation>
     </message>
 </context>
@@ -8483,8 +8486,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Пакет аккаунта</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>изображение</translation>
     </message>
     <message>
@@ -10391,8 +10395,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>Дополнительные создатели</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>Необязательно</translation>
     </message>
     <message>

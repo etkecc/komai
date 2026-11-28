@@ -223,6 +223,7 @@ OverlayDialog {
                 Label {
                     id: optionalBadgeLabel
                     anchors.centerIn: parent
+                    //: Badge on the additional creators field, which may be left empty.
                     text: qsTr("Optional")
                     color: optionalBadge.badgeColor
                     font.pointSize: Settings.uiFontSizePt * 0.8

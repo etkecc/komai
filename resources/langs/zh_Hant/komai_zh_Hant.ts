@@ -1122,9 +1122,10 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>通知整個聊天室</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>（空間）</translation>
     </message>
 </context>
@@ -2350,8 +2351,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>聊天室</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>（空間）</translation>
     </message>
     <message>
@@ -2375,12 +2377,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>選擇一個或多個聊天室以轉發訊息。</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>聊天室名稱、地址或 ID...</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>轉傳</translation>
     </message>
@@ -4299,8 +4301,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>找不到符合的結果。</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>（空間）</translation>
     </message>
 </context>
@@ -8457,8 +8460,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>帳號貼圖包</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>圖片</translation>
     </message>
     <message>
@@ -10351,8 +10355,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>額外創建者</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>選填</translation>
     </message>
     <message>

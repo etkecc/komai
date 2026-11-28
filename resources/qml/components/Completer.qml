@@ -653,6 +653,7 @@ Control {
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
                                 opacity: model.index == popup.currentIndex ? 0.6 : 1.0
                                 font.pixelSize: popup.avatarHeight * 0.5
+                                //: Badge marking a search result as a Matrix space (not the space bar).
                                 text: qsTr("(Space)")
                             }
                         }
@@ -708,6 +709,7 @@ Control {
                                         color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
                                         opacity: model.index == popup.currentIndex ? 0.6 : 1.0
                                         font.pointSize: Settings.uiFontSizePt
+                                        //: Badge marking a search result as a Matrix space (not the space bar).
                                         text: qsTr("(Space)")
                                     }
                                 }

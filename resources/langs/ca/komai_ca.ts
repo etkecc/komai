@@ -1124,9 +1124,10 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Notifica tota la sala</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Espai)</translation>
     </message>
 </context>
@@ -2355,8 +2356,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Sales</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Space)</translation>
     </message>
     <message>
@@ -2380,12 +2382,12 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>Trieu una o més sales a les quals reenviar el missatge.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Nom, adreça o ID de la sala…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>Reenvia</translation>
     </message>
@@ -4305,8 +4307,9 @@ Pots indicar opcionalment un motiu perquè els altres acceptin la teva trucada:<
         <translation>No s'ha trobat cap coincidència.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Espai)</translation>
     </message>
 </context>
@@ -8470,8 +8473,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Paquet del compte</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>imatge</translation>
     </message>
     <message>
@@ -10371,8 +10375,9 @@ Sembla molt agradable a la vista i increïblement ràpida! 🚀</translation>
         <translation>Creadors addicionals</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>Opcional</translation>
     </message>
     <message>

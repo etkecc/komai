@@ -601,6 +601,7 @@ Popup {
                             Label {
                                 visible: model.isSpace
                                 Layout.alignment: Qt.AlignVCenter
+                                //: Badge marking a search result as a Matrix space (not the space bar).
                                 text: qsTr("(Space)")
                                 color: suggestionDelegate.current && suggestionDelegate.enabled
                                     ? palette.highlightedText

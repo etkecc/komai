@@ -1124,9 +1124,10 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Teavita kogu jututuba</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Ruum)</translation>
     </message>
 </context>
@@ -2355,8 +2356,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Jututoad</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Ruum)</translation>
     </message>
     <message>
@@ -2380,12 +2382,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Vali üks või mitu jututuba, kuhu sõnum edastada.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Jututoa nimi, aadress või id…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>Edasta</translation>
     </message>
@@ -4305,8 +4307,9 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Tulemusi ei leitud.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Ruum)</translation>
     </message>
 </context>
@@ -8470,8 +8473,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Kontopakk</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>pilt</translation>
     </message>
     <message>
@@ -10371,8 +10375,9 @@ Tundub silmale meeldiv ja uskumatult kiire! 🚀</translation>
         <translation>Täiendavad loojad</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>Valikuline</translation>
     </message>
     <message>

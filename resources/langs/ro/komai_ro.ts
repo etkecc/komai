@@ -1126,9 +1126,10 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Notifică întreaga cameră</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Spațiu)</translation>
     </message>
 </context>
@@ -2360,8 +2361,9 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Camere</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Spațiu)</translation>
     </message>
     <message>
@@ -2385,12 +2387,12 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Alege una sau mai multe camere la care să redirecționezi mesajul.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Numele camerei, adresa sau id-ul…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>Redirecționare</translation>
     </message>
@@ -4311,8 +4313,9 @@ Poți opțional oferi un motiv pentru ca alții să îți accepte cererea:</tran
         <translation>Nu s-au găsit rezultate.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Spațiu)</translation>
     </message>
 </context>
@@ -8483,8 +8486,9 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Pachet de cont</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>imagine</translation>
     </message>
     <message>
@@ -10391,8 +10395,9 @@ Pare plăcut ochiului și incredibil de rapid! 🚀</translation>
         <translation>Creatori suplimentari</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>Opțional</translation>
     </message>
     <message>

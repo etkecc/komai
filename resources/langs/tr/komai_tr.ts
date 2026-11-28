@@ -1122,9 +1122,10 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Tüm odayı bildir</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Alan)</translation>
     </message>
 </context>
@@ -2350,8 +2351,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Odalar</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Boşluk)</translation>
     </message>
     <message>
@@ -2375,12 +2377,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Mesajı iletmek için bir veya daha fazla oda seçin.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Oda adı, adresi veya kimliği…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>İlet</translation>
     </message>
@@ -4299,8 +4301,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Eşleşme bulunamadı.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Alan)</translation>
     </message>
 </context>
@@ -8457,8 +8460,9 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Hesap Paketi</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>görsel</translation>
     </message>
     <message>
@@ -10351,8 +10355,9 @@ Göze çok hoş geliyor ve inanılmaz hızlı! 🚀</translation>
         <translation>Ek oluşturucular</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>İsteğe bağlı</translation>
     </message>
     <message>

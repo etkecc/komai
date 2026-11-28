@@ -1122,9 +1122,10 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>방 전체에 알림</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(스페이스)</translation>
     </message>
 </context>
@@ -2350,8 +2351,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>방</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(스페이스)</translation>
     </message>
     <message>
@@ -2375,12 +2377,12 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>메시지를 전달할 방을 하나 이상 선택하세요.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>방 이름, 주소 또는 ID…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>전달</translation>
     </message>
@@ -4299,8 +4301,9 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>일치하는 항목이 없습니다.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(스페이스)</translation>
     </message>
 </context>
@@ -8457,8 +8460,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>계정 팩</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>이미지</translation>
     </message>
     <message>
@@ -10351,8 +10355,9 @@ It seems pleasing to the eye and insanely fast! 🚀</source>
         <translation>추가 생성자</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>선택 사항</translation>
     </message>
     <message>

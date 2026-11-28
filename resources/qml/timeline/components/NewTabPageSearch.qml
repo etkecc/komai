@@ -176,6 +176,7 @@ ColumnLayout {
                     color: model.index === resultsList.currentIndex ? palette.highlightedText : palette.buttonText
                     opacity: model.index === resultsList.currentIndex ? 0.6 : 1.0
                     font.pixelSize: root.resultAvatarSize * 0.5
+                    //: Badge marking a search result as a Matrix space (not the space bar).
                     text: qsTr("(Space)")
                 }
             }

@@ -100,6 +100,7 @@ shortCodeSeedForFile(const QFileInfo &fileInfo)
     if (!fileName.isEmpty())
         return fileName;
 
+    //: Fallback shortcode for an image without a file name. Keep it a single word without spaces.
     return SingleImagePackModel::tr("image");
 }
 

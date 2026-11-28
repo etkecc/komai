@@ -1124,9 +1124,10 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Meddela hela rummet</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Område)</translation>
     </message>
 </context>
@@ -2355,8 +2356,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Rum</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Mellanslag)</translation>
     </message>
     <message>
@@ -2380,12 +2382,12 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Välj ett eller flera rum att vidarebefordra meddelandet till.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Rumsnamn, adress eller id...</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>Vidarebefordra</translation>
     </message>
@@ -4305,8 +4307,9 @@ Om problemet kvarstår kan du logga ut och logga in igen, men detta raderar din 
         <translation>Inga träffar hittades.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Område)</translation>
     </message>
 </context>
@@ -8470,8 +8473,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Kontopaket</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>bild</translation>
     </message>
     <message>
@@ -10371,8 +10375,9 @@ Det ser tilltalande ut och är otroligt snabbt! 🚀</translation>
         <translation>Ytterligare skapare</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>Valfritt</translation>
     </message>
     <message>

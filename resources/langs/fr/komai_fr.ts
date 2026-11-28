@@ -1124,9 +1124,10 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Notifier tout le salon</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location line="+55"/>
+        <location line="+148"/>
+        <location line="+56"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Espace)</translation>
     </message>
 </context>
@@ -2355,8 +2356,9 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Salons</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+132"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Espace)</translation>
     </message>
     <message>
@@ -2380,12 +2382,12 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Choisissez un ou plusieurs salons pour transférer le message.</translation>
     </message>
     <message>
-        <location line="-306"/>
+        <location line="-307"/>
         <source>Room name, address or id...</source>
         <translation>Nom du salon, adresse ou identifiant…</translation>
     </message>
     <message>
-        <location line="+330"/>
+        <location line="+331"/>
         <source>Forward</source>
         <translation>Transférer</translation>
     </message>
@@ -4305,8 +4307,9 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
         <translation>Aucun résultat trouvé.</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+83"/>
         <source>(Space)</source>
+        <extracomment>Badge marking a search result as a Matrix space (not the space bar).</extracomment>
         <translation>(Espace)</translation>
     </message>
 </context>
@@ -8470,8 +8473,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Pack du compte</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>image</source>
+        <extracomment>Fallback shortcode for an image without a file name. Keep it a single word without spaces.</extracomment>
         <translation>image</translation>
     </message>
     <message>
@@ -10371,8 +10375,9 @@ C'est agréable à l'œil et incroyablement rapide ! 🚀</translation>
         <translation>Créateurs supplémentaires</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+22"/>
         <source>Optional</source>
+        <extracomment>Badge on the additional creators field, which may be left empty.</extracomment>
         <translation>Optionnel</translation>
     </message>
     <message>

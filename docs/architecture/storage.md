@@ -30,8 +30,7 @@ that construct those paths.
 
 ## Current Data Layout
 
-Profile-scoped persistent data now lives directly under the profile roots.
-There is no LMDB backend or `db/<encoded-user-id>/` layout in the current tree.
+Profile-scoped persistent data lives directly under the profile roots.
 
 Data root:
 
